@@ -1,18 +1,18 @@
 ---
 name: roadmap_trazabilidad_g1_g5_g10
-description: Roadmap y trazabilidad de la revisión v7 de G-1, G-5 y G-10; orden único de creación con la representación física de contribuciones; estados de subfases sin cambio
+description: Roadmap y trazabilidad de la revisión v8 de G-1, G-5 y G-10; orden único de creación con la representación física de contribuciones; estados de subfases sin cambio
 ---
 
-# ROADMAP Y TRAZABILIDAD — REVISIÓN v7 DE G-1, G-5 Y G-10
+# ROADMAP Y TRAZABILIDAD — REVISIÓN v8 DE G-1, G-5 Y G-10
 
-Sustituye a la v6 (conservada en `historico/`). Complementa la Adenda v9 (no aceptada) sin reemplazarla ni alterar versiones históricas. **Ninguna subfase cambia de estado**; el diseño no se ha implementado ni validado técnicamente y Fase 1 no está autorizada.
+Sustituye a la v7 (conservada en `historico/`). Complementa la Adenda v9 (no aceptada) sin reemplazarla ni alterar versiones históricas. **Ninguna subfase cambia de estado**; el diseño no se ha implementado ni validado técnicamente y Fase 1 no está autorizada.
 
 ## 0. Estado por nivel (H-03)
 
 | Nivel | Estado | Alcance |
 |---|---|---|
 | 1. Fase 0 v3.3 | COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES DOCUMENTADAS | No se reabre ni se modifica; SHA-256 `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da` sin cambio |
-| 2. Diseño técnico complementario (G-1, G-5, G-10, v5) | PREPARADA PARA ACEPTACIÓN FORMAL DEL PROPIETARIO, CON LIMITACIONES DOCUMENTADAS | Pendiente de aceptación formal del propietario; no validado técnicamente; DT-01, PC-02 y DT-02 resueltas en el diseño, sin aceptación; G-5 no se declara cerrada |
+| 2. Diseño técnico complementario (G-1, G-5, G-10, v5) | COMPLETADO DOCUMENTALMENTE Y PREPARADO PARA ACEPTACIÓN FORMAL DEL PROPIETARIO, CON LIMITACIONES TÉCNICAS EXPLÍCITAS | Pendiente de aceptación formal del propietario; no validado técnicamente; DT-01, PC-02 y DT-02 resueltas en el diseño, sin aceptación; G-5 no se declara cerrada |
 | 3. Fase 1 | NO INICIADA / NO AUTORIZADA | Requiere autorización expresa; el diseño complementario no la concede |
 
 
@@ -124,7 +124,7 @@ Secuencia de subfases: **1.8 → 2.x → 2.1 → 2.3 → 2.5 → 2.7 → 3.x →
 | 71 | 4.x | habilitación | Políticas RLS y privilegios de promotion_snapshots, promotion_field_changes y promotion_field_attributions | tablas y funciones anteriores |
 | 72 | 5.1 | columnas | Columnas anulables de reglas (extensión, tono, estructura, CTA) agregadas a channel_rules | channel_rules |
 | 73 | 5.3 | tabla (estructura) | piece_classification_events | creative_pieces, memberships |
-| 74 | 5.3 | tabla (estructura) | attribution_discard_resolutions | brief_field_attributions, copy_version_provenance, memberships, promotion_field_attributions |
+| 74 | 5.3 | tabla (estructura) | attribution_discard_resolutions | brief_field_attributions, contribution_events, copy_version_provenance, memberships, promotion_field_attributions |
 | 75 | 5.3 | tabla (estructura) | piece_reviewer_assignments | creative_pieces, memberships |
 | 76 | 5.3 | función | create_adaptation | creative_pieces, copy_versions, channel_formats |
 | 77 | 5.3 | función | verify_field_provenance (interna, STABLE): recorre la cadena de versiones de brief y de promoción, recalcula por campo las atribuciones esperadas y las compara con las filas; BRIEF_CHAIN_INCONSISTENTE, PROMOTION_CHAIN_INCONSISTENTE, BRIEF_FIELD_PROVENANCE_INCOMPLETE, PROMOTION_FIELD_PROVENANCE_INCOMPLETE | brief_versions, brief_field_changes, brief_field_attributions, promotion_snapshots, promotion_field_changes, promotion_field_attributions, contribution_events |
@@ -154,7 +154,7 @@ Secuencia de subfases: **1.8 → 2.x → 2.1 → 2.3 → 2.5 → 2.7 → 3.x →
 
 Estructura no es operación: las tablas nacen con RLS activada y sin privilegios; las funciones y políticas se habilitan en la subfase indicada. Si una fase posterior no se ejecuta, las anteriores siguen siendo consistentes porque ninguna FK apunta hacia adelante. La reversión es deshabilitar (retirar EXECUTE y privilegios, restaurar el trigger base), no eliminar tablas con datos.
 
-## 4. Cambios de subfase por la v5, la v6 y la v7 (la v7 solo agrega la tabla attribution_discard_resolutions y la función resolve_attribution_discard dentro de subfases existentes; no cambia subfases ni estados)
+## 4. Cambios de subfase por la v5, la v6, la v7 y la v8 (la v7 agregó attribution_discard_resolutions y resolve_attribution_discard dentro de subfases existentes; la v8 agrega columnas a esa tabla y una unicidad en contribution_events dentro de las mismas subfases; no cambia subfases ni estados)
 
 | Subfase | Tema | Contenido de diseño |
 |---|---|---|
@@ -171,7 +171,7 @@ Estructura no es operación: las tablas nacen con RLS activada y sin privilegios
 | 6.1 | Workflow | transition_piece_status base; Publicado deshabilitado |
 | 6.5 | Aprobaciones | approvals e impact_evaluations en el orden correcto; revalidación de procedencia y clasificación |
 | 6.6 | Auditoría del flujo | publication_attempts, guarda completa y transición #10 |
-| 6.8 | Pruebas | Matriz documental con 375 casos (ninguno ejecutado) |
+| 6.8 | Pruebas | Matriz documental con 422 casos (ninguno ejecutado) |
 
 **Distinción por subfase.** *Diseño documental*: esta revisión. *Preparación técnica*: tablas, funciones y triggers que cada subfase crearía; nada existe. *Implementación*: Fase 1 y siguientes, no iniciadas. *Validación real*: pruebas en PostgreSQL y Supabase, pendientes. Se adelanta copy_version_provenance a 2.3 y contribution_events a 2.1 por dependencia real (la primera operación que las necesita). Los nombres de subfase son los de la Adenda v9 (76 subfases, sin subfase 77).
 

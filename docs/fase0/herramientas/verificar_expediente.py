@@ -26,10 +26,10 @@ ERRORES10 = ["CONTRIBUYENTES_NO_DETERMINABLES", "BRIEF_VERSION_NO_VERIFICABLE", 
 PENDIENTES = ["PO-05", "DG-09", "DG-12", "DG-16", "DG-18", "DG-19", "DG-20", "RP-01", "P-01", "P-05", "P-10", "OD-13", "G-9", "DEP-RET-01"]
 NUEVAS8 = ["brief_versions", "brief_field_changes", "brief_field_attributions", "promotion_snapshots", "promotion_field_changes", "promotion_field_attributions", "contribution_events", "copy_version_provenance", "attribution_discard_resolutions"]
 ESTADO_V33 = "COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES DOCUMENTADAS"
-ESTADO_V6 = "PREPARADA PARA ACEPTACIÓN FORMAL DEL PROPIETARIO, CON LIMITACIONES DOCUMENTADAS"
+ESTADO_V6 = "COMPLETADO DOCUMENTALMENTE Y PREPARADO PARA ACEPTACIÓN FORMAL DEL PROPIETARIO, CON LIMITACIONES TÉCNICAS EXPLÍCITAS"
 FASE1 = "NO INICIADA / NO AUTORIZADA"
 INI, FIN = "<!-- VERIFICADOR:INICIO -->", "<!-- VERIFICADOR:FIN -->"
-HIST_WORDS = re.compile(r"\bv[2-6]\b|histór|anterior|antes de la v[67]|eran|sustituy|corregid|v3\.3|línea base", re.I)
+HIST_WORDS = re.compile(r"\bv[2-7]\b|histór|anterior|antes de la v[678]|eran|sustituy|corregid|v3\.3|línea base", re.I)
 NEG = re.compile(r"\b(no|sin|ni|nunca|ningún|ninguna|jamás|tampoco|pendiente|pendientes|prohib\w*|impid\w*|rechaz\w*|requier\w*|exig\w*|falta\w*|hasta que|sin que)\b", re.I)
 
 def sha(path):
@@ -113,8 +113,8 @@ def ejecutar(textos, dir_hist=None, mutaciones=False):
     A = C.activos_sin_bloque()
     spec = C.spec
     AR = dict(A)
-    if "## Entrada: revisión v7" in A[REG]:
-        r_ = A[REG]; k_ = r_.index("## Entrada: revisión v7"); AR[REG] = r_[k_:r_.index("### Manifiesto") if "### Manifiesto" in r_ else len(r_)]
+    if "## Entrada: revisión v8" in A[REG]:
+        r_ = A[REG]; k_ = r_.index("## Entrada: revisión v8"); AR[REG] = r_[k_:r_.index("### Manifiesto") if "### Manifiesto" in r_ else len(r_)]
     nR, nT = len(C.reglas), len(C.pruebas)
     tablas_hist = 27
     ent_tabs = [r for r in C.orden if r[2].startswith("tabla")]
@@ -266,8 +266,8 @@ def ejecutar(textos, dir_hist=None, mutaciones=False):
         if FASE1 not in t: mal22.append((f[:10], "Fase 1"))
         if ESTADO_V6 not in t: mal22.append((f[:10], "estado v7"))
     if ESTADO_V33 not in A[INF] or ESTADO_V33 not in spec: mal22.append(("estado v3.3",))
-    acep = [(f[:10], i) for f, t in A.items() for i, l in enumerate(t.split("\n"), 1) if re.search(r"(aceptad[oa]|aprobad[oa]) por el propietario", l, re.I) and re.search(r"v[67]|complementari|esta revisión", l, re.I) and not NEG.search(l) and "preparad" not in l.lower()]
-    chk("K22", "Estados: v3.3 aceptada como línea base, v7 preparada para aceptación formal, Fase 1 no iniciada; ningún documento declara aceptación del propietario de la v7", not mal22 and not acep, (mal22[:4], acep[:3]), "IE-04", "todos")
+    acep = [(f[:10], i) for f, t in A.items() for i, l in enumerate(t.split("\n"), 1) if re.search(r"(aceptad[oa]|aprobad[oa]) por el propietario", l, re.I) and re.search(r"v[678]|complementari|esta revisión", l, re.I) and not NEG.search(l) and "preparad" not in l.lower()]
+    chk("K22", "Estados: v3.3 aceptada como línea base, v8 completada documentalmente y preparada para aceptación formal, Fase 1 no iniciada; ningún documento declara aceptación del propietario de la v8", not mal22 and not acep, (mal22[:4], acep[:3]), "IE-04", "todos")
     # ---- K23 sin validación técnica no ejecutada ----
     vt = [(f[:10], i, l[:70]) for f, t in A.items() for i, l in enumerate(t.split("\n"), 1) if re.search(r"validad[oa]s? técnicamente|validación técnica (completa|realizada|exitosa)|pruebas? (técnicas? )?(ejecutad|aprobad|superad)|se ejecutó (con éxito|correctamente) en (postgres|supabase)", l, re.I) and not NEG.search(l)]
     chk("K23", "Ningún documento afirma validación técnica ni pruebas técnicas ejecutadas (toda mención está negada o pendiente)", not vt, vt[:3], "IE-05", "todos")
@@ -307,8 +307,8 @@ def ejecutar(textos, dir_hist=None, mutaciones=False):
     # ---- K28 registro histórico ----
     regt = A[REG]
     ent = re.findall(r"^## Entrada: (.+)$", regt, re.M)
-    v6 = "revisión v7" in regt and "6ad464d5914acc15df658e1104a967d9a914309b" in regt
-    chk("K28", "Registro histórico: entradas ordenadas por revisión hasta la v7 con el commit previo 6ad464d… y manifiesto de históricos", len(ent) >= 3 and v6 and "v5" in " ".join(ent) and "v7" in " ".join(ent) and len(mf) >= 10, ent[-3:], "IE-04", "REGISTRO")
+    v6 = "revisión v8" in regt and "abd65bc15819c8d52eeb03f9af6e65e457551dce" in regt
+    chk("K28", "Registro histórico: entradas ordenadas por revisión hasta la v8 con el commit previo abd65bc… y manifiesto de históricos", len(ent) >= 3 and v6 and "v5" in " ".join(ent) and "v8" in " ".join(ent) and len(mf) >= 10, ent[-3:], "IE-04", "REGISTRO")
     # ---- K29 herramienta documentada ----
     chk("K29", "La especificación documenta la herramienta publicada, su comando y sus límites", "herramientas/verificar_expediente.py" in (seccion(spec, "11.2") or "") and "verificar_expediente.py" in A[AUD], "", "IE-08", "ESPECIFICACION 11.2; AUDITORIA 3")
     # ---- K30 integración: flujo de 19 pasos ----
@@ -377,7 +377,7 @@ def checks_adicionales(textos, C, A, info):
         for c in cols:
             if re.search(r"(source|entity|ref|origin)_(type|kind)$", c) and c != "origin_kind" and not (n == "attribution_discard_resolutions" and c == "source_kind" and "num_nonnulls" in e["texto"]): polimorfo.append((n, c))
             if c in ("source_id", "entity_id", "ref_id"): polimorfo.append((n, c))
-            if c.endswith("_id") and c not in ("id", "organization_id", "operation_id", "created_by") and c not in cubiertas and c != "origin_version_id" and c != "used_asset_id" and c != "origin_asset_id" and c != "promotion_line_id" and c != "contributor_id" and c != "actor_id" and c != "recorded_by" and c != "resolution_actor_id" and c != "brief_id": sin_fk.append((n, c))
+            if c.endswith("_id") and c not in ("id", "organization_id", "operation_id", "created_by") and c not in cubiertas and c != "origin_version_id" and not (n == "attribution_discard_resolutions" and c in ("evidence_attribution_id", "evidence_version_id")) and c != "used_asset_id" and c != "origin_asset_id" and c != "promotion_line_id" and c != "contributor_id" and c != "actor_id" and c != "recorded_by" and c != "resolution_actor_id" and c != "brief_id": sin_fk.append((n, c))
             if re.search(r"(latest|current|last)", c): ultimo.append((n, c))
     ult_txt = [(f[:10], i) for f, t in A.items() for i, l in enumerate(t.split("\n"), 1) if re.search(r"(seguir|usar) el (último|ultimo) (brief|snapshot)", l, re.I) and not NEG.search(l) and not l.startswith("| T-")]
     chk("K32", "Las ocho tablas de procedencia no tienen referencias polimórficas, cada columna *_id está cubierta por una FK compuesta (salvo las declaradas) y ninguna apunta al último o al actual", not polimorfo and not sin_fk and not ultimo and not ult_txt, (polimorfo, sin_fk[:4], ultimo, ult_txt[:2]), "IG5-81, IG5-62", "ESPECIFICACION 4.4.4")
@@ -596,9 +596,21 @@ def verificar_resolucion(spec, reglas):
                      ("num_nonnulls(", "la resolución no exige una única fuente"), ("created_by = resolved_by", "el actor no se fija desde el backend"), ("piece.review", "no exige autoridad de revisión vigente")):
         if req not in ch: prob.append(msg)
     if not re.search(r"unique\([^)]*\) cuando outcome = 'aceptada'", spec): prob.append("no hay unicidad de resolución aceptada")
-    for r in ("IG5-92", "IG5-93"):
+    for r in ("IG5-92", "IG5-93", "IG5-95"):
         if r not in reglas: prob.append("falta " + r)
     if "IG5-92" in reglas and not all(x in reglas["IG5-92"] for x in ("no puede resolver su propia exclusión", "independiente", "fail-closed")): prob.append("IG5-92 incompleta")
+    cols = e["cols"]
+    for req, msg in (("resolved_by <> change_actor_id", "quien ejecutó la sustitución podría resolver"), ("evidence_attribution_id = coalesce(", "la evidencia no se liga a la atribución informada"),
+                     ("elegibilidad del resolutor", "falta el trigger de elegibilidad sobre la cadena completa"), ("auth.uid()", "el resolutor no se liga a la identidad autenticada"),
+                     ("contribuyente directo del campo en ninguna versión de la cadena", "el trigger no excluye a los contribuyentes directos de la cadena"), ("contribuyente heredado activo del campo", "el trigger no excluye a los herederos activos"),
+                     ("excluido por otra contribución relevante de la misma cadena", "el trigger no excluye a quien contribuyó a otra fuente de la cadena"), ("beneficiario directo ni indirecto", "el trigger no excluye al beneficiario"),
+                     ("no se concede autoridad por ser propietario, Admin", "se concede autoridad por el cargo")):
+        if req not in ch: prob.append(msg)
+    if not any(f[1] == "contribution_events" and "change_actor_id" in f[0] and "trigger_event_id" in f[0] for f in e["fks"]): prob.append("el actor del cambio no está ligado por FK compuesta al evento motivador")
+    for c in ("trigger_event_id", "change_actor_id", "evidence_attribution_id", "evidence_version_id"):
+        if c not in e["cols"]: prob.append("falta la columna " + c)
+    for rid, txt in reglas.items():
+        if rid in ("IG5-92", "IG5-95") and re.search(r"autor de la modificaci[^.;]{0,160}por sí solo", txt): prob.append(rid + " debilita R5 con «por sí solo»")
     cols = e["cols"]
     for c in ("organization_id", "source_kind", "field_key", "affected_contributor_id", "requested_by", "resolved_by", "reason", "evidence", "outcome", "resolved_at"):
         if c not in cols: prob.append("falta la columna " + c)
@@ -633,18 +645,344 @@ def checks_v7(textos, C, A, info, v33=None):
     p44, nrel = verificar_estructura(spec)
     chk("K44", "Integridad estructural de %d relaciones: longitud, orden exacto de columnas, organization_id, PK o UNIQUE de destino con las mismas columnas, tipos compatibles, contrato igual a los bloques, sin relaciones rotas ni circulares" % nrel, not p44, p44[:3], "IG5-80, IE-09", "ESPECIFICACION 4.4.4 y 4.4.9")
     p45 = verificar_semantica(spec)
-    chk("K45", "Integridad semántica: versión, entidad y origen del evento, actor, asset ligado a la versión exacta de copy, cadena de la misma entidad y antecesor obligatorio", not p45, p45[:3], "IG5-81 a IG5-84, IS-16, IE-09", "ESPECIFICACION 4.4.4 y 4.4.9")
+    m45 = verificar_k45_modelo(spec)
+    chk("K45", "Integridad semántica: versión, entidad y origen del evento, actor, asset ligado a la versión exacta de copy, cadena de la misma entidad y antecesor obligatorio; matriz de correspondencias entre fuente, contribution_type, origin_kind y atribución (S1 a S12) evaluada sobre un caso de referencia", not p45 and not m45, (p45[:2], m45[:2]), "IG5-81 a IG5-84, IG5-96, IS-16, IE-09, IE-12", "ESPECIFICACION 4.4.4, 4.4.9 y 4.4.10")
     reglas = {r: v[0][1] for r, v in C.reglas_cov.items()}
     p46 = verificar_resolucion(spec, reglas)
-    chk("K46", "Resolución independiente de descarte: afectado y solicitante no resuelven, evidencia y motivo no vacíos, fuente única, autoridad de revisión, resolutor desde el backend y una sola resolución aceptada por atribución", not p46, p46[:3], "IG5-92, IG5-93", "ESPECIFICACION 4.4.4 y 4.4.8")
+    m46 = verificar_k46_modelo(spec)
+    chk("K46", "Resolución independiente de descarte: afectado, solicitante y actor del cambio no resuelven, evidencia ligada a la misma atribución y versión, fuente única, autoridad de revisión, resolutor desde el backend, una sola resolución aceptada por atribución e independencia respecto de todos los contribuyentes y eventos de la cadena (R1 a R9) sobre un caso de referencia", not p46 and not m46, (p46[:2], m46[:2]), "IG5-92, IG5-93, IG5-95, IE-12", "ESPECIFICACION 4.4.4, 4.4.8 y 4.4.10")
     p47 = verificar_exclusion_automatica(A, C)
-    chk("K47", "Ninguna regla, algoritmo ni escenario retira a un contribuyente por sustitución, eliminación, hash o retained_segments = 0", not p47, p47[:3], "IG5-72, IG5-90, IG5-91", "ESPECIFICACION 4.4.8")
+    m47 = verificar_k47_modelo(spec)
+    chk("K47", "Conservación estructural de atribuciones: las cinco clasificaciones simuladas sobre brief, promoción y copy conservan las atribuciones activas, incorporan al actor, no retiran por similitud, la resolución afecta solo a la atribución referenciada, E no cambia con resoluciones inválidas ni con cadenas incompletas y las versiones no se reescriben; además ninguna regla, algoritmo ni escenario retira por sustitución, eliminación, hash o retained_segments = 0", not p47 and not m47, (p47[:2], m47[:3]), "IG5-72, IG5-90, IG5-91, IG5-97, IE-12", "ESPECIFICACION 4.4.8 y 4.4.10")
+    # K50 títulos del registro
+    tit = re.findall(r"^## Entrada: revisión v(\d+) de G-1, G-5 y G-10 \(posterior a la v(\d+)", A[REG], re.M)
+    mal50 = [t for t in tit if int(t[0]) - 1 != int(t[1])]
+    chk("K50", "Registro histórico: cada entrada de revisión sucede a la anterior (vN posterior a vN-1; %d entradas)" % len(tit), len(tit) >= 5 and not mal50, mal50, "IE-04", "REGISTRO")
+    # K51 cobertura v8
+    gv8 = {"H-02 v8 resolutor": 13, "H-02 v8 correspondencias": 15, "H-02 v8 conservación": 19}
+    cnt = {g: sum(1 for v in C.pruebas.values() if v[0][1].startswith(g)) for g in gv8}
+    sin8 = [r for r in ("IG5-95", "IG5-96", "IG5-97", "IE-12") if r not in C.reglas or not info["cub"].get(r)]
+    chk("K51", "Cobertura v8: IG5-95, IG5-96, IG5-97 e IE-12 con escenarios (resolutor %d, correspondencias %d, conservación %d)" % tuple(cnt[g] for g in gv8), not sin8 and all(cnt[g] >= n for g, n in gv8.items()), (sin8, cnt), "IG5-95 a IG5-97, IE-12", "ESPECIFICACION 4.4.10 y 11")
     # K49 reglas y escenarios obligatorios de H-02 v7
     h7 = [v[0] for k, v in C.pruebas.items() if v[0][1].startswith("H-02 v7 atribución")]
     faltan = [q for q in REQ_H2V7 if not any(q in x[1] for x in h7)]
     nec = ["IG5-90", "IG5-91", "IG5-92", "IG5-93", "IG5-94"]
     sin = [r for r in nec if r not in C.reglas or not info["cub"].get(r)]
     chk("K49", "H-02 v7: reglas IG5-90 a IG5-94 con cobertura y los 16 escenarios obligatorios (%d escenarios de atribución v7)" % len(h7), not faltan and not sin, (faltan, sin), "IG5-90 a IG5-94", "ESPECIFICACION 4.4.8")
+
+
+# ============ v8: modelos estructurados de K45, K46 y K47 (se alimentan de las tablas de 4.4.10) ============
+import copy as _copy
+
+CLAVES_R = ["miembro_activo", "piece_review", "no_afectado", "no_solicitante", "no_actor_del_cambio", "no_directo_en_cadena", "no_heredado_activo", "no_excluido_otra_fuente", "no_beneficiario"]
+CLAS = ["sin_cambio", "introducido", "modificado", "sustituido", "eliminado"]
+FUENTES = ["brief", "promoción", "copy"]
+
+def parse_4410(spec):
+    s = seccion(spec, "4.4.10") or ""
+    out = dict(matriz=[], condS=[], reglasR=[], efec_clas=[], efec_evt=[])
+    for r in tablas(s, "| Fuente | contribution_type | origin_kind |"):
+        if len(r) == 6: out["matriz"].append(dict(fuente=r[0], tipo=r[1], origen=r[2], col=r[3], tabla=r[4], atrib=r[5]))
+    for r in tablas(s, "| ID | Condición |"):
+        if len(r) == 2: out["condS"].append(r[0])
+    for r in tablas(s, "| Regla | Clave | Condición |"):
+        if len(r) == 3: out["reglasR"].append(r[1])
+    for r in tablas(s, "| Fuente | Clasificación | Conserva activas |"):
+        if len(r) == 6: out["efec_clas"].append(dict(fuente=r[0], clas=r[1], conserva=r[2], incorpora=r[3], retira=r[4], similitud=r[5]))
+    for r in tablas(s, "| Evento | Retira atribuciones |"):
+        if len(r) == 4: out["efec_evt"].append(dict(evento=r[0], retira=r[1], efecto_e=r[2], reescribe=r[3]))
+    return out
+
+# ---------------- K45: coherencia semántica de eventos y atribuciones ----------------
+def caso_k45():
+    org = "X"
+    fuentes = {("brief", "bv1"): dict(org=org, piece=None, campos={"commercial_offer"}), ("brief", "bv2"): dict(org=org, piece=None, campos={"commercial_offer"}),
+               ("promotion", "ps1"): dict(org=org, piece=None, campos={"discount"}), ("copy", "cv1"): dict(org=org, piece="P1", campos={"headline", "arte"}),
+               ("copy", "cv2"): dict(org=org, piece="P1", campos={"headline", "arte"}), ("asset", "a1"): dict(org=org, piece="P1", campos={"arte"}), ("asset", "a2"): dict(org=org, piece="P1", campos={"arte"})}
+    assets = {"a1": dict(reused_from=None, copy_version="cv1"), "a2": dict(reused_from="a1", copy_version="cv2")}
+    ev = lambda i, t, o, oid, actor, piece=None: dict(id=i, org=org, tipo=t, origen=o, origen_id=oid, actor=actor, piece=piece, sello="%s:%s" % (o, oid))
+    eventos = {"e_b": ev("e_b", "brief_editor", "brief", "bv1", "A"), "e_p": ev("e_p", "promotion_editor", "promotion", "ps1", "H"), "e_c": ev("e_c", "copy_editor", "copy", "cv1", "B", "P1"),
+               "e_a": ev("e_a", "asset_uploader", "asset", "a1", "U", "P1"), "e_c2": ev("e_c2", "copy_author", "copy", "cv2", "W", "P1")}
+    at = lambda i, tabla, src, vid, campo, e, c, rel="directa", ov=None, prev=None, piece=None, asset=None: dict(id=i, org=org, tabla=tabla, fuente=src, version=vid, campo=campo, evento=e, contribuyente=c, relacion=rel,
+                                                                                                                origen_version=(ov if ov is not None else (vid if rel == "directa" else None)), previo=prev, piece=piece, activo_asset=asset)
+    atrs = {"t_b1": at("t_b1", "brief_field_attributions", "brief", "bv1", "commercial_offer", "e_b", "A"),
+            "t_b2": at("t_b2", "brief_field_attributions", "brief", "bv2", "commercial_offer", "e_b", "A", "heredada", "bv1", "t_b1"),
+            "t_p1": at("t_p1", "promotion_field_attributions", "promotion", "ps1", "discount", "e_p", "H"),
+            "t_c1": at("t_c1", "copy_version_provenance", "copy", "cv1", "headline", "e_c", "B", piece="P1"),
+            "t_a1": at("t_a1", "copy_version_provenance", "asset", "cv1", "arte", "e_a", "U", piece="P1", asset="a1"),
+            "t_a2": at("t_a2", "copy_version_provenance", "asset", "cv2", "arte", "e_a", "U", "heredada", "cv1", "t_a1", piece="P1", asset="a1"),
+            "t_c2": at("t_c2", "copy_version_provenance", "copy", "cv2", "headline", "e_c2", "W", piece="P1")}
+    return dict(fuentes=fuentes, assets=assets, eventos=eventos, atrs=atrs)
+
+def evaluar_k45(st, M):
+    """Devuelve la lista de (código S, detalle). M es la matriz parseada de la especificación."""
+    tipos = {m["tipo"]: m for m in M}
+    permit = {}
+    for m in M: permit.setdefault((m["atrib"], m["origen"]), set()).add(m["tipo"])
+    perm_fila = lambda a: permit.get((a["tabla"], a["fuente"]), set())
+    cod = []
+    for e in st["eventos"].values():
+        m = tipos.get(e["tipo"])
+        if not m or m["origen"] != e["origen"]: cod.append(("S2", e["id"]))
+        src = st["fuentes"].get((e["origen"], e["origen_id"]))
+        if not src: cod.append(("S3", e["id"])); continue
+        if src["org"] != e["org"]: cod.append(("S4", e["id"]))
+        if e["sello"] != "%s:%s" % (e["origen"], e["origen_id"]): cod.append(("S12", e["id"]))
+        if e["tipo"] == "asset_uploader" and st["assets"].get(e["origen_id"], {}).get("reused_from"): cod.append(("S9", e["id"]))
+    for a in st["atrs"].values():
+        e = st["eventos"].get(a["evento"])
+        if e is None: cod.append(("S3", a["id"])); continue
+        if a["org"] != e["org"]: cod.append(("S4", a["id"]))
+        if a["contribuyente"] != e["actor"]: cod.append(("S5", a["id"]))
+        if e["tipo"] not in perm_fila(a): cod.append(("S1", a["id"]))
+        if e["origen"] != a["fuente"]: cod.append(("S8", a["id"]))
+        if a["relacion"] == "directa" and a["origen_version"] != e["origen_id"] and a["fuente"] != "asset": cod.append(("S6", a["id"]))
+        if a["relacion"] == "heredada":
+            if a["origen_version"] is None or a["origen_version"] == a["version"] or a["previo"] is None: cod.append(("S10", a["id"]))
+            elif a["fuente"] in ("brief", "promotion") and a["origen_version"] != e["origen_id"]: cod.append(("S6", a["id"]))
+        src = st["fuentes"].get((a["fuente"], a["version"]))
+        if a["fuente"] == "asset":
+            src = st["fuentes"].get(("copy", a["version"]))
+        if src is None or a["campo"] not in src["campos"]: cod.append(("S7", a["id"]))
+        if a["tabla"] == "copy_version_provenance" and e["piece"] != a["piece"]: cod.append(("S11", a["id"]))
+        if a["fuente"] == "asset":
+            ast = st["assets"].get(a["activo_asset"] or "", {})
+            if e["origen"] == "asset" and a["relacion"] == "heredada" and (e["tipo"] != "asset_uploader" or st["assets"].get(e["origen_id"], {}).get("reused_from")): cod.append(("S9", a["id"]))
+    return cod
+
+K45_MUT = [
+ ("K45-M01", "brief_editor asociado a origen de promoción", "S2", lambda s: s["eventos"]["e_b"].update(origen="promotion", sello="promotion:ps1", origen_id="ps1")),
+ ("K45-M02", "promotion_editor asociado a origen de brief", "S2", lambda s: s["eventos"]["e_p"].update(origen="brief", sello="brief:bv1", origen_id="bv1")),
+ ("K45-M03", "copy_editor asociado a origen de asset", "S2", lambda s: s["eventos"]["e_c"].update(origen="asset", sello="asset:a1", origen_id="a1")),
+ ("K45-M04", "asset_uploader asociado a origen de copy", "S2", lambda s: s["eventos"]["e_a"].update(origen="copy", sello="copy:cv1", origen_id="cv1")),
+ ("K45-M05", "actor de evento distinto del actor de atribución", "S5", lambda s: s["eventos"]["e_c"].update(actor="Z")),
+ ("K45-M06", "evento de otra organización", "S4", lambda s: s["eventos"]["e_p"].update(org="Y")),
+ ("K45-M07", "evento de otra pieza", "S11", lambda s: s["eventos"]["e_c"].update(piece="P2")),
+ ("K45-M08", "evento de otra versión", "S6", lambda s: s["atrs"]["t_p1"].update(origen_version="ps0")),
+ ("K45-M09", "campo material inexistente en la fuente", "S7", lambda s: s["atrs"]["t_b1"].update(campo="campo_inexistente")),
+ ("K45-M10", "atribución de brief que referencia un evento de promoción", "S8", lambda s: s["atrs"]["t_b1"].update(evento="e_p", contribuyente="H")),
+ ("K45-M11", "reutilizador registrado como uploader original", "S9", lambda s: (s["eventos"].update(e_a2=dict(id="e_a2", org="X", tipo="asset_uploader", origen="asset", origen_id="a2", actor="W", piece="P1", sello="asset:a2")), s["atrs"]["t_a2"].update(evento="e_a2", contribuyente="W"))),
+ ("K45-M12", "procedencia heredada sin versión de origen", "S10", lambda s: s["atrs"]["t_b2"].update(origen_version=None)),
+ ("K45-M13", "evento sin correspondencia con la fuente tipada", "S3", lambda s: s["fuentes"].pop(("copy", "cv1"))),
+ ("K45-M14", "combinación de tipo de contribución y origen no permitida", "S1", lambda s: s["eventos"].update(e_i=dict(id="e_i", org="X", tipo="inherited_contributor", origen="copy", origen_id="cv1", actor="U", piece="P1", sello="copy:cv1")) or s["atrs"]["t_a1"].update(evento="e_i")),
+]
+
+def verificar_k45_modelo(spec):
+    p = parse_4410(spec); prob = []
+    M = p["matriz"]
+    esperado = {("brief_editor", "brief", "brief_version_id"), ("promotion_editor", "promotion", "promotion_snapshot_id"), ("copy_author", "copy", "copy_version_id"), ("copy_editor", "copy", "copy_version_id"),
+                ("inherited_contributor", "copy", "copy_version_id"), ("asset_uploader", "asset", "creative_asset_id")}
+    obt = {(m["tipo"], m["origen"], m["col"]) for m in M}
+    if obt != esperado: prob.append(("matriz distinta de los nombres físicos del modelo", sorted(obt ^ esperado)[:3]))
+    if sorted(p["condS"]) != sorted("S%d" % i for i in range(1, 13)): prob.append(("condiciones S1 a S12", p["condS"]))
+    ents = parse_entidades(spec); ce = ents.get("contribution_events")
+    if ce:
+        ch = " ".join(ce["checks"])
+        m_ = re.search(r"([a-z_, ]+(?: e [a-z_]+)?) exige ([a-z_]+)", ch)
+        for tipo, origen, col in esperado:
+            if not re.search(r"\b" + tipo + r"\b[^;]*exige[^;]*\b" + col + r"\b|\b" + tipo + r"\b[^;]*\b" + col + r"\b", ch): prob.append(("el CHECK de contribution_events no asocia %s con %s" % (tipo, col),))
+        if col_origen_ok(ce) is False: prob.append(("origin_kind sin coherencia con las columnas de origen",))
+    else: prob.append(("sin bloque de contribution_events",))
+    st = caso_k45(); v = evaluar_k45(st, M)
+    if v: prob.append(("el caso de referencia válido produce violaciones", v[:3]))
+    return prob
+
+def col_origen_ok(ce):
+    ch = " ".join(ce["checks"])
+    return all(x in ch for x in ("origin_kind = 'brief' si y solo si brief_version_id NOT NULL", "'copy' si y solo si copy_version_id NOT NULL", "'asset' si y solo si creative_asset_id NOT NULL", "'promotion' si y solo si promotion_snapshot_id NOT NULL"))
+
+# ---------------- K46: independencia real del resolutor ----------------
+def caso_k46():
+    org = "X"
+    roles = {"revisor": {"piece.review"}, "editor": {"piece.edit"}, "admin": {"org.manage"}}
+    mem = lambda rol, o=org, act=True: dict(org=o, activo=act, rol=rol)
+    members = {"A": mem("editor"), "C": mem("revisor"), "Q": mem("revisor"), "R": mem("revisor"), "R2": mem("revisor"), "Z": mem("revisor"), "Adm": mem("admin")}
+    eventos = {"e1": dict(id="e1", org=org, version="B1", actor="A", campo="oferta", op="o1"), "e2": dict(id="e2", org=org, version="B2", actor="C", campo="oferta", op="o2"),
+               "e3": dict(id="e3", org=org, version="V1", actor="Z", campo="headline", op="o3")}
+    atrs = {"a1": dict(id="a1", org=org, version="B1", campo="oferta", contrib="A", rel="directa", evento="e1"), "a1b": dict(id="a1b", org=org, version="B2", campo="oferta", contrib="A", rel="heredada", evento="e1"),
+            "a1c": dict(id="a1c", org=org, version="B3", campo="oferta", contrib="A", rel="heredada", evento="e1"), "a2": dict(id="a2", org=org, version="B2", campo="oferta", contrib="C", rel="directa", evento="e2"),
+            "a2c": dict(id="a2c", org=org, version="B3", campo="oferta", contrib="C", rel="heredada", evento="e2")}
+    res = dict(id="r1", org=org, fuente="brief", atribucion="a1c", version="B3", campo="oferta", afectado="A", solicitante="Q", resolutor="R", creado_por="R", evento_motivador="e2", actor_cambio="C",
+               evidencia="El texto vigente de B3 no contiene la propuesta original de A", evidencia_atribucion="a1c", evidencia_version="B3", resultado="aceptada")
+    return dict(org=org, auth_uid="R", roles=roles, members=members, eventos=eventos, atrs=atrs, res=res, version_actual="B3", cadena=["B1", "B2", "B3"], otras_fuentes=["V1"], historicas=set())
+
+def elegible(st, uid, reglas):
+    """Códigos R que impiden que uid resuelva la resolución de st (conjunto completo de la cadena)."""
+    r = st["res"]; m = st["members"].get(uid); bad = []
+    perms = st["roles"].get(m["rol"], set()) if m else set()
+    if "miembro_activo" in reglas and not (m and m["org"] == r["org"] and m["activo"]): bad.append("R1")
+    if "piece_review" in reglas and "piece.review" not in perms: bad.append("R2")
+    if "no_afectado" in reglas and uid == r["afectado"]: bad.append("R3")
+    if "no_solicitante" in reglas and uid == r["solicitante"]: bad.append("R4")
+    if "no_actor_del_cambio" in reglas and uid == r["actor_cambio"]: bad.append("R5")
+    campo = r["campo"]
+    if "no_directo_en_cadena" in reglas and any(e["actor"] == uid and e["campo"] == campo and e["version"] in st["cadena"] for e in st["eventos"].values()): bad.append("R6")
+    if "no_heredado_activo" in reglas and any(a["contrib"] == uid and a["campo"] == campo and a["rel"] == "heredada" and a["version"] == st["version_actual"] and a["id"] not in st["historicas"] for a in st["atrs"].values()): bad.append("R7")
+    if "no_excluido_otra_fuente" in reglas and any(e["actor"] == uid and e["version"] in st["otras_fuentes"] for e in st["eventos"].values()): bad.append("R8")
+    ev = st["eventos"].get(r["evento_motivador"], {})
+    if "no_beneficiario" in reglas and (any(a["contrib"] == uid and a["campo"] == campo and a["version"] == st["version_actual"] and a["id"] not in st["historicas"] for a in st["atrs"].values()) or any(e["actor"] == uid and e["op"] == ev.get("op") for e in st["eventos"].values())): bad.append("R9")
+    return bad
+
+def evaluar_k46(st, reglas):
+    r = st["res"]; cod = []
+    at = st["atrs"].get(r["atribucion"])
+    if not at: return ["ATRIBUCION_INEXISTENTE"]
+    if at["org"] != r["org"]: cod.append("ORG_ATRIBUCION")
+    if at["campo"] != r["campo"]: cod.append("CAMPO_DISTINTO")
+    if at["contrib"] != r["afectado"]: cod.append("AFECTADO_DISTINTO")
+    if r["version"] != at["version"] or r["version"] != st["version_actual"]: cod.append("VERSION_DISTINTA")
+    ev = st["eventos"].get(r["evento_motivador"])
+    if not ev or ev["org"] != r["org"] or ev["campo"] != r["campo"] or ev["actor"] != r["actor_cambio"]: cod.append("EVENTO_MOTIVADOR_INCOHERENTE")
+    if not r["evidencia"].strip(): cod.append("EVIDENCIA_VACIA")
+    if r["evidencia_atribucion"] != r["atribucion"]: cod.append("EVIDENCIA_OTRA_ATRIBUCION")
+    if r["evidencia_version"] != at["version"]: cod.append("EVIDENCIA_OTRA_VERSION")
+    if r["creado_por"] != st["auth_uid"] or r["resolutor"] != r["creado_por"]: cod.append("ACTOR_NO_AUTENTICADO")
+    cod += ["R_" + x for x in elegible(st, r["resolutor"], reglas)]
+    return cod
+
+def resolutores_elegibles(st, reglas):
+    return [u for u in st["members"] if not elegible(st, u, reglas)]
+
+def aplicar_k46(st, reglas):
+    """(válida, códigos, estado final de la atribución). Falla cerrada si no hay resolutor elegible."""
+    cod = evaluar_k46(st, reglas)
+    if not resolutores_elegibles(st, reglas) and st["res"]["resultado"] == "aceptada": cod.append("SIN_RESOLUTOR_ELEGIBLE")
+    valida = not cod
+    final = "historica" if (valida and st["res"]["resultado"] == "aceptada") else "activa"
+    return valida, cod, final
+
+def _ev_nuevo(st, i, actor, version, campo, op="oX"): st["eventos"][i] = dict(id=i, org=st["org"], version=version, actor=actor, campo=campo, op=op)
+K46_MUT = [
+ ("K46-M01", "el resolutor es el contribuyente afectado", "R_R3", lambda s: s["res"].update(resolutor="A", creado_por="A") or s.update(auth_uid="A")),
+ ("K46-M02", "el resolutor es el solicitante", "R_R4", lambda s: s["res"].update(resolutor="Q", creado_por="Q") or s.update(auth_uid="Q")),
+ ("K46-M03", "el resolutor es el editor que ejecutó la sustitución", "R_R5", lambda s: s["res"].update(resolutor="C", creado_por="C") or s.update(auth_uid="C")),
+ ("K46-M04", "el resolutor contribuyó al mismo campo en una versión anterior", "R_R6", lambda s: _ev_nuevo(s, "e0", "R", "B1", "oferta")),
+ ("K46-M05", "el resolutor heredó una contribución activa", "R_R7", lambda s: s["atrs"].update(ar=dict(id="ar", org="X", version="B3", campo="oferta", contrib="R", rel="heredada", evento="e1"))),
+ ("K46-M06", "el resolutor es contribuyente de otra fuente de la cadena", "R_R8", lambda s: _ev_nuevo(s, "e4", "R", "V1", "headline")),
+ ("K46-M07", "el resolutor no pertenece a la organización", "R_R1", lambda s: s["members"]["R"].update(org="Y")),
+ ("K46-M08", "el resolutor no tiene piece.review", "R_R2", lambda s: s["members"]["R"].update(rol="editor")),
+ ("K46-M09", "la evidencia está vacía", "EVIDENCIA_VACIA", lambda s: s["res"].update(evidencia="   ")),
+ ("K46-M10", "la evidencia apunta a otra atribución o versión", "EVIDENCIA_OTRA_ATRIBUCION", lambda s: s["res"].update(evidencia_atribucion="a2c", evidencia_version="B2")),
+ ("K46-M11", "el actor de la resolución no coincide con la identidad autenticada", "ACTOR_NO_AUTENTICADO", lambda s: s.update(auth_uid="R2")),
+ ("K46-M12", "no existe ningún resolutor elegible", "SIN_RESOLUTOR_ELEGIBLE", lambda s: s["roles"].update(revisor=set())),
+]
+
+def verificar_k46_modelo(spec):
+    p = parse_4410(spec); prob = []
+    if p["reglasR"] != CLAVES_R: prob.append(("reglas R1 a R9 distintas de las obligatorias", p["reglasR"]))
+    reglas = set(p["reglasR"]); st = caso_k46()
+    ok, cod, fin = aplicar_k46(st, reglas)
+    if not ok or fin != "historica": prob.append(("el caso de referencia válido no se acepta", cod))
+    if len(resolutores_elegibles(st, reglas)) < 2: prob.append(("el caso de referencia debe tener al menos dos resolutores elegibles",))
+    if "Adm" in resolutores_elegibles(st, reglas): prob.append(("Admin elegible por su cargo",))
+    return prob
+
+# ---------------- K47: auditoría estructural de conservación y E ----------------
+def simular_k47(P):
+    """P = parse_4410. Aplica las tablas C y D a casos de referencia y devuelve las violaciones de los 10 invariantes."""
+    v = []
+    clasef = {(r["fuente"], r["clas"]): r for r in P["efec_clas"]}
+    evt = {r["evento"]: r for r in P["efec_evt"]}
+    for f in FUENTES:
+        for c in CLAS:
+            if (f, c) not in clasef: v.append(("fila ausente", f, c))
+    if v: return v
+    def propagar(f, c, previas, actor):
+        r = clasef[(f, c)]
+        nuevas = []
+        if r["conserva"] == "todas": nuevas += [dict(x, rel="heredada") for x in previas]
+        elif r["conserva"] != "ninguna": v.append(("conservación no reconocida", f, c, r["conserva"]))
+        if r["incorpora"] == "sí": nuevas.append(dict(persona=actor, campo="campo", rel="directa"))
+        if r["retira"] != "ninguna": nuevas = [x for x in nuevas if x["persona"] == actor]
+        return nuevas
+    for f in FUENTES:
+        base = [dict(persona="A", campo="campo", rel="directa")]
+        for c in CLAS:
+            r = clasef[(f, c)]
+            res = propagar(f, c, base, "X")
+            if not any(x["persona"] == "A" for x in res): v.append(("I1 una atribución activa anterior se pierde", f, c))
+            if (c != "sin_cambio") != any(x["persona"] == "X" for x in res): v.append(("I2 el actor no se incorpora o se crea sin cambio", f, c))
+            if r["retira"] != "ninguna": v.append(("I1 la clasificación retira atribuciones", f, c))
+            if r["similitud"] != "no": v.append(("I11 la similitud decide el descarte", f, c))
+    for c in CLAS:
+        filas = {f: tuple(clasef[(f, c)][k] for k in ("conserva", "incorpora", "retira", "similitud")) for f in FUENTES}
+        if len(set(filas.values())) != 1: v.append(("I9 las fuentes no siguen la misma regla", c, filas))
+    for nom in ("resolución aceptada", "resolución rechazada", "versión nueva", "cadena incompleta", "atribución histórica", "cambio de clasificación"):
+        if nom not in evt: v.append(("evento ausente", nom))
+    if v: return v
+    A, R_, N, I, H, K = (evt[x] for x in ("resolución aceptada", "resolución rechazada", "versión nueva", "cadena incompleta", "atribución histórica", "cambio de clasificación"))
+    # resolución aceptada: afecta solo la referenciada y deja la evidencia
+    if A["retira"] != "solo la referenciada": v.append(("I3 la resolución aceptada no se limita a la atribución y campo referenciados", A["retira"]))
+    if A["reescribe"] != "no": v.append(("I10 la resolución reescribe versiones anteriores", A["reescribe"]))
+    if A["efecto_e"] != "sale solo quien no conserva otra contribución activa": v.append(("I7 la resolución aceptada no mantiene en E a quien conserva otra activa", A["efecto_e"]))
+    if R_["retira"] != "ninguna" or R_["efecto_e"] != "sin cambio": v.append(("I5 una resolución rechazada modifica atribuciones o E", R_))
+    if N["retira"] != "hereda todas las activas" or N["reescribe"] != "no": v.append(("I10 la versión nueva no hereda todas las activas o reescribe versiones", N))
+    if I["efecto_e"] != "no determinable": v.append(("I8 una cadena incompleta produce un E presentado como completo", I["efecto_e"]))
+    if H["retira"] != "permanece como evidencia" or H["efecto_e"] != "permanece si conserva otra activa": v.append(("I6/I7 la atribución histórica no permanece como evidencia o la persona sale de E", H))
+    if K["retira"] != "ninguna" or K["efecto_e"] != "sin cambio": v.append(("I12 un cambio de clasificación retira atribuciones", K))
+    for e in P["efec_evt"]:
+        if e["reescribe"] != "no": v.append(("I10 el evento reescribe versiones anteriores", e["evento"]))
+    return v
+
+def _fila_tabla(spec, prefijo):
+    return re.search(r"^" + re.escape(prefijo) + r".*$", spec, re.M)
+def _celda(prefijo, n, nuevo, nombre_n=None):
+    """Mutación de texto: cambia la celda n (contando desde 1 la primera tras el borde) de la fila que empieza por prefijo."""
+    def f(t):
+        s = t[SPEC]; a = s.index("#### 4.4.10 "); b = s.index("\n#### ", a + 5) if "\n#### " in s[a + 5:] else len(s)
+        seg = s[a:b]; m = re.search(r"^" + re.escape(prefijo) + r".*$", seg, re.M); assert m, prefijo
+        cel = m.group(0).strip("|").split("|"); cel = [c.strip() for c in cel]; cel[n - 1] = nuevo
+        fila = "| " + " | ".join(cel) + " |"; t = dict(t); t[SPEC] = s[:a] + seg[:m.start()] + fila + seg[m.end():] + s[b:]; return t
+    return f
+K47_MUT = [
+ ("K47-M01", "sustitución sin segmentos idénticos elimina automáticamente la atribución anterior", "I1", _celda("| copy | sustituido |", 5, "automática")),
+ ("K47-M02", "eliminación de campo elimina automáticamente la atribución anterior", "I1", _celda("| brief | eliminado |", 5, "automática")),
+ ("K47-M03", "modificación material pierde una atribución previa", "I1", _celda("| promoción | modificado |", 3, "ninguna")),
+ ("K47-M04", "introducción no incorpora al actor", "I2", _celda("| brief | introducido |", 4, "no")),
+ ("K47-M05", "resolución rechazada modifica E", "I5", _celda("| resolución rechazada |", 3, "sale la persona")),
+ ("K47-M06", "resolución aceptada elimina otra atribución distinta", "I3", _celda("| resolución aceptada |", 2, "todas las del campo")),
+ ("K47-M07", "resolución altera una versión histórica", "I10", _celda("| resolución aceptada |", 4, "sí")),
+ ("K47-M08", "atribución heredada desaparece al crear nueva versión", "I10", _celda("| versión nueva |", 2, "ninguna")),
+ ("K47-M09", "procedencia incompleta se presenta como completa", "I8", _celda("| cadena incompleta |", 3, "parcial presentado como completo")),
+ ("K47-M10", "una resolución válida elimina de E a una persona que conserva otra contribución activa", "I7", _celda("| resolución aceptada |", 3, "sale siempre")),
+ ("K47-M11", "la lógica de sustitución es distinta entre copy y brief", "I9", _celda("| copy | sustituido |", 4, "no")),
+ ("K47-M12", "la lógica de eliminación es distinta entre brief y promoción", "I9", _celda("| promoción | eliminado |", 4, "no")),
+ ("K47-M13", "la similitud textual determina por sí sola el descarte", "I11", _celda("| copy | modificado |", 6, "sí")),
+ ("K47-M14", "un cambio de clasificación permite eliminar atribuciones sin resolución", "I12", _celda("| cambio de clasificación |", 2, "las anteriores")),
+]
+def verificar_k47_modelo(spec):
+    return simular_k47(parse_4410(spec))
+
+def ejecutar_mutaciones_modelo(textos, dir_hist):
+    """Mutaciones K46, K45 y K47: cada una parte de un caso válido, aplica un único cambio, ejecuta el control y registra esperado y observado."""
+    out = []
+    spec = textos[SPEC]; P = parse_4410(spec); M = P["matriz"]; reglas = set(P["reglasR"])
+    # K46
+    for mid, nom, cod_esp, fn in K46_MUT:
+        st0 = caso_k46(); ok0, c0, f0 = aplicar_k46(st0, reglas)
+        st = _copy.deepcopy(st0); fn(st); cambio = (st != st0)
+        ok1, c1, f1 = aplicar_k46(st, reglas)
+        det = ok0 and cambio and (not ok1) and (cod_esp in c1) and f1 == "activa"
+        out.append(dict(id=mid, ctl="K46", regla="IG5-95 (%s)" % cod_esp, inicial="válido: resolución aceptada por R, %d elegibles" % len(resolutores_elegibles(st0, reglas)), mut=nom,
+                        esp="rechazo con %s; la atribución permanece activa" % cod_esp, obs=("rechazada con " + ", ".join(c1[:4]) + "; atribución " + f1) if not ok1 else "ACEPTADA (no detectada)", det=bool(det), cambio=cambio, valido=ok0))
+    # K45
+    for mid, nom, cod_esp, fn in K45_MUT:
+        st0 = caso_k45(); c0 = evaluar_k45(st0, M); st = _copy.deepcopy(st0); fn(st); cambio = (st != st0)
+        c1 = evaluar_k45(st, M); codes = sorted({c[0] for c in c1})
+        det = (not c0) and cambio and cod_esp in codes
+        out.append(dict(id=mid, ctl="K45", regla="IG5-96 (%s)" % cod_esp, inicial="válido: %d eventos y %d atribuciones sin violaciones" % (len(st0["eventos"]), len(st0["atrs"])), mut=nom,
+                        esp="rechazo con %s" % cod_esp, obs=("rechazado con " + ", ".join(codes[:5])) if c1 else "ACEPTADO (no detectado)", det=bool(det), cambio=cambio, valido=not c0))
+    # K47 sobre el texto de la especificación
+    v0 = simular_k47(P)
+    for mid, nom, inv, fn in K47_MUT:
+        try:
+            tm = fn(textos); cambio = tm[SPEC] != spec; v1 = simular_k47(parse_4410(tm[SPEC]))
+        except Exception as ex:
+            cambio = False; v1 = []; nom += " (ERROR al aplicar: %s)" % str(ex)[:50]
+        det = (not v0) and cambio and any(x[0].startswith(inv + " ") or x[0].startswith(inv + "/") or (inv == "I1" and x[0].startswith("I1 ")) for x in v1)
+        out.append(dict(id=mid, ctl="K47", regla="IG5-97 (%s)" % inv, inicial="válido: 15 filas de clasificación y 6 eventos sin violaciones", mut=nom, esp="rechazo con %s" % inv,
+                        obs=("rechazada con " + "; ".join(x[0][:40] for x in v1[:3])) if v1 else "ACEPTADA (no detectada)", det=bool(det), cambio=cambio, valido=not v0))
+    return out
 
 def calcular_v33(ruta):
     """K48: SHA-256 calculado sobre los bytes del archivo original v3.3."""
@@ -690,9 +1028,13 @@ def _regex_t1(t):
     s = t[SPEC]; t = dict(t)
     t[SPEC] = re.sub(r"^(\| T-0*1 \|.*\| )([^|]+?)( \|)$", r"\1\2, IG5-999\3", s, count=1, flags=re.M); return t
 def _sin_escenario(t):
-    s = t[SPEC]; t = dict(t)
-    s = re.sub(r"(\| T-\d+ \|[^\n]*\| )IG5-83(\s*\|)", r"\1IG5-82\2", s); s = re.sub(r"(\| T-\d+ \|[^\n]*\| )IG5-83, ", r"\1", s); s = re.sub(r", IG5-83(\s*\|)", r"\1", s)
-    t[SPEC] = s; return t
+    t = dict(t); out = []
+    for l in t[SPEC].split("\n"):
+        if l.startswith("| T-") and "IG5-83" in l:
+            cel = l.split("|"); ids = [x.strip() for x in cel[-2].split(",")]; ids = [x for x in ids if x != "IG5-83"] or ["IG5-82"]
+            cel[-2] = " " + ", ".join(ids) + " "; l = "|".join(cel)
+        out.append(l)
+    t[SPEC] = "\n".join(out); return t
 def _id_dup(t):
     s = t[SPEC]; m = re.search(r"^\| (IG5-69) \| (.*) \|$", s, re.M); t = dict(t); t[SPEC] = s.replace(m.group(0), m.group(0) + "\n" + m.group(0), 1); return t
 def _err_ausente(t):
@@ -714,6 +1056,9 @@ MUT = [
  ("M-12", "Resolución realizada por quien solicitó la exclusión", "K46", "Se elimina la restricción resolved_by <> requested_by", _quitar_linea("resolved_by <> requested_by", "attribution_discard_resolutions")),
  ("M-13", "Resolución sin evidencia", "K46", "Se elimina la restricción de evidencia y motivo no vacíos", _quitar_linea("char_length(btrim(reason))", "attribution_discard_resolutions")),
  ("M-14", "Sustitución textual que retira automáticamente al contribuyente anterior", "K47", "En la tabla de cálculo de atribuciones la fila «sustituido» pasa las activas anteriores a históricas", _ed("| sustituido | Activas heredadas activas provisionalmente; históricas por resolución siguen históricas |", "| sustituido | Activas heredadas históricas; históricas siguen históricas |")),
+ ("M-23", "Resolución ejecutada por quien realizó la sustitución (restricción retirada)", "K46", "Se elimina de la resolución la restricción resolved_by <> change_actor_id", _quitar_linea("resolved_by <> change_actor_id", "attribution_discard_resolutions")),
+ ("M-24", "Resolución sin trigger de elegibilidad sobre la cadena completa", "K46", "Se elimina el trigger de elegibilidad del resolutor (R1 a R9)", _quitar_linea("elegibilidad del resolutor", "attribution_discard_resolutions")),
+ ("M-25", "Evidencia no ligada a la atribución", "K46", "Se elimina la restricción evidence_attribution_id = atribución informada", _quitar_linea("evidence_attribution_id = coalesce(", "attribution_discard_resolutions")),
  ("M-15", "ID de regla duplicado", "K02", "Se repite la fila de IG5-69", _id_dup),
  ("M-16", "Regla sin escenario", "K06", "Se retira IG5-83 de todos los escenarios", _sin_escenario),
  ("M-17", "Referencia a una regla inexistente", "K05", "T-01 referencia IG5-999", _regex_t1),
@@ -741,6 +1086,8 @@ def ejecutar_mutaciones(textos, dir_hist, v33, base):
             except Exception as ex:
                 det = False; real = "ERROR al aplicar la mutación: %s" % str(ex)[:80]
             out.append(dict(id=mid, nombre=nombre, control=ctl, desc=desc, inicial="válido (%s APRUEBA)" % ctl if ok0.get(ctl) else "NO válido (%s no aprueba)" % ctl, det=det and bool(ok0.get(ctl)), real=real))
+        for m in ejecutar_mutaciones_modelo(textos, dir_hist):
+            out.append(dict(id=m["id"], nombre=m["mut"], control=m["ctl"], desc=m["mut"], inicial=m["inicial"], det=m["det"] and bool(ok0.get(m["ctl"])), real=m["obs"], regla=m["regla"], esp=m["esp"], modelo=True))
         if v33 and os.path.isfile(v33):
             import tempfile
             b = bytearray(open(v33, "rb").read()); b[len(b) // 2] ^= 1
@@ -784,14 +1131,32 @@ def _est(ids, byid):
     if any(v is None for v in vals): return "PENDIENTE"
     return "OK (verificado documentalmente)"
 
+def criterios_v8(byid, muts):
+    def n(pref): ms = [m for m in muts if m["id"].startswith(pref)]; return sum(1 for m in ms if m["det"]), len(ms)
+    out = []
+    for pref, tot in (("K46-", 12), ("K45-", 14), ("K47-", 14)):
+        d, t = n(pref); out.append((pref[:3], "%d/%d mutaciones detectadas" % (tot, tot), "%d/%d: %s" % (d, t, "CUMPLE" if d == t == tot else "NO CUMPLE")))
+    previas = [m for m in muts if not m["id"].startswith("K4") or m["id"].startswith("K44")]
+    dp = sum(1 for m in previas if m["det"])
+    out.append(("Regresión v7", "todas las comprobaciones y mutaciones anteriores pasan", "%d/%d mutaciones anteriores; %s" % (dp, len(previas), "CUMPLE" if dp == len(previas) and not any(r["ok"] is False for r in byid.values()) else "NO CUMPLE")))
+    for c_, cond, ids in (("Consistencia documental", "cero contradicciones, cifras y estados coherentes", ["K09", "K22", "K27", "K50"]), ("Cobertura", "reglas relevantes cubiertas", ["K06", "K07", "K08", "K51"]),
+                          ("Integridad histórica", "documentos protegidos sin alteración", ["K25"]), ("Permisos", "17 claves conservadas", ["K19"]), ("Workflow", "13 transiciones conservadas", ["K20"]), ("Roadmap", "76 subfases conservadas", ["K18"]),
+                          ("Hash", "verificado sobre el original o declarado pendiente", ["K48"]), ("SQL e infraestructura", "ninguna ejecución", ["K23"]), ("Fase 1", "no iniciada ni autorizada", ["K22"])):
+        out.append((c_, cond, _est(ids, byid)))
+    out.append(("Alcance Git", "solo docs/fase0/", "Fuera del alcance del verificador: se comprueba con git diff en la publicación"))
+    return out
+
 def bloque_markdown(ctr, textos, muts):
     n = len(RES); nok = sum(1 for r in RES if r["ok"] is True); npen = sum(1 for r in RES if r["ok"] is None); nf = n - nok - npen
     L = ["**Comprobaciones ejecutadas: %d. Aprobadas: %d. Fallidas: %d. Pendientes: %d.** Controles: %d; OK: %d; NO OK: %d; PENDIENTE: %d. Mutaciones negativas: %d; detectadas: %d; no detectadas: %d.\n" % (n, nok, nf, npen, len(ctr), sum(1 for c in ctr if c[7] == "OK"), sum(1 for c in ctr if c[7] == "NO OK"), sum(1 for c in ctr if c[7] == "PENDIENTE"), len(muts), sum(1 for m in muts if m["det"]), sum(1 for m in muts if not m["det"]))]
     L.append("| Comprobación | Resultado | Descripción | Regla | Documento y sección |\n|---|---|---|---|---|")
     for r in RES: L.append("| %s | %s | %s | %s | %s |" % (r["id"], "APRUEBA" if r["ok"] else ("PENDIENTE" if r["ok"] is None else "FALLA"), r["nombre"].replace("|", "/"), r["regla"], r["doc"]))
-    L.append("\n**Mutaciones negativas.** Cada una parte de un estado inicial válido, introduce la modificación en una copia en memoria, nombra el control que debe detectarla y espera rechazo.\n")
-    L.append("| ID | Defecto | Estado inicial | Modificación introducida | Control | Esperado | Resultado real |\n|---|---|---|---|---|---|---|")
-    for m in muts: L.append("| %s | %s | %s | %s | %s | rechazo | %s |" % (m["id"], m["nombre"], m["inicial"], m["desc"].replace("|", "/"), m["control"], m["real"]))
+    byid0 = {r["id"]: r for r in RES}
+    L.append("\n**Mutaciones negativas (regresión completa).** Cada una parte de un estado inicial válido, aplica un único cambio identificable, ejecuta el control que debe detectarlo y registra el resultado esperado y el observado. Un veredicto DETECTADA exige además que el estado inicial sea válido y que el cambio modifique realmente el caso.\n")
+    L.append("| ID | Regla probada | Estado inicial válido | Mutación aplicada | Resultado esperado | Resultado observado | Veredicto |\n|---|---|---|---|---|---|---|")
+    for m in muts:
+        regla = m.get("regla") or ("%s (%s)" % (m["control"], byid0.get(m["control"], {}).get("regla", "")))
+        L.append("| %s | %s | %s | %s | %s | %s | %s |" % (m["id"], regla.replace("|", "/"), m["inicial"].replace("|", "/"), m["desc"].replace("|", "/"), m.get("esp", "rechazo por " + m["control"]).replace("|", "/"), m["real"].replace("|", "/"), "DETECTADA" if m["det"] else "NO DETECTADA"))
     L.append("\n**Matriz de los 28 controles.**\n")
     L.append("| ID | Control | Regla exacta | Documento y sección | Evidencia concreta | Procedimiento | Resultado real | Estado | Nivel de evidencia | Observación |\n|---|---|---|---|---|---|---|---|---|---|")
     for c in ctr: L.append("| " + " | ".join(x.replace("|", "/") for x in c) + " |")
@@ -799,9 +1164,12 @@ def bloque_markdown(ctr, textos, muts):
     L.append("\n**Auditoría integral final (28 puntos).**\n")
     L.append("| # | Punto auditado | Comprobaciones | Resultado |\n|---|---|---|---|")
     for n_, nom, ids in INTEGRAL: L.append("| %d | %s | %s | %s |" % (n_, nom, ", ".join(ids), _est(ids, byid)))
-    L.append("\n**Auditoría final v7 (14 verificaciones).**\n")
+    L.append("\n**Auditoría final (14 verificaciones).**\n")
     L.append("| # | Verificación | Comprobaciones | Resultado |\n|---|---|---|---|")
     for n_, nom, ids in AUDITORIA_V7: L.append("| %d | %s | %s | %s |" % (n_, nom, ", ".join(ids), _est(ids, byid)))
+    L.append("\n**Criterios binarios de aceptación de la v8 (resultado calculado).**\n")
+    L.append("| Criterio | Condición | Resultado |\n|---|---|---|")
+    for c_, cond, res_ in criterios_v8(byid, muts): L.append("| %s | %s | %s |" % (c_, cond, res_))
     return "\n".join(L)
 
 def main():
