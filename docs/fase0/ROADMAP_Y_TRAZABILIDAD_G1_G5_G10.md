@@ -1,11 +1,11 @@
 ---
 name: roadmap_trazabilidad_g1_g5_g10
-description: Roadmap y trazabilidad de la revisión v8 de G-1, G-5 y G-10; orden único de creación con la representación física de contribuciones; estados de subfases sin cambio
+description: Roadmap y trazabilidad de la revisión v9 de G-1, G-5 y G-10; orden único de creación con la representación física de contribuciones; estados de subfases sin cambio
 ---
 
-# ROADMAP Y TRAZABILIDAD — REVISIÓN v8 DE G-1, G-5 Y G-10
+# ROADMAP Y TRAZABILIDAD — REVISIÓN v9 DE G-1, G-5 Y G-10
 
-Sustituye a la v7 (conservada en `historico/`). Complementa la Adenda v9 (no aceptada) sin reemplazarla ni alterar versiones históricas. **Ninguna subfase cambia de estado**; el diseño no se ha implementado ni validado técnicamente y Fase 1 no está autorizada.
+Sustituye a la v8 (conservada en `historico/`). Complementa la Adenda v9 (no aceptada) sin reemplazarla ni alterar versiones históricas. **Ninguna subfase cambia de estado**; el diseño no se ha implementado ni validado técnicamente y Fase 1 no está autorizada.
 
 ## 0. Estado por nivel (H-03)
 
@@ -154,7 +154,7 @@ Secuencia de subfases: **1.8 → 2.x → 2.1 → 2.3 → 2.5 → 2.7 → 3.x →
 
 Estructura no es operación: las tablas nacen con RLS activada y sin privilegios; las funciones y políticas se habilitan en la subfase indicada. Si una fase posterior no se ejecuta, las anteriores siguen siendo consistentes porque ninguna FK apunta hacia adelante. La reversión es deshabilitar (retirar EXECUTE y privilegios, restaurar el trigger base), no eliminar tablas con datos.
 
-## 4. Cambios de subfase por la v5, la v6, la v7 y la v8 (la v7 agregó attribution_discard_resolutions y resolve_attribution_discard dentro de subfases existentes; la v8 agrega columnas a esa tabla y una unicidad en contribution_events dentro de las mismas subfases; no cambia subfases ni estados)
+## 4. Cambios de subfase por la v5, la v6, la v7, la v8 y la v9 (la v7 agregó attribution_discard_resolutions y resolve_attribution_discard dentro de subfases existentes; la v8 agrega columnas a esa tabla y una unicidad en contribution_events dentro de las mismas subfases; la v9 solo cambia el verificador y la sección 4.4.11; no cambia subfases ni estados)
 
 | Subfase | Tema | Contenido de diseño |
 |---|---|---|
