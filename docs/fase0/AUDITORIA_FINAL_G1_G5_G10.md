@@ -1,9 +1,9 @@
 ---
 name: auditoria_final_g1_g5_g10
-description: Auditoría final de la revisión v10 de G-1, G-5 y G-10 (matriz de 28 controles, verificador publicado con resultado real, pruebas estructurales de K45, K46 y K47, auditoría integral de 28 puntos, riesgos residuales)
+description: Auditoría final de la revisión v11 de G-1, G-5 y G-10 (matriz de 28 controles, verificador publicado con resultado real, pruebas estructurales de K45, K46 y K47, auditoría integral de 28 puntos, riesgos residuales)
 ---
 
-# AUDITORÍA FINAL — G-1, G-5 Y G-10 (revisión v10)
+# AUDITORÍA FINAL — G-1, G-5 Y G-10 (revisión v11)
 
 Los escenarios de diseño (T-xx) no están ejecutados. Se ejecutan pruebas de modelo en memoria (K45, K46, K47) y comprobaciones documentales; ninguna es una prueba en PostgreSQL ni Supabase y el diseño no está validado técnicamente.
 
@@ -12,7 +12,7 @@ Los escenarios de diseño (T-xx) no están ejecutados. Se ejecutan pruebas de mo
 | Nivel | Estado | Alcance |
 |---|---|---|
 | 1. Fase 0 v3.3 | COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES DOCUMENTADAS | No se reabre ni se modifica; SHA-256 `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da` sin cambio |
-| 2. Diseño complementario v10 (G-1, G-5, G-10) | COMPLETADO DOCUMENTALMENTE Y PREPARADO PARA ACEPTACIÓN FORMAL DEL PROPIETARIO, CON LIMITACIONES TÉCNICAS EXPLÍCITAS | Pendiente de aceptación formal del propietario; no validado técnicamente; la Adenda v9 sigue sin aceptar (PO-05) |
+| 2. Diseño complementario v11 (G-1, G-5, G-10) | COMPLETADO DOCUMENTALMENTE Y PREPARADO PARA ACEPTACIÓN FORMAL DEL PROPIETARIO, CON LIMITACIONES TÉCNICAS EXPLÍCITAS | Pendiente de aceptación formal del propietario; no validado técnicamente; la Adenda v9 sigue sin aceptar (PO-05) |
 | 3. Fase 1 | NO INICIADA / NO AUTORIZADA | Requiere autorización expresa; este diseño no la concede |
 
 
@@ -23,12 +23,14 @@ Los escenarios de diseño (T-xx) no están ejecutados. Se ejecutan pruebas de mo
 | Validado técnicamente | Ejecución real contra PostgreSQL, RLS y Supabase con las pruebas de la matriz | **Pendiente**: ningún control ni escenario alcanza este nivel |
 
 
-## 1. Hallazgos de la v9 y su corrección
+## 1. Hallazgos de la v10 y su corrección
 
 | Hallazgo | Defecto | Corrección (resumen) | Referencia | Reglas | Escenarios |
 |---|---|---|---|---|---|
-| A Las resoluciones no eran realmente inmutables | En la v9 el registro de resoluciones era un diccionario modificable: se podía cambiar el resultado, la evidencia, el resolutor, el solicitante, la atribución o la versión de una resolución ya registrada, reemplazarla con el mismo identificador o eliminarla, y una resolución quedaba como estado provisional que se aceptaba o rechazaba después; el auditor de K47 comparaba atribuciones y no registros, de modo que la alteración no se veía. | Registro de solo agregado con filas congeladas y sello SHA-256; cada resolución nace aceptada o rechazada; la reconsideración es un registro nuevo con `previous_resolution_id` que deja intacto el ante… | ESPECIFICACION 4.4.4 y 4.4.12 | IG5-92, IG5-93, IG5-98, IE-12 | T-423 a T-439 |
-| B La procedencia del arte no formaba parte de la reconstrucción | En la v9 `reconstruir_procedencia` omitía el campo arte: un asset sin uploader o sin evento de carga producía un E completo, una versión sin arte no declaraba `no_aplica`, la reutilización no distinguía al uploader original del reutilizador y una cadena de reutilización con ciclos o con origen inexistente no bloqueaba E. | El arte es procedencia obligatoria: cada versión de copy declara `con_arte` o `no_aplica` de forma explícita; cada asset registra organización, pieza, versión del asset, uploader original, evento de c… | ESPECIFICACION 4.4.4 y 4.4.12 | IG5-83, IG5-94, IG5-99, IE-12 | T-440 a T-465 |
+| H-01 La identidad del uploader no se verificaba de forma estructural | En la v10 un asset con arte podía declararse con procedencia completa sin comprobar que el uploader existiera, perteneciera a la organización del asset, tuviera membresía activa y fuera el actor autenticado de un evento de carga de la misma organización, pieza, asset exacto y versión; un evento o una atribución de otra versión, pieza u organización podía satisfacer la procedencia, y el reutilizador podía figurar como uploader. | El motor identifica al uploader por relaciones estructuradas (`_id_uploader`): existencia, organización, membresía activa, evento de carga con organización, pieza, asset, versión de asset, versión de … | ESPECIFICACION 4.4.13 | IG5-100, IE-12 | T-466 a T-502 |
+| H-02 Las atribuciones no estaban atadas a la versión exacta del asset | La atribución del arte se comparaba por asset y persona, sin exigir que la organización, la pieza, la versión de copy, la versión del asset, el evento y el actor de la cadena coincidieran; una atribución heredada podía carecer de antecesor verificable. | Cada atribución de arte lleva asset, versión de asset y evento, y se valida la cadena organización, pieza, versión de copy, referencia exacta del asset, versión del asset, evento de carga, actor y atr… | ESPECIFICACION 4.4.13 | IG5-100, IE-12 | T-466 a T-502 |
+| H-03 La identidad del evento de reutilización no se verificaba | El evento de reutilización no se comparaba con la organización, la pieza, el actor autenticado, el asset y la versión de asset exactos, ni con la versión de copy que incorpora la reutilización; una reutilización podía reemplazar al uploader original o compartir evento con otra. | Cada reutilización tiene un evento propio con organización, pieza, actor autenticado, tipo, asset, versión de asset, versión de copy y evento de carga de origen; se conserva el uploader original; la c… | ESPECIFICACION 4.4.13 | IG5-100, IE-12 | T-466 a T-502 |
+| H-04 Faltaban mutaciones, pruebas adversariales y casos positivos de identidad | La v10 solo cubría A01 a A16 y 7 casos positivos; el auditor no se probaba contra un motor que acepta por error, y `no_aplica` podía ocultar un asset sin uploader o sin evento. | Mutaciones K47-A17 a A37 (cada una con estado inicial válido, un único cambio efectivo, código específico, procedencia incompleta y E bloqueado), cinco pruebas adversariales (ADV1 a ADV5) en las que e… | ESPECIFICACION 4.4.13 | IG5-100, IE-12 | T-466 a T-502 |
 
 ## 2. Orden único de creación
 
@@ -148,34 +150,34 @@ Una sola herramienta publicada, `docs/fase0/herramientas/verificar_expediente.py
 | Dependencias | Python 3.8 o superior; solo biblioteca estándar; el módulo `docs/fase0/herramientas/modelo_estructural.py` (modelo relacional de K45 y motor de K47) debe estar junto al verificador; no accede a red, base de datos ni servicios |
 | Entrada | Los cinco documentos activos, los archivos de `historico/` (SHA-256 del manifiesto del registro) y, opcionalmente con `--v33 RUTA`, el archivo original de la línea base v3.3 |
 | Salida | Un resultado por comprobación (APRUEBA, FALLA o PENDIENTE), la matriz de 28 controles con 10 campos y la auditoría integral de 28 puntos; código de salida 1 si algo falla |
-| Número de comprobaciones | 52 |
+| Número de comprobaciones | 53 |
 | Reproducibilidad | La comprobación K41 ejecuta todo dos veces y compara; el bloque siguiente se genera con `--md` y se puede regenerar y comparar. El verificador ignora el bloque al analizar para no depender de su propio resultado |
-| Controles negativos | K42 ejecuta 128 mutaciones, cada una desde un estado válido y con un único cambio, y exige que el control correspondiente la rechace con la condición esperada: M-01 a M-25 (relaciones, actor, asset, versión, antecesor, resoluciones, sustitución textual, estructura del expediente y un bit alterado en una copia del original de v3.3), K46-M01 a K46-M12 (independencia del resolutor sobre un caso con cadena), K45-M01 a K45-M27 (un cambio en un registro del modelo relacional, detectado por C01 a C15) y K47-M01 a K47-M36 (un fallo inyectado en una operación del motor, detectado por el auditor independiente por I1 a I12), K47-R01 a K47-R12 (un registro de resoluciones alterado fuera del motor, con el sello recalculado cuando procede, detectado por I13 a I15 con la condición específica) y K47-A01 a K47-A16 (una procedencia de arte alterada o incompleta, detectada por I1, I6 e I16 a I21 con la condición específica). Una mutación cuyo estado inicial no es válido, que no cambia el caso, que termina en excepción o que solo se detecta por otro código no cuenta como detectada |
-| Modelo estructural | `docs/fase0/herramientas/modelo_estructural.py`: tablas del modelo relacional de K45 (organizaciones, miembros, piezas, versiones de brief, snapshots, versiones de copy, assets, eventos y atribuciones); motor de K47 con las operaciones crear versión, introducir, modificar, sustituir y eliminar campo, heredar, registrar, rechazar y aplicar resolución, cambiar clasificación, reconstruir procedencia, calcular E y comprobar completitud; auditor independiente de I1 a I21; registro de resoluciones de solo agregado con sello SHA-256 y cadena de reconsideración; asset con uploader, evento de carga, reutilizador y cadena de reutilización. Datos ficticios; todo en memoria |
+| Controles negativos | K42 ejecuta 149 mutaciones, cada una desde un estado válido y con un único cambio, y exige que el control correspondiente la rechace con la condición esperada: M-01 a M-25 (relaciones, actor, asset, versión, antecesor, resoluciones, sustitución textual, estructura del expediente y un bit alterado en una copia del original de v3.3), K46-M01 a K46-M12 (independencia del resolutor sobre un caso con cadena), K45-M01 a K45-M27 (un cambio en un registro del modelo relacional, detectado por C01 a C15) y K47-M01 a K47-M36 (un fallo inyectado en una operación del motor, detectado por el auditor independiente por I1 a I12), K47-R01 a K47-R12 (un registro de resoluciones alterado fuera del motor, con el sello recalculado cuando procede, detectado por I13 a I15 con la condición específica) y K47-A01 a K47-A37 (una procedencia o identidad de arte alterada o incompleta, detectada por I1, I6, I16 a I26 con la condición específica; las de A17 en adelante exigen además procedencia incompleta, E no completo y E bloqueado). Una mutación cuyo estado inicial no es válido, que no cambia el caso, que termina en excepción o que solo se detecta por otro código no cuenta como detectada |
+| Modelo estructural | `docs/fase0/herramientas/modelo_estructural.py`: tablas del modelo relacional de K45 (organizaciones, miembros, piezas, versiones de brief, snapshots, versiones de copy, assets, eventos y atribuciones); motor de K47 con las operaciones crear versión, introducir, modificar, sustituir y eliminar campo, heredar, registrar, rechazar y aplicar resolución, cambiar clasificación, reconstruir procedencia, calcular E y comprobar completitud; auditor independiente de I1 a I26 con reconstrucción de identidad, eventos y antecesores desde los registros; cierre en falso de E (`calcular_E_verificado`); cinco pruebas adversariales; registro de resoluciones de solo agregado con sello SHA-256 y cadena de reconsideración; asset con uploader, evento de carga, reutilizador y cadena de reutilización. Datos ficticios; todo en memoria |
 | Hash de v3.3 (K48) | El archivo original de v3.3 no está en el repositorio; el bloque siguiente se generó indicando su ruta con `--v33`, por lo que K48 calculó su SHA-256 y lo comparó con `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da`. Una ejecución sin `--v33` deja K48 en PENDIENTE_ARCHIVO_ORIGINAL_NO_DISPONIBLE y no declara el hash como comprobado: el hash escrito en el registro es solo un registro histórico (K25) |
 | Limitaciones | Análisis sintáctico de Markdown: no ejecuta SQL, no valida PostgreSQL ni RLS, no renderiza Mermaid (solo compara aristas y cuenta pasos) y no prueba la semántica de negocio; es verificación documental, no validación técnica |
 
 ### Resultado real del verificador
 
 <!-- VERIFICADOR:INICIO -->
-**Comprobaciones ejecutadas: 52. Aprobadas: 52. Fallidas: 0. Pendientes: 0.** Controles: 28; OK: 28; NO OK: 0; PENDIENTE: 0. Mutaciones negativas: 128; detectadas: 128; no detectadas: 0.
+**Comprobaciones ejecutadas: 53. Aprobadas: 53. Fallidas: 0. Pendientes: 0.** Controles: 28; OK: 28; NO OK: 0; PENDIENTE: 0. Mutaciones negativas: 149; detectadas: 149; no detectadas: 0.
 
 | Comprobación | Resultado | Descripción | Regla | Documento y sección |
 |---|---|---|---|---|
 | K01 | APRUEBA | Los cinco documentos activos existen y no están vacíos | IE-08 | todos |
-| K02 | APRUEBA | IDs de reglas únicos (214 reglas) y con el mismo texto en la definición y en la cobertura | IE-08 | ESPECIFICACION 11 |
-| K03 | APRUEBA | IDs de escenarios únicos y consecutivos (465 escenarios) | IE-08 | ESPECIFICACION 11 |
+| K02 | APRUEBA | IDs de reglas únicos (215 reglas) y con el mismo texto en la definición y en la cobertura | IE-08 | ESPECIFICACION 11 |
+| K03 | APRUEBA | IDs de escenarios únicos y consecutivos (502 escenarios) | IE-08 | ESPECIFICACION 11 |
 | K04 | APRUEBA | Todo escenario tiene ID, requisito, datos iniciales, acción, resultado esperado, resultado prohibido, criterio, nivel y reglas | IE-07 | ESPECIFICACION 11 |
 | K05 | APRUEBA | Todo escenario referencia solo reglas existentes | IE-08 | ESPECIFICACION 11 |
-| K06 | APRUEBA | Toda regla tiene al menos un escenario (cobertura 214 de 214) | IE-08 | ESPECIFICACION 11 |
+| K06 | APRUEBA | Toda regla tiene al menos un escenario (cobertura 215 de 215) | IE-08 | ESPECIFICACION 11 |
 | K07 | APRUEBA | Todo escenario está asociado a al menos una regla | IE-08 | ESPECIFICACION 11 |
 | K08 | APRUEBA | La tabla de cobertura regla-escenario de la especificación coincide con las referencias de los escenarios | IE-08 | ESPECIFICACION 11 |
-| K09 | APRUEBA | Cifras recalculadas desde los archivos (214 reglas, 465 escenarios, 41 tablas, 14 nuevas) y coincidentes en los cinco documentos | IE-06 | ESPECIFICACION 11.1; INFORME |
+| K09 | APRUEBA | Cifras recalculadas desde los archivos (215 reglas, 502 escenarios, 41 tablas, 14 nuevas) y coincidentes en los cinco documentos | IE-06 | ESPECIFICACION 11.1; INFORME |
 | K10 | APRUEBA | La fórmula del conjunto excluido E es idéntica en todos los documentos (10 apariciones) | IG5-56 | ESPECIFICACION 4.4.3 |
 | K11 | APRUEBA | Existe una sola definición de contribuyente (figuras A a F en 4.4.3) y no se redefine en otros documentos | IG5-40 | ESPECIFICACION 4.4.3 |
 | K12 | APRUEBA | Los diez errores de procedencia están en el contrato de version_contributors y cada uno aparece en al menos un escenario | IG5-78 | ESPECIFICACION 4.4.5 |
 | K13 | APRUEBA | Los 26 escenarios mínimos de H-02 existen (26 escenarios H-02, con datos, versiones, actores, acción, esperado, prohibido, regla y nivel) | IG5-69 a IG5-79 | ESPECIFICACION 4.4.8 |
-| K14 | APRUEBA | Contrato de integridad (56 relaciones): 10 campos completos por fila, toda FK de las nueve tablas de procedencia figura en él y toda FK incluye organization_id | IG5-80 | ESPECIFICACION 4.4.9 |
+| K14 | APRUEBA | Contrato de integridad (57 relaciones): 10 campos completos por fila, toda FK de las nueve tablas de procedencia figura en él y toda FK incluye organization_id | IG5-80 | ESPECIFICACION 4.4.9 |
 | K15 | APRUEBA | Las nueve tablas de procedencia tienen bloque de definición y fila en el orden de creación; sin tablas repetidas (41 tablas) | IG5-80 | ESPECIFICACION 4.4.4; 14.1 |
 | K16 | APRUEBA | Orden de creación: ninguna tabla, función o trigger depende de un objeto posterior y ninguna FK apunta a una tabla creada después (100 pasos) | IE-08 (H-01 de la v4) | ESPECIFICACION 14.1 |
 | K17 | APRUEBA | La secuencia de subfases de creación es idéntica en especificación, roadmap y auditoría | H-01 v4 | ROADMAP 3; AUDITORIA 2 |
@@ -183,13 +185,13 @@ Una sola herramienta publicada, `docs/fase0/herramientas/verificar_expediente.py
 | K19 | APRUEBA | Las 17 claves físicas permanecen: las claves citadas están entre las 17, las 17 figuran en la especificación y ninguna frase crea permisos ni roles | P8 | ESPECIFICACION 10.1 |
 | K20 | APRUEBA | T-02 conserva 13 transiciones: sin transición #14 o posterior, sin estados ni transiciones nuevos | P8, IP-01 | ESPECIFICACION 1 y 2 |
 | K21 | APRUEBA | Las decisiones y limitaciones pendientes del propietario se conservan visibles (14 elementos) en especificación, informe y registro | IG5-48 | ESPECIFICACION 12.3; INFORME |
-| K22 | APRUEBA | Estados: v3.3 aceptada como línea base, v10 completada documentalmente y preparada para aceptación formal, Fase 1 no iniciada; ningún documento declara aceptación del propietario de la v10 | IE-04 | todos |
+| K22 | APRUEBA | Estados: v3.3 aceptada como línea base, v11 completada documentalmente y preparada para aceptación formal, Fase 1 no iniciada; ningún documento declara aceptación del propietario de la v11 | IE-04 | todos |
 | K23 | APRUEBA | Ningún documento afirma validación técnica ni pruebas técnicas ejecutadas (toda mención está negada o pendiente) | IE-05 | todos |
 | K24 | APRUEBA | La atribución no usa IA, similitud, embeddings ni inferencias probabilísticas como autoridad (toda mención está negada) y IG5-70 define la regla determinista | IG5-43, IG5-70 | ESPECIFICACION 4.4.8 |
-| K25 | APRUEBA | Los archivos históricos conservan su SHA-256 registrado en el manifiesto (32 archivos) y el registro cita el hash aceptado de v3.3 con b5dccdc7 (registro histórico; la comprobación criptográfica del original es K48) | IE-04 | REGISTRO manifiesto |
+| K25 | APRUEBA | Los archivos históricos conservan su SHA-256 registrado en el manifiesto (36 archivos) y el registro cita el hash aceptado de v3.3 con b5dccdc7 (registro histórico; la comprobación criptográfica del original es K48) | IE-04 | REGISTRO manifiesto |
 | K26 | APRUEBA | El diagrama de relaciones (32 aristas) coincide con las relaciones del contrato de integridad | IG5-80 | ESPECIFICACION 4.4.4 |
 | K27 | APRUEBA | Sin contradicciones con las versiones anteriores en los documentos activos (patrones de fuentes, errores y pendientes obsoletos) | IE-08 | todos |
-| K28 | APRUEBA | Registro histórico: entradas ordenadas por revisión hasta la v10 con el commit previo 638ca8c… (y el de la v9, a6b36b9…) y manifiesto de históricos | IE-04 | REGISTRO |
+| K28 | APRUEBA | Registro histórico: entradas ordenadas por revisión hasta la v11 con el commit previo 651c730… (v10 sobre 638ca8c… y v9 sobre a6b36b9…) y manifiesto de históricos | IE-04 | REGISTRO |
 | K29 | APRUEBA | La especificación documenta la herramienta publicada, su comando y sus límites | IE-08 | ESPECIFICACION 11.2; AUDITORIA 3 |
 | K30 | APRUEBA | El flujo integrado de 4.4.7 tiene los 19 pasos en el orden obligatorio | IG5-88 | ESPECIFICACION 4.4.7 |
 | K31 | APRUEBA | Los niveles de evidencia están definidos (Diseñado, Verificado documentalmente, Validado técnicamente) y IE-05 a IE-08 existen | IE-05 | AUDITORIA 1 |
@@ -197,23 +199,24 @@ Una sola herramienta publicada, `docs/fase0/herramientas/verificar_expediente.py
 | K33 | APRUEBA | Inmutabilidad: el contrato la define para las trece tablas, IS-13, IG5-85 e IG5-87 existen y 4 escenarios de H-03 intentan modificar, borrar o truncar | IS-13 | ESPECIFICACION 4.4.9 |
 | K34 | APRUEBA | DT-02: IG5-45 limita la exclusión al proponente de la clasificación vigente, IG5-68 protege a quien confirma o revierte y 12 escenarios lo cubren | IG5-45, IG5-68 | ESPECIFICACION 4.4.6 |
 | K35 | APRUEBA | Sin autovalidación, autoevaluación ni asignación automática a Admin: IG5-55, IG5-67, IG5-57 e IS-14 y 5 escenarios de Admin | IG5-55, IG5-57, IG5-67, IS-14 | ESPECIFICACION 4.4.3 |
-| K36 | APRUEBA | Fail-closed: IG5-64 e IG5-78 bloquean evaluación, independencia y aprobación o publicación sin excepción de Admin; IG5-89 impide reutilizar evaluaciones; 7 escenarios de bloqueo | IG5-64, IG5-78, IG5-89 | ESPECIFICACION 4.4.5 |
+| K36 | APRUEBA | Fail-closed: IG5-64 e IG5-78 bloquean evaluación, independencia y aprobación o publicación sin excepción de Admin; IG5-89 impide reutilizar evaluaciones; 12 escenarios de bloqueo | IG5-64, IG5-78, IG5-89 | ESPECIFICACION 4.4.5 |
 | K37 | APRUEBA | Las reglas de contribución directa, herencia de copy y procedencia de copy y arte existen y tienen escenarios (10 reglas) | IG5-49 a IG5-54, IG5-83, IG5-84 | ESPECIFICACION 4.4.3 y 4.4.9 |
 | K38 | APRUEBA | H-02: 12 campos de brief y 9 de promoción catalogados, regla de segmentos (IG5-70), cálculo de atribuciones (IG5-72), historial (IG5-73), dos algoritmos de 10 pasos y reglas IG5-69 a IG5-79 | IG5-69 a IG5-79 | ESPECIFICACION 4.4.8 |
 | K39 | APRUEBA | Reglas de G-7 (C1 a C9) y de G-10 (37 reglas IG10) presentes con cobertura | IG10-* | ESPECIFICACION 5 y 6.2 |
-| K44 | APRUEBA | Integridad estructural de 108 relaciones: longitud, orden exacto de columnas, organization_id, PK o UNIQUE de destino con las mismas columnas, tipos compatibles, contrato igual a los bloques, sin relaciones rotas ni circulares | IG5-80, IE-09 | ESPECIFICACION 4.4.4 y 4.4.9 |
+| K44 | APRUEBA | Integridad estructural de 109 relaciones: longitud, orden exacto de columnas, organization_id, PK o UNIQUE de destino con las mismas columnas, tipos compatibles, contrato igual a los bloques, sin relaciones rotas ni circulares | IG5-80, IE-09 | ESPECIFICACION 4.4.4 y 4.4.9 |
 | K45 | APRUEBA | Integridad semántica sobre un modelo relacional con identidad propia (organizaciones, miembros, piezas, versiones de brief, snapshots, versiones de copy, assets, eventos, atribuciones, herencia y reutilización): 15 controles C01 a C15 evaluados sobre las relaciones reales, matriz de correspondencias de 4.4.10 (S1 a S12) contrastada con los nombres físicos, 3 casos positivos sin falsos positivos y 27 mutaciones detectadas cada una por su código | IG5-81 a IG5-84, IG5-96, IS-16, IE-09, IE-12 | ESPECIFICACION 4.4.4, 4.4.9 y 4.4.10 |
 | K46 | APRUEBA | Resolución independiente de descarte: afectado, solicitante y actor del cambio no resuelven, evidencia ligada a la misma atribución y versión, autoridad de revisión, identidad autenticada, independencia respecto de todos los contribuyentes y eventos de la cadena (R1 a R9), fail-closed sin resolutor elegible, cada resolutor elegible aceptado (sin falsos positivos) y 12 mutaciones detectadas | IG5-92, IG5-93, IG5-95, IE-12 | ESPECIFICACION 4.4.4, 4.4.8 y 4.4.10 |
-| K47 | APRUEBA | Conservación estructural: motor en memoria con atribuciones individuales, versiones inmutables, resoluciones y E calculado recorriendo las atribuciones reales; 12 escenarios (A a L), el escenario de resoluciones inmutables (RS) y comprobaciones de uniformidad entre fuentes y de independencia de la similitud aprobados; registro de resoluciones sellado y de solo agregado con 9 intentos directos de alteración rechazados; procedencia del arte por versión de copy con 7 casos positivos; auditor independiente de 21 invariantes (I1 a I21); tabla C de 4.4.10 igual al comportamiento observado del motor; 36 mutaciones previas, 12 de resoluciones inmutables (R01 a R12) y 16 de assets (A01 a A16) detectadas; además ninguna regla, algoritmo ni escenario retira por sustitución, eliminación, hash o retained_segments = 0 | IG5-72, IG5-90, IG5-91, IG5-97, IE-12 | ESPECIFICACION 4.4.8 y 4.4.10 |
-| K52 | APRUEBA | Cobertura estructural v10: controles C01 a C15 con mutación (15/15), invariantes I1 a I21 con mutación (21/21), escenarios A a L aprobados (12/12), comprobaciones U, S, X, R y RS aprobadas, 7 casos positivos de arte, 9 intentos directos contra el registro de resoluciones rechazados, fixtures iniciales válidos y ninguna mutación con excepción | IG5-95 a IG5-99, IE-12 | ESPECIFICACION 4.4.10, 4.4.11 y 4.4.12 |
-| K50 | APRUEBA | Registro histórico: cada entrada de revisión sucede a la anterior (vN posterior a vN-1; 7 entradas) | IE-04 | REGISTRO |
+| K47 | APRUEBA | Conservación estructural: motor en memoria con atribuciones individuales, versiones inmutables, resoluciones y E calculado recorriendo las atribuciones reales; 12 escenarios (A a L), el escenario de resoluciones inmutables (RS) y comprobaciones de uniformidad entre fuentes y de independencia de la similitud aprobados; registro de resoluciones sellado y de solo agregado con 9 intentos directos de alteración rechazados; procedencia del arte por versión de copy con identidad exacta de uploader, evento de carga, atribución y reutilización, 14 casos positivos (P01 a P14) y 5 pruebas adversariales en las que el motor acepta, el auditor detecta y E se bloquea; auditor independiente de 26 invariantes (I1 a I26); tabla C de 4.4.10 igual al comportamiento observado del motor; 36 mutaciones previas, 12 de resoluciones inmutables (R01 a R12) y 37 de assets (A01 a A37) detectadas; además ninguna regla, algoritmo ni escenario retira por sustitución, eliminación, hash o retained_segments = 0 | IG5-72, IG5-90, IG5-91, IG5-97, IE-12 | ESPECIFICACION 4.4.8 y 4.4.10 |
+| K52 | APRUEBA | Cobertura estructural v11: controles C01 a C15 con mutación (15/15), invariantes I1 a I26 con mutación (26/26), escenarios A a L aprobados (12/12), comprobaciones U, S, X, R y RS aprobadas, 14 casos positivos de arte, 5 pruebas adversariales, 9 intentos directos contra el registro de resoluciones rechazados, fixtures iniciales válidos y ninguna mutación con excepción | IG5-95 a IG5-99, IE-12 | ESPECIFICACION 4.4.10, 4.4.11 y 4.4.12 |
+| K50 | APRUEBA | Registro histórico: cada entrada de revisión sucede a la anterior (vN posterior a vN-1; 8 entradas) | IE-04 | REGISTRO |
 | K51 | APRUEBA | Cobertura v8: IG5-95, IG5-96, IG5-97 e IE-12 con escenarios (resolutor 13, correspondencias 15, conservación 19) | IG5-95 a IG5-97, IE-12 | ESPECIFICACION 4.4.10 y 11 |
-| K53 | APRUEBA | Cobertura v10: IG5-98, IG5-99 e IE-12 con escenarios (resoluciones inmutables 17, arte 26) y la sección 4.4.12 documenta I13 a I21, las 12 mutaciones de resoluciones, las 16 de assets y los 7 casos positivos | IG5-98, IG5-99, IE-12 | ESPECIFICACION 4.4.12 |
+| K53 | APRUEBA | Cobertura v10: IG5-98, IG5-99 e IE-12 con escenarios (resoluciones inmutables 17, arte 26) y la sección 4.4.12 documenta I13 a I21, las 12 mutaciones de resoluciones, las 16 de assets (A01 a A16) y los 7 casos positivos (P01 a P07) | IG5-98, IG5-99, IE-12 | ESPECIFICACION 4.4.12 |
+| K54 | APRUEBA | Cobertura v11: IG5-100 e IE-12 con escenarios (identidad de assets 37) y la sección 4.4.13 documenta I22 a I26, las 21 mutaciones A17 a A37, los casos positivos P08 a P14 y las 5 pruebas adversariales | IG5-100, IE-12 | ESPECIFICACION 4.4.13 |
 | K49 | APRUEBA | H-02 v7: reglas IG5-90 a IG5-94 con cobertura y los 16 escenarios obligatorios (19 escenarios de atribución v7) | IG5-90 a IG5-94 | ESPECIFICACION 4.4.8 |
 | K48 | APRUEBA | Hash de la línea base v3.3 calculado sobre los bytes de «fase0_v3_3_integral.md»: b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da; esperado b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da; COINCIDE | IE-10 | REGISTRO; AUDITORIA 3 |
 | K40 | APRUEBA | La matriz define 28 controles con ID estable único, regla, sección, evidencia, procedimiento, resultado, estado y nivel; ninguno es OK sin comprobaciones aprobadas | IE-06, IE-07 | AUDITORIA 3 |
 | K41 | APRUEBA | Reproducibilidad: dos ejecuciones sobre los mismos archivos producen los mismos resultados individuales | IE-08 | AUDITORIA 3 |
-| K42 | APRUEBA | Controles negativos: 128 mutaciones introducidas en copias en memoria, 128 detectadas, 0 no detectadas | IE-08, IE-11 | AUDITORIA 3 |
+| K42 | APRUEBA | Controles negativos: 149 mutaciones introducidas en copias en memoria, 149 detectadas, 0 no detectadas | IE-08, IE-11 | AUDITORIA 3 |
 
 **Mutaciones negativas (regresión completa).** Cada una parte de un estado inicial válido, aplica un único cambio identificable, ejecuta el control que debe detectarlo y registra el resultado esperado y el observado. Un veredicto DETECTADA exige además que el estado inicial sea válido y que el cambio modifique realmente el caso.
 
@@ -330,22 +333,43 @@ Una sola herramienta publicada, `docs/fase0/herramientas/verificar_expediente.py
 | K47-R10 | IG5-98 (I15) | válido: escenario RS con tres resoluciones selladas y cadena de reconsideración, 0 violaciones | reutilizar una resolución aceptada para otra atribución | violación I15 con la condición «cita la resolución r2» | detectada por I15, I5 · «la baja de t9 cita la resolución r2, que no existe, no fue aceptada o no corresponde a esa atribución» | DETECTADA |
 | K47-R11 | IG5-98 (I14) | válido: escenario RS con tres resoluciones selladas y cadena de reconsideración, 0 violaciones | alterar la cadena de reconsideraciones | violación I14 con la condición «otra atribución» | detectada por I13, I14 · «la cadena de r2 referencia un registro de otra atribución u organización» | DETECTADA |
 | K47-R12 | IG5-98 (I14) | válido: escenario RS con tres resoluciones selladas y cadena de reconsideración, 0 violaciones | reescribir una resolución anterior para simular una decisión posterior | violación I14 con la condición «anterior fue alterado» | detectada por I13, I14, I15 · «el sello del registro anterior de r2 no coincide con el contenido actual (el anterior fue alterado)» | DETECTADA |
-| K47-A01 | IG5-99 (I16) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | una versión usa un asset sin uploader | violación I16 con la condición «uploader» | detectada por I16 · «cv1: asset a1 sin uploader registrado» | DETECTADA |
+| K47-A01 | IG5-99 (I16) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | una versión usa un asset sin uploader | violación I16 con la condición «uploader» | detectada por I16, I23 · «cv1: asset a1 sin uploader registrado» | DETECTADA |
 | K47-A02 | IG5-99 (I16) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | una versión usa un asset sin evento de carga | violación I16 con la condición «evento de carga» | detectada por I16 · «cv1: asset a1 sin evento de carga válido» | DETECTADA |
-| K47-A03 | IG5-99 (I19) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el asset pertenece a otra organización | violación I19 con la condición «organización» | detectada por I19 · «ca: el asset a2 pertenece a otra organización» | DETECTADA |
-| K47-A04 | IG5-99 (I19) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el asset pertenece a otra pieza sin relación válida | violación I19 con la condición «pieza» | detectada por I19 · «ca: el asset a2 pertenece a otra pieza sin relación válida» | DETECTADA |
-| K47-A05 | IG5-99 (I18) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | la reutilización apunta a otra versión de copy | violación I18 con la condición «versión de copy» | detectada por I17, I18 · «ca: el asset a2 no corresponde a esta versión de copy (cvm)» | DETECTADA |
-| K47-A06 | IG5-99 (I17) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el reutilizador sustituye al uploader original | violación I17 con la condición «uploader original» | detectada por I17 · «ca: el uploader original del asset a2 no coincide con el origen» | DETECTADA |
+| K47-A03 | IG5-99 (I19) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el asset pertenece a otra organización | violación I19 con la condición «organización» | detectada por I19, I25 · «ca: el asset a2 pertenece a otra organización» | DETECTADA |
+| K47-A04 | IG5-99 (I19) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el asset pertenece a otra pieza sin relación válida | violación I19 con la condición «pieza» | detectada por I19, I25 · «ca: el asset a2 pertenece a otra pieza sin relación válida» | DETECTADA |
+| K47-A05 | IG5-99 (I18) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | la reutilización apunta a otra versión de copy | violación I18 con la condición «versión de copy» | detectada por I17, I18, I25 · «ca: el asset a2 no corresponde a esta versión de copy (cvm)» | DETECTADA |
+| K47-A06 | IG5-99 (I17) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el reutilizador sustituye al uploader original | violación I17 con la condición «uploader original» | detectada por I17, I26 · «ca: el uploader original del asset a2 no coincide con el origen» | DETECTADA |
 | K47-A07 | IG5-99 (I17) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | asset reutilizado sin evento de reutilización | violación I17 con la condición «evento de reutilización» | detectada por I17 · «ca: asset a2 sin evento de reutilización válido» | DETECTADA |
-| K47-A08 | IG5-99 (I19) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | asset heredado sin referencia al origen | violación I19 con la condición «sin referencia» | detectada por I19 · «ca: asset reutilizado a2 sin referencia al origen» | DETECTADA |
+| K47-A08 | IG5-99 (I19) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | asset heredado sin referencia al origen | violación I19 con la condición «sin referencia» | detectada por I19, I26 · «ca: asset reutilizado a2 sin referencia al origen» | DETECTADA |
 | K47-A09 | IG5-99 (I19) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | la cadena de assets contiene un ciclo | violación I19 con la condición «ciclo» | detectada por I10, I17, I19 · «ca: ciclo en la cadena de assets a2 → a1 → a2» | DETECTADA |
-| K47-A10 | IG5-99 (I19) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el asset de origen no existe | violación I19 con la condición «inexistente» | detectada por I19 · «ca: asset de origen a_x inexistente» | DETECTADA |
+| K47-A10 | IG5-99 (I19) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el asset de origen no existe | violación I19 con la condición «inexistente» | detectada por I19, I26 · «ca: asset de origen a_x inexistente» | DETECTADA |
 | K47-A11 | IG5-99 (I1) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | un asset modificado pierde la atribución anterior | violación I1 con la condición «retiró» | detectada por I1, I15 · «una operación de contenido retiró atribuciones» | DETECTADA |
 | K47-A12 | IG5-99 (I1) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | un asset sustituido elimina la atribución anterior automáticamente | violación I1 con la condición «retiró» | detectada por I1, I15 · «una operación de contenido retiró atribuciones» | DETECTADA |
 | K47-A13 | IG5-99 (I6) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | un asset eliminado borra su historial | violación I6 con la condición «desapareció» | detectada por I1, I10, I19, I6 · «una atribución, un asset o un registro histórico desapareció de la evidencia» | DETECTADA |
-| K47-A14 | IG5-99 (I20) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | un arte incompleto permite declarar E completo | violación I20 con la condición «arte» | detectada por I16, I20, I8 · «la procedencia del arte es incompleta pero el motor declara E completo: cv1: asset a1 sin uploader registrado» | DETECTADA |
+| K47-A14 | IG5-99 (I20) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | un arte incompleto permite declarar E completo | violación I20 con la condición «arte» | detectada por I16, I20, I23, I8 · «la procedencia del arte es incompleta pero el motor declara E completo: cv1: asset a1 sin uploader registrado» | DETECTADA |
 | K47-A15 | IG5-99 (I21) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el cálculo de E omite a los contribuyentes del arte | violación I21 con la condición «omite» | detectada por I21, I7 · «E omite a un contribuyente del arte: ['U']» | DETECTADA |
 | K47-A16 | IG5-99 (I20) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | la ausencia de registros de arte se acepta como no_aplica | violación I20 con la condición «no declara» | detectada por I20, I8 · «la procedencia del arte es incompleta pero el motor declara E completo: cv2: la versión no declara el estado d» | DETECTADA |
+| K47-A17 | IG5-100 (I22) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el uploader pertenece a otra organización | violación I22 con la condición «otra organización»; procedencia incompleta y E no completo | detectada por I22 · «cv1: el uploader U de a1 pertenece a otra organización»; E bloqueado | DETECTADA |
+| K47-A18 | IG5-100 (I22) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el uploader tiene membresía inactiva | violación I22 con la condición «membresía inactiva»; procedencia incompleta y E no completo | detectada por I22 · «cv1: el uploader U de a1 tiene membresía inactiva»; E bloqueado | DETECTADA |
+| K47-A19 | IG5-100 (I23) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el evento de carga pertenece a otra organización | violación I23 con la condición «otra organización»; procedencia incompleta y E no completo | detectada por I23 · «cv1: el evento de carga de a1 pertenece a otra organización»; E bloqueado | DETECTADA |
+| K47-A20 | IG5-100 (I23) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el evento de carga pertenece a otra pieza | violación I23 con la condición «otra pieza»; procedencia incompleta y E no completo | detectada por I23 · «cv1: el evento de carga de a1 pertenece a otra pieza»; E bloqueado | DETECTADA |
+| K47-A21 | IG5-100 (I23) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el evento de carga corresponde a otra versión del asset | violación I23 con la condición «otra versión del asset»; procedencia incompleta y E no completo | detectada por I23 · «cv2: el evento de carga de a1b corresponde a otra versión del asset»; E bloqueado | DETECTADA |
+| K47-A22 | IG5-100 (I23) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el actor del evento de carga no es el uploader | violación I23 con la condición «no es el uploader»; procedencia incompleta y E no completo | detectada por I16, I23 · «cv1: el actor del evento de carga de a1 no es el uploader»; E bloqueado | DETECTADA |
+| K47-A23 | IG5-100 (I24) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | la atribución directa corresponde a otra versión de copy | violación I24 con la condición «versión de copy»; procedencia incompleta y E no completo | detectada por I10, I18, I19, I24 · «ca: la atribución directa del uploader de a1 no corresponde a la versión de copy, pieza u organización exactas»; E bloqueado | DETECTADA |
+| K47-A24 | IG5-100 (I24) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | la atribución directa corresponde a otra pieza | violación I24 con la condición «pieza»; procedencia incompleta y E no completo | detectada por I10, I24 · «ca: la atribución directa del uploader de a1 no corresponde a la versión de copy, pieza u organización exactas»; E bloqueado | DETECTADA |
+| K47-A25 | IG5-100 (I24) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | la atribución directa corresponde a otra organización | violación I24 con la condición «organización»; procedencia incompleta y E no completo | detectada por I10, I24, I26 · «ca: la atribución directa del uploader de a1 no corresponde a la versión de copy, pieza u organización exactas»; E bloqueado | DETECTADA |
+| K47-A26 | IG5-100 (I25) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el evento de reutilización pertenece a otra organización | violación I25 con la condición «otra organización»; procedencia incompleta y E no completo | detectada por I25 · «ca: el evento de reutilización de a2 pertenece a otra organización»; E bloqueado | DETECTADA |
+| K47-A27 | IG5-100 (I25) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el evento de reutilización pertenece a otra pieza | violación I25 con la condición «otra pieza»; procedencia incompleta y E no completo | detectada por I25 · «ca: el evento de reutilización de a2 pertenece a otra pieza»; E bloqueado | DETECTADA |
+| K47-A28 | IG5-100 (I25) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el evento de reutilización identifica a otro actor | violación I25 con la condición «otro actor»; procedencia incompleta y E no completo | detectada por I17, I25 · «ca: el evento de reutilización de a2 identifica a otro actor»; E bloqueado | DETECTADA |
+| K47-A29 | IG5-100 (I25) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el evento de reutilización referencia otra versión de asset | violación I25 con la condición «otra versión de asset»; procedencia incompleta y E no completo | detectada por I25 · «ca: el evento de reutilización de a2 referencia otra versión de asset»; E bloqueado | DETECTADA |
+| K47-A30 | IG5-100 (I25) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | la reutilización no referencia la versión exacta de copy | violación I25 con la condición «versión exacta de copy»; procedencia incompleta y E no completo | detectada por I17, I25 · «ca: el evento de reutilización de a2 no referencia la versión exacta de copy»; E bloqueado | DETECTADA |
+| K47-A31 | IG5-100 (I17) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | la reutilización intenta reemplazar al uploader original | violación I17 con la condición «figura como uploader»; procedencia incompleta y E no completo | detectada por I17 · «ca: el reutilizador figura como uploader de a2»; E bloqueado | DETECTADA |
+| K47-A32 | IG5-100 (I26) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | la atribución heredada de asset carece de antecesor verificable | violación I26 con la condición «antecesor verificable»; procedencia incompleta y E no completo | detectada por I26 · «ca: la atribución heredada t8 carece de antecesor verificable»; E bloqueado | DETECTADA |
+| K47-A33 | IG5-100 (I23) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el evento de carga corresponde a otra versión de copy | violación I23 con la condición «otra versión de copy»; procedencia incompleta y E no completo | detectada por I23 · «cv2: el evento de carga de a1b corresponde a otra versión de copy»; E bloqueado | DETECTADA |
+| K47-A34 | IG5-100 (I25) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el reutilizador tiene membresía inactiva | violación I25 con la condición «membresía inactiva»; procedencia incompleta y E no completo | detectada por I25 · «ca: membresía inactiva o ajena del reutilizador W»; E bloqueado | DETECTADA |
+| K47-A35 | IG5-100 (I25) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | dos reutilizaciones comparten el mismo evento | violación I25 con la condición «evento propio»; procedencia incompleta y E no completo | detectada por I17, I25 · «ca: la reutilización de a2 no tiene evento propio»; E bloqueado | DETECTADA |
+| K47-A36 | IG5-100 (I23) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el actor autenticado del evento de carga no es el uploader | violación I23 con la condición «autenticado»; procedencia incompleta y E no completo | detectada por I23 · «cv1: el actor autenticado del evento de carga de a1 no es el uploader»; E bloqueado | DETECTADA |
+| K47-A37 | IG5-100 (I20) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | no_aplica oculta un asset registrado | violación I20 con la condición «no_aplica»; procedencia incompleta y E no completo | detectada por I20 · «cv1: declara no_aplica pero registra arte o un asset»; E bloqueado | DETECTADA |
 | M-22 | K48 (IE-10) | válido (K48 APRUEBA) | Se invierte un bit en una copia temporal del original y se calcula su SHA-256 | rechazo por K48 | RECHAZADA por K48 | DETECTADA |
 
 **Controles estructurales de K45 (C01 a C15) y su cobertura.** Se evalúan sobre las relaciones reales del modelo (joins por identificador), nunca por coincidencia de texto. Casos positivos: base: 0 violaciones; evento inherited_contributor sobre copy: 0 violaciones; segunda reutilización del mismo asset (a1 → a2 → a3): 0 violaciones.
@@ -390,7 +414,7 @@ Una sola herramienta publicada, `docs/fase0/herramientas/verificar_expediente.py
 | EA-R | cada regla R1 a R9 impide resolver | 0 | ninguna | R1: el resolutor que incumple R1 no puede resolver → False; R1: el motivo de rechazo incluye R1 → True; R1: la atribución permanece activa → activa; R2: el resolutor que incumple R2 no puede resolver → False; R2: el motivo de rechazo incluye R2 → True; R2: la atribución permanece activa → activa; R3: el resolutor que incumple R3 no puede resolver → False; R3: el motivo de rechazo incluye R3 → True; R3: la atribución  | APROBADO |
 | EA-RS | resoluciones inmutables y cadena de reconsideración | 6 | ninguna | la primera resolución sin evidencia nace rechazada y definitiva → rechazada, False; la reconsideración crea un registro nuevo que referencia al anterior → r1, aceptada, True; el registro rechazado original se conserva íntegro → {'id': 'r1', 'resultado': 'rechazada', 'seq': 20, 'motivos': ['V11'], 'version': 'v2', 'version_origen': 'v1', 'previo': None, 'previo_sello': None, 'org': 'X', 'atribucion': 't3', 'afectado': | APROBADO |
 
-**Invariantes del auditor de K47 (I1 a I21).**
+**Invariantes del auditor de K47 (I1 a I26).**
 
 | Invariante | Qué comprueba | Mutaciones que lo ejercen |
 |---|---|---|
@@ -410,23 +434,43 @@ Una sola herramienta publicada, `docs/fase0/herramientas/verificar_expediente.py
 | I14 | cadena de reconsideración: sin ciclos, anterior existente, de la misma atribución, rechazada, anterior en el tiempo y con sello intacto | K47-R11, K47-R12 |
 | I15 | cada baja histórica cita una resolución aceptada de esa atribución exacta; una sola aceptada por atribución | K47-R05, K47-R09, K47-R10 |
 | I16 | cada asset usado tiene uploader, evento de carga y atribución del uploader | K47-A01, K47-A02 |
-| I17 | el reutilizador no sustituye al uploader original y su evento de reutilización está registrado | K47-A06, K47-A07 |
+| I17 | el reutilizador no sustituye al uploader original y su evento de reutilización está registrado | K47-A06, K47-A07, K47-A31 |
 | I18 | el asset corresponde a la versión exacta de copy que lo usa | K47-A05 |
 | I19 | cadena de reutilización sin ciclos, con origen existente y misma organización y pieza | K47-A03, K47-A04, K47-A08, K47-A09, K47-A10 |
-| I20 | completitud del arte y declaración explícita de no_aplica | K47-A14, K47-A16 |
+| I20 | completitud del arte y declaración explícita de no_aplica | K47-A14, K47-A16, K47-A37 |
 | I21 | E incluye a los contribuyentes del arte exacto | K47-A15 |
+| I22 | identidad del uploader: organización y membresía activa | K47-A17, K47-A18 |
+| I23 | evento de carga: organización, pieza, asset exacto, versión de asset, versión de copy, actor y actor autenticado | K47-A19, K47-A20, K47-A21, K47-A22, K47-A33, K47-A36 |
+| I24 | atribución directa del uploader ligada a organización, pieza, versión de copy, asset, versión de asset y evento | K47-A23, K47-A24, K47-A25 |
+| I25 | evento de reutilización: organización, pieza, actor, asset, versión de asset y de copy, evento propio, membresía | K47-A26, K47-A27, K47-A28, K47-A29, K47-A30, K47-A34, K47-A35 |
+| I26 | atribuciones heredadas de asset con antecesor verificable en la cadena | K47-A32 |
 
-**Casos positivos de arte (PA1 a PA7) e intentos directos contra el registro de resoluciones.**
+**Casos positivos de arte (P01 a P14), pruebas adversariales e intentos directos contra el registro de resoluciones.**
 
 | ID | Caso | Violaciones del auditor | Aserciones | Resultado |
 |---|---|---|---|---|
-| PA1 | asset nuevo con uploader y evento de carga correctos | ninguna | 5 | APRUEBA |
-| PA2 | asset reutilizado con uploader y reutilizador diferenciados | ninguna | 5 | APRUEBA |
-| PA3 | asset modificado con conservación de atribuciones | ninguna | 4 | APRUEBA |
-| PA4 | versión sin arte declarada no_aplica | ninguna | 3 | APRUEBA |
-| PA5 | asset sustituido con conservación provisional | ninguna | 3 | APRUEBA |
-| PA6 | asset eliminado con historial conservado | ninguna | 3 | APRUEBA |
-| PA7 | reutilización encadenada completa | ninguna | 3 | APRUEBA |
+| P01 | asset nuevo con uploader y evento de carga correctos | ninguna | 5 | APRUEBA |
+| P02 | asset reutilizado con uploader y reutilizador diferenciados | ninguna | 5 | APRUEBA |
+| P03 | asset modificado con conservación de atribuciones | ninguna | 4 | APRUEBA |
+| P04 | versión sin arte declarada no_aplica | ninguna | 3 | APRUEBA |
+| P05 | asset sustituido con conservación provisional | ninguna | 3 | APRUEBA |
+| P06 | asset eliminado con historial conservado | ninguna | 3 | APRUEBA |
+| P07 | reutilización encadenada completa | ninguna | 3 | APRUEBA |
+| P08 | uploader válido con organización, pieza, evento y versión exactos | ninguna | 11 | APRUEBA |
+| P09 | uploader original y reutilizador diferentes, ambos atribuidos | ninguna | 6 | APRUEBA |
+| P10 | mismo asset reutilizado en dos versiones de copy con eventos independientes | ninguna | 5 | APRUEBA |
+| P11 | atribución heredada válida con antecesor verificable | ninguna | 4 | APRUEBA |
+| P12 | uploader original conservado tras modificar el asset | ninguna | 4 | APRUEBA |
+| P13 | cadena de reutilización válida de más de dos versiones | ninguna | 4 | APRUEBA |
+| P14 | ausencia real de arte declarada no_aplica | ninguna | 4 | APRUEBA |
+
+| Prueba adversarial | El motor acepta | El auditor detecta | E bloqueado | Impacto falla | No publica | Resultado |
+|---|---|---|---|---|---|---|
+| ADV1: uploader de otra organización | sí | sí (I20, I22, I8) | sí | sí | sí | APRUEBA |
+| ADV2: evento de carga de otra pieza | sí | sí (I20, I23, I8) | sí | sí | sí | APRUEBA |
+| ADV3: evento de reutilización de otro actor | sí | sí (I17, I20, I25, I8) | sí | sí | sí | APRUEBA |
+| ADV4: atribución heredada sin antecesor | sí | sí (I20, I26, I8) | sí | sí | sí | APRUEBA |
+| ADV5: uploader con membresía inactiva | sí | sí (I20, I22, I8) | sí | sí | sí | APRUEBA |
 
 | Intento directo | Rechazado con ResolucionInmutable y registro intacto |
 |---|---|
@@ -525,7 +569,7 @@ Una sola herramienta publicada, `docs/fase0/herramientas/verificar_expediente.py
 | 13 | Decisiones pendientes sin alterar | K21 | OK (verificado documentalmente) |
 | 14 | Coherencia entre los cinco documentos activos | K09, K17, K22, K27 | OK (verificado documentalmente) |
 
-**Criterios binarios de aceptación de la v10 (resultado calculado).**
+**Criterios binarios de aceptación de la v11 (resultado calculado).**
 
 | Criterio | Condición | Resultado |
 |---|---|---|
@@ -533,11 +577,13 @@ Una sola herramienta publicada, `docs/fase0/herramientas/verificar_expediente.py
 | K46 | al menos 12 mutaciones, todas detectadas | 12/12 detectadas: CUMPLE |
 | K47 (mutaciones previas) | al menos 26 mutaciones, todas detectadas | 36/36 detectadas: CUMPLE |
 | K47 resoluciones inmutables (R01 a R12) | al menos 12 mutaciones, todas detectadas | 12/12 detectadas: CUMPLE |
-| K47 procedencia del arte (A01 a A16) | al menos 14 mutaciones, todas detectadas | 16/16 detectadas: CUMPLE |
+| K47 procedencia del arte de la v11 (A01 a A16) | al menos 14 mutaciones, todas detectadas | 16/16 detectadas: CUMPLE |
+| K47 identidad exacta de assets (A17 a A37) | al menos 16 mutaciones, todas detectadas | 21/21 detectadas: CUMPLE |
 | Escenarios estructurales K47 | los 12 escenarios A a L aprobados sobre datos estructurados | 12/12 aprobados; U, S, X, R y RS: aprobados |
-| Casos positivos de arte | al menos 4 casos positivos de arte aprobados (nuevo, reutilizado con uploader y reutilizador distintos, modificado con atribuciones conservadas, sin arte declarado no_aplica) | 7/7 aprobados: CUMPLE |
+| Casos positivos de arte | los 14 casos positivos de arte aprobados (P01 a P14), incluidos uploader válido, uploader y reutilizador diferentes, mismo asset en dos versiones, heredada con antecesor, uploader original tras modificar, cadena de más de dos versiones y no_aplica real | 14/14 aprobados: CUMPLE |
 | Inmutabilidad del registro | los 9 intentos directos de alterar el registro de resoluciones se rechazan y lo dejan idéntico | 9/9 rechazados: CUMPLE |
-| Casos positivos y falsos positivos | fixtures válidos aceptados y ninguna mutación con estado inicial inválido | CUMPLE; 103/103 mutaciones con estado inicial válido y cambio efectivo |
+| Pruebas adversariales | al menos 4 casos en los que el motor acepta, el auditor detecta y el sistema final bloquea E, la evaluación de impacto y la publicación | 5/5 aprobadas: CUMPLE |
+| Casos positivos y falsos positivos | fixtures válidos aceptados y ninguna mutación con estado inicial inválido | CUMPLE; 124/124 mutaciones con estado inicial válido y cambio efectivo |
 | Regresión | todas las comprobaciones y las mutaciones M-01 a M-25 anteriores pasan | 25/25 mutaciones anteriores; CUMPLE |
 | Consistencia documental | cero contradicciones, cifras y estados coherentes | OK (verificado documentalmente) |
 | Cobertura | reglas relevantes y controles estructurales cubiertos | OK (verificado documentalmente) |
@@ -551,15 +597,15 @@ Una sola herramienta publicada, `docs/fase0/herramientas/verificar_expediente.py
 | Alcance Git | solo docs/fase0/ | Fuera del alcance del verificador: se comprueba con git diff en la publicación |
 <!-- VERIFICADOR:FIN -->
 
-## 4. Errores hallados y corregidos durante la v10
+## 4. Errores hallados y corregidos durante la v11
 
 | Error | Corrección |
 |---|---|
-| En la primera ejecución del motor de K47 el escenario I (clasificación modificada) fallaba con I10: `cambiar_clasificacion` reescribía el registro de la versión | El cambio de clasificación se registra ahora solo como una entrada nueva del historial y la clasificación vigente se lee de ese historial; las versiones no se modifican |
-| K47-M04 y K47-M21 terminaban en excepción de preparación (el escenario esperaba una atribución que la mutación hacía desaparecer), lo que no cuenta como detección | Se asignó a cada mutación un escenario que no depende del estado destruido por la propia mutación (introducción aislada y escenario C); el verificador sigue sin contar excepciones |
-| K47-M25 no se detectaba porque la mutación calculaba las fuentes de la persona después de retirar su atribución | La mutación considera ahora todas las atribuciones de la persona, como haría el defecto que representa |
-| K52 señaló que el invariante I4 (resolución aceptada que incumple sus condiciones) no tenía mutación propia | Se agregó K47-M27 (se acepta una resolución cuyo resolutor no es independiente) y el escenario X; N_K47 pasa a 27; también la meta-prueba mostró que la cadena de reutilización de C13 no tenía mutación y se agregó K45-M27; después se agregaron nueve mutaciones K47-M28 a M36 (una por cada regla R1 a R9) y el escenario R, porque una meta-prueba mostró que el motor podía omitir R3 sin que nada lo detectara; el auditor exige ahora que los motivos de rechazo del motor coincidan con los que recalcula |
-| La v8 declaraba K45 y K47 aprobados con mutaciones que editaban una celda o una etiqueta | Reemplazados por modelos estructurales; las mutaciones de la v8 se reexpresaron como cambios de un registro o fallos inyectados en una operación; la verificación de la v8 se declara superada en el registro |
+| La herencia de reutilización copiaba solo las atribuciones de fuente asset y omitía a los reutilizadores intermedios de una cadena de más de dos versiones (P13), y el auditor marcaba «antecesor no corresponde» por la fuente fija | La herencia copia las atribuciones de arte de cualquier fuente conservando la fuente original; E incluye a los reutilizadores intermedios y el antecesor se verifica contra la fuente real |
+| A35 (dos reutilizaciones con un mismo evento) no se detectaba porque el escenario no calculaba E | Se asignó el escenario P10 (mismo asset en dos versiones), que sí calcula E y expone el evento compartido |
+| A37 (no_aplica oculta un asset) se detectaba por I10 (se modificaba la declaración) y no por la condición específica | La mutación inyecta una fila de asset en la versión mediante el escenario de no_aplica real; el auditor emite I20 solo para «registra arte o un asset» |
+| ADV5 era inválida (el motor bloqueaba por otra causa y no aceptaba por error) | Se reemplazó por uploader con membresía inactiva, cuyo motor ciego acepta y el auditor detecta |
+| Emitir I20 siempre rompía el caso positivo P04 y el escenario H | I20 se emite solo cuando la versión declara no_aplica y existe arte o asset |
 
 Ninguna herramienta interna se usa como evidencia: toda cifra de este documento procede del verificador publicado.
 
