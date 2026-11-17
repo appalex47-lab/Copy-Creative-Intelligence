@@ -198,3 +198,26 @@ IMPLEMENTACIÓN: SIN AUTORIZACIÓN.
 
 
 Los SHA-256 de los demás documentos y el commit publicado se informan en el mensaje final (un documento no puede contener su propio hash).
+
+
+## Entrada: revisión v5 de G-1, G-5 y G-10 (posterior a la v4)
+
+| Concepto | Detalle |
+|---|---|
+| Fecha | 2026-11-16 |
+| Versión anterior | v4 (commit `9febdafb61125586d7937250b4f63bcd214d6c0c`) |
+| Versión nueva | v5 |
+| Hallazgos corregidos | DT-01 definición operativa de contribuyente, materialidad y herencia; PC-02 representación física de las contribuciones; DT-02 elegibilidad de quien propone la clasificación |
+| Correcciones | Definición única A–F con fórmula E = Ctr(V-A) ∪ Inh(V-A) ∪ ⋃ Ctr(v) para v ∈ [V-D, V-B] ∪ P; cuatro tablas nuevas (brief_versions, promotion_snapshots, contribution_events, copy_version_provenance); contrato de version_contributors con seis códigos de error; exclusión del proponente vigente; roadmap y orden de creación actualizados |
+| Naturaleza de las reglas | Instrucciones de diseño complementario de esta revisión; no aprueban T-04 de v3.3 retroactivamente, no aceptan la Adenda v9 (PO-05) y no alteran el expediente histórico |
+| Documentos modificados | ESPECIFICACION_TECNICA_G1_G5_G10.md; INFORME_CIERRE_G1_G5_G10.md; ROADMAP_Y_TRAZABILIDAD_G1_G5_G10.md; AUDITORIA_FINAL_G1_G5_G10.md; REGISTRO_HISTORICO_VERSIONES.md |
+| Versiones v4 conservadas | docs/fase0/historico/: ESPECIFICACION_TECNICA_G1_G5_G10_v4_historica.md; INFORME_CIERRE_G1_G5_G10_v4_historico.md; ROADMAP_Y_TRAZABILIDAD_G1_G5_G10_v4_historico.md; AUDITORIA_FINAL_G1_G5_G10_v4_historica.md (las v3 y v2 permanecen) |
+| Resultado de la auditoría | 0 verificaciones documentales por script, 0 fallas (ver AUDITORIA_FINAL_G1_G5_G10.md); no son pruebas técnicas |
+| Cantidades recalculadas | 173 reglas, 274 pruebas diseñadas, 36 tablas propuestas (9 nuevas) |
+| Limitaciones | Nada ejecutado ni validado técnicamente; sin aceptación del propietario; PostgreSQL de Supabase, normalize NFKC, gen_random_uuid, privilegios por columna y roles sin verificar; RR-34 a RR-39 |
+| SHA-256 de la especificación v5 | `38fc3f2ae9edce94ecd705f8a972f7deba999c4df13208b732c48876c8399e79` |
+| Estado | Fase 0 v3.3: COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES DOCUMENTADAS. Diseño técnico complementario (G-1, G-5, G-10): DISEÑO TÉCNICO DOCUMENTAL CORREGIDO Y PREPARADO PARA ACEPTACIÓN FORMAL, CON LIMITACIONES DOCUMENTADAS. Fase 1: NO INICIADA / NO AUTORIZADA. |
+| Sin cambio | 27 tablas históricas, 17 claves físicas, 13 transiciones de T-02, 76 subfases; Adenda v9 sin aceptar (PO-05); G-9 completo sigue abierto |
+
+
+Los SHA-256 de los demás documentos y el commit publicado se informan en el mensaje final (un documento no puede contener su propio hash).
