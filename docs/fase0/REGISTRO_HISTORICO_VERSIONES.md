@@ -163,3 +163,17 @@ IMPLEMENTACIÓN: SIN AUTORIZACIÓN.
 | Decisiones | Aprobadas: DG-01 a 08, 10, 11, 13, 14, 15. Diferidas: DG-09, DG-12, DG-16. Precisiones nuevas: DG-17 a DG-19 |
 | Sin cambio | 27 tablas históricas, 17 claves, 13 transiciones de T-02, 76 subfases; G-9 completo sigue abierto |
 
+
+
+## Entrada: revisión v3 de G-1, G-5 y G-10 (posterior a la especificación consolidada v2)
+
+| Concepto | Detalle |
+|---|---|
+| Fecha | 2026-11-16 |
+| Documentos actualizados | ESPECIFICACION_TECNICA_G1_G5_G10.md (v3); INFORME_CIERRE_G1_G5_G10.md; ROADMAP_Y_TRAZABILIDAD_G1_G5_G10.md; REGISTRO_HISTORICO_VERSIONES.md |
+| Documentos nuevos | AUDITORIA_FINAL_G1_G5_G10.md |
+| Versiones anteriores conservadas | docs/fase0/historico/: ESPECIFICACION_TECNICA_G1_G5_G10_v2_historica.md; INFORME_CIERRE_G1_G5_G10_v2_historico.md; ROADMAP_Y_TRAZABILIDAD_G1_G5_G10_v2_historico.md; EXTRACCION_V2_G1_G5_G10_historica.md (extracción literal de la v2, no regenerada) |
+| Cambios | Siete correcciones: aprobación positiva inequívoca (DG-20), db_txid y guarda de ocho condiciones, catálogo de canales y formatos desde 1.8 (DG-19; 32 tablas propuestas), retiro de CHECK de 30 y 10 caracteres (DG-16), independencia con versiones intermedias (DG-17), cadena de evaluaciones del mismo par y política de correlation_id |
+| Estado | Resuelta documentalmente; lista para aceptación formal; no aceptada; no validada técnicamente; Adenda v9 sin cambios y sin aceptar (PO-05); Fase 1 no iniciada |
+| Sin cambio | 27 tablas históricas, 17 claves físicas, 13 transiciones de T-02, 76 subfases; G-9 completo sigue abierto |
+

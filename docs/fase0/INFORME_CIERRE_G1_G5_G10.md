@@ -1,110 +1,130 @@
 ---
 name: informe_cierre_g1_g5_g10
-description: Informe actualizado de la revisión final de G-1, G-5 y G-10 con DG-01 a DG-16 incorporadas; especificación consolidada v2 lista para aceptación formal
+description: Informe de la revisión v3 (siete correcciones) de G-1, G-5 y G-10; diseño técnico documental listo para aceptación formal; nada ejecutado
 ---
 
-# INFORME ACTUALIZADO — REVISIÓN FINAL Y CIERRE DE G-1, G-5 Y G-10 (v2)
+# INFORME — CORRECCIÓN Y CIERRE TÉCNICO DOCUMENTAL DE G-1, G-5 Y G-10 (revisión v3)
 
-Sustituye al informe de la v1 (conservado como `INFORME_CIERRE_G1_G5_G10_v1_historico.md`). No se rehicieron los documentos desde cero: se incorporaron tus decisiones y se corrigieron las inconsistencias. Solo diseño; nada ejecutado.
+Sustituye al informe v2 (conservado en `historico/`). Solo diseño documental (nivel de evidencia 1): no se ejecutó SQL, código, Supabase ni infraestructura.
 
-## A. Resultado individual
+## A. Resultado
 
-| Brecha | Resultado | Cambio principal frente a la v1 |
+**COMPLETADO DOCUMENTALMENTE.** Las siete correcciones están resueltas en la especificación v3, el roadmap, el registro y la auditoría; las verificaciones documentales por script pasan (ver E). No están aceptadas ni validadas técnicamente.
+
+## B. Estado de brechas
+
+| Brecha | Estado | Contenido |
 |---|---|---|
-| G-1 | Modelo técnico consistente en diseño | `is_master` pasa a `is_adaptation` (una pieza con `master_piece_id` NULL no es necesariamente maestra); canal y formato con tipos y relación con `channel_rules`; clave de adaptación con identidad y única parcial; un nivel; versión y arte de origen por FK compuestas |
-| G-5 | Registro y elegibilidad verificables en diseño | La asignación y el evaluador se ligan por FK compuesta; vigencia, permiso e independencia por función y trigger bajo bloqueo; orden único de bloqueo y revalidación |
-| G-10 | Registro e idempotencia con fallo honesto | IG10-01 reformulada; cuatro escenarios A–D; `db_txid` para la guarda; sin afirmar filas en transacciones abortadas |
+| G-1 | Resuelta documentalmente; lista para aceptación formal | Vínculo, clave, versión de origen y ciclo de vida de canales y formatos (DG-19, recomendación técnica sujeta a aceptación) |
+| G-5 | Resuelta documentalmente; lista para aceptación formal | Aprobación positiva (DG-20, sujeta a aceptación), independencia DG-17 y cadena lineal por par |
+| G-10 | Resuelta documentalmente; lista para aceptación formal | db_txid con mecanismo concreto, guarda de ocho condiciones, cuatro escenarios de fallo y política de correlation_id |
 
-**No declaro cerradas G-1, G-5 ni G-10 oficialmente:** están resueltas en diseño técnico consolidado y listo para tu aceptación formal. No quedan contradicciones detectadas en el contraste documental ni decisiones estructurales sin comportamiento por defecto; las precisiones DG-17 a DG-19 no bloquean.
+«Lista para aceptación formal» no es aceptación: la decisión es del propietario. G-9 completo sigue abierto.
 
-## B. Decisiones incorporadas
+## C. Siete correcciones
 
-| ID | Estado | Dónde se incorpora |
-|---|---|---|
-| DG-01 | APROBADA conceptualmente, sujeta a completar tipos, claves, restricciones y justificación | Completada en las secciones 3 a 5 y 9 (tipos de columnas, claves, únicos, CHECK, índices y justificación por elemento). Falta tu aceptación de la especificación |
-| DG-02 | APROBADA | 3.4 y 3.13; reglas IG1-03 a IG1-07 |
-| DG-03 | APROBADA | 3.1 y 3.6; IG1-15 y IG1-16 |
-| DG-04 | APROBADA | 4.4 y 4.4.1; IG5-05 y IG5-06. El caso de versiones intermedias de la maestra no está en DG-04 (DG-17) |
-| DG-05 | APROBADA | 4.1, 4.2; IG5-01 a IG5-03. Las precisiones de C3 a C5 (6.2) son consecuencia de DG-05; la v9 que contiene G-7 sigue sin aceptarse |
-| DG-06 | APROBADA | 4.5; IG5-15 |
-| DG-07 | APROBADA | `piece_reviewer_assignments`; 4.4. Cierra solo la asignación de revisor: **G-9 completo sigue abierto** |
-| DG-08 | APROBADA | 5.6; IG10-15 |
-| DG-09 | DIFERIDA; no se habilita borrado desde la aplicación y no se inventa política | 5.7 y IG10-18; se eliminó el plazo de la v1 |
-| DG-10 | APROBADA | 5.3; IG10-01 y IG10-03 |
-| DG-11 | APROBADA | 5.6; IG10-16 |
-| DG-12 | DIFERIDA a la subfase 6.6; no es requisito del cierre del diseño actual | 5.7; fuera del modelo |
-| DG-13 | APROBADA | C8 en 6.2; categorías inconsistencia_versiones e imposibilidad_verificar |
-| DG-14 | APROBADA | 3.13; IG1-13 y IG1-23 |
-| DG-15 | APROBADA | 6.3 y 7.12; IP-01 a IP-04; dependencia DEP-RET-01 para el retiro externo |
-| DG-16 | DIFERIDA hasta resolver T-03; 30 y 10 caracteres siguen como **propuestas pendientes, no aprobadas** | Se marcan como propuestas en las tablas y reglas; ningún CHECK de longitud es decisión |
-
-Ninguna decisión autoriza SQL, migraciones ni implementación. G-9 completo sigue abierto: DG-07 solo resuelve la asignación del revisor.
-
-## C. Correcciones solicitadas
-
-### C.1 G-10 (IG10-01, IG10-11 y sección 5.8)
-
-La contradicción era real: la v1 afirmaba una fila por solicitud y a la vez que un intento fallido «quedaba» en la plataforma. PostgreSQL no confirma filas dentro de una transacción abortada. Formulación final de IG10-01: *«Toda solicitud autenticada, de un miembro de la organización y aceptada por el mecanismo de publicación termina en una de dos formas excluyentes: (a) exactamente una fila confirmada de `publication_attempts`, permitida o bloqueada, o (b) la transacción falla, sin publicación y sin fila confirmada»*. Es tu fórmula con dos precisiones: que en el segundo caso tampoco hay fila, y que lo no autenticado o sin membresía queda fuera porque no es un intento de negocio.
-
-| Escenario | Resultado |
-|---|---|
-| A. Procesada | Exactamente una fila; la clave de idempotencia evita duplicados |
-| B. Error técnico capturado | Fila bloqueada con `error_tecnico` y código controlado; no publica. Tiempos de espera y pérdidas de conexión abortan todo y caen en C |
-| C. Falla el registro | La transacción falla; no hay Publicado ni fila confirmada; la evidencia de plataforma, si existe y no verificada, **no** se presenta como fila |
-| D. Sin autenticación o membresía | Evento de seguridad de plataforma, no intento de negocio; sin actor inventado (`actor_id` NOT NULL con FK) |
-
-`idempotency_key` identifica una acción del usuario; `correlation_id` identifica la solicitud y no es clave. Con la misma clave y una fila existente se devuelve el resultado almacenado; sin fila se evalúa desde cero; tras corregir un bloqueo se usa una clave nueva.
-
-### C.2 G-5 (integridad de asignaciones y evaluadores)
-
-Cada garantía indica su mecanismo (4.4.1): correspondencia de asignación y evaluador por FK compuesta con UNIQUE y una constante; vigencia, permiso e independencia por función y trigger bajo bloqueo; historia por tabla de solo inserción. Ninguna FK aislada se presenta como garantía de elegibilidad. Orden de bloqueo único: maestra, adaptaciones por `id`, membresía del actor; matriz de revalidación para reasignación, evaluación, cambio de la maestra y publicación (4.10).
-
-### C.3 G-1 (canal, formato y relación)
-
-v3.3 define `channel_rules` sin formatos y sin catálogo real de canales (pendiente). Se propone `allowed_formats` y la FK de canal en la Fase 5, sin inventar valores. `is_master` se renombra a `is_adaptation`.
-
-### C.4 Seguridad (rutas de publicación)
-
-Matriz de acceso por rol (8.7) y demostración documental de diez garantías con su mecanismo, regla, prueba y dependencia de infraestructura (8.8): dos propietarios de funciones (estado y registros), UPDATE de `status` revocado, EXECUTE solo para `authenticated`, `auth.uid()` dentro de la función. Lo que depende de Supabase real queda marcado como no verificado.
-
-### C.5 DG-15 (piezas publicadas)
-
-T-02 intacta. Una pieza Publicada no se modifica; una nueva versión comercial es una pieza nueva y la anterior se archiva por #13. Se distingue el estado interno de la disponibilidad externa: archivar no retira contenido externo. **DEP-RET-01:** no existe procedimiento operativo para el retiro externo; queda como dependencia, sin transición inventada (6.3 y 7.12).
-
-## D. Modelo propuesto frente a las 27 tablas
+### C.1 G-5 aprobación positiva
 
 | Concepto | Detalle |
 |---|---|
-| Tablas nuevas (4) | `piece_classification_events`, `piece_reviewer_assignments`, `impact_evaluations`, `publication_attempts` |
-| Tablas con columnas o restricciones nuevas | creative_pieces, copy_versions, creative_assets, approvals y channel_rules (al crearse en la Fase 5) |
-| Función ampliada | transition_piece_status |
-| Sin cambio | 22 de las 27, las 17 claves y las 13 transiciones de T-02 |
-| Total | 31 tablas propuestas sujetas a aprobación; las 27 permanecen como línea base histórica |
+| Problema | La v3.3 no tiene un campo que distinga una aprobación positiva de un rechazo o una solicitud de cambio, y C2/C3 no decían qué leían. |
+| Solución | Extensión mínima DG-20: `approvals.decision` NOT NULL con CHECK = 'aprobada'. Rechazo, solicitud de cambio y registro de revisión son transiciones T-02 con comentario, no filas de `approvals`. Vigencia derivada de versión exacta (copia y arte con IS NOT DISTINCT FROM) y estado de la pieza; FK compuesta más trigger `asset_match`. |
+| Dónde (spec v3) | 4.13, 3.4, 6.2 (C2/C3), 8.9 |
+| Reglas | IG5-26, IG5-27, IG5-28, IG5-29, IG5-30 |
+| Pruebas diseñadas | T-74 a T-84 (11, ninguna ejecutada) |
+| Verificación | Comprobaciones documentales V01–V22 (ver E) |
+
+### C.2 G-10 db_txid
+
+| Concepto | Detalle |
+|---|---|
+| Problema | `db_txid` no tenía mecanismo ni tipo definidos. |
+| Solución | Columna bigint NOT NULL fijada por trigger BEFORE INSERT con `(pg_current_xact_id())::text::bigint`, junto con `attempted_at = transaction_timestamp()`. Descartados `txid_current()`, `pg_current_xact_id_if_assigned()` y xid de 32 bits. Guarda de ocho condiciones en trigger propiedad de `cci_state_owner`. Subtransacciones sin verificar: la guarda falla cerrada. |
+| Dónde (spec v3) | 5.10, 5.11, 4.x trigger, 7.14 |
+| Reglas | IG10-01, IG10-19, IG10-20, IG10-22, IG10-23, IG10-24, IG10-25, IG10-26, IG10-27, IG10-29, IG10-30, IS-01, IS-02, IS-03, IS-04, IS-05, IS-08, IS-09 |
+| Pruebas diseñadas | T-85 a T-104 (20, ninguna ejecutada) |
+| Verificación | Comprobaciones documentales V01–V22 (ver E) |
+
+### C.3 G-1 canales y formatos
+
+| Concepto | Detalle |
+|---|---|
+| Problema | El ciclo de vida de canales y formatos dejaba piezas sin catálogo y una lista de formatos sin normalizar. |
+| Solución | Se evaluaron tres alternativas y se eligió `channel_rules` (fuente de verdad del canal) más `channel_formats`, creados en 1.8 antes de la primera pieza; FK compuesta desde `creative_pieces`; inmutables en la pieza; retiro solo con `active=false` y sin piezas activas; `manage_channel_catalog` con org.manage. |
+| Dónde (spec v3) | 3.14, 7.13, 8.9; roadmap 1.8 y 5.1 |
+| Reglas | IG1-25, IG1-26, IG1-27, IG1-28, IG1-29, IG1-30, IG1-31, IG1-32, IG1-33 |
+| Pruebas diseñadas | T-105 a T-119 (15, ninguna ejecutada) |
+| Verificación | Comprobaciones documentales V01–V22 (ver E) |
+
+### C.4 DG-16 longitudes
+
+| Concepto | Detalle |
+|---|---|
+| Problema | Los umbrales de 30 y 10 caracteres estaban como CHECK obligatorios aunque T-03 no los decide. |
+| Solución | Todos los CHECK de longitud mínima pasan a no vacío (>=1). 30 y 10 quedan como propuestas pendientes (IP-05). |
+| Dónde (spec v3) | 3.x, 4.2, 12.3 |
+| Reglas | IG5-09, IP-05 |
+| Pruebas diseñadas | T-120 a T-124 (5, ninguna ejecutada) |
+| Verificación | Comprobaciones documentales V01–V22 (ver E) |
+
+### C.5 DG-17 independencia
+
+| Concepto | Detalle |
+|---|---|
+| Problema | La independencia no consideraba a los contribuyentes de versiones intermedias de la maestra. |
+| Solución | E = Ctr(V-A) ∪ Inh(V-A) ∪ ⋃ Ctr(v) para v en el intervalo [V-D, V-B] inclusive; revalidación bajo bloqueo; sin elegible, bloqueo operativo sin autoasignación. |
+| Dónde (spec v3) | 4.4.2, 8.9 |
+| Reglas | IG5-06, IG5-24, IG5-25, IG5-31, IG5-32, IG5-33, IG5-34, IG5-35 |
+| Pruebas diseñadas | T-125 a T-135 (11, ninguna ejecutada) |
+| Verificación | Comprobaciones documentales V01–V22 (ver E) |
+
+### C.6 G-5 cadena de evaluaciones
+
+| Concepto | Detalle |
+|---|---|
+| Problema | La sustitución de evaluaciones no estaba atada al par exacto ni protegida contra ramas, ciclos y duplicados. |
+| Solución | Identidad de par de 9 columnas (con arte normalizado), FK compuesta de sustitución con 8 columnas de par, raíz única por par, único sucesor, CHECK supersedes<>id, solo inserción y bloqueo de la cabeza. |
+| Dónde (spec v3) | 4.14, 7.15 |
+| Reglas | IG5-13, IG5-36, IG5-37, IG5-38, IG5-39 |
+| Pruebas diseñadas | T-136 a T-145 (10, ninguna ejecutada) |
+| Verificación | Comprobaciones documentales V01–V22 (ver E) |
+
+### C.7 correlation_id
+
+| Concepto | Detalle |
+|---|---|
+| Problema | `correlation_id` mezclaba identificación, idempotencia y posible evidencia. |
+| Solución | Siempre generado por el servidor; `client_correlation_id` opcional, validado y descartable; nunca evidencia ni autorización; independiente de `idempotency_key`; `request_fingerprint` rechaza claves reutilizadas con datos distintos. |
+| Dónde (spec v3) | 5.12, 5.5 |
+| Reglas | IG10-28, IG10-29, IS-05 |
+| Pruebas diseñadas | T-146 a T-152 (7, ninguna ejecutada) |
+| Verificación | Comprobaciones documentales V01–V22 (ver E) |
+
+## D. Modelo resultante
+
+| Tipo | Detalle |
+|---|---|
+| Existente (línea base) | 27 tablas históricas, 17 claves físicas, 13 transiciones de T-02, 76 subfases: sin cambio |
+| Propuesto, nuevo | 5 tablas: `piece_classification_events`, `piece_reviewer_assignments`, `impact_evaluations`, `publication_attempts`, `channel_formats` (32 propuestas, sujetas a aceptación) |
+| Propuesto, columnas o restricciones | creative_pieces, copy_versions, creative_assets, approvals (decision) y channel_rules |
+| Propuesto, funciones | create_adaptation, propose_independence, resolve_independence, assign_reviewer, version_contributors, eligible_evaluators, record_approval, record_impact_evaluation, transition_piece_status, manage_channel_catalog (8.9) |
 
 ## E. Validación
 
 | Concepto | Resultado |
 |---|---|
-| Reglas de integridad | 84 (eran 59; +25) |
-| Pruebas | 73 (eran 52; +21: las 15 solicitadas y 6 adicionales) |
-| Diseño / Ejecutable futura / Infraestructura real | 4 / 53 / 16 |
-| Cobertura | Toda regla tiene al menos una prueba; las 27 pruebas mínimas del primer encargo siguen cubiertas; las 15 nuevas cubiertas |
-| Verificación por script | FK con aridad y destino que coincide con una clave única o primaria declarada; categorías, condiciones y reglas; 13 diagramas |
-| Pruebas ejecutadas | Ninguna: todo es verificación documental |
+| Reglas de integridad | 117 |
+| Pruebas diseñadas | 152 (diseño 7 / ejecutable futura 117 / infraestructura real 28); **ninguna ejecutada** |
+| Verificaciones documentales | 22 comprobaciones por script (`work/g_verify.py`): IDs, duplicados, integridad referencial, regla↔prueba, pruebas sin requisito, tablas/columnas/FK/tipos, dependencias del roadmap, conteos, sintaxis Mermaid, contradicciones y hashes protegidos |
+| Diagramas | 17 bloques Mermaid; sintaxis validada con mermaid 10 y jsdom (parseo, no renderizado visual) |
+| Errores hallados y corregidos | V14 y V15 del propio verificador durante la revisión (ver auditoría) |
+| Límites | No son pruebas técnicas: no hay PostgreSQL, RLS ni Supabase ejecutados; el comportamiento de db_txid en subtransacciones y la versión de PostgreSQL de Supabase no están verificados |
 
-## F. Decisiones y pendientes
+## F. Pendientes
 
-**Pendientes que se mantienen:** DG-09 (retención, sin plazo), DG-12 (hash, a 6.6), DG-16 (umbrales 30 y 10 pendientes de T-03), RP-01, P-01 a P-05, P-10, OD-13, PO-05 y la aceptación de la Adenda v9; G-9 completo.
+DG-09, DG-12, DG-18 (columna opcional `replaces_piece_id`), DG-19 y DG-20 (pendientes de aceptación), DG-16 (umbrales 30/10 ligados a T-03), T-04, P-01 a P-05, P-10, OD-13, PO-05 y Adenda v9, RP-01, G-9 completo, valores reales de canales y formatos (DEP-CAT-01), DEP-RET-01 y decisiones de infraestructura no autorizadas.
 
-**Precisiones nuevas con valor por defecto:**
-
-| ID | Precisión | Recomendación | Efecto de no decidir |
-|---|---|---|---|
-| DG-17 | Independencia respecto de los contribuyentes de las versiones **intermedias** de la maestra entre V-D y V-B | Incluirlos (más estricto y coherente con «no evaluar su propia modificación») | Si no decides, el diseño aplica DG-04 literal (solo V-A y V-B). No bloquea |
-| DG-18 | Columna opcional `replaces_piece_id` para ligar la pieza nueva con la anterior (DG-15) | Aprobarla | Sin ella el reemplazo solo se reconstruye por campaña o texto; el diseño funciona igual. No bloquea |
-| DG-19 | Representar los formatos permitidos como columna `allowed_formats` de channel_rules (no como quinta tabla) | Columna | Los valores reales de canales y formatos siguen pendientes; el diseño no inventa ningún catálogo. No bloquea |
-
-## G. Limitaciones reales
+**Limitaciones reales (RR):**
 
 | ID | Limitación |
 |---|---|
@@ -124,33 +144,25 @@ T-02 intacta. Una pieza Publicada no se modifica; una nueva versión comercial e
 | RR-14 | auth.uid() depende de la sesión de la solicitud: quien tenga credenciales de administración de la base puede fijar otra identidad |
 | RR-15 | Los tiempos de espera, cancelaciones y pérdidas de conexión abortan toda la transacción y no dejan fila |
 | RR-16 | La conservación y el contenido de los registros de la plataforma no están verificados |
-| RR-17 | La columna que distingue aprobaciones de rechazos en approvals no está fijada en v3.3 |
+| RR-17 | approvals.decision es una ampliación propuesta (DG-20): v3.3 no distingue aprobación de rechazo en la fila |
 | RR-18 | Los umbrales de 30 y 10 caracteres son propuestas pendientes de T-03 |
+| RR-19 | La versión de PostgreSQL del proyecto de Supabase no está verificada; pg_current_xact_id requiere la 13 o posterior |
+| RR-20 | El comportamiento real de los bloqueos y del orden de bloqueo no se probó |
+| RR-21 | T-04 (definición de contribuyentes) está pendiente en v3.3; DG-17 y la independencia dependen de ella |
+| RR-22 | Los valores reales de canales y formatos no existen: sin catálogo cargado no se crean piezas |
+| RR-23 | Tras restaurar una copia lógica, un db_txid guardado podría repetirse |
+| RR-24 | El orden de versión de la maestra (columna de copy_versions) no está fijado en v3.3 |
+| RR-25 | El valor de pg_current_xact_id dentro de un savepoint o bloque EXCEPTION no está verificado |
+| RR-26 | La FK no distingue «sin arte» de «otro arte» con columnas anulables |
 
-## H. Archivos
+## G. Integridad
 
-| Tipo | Archivos |
-|---|---|
-| Actualizados | `ESPECIFICACION_TECNICA_G1_G5_G10.md` (v2), `INFORME_CIERRE_G1_G5_G10.md`, `ROADMAP_Y_TRAZABILIDAD_G1_G5_G10.md`, `REGISTRO_HISTORICO_VERSIONES.md` (entrada nueva) |
-| Conservados como histórico | las tres versiones v1 con sufijo `_v1_historica` o `_v1_historico` |
-| No modificados | v3.3, Adenda v9, control, matriz, trazabilidad, auditoría, matriz de notificaciones y las demás versiones históricas |
+SHA-256 de v3.3: `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da` (sin cambio). Los documentos protegidos no se modificaron (comprobación V-hash en el verificador). Modificados: especificación, informe, roadmap, registro. Nuevo: `AUDITORIA_FINAL_G1_G5_G10.md`. Históricos v2 en `docs/fase0/historico/`.
 
-## I. Integridad
+## H. GitHub
 
-SHA-256 de v3.3: `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da` (igual).
+Publicación en `main` de `appalex47-lab/Copy-Creative-Intelligence`, carpeta `docs/fase0/`. El SHA del commit y los hashes publicados se informan en el mensaje final (no se autorreferencian aquí).
 
-Se compararon los archivos .md de la línea base previa (78, incluidas las copias v1). Sin diferencias no previstas: sí. Modificados previstos: `ESPECIFICACION_TECNICA_G1_G5_G10.md`, `REGISTRO_HISTORICO_VERSIONES.md`, `ROADMAP_Y_TRAZABILIDAD_G1_G5_G10.md`. Las tres copias v1 son idénticas a las versiones entregadas antes.
+## I. Estado de autorización
 
-Las 17 claves, las 27 tablas históricas, las 13 transiciones de T-02 y las 76 subfases no cambian; no existe subfase 77.
-
-## J. Roadmap
-
-En `ROADMAP_Y_TRAZABILIDAD_G1_G5_G10.md`: trazabilidad actualizada, DEP-RET-01 y el roadmap de 76 subfases con los estados de v9 sin cambio.
-
-## K. Declaración
-
-G-1, G-5 y G-10 están resueltas en **diseño técnico consolidado**, con tus decisiones incorporadas, coherente entre reglas, tablas, funciones y pruebas, y **lista para aceptación formal**. No están aceptadas ni validadas técnicamente y no se declaran cerradas oficialmente. Fase 0 no se declara cerrada y Fase 1 no se inicia.
-
-## L. Límites
-
-No se ejecutó SQL, migraciones, código, Edge Functions, RLS real, infraestructura, Supabase, repositorios, Git ni despliegues.
+Documentos corregidos y publicados. G-1, G-5 y G-10 quedan listas para aceptación formal si el propietario acepta el diseño. No hay SQL, código ni recursos Supabase. Fase 1 no iniciada. Adenda v9 y Fase 0 no aceptadas en nombre del propietario.
