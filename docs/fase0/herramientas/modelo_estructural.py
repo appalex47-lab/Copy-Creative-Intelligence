@@ -3,7 +3,7 @@
 Alcance: pruebas de modelo en memoria sobre entidades relacionadas. No es PostgreSQL ni Supabase: no valida RLS, transacciones,
 concurrencia, locks ni rollback. Todos los datos son ficticios.
 """
-import copy, difflib
+import copy, difflib, hashlib, json
 
 # =====================================================================================================
 # K45: modelo relacional de fuentes, eventos y atribuciones
@@ -212,6 +212,45 @@ K45_MUT = [
 # =====================================================================================================
 # K47: motor de atribuciones individuales, resoluciones y cálculo de E
 # =====================================================================================================
+
+# =====================================================================================================
+# Registro append-only de resoluciones de descarte (v10): la inmutabilidad es estructural, no una convención
+# =====================================================================================================
+class ResolucionInmutable(Exception):
+    """Intento de modificar, reemplazar o eliminar una resolución ya persistida."""
+
+def _canon(d):
+    return json.dumps({k: v for k, v in d.items() if k != "sello"}, sort_keys=True, ensure_ascii=False)
+def sello_de(d):
+    return hashlib.sha256(_canon(d).encode("utf-8")).hexdigest()
+
+class _Fila(dict):
+    """Fila de resolución: no admite escritura, eliminación ni actualización una vez construida."""
+    def _no(s, *a, **k): raise ResolucionInmutable("la fila de la resolución ya persistida no se modifica")
+    __setitem__ = __delitem__ = update = pop = popitem = clear = setdefault = __ior__ = _no
+
+def _congelar(x):
+    if isinstance(x, dict): return _Fila({k: _congelar(v) for k, v in x.items()})
+    if isinstance(x, (list, tuple)): return tuple(_congelar(v) for v in x)
+    return x
+
+class RegistroResoluciones(dict):
+    """Solo se agrega con agregar(). No hay asignación, reemplazo por el mismo ID, actualización ni eliminación."""
+    def _no(s, *a, **k): raise ResolucionInmutable("el registro de resoluciones es de solo agregar")
+    __setitem__ = __delitem__ = update = pop = popitem = clear = setdefault = __ior__ = _no
+    def agregar(self, fila):
+        if fila["id"] in self: raise ResolucionInmutable("el ID %s ya existe: una resolución no se reemplaza" % fila["id"])
+        fila = dict(fila); fila["sello"] = sello_de(fila)
+        dict.__setitem__(self, fila["id"], _congelar(fila)); return self[fila["id"]]
+
+def _plano(o):
+    """Copia plana (dict/list) de una estructura, apta para comparar instantáneas."""
+    if isinstance(o, dict): return {k: _plano(v) for k, v in o.items()}
+    if isinstance(o, (list, tuple)): return [_plano(v) for v in o]
+    return copy.deepcopy(o)
+
+CAMPOS_SOL = ("org", "atribucion", "afectado", "fuente", "pieza", "campo", "version_evidencia", "evento_motivador", "actor_cambio", "solicitante", "resolutor", "auth_uid", "evidencia", "motivo")
+
 EVT_TIPO = {"brief": ("brief_editor", "brief_editor"), "promotion": ("promotion_editor", "promotion_editor"), "copy": ("copy_author", "copy_editor"), "asset": ("asset_uploader", "asset_uploader")}
 TABLA_ATTR = {"brief": "brief_field_attributions", "promotion": "promotion_field_attributions", "copy": "copy_version_provenance", "asset": "copy_version_provenance"}
 CLASIFICACIONES = ("sin_cambio", "introducido", "modificado", "sustituido", "eliminado")
@@ -219,7 +258,7 @@ CLASIFICACIONES = ("sin_cambio", "introducido", "modificado", "sustituido", "eli
 class Motor:
     """Estado: versiones inmutables, atribuciones individuales, eventos, resoluciones y bitácora de estados (solo se agrega)."""
     def __init__(self, org="X"):
-        self.org = org; self.v = {}; self.assets = {}; self.ev = {}; self.at = {}; self.est = []; self.res = {}; self.clas_hist = []
+        self.org = org; self.v = {}; self.assets = {}; self.ev = {}; self.at = {}; self.est = []; self.res = RegistroResoluciones(); self.solicitudes = {}; self.arte_decl = {}; self.clas_hist = []
         self.members = {}; self.roles = {"revisor": {"piece.review"}, "editor": {"piece.edit"}, "admin": {"org.manage"}}; self.seq = 0; self.n = 0
 
     # ---- utilidades ----
@@ -242,11 +281,14 @@ class Motor:
         return i
 
     # ---- 1 y 6: crear versión y heredar atribuciones activas ----
-    def crear_version(self, fuente, vid, pieza, parent=None, refs=None, autor=None):
+    def crear_version(self, fuente, vid, pieza, parent=None, refs=None, autor=None, arte=None):
         assert vid not in self.v
         campos = copy.deepcopy(self.v[parent]["campos"]) if parent else {}
         for c in campos.values(): c["clasif"] = "sin_cambio"
         self.v[vid] = dict(id=vid, fuente=fuente, pieza=pieza, prev=parent, campos=campos, refs=copy.deepcopy(refs or {}), autor=autor, seq=self.tick())
+        if fuente == "copy":   # estado del arte: declaración explícita o heredada de la versión anterior; nunca se infiere de la ausencia de registros
+            if arte is not None: self.arte_decl[vid] = dict(estado=arte, actor=autor, heredada_de=None, seq=self.tick())
+            elif parent in self.arte_decl: self.arte_decl[vid] = dict(estado=self.arte_decl[parent]["estado"], actor=self.arte_decl[parent]["actor"], heredada_de=parent, seq=self.tick())
         if parent: self.heredar_atribuciones(parent, vid)
         return vid
     def heredar_atribuciones(self, parent, vid):
@@ -254,15 +296,15 @@ class Motor:
             n = self._atribuir(a["fuente"], vid, a["campo"], a["evento"], a["persona"], "heredada", a["id"], a["origen_version"], a.get("asset"))
             self.est.append(dict(seq=self.tick(), atr=n, estado="activa", resolucion=None, motivo="heredada de %s" % a["id"]))
 
-    def _nueva(self, fuente, prev, nueva, pieza, refs=None, autor=None):
-        return self.crear_version(fuente, nueva, pieza, prev, refs, autor)
+    def _nueva(self, fuente, prev, nueva, pieza, refs=None, autor=None, arte=None):
+        return self.crear_version(fuente, nueva, pieza, prev, refs, autor, arte)
     def _marcar_provisional(self, vid, campo):
         for a in self.activas(vid):
             if a["campo"] == campo and a["rel"] == "heredada": self.est.append(dict(seq=self.tick(), atr=a["id"], estado="activa", resolucion=None, motivo="conservada provisionalmente"))
 
     # ---- 2 a 5: operaciones sobre campos (siempre generan una versión nueva) ----
-    def introducir_campo(self, fuente, prev, nueva, campo, contenido, actor, pieza=None, refs=None):
-        pieza = pieza or (self.v[prev]["pieza"] if prev else "P1"); self._nueva(fuente, prev, nueva, pieza, refs or (self.v[prev]["refs"] if prev else None), actor)
+    def introducir_campo(self, fuente, prev, nueva, campo, contenido, actor, pieza=None, refs=None, arte=None):
+        pieza = pieza or (self.v[prev]["pieza"] if prev else "P1"); self._nueva(fuente, prev, nueva, pieza, refs or (self.v[prev]["refs"] if prev else None), actor, arte)
         self.v[nueva]["campos"][campo] = dict(contenido=contenido, clasif="introducido", eliminado=False); self.clas_hist.append((nueva, campo, "introducido"))
         e = self._evento(fuente, nueva, actor, campo); self._atribuir(fuente, nueva, campo, e, actor); return nueva
     def modificar_campo(self, fuente, prev, nueva, campo, contenido, actor):
@@ -284,17 +326,62 @@ class Motor:
         self._nueva(fuente, prev, nueva, self.v[prev]["pieza"], self.v[prev]["refs"], actor)
         for c in self.v[nueva]["campos"]: self.clas_hist.append((nueva, c, "sin_cambio"))
         return nueva
-    def registrar_asset(self, aid, copy_version, uploader, reused_from=None):
-        self.assets[aid] = dict(id=aid, copy_version=copy_version, uploader=uploader, reused_from=reused_from, pieza=self.v[copy_version]["pieza"])
-        if reused_from is not None:
-            orig = [a for a in self.activas(self.assets[reused_from]["copy_version"], "asset") if a.get("asset") == reused_from][0]
-            n = self._atribuir("asset", copy_version, "arte", orig["evento"], orig["persona"], "heredada", orig["id"], orig["origen_version"], aid)
-            self.est.append(dict(seq=self.tick(), atr=n, estado="activa", resolucion=None, motivo="reutilización de %s" % reused_from))
-            self.v[copy_version]["campos"].setdefault("arte", dict(contenido=aid, clasif="sin_cambio", eliminado=False))
+    # ---- arte: asset nuevo, reutilizado, modificado, sustituido y eliminado (v10) ----
+    def _ev_asset(self, tipo, vid, actor, aid):
+        i = self.nid("e"); self.ev[i] = dict(id=i, org=self.org, fuente="asset", version=vid, pieza=self.v[vid]["pieza"], tipo=tipo, actor=actor, campo="arte", seq=self.tick(), op=self.n, asset=aid); return i
+    def _cierre_asset(self, aid):
+        """Assets alcanzables por origen (reutilización) o previo (modificación), sin recorrer dos veces el mismo."""
+        out = []; cola = [aid]
+        while cola:
+            x = cola.pop()
+            if x in out or x not in self.assets: continue
+            out.append(x); y = self.assets[x]; cola += [y.get("origen"), y.get("previo")]
+        return out
+    def _raiz_asset(self, aid):
+        x = aid; vistos = []
+        while x in self.assets and x not in vistos:
+            vistos.append(x); y = self.assets[x]; nxt = y.get("origen") if y["tipo"] == "reutilizado" else y.get("previo") if y["tipo"] == "modificado" else None
+            if nxt is None: return y
+            x = nxt
+        raise KeyError("cadena de origen no verificable desde %s" % aid)
+    def _campo_arte(self, vid, aid, clasif):
+        cv = self.v[vid]["campos"]
+        if "arte" in cv: cv["arte"].update(contenido=aid, clasif=clasif, eliminado=False)
+        else: cv["arte"] = dict(contenido=aid, clasif=clasif, eliminado=False)
+        self.clas_hist.append((vid, "arte", clasif))
+    def registrar_asset(self, aid, copy_version, uploader, reused_from=None, material=True):
+        """Asset nuevo (reused_from=None): uploader original y evento de carga. Asset reutilizado: conserva al uploader original y registra por separado al reutilizador y su evento."""
+        pieza = self.v[copy_version]["pieza"]
         if reused_from is None:
-            self.v[copy_version]["campos"].setdefault("arte", dict(contenido=aid, clasif="introducido", eliminado=False))
-            e = self._evento("asset", copy_version, uploader, "arte"); self.ev[e]["asset"] = aid; self._atribuir("asset", copy_version, "arte", e, uploader, used=aid)
+            e = self._evento("asset", copy_version, uploader, "arte"); self.ev[e]["asset"] = aid
+            self.assets[aid] = dict(id=aid, org=self.org, pieza=pieza, version_asset=1, tipo="nuevo", origen=None, previo=None, uploader=uploader, evento_carga=e, uploader_original=uploader, evento_carga_original=e,
+                                    reutilizador=None, evento_reutilizacion=None, material=None, copy_version=copy_version)
+            self._campo_arte(copy_version, aid, "introducido"); self._atribuir("asset", copy_version, "arte", e, uploader, used=aid)
+            return aid
+        raiz = self._raiz_asset(reused_from); er = self._evento("copy", copy_version, uploader, "arte"); self.ev[er]["asset"] = aid
+        self.assets[aid] = dict(id=aid, org=self.org, pieza=pieza, version_asset=1, tipo="reutilizado", origen=reused_from, previo=None, uploader=None, evento_carga=None, uploader_original=raiz["uploader_original"],
+                                evento_carga_original=raiz["evento_carga_original"], reutilizador=uploader, evento_reutilizacion=er, material=bool(material), copy_version=copy_version)
+        cierre = set(self._cierre_asset(reused_from)); ov = self.assets[reused_from]["copy_version"]
+        for b in sorted(self.activas(ov, "asset"), key=lambda x: x["seq"]):
+            if b.get("asset") in cierre:
+                n = self._atribuir("asset", copy_version, "arte", b["evento"], b["persona"], "heredada", b["id"], b["origen_version"], aid)
+                self.est.append(dict(seq=self.tick(), atr=n, estado="activa", resolucion=None, motivo="reutilización de %s" % reused_from))
+        self._campo_arte(copy_version, aid, "introducido")
+        if material: self._atribuir("copy", copy_version, "arte", er, uploader, used=aid)
         return aid
+    def modificar_asset(self, prev, nueva, aid, aid_prev, editor):
+        """Nueva versión del asset (fila nueva, previo = versión anterior). Quien la sube es el asset_uploader de esa fila; el uploader original y las atribuciones anteriores se conservan."""
+        self._nueva("copy", prev, nueva, self.v[prev]["pieza"], self.v[prev]["refs"], editor); raiz = self._raiz_asset(aid_prev); e = self._evento("asset", nueva, editor, "arte"); self.ev[e]["asset"] = aid
+        self.assets[aid] = dict(id=aid, org=self.org, pieza=self.v[nueva]["pieza"], version_asset=self.assets[aid_prev]["version_asset"] + 1, tipo="modificado", origen=None, previo=aid_prev, uploader=editor, evento_carga=e,
+                                uploader_original=raiz["uploader_original"], evento_carga_original=raiz["evento_carga_original"], reutilizador=None, evento_reutilizacion=None, material=None, copy_version=nueva)
+        self._campo_arte(nueva, aid, "modificado"); self._marcar_provisional(nueva, "arte"); self._atribuir("asset", nueva, "arte", e, editor, used=aid); return nueva
+    def sustituir_asset(self, prev, nueva, aid, aid_prev, uploader):
+        self._nueva("copy", prev, nueva, self.v[prev]["pieza"], self.v[prev]["refs"], uploader); e = self._evento("asset", nueva, uploader, "arte"); self.ev[e]["asset"] = aid
+        self.assets[aid] = dict(id=aid, org=self.org, pieza=self.v[nueva]["pieza"], version_asset=1, tipo="sustituto", origen=None, previo=None, sustituye=aid_prev, uploader=uploader, evento_carga=e, uploader_original=uploader,
+                                evento_carga_original=e, reutilizador=None, evento_reutilizacion=None, material=None, copy_version=nueva)
+        self._campo_arte(nueva, aid, "sustituido"); self._marcar_provisional(nueva, "arte"); self._atribuir("asset", nueva, "arte", e, uploader, used=aid); return nueva
+    def eliminar_asset(self, prev, nueva, actor):
+        return self.eliminar_campo("copy", prev, nueva, "arte", actor, True)
 
     # ---- 10: cambiar clasificación ----
     def cambiar_clasificacion(self, vid, campo, nueva, actor):
@@ -303,13 +390,23 @@ class Motor:
     def clasif_actual(self, vid, campo):
         h = [x for x in self.clas_hist if x[0] == vid and x[1] == campo]; return h[-1][2] if h else self.v[vid]["campos"][campo]["clasif"]
 
-    # ---- 7, 8, 9: resoluciones de descarte ----
-    def registrar_resolucion(self, rid, **kw):
-        self.res[rid] = dict(id=rid, estado="registrada", seq=self.tick(), **kw); return rid
+    # ---- 7, 8, 9: resoluciones de descarte (registros nuevos, con resultado definitivo y sello; nunca se modifican) ----
+    def solicitar_resolucion(self, rid, **kw):
+        """Formulario de solicitud: no es una resolución, no tiene resultado y no forma parte del estado auditado."""
+        self.solicitudes[rid] = dict(kw); return rid
+    def registrar_resolucion(self, rid, resultado, motivos=(), **sol):
+        """Persiste una resolución con resultado definitivo ('aceptada' o 'rechazada'). El ID no puede existir."""
+        assert resultado in ("aceptada", "rechazada")
+        a = self.at.get(sol.get("atribucion")); p = sol.get("previo")
+        fila = dict(id=rid, resultado=resultado, seq=self.tick(), motivos=tuple(motivos), version=a["version"] if a else None, version_origen=a["origen_version"] if a else None, previo=p,
+                    previo_sello=self.res[p]["sello"] if p in self.res else None, **{k: sol.get(k) for k in CAMPOS_SOL})
+        if resultado == "aceptada": fila["evidencia_historica"] = copy.deepcopy(self.v[sol["version_evidencia"]]["campos"].get(sol["campo"]))
+        return self.res.agregar(fila)
     def rechazar_resolucion(self, rid, motivos):
-        self.res[rid].update(estado="rechazada", motivos=list(motivos)); return False
-    def validar_resolucion(self, rid):
-        r = self.res[rid]; a = self.at.get(r["atribucion"]); c = []
+        """Decisión de rechazo: crea un registro nuevo y definitivo; la atribución no cambia."""
+        self.registrar_resolucion(rid, "rechazada", motivos, **self.solicitudes[rid]); return False
+    def validar_resolucion(self, sol):
+        r = sol; a = self.at.get(r["atribucion"]); c = []
         if a is None: return ["V01"]
         if a["persona"] != r["afectado"]: c.append("V02")
         if a["fuente"] != r["fuente"] or a["org"] != r["org"]: c.append("V03")
@@ -322,44 +419,117 @@ class Motor:
         if not r.get("solicitante") or r["solicitante"] not in self.members: c.append("V09")
         if not (r.get("evidencia") or "").strip(): c.append("V11")
         if r.get("auth_uid") != r.get("resolutor"): c.append("V12")
+        if r.get("previo") is not None:
+            pr = self.res.get(r["previo"])
+            if pr is None or pr["org"] != r["org"] or pr["atribucion"] != r["atribucion"] or pr["resultado"] != "rechazada": c.append("V13")
         c += elegibilidad_resolutor(self, r)
         return c
     def aplicar_resolucion(self, rid):
-        cod = self.validar_resolucion(rid)
-        if cod: return self.rechazar_resolucion(rid, cod)
-        r = self.res[rid]; r["estado"] = "aceptada"; r["evidencia_historica"] = copy.deepcopy(self.v[r["version_evidencia"]]["campos"].get(r["campo"]))
-        self.est.append(dict(seq=self.tick(), atr=r["atribucion"], estado="historica", resolucion=rid, motivo="resolución aceptada")); return True
+        if rid in self.res: raise ResolucionInmutable("el ID %s ya existe: una resolución no se reemplaza" % rid)
+        sol = self.solicitudes[rid]; cod = self.validar_resolucion(sol)
+        if cod: self.registrar_resolucion(rid, "rechazada", cod, **sol); return False
+        self.registrar_resolucion(rid, "aceptada", (), **sol)
+        self.est.append(dict(seq=self.tick(), atr=sol["atribucion"], estado="historica", resolucion=rid, motivo="resolución aceptada")); return True
+    def cadena_resoluciones(self, atr):
+        """Resoluciones de una atribución, de la más antigua a la más reciente (se recorre; no se edita ninguna fila)."""
+        return [r["id"] for r in sorted((r for r in self.res.values() if r["atribucion"] == atr), key=lambda r: r["seq"])]
+    def decision_vigente(self, atr):
+        ch = self.cadena_resoluciones(atr); return self.res[ch[-1]]["resultado"] if ch else None
 
-    # ---- 11, 12, 13: procedencia y E ----
+    # ---- 11, 12, 13: procedencia (incluye el arte) y E ----
     def _versiones_exactas(self, vid):
         v = self.v[vid]; out = [vid]; r = v["refs"]
         for k in ("brief", "promotion", "master"):
             if r.get(k): out.append(r[k])
         return out
+    def _assets_exactos(self, vid):
+        """Assets usados por cada versión de copy exacta: el vigente en el campo arte y los referenciados por sus atribuciones."""
+        out = []
+        for ve in self._versiones_exactas(vid):
+            if ve not in self.v or self.v[ve]["fuente"] != "copy": continue
+            campo = self.v[ve]["campos"].get("arte"); ids = [campo["contenido"]] if campo and not campo["eliminado"] and campo["contenido"] else []
+            ids += [a["asset"] for a in self.at.values() if a["version"] == ve and a.get("asset")]
+            for i in ids:
+                if i not in out: out.append(i)
+        return out
+    def _fuentes_exactas(self, vid): return dict(versiones=self._versiones_exactas(vid), assets=self._assets_exactos(vid))
+    def _cadena_prev(self, vid):
+        out = []; cur = vid
+        while cur in self.v and cur not in out: out.append(cur); cur = self.v[cur]["prev"]
+        return out
+    def _huecos_asset(self, cur, aid):
+        h = []; vis = []; x = aid; ver = self.v[cur]; cad = self._cadena_prev(cur); cabeza = True
+        while x is not None:
+            if x in vis: h.append("%s: ciclo en la cadena de assets (%s)" % (cur, " → ".join(vis + [x]))); break
+            vis.append(x); y = self.assets.get(x)
+            if y is None: h.append("%s: el asset de origen %s no existe" % (cur, x)); break
+            if y["org"] != self.org: h.append("%s: el asset %s pertenece a otra organización" % (cur, x))
+            if cabeza and y["pieza"] != ver["pieza"]: h.append("%s: el asset %s pertenece a otra pieza sin relación válida" % (cur, x))
+            if cabeza and y["copy_version"] not in cad: h.append("%s: el asset %s está vinculado a otra versión de copy (%s)" % (cur, x, y["copy_version"]))
+            t = y["tipo"]; nxt = None
+            if t in ("nuevo", "sustituto", "modificado"):
+                if t == "modificado": nxt = y.get("previo")
+                if t == "modificado" and nxt is None: h.append("%s: el asset modificado %s no referencia su versión anterior" % (cur, x))
+                if not y.get("uploader") or y["uploader"] not in self.members: h.append("%s: el asset %s no tiene uploader registrado" % (cur, x))
+                e = self.ev.get(y.get("evento_carga"))
+                if not e or e["tipo"] != "asset_uploader" or e["actor"] != y.get("uploader") or e.get("asset") != x: h.append("%s: el asset %s no tiene evento de carga válido" % (cur, x))
+                elif not any(b["persona"] == y["uploader"] and b.get("asset") == x and b["evento"] == y["evento_carga"] and b["rel"] == "directa" for b in self.at.values()): h.append("%s: falta la atribución directa del uploader del asset %s" % (cur, x))
+            elif t == "reutilizado":
+                nxt = y.get("origen")
+                if nxt is None: h.append("%s: el asset reutilizado %s no referencia su origen" % (cur, x))
+                e = self.ev.get(y.get("evento_reutilizacion"))
+                if not y.get("reutilizador") or not e or e["tipo"] not in ("copy_author", "copy_editor") or e["actor"] != y["reutilizador"] or e.get("asset") != x or e["version"] != y["copy_version"]: h.append("%s: el asset %s no tiene evento de reutilización válido" % (cur, x))
+                try: raiz = self._raiz_asset(x)
+                except KeyError: raiz = None
+                if raiz is not None:
+                    if y["uploader_original"] != raiz["uploader_original"] or y["evento_carga_original"] != raiz["evento_carga_original"]: h.append("%s: el uploader original del asset %s no coincide con el origen" % (cur, x))
+                    if not any(b["persona"] == raiz["uploader_original"] and b["fuente"] == "asset" and b.get("asset") == x and b["version"] == y["copy_version"] for b in self.at.values()): h.append("%s: falta la atribución del uploader original en el asset reutilizado %s" % (cur, x))
+                    if y.get("material") and not any(b["persona"] == y["reutilizador"] and b.get("asset") == x and b["evento"] == y["evento_reutilizacion"] and b["rel"] == "directa" for b in self.at.values()): h.append("%s: falta la atribución del reutilizador del asset %s" % (cur, x))
+            else: h.append("%s: tipo de asset %s desconocido" % (cur, t))
+            z = self.assets.get(nxt) if nxt else None
+            if z is not None and z["org"] != y["org"]: h.append("%s: la cadena del asset %s cruza organizaciones" % (cur, x))
+            if z is not None and z["pieza"] != y["pieza"] and t != "reutilizado": h.append("%s: la cadena del asset %s cruza piezas sin reutilización" % (cur, x))
+            cabeza = False; x = nxt
+        return h
+    def _huecos_arte(self, cur):
+        v = self.v[cur]
+        if v["fuente"] != "copy": return []
+        d = self.arte_decl.get(cur); campo = v["campos"].get("arte"); h = []
+        if d is None: h.append("%s: arte sin declarar (la ausencia de registros no prueba no_aplica)" % cur)
+        elif d["estado"] == "no_aplica" and campo is not None: h.append("%s: se declara arte no_aplica pero la versión registra arte" % cur)
+        elif d["estado"] == "con_arte" and campo is None: h.append("%s: se declara arte pero la versión no registra ningún asset" % cur)
+        elif d["estado"] not in ("no_aplica", "con_arte"): h.append("%s: declaración de arte inválida" % cur)
+        elif d["heredada_de"] is not None and d["heredada_de"] not in self.arte_decl: h.append("%s: la declaración de arte hereda de una versión sin declaración" % cur)
+        elif not d.get("actor") and d["heredada_de"] is None: h.append("%s: la declaración de arte no identifica al actor" % cur)
+        ids = []
+        if campo is not None and not campo["eliminado"] and campo.get("contenido"): ids.append(campo["contenido"])
+        ids += [a["asset"] for a in self.at.values() if a["version"] == cur and a.get("asset") and a["asset"] not in ids]
+        for i in ids: h += self._huecos_asset(cur, i)
+        return h
     def reconstruir_procedencia(self, vid):
-        """Recorre la cadena de cada fuente exacta y comprueba que cada campo tenga atribución y que la herencia esté completa."""
+        """Recorre la cadena de cada fuente exacta (incluido el arte) y comprueba atribución por campo, herencia y procedencia de cada asset."""
         huecos = []; vistas = []
-        for raiz in self._versiones_exactas(vid):
+        for raiz in self._fuentes_exactas(vid)["versiones"]:
             cur = raiz
             while cur is not None:
                 if cur not in self.v: huecos.append("versión %s ausente" % cur); break
                 vistas.append(cur); ver = self.v[cur]
                 for campo in ver["campos"]:
-                    if campo == "arte": continue
                     if not [a for a in self.at.values() if a["version"] == cur and a["campo"] == campo]: huecos.append("%s: campo %s sin atribución" % (cur, campo))
+                huecos += self._huecos_arte(cur)
                 p = ver["prev"]
                 if p is not None and p in self.v:
                     for a in self.activas(p):
                         if not [b for b in self.at.values() if b["version"] == cur and b["linaje"] == a["linaje"]]: huecos.append("%s: no hereda la atribución %s" % (cur, a["id"]))
                 cur = p
-        return dict(versiones=vistas, completa=not huecos, huecos=huecos)
+        return dict(versiones=vistas, completa=not huecos, huecos=huecos, assets=self._assets_exactos(vid))
     def calcular_E(self, vid):
         proc = self.reconstruir_procedencia(vid)
         if not proc["completa"]: return dict(completa=False, E=None, motivo=proc["huecos"])
         E = {}
         for v_ in self._versiones_exactas(vid):
             for a in self.activas(v_): E.setdefault(a["persona"], []).append(a["id"])
-        return dict(completa=True, E=E, motivo=[])
+        return dict(completa=True, E=E, motivo=[], assets=proc["assets"])
     def procedencia_completa(self, vid): return self.reconstruir_procedencia(vid)["completa"]
 
 def elegibilidad_resolutor(m, r):
@@ -393,14 +563,78 @@ def _estado(s, aid):
 def _activos(s): return {a for a in s["at"] if _estado(s, a) == "activa"}
 def _exactas(s, vid):
     r = s["v"][vid]["refs"]; return [vid] + [r[k] for k in ("brief", "promotion", "master") if r.get(k)]
-def _completa(s, vid):
+def _cad(s, vid):
+    out = []; cur = vid
+    while cur in s["v"] and cur not in out: out.append(cur); cur = s["v"][cur]["prev"]
+    return out
+def _hall_arte(s, cur):
+    """Auditor independiente de la procedencia del arte: reconstruye la cadena de cada asset desde las tablas, sin llamar al motor. Devuelve (código, mensaje)."""
+    ver = s["v"].get(cur); out = []
+    if ver is None or ver["fuente"] != "copy": return out
+    ad = s["arte_decl"]; d = ad.get(cur); campo = ver["campos"].get("arte")
+    if d is None: out.append(("I20", "%s: la versión no declara el estado del arte" % cur))
+    elif d["estado"] not in ("no_aplica", "con_arte"): out.append(("I20", "%s: declaración de arte inválida" % cur))
+    elif d["estado"] == "no_aplica" and campo is not None: out.append(("I20", "%s: declara no_aplica y registra arte" % cur))
+    elif d["estado"] == "con_arte" and campo is None: out.append(("I20", "%s: declara arte sin asset" % cur))
+    elif d.get("heredada_de") is None and not d.get("actor"): out.append(("I20", "%s: declaración de arte sin actor" % cur))
+    elif d.get("heredada_de") is not None and d["heredada_de"] not in ad: out.append(("I20", "%s: la declaración heredada no tiene origen" % cur))
+    ids = [campo["contenido"]] if campo and not campo["eliminado"] and campo.get("contenido") else []
+    ids += [a["asset"] for a in s["at"].values() if a["version"] == cur and a.get("asset") and a["asset"] not in ids]
+    cad = _cad(s, cur); T = s["assets"]
+    def raiz(x):
+        vis = []
+        while x in T and x not in vis:
+            vis.append(x); y = T[x]; n = y.get("origen") if y["tipo"] == "reutilizado" else y.get("previo") if y["tipo"] == "modificado" else None
+            if n is None: return y
+            x = n
+        return None
+    for aid in ids:
+        x = aid; vis = []; cabeza = True
+        while x is not None:
+            if x in vis: out.append(("I19", "%s: ciclo en la cadena de assets %s" % (cur, " → ".join(vis + [x])))); break
+            vis.append(x); y = T.get(x)
+            if y is None: out.append(("I19", "%s: asset de origen %s inexistente" % (cur, x))); break
+            if y["org"] != s["org"]: out.append(("I19", "%s: el asset %s pertenece a otra organización" % (cur, x)))
+            if cabeza and y["pieza"] != ver["pieza"]: out.append(("I19", "%s: el asset %s pertenece a otra pieza sin relación válida" % (cur, x)))
+            if cabeza and y["copy_version"] not in cad: out.append(("I18", "%s: el asset %s no corresponde a esta versión de copy (%s)" % (cur, x, y["copy_version"])))
+            t = y["tipo"]; n = None; ev = s["ev"]
+            if t in ("nuevo", "sustituto", "modificado"):
+                if t == "modificado":
+                    n = y.get("previo")
+                    if n is None: out.append(("I19", "%s: asset modificado %s sin referencia a su versión anterior" % (cur, x)))
+                if not y.get("uploader") or y["uploader"] not in s["members"]: out.append(("I16", "%s: asset %s sin uploader registrado" % (cur, x)))
+                e = ev.get(y.get("evento_carga"))
+                if not e or e["tipo"] != "asset_uploader" or e["actor"] != y.get("uploader") or e.get("asset") != x: out.append(("I16", "%s: asset %s sin evento de carga válido" % (cur, x)))
+                elif not any(b["persona"] == y["uploader"] and b.get("asset") == x and b["evento"] == y["evento_carga"] and b["rel"] == "directa" for b in s["at"].values()): out.append(("I16", "%s: asset %s sin atribución directa del uploader" % (cur, x)))
+            elif t == "reutilizado":
+                n = y.get("origen")
+                if n is None: out.append(("I19", "%s: asset reutilizado %s sin referencia al origen" % (cur, x)))
+                e = ev.get(y.get("evento_reutilizacion"))
+                if not y.get("reutilizador") or not e or e["tipo"] not in ("copy_author", "copy_editor") or e["actor"] != y["reutilizador"] or e.get("asset") != x or e["version"] != y["copy_version"]: out.append(("I17", "%s: asset %s sin evento de reutilización válido" % (cur, x)))
+                r_ = raiz(x)
+                if r_ is not None:
+                    if (y["uploader_original"], y["evento_carga_original"]) != (r_["uploader_original"], r_["evento_carga_original"]): out.append(("I17", "%s: el uploader original del asset %s no coincide con el origen" % (cur, x)))
+                    if not any(b["persona"] == r_["uploader_original"] and b["fuente"] == "asset" and b.get("asset") == x and b["version"] == y["copy_version"] for b in s["at"].values()): out.append(("I17", "%s: falta la atribución del uploader original en %s" % (cur, x)))
+                    if y.get("material") and not any(b["persona"] == y["reutilizador"] and b.get("asset") == x and b["evento"] == y["evento_reutilizacion"] and b["rel"] == "directa" for b in s["at"].values()): out.append(("I17", "%s: falta la atribución propia del reutilizador de %s" % (cur, x)))
+            else: out.append(("I19", "%s: tipo de asset desconocido en %s" % (cur, x)))
+            z = T.get(n) if n else None
+            if z is not None and z["org"] != y["org"]: out.append(("I19", "%s: la cadena de %s cruza organización" % (cur, x)))
+            if z is not None and z["pieza"] != y["pieza"] and t != "reutilizado": out.append(("I19", "%s: la cadena de %s cruza pieza sin reutilización" % (cur, x)))
+            cabeza = False; x = n
+    return out
+def _hall_arte_exactas(s, vid):
+    out = []
+    for raiz in _exactas(s, vid):
+        for cur in _cad(s, raiz): out += _hall_arte(s, cur)
+    return out
+def _completa_campos(s, vid):
     for raiz in _exactas(s, vid):
         cur = raiz
         while cur is not None:
             if cur not in s["v"]: return False
             ver = s["v"][cur]
             for campo in ver["campos"]:
-                if campo != "arte" and not any(a["version"] == cur and a["campo"] == campo for a in s["at"].values()): return False
+                if not any(a["version"] == cur and a["campo"] == campo for a in s["at"].values()): return False
             p = ver["prev"]
             if p in s["v"]:
                 for aid in _activos(s):
@@ -408,6 +642,7 @@ def _completa(s, vid):
                     if a["version"] == p and not any(b["version"] == cur and b["linaje"] == a["linaje"] for b in s["at"].values()): return False
             cur = p
     return True
+def _completa(s, vid): return _completa_campos(s, vid) and not _hall_arte_exactas(s, vid)
 def _E(s, vid):
     out = set()
     for ver in _exactas(s, vid):
@@ -418,14 +653,16 @@ def _lin(s, aid):
     a = s["at"][aid]; return (a["persona"], a["fuente"], a["campo"], a["evento"])
 
 def snapshot(m):
-    return copy.deepcopy(dict(v=m.v, at=m.at, ev=m.ev, est=m.est, res=m.res, assets=m.assets, clas_hist=m.clas_hist, members=m.members, roles={k: sorted(x) for k, x in m.roles.items()}))
+    return copy.deepcopy(dict(v=m.v, at=m.at, ev=m.ev, est=m.est, res=_plano(m.res), assets=m.assets, arte_decl=m.arte_decl, org=m.org, clas_hist=m.clas_hist, members=m.members, roles={k: sorted(x) for k, x in m.roles.items()}))
 
-def validar_resolucion_independiente(s, rid):
-    """Segunda implementación de las condiciones de 4.5 y de las reglas R1–R9 (no usa el motor)."""
-    r = s["res"][rid]; a = s["at"].get(r["atribucion"]); bad = []
+def validar_resolucion_independiente(s, sol):
+    """Segunda implementación de las condiciones de 4.5 (V01 a V13) y de las reglas R1–R9. Recibe la solicitud y la instantánea previa (no usa el motor)."""
+    r = sol; a = s["at"].get(r["atribucion"]); bad = []
     if not a: return ["V01"]
     ok = [("V02", a["persona"] == r["afectado"]), ("V03", (a["fuente"], a["org"]) == (r["fuente"], r["org"])), ("V04", a["pieza"] == r["pieza"]), ("V05", a["campo"] == r["campo"]),
           ("V06", r["version_evidencia"] == a["version"] and r["version_evidencia"] in s["v"] and _estado(s, a["id"]) == "activa"), ("V12", r.get("auth_uid") == r.get("resolutor")), ("V11", bool((r.get("evidencia") or "").strip()))]
+    if r.get("previo") is not None:
+        pr = s["res"].get(r["previo"]); ok.append(("V13", bool(pr) and pr["org"] == r["org"] and pr["atribucion"] == r["atribucion"] and pr["resultado"] == "rechazada"))
     mot = s["ev"].get(r["evento_motivador"])
     ok += [("V07", bool(mot) and mot["campo"] == r["campo"]), ("V08", bool(r.get("actor_cambio")) and bool(mot) and mot["actor"] == r["actor_cambio"]), ("V09", bool(r.get("solicitante")) and r["solicitante"] in s["members"])]
     bad = [k for k, v in ok if not v]
@@ -440,20 +677,30 @@ def validar_resolucion_independiente(s, rid):
     reglas["R9"] = not (any(a_["persona"] == u and a_["campo"] == campo and a_["version"] == actual and _estado(s, a_["id"]) == "activa" for a_ in s["at"].values()) or any(e["actor"] == u and e["op"] == (mot or {}).get("op") for e in s["ev"].values()))
     return bad + [k for k, v in reglas.items() if not v]
 
+def _v_sin_arte_nuevo(v1, v0, op):
+    """True si la versión cambió. La única adición permitida a una versión existente es el campo arte, y solo al registrar un asset."""
+    if v1 == v0: return False
+    if op == "registrar_asset" and v1 is not None and "arte" not in v0["campos"] and "arte" in v1["campos"]:
+        v1 = dict(v1, campos={k: c for k, c in v1["campos"].items() if k != "arte"}); return v1 != v0
+    return True
+
 def auditar(antes, despues, desc):
     """Compara dos instantáneas y devuelve los códigos de invariante violados (I1 a I12). desc describe la operación ejecutada."""
     cod = []; op = desc["op"]; a0, a1 = _activos(antes), _activos(despues)
     # I10: nada anterior se reescribe ni desaparece (solo se agrega)
-    if any(despues["v"].get(k) != x for k, x in antes["v"].items()) or any(despues["at"].get(k) != x for k, x in antes["at"].items()) or any(despues["ev"].get(k) != x for k, x in antes["ev"].items()) or despues["est"][:len(antes["est"])] != antes["est"]:
+    if any(_v_sin_arte_nuevo(despues["v"].get(k), x, desc["op"]) for k, x in antes["v"].items()) or any(despues["at"].get(k) != x for k, x in antes["at"].items()) or any(despues["ev"].get(k) != x for k, x in antes["ev"].items()) or despues["est"][:len(antes["est"])] != antes["est"]:
         cod.append(("I10", "una versión, atribución, evento o estado anterior fue modificado o eliminado"))
+    if any(despues["assets"].get(k) != x for k, x in antes["assets"].items()) or any(despues["arte_decl"].get(k) != x for k, x in antes["arte_decl"].items()):
+        cod.append(("I10", "un asset o una declaración de arte anterior fue modificado o eliminado"))
+    cod += _auditar_resoluciones(antes, despues)
     # I6: la evidencia histórica se conserva
-    if any(k not in despues["at"] for k in antes["at"]) or len(despues["est"]) < len(antes["est"]): cod.append(("I6", "una atribución o un registro histórico desapareció de la evidencia"))
+    if any(k not in despues["at"] for k in antes["at"]) or len(despues["est"]) < len(antes["est"]) or any(k not in despues["assets"] for k in antes["assets"]): cod.append(("I6", "una atribución, un asset o un registro histórico desapareció de la evidencia"))
     if op in ("introducir", "modificar", "sustituir", "eliminar", "sin_cambio"):
         n, p = desc["nueva"], desc["prev"]
         l0 = {_lin(antes, a) for a in a0 if antes["at"][a]["version"] == p}; l1 = {_lin(despues, a) for a in a1 if despues["at"][a]["version"] == n}
         if not l0 <= l1: cod.append(("I1", "una atribución activa anterior no sigue activa en la versión nueva: %s" % sorted(l0 - l1)[:2]))
         if despues["v"].get(n) and p in despues["v"]:
-            esperadas = {despues["at"][a]["linaje"] for a in a0 if antes["at"][a]["version"] == p}
+            esperadas = {antes["at"][a]["linaje"] for a in a0 if antes["at"][a]["version"] == p}
             if not esperadas <= {b["linaje"] for b in despues["at"].values() if b["version"] == n}: cod.append(("I10", "la versión nueva no hereda todas las atribuciones activas"))
         directas = [b for b in despues["at"].values() if b["version"] == n and b["rel"] == "directa" and b["persona"] == desc["actor"] and b["campo"] == desc.get("campo") and b["id"] not in antes["at"]]
         debe = op in ("introducir", "modificar", "sustituir") or (op == "eliminar" and desc.get("material", True))
@@ -465,10 +712,12 @@ def auditar(antes, despues, desc):
         if a0 != a1 or despues["est"] != antes["est"] or set(despues["at"]) != set(antes["at"]): cod.append(("I12", "el cambio de clasificación alteró atribuciones o estados"))
         if despues["clas_hist"][:len(antes["clas_hist"])] != antes["clas_hist"] or len(despues["clas_hist"]) != len(antes["clas_hist"]) + 1: cod.append(("I12", "el cambio de clasificación no se registró como historial nuevo"))
     if op in ("aplicar_resolucion", "rechazar_resolucion"):
-        rid = desc["res"]; r = despues["res"][rid]; valido = not validar_resolucion_independiente(antes, rid) and _estado(antes, r["atribucion"]) == "activa"
-        acept = r["estado"] == "aceptada"; ref = r["atribucion"]; ev_ = desc["vid"]
-        if acept and not valido: cod.append(("I4", "una resolución aceptada incumple sus condiciones: %s" % validar_resolucion_independiente(antes, rid)[:3]))
-        if op == "aplicar_resolucion" and not acept and set(r.get("motivos", [])) != set(validar_resolucion_independiente(antes, rid)): cod.append(("I4", "los motivos de rechazo del motor %s difieren de los recalculados por el auditor %s" % (sorted(r.get("motivos", [])), sorted(validar_resolucion_independiente(antes, rid)))))
+        rid = desc["res"]; sol = desc["sol"]
+        if rid in antes["res"] or rid not in despues["res"]: cod.append(("I13", "la resolución %s no quedó como registro nuevo" % rid)); return cod
+        r = despues["res"][rid]; recalc = validar_resolucion_independiente(antes, sol); valido = not recalc
+        acept = r["resultado"] == "aceptada"; ref = r["atribucion"]; ev_ = desc["vid"]
+        if acept and not valido: cod.append(("I4", "una resolución aceptada incumple sus condiciones: %s" % recalc[:3]))
+        if op == "aplicar_resolucion" and not acept and set(r.get("motivos", [])) != set(recalc): cod.append(("I4", "los motivos de rechazo del motor %s difieren de los recalculados por el auditor %s" % (sorted(r.get("motivos", [])), sorted(recalc))))
         if (not acept) or (not valido):
             if a0 != a1 or despues["est"] != antes["est"] or _E(antes, ev_) != _E(despues, ev_) or desc.get("E0") != desc.get("E1"): cod.append(("I5", "una resolución rechazada o inválida modificó atribuciones o E"))
         if acept and valido:
@@ -479,12 +728,59 @@ def auditar(antes, despues, desc):
             if persona in resto and persona not in _E(despues, ev_): cod.append(("I7", "la persona con otra atribución activa salió de E"))
     return cod
 
+def _sello_ind(r):
+    """Recalcula el sello de una fila a partir de su contenido (implementación propia del auditor)."""
+    return hashlib.sha256(json.dumps({k: v for k, v in r.items() if k != "sello"}, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
+
+def _auditar_resoluciones(antes, despues):
+    """I13 inmutabilidad, I14 cadena de reconsideraciones, I15 correspondencia entre resolución y atribución exacta. Se evalúa en cada operación."""
+    cod = []; R0, R1 = antes["res"], despues["res"]
+    for k, r0 in R0.items():
+        r1 = R1.get(k)
+        if r1 is None: cod.append(("I13", "la resolución histórica %s fue eliminada" % k)); continue
+        if r1 != r0:
+            dif = sorted(f for f in set(r0) | set(r1) if r0.get(f) != r1.get(f))
+            cod.append(("I13", "la resolución %s fue %s (campos: %s)" % (k, "reemplazada con el mismo ID" if r0.get("seq") != r1.get("seq") else "modificada", ", ".join(dif))))
+    for k, r in R1.items():
+        if r.get("sello") != _sello_ind(r): cod.append(("I13", "el sello de la resolución %s no coincide con su contenido" % k))
+        if r["resultado"] not in ("aceptada", "rechazada"): cod.append(("I13", "la resolución %s tiene un resultado no definitivo (%s)" % (k, r["resultado"])))
+    # I14: cadena de reconsideraciones
+    for k, r in R1.items():
+        p = r.get("previo")
+        if p is None: continue
+        pr = R1.get(p); vis = [k]; q = p
+        while q is not None and q in R1 and q not in vis: vis.append(q); q = R1[q].get("previo")
+        if q in vis: cod.append(("I14", "la cadena de reconsideraciones de %s contiene un ciclo" % k))
+        if pr is None: cod.append(("I14", "la cadena de %s referencia un registro anterior inexistente (%s)" % (k, p))); continue
+        if pr["atribucion"] != r["atribucion"] or pr["org"] != r["org"]: cod.append(("I14", "la cadena de %s referencia un registro de otra atribución u organización" % k))
+        if pr["seq"] >= r["seq"]: cod.append(("I14", "el registro anterior de %s no es anterior en el tiempo" % k))
+        if r.get("previo_sello") != pr["sello"] or r.get("previo_sello") != _sello_ind(pr): cod.append(("I14", "el sello del registro anterior de %s no coincide con el contenido actual (el anterior fue alterado)" % k))
+        if pr["resultado"] != "rechazada": cod.append(("I14", "la reconsideración %s se apoya en una resolución que no fue rechazada" % k))
+    # I15: cada baja cita una resolución aceptada de esa atribución exacta, y cada resolución aceptada tiene su baja
+    bajas = [e for e in despues["est"] if e["estado"] == "historica"]
+    for e in bajas:
+        r = R1.get(e.get("resolucion"))
+        if r is None or r["resultado"] != "aceptada" or r["atribucion"] != e["atr"]: cod.append(("I15", "la baja de %s cita la resolución %s, que no existe, no fue aceptada o no corresponde a esa atribución" % (e["atr"], e.get("resolucion"))))
+    for k, r in R1.items():
+        if r["resultado"] == "aceptada" and sum(1 for e in bajas if e.get("resolucion") == k and e["atr"] == r["atribucion"]) != 1: cod.append(("I15", "la resolución aceptada %s no tiene exactamente una baja registrada para su atribución" % k))
+    for atr in {r["atribucion"] for r in R1.values() if r["resultado"] == "aceptada"}:
+        if sum(1 for r in R1.values() if r["atribucion"] == atr and r["resultado"] == "aceptada") > 1: cod.append(("I15", "la atribución %s tiene más de una resolución aceptada" % atr))
+    return cod
+
+def _arte_personas(s, vid):
+    return {s["at"][a]["persona"] for a in _activos(s) if s["at"][a].get("asset") and s["at"][a]["version"] in _exactas(s, vid)}
+
 def auditar_E(estado, resultado, vid):
-    """I7/I8: el E del motor debe coincidir con el E recalculado por el auditor y no presentarse completo con procedencia incompleta."""
-    cod = []; comp = _completa(estado, vid)
-    if not comp and (resultado.get("completa") or resultado.get("E") is not None): cod.append(("I8", "procedencia incompleta presentada como completa o con E parcial"))
+    """I7/I8: el E del motor debe coincidir con el E recalculado y no presentarse completo con procedencia incompleta (campos o arte).
+    I16 a I19: corrupción registrada en la procedencia del arte. I20: arte incompleto con E completo. I21: contribuyentes del arte ausentes de E."""
+    cod = []; h = _hall_arte_exactas(estado, vid); comp = _completa_campos(estado, vid) and not h
+    if not comp and (resultado.get("completa") or resultado.get("E") is not None):
+        cod.append(("I8", "procedencia incompleta presentada como completa o con E parcial"))
+        if h: cod.append(("I20", "la procedencia del arte es incompleta pero el motor declara E completo: %s" % h[0][1]))
+    cod += [x for x in h if x[0] in ("I16", "I17", "I18", "I19")]
     if comp:
         if not resultado.get("completa") or set((resultado.get("E") or {}).keys()) != _E(estado, vid): cod.append(("I7", "E del motor distinto del E recalculado sobre las atribuciones reales"))
+        if resultado.get("completa") and not _arte_personas(estado, vid) <= set(resultado.get("E") or {}): cod.append(("I21", "E omite a un contribuyente del arte: %s" % sorted(_arte_personas(estado, vid) - set(resultado.get("E") or {}))))
     return cod
 
 class Ejecucion:
@@ -492,7 +788,7 @@ class Ejecucion:
     def __init__(self, motor): self.m = motor; self.viol = []; self.pasos = []
     def op(self, nombre, fn, **desc):
         res_op = nombre in ("aplicar_resolucion", "rechazar_resolucion")
-        if res_op: desc["E0"] = self._eset(desc["vid"])
+        if res_op: desc["E0"] = self._eset(desc["vid"]); desc["sol"] = copy.deepcopy(self.m.solicitudes[desc["res"]])
         a = snapshot(self.m); r = fn(); b = snapshot(self.m)
         if res_op: desc["E1"] = self._eset(desc["vid"])
         v = auditar(a, b, dict(op=nombre, **desc)); self.viol += v; self.pasos.append((nombre, [x[0] for x in v])); return r
@@ -501,10 +797,10 @@ class Ejecucion:
     def E(self, vid):
         r = self.m.calcular_E(vid); self.viol += auditar_E(snapshot(self.m), r, vid); return r
 
-def _res(m, rid, atr, resolutor, solicitante="Q", motivador=None, evidencia="El texto vigente ya no contiene la propuesta original de la persona afectada", version=None, auth=None, actor_cambio=None, campo=None):
+def _res(m, rid, atr, resolutor, solicitante="Q", motivador=None, evidencia="El texto vigente ya no contiene la propuesta original de la persona afectada", version=None, auth=None, actor_cambio=None, campo=None, previo=None, motivo="El contenido cambió materialmente"):
     a = m.at[atr]; mot = motivador or [e["id"] for e in m.ev.values() if e["campo"] == a["campo"]][-1]
-    return m.registrar_resolucion(rid, org=m.org, atribucion=atr, afectado=a["persona"], fuente=a["fuente"], pieza=a["pieza"], campo=campo or a["campo"], version_evidencia=version or a["version"], evento_motivador=mot,
-                                  actor_cambio=actor_cambio or m.ev[mot]["actor"], solicitante=solicitante, resolutor=resolutor, auth_uid=auth or resolutor, evidencia=evidencia)
+    return m.solicitar_resolucion(rid, org=m.org, atribucion=atr, afectado=a["persona"], fuente=a["fuente"], pieza=a["pieza"], campo=campo or a["campo"], version_evidencia=version or a["version"], evento_motivador=mot,
+                                  actor_cambio=actor_cambio or m.ev[mot]["actor"], solicitante=solicitante, resolutor=resolutor, auth_uid=auth or resolutor, evidencia=evidencia, motivo=motivo, previo=previo)
 
 def _base(cls=Motor):
     m = cls()
@@ -521,7 +817,7 @@ def _a_headline(m, x, v="v2"):
 
 def esc_A(cls=Motor):
     m, x = _base(cls)
-    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1"), prev=None, nueva="v1", actor="A", campo="headline")
+    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="v1", actor="A", campo="headline")
     x.op("sustituir", lambda: m.sustituir_campo("copy", "v1", "v2", "headline", "Oferta nueva", "B"), prev="v1", nueva="v2", actor="B", campo="headline")
     e = x.E("v2"); asr = [("E tras la sustitución contiene a A y a B", ["A", "B"], sorted(e["E"] or {}))]
     asr.append(("la atribución de A sigue activa tras la sustitución", "activa", m.estado(_a_headline(m, x))))
@@ -532,7 +828,7 @@ def esc_A(cls=Motor):
 
 def esc_B(cls=Motor):
     m, x = _base(cls)
-    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1"), prev=None, nueva="v1", actor="A", campo="headline")
+    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="v1", actor="A", campo="headline")
     x.op("eliminar", lambda: m.eliminar_campo("copy", "v1", "v2", "headline", "B", True), prev="v1", nueva="v2", actor="B", campo="headline", material=True)
     e = x.E("v2"); a = [a for a in m.at.values() if a["version"] == "v2" and a["persona"] == "A"][0]
     asr = [("E tras la eliminación contiene a A y a B", ["A", "B"], sorted(e["E"] or {})), ("A permanece activa provisionalmente", "activa", m.estado(a["id"])),
@@ -544,7 +840,7 @@ def esc_B(cls=Motor):
 
 def _esc_dos_campos(cls):
     m, x = _base(cls)
-    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1"), prev=None, nueva="v1", actor="A", campo="headline")
+    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="v1", actor="A", campo="headline")
     x.op("introducir", lambda: m.introducir_campo("copy", "v1", "v2", "body", "Cuerpo", "A"), prev="v1", nueva="v2", actor="A", campo="body")
     x.op("sustituir", lambda: m.sustituir_campo("copy", "v2", "v3", "headline", "Oferta nueva", "B"), prev="v2", nueva="v3", actor="B", campo="headline")
     return m, x
@@ -559,8 +855,8 @@ def esc_C(cls=Motor):
 
 def esc_D(cls=Motor):
     m, x = _base(cls)
-    x.op("introducir", lambda: m.introducir_campo("brief", None, "bv1", "commercial_offer", "Oferta del brief", "A", pieza="P1"), prev=None, nueva="bv1", actor="A", campo="commercial_offer")
-    x.op("introducir", lambda: m.introducir_campo("copy", None, "cv1", "headline", "Compra hoy", "A", pieza="P1", refs={"brief": "bv1"}), prev=None, nueva="cv1", actor="A", campo="headline")
+    x.op("introducir", lambda: m.introducir_campo("brief", None, "bv1", "commercial_offer", "Oferta del brief", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="bv1", actor="A", campo="commercial_offer")
+    x.op("introducir", lambda: m.introducir_campo("copy", None, "cv1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica", refs={"brief": "bv1"}), prev=None, nueva="cv1", actor="A", campo="headline")
     x.op("sustituir", lambda: m.sustituir_campo("copy", "cv1", "cv2", "headline", "Oferta nueva", "B"), prev="cv1", nueva="cv2", actor="B", campo="headline")
     a = _a_headline(m, x, "cv2"); _res(m, "r1", a, "R", motivador=[k for k, ev in m.ev.items() if ev["actor"] == "B"][0])
     ok = x.op("aplicar_resolucion", lambda: m.aplicar_resolucion("r1"), res="r1", vid="cv2"); e = x.E("cv2")
@@ -570,7 +866,7 @@ def esc_D(cls=Motor):
 
 def _preparar_A(cls, tipo_res):
     m, x = _base(cls)
-    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1"), prev=None, nueva="v1", actor="A", campo="headline")
+    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="v1", actor="A", campo="headline")
     x.op("sustituir", lambda: m.sustituir_campo("copy", "v1", "v2", "headline", "Oferta nueva", "B"), prev="v1", nueva="v2", actor="B", campo="headline")
     return m, x
 
@@ -578,7 +874,7 @@ def esc_E(cls=Motor):
     m, x = _preparar_A(cls, "rechazada"); a = _a_headline(m, x); e0 = x.E("v2")
     _res(m, "r1", a, "R", motivador=[k for k, ev in m.ev.items() if ev["actor"] == "B"][0])
     x.op("rechazar_resolucion", lambda: m.rechazar_resolucion("r1", ["evidencia insuficiente según el revisor"]), res="r1", vid="v2"); e1 = x.E("v2")
-    asr = [("la resolución rechazada no cambia la atribución", "activa", m.estado(a)), ("E no cambia", sorted(e0["E"]), sorted(e1["E"])), ("el estado de la resolución es rechazada", "rechazada", m.res["r1"]["estado"])]
+    asr = [("la resolución rechazada no cambia la atribución", "activa", m.estado(a)), ("E no cambia", sorted(e0["E"]), sorted(e1["E"])), ("el resultado de la resolución es rechazada y definitivo", "rechazada", m.res["r1"]["resultado"])]
     return m, x, asr
 
 def esc_F(cls=Motor):
@@ -590,7 +886,7 @@ def esc_F(cls=Motor):
 
 def esc_G(cls=Motor):
     m, x = _base(cls)
-    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1"), prev=None, nueva="v1", actor="A", campo="headline")
+    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="v1", actor="A", campo="headline")
     x.op("introducir", lambda: m.introducir_campo("copy", "v1", "v2", "body", "Cuerpo", "B"), prev="v1", nueva="v2", actor="B", campo="body")
     x.op("sin_cambio", lambda: m.version_sin_cambio("copy", "v2", "v3", "C"), prev="v2", nueva="v3", actor="C")
     x.op("sin_cambio", lambda: m.version_sin_cambio("copy", "v3", "v4", "D"), prev="v3", nueva="v4", actor="D")
@@ -601,7 +897,7 @@ def esc_G(cls=Motor):
 
 def esc_H(cls=Motor):
     m, x = _base(cls)
-    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1"), prev=None, nueva="v1", actor="A", campo="headline")
+    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="v1", actor="A", campo="headline")
     m.v["vx"] = dict(id="vx", fuente="copy", pieza="P1", prev=None, campos={"headline": dict(contenido="importada", clasif="introducido", eliminado=False)}, refs={}, autor=None, seq=m.tick())
     e = x.E("vx"); e1 = x.E("v1")
     asr = [("la versión importada sin evidencia no produce un E completo", False, e["completa"]), ("no se entrega un E parcial", None, e["E"]), ("la versión con procedencia sí produce E", ["A"], sorted(e1["E"]))]
@@ -609,7 +905,7 @@ def esc_H(cls=Motor):
 
 def esc_I(cls=Motor):
     m, x = _base(cls)
-    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1"), prev=None, nueva="v1", actor="A", campo="headline")
+    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="v1", actor="A", campo="headline")
     x.op("modificar", lambda: m.modificar_campo("copy", "v1", "v2", "headline", "Compra hoy y ahorra", "B"), prev="v1", nueva="v2", actor="B", campo="headline")
     e0 = x.E("v2"); h = len(m.clas_hist)
     x.op("clasificar", lambda: m.cambiar_clasificacion("v2", "headline", "sustituido", "Q"), vid="v2")
@@ -620,7 +916,7 @@ def esc_I(cls=Motor):
 
 def esc_J(cls=Motor):
     m, x = _base(cls)
-    x.op("introducir", lambda: m.introducir_campo("copy", None, "cv1", "headline", "Compra hoy", "A", pieza="P1"), prev=None, nueva="cv1", actor="A", campo="headline")
+    x.op("introducir", lambda: m.introducir_campo("copy", None, "cv1", "headline", "Compra hoy", "A", pieza="P1", arte="con_arte"), prev=None, nueva="cv1", actor="A", campo="headline")
     m.registrar_asset("a1", "cv1", "A")
     x.op("sustituir", lambda: m.sustituir_campo("copy", "cv1", "cv2", "headline", "Oferta nueva", "B"), prev="cv1", nueva="cv2", actor="B", campo="headline")
     a = _a_headline(m, x, "cv2"); _res(m, "r1", a, "R", motivador=[k for k, ev in m.ev.items() if ev["actor"] == "B"][0])
@@ -631,11 +927,11 @@ def esc_J(cls=Motor):
 
 def esc_K(cls=Motor):
     m, x = _base(cls)
-    x.op("introducir", lambda: m.introducir_campo("brief", None, "bv", "commercial_offer", "Oferta", "C", pieza="P1"), prev=None, nueva="bv", actor="C", campo="commercial_offer")
-    x.op("introducir", lambda: m.introducir_campo("promotion", None, "ps", "discount", "20%", "Pm", pieza="P1"), prev=None, nueva="ps", actor="Pm", campo="discount")
-    x.op("introducir", lambda: m.introducir_campo("copy", None, "cvm", "headline", "Compra hoy", "A", pieza="P1"), prev=None, nueva="cvm", actor="A", campo="headline")
+    x.op("introducir", lambda: m.introducir_campo("brief", None, "bv", "commercial_offer", "Oferta", "C", pieza="P1", arte="no_aplica"), prev=None, nueva="bv", actor="C", campo="commercial_offer")
+    x.op("introducir", lambda: m.introducir_campo("promotion", None, "ps", "discount", "20%", "Pm", pieza="P1", arte="no_aplica"), prev=None, nueva="ps", actor="Pm", campo="discount")
+    x.op("introducir", lambda: m.introducir_campo("copy", None, "cvm", "headline", "Compra hoy", "A", pieza="P1", arte="con_arte"), prev=None, nueva="cvm", actor="A", campo="headline")
     m.registrar_asset("a1", "cvm", "U")
-    x.op("introducir", lambda: m.introducir_campo("copy", None, "ca", "headline", "Adaptación", "W", pieza="P2", refs={"brief": "bv", "promotion": "ps", "master": "cvm"}), prev=None, nueva="ca", actor="W", campo="headline")
+    x.op("introducir", lambda: m.introducir_campo("copy", None, "ca", "headline", "Adaptación", "W", pieza="P2", arte="con_arte", refs={"brief": "bv", "promotion": "ps", "master": "cvm"}), prev=None, nueva="ca", actor="W", campo="headline")
     m.registrar_asset("a2", "ca", "W", reused_from="a1")
     e = x.E("ca"); reut = [a for a in m.at.values() if a["version"] == "ca" and a["fuente"] == "asset"][0]
     asr = [("E de la adaptación incorpora copy, brief, promoción, asset y maestra", ["A", "C", "Pm", "U", "W"], sorted(e["E"] or {})), ("quien reutiliza el asset (W) no es el uploader del asset", "U", reut["persona"]),
@@ -645,7 +941,7 @@ def esc_K(cls=Motor):
 def esc_L(cls=Motor):
     m, x = _preparar_A(cls, "sin elegible"); a = _a_headline(m, x); m.roles["revisor"] = set()
     r = _res(m, "r1", a, "R", motivador=[k for k, ev in m.ev.items() if ev["actor"] == "B"][0])
-    elegibles = resolutores_elegibles(m, m.res["r1"])
+    elegibles = resolutores_elegibles(m, m.solicitudes["r1"])
     ok = x.op("aplicar_resolucion", lambda: m.aplicar_resolucion("r1"), res="r1", vid="v2"); e = x.E("v2")
     asr = [("no existe resolutor elegible", [], elegibles), ("la resolución no se aplica", False, ok), ("la atribución permanece activa", "activa", m.estado(a)), ("E no excluye a A", True, "A" in (e["E"] or {}))]
     return m, x, asr
@@ -662,7 +958,7 @@ def uniformidad(cls=Motor):
     firmas = {}
     for f in ("copy", "brief", "promotion"):
         m, x = _base(cls)
-        x.op("introducir", lambda: m.introducir_campo(f, None, "v1", "f1", "texto uno", "A", pieza="P1"), prev=None, nueva="v1", actor="A", campo="f1")
+        x.op("introducir", lambda: m.introducir_campo(f, None, "v1", "f1", "texto uno", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="v1", actor="A", campo="f1")
         x.op("modificar", lambda: m.modificar_campo(f, "v1", "v2", "f1", "texto dos", "B"), prev="v1", nueva="v2", actor="B", campo="f1")
         x.op("sustituir", lambda: m.sustituir_campo(f, "v2", "v3", "f1", "otro texto", "C"), prev="v2", nueva="v3", actor="C", campo="f1")
         x.op("eliminar", lambda: m.eliminar_campo(f, "v3", "v4", "f1", "D", True), prev="v3", nueva="v4", actor="D", campo="f1", material=True)
@@ -672,7 +968,7 @@ def metamorfico(cls=Motor):
     firmas = []
     for nuevo in ("Compra hoy con 20% de descuento en toda la tienda", "Zapatos de piel hechos a mano"):
         m, x = _base(cls)
-        x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy con 25% de descuento en toda la tienda", "A", pieza="P1"), prev=None, nueva="v1", actor="A", campo="headline")
+        x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy con 25% de descuento en toda la tienda", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="v1", actor="A", campo="headline")
         x.op("sustituir", lambda: m.sustituir_campo("copy", "v1", "v2", "headline", nuevo, "B"), prev="v1", nueva="v2", actor="B", campo="headline")
         firmas.append(sorted((a["persona"], a["campo"], a["rel"], m.estado(a["id"])) for a in m.at.values() if a["version"] == "v2"))
     return firmas, ([] if firmas[0] == firmas[1] else [("I11", "el resultado sobre las atribuciones depende de la similitud del texto")])
@@ -681,7 +977,7 @@ def conformidad_tabla(P_clas):
     nombres = {"brief": "brief", "promoción": "promotion", "copy": "copy"}; dif = []
     for fila in P_clas:
         f = nombres[fila["fuente"]]; c = fila["clas"]; m, x = _base()
-        m.introducir_campo(f, None, "v1", "f1", "uno", "A", pieza="P1"); fn = {"sin_cambio": lambda: m.version_sin_cambio(f, "v1", "v2", "X"), "introducido": lambda: m.introducir_campo(f, "v1", "v2", "f2", "dos", "X"),
+        m.introducir_campo(f, None, "v1", "f1", "uno", "A", pieza="P1", arte="no_aplica"); fn = {"sin_cambio": lambda: m.version_sin_cambio(f, "v1", "v2", "X"), "introducido": lambda: m.introducir_campo(f, "v1", "v2", "f2", "dos", "X"),
             "modificado": lambda: m.modificar_campo(f, "v1", "v2", "f1", "tres", "X"), "sustituido": lambda: m.sustituir_campo(f, "v1", "v2", "f1", "cuatro", "X"), "eliminado": lambda: m.eliminar_campo(f, "v1", "v2", "f1", "X", True)}[c]
         fn(); act = m.activas("v2")
         cons = "todas" if any(a["persona"] == "A" and a["campo"] == "f1" for a in act) else "ninguna"; inc = "sí" if any(a["persona"] == "X" and a["rel"] == "directa" for a in act) else "no"
@@ -704,15 +1000,15 @@ class M03(Motor):
     def modificar_campo(s, fuente, prev, nueva, campo, contenido, actor):
         r = super().modificar_campo(fuente, prev, nueva, campo, contenido, actor); _retirar(s, [a["id"] for a in s.activas(nueva) if a["campo"] == campo and a["rel"] == "heredada"][:1]); return r
 class M04(Motor):
-    def introducir_campo(s, fuente, prev, nueva, campo, contenido, actor, pieza=None, refs=None):
-        pieza = pieza or (s.v[prev]["pieza"] if prev else "P1"); s._nueva(fuente, prev, nueva, pieza, refs or (s.v[prev]["refs"] if prev else None), actor)
+    def introducir_campo(s, fuente, prev, nueva, campo, contenido, actor, pieza=None, refs=None, arte=None):
+        pieza = pieza or (s.v[prev]["pieza"] if prev else "P1"); s._nueva(fuente, prev, nueva, pieza, refs or (s.v[prev]["refs"] if prev else None), actor, arte)
         s.v[nueva]["campos"][campo] = dict(contenido=contenido, clasif="introducido", eliminado=False); s.clas_hist.append((nueva, campo, "introducido")); s._evento(fuente, nueva, actor, campo); return nueva
 class M05(Motor):
     def calcular_E(s, vid):
         r = super().calcular_E(vid)
         if r["E"]:
             for rs in s.res.values():
-                if rs["estado"] == "rechazada": r["E"].pop(rs["afectado"], None)
+                if rs["resultado"] == "rechazada": r["E"].pop(rs["afectado"], None)
         return r
 class M06(Motor):
     def aplicar_resolucion(s, rid):
@@ -736,7 +1032,7 @@ class M10(Motor):
         r = super().calcular_E(vid)
         if r["E"]:
             for rs in s.res.values():
-                if rs["estado"] == "aceptada": r["E"].pop(rs["afectado"], None)
+                if rs["resultado"] == "aceptada": r["E"].pop(rs["afectado"], None)
         return r
 class M11(Motor):
     def sustituir_campo(s, fuente, prev, nueva, campo, contenido, actor):
@@ -806,16 +1102,16 @@ class M25(Motor):
         r = super().calcular_E(vid)
         if r["E"]:
             for rs in s.res.values():
-                if rs["estado"] == "aceptada" and len({a["fuente"] for a in s.at.values() if a["persona"] == rs["afectado"]}) > 1: r["E"].pop(rs["afectado"], None)
+                if rs["resultado"] == "aceptada" and len({a["fuente"] for a in s.at.values() if a["persona"] == rs["afectado"]}) > 1: r["E"].pop(rs["afectado"], None)
         return r
 class M26(Motor):
     def aplicar_resolucion(s, rid):
-        cod = s.validar_resolucion(rid)
-        if cod: return s.rechazar_resolucion(rid, cod)
-        r = s.res[rid]; r["estado"] = "aceptada"; r["evidencia_historica"] = copy.deepcopy(s.v[r["version_evidencia"]]["campos"].get(r["campo"]))
-        previos = [e for e in s.est if e["atr"] == r["atribucion"]]
+        sol = s.solicitudes[rid]; cod = s.validar_resolucion(sol)
+        if cod: s.registrar_resolucion(rid, "rechazada", cod, **sol); return False
+        s.registrar_resolucion(rid, "aceptada", (), **sol)
+        previos = [e for e in s.est if e["atr"] == sol["atribucion"]]
         if previos: previos[-1].update(estado="historica", resolucion=rid)
-        else: s.est.append(dict(seq=s.tick(), atr=r["atribucion"], estado="historica", resolucion=rid, motivo="resolución aceptada"))
+        else: s.est.append(dict(seq=s.tick(), atr=sol["atribucion"], estado="historica", resolucion=rid, motivo="resolución aceptada"))
         return True
 
 def esc_indep(cls=Motor):
@@ -827,15 +1123,15 @@ def _caso_R(k, cls):
     """Prepara una resolución cuyo resolutor incumple la regla Rk (y puede incumplir otras por solapamiento natural)."""
     m, x = _base(cls); sol = "Q"; res_ = "R"
     if k in ("R6", "R7", "R9"):
-        x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1"), prev=None, nueva="v1", actor="A", campo="headline")
+        x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="v1", actor="A", campo="headline")
         x.op("modificar", lambda: m.modificar_campo("copy", "v1", "v1b", "headline", "Compra hoy ya", "R2"), prev="v1", nueva="v1b", actor="R2", campo="headline")
         x.op("sustituir", lambda: m.sustituir_campo("copy", "v1b", "v2", "headline", "Oferta nueva", "B"), prev="v1b", nueva="v2", actor="B", campo="headline"); res_ = "R2"
     elif k == "R8":
-        x.op("introducir", lambda: m.introducir_campo("brief", None, "bv", "commercial_offer", "Oferta", "R2", pieza="P1"), prev=None, nueva="bv", actor="R2", campo="commercial_offer")
-        x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1", refs={"brief": "bv"}), prev=None, nueva="v1", actor="A", campo="headline")
+        x.op("introducir", lambda: m.introducir_campo("brief", None, "bv", "commercial_offer", "Oferta", "R2", pieza="P1", arte="no_aplica"), prev=None, nueva="bv", actor="R2", campo="commercial_offer")
+        x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica", refs={"brief": "bv"}), prev=None, nueva="v1", actor="A", campo="headline")
         x.op("sustituir", lambda: m.sustituir_campo("copy", "v1", "v2", "headline", "Oferta nueva", "B"), prev="v1", nueva="v2", actor="B", campo="headline"); res_ = "R2"
     else:
-        x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1"), prev=None, nueva="v1", actor="A", campo="headline")
+        x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="v1", actor="A", campo="headline")
         x.op("sustituir", lambda: m.sustituir_campo("copy", "v1", "v2", "headline", "Oferta nueva", "B"), prev="v1", nueva="v2", actor="B", campo="headline")
         res_ = {"R1": "Zz", "R2": "C", "R3": "A", "R4": "R2", "R5": "B"}[k]
         if k == "R4": sol = "R2"
@@ -857,21 +1153,21 @@ def _sin_regla(k):
     M.__name__ = "Msin" + k; return M
 def esc_H_brief(cls=Motor):
     m, x = _base(cls)
-    x.op("introducir", lambda: m.introducir_campo("copy", None, "cv1", "headline", "Compra hoy", "A", pieza="P1", refs={"brief": "bvx"}), prev=None, nueva="cv1", actor="A", campo="headline")
+    x.op("introducir", lambda: m.introducir_campo("copy", None, "cv1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica", refs={"brief": "bvx"}), prev=None, nueva="cv1", actor="A", campo="headline")
     m.v["bvx"] = dict(id="bvx", fuente="brief", pieza="P1", prev=None, campos={"commercial_offer": dict(contenido="sin procedencia", clasif="introducido", eliminado=False)}, refs={}, autor=None, seq=m.tick())
     e = x.E("cv1"); return m, x, [("la procedencia del brief está incompleta: E no es completo", False, e["completa"])]
 def esc_H_promo(cls=Motor):
     m, x = _base(cls)
-    x.op("introducir", lambda: m.introducir_campo("copy", None, "cv1", "headline", "Compra hoy", "A", pieza="P1", refs={"promotion": "psx"}), prev=None, nueva="cv1", actor="A", campo="headline")
+    x.op("introducir", lambda: m.introducir_campo("copy", None, "cv1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica", refs={"promotion": "psx"}), prev=None, nueva="cv1", actor="A", campo="headline")
     m.v["psx"] = dict(id="psx", fuente="promotion", pieza="P1", prev=None, campos={"discount": dict(contenido="sin procedencia", clasif="introducido", eliminado=False)}, refs={}, autor=None, seq=m.tick())
     e = x.E("cv1"); return m, x, [("la procedencia de la promoción está incompleta: E no es completo", False, e["completa"])]
 def esc_intro(cls=Motor):
     m, x = _base(cls)
-    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1"), prev=None, nueva="v1", actor="A", campo="headline")
+    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="v1", actor="A", campo="headline")
     e = x.E("v1"); return m, x, [("el autor que introduce el campo se incorpora a E", ["A"], sorted(e["E"] or {}))]
 def esc_mod(cls=Motor):
     m, x = _base(cls)
-    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1"), prev=None, nueva="v1", actor="A", campo="headline")
+    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="v1", actor="A", campo="headline")
     x.op("modificar", lambda: m.modificar_campo("copy", "v1", "v2", "headline", "Compra hoy y ahorra", "B"), prev="v1", nueva="v2", actor="B", campo="headline")
     e = x.E("v2"); return m, x, [("E tras la modificación contiene a A y a B", ["A", "B"], sorted(e["E"] or {}))]
 def esc_unif(cls=Motor):
@@ -899,29 +1195,241 @@ K47_MUT = [
 ] + [("K47-M%d" % (28 + i), "el motor no evalúa la regla %s del resolutor (%s)" % (k, d), "I4", _sin_regla(k), esc_Rk(k)) for i, (k, d) in enumerate((("R1", "membresía activa"), ("R2", "piece.review"), ("R3", "afectado"), ("R4", "solicitante"), ("R5", "actor del cambio"),
                                                                                                                                       ("R6", "contribuyente directo de la cadena"), ("R7", "contribuyente heredado activo"), ("R8", "contribuyente de otra fuente de la cadena"), ("R9", "beneficiario")))]
 
+# =====================================================================================================
+# v10: escenario de resoluciones inmutables y cadena de reconsideración (base de R01–R12)
+# =====================================================================================================
+def esc_resol(cls=Motor):
+    m, x = _base(cls)
+    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="v1", actor="A", campo="headline")
+    x.op("sustituir", lambda: m.sustituir_campo("copy", "v1", "v2", "headline", "Oferta nueva", "B"), prev="v1", nueva="v2", actor="B", campo="headline")
+    x.op("introducir", lambda: m.introducir_campo("copy", "v2", "v3", "body", "Cuerpo", "C"), prev="v2", nueva="v3", actor="C", campo="body")
+    aA = _a_headline(m, x, "v2"); aC = [a["id"] for a in m.at.values() if a["version"] == "v3" and a["persona"] == "C" and a["campo"] == "body"][0]
+    _res(m, "r1", aA, "R", evidencia="")
+    ok1 = x.op("aplicar_resolucion", lambda: m.aplicar_resolucion("r1"), res="r1", vid="v2"); r1_antes = copy.deepcopy(_plano(m.res["r1"])); g = lambda rid, k: m.res[rid][k] if rid in m.res else None
+    _res(m, "r2", aA, "R", previo="r1")
+    ok2 = x.op("aplicar_resolucion", lambda: m.aplicar_resolucion("r2"), res="r2", vid="v2")
+    _res(m, "r3", aC, "R2")
+    x.op("rechazar_resolucion", lambda: m.rechazar_resolucion("r3", ["evidencia insuficiente según el revisor"]), res="r3", vid="v3")
+    e2 = x.E("v2")
+    asr = [("la primera resolución sin evidencia nace rechazada y definitiva", ("rechazada", False), (g("r1", "resultado"), ok1)), ("la reconsideración crea un registro nuevo que referencia al anterior", ("r1", "aceptada", True), (g("r2", "previo"), g("r2", "resultado"), ok2)),
+           ("el registro rechazado original se conserva íntegro", r1_antes, _plano(m.res["r1"]) if "r1" in m.res else None), ("la cadena se obtiene recorriendo registros", ["r1", "r2"], m.cadena_resoluciones(aA)), ("la decisión vigente se deriva de la cadena", "aceptada", m.decision_vigente(aA)),
+           ("solo la atribución exacta pasa a histórica", ("historica", "activa"), (m.estado(aA), m.estado(aC))), ("la resolución rechazada de otra atribución no cambia nada", "rechazada", g("r3", "resultado")), ("A sale de E porque no conserva otra atribución activa", False, "A" in (e2["E"] or {}))]
+    return m, x, asr
+
+def _alterar(s, rid, resellar=True, **cambios):
+    """Defecto inyectado: reescribe una fila ya persistida eludiendo la guarda del registro (el auditor debe detectarlo igualmente)."""
+    plano = {k: dict(v) for k, v in s.res.items()}; plano[rid] = dict(plano[rid], **cambios)
+    if resellar: plano[rid]["sello"] = sello_de(plano[rid])
+    s.res = plano
+def _otra_atr(s, persona, campo): return [a["id"] for a in s.at.values() if a["persona"] == persona and a["campo"] == campo][0]
+
+class _MR(Motor):
+    """Base de las mutaciones R: la alteración se aplica al terminar la última operación del escenario (r3)."""
+    def rechazar_resolucion(s, rid, motivos):
+        r = super().rechazar_resolucion(rid, motivos)
+        if rid == "r3": s.alterar()
+        return r
+class R01(_MR):
+    def alterar(s): _alterar(s, "r2", resultado="rechazada")
+class R02(_MR):
+    def alterar(s): _alterar(s, "r2", evidencia="Evidencia distinta incorporada después")
+class R03(_MR):
+    def alterar(s): _alterar(s, "r2", resolutor="R2", auth_uid="R2")
+class R04(_MR):
+    def alterar(s): _alterar(s, "r2", solicitante="Pm")
+class R05(_MR):
+    def alterar(s): _alterar(s, "r2", atribucion=_otra_atr(s, "C", "body"))
+class R06(_MR):
+    def alterar(s): _alterar(s, "r2", version_evidencia="v1")
+class R07(_MR):
+    def alterar(s): s.res = {k: dict(v) for k, v in s.res.items() if k != "r1"}
+class R08(_MR):
+    def alterar(s): _alterar(s, "r1", resultado="aceptada", resolutor="R2", auth_uid="R2", evidencia="Registro nuevo con el mismo ID", seq=s.tick())
+class R09(_MR):
+    def alterar(s): _alterar(s, "r3", resultado="aceptada", motivos=[])
+class R10(_MR):
+    def alterar(s): s.est.append(dict(seq=s.tick(), atr=_otra_atr(s, "C", "body"), estado="historica", resolucion="r2", motivo="reutilización de una resolución aceptada"))
+class R11(_MR):
+    def alterar(s): _alterar(s, "r2", previo="r3", previo_sello=s.res["r3"]["sello"])
+class R12(_MR):
+    def alterar(s): _alterar(s, "r1", resultado="aceptada", resolutor="R", auth_uid="R", motivos=[], evidencia="Decisión posterior escrita sobre el registro anterior")
+
+RES_MUT = [("K47-R01", "modificar el resultado de una resolución existente", "I13", R01, esc_resol, "resultado"), ("K47-R02", "modificar la evidencia de una resolución existente", "I13", R02, esc_resol, "evidencia"),
+           ("K47-R03", "modificar el resolutor de una resolución existente", "I13", R03, esc_resol, "resolutor"), ("K47-R04", "modificar el solicitante de una resolución existente", "I13", R04, esc_resol, "solicitante"),
+           ("K47-R05", "cambiar la atribución afectada por una resolución", "I15", R05, esc_resol, "no corresponde"), ("K47-R06", "cambiar la versión afectada por una resolución", "I13", R06, esc_resol, "version_evidencia"),
+           ("K47-R07", "eliminar una resolución histórica", "I13", R07, esc_resol, "eliminada"), ("K47-R08", "reemplazar una resolución usando el mismo ID", "I13", R08, esc_resol, "reemplazada con el mismo ID"),
+           ("K47-R09", "convertir una resolución rechazada en aceptada", "I15", R09, esc_resol, "aceptada"), ("K47-R10", "reutilizar una resolución aceptada para otra atribución", "I15", R10, esc_resol, "cita la resolución r2"),
+           ("K47-R11", "alterar la cadena de reconsideraciones", "I14", R11, esc_resol, "otra atribución"), ("K47-R12", "reescribir una resolución anterior para simular una decisión posterior", "I14", R12, esc_resol, "anterior fue alterado")]
+
+def pruebas_guarda():
+    """Controles de la guarda estructural del registro (no son mutaciones): cada intento directo debe lanzar ResolucionInmutable y dejar el registro intacto."""
+    m, x, _ = esc_resol(Motor); ref = _plano(m.res); out = []
+    intentos = [("asignar un campo de una fila", lambda: m.res["r1"].__setitem__("resultado", "aceptada")), ("eliminar un campo de una fila", lambda: m.res["r1"].__delitem__("evidencia")), ("actualizar una fila", lambda: m.res["r1"].update(resolutor="R2")),
+                ("reemplazar una fila con el mismo ID", lambda: m.res.__setitem__("r1", {"id": "r1"})), ("eliminar una resolución", lambda: m.res.__delitem__("r1")), ("vaciar el registro", lambda: m.res.clear()),
+                ("agregar con un ID existente", lambda: m.res.agregar(dict(m.res["r1"]))), ("modificar la evidencia histórica anidada", lambda: m.res["r2"]["evidencia_historica"].__setitem__("contenido", "x")),
+                ("volver a aplicar una resolución con el mismo ID", lambda: (m.solicitar_resolucion("r2", **{k: v for k, v in m.solicitudes["r2"].items()}), m.aplicar_resolucion("r2")))]
+    for nombre, fn in intentos:
+        try: fn(); ok = False
+        except ResolucionInmutable: ok = True
+        except Exception: ok = False
+        out.append((nombre, ok and _plano(m.res) == ref))
+    return out
+
+# =====================================================================================================
+# v10: escenarios de procedencia del arte (casos positivos y base de A01–A15)
+# =====================================================================================================
+def _intro_cv(x, m, vid, autor, pieza="P1", arte="con_arte", refs=None):
+    x.op("introducir", lambda: m.introducir_campo("copy", None, vid, "headline", "Compra hoy", autor, pieza=pieza, refs=refs, arte=arte), prev=None, nueva=vid, actor=autor, campo="headline")
+
+def esc_art_nuevo(cls=Motor):
+    m, x = _base(cls); _intro_cv(x, m, "cv1", "A")
+    x.op("registrar_asset", lambda: m.registrar_asset("a1", "cv1", "U")); e = x.E("cv1"); a1 = m.assets["a1"]; ev = m.ev.get(a1["evento_carga"], {}); at = [t for t in m.at.values() if t.get("asset") == "a1"]
+    asr = [("el uploader original queda registrado", "U", a1["uploader_original"]), ("el evento de carga lo ejecutó el uploader", ("asset_uploader", "U"), (ev.get("tipo"), ev.get("actor"))), ("el asset queda vinculado a la organización, pieza y versión de copy exactas", ("X", "P1", "cv1"), (a1["org"], a1["pieza"], a1["copy_version"])),
+           ("la atribución del uploader es directa y activa", [("U", "directa", "activa")], [(t["persona"], t["rel"], m.estado(t["id"])) for t in at]), ("E completo incluye al uploader y al autor del copy", ["A", "U"], sorted(e["E"] or {}))]
+    return m, x, asr
+def _reut(cls):
+    m, x = _base(cls); _intro_cv(x, m, "cvm", "A"); x.op("registrar_asset", lambda: m.registrar_asset("a1", "cvm", "U"))
+    _intro_cv(x, m, "ca", "W", pieza="P2", refs={"master": "cvm"}); x.op("registrar_asset", lambda: m.registrar_asset("a2", "ca", "W", reused_from="a1")); return m, x
+def esc_art_reutilizado(cls=Motor):
+    m, x = _reut(cls); e = x.E("ca"); a2 = m.assets["a2"]; ev = m.ev.get(a2["evento_reutilizacion"], {}); at = sorted((t["persona"], t["rel"]) for t in m.at.values() if t["version"] == "ca" and t.get("asset"))
+    asr = [("el asset reutilizado conserva al uploader original distinto del reutilizador", ("U", "W"), (a2["uploader_original"], a2["reutilizador"])), ("el evento de reutilización lo ejecutó el reutilizador", ("copy_author", "W"), (ev.get("tipo"), ev.get("actor"))),
+           ("el uploader original conserva su atribución heredada y el reutilizador una atribución directa propia", [("U", "heredada"), ("W", "directa")], at), ("el asset de origen y la versión exacta quedan referenciados", ("a1", "ca"), (a2["origen"], a2["copy_version"])), ("E incluye al uploader original y al reutilizador", ["A", "U", "W"], sorted(e["E"] or {}))]
+    return m, x, asr
+def esc_art_modificado(cls=Motor):
+    m, x = _base(cls); _intro_cv(x, m, "cv1", "A"); x.op("registrar_asset", lambda: m.registrar_asset("a1", "cv1", "U")); a1_0 = copy.deepcopy(m.assets["a1"])
+    x.op("modificar", lambda: m.modificar_asset("cv1", "cv2", "a1b", "a1", "D"), prev="cv1", nueva="cv2", actor="D", campo="arte"); e = x.E("cv2")
+    at = sorted((t["persona"], t["rel"], m.estado(t["id"])) for t in m.at.values() if t["version"] == "cv2" and t.get("asset"))
+    asr = [("la versión anterior del asset no se sobrescribe", a1_0, m.assets["a1"]), ("el asset nuevo referencia a su versión anterior", ("a1", 2), (m.assets["a1b"]["previo"], m.assets["a1b"]["version_asset"])),
+           ("se conserva la atribución anterior y se agrega la del editor", [("D", "directa", "activa"), ("U", "heredada", "activa")], at), ("E incluye al uploader original y al editor", ["A", "D", "U"], sorted(e["E"] or {}))]
+    return m, x, asr
+def esc_art_sustituido(cls=Motor):
+    m, x = _base(cls); _intro_cv(x, m, "cv1", "A"); x.op("registrar_asset", lambda: m.registrar_asset("a1", "cv1", "U"))
+    x.op("sustituir", lambda: m.sustituir_asset("cv1", "cv2", "a2", "a1", "W"), prev="cv1", nueva="cv2", actor="W", campo="arte"); e = x.E("cv2")
+    at = sorted((t["persona"], t["rel"], m.estado(t["id"])) for t in m.at.values() if t["version"] == "cv2" and t.get("asset"))
+    asr = [("la atribución anterior se conserva y se agrega la nueva carga", [("U", "heredada", "activa"), ("W", "directa", "activa")], at), ("ninguna atribución pasó a histórica sin resolución", True, all(m.estado(t) == "activa" for t in m.at)), ("E incluye a ambos uploaders", ["A", "U", "W"], sorted(e["E"] or {}))]
+    return m, x, asr
+def esc_art_eliminado(cls=Motor):
+    m, x = _base(cls); _intro_cv(x, m, "cv1", "A"); x.op("registrar_asset", lambda: m.registrar_asset("a1", "cv1", "U"))
+    x.op("eliminar", lambda: m.eliminar_asset("cv1", "cv2", "D"), prev="cv1", nueva="cv2", actor="D", campo="arte", material=True); e = x.E("cv2")
+    asr = [("el uso del asset queda eliminado y el historial se conserva", (True, True), (m.v["cv2"]["campos"]["arte"]["eliminado"], "a1" in m.assets)), ("la atribución del uploader no se elimina automáticamente", ["activa"], [m.estado(t["id"]) for t in m.at.values() if t["version"] == "cv2" and t.get("asset") == "a1"]), ("E conserva al uploader", True, "U" in (e["E"] or {}))]
+    return m, x, asr
+def esc_art_encadenado(cls=Motor):
+    m, x = _reut(cls); _intro_cv(x, m, "cc", "D", pieza="P3", refs={"master": "ca"}); x.op("registrar_asset", lambda: m.registrar_asset("a3", "cc", "D", reused_from="a2")); e = x.E("cc")
+    asr = [("la cadena a3 → a2 → a1 se reconstruye completa", ["a3", "a2", "a1"], sorted(m._cierre_asset("a3"), reverse=True)), ("el uploader original de la raíz se conserva en la cadena", "U", m.assets["a3"]["uploader_original"]), ("E incluye a la raíz, al intermedio y al último reutilizador", ["D", "U", "W"], sorted(e["E"] or {}))]
+    return m, x, asr
+def esc_art_noaplica(cls=Motor):
+    m, x = _base(cls); _intro_cv(x, m, "cv1", "A", arte="no_aplica"); e1 = x.E("cv1")
+    x.op("introducir", lambda: m.introducir_campo("copy", None, "cv2", "headline", "Otra pieza", "B", pieza="P1"), prev=None, nueva="cv2", actor="B", campo="headline"); e2 = x.E("cv2")
+    asr = [("la versión declarada no_aplica produce E completo", True, e1["completa"]), ("la declaración identifica al actor y el estado", ("no_aplica", "A"), (m.arte_decl["cv1"]["estado"], m.arte_decl["cv1"]["actor"])),
+           ("la ausencia de registros de arte no se acepta como no_aplica", (False, None), (e2["completa"], e2["E"]))]
+    return m, x, asr
+ESC_ARTE = [("PA1", "asset nuevo con uploader y evento de carga correctos", esc_art_nuevo), ("PA2", "asset reutilizado con uploader y reutilizador diferenciados", esc_art_reutilizado), ("PA3", "asset modificado con conservación de atribuciones", esc_art_modificado),
+            ("PA4", "versión sin arte declarada no_aplica", esc_art_noaplica), ("PA5", "asset sustituido con conservación provisional", esc_art_sustituido), ("PA6", "asset eliminado con historial conservado", esc_art_eliminado), ("PA7", "reutilización encadenada completa", esc_art_encadenado)]
+
+class _MA(Motor):
+    def registrar_asset(s, aid, copy_version, uploader, reused_from=None, material=True):
+        r = super().registrar_asset(aid, copy_version, uploader, reused_from, material); s.tocar(aid, copy_version, uploader, reused_from); return r
+    def tocar(s, aid, cv, up, rf): pass
+class A01(_MA):
+    def tocar(s, aid, cv, up, rf): s.assets[aid]["uploader"] = None
+class A02(_MA):
+    def tocar(s, aid, cv, up, rf): s.assets[aid]["evento_carga"] = None
+class A03(_MA):
+    def tocar(s, aid, cv, up, rf):
+        if rf: s.assets[aid]["org"] = "Y"
+class A04(_MA):
+    def tocar(s, aid, cv, up, rf):
+        if rf: s.assets[aid]["pieza"] = "P9"
+class A05(_MA):
+    def tocar(s, aid, cv, up, rf):
+        if rf: s.assets[aid]["copy_version"] = "cvm"
+class A06(_MA):
+    def tocar(s, aid, cv, up, rf):
+        if rf:
+            s.assets[aid]["uploader_original"] = up
+            for t in s.at.values():
+                if t.get("asset") == aid and t["rel"] == "heredada": t["persona"] = up
+class A07(_MA):
+    def tocar(s, aid, cv, up, rf):
+        if rf: s.assets[aid]["evento_reutilizacion"] = None
+class A08(_MA):
+    def tocar(s, aid, cv, up, rf):
+        if rf: s.assets[aid]["origen"] = None
+class A09(_MA):
+    def tocar(s, aid, cv, up, rf):
+        if rf: s.assets[rf]["origen"] = aid; s.assets[rf]["tipo"] = "reutilizado"
+class A10(_MA):
+    def tocar(s, aid, cv, up, rf):
+        if rf: s.assets[aid]["origen"] = "a_x"
+class A11(Motor):
+    def modificar_asset(s, prev, nueva, aid, aid_prev, editor):
+        r = super().modificar_asset(prev, nueva, aid, aid_prev, editor); _retirar(s, [a["id"] for a in s.activas(nueva) if a["fuente"] == "asset" and a["rel"] == "heredada"]); return r
+class A12(Motor):
+    def sustituir_asset(s, prev, nueva, aid, aid_prev, uploader):
+        r = super().sustituir_asset(prev, nueva, aid, aid_prev, uploader); _retirar(s, [a["id"] for a in s.activas(nueva) if a["fuente"] == "asset" and a["rel"] == "heredada"]); return r
+class A13(Motor):
+    def eliminar_asset(s, prev, nueva, actor):
+        r = super().eliminar_asset(prev, nueva, actor)
+        for k in [k for k, t in s.at.items() if t["fuente"] == "asset"]: del s.at[k]
+        del s.assets["a1"]; return r
+class A14(_MA):
+    def tocar(s, aid, cv, up, rf): s.assets[aid]["uploader"] = None
+    def _huecos_arte(s, cur): return []
+class A15(Motor):
+    def calcular_E(s, vid):
+        r = super().calcular_E(vid)
+        if r["E"]:
+            for p in {t["persona"] for t in s.at.values() if t["fuente"] == "asset"} - {t["persona"] for t in s.at.values() if t["fuente"] != "asset"}: r["E"].pop(p, None)
+        return r
+
+class A16(Motor):
+    def _huecos_arte(s, cur): return []
+
+ART_MUT = [("K47-A01", "una versión usa un asset sin uploader", "I16", A01, esc_art_nuevo, "uploader"), ("K47-A02", "una versión usa un asset sin evento de carga", "I16", A02, esc_art_nuevo, "evento de carga"),
+           ("K47-A03", "el asset pertenece a otra organización", "I19", A03, esc_art_reutilizado, "organización"), ("K47-A04", "el asset pertenece a otra pieza sin relación válida", "I19", A04, esc_art_reutilizado, "pieza"),
+           ("K47-A05", "la reutilización apunta a otra versión de copy", "I18", A05, esc_art_reutilizado, "versión de copy"), ("K47-A06", "el reutilizador sustituye al uploader original", "I17", A06, esc_art_reutilizado, "uploader original"),
+           ("K47-A07", "asset reutilizado sin evento de reutilización", "I17", A07, esc_art_reutilizado, "evento de reutilización"), ("K47-A08", "asset heredado sin referencia al origen", "I19", A08, esc_art_reutilizado, "sin referencia"),
+           ("K47-A09", "la cadena de assets contiene un ciclo", "I19", A09, esc_art_reutilizado, "ciclo"), ("K47-A10", "el asset de origen no existe", "I19", A10, esc_art_reutilizado, "inexistente"),
+           ("K47-A11", "un asset modificado pierde la atribución anterior", "I1", A11, esc_art_modificado, "retiró"), ("K47-A12", "un asset sustituido elimina la atribución anterior automáticamente", "I1", A12, esc_art_sustituido, "retiró"),
+           ("K47-A13", "un asset eliminado borra su historial", "I6", A13, esc_art_eliminado, "desapareció"), ("K47-A14", "un arte incompleto permite declarar E completo", "I20", A14, esc_art_nuevo, "arte"),
+           ("K47-A15", "el cálculo de E omite a los contribuyentes del arte", "I21", A15, esc_art_reutilizado, "omite"),
+           ("K47-A16", "la ausencia de registros de arte se acepta como no_aplica", "I20", A16, esc_art_noaplica, "no declara")]
+
 def _estado_final(m): return repr(snapshot(m))
 
 def correr_escenarios():
     """Los 12 escenarios más las comprobaciones de uniformidad y metamorfismo, con el motor correcto."""
     out = []
-    for cod, nombre, fn in ESCENARIOS + [("U", "uniformidad entre copy, brief y promoción", esc_unif), ("S", "independencia de la similitud textual", esc_meta), ("X", "resolutor no independiente rechazado", esc_indep), ("R", "cada regla R1 a R9 impide resolver", esc_Rtodas)]:
+    for cod, nombre, fn in ESCENARIOS + [("U", "uniformidad entre copy, brief y promoción", esc_unif), ("S", "independencia de la similitud textual", esc_meta), ("X", "resolutor no independiente rechazado", esc_indep), ("R", "cada regla R1 a R9 impide resolver", esc_Rtodas), ("RS", "resoluciones inmutables y cadena de reconsideración", esc_resol)]:
         try:
             m, x, asr = fn(Motor); fallos = [a for a in asr if a[1] != a[2]]
             out.append(dict(id=cod, nombre=nombre, ok=not fallos and not x.viol, asr=asr, viol=[v[0] for v in x.viol], pasos=len(x.pasos), fallos=[(a[0], a[1], a[2]) for a in fallos]))
         except Exception as ex: out.append(dict(id=cod, nombre=nombre, ok=False, asr=[], viol=["EXCEPCIÓN %s" % type(ex).__name__], pasos=0, fallos=[(str(ex)[:80], "", "")]))
     return out
 
-def correr_mutaciones_k47():
+def _correr_lista(lista):
+    """Cada mutación parte de un escenario válido (motor correcto), cambia UNA cosa (motor defectuoso) y exige el código y la condición específica."""
     res = []
-    for mid, nom, inv, cls, esc in K47_MUT:
+    for mid, nom, inv, cls, esc, *kw in lista:
+        kw = kw[0] if kw else ""
         try: m0, x0, a0 = esc(Motor); inicial_ok = not x0.viol and all(a[1] == a[2] for a in a0); f0 = _estado_final(m0)
         except Exception as ex: inicial_ok = False; f0 = ""
         try:
             m1, x1, a1 = esc(cls); cods = sorted({v[0] for v in x1.viol}); err = None; cambio = _estado_final(m1) != f0 or any(a[1] != a[2] for a in a1) or bool(cods)
-        except Exception as ex: cods = []; err = "%s: %s" % (type(ex).__name__, str(ex)[:60]); cambio = False
-        det = inicial_ok and err is None and cambio and inv in cods
-        res.append(dict(id=mid, mut=nom, esp=inv, obs=("detectada por " + ", ".join(cods)) if cods else ("ERROR de ejecución: %s" % err if err else "no detectada"), det=bool(det), valido=inicial_ok, cambio=bool(cambio), err=err))
+            msg = [v[1] for v in x1.viol if v[0] == inv and kw in v[1]]
+        except Exception as ex: cods = []; msg = []; err = "%s: %s" % (type(ex).__name__, str(ex)[:60]); cambio = False
+        det = inicial_ok and err is None and cambio and bool(msg)
+        res.append(dict(id=mid, mut=nom, esp=inv, kw=kw, obs=("detectada por " + ", ".join(cods) + (" · «%s»" % msg[0][:110] if msg else "")) if cods else ("ERROR de ejecución: %s" % err if err else "no detectada"), det=bool(det), valido=inicial_ok, cambio=bool(cambio), err=err))
     return res
+def correr_mutaciones_k47(): return _correr_lista(K47_MUT)
+def correr_mutaciones_resoluciones(): return _correr_lista(RES_MUT)
+def correr_mutaciones_assets(): return _correr_lista(ART_MUT)
+def correr_positivos_arte():
+    out = []
+    for cod, nombre, fn in ESC_ARTE:
+        try: m, x, asr = fn(Motor); fallos = [a for a in asr if a[1] != a[2]]; out.append(dict(id=cod, nombre=nombre, ok=not fallos and not x.viol, asr=asr, viol=[v[0] for v in x.viol], fallos=[(a[0], a[1], a[2]) for a in fallos]))
+        except Exception as ex: out.append(dict(id=cod, nombre=nombre, ok=False, asr=[], viol=["EXCEPCIÓN %s" % type(ex).__name__], fallos=[(str(ex)[:80], "", "")]))
+    return out
 
 def correr_mutaciones_k45(M):
     res = []; positivos = []

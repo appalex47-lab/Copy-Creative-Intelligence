@@ -1,9 +1,9 @@
 ---
 name: auditoria_final_g1_g5_g10
-description: Auditoría final de la revisión v9 de G-1, G-5 y G-10 (matriz de 28 controles, verificador publicado con resultado real, pruebas estructurales de K45, K46 y K47, auditoría integral de 28 puntos, riesgos residuales)
+description: Auditoría final de la revisión v10 de G-1, G-5 y G-10 (matriz de 28 controles, verificador publicado con resultado real, pruebas estructurales de K45, K46 y K47, auditoría integral de 28 puntos, riesgos residuales)
 ---
 
-# AUDITORÍA FINAL — G-1, G-5 Y G-10 (revisión v9)
+# AUDITORÍA FINAL — G-1, G-5 Y G-10 (revisión v10)
 
 Los escenarios de diseño (T-xx) no están ejecutados. Se ejecutan pruebas de modelo en memoria (K45, K46, K47) y comprobaciones documentales; ninguna es una prueba en PostgreSQL ni Supabase y el diseño no está validado técnicamente.
 
@@ -12,7 +12,7 @@ Los escenarios de diseño (T-xx) no están ejecutados. Se ejecutan pruebas de mo
 | Nivel | Estado | Alcance |
 |---|---|---|
 | 1. Fase 0 v3.3 | COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES DOCUMENTADAS | No se reabre ni se modifica; SHA-256 `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da` sin cambio |
-| 2. Diseño complementario v9 (G-1, G-5, G-10) | COMPLETADO DOCUMENTALMENTE Y PREPARADO PARA ACEPTACIÓN FORMAL DEL PROPIETARIO, CON LIMITACIONES TÉCNICAS EXPLÍCITAS | Pendiente de aceptación formal del propietario; no validado técnicamente; la Adenda v9 sigue sin aceptar (PO-05) |
+| 2. Diseño complementario v10 (G-1, G-5, G-10) | COMPLETADO DOCUMENTALMENTE Y PREPARADO PARA ACEPTACIÓN FORMAL DEL PROPIETARIO, CON LIMITACIONES TÉCNICAS EXPLÍCITAS | Pendiente de aceptación formal del propietario; no validado técnicamente; la Adenda v9 sigue sin aceptar (PO-05) |
 | 3. Fase 1 | NO INICIADA / NO AUTORIZADA | Requiere autorización expresa; este diseño no la concede |
 
 
@@ -23,14 +23,12 @@ Los escenarios de diseño (T-xx) no están ejecutados. Se ejecutan pruebas de mo
 | Validado técnicamente | Ejecución real contra PostgreSQL, RLS y Supabase con las pruebas de la matriz | **Pendiente**: ningún control ni escenario alcanza este nivel |
 
 
-## 1. Hallazgos de la v8 y su corrección
+## 1. Hallazgos de la v9 y su corrección
 
 | Hallazgo | Defecto | Corrección (resumen) | Referencia | Reglas | Escenarios |
 |---|---|---|---|---|---|
-| K45 La integridad semántica no se demostraba sobre relaciones reales | La v8 evaluaba la correspondencia entre evento y atribución sobre etiquetas de un caso plano (un sello «origen:id» y el campo `piece` declarado) y no demostraba que la fuente física perteneciera a la misma pieza que declaran el evento y la atribución, ni que la reutilización del arte correspondiera a la versión exacta de copy que lo usa. | Modelo relacional con entidades independientes (organizaciones, miembros, piezas, versiones de brief, snapshots, versiones de copy, assets, eventos, atribuciones, herencia y reutilización) y 15 contro… | ESPECIFICACION 4.4.10 y 4.4.11 | IG5-81 a IG5-84, IG5-96, IE-12 | T-389 a T-403 |
-| K47 La conservación de atribuciones se leía en tablas, no se ejecutaba | `simular_k47` leía celdas de tablas («todas», «ninguna», «solo la referenciada») y sus 14 mutaciones editaban el texto de una tabla; no demostraba que cada persona conservara sus atribuciones individuales a través de versiones y fuentes ni que E se obtuviera recorriendo atribuciones reales. | Motor en memoria con atribuciones individuales, versiones inmutables, resoluciones y bitácora de estados que solo se agrega; las trece operaciones son funciones independientes; E se calcula recorriend… | ESPECIFICACION 4.4.8, 4.4.10 y 4.4.11 | IG5-72, IG5-90, IG5-91, IG5-97, IE-12 | T-404 a T-422 |
-| K46 La independencia se probaba solo sobre un caso plano | K46 conservaba sus 12 mutaciones pero no comprobaba que cada resolutor elegible fuera aceptado (falsos positivos) ni que R1 a R9 se aplicaran sobre la cadena del modelo estructural. | K46 se conserva sin debilitar: 12 mutaciones; cada resolutor elegible del caso de referencia se acepta; el motor de K47 valida las condiciones V01 a V12 y R1 a R9 sobre su propia cadena y el auditor l… | ESPECIFICACION 4.4.10 y 4.4.11 | IG5-92, IG5-95, IE-12 | T-376 a T-388 |
-| Consistencia Estados y cifras de la v8 desactualizados respecto de la verificación estructural | La v8 declaraba K45 y K47 aprobados con 14 mutaciones cada uno sobre un caso plano y un texto de tabla, y 65 mutaciones en total. | Informe, auditoría, roadmap y registro se regeneran desde el verificador: el número de mutaciones, escenarios y controles sale de su ejecución; el registro declara superada la verificación de la v8; K… | REGISTRO; AUDITORIA 3 | IE-04 | T-376 a T-422 |
+| A Las resoluciones no eran realmente inmutables | En la v9 el registro de resoluciones era un diccionario modificable: se podía cambiar el resultado, la evidencia, el resolutor, el solicitante, la atribución o la versión de una resolución ya registrada, reemplazarla con el mismo identificador o eliminarla, y una resolución quedaba como estado provisional que se aceptaba o rechazaba después; el auditor de K47 comparaba atribuciones y no registros, de modo que la alteración no se veía. | Registro de solo agregado con filas congeladas y sello SHA-256; cada resolución nace aceptada o rechazada; la reconsideración es un registro nuevo con `previous_resolution_id` que deja intacto el ante… | ESPECIFICACION 4.4.4 y 4.4.12 | IG5-92, IG5-93, IG5-98, IE-12 | T-423 a T-439 |
+| B La procedencia del arte no formaba parte de la reconstrucción | En la v9 `reconstruir_procedencia` omitía el campo arte: un asset sin uploader o sin evento de carga producía un E completo, una versión sin arte no declaraba `no_aplica`, la reutilización no distinguía al uploader original del reutilizador y una cadena de reutilización con ciclos o con origen inexistente no bloqueaba E. | El arte es procedencia obligatoria: cada versión de copy declara `con_arte` o `no_aplica` de forma explícita; cada asset registra organización, pieza, versión del asset, uploader original, evento de c… | ESPECIFICACION 4.4.4 y 4.4.12 | IG5-83, IG5-94, IG5-99, IE-12 | T-440 a T-465 |
 
 ## 2. Orden único de creación
 
@@ -150,34 +148,34 @@ Una sola herramienta publicada, `docs/fase0/herramientas/verificar_expediente.py
 | Dependencias | Python 3.8 o superior; solo biblioteca estándar; el módulo `docs/fase0/herramientas/modelo_estructural.py` (modelo relacional de K45 y motor de K47) debe estar junto al verificador; no accede a red, base de datos ni servicios |
 | Entrada | Los cinco documentos activos, los archivos de `historico/` (SHA-256 del manifiesto del registro) y, opcionalmente con `--v33 RUTA`, el archivo original de la línea base v3.3 |
 | Salida | Un resultado por comprobación (APRUEBA, FALLA o PENDIENTE), la matriz de 28 controles con 10 campos y la auditoría integral de 28 puntos; código de salida 1 si algo falla |
-| Número de comprobaciones | 51 |
+| Número de comprobaciones | 52 |
 | Reproducibilidad | La comprobación K41 ejecuta todo dos veces y compara; el bloque siguiente se genera con `--md` y se puede regenerar y comparar. El verificador ignora el bloque al analizar para no depender de su propio resultado |
-| Controles negativos | K42 ejecuta 100 mutaciones, cada una desde un estado válido y con un único cambio, y exige que el control correspondiente la rechace con la condición esperada: M-01 a M-25 (relaciones, actor, asset, versión, antecesor, resoluciones, sustitución textual, estructura del expediente y un bit alterado en una copia del original de v3.3), K46-M01 a K46-M12 (independencia del resolutor sobre un caso con cadena), K45-M01 a K45-M27 (un cambio en un registro del modelo relacional, detectado por C01 a C15) y K47-M01 a K47-M36 (un fallo inyectado en una operación del motor, detectado por el auditor independiente por I1 a I12). Una mutación cuyo estado inicial no es válido, que no cambia el caso, que termina en excepción o que solo se detecta por otro código no cuenta como detectada |
-| Modelo estructural | `docs/fase0/herramientas/modelo_estructural.py`: tablas del modelo relacional de K45 (organizaciones, miembros, piezas, versiones de brief, snapshots, versiones de copy, assets, eventos y atribuciones); motor de K47 con las operaciones crear versión, introducir, modificar, sustituir y eliminar campo, heredar, registrar, rechazar y aplicar resolución, cambiar clasificación, reconstruir procedencia, calcular E y comprobar completitud; auditor independiente de I1 a I12. Datos ficticios; todo en memoria |
+| Controles negativos | K42 ejecuta 128 mutaciones, cada una desde un estado válido y con un único cambio, y exige que el control correspondiente la rechace con la condición esperada: M-01 a M-25 (relaciones, actor, asset, versión, antecesor, resoluciones, sustitución textual, estructura del expediente y un bit alterado en una copia del original de v3.3), K46-M01 a K46-M12 (independencia del resolutor sobre un caso con cadena), K45-M01 a K45-M27 (un cambio en un registro del modelo relacional, detectado por C01 a C15) y K47-M01 a K47-M36 (un fallo inyectado en una operación del motor, detectado por el auditor independiente por I1 a I12), K47-R01 a K47-R12 (un registro de resoluciones alterado fuera del motor, con el sello recalculado cuando procede, detectado por I13 a I15 con la condición específica) y K47-A01 a K47-A16 (una procedencia de arte alterada o incompleta, detectada por I1, I6 e I16 a I21 con la condición específica). Una mutación cuyo estado inicial no es válido, que no cambia el caso, que termina en excepción o que solo se detecta por otro código no cuenta como detectada |
+| Modelo estructural | `docs/fase0/herramientas/modelo_estructural.py`: tablas del modelo relacional de K45 (organizaciones, miembros, piezas, versiones de brief, snapshots, versiones de copy, assets, eventos y atribuciones); motor de K47 con las operaciones crear versión, introducir, modificar, sustituir y eliminar campo, heredar, registrar, rechazar y aplicar resolución, cambiar clasificación, reconstruir procedencia, calcular E y comprobar completitud; auditor independiente de I1 a I21; registro de resoluciones de solo agregado con sello SHA-256 y cadena de reconsideración; asset con uploader, evento de carga, reutilizador y cadena de reutilización. Datos ficticios; todo en memoria |
 | Hash de v3.3 (K48) | El archivo original de v3.3 no está en el repositorio; el bloque siguiente se generó indicando su ruta con `--v33`, por lo que K48 calculó su SHA-256 y lo comparó con `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da`. Una ejecución sin `--v33` deja K48 en PENDIENTE_ARCHIVO_ORIGINAL_NO_DISPONIBLE y no declara el hash como comprobado: el hash escrito en el registro es solo un registro histórico (K25) |
 | Limitaciones | Análisis sintáctico de Markdown: no ejecuta SQL, no valida PostgreSQL ni RLS, no renderiza Mermaid (solo compara aristas y cuenta pasos) y no prueba la semántica de negocio; es verificación documental, no validación técnica |
 
 ### Resultado real del verificador
 
 <!-- VERIFICADOR:INICIO -->
-**Comprobaciones ejecutadas: 51. Aprobadas: 51. Fallidas: 0. Pendientes: 0.** Controles: 28; OK: 28; NO OK: 0; PENDIENTE: 0. Mutaciones negativas: 100; detectadas: 100; no detectadas: 0.
+**Comprobaciones ejecutadas: 52. Aprobadas: 52. Fallidas: 0. Pendientes: 0.** Controles: 28; OK: 28; NO OK: 0; PENDIENTE: 0. Mutaciones negativas: 128; detectadas: 128; no detectadas: 0.
 
 | Comprobación | Resultado | Descripción | Regla | Documento y sección |
 |---|---|---|---|---|
 | K01 | APRUEBA | Los cinco documentos activos existen y no están vacíos | IE-08 | todos |
-| K02 | APRUEBA | IDs de reglas únicos (212 reglas) y con el mismo texto en la definición y en la cobertura | IE-08 | ESPECIFICACION 11 |
-| K03 | APRUEBA | IDs de escenarios únicos y consecutivos (422 escenarios) | IE-08 | ESPECIFICACION 11 |
+| K02 | APRUEBA | IDs de reglas únicos (214 reglas) y con el mismo texto en la definición y en la cobertura | IE-08 | ESPECIFICACION 11 |
+| K03 | APRUEBA | IDs de escenarios únicos y consecutivos (465 escenarios) | IE-08 | ESPECIFICACION 11 |
 | K04 | APRUEBA | Todo escenario tiene ID, requisito, datos iniciales, acción, resultado esperado, resultado prohibido, criterio, nivel y reglas | IE-07 | ESPECIFICACION 11 |
 | K05 | APRUEBA | Todo escenario referencia solo reglas existentes | IE-08 | ESPECIFICACION 11 |
-| K06 | APRUEBA | Toda regla tiene al menos un escenario (cobertura 212 de 212) | IE-08 | ESPECIFICACION 11 |
+| K06 | APRUEBA | Toda regla tiene al menos un escenario (cobertura 214 de 214) | IE-08 | ESPECIFICACION 11 |
 | K07 | APRUEBA | Todo escenario está asociado a al menos una regla | IE-08 | ESPECIFICACION 11 |
 | K08 | APRUEBA | La tabla de cobertura regla-escenario de la especificación coincide con las referencias de los escenarios | IE-08 | ESPECIFICACION 11 |
-| K09 | APRUEBA | Cifras recalculadas desde los archivos (212 reglas, 422 escenarios, 41 tablas, 14 nuevas) y coincidentes en los cinco documentos | IE-06 | ESPECIFICACION 11.1; INFORME |
+| K09 | APRUEBA | Cifras recalculadas desde los archivos (214 reglas, 465 escenarios, 41 tablas, 14 nuevas) y coincidentes en los cinco documentos | IE-06 | ESPECIFICACION 11.1; INFORME |
 | K10 | APRUEBA | La fórmula del conjunto excluido E es idéntica en todos los documentos (10 apariciones) | IG5-56 | ESPECIFICACION 4.4.3 |
 | K11 | APRUEBA | Existe una sola definición de contribuyente (figuras A a F en 4.4.3) y no se redefine en otros documentos | IG5-40 | ESPECIFICACION 4.4.3 |
 | K12 | APRUEBA | Los diez errores de procedencia están en el contrato de version_contributors y cada uno aparece en al menos un escenario | IG5-78 | ESPECIFICACION 4.4.5 |
 | K13 | APRUEBA | Los 26 escenarios mínimos de H-02 existen (26 escenarios H-02, con datos, versiones, actores, acción, esperado, prohibido, regla y nivel) | IG5-69 a IG5-79 | ESPECIFICACION 4.4.8 |
-| K14 | APRUEBA | Contrato de integridad (54 relaciones): 10 campos completos por fila, toda FK de las nueve tablas de procedencia figura en él y toda FK incluye organization_id | IG5-80 | ESPECIFICACION 4.4.9 |
+| K14 | APRUEBA | Contrato de integridad (56 relaciones): 10 campos completos por fila, toda FK de las nueve tablas de procedencia figura en él y toda FK incluye organization_id | IG5-80 | ESPECIFICACION 4.4.9 |
 | K15 | APRUEBA | Las nueve tablas de procedencia tienen bloque de definición y fila en el orden de creación; sin tablas repetidas (41 tablas) | IG5-80 | ESPECIFICACION 4.4.4; 14.1 |
 | K16 | APRUEBA | Orden de creación: ninguna tabla, función o trigger depende de un objeto posterior y ninguna FK apunta a una tabla creada después (100 pasos) | IE-08 (H-01 de la v4) | ESPECIFICACION 14.1 |
 | K17 | APRUEBA | La secuencia de subfases de creación es idéntica en especificación, roadmap y auditoría | H-01 v4 | ROADMAP 3; AUDITORIA 2 |
@@ -185,13 +183,13 @@ Una sola herramienta publicada, `docs/fase0/herramientas/verificar_expediente.py
 | K19 | APRUEBA | Las 17 claves físicas permanecen: las claves citadas están entre las 17, las 17 figuran en la especificación y ninguna frase crea permisos ni roles | P8 | ESPECIFICACION 10.1 |
 | K20 | APRUEBA | T-02 conserva 13 transiciones: sin transición #14 o posterior, sin estados ni transiciones nuevos | P8, IP-01 | ESPECIFICACION 1 y 2 |
 | K21 | APRUEBA | Las decisiones y limitaciones pendientes del propietario se conservan visibles (14 elementos) en especificación, informe y registro | IG5-48 | ESPECIFICACION 12.3; INFORME |
-| K22 | APRUEBA | Estados: v3.3 aceptada como línea base, v9 completada documentalmente y preparada para aceptación formal, Fase 1 no iniciada; ningún documento declara aceptación del propietario de la v9 | IE-04 | todos |
+| K22 | APRUEBA | Estados: v3.3 aceptada como línea base, v10 completada documentalmente y preparada para aceptación formal, Fase 1 no iniciada; ningún documento declara aceptación del propietario de la v10 | IE-04 | todos |
 | K23 | APRUEBA | Ningún documento afirma validación técnica ni pruebas técnicas ejecutadas (toda mención está negada o pendiente) | IE-05 | todos |
 | K24 | APRUEBA | La atribución no usa IA, similitud, embeddings ni inferencias probabilísticas como autoridad (toda mención está negada) y IG5-70 define la regla determinista | IG5-43, IG5-70 | ESPECIFICACION 4.4.8 |
-| K25 | APRUEBA | Los archivos históricos conservan su SHA-256 registrado en el manifiesto (28 archivos) y el registro cita el hash aceptado de v3.3 con b5dccdc7 (registro histórico; la comprobación criptográfica del original es K48) | IE-04 | REGISTRO manifiesto |
+| K25 | APRUEBA | Los archivos históricos conservan su SHA-256 registrado en el manifiesto (32 archivos) y el registro cita el hash aceptado de v3.3 con b5dccdc7 (registro histórico; la comprobación criptográfica del original es K48) | IE-04 | REGISTRO manifiesto |
 | K26 | APRUEBA | El diagrama de relaciones (32 aristas) coincide con las relaciones del contrato de integridad | IG5-80 | ESPECIFICACION 4.4.4 |
 | K27 | APRUEBA | Sin contradicciones con las versiones anteriores en los documentos activos (patrones de fuentes, errores y pendientes obsoletos) | IE-08 | todos |
-| K28 | APRUEBA | Registro histórico: entradas ordenadas por revisión hasta la v9 con el commit previo a6b36b9… y manifiesto de históricos | IE-04 | REGISTRO |
+| K28 | APRUEBA | Registro histórico: entradas ordenadas por revisión hasta la v10 con el commit previo 638ca8c… (y el de la v9, a6b36b9…) y manifiesto de históricos | IE-04 | REGISTRO |
 | K29 | APRUEBA | La especificación documenta la herramienta publicada, su comando y sus límites | IE-08 | ESPECIFICACION 11.2; AUDITORIA 3 |
 | K30 | APRUEBA | El flujo integrado de 4.4.7 tiene los 19 pasos en el orden obligatorio | IG5-88 | ESPECIFICACION 4.4.7 |
 | K31 | APRUEBA | Los niveles de evidencia están definidos (Diseñado, Verificado documentalmente, Validado técnicamente) y IE-05 a IE-08 existen | IE-05 | AUDITORIA 1 |
@@ -203,18 +201,19 @@ Una sola herramienta publicada, `docs/fase0/herramientas/verificar_expediente.py
 | K37 | APRUEBA | Las reglas de contribución directa, herencia de copy y procedencia de copy y arte existen y tienen escenarios (10 reglas) | IG5-49 a IG5-54, IG5-83, IG5-84 | ESPECIFICACION 4.4.3 y 4.4.9 |
 | K38 | APRUEBA | H-02: 12 campos de brief y 9 de promoción catalogados, regla de segmentos (IG5-70), cálculo de atribuciones (IG5-72), historial (IG5-73), dos algoritmos de 10 pasos y reglas IG5-69 a IG5-79 | IG5-69 a IG5-79 | ESPECIFICACION 4.4.8 |
 | K39 | APRUEBA | Reglas de G-7 (C1 a C9) y de G-10 (37 reglas IG10) presentes con cobertura | IG10-* | ESPECIFICACION 5 y 6.2 |
-| K44 | APRUEBA | Integridad estructural de 105 relaciones: longitud, orden exacto de columnas, organization_id, PK o UNIQUE de destino con las mismas columnas, tipos compatibles, contrato igual a los bloques, sin relaciones rotas ni circulares | IG5-80, IE-09 | ESPECIFICACION 4.4.4 y 4.4.9 |
+| K44 | APRUEBA | Integridad estructural de 108 relaciones: longitud, orden exacto de columnas, organization_id, PK o UNIQUE de destino con las mismas columnas, tipos compatibles, contrato igual a los bloques, sin relaciones rotas ni circulares | IG5-80, IE-09 | ESPECIFICACION 4.4.4 y 4.4.9 |
 | K45 | APRUEBA | Integridad semántica sobre un modelo relacional con identidad propia (organizaciones, miembros, piezas, versiones de brief, snapshots, versiones de copy, assets, eventos, atribuciones, herencia y reutilización): 15 controles C01 a C15 evaluados sobre las relaciones reales, matriz de correspondencias de 4.4.10 (S1 a S12) contrastada con los nombres físicos, 3 casos positivos sin falsos positivos y 27 mutaciones detectadas cada una por su código | IG5-81 a IG5-84, IG5-96, IS-16, IE-09, IE-12 | ESPECIFICACION 4.4.4, 4.4.9 y 4.4.10 |
 | K46 | APRUEBA | Resolución independiente de descarte: afectado, solicitante y actor del cambio no resuelven, evidencia ligada a la misma atribución y versión, autoridad de revisión, identidad autenticada, independencia respecto de todos los contribuyentes y eventos de la cadena (R1 a R9), fail-closed sin resolutor elegible, cada resolutor elegible aceptado (sin falsos positivos) y 12 mutaciones detectadas | IG5-92, IG5-93, IG5-95, IE-12 | ESPECIFICACION 4.4.4, 4.4.8 y 4.4.10 |
-| K47 | APRUEBA | Conservación estructural: motor en memoria con atribuciones individuales, versiones inmutables, resoluciones y E calculado recorriendo las atribuciones reales; 12 escenarios (A a L) y comprobaciones de uniformidad entre fuentes y de independencia de la similitud aprobados; auditor independiente de 12 invariantes; tabla C de 4.4.10 igual al comportamiento observado del motor; 36 mutaciones detectadas; además ninguna regla, algoritmo ni escenario retira por sustitución, eliminación, hash o retained_segments = 0 | IG5-72, IG5-90, IG5-91, IG5-97, IE-12 | ESPECIFICACION 4.4.8 y 4.4.10 |
-| K52 | APRUEBA | Cobertura estructural v9: controles C01 a C15 con mutación (15/15), invariantes I1 a I12 con mutación (12/12), escenarios A a L aprobados (12/12) y comprobaciones U, S, X y R aprobadas, fixtures iniciales válidos y ninguna mutación con excepción | IG5-95 a IG5-97, IE-12 | ESPECIFICACION 4.4.10 y 4.4.11 |
-| K50 | APRUEBA | Registro histórico: cada entrada de revisión sucede a la anterior (vN posterior a vN-1; 6 entradas) | IE-04 | REGISTRO |
+| K47 | APRUEBA | Conservación estructural: motor en memoria con atribuciones individuales, versiones inmutables, resoluciones y E calculado recorriendo las atribuciones reales; 12 escenarios (A a L), el escenario de resoluciones inmutables (RS) y comprobaciones de uniformidad entre fuentes y de independencia de la similitud aprobados; registro de resoluciones sellado y de solo agregado con 9 intentos directos de alteración rechazados; procedencia del arte por versión de copy con 7 casos positivos; auditor independiente de 21 invariantes (I1 a I21); tabla C de 4.4.10 igual al comportamiento observado del motor; 36 mutaciones previas, 12 de resoluciones inmutables (R01 a R12) y 16 de assets (A01 a A16) detectadas; además ninguna regla, algoritmo ni escenario retira por sustitución, eliminación, hash o retained_segments = 0 | IG5-72, IG5-90, IG5-91, IG5-97, IE-12 | ESPECIFICACION 4.4.8 y 4.4.10 |
+| K52 | APRUEBA | Cobertura estructural v10: controles C01 a C15 con mutación (15/15), invariantes I1 a I21 con mutación (21/21), escenarios A a L aprobados (12/12), comprobaciones U, S, X, R y RS aprobadas, 7 casos positivos de arte, 9 intentos directos contra el registro de resoluciones rechazados, fixtures iniciales válidos y ninguna mutación con excepción | IG5-95 a IG5-99, IE-12 | ESPECIFICACION 4.4.10, 4.4.11 y 4.4.12 |
+| K50 | APRUEBA | Registro histórico: cada entrada de revisión sucede a la anterior (vN posterior a vN-1; 7 entradas) | IE-04 | REGISTRO |
 | K51 | APRUEBA | Cobertura v8: IG5-95, IG5-96, IG5-97 e IE-12 con escenarios (resolutor 13, correspondencias 15, conservación 19) | IG5-95 a IG5-97, IE-12 | ESPECIFICACION 4.4.10 y 11 |
+| K53 | APRUEBA | Cobertura v10: IG5-98, IG5-99 e IE-12 con escenarios (resoluciones inmutables 17, arte 26) y la sección 4.4.12 documenta I13 a I21, las 12 mutaciones de resoluciones, las 16 de assets y los 7 casos positivos | IG5-98, IG5-99, IE-12 | ESPECIFICACION 4.4.12 |
 | K49 | APRUEBA | H-02 v7: reglas IG5-90 a IG5-94 con cobertura y los 16 escenarios obligatorios (19 escenarios de atribución v7) | IG5-90 a IG5-94 | ESPECIFICACION 4.4.8 |
 | K48 | APRUEBA | Hash de la línea base v3.3 calculado sobre los bytes de «fase0_v3_3_integral.md»: b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da; esperado b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da; COINCIDE | IE-10 | REGISTRO; AUDITORIA 3 |
 | K40 | APRUEBA | La matriz define 28 controles con ID estable único, regla, sección, evidencia, procedimiento, resultado, estado y nivel; ninguno es OK sin comprobaciones aprobadas | IE-06, IE-07 | AUDITORIA 3 |
 | K41 | APRUEBA | Reproducibilidad: dos ejecuciones sobre los mismos archivos producen los mismos resultados individuales | IE-08 | AUDITORIA 3 |
-| K42 | APRUEBA | Controles negativos: 100 mutaciones introducidas en copias en memoria, 100 detectadas, 0 no detectadas | IE-08, IE-11 | AUDITORIA 3 |
+| K42 | APRUEBA | Controles negativos: 128 mutaciones introducidas en copias en memoria, 128 detectadas, 0 no detectadas | IE-08, IE-11 | AUDITORIA 3 |
 
 **Mutaciones negativas (regresión completa).** Cada una parte de un estado inicial válido, aplica un único cambio identificable, ejecuta el control que debe detectarlo y registra el resultado esperado y el observado. Un veredicto DETECTADA exige además que el estado inicial sea válido y que el cambio modifique realmente el caso.
 
@@ -283,42 +282,70 @@ Una sola herramienta publicada, `docs/fase0/herramientas/verificar_expediente.py
 | K45-M25 | IG5-96 (C12) | válido: modelo relacional con 6 eventos y 9 atribuciones, 0 violaciones | el asset original lo cargó una persona distinta del actor del evento | rechazo con C12 | rechazado con C12 | DETECTADA |
 | K45-M26 | IG5-96 (C15) | válido: modelo relacional con 6 eventos y 9 atribuciones, 0 violaciones | versión de copy de P1 referencia una versión de brief de otra organización | rechazo con C15 | rechazado con C15 | DETECTADA |
 | K45-M27 | IG5-96 (C13) | válido: modelo relacional con 6 eventos y 9 atribuciones, 0 violaciones | la atribución de asset reutilizado usa un asset de la misma versión cuya cadena de reutilización no llega al asset del evento | rechazo con C13 | rechazado con C13 | DETECTADA |
-| K47-M01 | IG5-97 (I1) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | sustituir_campo retira automáticamente la atribución anterior | violación I1 | detectada por I1 | DETECTADA |
-| K47-M02 | IG5-97 (I1) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | eliminar_campo retira automáticamente la atribución anterior | violación I1 | detectada por I1 | DETECTADA |
-| K47-M03 | IG5-97 (I1) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | modificar_campo pierde una atribución previa | violación I1 | detectada por I1 | DETECTADA |
-| K47-M04 | IG5-97 (I2) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | introducir_campo no incorpora al actor | violación I2 | detectada por I2 | DETECTADA |
-| K47-M05 | IG5-97 (I5) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el cálculo de E excluye a la persona afectada por una resolución rechazada | violación I5 | detectada por I5, I7 | DETECTADA |
-| K47-M06 | IG5-97 (I3) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | la resolución aceptada retira otra atribución distinta | violación I3 | detectada por I3, I7 | DETECTADA |
-| K47-M07 | IG5-97 (I10) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | la resolución aceptada altera una versión histórica | violación I10 | detectada por I10 | DETECTADA |
-| K47-M08 | IG5-97 (I10) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | crear_version omite una atribución heredada | violación I10 | detectada por I1, I10 | DETECTADA |
-| K47-M09 | IG5-97 (I8) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | una cadena de copy incompleta se presenta como completa | violación I8 | detectada por I8 | DETECTADA |
-| K47-M10 | IG5-97 (I7) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | una resolución válida elimina de E a quien conserva otra atribución activa | violación I7 | detectada por I7 | DETECTADA |
-| K47-M11 | IG5-97 (I9) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | la sustitución difiere entre copy y brief | violación I9 | detectada por I9 | DETECTADA |
-| K47-M12 | IG5-97 (I9) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | la eliminación difiere entre brief y promoción | violación I9 | detectada por I9 | DETECTADA |
-| K47-M13 | IG5-97 (I11) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | la similitud textual determina el descarte | violación I11 | detectada por I11 | DETECTADA |
-| K47-M14 | IG5-97 (I12) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | cambiar la clasificación retira atribuciones sin resolución | violación I12 | detectada por I12 | DETECTADA |
-| K47-M15 | IG5-97 (I7) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | resolución válida retira a quien conserva otra atribución activa en otro campo | violación I7 | detectada por I3, I7 | DETECTADA |
-| K47-M16 | IG5-97 (I7) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | resolución válida retira a quien conserva una contribución activa en otra fuente | violación I7 | detectada por I3, I7 | DETECTADA |
-| K47-M17 | IG5-97 (I3) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | resolver una atribución retira todas las atribuciones de la persona | violación I3 | detectada por I3, I7 | DETECTADA |
-| K47-M18 | IG5-97 (I5) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | una resolución rechazada cambia el estado de una atribución | violación I5 | detectada por I5 | DETECTADA |
-| K47-M19 | IG5-97 (I5) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | una resolución con evidencia de otra versión modifica E | violación I5 | detectada por I4, I5 | DETECTADA |
-| K47-M20 | IG5-97 (I10) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | crear_version omite una atribución heredada de segunda generación | violación I10 | detectada por I1, I10 | DETECTADA |
-| K47-M21 | IG5-97 (I6) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | una atribución histórica desaparece de la evidencia | violación I6 | detectada por I10, I6 | DETECTADA |
-| K47-M22 | IG5-97 (I8) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | la cadena de brief está incompleta pero E aparece como completo | violación I8 | detectada por I8 | DETECTADA |
-| K47-M23 | IG5-97 (I8) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | la cadena de promoción está incompleta pero E aparece como completo | violación I8 | detectada por I8 | DETECTADA |
-| K47-M24 | IG5-97 (I3) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | la resolución retira un campo distinto del que declara | violación I3 | detectada por I3, I6 | DETECTADA |
-| K47-M25 | IG5-97 (I7) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | quien contribuye a dos fuentes sale de E al resolver solo una | violación I7 | detectada por I7 | DETECTADA |
-| K47-M26 | IG5-97 (I10) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | la resolución válida reescribe un registro anterior en lugar de agregar uno nuevo | violación I10 | detectada por I10 | DETECTADA |
-| K47-M27 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | se acepta una resolución cuyo resolutor incumple la independencia (R1 a R9 no se aplican) | violación I4 | detectada por I4, I5 | DETECTADA |
-| K47-M28 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el motor no evalúa la regla R1 del resolutor (membresía activa) | violación I4 | detectada por I4 | DETECTADA |
-| K47-M29 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el motor no evalúa la regla R2 del resolutor (piece.review) | violación I4 | detectada por I4, I5 | DETECTADA |
-| K47-M30 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el motor no evalúa la regla R3 del resolutor (afectado) | violación I4 | detectada por I4 | DETECTADA |
-| K47-M31 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el motor no evalúa la regla R4 del resolutor (solicitante) | violación I4 | detectada por I4, I5 | DETECTADA |
-| K47-M32 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el motor no evalúa la regla R5 del resolutor (actor del cambio) | violación I4 | detectada por I4 | DETECTADA |
-| K47-M33 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el motor no evalúa la regla R6 del resolutor (contribuyente directo de la cadena) | violación I4 | detectada por I4 | DETECTADA |
-| K47-M34 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el motor no evalúa la regla R7 del resolutor (contribuyente heredado activo) | violación I4 | detectada por I4 | DETECTADA |
-| K47-M35 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el motor no evalúa la regla R8 del resolutor (contribuyente de otra fuente de la cadena) | violación I4 | detectada por I4, I5 | DETECTADA |
-| K47-M36 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el motor no evalúa la regla R9 del resolutor (beneficiario) | violación I4 | detectada por I4 | DETECTADA |
+| K47-M01 | IG5-97 (I1) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | sustituir_campo retira automáticamente la atribución anterior | violación I1 | detectada por I1, I15 · «una atribución activa anterior no sigue activa en la versión nueva: [('A', 'copy', 'headline', 'e1')]» | DETECTADA |
+| K47-M02 | IG5-97 (I1) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | eliminar_campo retira automáticamente la atribución anterior | violación I1 | detectada por I1, I15 · «una atribución activa anterior no sigue activa en la versión nueva: [('A', 'copy', 'headline', 'e1')]» | DETECTADA |
+| K47-M03 | IG5-97 (I1) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | modificar_campo pierde una atribución previa | violación I1 | detectada por I1, I15 · «una atribución activa anterior no sigue activa en la versión nueva: [('A', 'copy', 'headline', 'e1')]» | DETECTADA |
+| K47-M04 | IG5-97 (I2) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | introducir_campo no incorpora al actor | violación I2 | detectada por I2 · «el actor no se incorporó» | DETECTADA |
+| K47-M05 | IG5-97 (I5) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el cálculo de E excluye a la persona afectada por una resolución rechazada | violación I5 | detectada por I5, I7 · «una resolución rechazada o inválida modificó atribuciones o E» | DETECTADA |
+| K47-M06 | IG5-97 (I3) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | la resolución aceptada retira otra atribución distinta | violación I3 | detectada por I15, I3, I7 · «la resolución retiró ['t3', 't5'] en lugar de solo la referenciada» | DETECTADA |
+| K47-M07 | IG5-97 (I10) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | la resolución aceptada altera una versión histórica | violación I10 | detectada por I10 · «una versión, atribución, evento o estado anterior fue modificado o eliminado» | DETECTADA |
+| K47-M08 | IG5-97 (I10) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | crear_version omite una atribución heredada | violación I10 | detectada por I1, I10 · «la versión nueva no hereda todas las atribuciones activas» | DETECTADA |
+| K47-M09 | IG5-97 (I8) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | una cadena de copy incompleta se presenta como completa | violación I8 | detectada por I20, I8 · «procedencia incompleta presentada como completa o con E parcial» | DETECTADA |
+| K47-M10 | IG5-97 (I7) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | una resolución válida elimina de E a quien conserva otra atribución activa | violación I7 | detectada por I7 · «E del motor distinto del E recalculado sobre las atribuciones reales» | DETECTADA |
+| K47-M11 | IG5-97 (I9) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | la sustitución difiere entre copy y brief | violación I9 | detectada por I9 · «las fuentes no aplican la misma regla» | DETECTADA |
+| K47-M12 | IG5-97 (I9) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | la eliminación difiere entre brief y promoción | violación I9 | detectada por I9 · «las fuentes no aplican la misma regla» | DETECTADA |
+| K47-M13 | IG5-97 (I11) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | la similitud textual determina el descarte | violación I11 | detectada por I11 · «el resultado sobre las atribuciones depende de la similitud del texto» | DETECTADA |
+| K47-M14 | IG5-97 (I12) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | cambiar la clasificación retira atribuciones sin resolución | violación I12 | detectada por I12, I15 · «el cambio de clasificación alteró atribuciones o estados» | DETECTADA |
+| K47-M15 | IG5-97 (I7) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | resolución válida retira a quien conserva otra atribución activa en otro campo | violación I7 | detectada por I15, I3, I7 · «salió de E una persona que conserva otra atribución activa» | DETECTADA |
+| K47-M16 | IG5-97 (I7) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | resolución válida retira a quien conserva una contribución activa en otra fuente | violación I7 | detectada por I15, I3, I7 · «salió de E una persona que conserva otra atribución activa» | DETECTADA |
+| K47-M17 | IG5-97 (I3) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | resolver una atribución retira todas las atribuciones de la persona | violación I3 | detectada por I15, I3, I7 · «la resolución retiró ['t2', 't3', 't5'] en lugar de solo la referenciada» | DETECTADA |
+| K47-M18 | IG5-97 (I5) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | una resolución rechazada cambia el estado de una atribución | violación I5 | detectada por I15, I5 · «una resolución rechazada o inválida modificó atribuciones o E» | DETECTADA |
+| K47-M19 | IG5-97 (I5) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | una resolución con evidencia de otra versión modifica E | violación I5 | detectada por I4, I5 · «una resolución rechazada o inválida modificó atribuciones o E» | DETECTADA |
+| K47-M20 | IG5-97 (I10) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | crear_version omite una atribución heredada de segunda generación | violación I10 | detectada por I1, I10 · «la versión nueva no hereda todas las atribuciones activas» | DETECTADA |
+| K47-M21 | IG5-97 (I6) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | una atribución histórica desaparece de la evidencia | violación I6 | detectada por I10, I6 · «una atribución, un asset o un registro histórico desapareció de la evidencia» | DETECTADA |
+| K47-M22 | IG5-97 (I8) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | la cadena de brief está incompleta pero E aparece como completo | violación I8 | detectada por I8 · «procedencia incompleta presentada como completa o con E parcial» | DETECTADA |
+| K47-M23 | IG5-97 (I8) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | la cadena de promoción está incompleta pero E aparece como completo | violación I8 | detectada por I8 · «procedencia incompleta presentada como completa o con E parcial» | DETECTADA |
+| K47-M24 | IG5-97 (I3) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | la resolución retira un campo distinto del que declara | violación I3 | detectada por I15, I3, I6 · «la resolución retiró ['t7'] en lugar de solo la referenciada» | DETECTADA |
+| K47-M25 | IG5-97 (I7) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | quien contribuye a dos fuentes sale de E al resolver solo una | violación I7 | detectada por I7 · «E del motor distinto del E recalculado sobre las atribuciones reales» | DETECTADA |
+| K47-M26 | IG5-97 (I10) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | la resolución válida reescribe un registro anterior en lugar de agregar uno nuevo | violación I10 | detectada por I10 · «una versión, atribución, evento o estado anterior fue modificado o eliminado» | DETECTADA |
+| K47-M27 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | se acepta una resolución cuyo resolutor incumple la independencia (R1 a R9 no se aplican) | violación I4 | detectada por I4, I5 · «una resolución aceptada incumple sus condiciones: ['R2', 'R5', 'R6']» | DETECTADA |
+| K47-M28 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el motor no evalúa la regla R1 del resolutor (membresía activa) | violación I4 | detectada por I4 · «los motivos de rechazo del motor ['R2'] difieren de los recalculados por el auditor ['R1', 'R2']» | DETECTADA |
+| K47-M29 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el motor no evalúa la regla R2 del resolutor (piece.review) | violación I4 | detectada por I4, I5 · «una resolución aceptada incumple sus condiciones: ['R2']» | DETECTADA |
+| K47-M30 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el motor no evalúa la regla R3 del resolutor (afectado) | violación I4 | detectada por I4 · «los motivos de rechazo del motor ['R2', 'R6', 'R7', 'R9'] difieren de los recalculados por el auditor ['R2', '» | DETECTADA |
+| K47-M31 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el motor no evalúa la regla R4 del resolutor (solicitante) | violación I4 | detectada por I4, I5 · «una resolución aceptada incumple sus condiciones: ['R4']» | DETECTADA |
+| K47-M32 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el motor no evalúa la regla R5 del resolutor (actor del cambio) | violación I4 | detectada por I4 · «los motivos de rechazo del motor ['R2', 'R6', 'R9'] difieren de los recalculados por el auditor ['R2', 'R5', '» | DETECTADA |
+| K47-M33 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el motor no evalúa la regla R6 del resolutor (contribuyente directo de la cadena) | violación I4 | detectada por I4 · «los motivos de rechazo del motor ['R7', 'R9'] difieren de los recalculados por el auditor ['R6', 'R7', 'R9']» | DETECTADA |
+| K47-M34 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el motor no evalúa la regla R7 del resolutor (contribuyente heredado activo) | violación I4 | detectada por I4 · «los motivos de rechazo del motor ['R6', 'R9'] difieren de los recalculados por el auditor ['R6', 'R7', 'R9']» | DETECTADA |
+| K47-M35 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el motor no evalúa la regla R8 del resolutor (contribuyente de otra fuente de la cadena) | violación I4 | detectada por I4, I5 · «una resolución aceptada incumple sus condiciones: ['R8']» | DETECTADA |
+| K47-M36 | IG5-97 (I4) | válido: escenario ejecutado sobre el motor, 0 violaciones del auditor | el motor no evalúa la regla R9 del resolutor (beneficiario) | violación I4 | detectada por I4 · «los motivos de rechazo del motor ['R6', 'R7'] difieren de los recalculados por el auditor ['R6', 'R7', 'R9']» | DETECTADA |
+| K47-R01 | IG5-98 (I13) | válido: escenario RS con tres resoluciones selladas y cadena de reconsideración, 0 violaciones | modificar el resultado de una resolución existente | violación I13 con la condición «resultado» | detectada por I13, I15 · «la resolución r2 fue modificada (campos: resultado, sello)» | DETECTADA |
+| K47-R02 | IG5-98 (I13) | válido: escenario RS con tres resoluciones selladas y cadena de reconsideración, 0 violaciones | modificar la evidencia de una resolución existente | violación I13 con la condición «evidencia» | detectada por I13 · «la resolución r2 fue modificada (campos: evidencia, sello)» | DETECTADA |
+| K47-R03 | IG5-98 (I13) | válido: escenario RS con tres resoluciones selladas y cadena de reconsideración, 0 violaciones | modificar el resolutor de una resolución existente | violación I13 con la condición «resolutor» | detectada por I13 · «la resolución r2 fue modificada (campos: auth_uid, resolutor, sello)» | DETECTADA |
+| K47-R04 | IG5-98 (I13) | válido: escenario RS con tres resoluciones selladas y cadena de reconsideración, 0 violaciones | modificar el solicitante de una resolución existente | violación I13 con la condición «solicitante» | detectada por I13 · «la resolución r2 fue modificada (campos: sello, solicitante)» | DETECTADA |
+| K47-R05 | IG5-98 (I15) | válido: escenario RS con tres resoluciones selladas y cadena de reconsideración, 0 violaciones | cambiar la atribución afectada por una resolución | violación I15 con la condición «no corresponde» | detectada por I13, I14, I15 · «la baja de t3 cita la resolución r2, que no existe, no fue aceptada o no corresponde a esa atribución» | DETECTADA |
+| K47-R06 | IG5-98 (I13) | válido: escenario RS con tres resoluciones selladas y cadena de reconsideración, 0 violaciones | cambiar la versión afectada por una resolución | violación I13 con la condición «version_evidencia» | detectada por I13 · «la resolución r2 fue modificada (campos: sello, version_evidencia)» | DETECTADA |
+| K47-R07 | IG5-98 (I13) | válido: escenario RS con tres resoluciones selladas y cadena de reconsideración, 0 violaciones | eliminar una resolución histórica | violación I13 con la condición «eliminada» | detectada por I13, I14 · «la resolución histórica r1 fue eliminada» | DETECTADA |
+| K47-R08 | IG5-98 (I13) | válido: escenario RS con tres resoluciones selladas y cadena de reconsideración, 0 violaciones | reemplazar una resolución usando el mismo ID | violación I13 con la condición «reemplazada con el mismo ID» | detectada por I13, I14, I15 · «la resolución r1 fue reemplazada con el mismo ID (campos: auth_uid, evidencia, resolutor, resultado, sello, se» | DETECTADA |
+| K47-R09 | IG5-98 (I15) | válido: escenario RS con tres resoluciones selladas y cadena de reconsideración, 0 violaciones | convertir una resolución rechazada en aceptada | violación I15 con la condición «aceptada» | detectada por I15, I3, I6 · «la resolución aceptada r3 no tiene exactamente una baja registrada para su atribución» | DETECTADA |
+| K47-R10 | IG5-98 (I15) | válido: escenario RS con tres resoluciones selladas y cadena de reconsideración, 0 violaciones | reutilizar una resolución aceptada para otra atribución | violación I15 con la condición «cita la resolución r2» | detectada por I15, I5 · «la baja de t9 cita la resolución r2, que no existe, no fue aceptada o no corresponde a esa atribución» | DETECTADA |
+| K47-R11 | IG5-98 (I14) | válido: escenario RS con tres resoluciones selladas y cadena de reconsideración, 0 violaciones | alterar la cadena de reconsideraciones | violación I14 con la condición «otra atribución» | detectada por I13, I14 · «la cadena de r2 referencia un registro de otra atribución u organización» | DETECTADA |
+| K47-R12 | IG5-98 (I14) | válido: escenario RS con tres resoluciones selladas y cadena de reconsideración, 0 violaciones | reescribir una resolución anterior para simular una decisión posterior | violación I14 con la condición «anterior fue alterado» | detectada por I13, I14, I15 · «el sello del registro anterior de r2 no coincide con el contenido actual (el anterior fue alterado)» | DETECTADA |
+| K47-A01 | IG5-99 (I16) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | una versión usa un asset sin uploader | violación I16 con la condición «uploader» | detectada por I16 · «cv1: asset a1 sin uploader registrado» | DETECTADA |
+| K47-A02 | IG5-99 (I16) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | una versión usa un asset sin evento de carga | violación I16 con la condición «evento de carga» | detectada por I16 · «cv1: asset a1 sin evento de carga válido» | DETECTADA |
+| K47-A03 | IG5-99 (I19) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el asset pertenece a otra organización | violación I19 con la condición «organización» | detectada por I19 · «ca: el asset a2 pertenece a otra organización» | DETECTADA |
+| K47-A04 | IG5-99 (I19) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el asset pertenece a otra pieza sin relación válida | violación I19 con la condición «pieza» | detectada por I19 · «ca: el asset a2 pertenece a otra pieza sin relación válida» | DETECTADA |
+| K47-A05 | IG5-99 (I18) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | la reutilización apunta a otra versión de copy | violación I18 con la condición «versión de copy» | detectada por I17, I18 · «ca: el asset a2 no corresponde a esta versión de copy (cvm)» | DETECTADA |
+| K47-A06 | IG5-99 (I17) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el reutilizador sustituye al uploader original | violación I17 con la condición «uploader original» | detectada por I17 · «ca: el uploader original del asset a2 no coincide con el origen» | DETECTADA |
+| K47-A07 | IG5-99 (I17) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | asset reutilizado sin evento de reutilización | violación I17 con la condición «evento de reutilización» | detectada por I17 · «ca: asset a2 sin evento de reutilización válido» | DETECTADA |
+| K47-A08 | IG5-99 (I19) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | asset heredado sin referencia al origen | violación I19 con la condición «sin referencia» | detectada por I19 · «ca: asset reutilizado a2 sin referencia al origen» | DETECTADA |
+| K47-A09 | IG5-99 (I19) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | la cadena de assets contiene un ciclo | violación I19 con la condición «ciclo» | detectada por I10, I17, I19 · «ca: ciclo en la cadena de assets a2 → a1 → a2» | DETECTADA |
+| K47-A10 | IG5-99 (I19) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el asset de origen no existe | violación I19 con la condición «inexistente» | detectada por I19 · «ca: asset de origen a_x inexistente» | DETECTADA |
+| K47-A11 | IG5-99 (I1) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | un asset modificado pierde la atribución anterior | violación I1 con la condición «retiró» | detectada por I1, I15 · «una operación de contenido retiró atribuciones» | DETECTADA |
+| K47-A12 | IG5-99 (I1) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | un asset sustituido elimina la atribución anterior automáticamente | violación I1 con la condición «retiró» | detectada por I1, I15 · «una operación de contenido retiró atribuciones» | DETECTADA |
+| K47-A13 | IG5-99 (I6) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | un asset eliminado borra su historial | violación I6 con la condición «desapareció» | detectada por I1, I10, I19, I6 · «una atribución, un asset o un registro histórico desapareció de la evidencia» | DETECTADA |
+| K47-A14 | IG5-99 (I20) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | un arte incompleto permite declarar E completo | violación I20 con la condición «arte» | detectada por I16, I20, I8 · «la procedencia del arte es incompleta pero el motor declara E completo: cv1: asset a1 sin uploader registrado» | DETECTADA |
+| K47-A15 | IG5-99 (I21) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | el cálculo de E omite a los contribuyentes del arte | violación I21 con la condición «omite» | detectada por I21, I7 · «E omite a un contribuyente del arte: ['U']» | DETECTADA |
+| K47-A16 | IG5-99 (I20) | válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor | la ausencia de registros de arte se acepta como no_aplica | violación I20 con la condición «no declara» | detectada por I20, I8 · «la procedencia del arte es incompleta pero el motor declara E completo: cv2: la versión no declara el estado d» | DETECTADA |
 | M-22 | K48 (IE-10) | válido (K48 APRUEBA) | Se invierte un bit en una copia temporal del original y se calcula su SHA-256 | rechazo por K48 | RECHAZADA por K48 | DETECTADA |
 
 **Controles estructurales de K45 (C01 a C15) y su cobertura.** Se evalúan sobre las relaciones reales del modelo (joins por identificador), nunca por coincidencia de texto. Casos positivos: base: 0 violaciones; evento inherited_contributor sobre copy: 0 violaciones; segunda reutilización del mismo asset (a1 → a2 → a3): 0 violaciones.
@@ -349,7 +376,7 @@ Una sola herramienta publicada, `docs/fase0/herramientas/verificar_expediente.py
 | EA-B | conservación por eliminación | 3 | ninguna | E tras la eliminación contiene a A y a B → A, B; A permanece activa provisionalmente → activa; B se incorpora con atribución directa → True; el campo eliminado conserva su historial → True; una eliminación no material no incorpora al actor → False | APROBADO |
 | EA-C | varias atribuciones de una persona | 4 | ninguna | la resolución válida se acepta → True; la atribución de headline de A pasa a histórica → historica; A permanece en E por su atribución activa de body → True; la atribución de body sigue activa → True | APROBADO |
 | EA-D | varias fuentes | 4 | ninguna | la resolución del copy se acepta → True; la atribución del copy pasa a histórica → historica; A permanece en E por el brief → True; la atribución de A en el brief sigue activa → True | APROBADO |
-| EA-E | resolución rechazada | 3 | ninguna | la resolución rechazada no cambia la atribución → activa; E no cambia → A, B; el estado de la resolución es rechazada → rechazada | APROBADO |
+| EA-E | resolución rechazada | 3 | ninguna | la resolución rechazada no cambia la atribución → activa; E no cambia → A, B; el resultado de la resolución es rechazada y definitivo → rechazada | APROBADO |
 | EA-F | resolución inválida por evidencia de otra versión | 3 | ninguna | la resolución con evidencia de otra versión no se aplica → False; la atribución permanece activa → activa; E no cambia → A, B | APROBADO |
 | EA-G | herencia | 4 | ninguna | v4 conserva las atribuciones activas de A y B como heredadas → ('A', 'headline', 'heredada'), ('B', 'body', 'heredada'); quien crea una versión sin cambio no se incorpora → False; todas las atribuciones anteriores siguen existiendo → True | APROBADO |
 | EA-H | cadena incompleta | 1 | ninguna | la versión importada sin evidencia no produce un E completo → False; no se entrega un E parcial → None; la versión con procedencia sí produce E → A | APROBADO |
@@ -361,23 +388,57 @@ Una sola herramienta publicada, `docs/fase0/herramientas/verificar_expediente.py
 | EA-S | independencia de la similitud textual | 0 | ninguna | el resultado no depende de la similitud del texto → True | APROBADO |
 | EA-X | resolutor no independiente rechazado | 3 | ninguna | el editor que ejecutó la sustitución no puede resolver → False; la atribución permanece activa → activa; E no cambia → A, B | APROBADO |
 | EA-R | cada regla R1 a R9 impide resolver | 0 | ninguna | R1: el resolutor que incumple R1 no puede resolver → False; R1: el motivo de rechazo incluye R1 → True; R1: la atribución permanece activa → activa; R2: el resolutor que incumple R2 no puede resolver → False; R2: el motivo de rechazo incluye R2 → True; R2: la atribución permanece activa → activa; R3: el resolutor que incumple R3 no puede resolver → False; R3: el motivo de rechazo incluye R3 → True; R3: la atribución  | APROBADO |
+| EA-RS | resoluciones inmutables y cadena de reconsideración | 6 | ninguna | la primera resolución sin evidencia nace rechazada y definitiva → rechazada, False; la reconsideración crea un registro nuevo que referencia al anterior → r1, aceptada, True; el registro rechazado original se conserva íntegro → {'id': 'r1', 'resultado': 'rechazada', 'seq': 20, 'motivos': ['V11'], 'version': 'v2', 'version_origen': 'v1', 'previo': None, 'previo_sello': None, 'org': 'X', 'atribucion': 't3', 'afectado': | APROBADO |
 
-**Invariantes del auditor de K47 (I1 a I12).**
+**Invariantes del auditor de K47 (I1 a I21).**
 
 | Invariante | Qué comprueba | Mutaciones que lo ejercen |
 |---|---|---|
-| I1 | toda atribución activa anterior sigue activa en la versión nueva (ninguna clasificación retira) | K47-M01, K47-M02, K47-M03 |
+| I1 | toda atribución activa anterior sigue activa en la versión nueva (ninguna clasificación retira) | K47-M01, K47-M02, K47-M03, K47-A11, K47-A12 |
 | I2 | el actor se incorpora solo si hay contribución material | K47-M04 |
 | I3 | una resolución aceptada retira exactamente la atribución referenciada | K47-M06, K47-M17, K47-M24 |
 | I4 | una resolución aceptada cumple todas sus condiciones y R1 a R9 recalculadas por el auditor | K47-M27, K47-M28, K47-M29, K47-M30, K47-M31, K47-M32, K47-M33, K47-M34, K47-M35, K47-M36 |
 | I5 | una resolución rechazada o inválida no cambia atribuciones, estados ni E | K47-M05, K47-M18, K47-M19 |
-| I6 | la evidencia histórica se conserva | K47-M21 |
+| I6 | la evidencia histórica se conserva | K47-M21, K47-A13 |
 | I7 | E del motor igual a E recalculado y no sale quien conserva otra atribución activa | K47-M10, K47-M15, K47-M16, K47-M25 |
 | I8 | una cadena incompleta no produce un E presentado como completo | K47-M09, K47-M22, K47-M23 |
 | I9 | brief, promoción y copy aplican la misma regla | K47-M11, K47-M12 |
 | I10 | versiones, atribuciones, eventos y estados anteriores no se reescriben; la versión nueva hereda todo lo activo | K47-M07, K47-M08, K47-M20, K47-M26 |
 | I11 | el resultado no depende de la similitud del texto | K47-M13 |
 | I12 | un cambio de clasificación no altera atribuciones ni historia | K47-M14 |
+| I13 | inmutabilidad de las resoluciones: ninguna se modifica, reemplaza ni elimina; sello SHA-256 coincidente; resultado definitivo | K47-R01, K47-R02, K47-R03, K47-R04, K47-R06, K47-R07, K47-R08 |
+| I14 | cadena de reconsideración: sin ciclos, anterior existente, de la misma atribución, rechazada, anterior en el tiempo y con sello intacto | K47-R11, K47-R12 |
+| I15 | cada baja histórica cita una resolución aceptada de esa atribución exacta; una sola aceptada por atribución | K47-R05, K47-R09, K47-R10 |
+| I16 | cada asset usado tiene uploader, evento de carga y atribución del uploader | K47-A01, K47-A02 |
+| I17 | el reutilizador no sustituye al uploader original y su evento de reutilización está registrado | K47-A06, K47-A07 |
+| I18 | el asset corresponde a la versión exacta de copy que lo usa | K47-A05 |
+| I19 | cadena de reutilización sin ciclos, con origen existente y misma organización y pieza | K47-A03, K47-A04, K47-A08, K47-A09, K47-A10 |
+| I20 | completitud del arte y declaración explícita de no_aplica | K47-A14, K47-A16 |
+| I21 | E incluye a los contribuyentes del arte exacto | K47-A15 |
+
+**Casos positivos de arte (PA1 a PA7) e intentos directos contra el registro de resoluciones.**
+
+| ID | Caso | Violaciones del auditor | Aserciones | Resultado |
+|---|---|---|---|---|
+| PA1 | asset nuevo con uploader y evento de carga correctos | ninguna | 5 | APRUEBA |
+| PA2 | asset reutilizado con uploader y reutilizador diferenciados | ninguna | 5 | APRUEBA |
+| PA3 | asset modificado con conservación de atribuciones | ninguna | 4 | APRUEBA |
+| PA4 | versión sin arte declarada no_aplica | ninguna | 3 | APRUEBA |
+| PA5 | asset sustituido con conservación provisional | ninguna | 3 | APRUEBA |
+| PA6 | asset eliminado con historial conservado | ninguna | 3 | APRUEBA |
+| PA7 | reutilización encadenada completa | ninguna | 3 | APRUEBA |
+
+| Intento directo | Rechazado con ResolucionInmutable y registro intacto |
+|---|---|
+| asignar un campo de una fila | sí |
+| eliminar un campo de una fila | sí |
+| actualizar una fila | sí |
+| reemplazar una fila con el mismo ID | sí |
+| eliminar una resolución | sí |
+| vaciar el registro | sí |
+| agregar con un ID existente | sí |
+| modificar la evidencia histórica anidada | sí |
+| volver a aplicar una resolución con el mismo ID | sí |
 
 **Matriz de los 28 controles.**
 
@@ -464,16 +525,20 @@ Una sola herramienta publicada, `docs/fase0/herramientas/verificar_expediente.py
 | 13 | Decisiones pendientes sin alterar | K21 | OK (verificado documentalmente) |
 | 14 | Coherencia entre los cinco documentos activos | K09, K17, K22, K27 | OK (verificado documentalmente) |
 
-**Criterios binarios de aceptación de la v9 (resultado calculado).**
+**Criterios binarios de aceptación de la v10 (resultado calculado).**
 
 | Criterio | Condición | Resultado |
 |---|---|---|
 | K45 | al menos 22 mutaciones, todas detectadas | 27/27 detectadas: CUMPLE |
 | K46 | al menos 12 mutaciones, todas detectadas | 12/12 detectadas: CUMPLE |
-| K47 | al menos 26 mutaciones, todas detectadas | 36/36 detectadas: CUMPLE |
-| Escenarios estructurales K47 | los 12 escenarios A a L aprobados sobre datos estructurados | 12/12 aprobados; U, S, X y R: aprobados |
-| Casos positivos y falsos positivos | fixtures válidos aceptados y ninguna mutación con estado inicial inválido | CUMPLE; 75/75 mutaciones con estado inicial válido y cambio efectivo |
-| Regresión v8 | todas las comprobaciones y las mutaciones M-01 a M-25 anteriores pasan | 25/25 mutaciones anteriores; CUMPLE |
+| K47 (mutaciones previas) | al menos 26 mutaciones, todas detectadas | 36/36 detectadas: CUMPLE |
+| K47 resoluciones inmutables (R01 a R12) | al menos 12 mutaciones, todas detectadas | 12/12 detectadas: CUMPLE |
+| K47 procedencia del arte (A01 a A16) | al menos 14 mutaciones, todas detectadas | 16/16 detectadas: CUMPLE |
+| Escenarios estructurales K47 | los 12 escenarios A a L aprobados sobre datos estructurados | 12/12 aprobados; U, S, X, R y RS: aprobados |
+| Casos positivos de arte | al menos 4 casos positivos de arte aprobados (nuevo, reutilizado con uploader y reutilizador distintos, modificado con atribuciones conservadas, sin arte declarado no_aplica) | 7/7 aprobados: CUMPLE |
+| Inmutabilidad del registro | los 9 intentos directos de alterar el registro de resoluciones se rechazan y lo dejan idéntico | 9/9 rechazados: CUMPLE |
+| Casos positivos y falsos positivos | fixtures válidos aceptados y ninguna mutación con estado inicial inválido | CUMPLE; 103/103 mutaciones con estado inicial válido y cambio efectivo |
+| Regresión | todas las comprobaciones y las mutaciones M-01 a M-25 anteriores pasan | 25/25 mutaciones anteriores; CUMPLE |
 | Consistencia documental | cero contradicciones, cifras y estados coherentes | OK (verificado documentalmente) |
 | Cobertura | reglas relevantes y controles estructurales cubiertos | OK (verificado documentalmente) |
 | Integridad histórica | documentos protegidos sin alteración | OK (verificado documentalmente) |
@@ -486,7 +551,7 @@ Una sola herramienta publicada, `docs/fase0/herramientas/verificar_expediente.py
 | Alcance Git | solo docs/fase0/ | Fuera del alcance del verificador: se comprueba con git diff en la publicación |
 <!-- VERIFICADOR:FIN -->
 
-## 4. Errores hallados y corregidos durante la v9
+## 4. Errores hallados y corregidos durante la v10
 
 | Error | Corrección |
 |---|---|

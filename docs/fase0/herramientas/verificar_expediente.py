@@ -114,7 +114,7 @@ def ejecutar(textos, dir_hist=None, mutaciones=False):
     spec = C.spec
     AR = dict(A)
     if "## Entrada: revisión v8" in A[REG]:
-        r_ = A[REG]; k_ = r_.index("## Entrada: revisión v8"); AR[REG] = r_[k_:r_.index("### Manifiesto") if "### Manifiesto" in r_ else len(r_)]
+        r_ = A[REG]; k_ = r_.index("## Entrada: revisión v10"); AR[REG] = r_[k_:r_.index("### Manifiesto") if "### Manifiesto" in r_ else len(r_)]
     nR, nT = len(C.reglas), len(C.pruebas)
     tablas_hist = 27
     ent_tabs = [r for r in C.orden if r[2].startswith("tabla")]
@@ -266,8 +266,8 @@ def ejecutar(textos, dir_hist=None, mutaciones=False):
         if FASE1 not in t: mal22.append((f[:10], "Fase 1"))
         if ESTADO_V6 not in t: mal22.append((f[:10], "estado v7"))
     if ESTADO_V33 not in A[INF] or ESTADO_V33 not in spec: mal22.append(("estado v3.3",))
-    acep = [(f[:10], i) for f, t in A.items() for i, l in enumerate(t.split("\n"), 1) if re.search(r"(aceptad[oa]|aprobad[oa]) por el propietario", l, re.I) and re.search(r"v[6789]|complementari|esta revisión", l, re.I) and not NEG.search(l) and "preparad" not in l.lower()]
-    chk("K22", "Estados: v3.3 aceptada como línea base, v9 completada documentalmente y preparada para aceptación formal, Fase 1 no iniciada; ningún documento declara aceptación del propietario de la v9", not mal22 and not acep, (mal22[:4], acep[:3]), "IE-04", "todos")
+    acep = [(f[:10], i) for f, t in A.items() for i, l in enumerate(t.split("\n"), 1) if re.search(r"(aceptad[oa]|aprobad[oa]) por el propietario", l, re.I) and re.search(r"v([6789]|10)|complementari|esta revisión", l, re.I) and not NEG.search(l) and "preparad" not in l.lower()]
+    chk("K22", "Estados: v3.3 aceptada como línea base, v10 completada documentalmente y preparada para aceptación formal, Fase 1 no iniciada; ningún documento declara aceptación del propietario de la v10", not mal22 and not acep, (mal22[:4], acep[:3]), "IE-04", "todos")
     # ---- K23 sin validación técnica no ejecutada ----
     vt = [(f[:10], i, l[:70]) for f, t in A.items() for i, l in enumerate(t.split("\n"), 1) if re.search(r"validad[oa]s? técnicamente|validación técnica (completa|realizada|exitosa)|pruebas? (técnicas? )?(ejecutad|aprobad|superad)|se ejecutó (con éxito|correctamente) en (postgres|supabase)", l, re.I) and not NEG.search(l)]
     chk("K23", "Ningún documento afirma validación técnica ni pruebas técnicas ejecutadas (toda mención está negada o pendiente)", not vt, vt[:3], "IE-05", "todos")
@@ -307,8 +307,8 @@ def ejecutar(textos, dir_hist=None, mutaciones=False):
     # ---- K28 registro histórico ----
     regt = A[REG]
     ent = re.findall(r"^## Entrada: (.+)$", regt, re.M)
-    v6 = "revisión v9" in regt and "a6b36b955f9e3103174a6d49dd1ae5a7fa194e6c" in regt
-    chk("K28", "Registro histórico: entradas ordenadas por revisión hasta la v9 con el commit previo a6b36b9… y manifiesto de históricos", len(ent) >= 3 and v6 and "v5" in " ".join(ent) and "v9" in " ".join(ent) and len(mf) >= 10, ent[-3:], "IE-04", "REGISTRO")
+    v6 = "revisión v10" in regt and "638ca8c3a334123315704bd117a369c8615f926f" in regt and "a6b36b955f9e3103174a6d49dd1ae5a7fa194e6c" in regt
+    chk("K28", "Registro histórico: entradas ordenadas por revisión hasta la v10 con el commit previo 638ca8c… (y el de la v9, a6b36b9…) y manifiesto de históricos", len(ent) >= 3 and v6 and "v5" in " ".join(ent) and "v10" in " ".join(ent) and len(mf) >= 10, ent[-3:], "IE-04", "REGISTRO")
     # ---- K29 herramienta documentada ----
     chk("K29", "La especificación documenta la herramienta publicada, su comando y sus límites", "herramientas/verificar_expediente.py" in (seccion(spec, "11.2") or "") and "verificar_expediente.py" in A[AUD], "", "IE-08", "ESPECIFICACION 11.2; AUDITORIA 3")
     # ---- K30 integración: flujo de 19 pasos ----
@@ -653,13 +653,14 @@ def checks_v7(textos, C, A, info, v33=None):
     chk("K46", "Resolución independiente de descarte: afectado, solicitante y actor del cambio no resuelven, evidencia ligada a la misma atribución y versión, autoridad de revisión, identidad autenticada, independencia respecto de todos los contribuyentes y eventos de la cadena (R1 a R9), fail-closed sin resolutor elegible, cada resolutor elegible aceptado (sin falsos positivos) y 12 mutaciones detectadas", not p46 and not m46, (p46[:2], m46[:2]), "IG5-92, IG5-93, IG5-95, IE-12", "ESPECIFICACION 4.4.4, 4.4.8 y 4.4.10")
     p47 = verificar_exclusion_automatica(A, C)
     m47 = verificar_k47_modelo(spec)
-    chk("K47", "Conservación estructural: motor en memoria con atribuciones individuales, versiones inmutables, resoluciones y E calculado recorriendo las atribuciones reales; 12 escenarios (A a L) y comprobaciones de uniformidad entre fuentes y de independencia de la similitud aprobados; auditor independiente de 12 invariantes; tabla C de 4.4.10 igual al comportamiento observado del motor; 36 mutaciones detectadas; además ninguna regla, algoritmo ni escenario retira por sustitución, eliminación, hash o retained_segments = 0", not p47 and not m47, (p47[:2], m47[:3]), "IG5-72, IG5-90, IG5-91, IG5-97, IE-12", "ESPECIFICACION 4.4.8 y 4.4.10")
+    chk("K47", "Conservación estructural: motor en memoria con atribuciones individuales, versiones inmutables, resoluciones y E calculado recorriendo las atribuciones reales; 12 escenarios (A a L), el escenario de resoluciones inmutables (RS) y comprobaciones de uniformidad entre fuentes y de independencia de la similitud aprobados; registro de resoluciones sellado y de solo agregado con 9 intentos directos de alteración rechazados; procedencia del arte por versión de copy con 7 casos positivos; auditor independiente de 21 invariantes (I1 a I21); tabla C de 4.4.10 igual al comportamiento observado del motor; 36 mutaciones previas, 12 de resoluciones inmutables (R01 a R12) y 16 de assets (A01 a A16) detectadas; además ninguna regla, algoritmo ni escenario retira por sustitución, eliminación, hash o retained_segments = 0", not p47 and not m47, (p47[:2], m47[:3]), "IG5-72, IG5-90, IG5-91, IG5-97, IE-12", "ESPECIFICACION 4.4.8 y 4.4.10")
     # K52 cobertura estructural v9
     mk45, _p = MS.correr_mutaciones_k45(parse_4410(spec)["matriz"]); mk47 = MS.correr_mutaciones_k47(); esc = MS.correr_escenarios()
-    inv_cub = {m["esp"] for m in mk47}; sin_inv = sorted(set("I%d" % i for i in range(1, 13)) - inv_cub); sin_c = sorted(set(MS.CONTROLES_K45) - {m["esp"] for m in mk45})
+    mkr = MS.correr_mutaciones_resoluciones(); mka = MS.correr_mutaciones_assets(); pos_a = MS.correr_positivos_arte(); guarda = MS.pruebas_guarda()
+    inv_cub = {m["esp"] for m in mk47 + mkr + mka}; sin_inv = sorted(set("I%d" % i for i in range(1, 22)) - inv_cub); sin_c = sorted(set(MS.CONTROLES_K45) - {m["esp"] for m in mk45})
     esc_ok = sorted(e["id"] for e in esc if e["ok"]); esc_mal = [e["id"] for e in esc if not e["ok"]]
-    chk("K52", "Cobertura estructural v9: controles C01 a C15 con mutación (%d/15), invariantes I1 a I12 con mutación (%d/12), escenarios A a L aprobados (%d/12) y comprobaciones U, S, X y R aprobadas, fixtures iniciales válidos y ninguna mutación con excepción" % (15 - len(sin_c), 12 - len(sin_inv), len([x for x in esc_ok if x in "ABCDEFGHIJKL"])),
-        not sin_c and not sin_inv and not esc_mal and len(esc_ok) == 16 and all(m["valido"] and m["cambio"] and not m["err"] for m in mk45 + mk47), (sin_c, sin_inv, esc_mal), "IG5-95 a IG5-97, IE-12", "ESPECIFICACION 4.4.10 y 4.4.11")
+    chk("K52", "Cobertura estructural v10: controles C01 a C15 con mutación (%d/15), invariantes I1 a I21 con mutación (%d/21), escenarios A a L aprobados (%d/12), comprobaciones U, S, X, R y RS aprobadas, 7 casos positivos de arte, 9 intentos directos contra el registro de resoluciones rechazados, fixtures iniciales válidos y ninguna mutación con excepción" % (15 - len(sin_c), 21 - len(sin_inv), len([x for x in esc_ok if x in "ABCDEFGHIJKL"])),
+        not sin_c and not sin_inv and not esc_mal and len(esc_ok) == 17 and len(pos_a) == N_POS_ART and all(p["ok"] for p in pos_a) and len(guarda) == N_GUARDA and all(g[1] for g in guarda) and all(m["valido"] and m["cambio"] and not m["err"] for m in mk45 + mk47 + mkr + mka), (sin_c, sin_inv, esc_mal, [p["id"] for p in pos_a if not p["ok"]], [g[0] for g in guarda if not g[1]]), "IG5-95 a IG5-99, IE-12", "ESPECIFICACION 4.4.10, 4.4.11 y 4.4.12")
     # K50 títulos del registro
     tit = re.findall(r"^## Entrada: revisión v(\d+) de G-1, G-5 y G-10 \(posterior a la v(\d+)", A[REG], re.M)
     mal50 = [t for t in tit if int(t[0]) - 1 != int(t[1])]
@@ -669,6 +670,13 @@ def checks_v7(textos, C, A, info, v33=None):
     cnt = {g: sum(1 for v in C.pruebas.values() if v[0][1].startswith(g)) for g in gv8}
     sin8 = [r for r in ("IG5-95", "IG5-96", "IG5-97", "IE-12") if r not in C.reglas or not info["cub"].get(r)]
     chk("K51", "Cobertura v8: IG5-95, IG5-96, IG5-97 e IE-12 con escenarios (resolutor %d, correspondencias %d, conservación %d)" % tuple(cnt[g] for g in gv8), not sin8 and all(cnt[g] >= n for g, n in gv8.items()), (sin8, cnt), "IG5-95 a IG5-97, IE-12", "ESPECIFICACION 4.4.10 y 11")
+    # K53 cobertura v10
+    g10 = {"H-02 v10 resoluciones inmutables": 5 + N_RES, "H-02 v10 arte": N_POS_ART + N_ART + 3}
+    cnt10 = {g: sum(1 for v in C.pruebas.values() if v[0][1].startswith(g)) for g in g10}
+    sin10 = [r for r in ("IG5-98", "IG5-99", "IE-12") if r not in C.reglas or not info["cub"].get(r)]
+    s4412 = seccion(spec, "4.4.12") or ""
+    falta412 = [x for x in (["I%d" % i for i in range(13, 22)] + ["K47-R%02d" % i for i in range(1, N_RES + 1)] + ["K47-A%02d" % i for i in range(1, N_ART + 1)] + ["PA%d" % i for i in range(1, N_POS_ART + 1)] + ["previous_resolution_id", "record_seal", "no_aplica", "art_status"]) if x not in s4412]
+    chk("K53", "Cobertura v10: IG5-98, IG5-99 e IE-12 con escenarios (resoluciones inmutables %d, arte %d) y la sección 4.4.12 documenta I13 a I21, las 12 mutaciones de resoluciones, las 16 de assets y los 7 casos positivos" % tuple(cnt10[g] for g in g10), not sin10 and all(cnt10[g] >= n for g, n in g10.items()) and not falta412, (sin10, cnt10, falta412[:5]), "IG5-98, IG5-99, IE-12", "ESPECIFICACION 4.4.12")
     # K49 reglas y escenarios obligatorios de H-02 v7
     h7 = [v[0] for k, v in C.pruebas.items() if v[0][1].startswith("H-02 v7 atribución")]
     faltan = [q for q in REQ_H2V7 if not any(q in x[1] for x in h7)]
@@ -706,6 +714,7 @@ def _cargar_modelo():
     sp = _ilu.spec_from_file_location("modelo_estructural", ruta); m = _ilu.module_from_spec(sp); sp.loader.exec_module(m); return m
 MS = _cargar_modelo()
 N_K45, N_K46, N_K47, N_ESC = 27, 12, 36, 12
+N_RES, N_ART, N_POS_ART, N_GUARDA = 12, 16, 7, 9
 
 def verificar_k45_modelo(spec):
     """Matriz y CHECK de la especificación contra los nombres físicos; después, 3 casos positivos y las mutaciones sobre el modelo relacional."""
@@ -896,6 +905,15 @@ def verificar_k47_modelo(spec):
     if len([e for e in esc if e["id"] in "ABCDEFGHIJKL"]) != N_ESC: prob.append(("faltan escenarios estructurales",))
     mut = MS.correr_mutaciones_k47(); nd = [m["id"] for m in mut if not m["det"]]
     if len(mut) != N_K47 or nd: prob.append(("mutaciones K47 no detectadas o ausentes (%d/%d)" % (len(mut) - len(nd), N_K47), nd[:4]))
+    if not any(e["id"] == "RS" and e["ok"] for e in esc): prob.append(("escenario RS (resoluciones inmutables) no aprobado",))
+    mr = MS.correr_mutaciones_resoluciones(); nr = [m["id"] for m in mr if not m["det"]]
+    if len(mr) != N_RES or nr: prob.append(("mutaciones de resoluciones no detectadas o ausentes (%d/%d)" % (len(mr) - len(nr), N_RES), nr[:4]))
+    ma = MS.correr_mutaciones_assets(); na = [m["id"] for m in ma if not m["det"]]
+    if len(ma) != N_ART or na: prob.append(("mutaciones de assets no detectadas o ausentes (%d/%d)" % (len(ma) - len(na), N_ART), na[:4]))
+    pa = MS.correr_positivos_arte()
+    if len(pa) != N_POS_ART or not all(p["ok"] for p in pa): prob.append(("casos positivos de arte no aprobados", [p["id"] for p in pa if not p["ok"]]))
+    gu = MS.pruebas_guarda()
+    if len(gu) != N_GUARDA or not all(g[1] for g in gu): prob.append(("intentos directos contra el registro de resoluciones no rechazados", [g[0] for g in gu if not g[1]]))
     return prob
 
 def ejecutar_mutaciones_modelo(textos, dir_hist):
@@ -910,6 +928,10 @@ def ejecutar_mutaciones_modelo(textos, dir_hist):
         out.append(dict(id=m["id"], ctl="K45", regla="IG5-96 (%s)" % m["esp"], inicial="válido: modelo relacional con %d eventos y %d atribuciones, 0 violaciones" % (nT, nA), mut=m["mut"], esp="rechazo con %s" % m["esp"], obs=m["obs"], det=m["det"], cambio=m["cambio"], valido=m["valido"]))
     for m in MS.correr_mutaciones_k47():
         out.append(dict(id=m["id"], ctl="K47", regla="IG5-97 (%s)" % m["esp"], inicial="válido: escenario ejecutado sobre el motor, 0 violaciones del auditor", mut=m["mut"], esp="violación %s" % m["esp"], obs=m["obs"], det=m["det"], cambio=m["cambio"], valido=m["valido"]))
+    for m in MS.correr_mutaciones_resoluciones():
+        out.append(dict(id=m["id"], ctl="K47", regla="IG5-98 (%s)" % m["esp"], inicial="válido: escenario RS con tres resoluciones selladas y cadena de reconsideración, 0 violaciones", mut=m["mut"], esp="violación %s con la condición «%s»" % (m["esp"], m["kw"]), obs=m["obs"], det=m["det"], cambio=m["cambio"], valido=m["valido"]))
+    for m in MS.correr_mutaciones_assets():
+        out.append(dict(id=m["id"], ctl="K47", regla="IG5-99 (%s)" % m["esp"], inicial="válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor", mut=m["mut"], esp="violación %s con la condición «%s»" % (m["esp"], m["kw"]), obs=m["obs"], det=m["det"], cambio=m["cambio"], valido=m["valido"]))
     return out
 
 def calcular_v33(ruta):
@@ -1059,19 +1081,22 @@ def _est(ids, byid):
     if any(v is None for v in vals): return "PENDIENTE"
     return "OK (verificado documentalmente)"
 
-def criterios_v9(byid, muts):
+def criterios_v10(byid, muts):
     def n(pref): ms = [m for m in muts if m["id"].startswith(pref)]; return sum(1 for m in ms if m["det"]), len(ms)
     out = []
-    for pref, tot, minimo in (("K45-", N_K45, 22), ("K46-", N_K46, 12), ("K47-", N_K47, 26)):
-        d, t = n(pref); out.append((pref[:3], "al menos %d mutaciones, todas detectadas" % minimo, "%d/%d detectadas: %s" % (d, t, "CUMPLE" if d == t >= minimo else "NO CUMPLE")))
+    for pref, tot, minimo in (("K45-", N_K45, 22), ("K46-", N_K46, 12), ("K47-M", N_K47, 26), ("K47-R", N_RES, 12), ("K47-A", N_ART, 14)):
+        d, t = n(pref); out.append(({"K45-": "K45", "K46-": "K46", "K47-M": "K47 (mutaciones previas)", "K47-R": "K47 resoluciones inmutables (R01 a R12)", "K47-A": "K47 procedencia del arte (A01 a A16)"}[pref], "al menos %d mutaciones, todas detectadas" % minimo, "%d/%d detectadas: %s" % (d, t, "CUMPLE" if d == t >= minimo else "NO CUMPLE")))
     esc = MS.correr_escenarios(); ea = [e for e in esc if e["id"] in "ABCDEFGHIJKL"]
-    out.append(("Escenarios estructurales K47", "los 12 escenarios A a L aprobados sobre datos estructurados", "%d/12 aprobados; U, S, X y R: %s" % (sum(1 for e in ea if e["ok"]), "aprobados" if all(e["ok"] for e in esc if e["id"] in "USXR") else "NO aprobados")))
+    out.append(("Escenarios estructurales K47", "los 12 escenarios A a L aprobados sobre datos estructurados", "%d/12 aprobados; U, S, X, R y RS: %s" % (sum(1 for e in ea if e["ok"]), "aprobados" if all(e["ok"] for e in esc if e["id"] in ("U", "S", "X", "R", "RS")) else "NO aprobados")))
+    pa_ = MS.correr_positivos_arte(); gu_ = MS.pruebas_guarda()
+    out.append(("Casos positivos de arte", "al menos 4 casos positivos de arte aprobados (nuevo, reutilizado con uploader y reutilizador distintos, modificado con atribuciones conservadas, sin arte declarado no_aplica)", "%d/%d aprobados: %s" % (sum(1 for p in pa_ if p["ok"]), len(pa_), "CUMPLE" if len(pa_) >= 4 and all(p["ok"] for p in pa_) else "NO CUMPLE")))
+    out.append(("Inmutabilidad del registro", "los 9 intentos directos de alterar el registro de resoluciones se rechazan y lo dejan idéntico", "%d/%d rechazados: %s" % (sum(1 for g in gu_ if g[1]), len(gu_), "CUMPLE" if all(g[1] for g in gu_) else "NO CUMPLE")))
     _, pos = MS.correr_mutaciones_k45(parse_4410(textos_global[SPEC])["matriz"]) if textos_global else (None, [])
     out.append(("Casos positivos y falsos positivos", "fixtures válidos aceptados y ninguna mutación con estado inicial inválido", "%s; %d/%d mutaciones con estado inicial válido y cambio efectivo" % ("CUMPLE" if all(not v for _n, v in pos) and all(e["ok"] for e in esc) else "NO CUMPLE", sum(1 for m in muts if m.get("valido") and m.get("cambio")), sum(1 for m in muts if m["id"].startswith("K4") and not m["id"].startswith("K44")))))
     previas = [m for m in muts if not m["id"].startswith("K4") or m["id"].startswith("K44")]
     dp = sum(1 for m in previas if m["det"])
-    out.append(("Regresión v8", "todas las comprobaciones y las mutaciones M-01 a M-25 anteriores pasan", "%d/%d mutaciones anteriores; %s" % (dp, len(previas), "CUMPLE" if dp == len(previas) and not any(r["ok"] is False for r in byid.values()) else "NO CUMPLE")))
-    for c_, cond, ids in (("Consistencia documental", "cero contradicciones, cifras y estados coherentes", ["K09", "K22", "K27", "K50"]), ("Cobertura", "reglas relevantes y controles estructurales cubiertos", ["K06", "K07", "K08", "K51", "K52"]),
+    out.append(("Regresión", "todas las comprobaciones y las mutaciones M-01 a M-25 anteriores pasan", "%d/%d mutaciones anteriores; %s" % (dp, len(previas), "CUMPLE" if dp == len(previas) and not any(r["ok"] is False for r in byid.values()) else "NO CUMPLE")))
+    for c_, cond, ids in (("Consistencia documental", "cero contradicciones, cifras y estados coherentes", ["K09", "K22", "K27", "K50"]), ("Cobertura", "reglas relevantes y controles estructurales cubiertos", ["K06", "K07", "K08", "K51", "K52", "K53"]),
                           ("Integridad histórica", "documentos protegidos sin alteración", ["K25"]), ("Permisos", "17 claves conservadas", ["K19"]), ("Workflow", "13 transiciones conservadas", ["K20"]), ("Roadmap", "76 subfases conservadas", ["K18"]),
                           ("Hash", "verificado sobre el original o declarado pendiente", ["K48"]), ("SQL e infraestructura", "ninguna ejecución", ["K23"]), ("Fase 1", "no iniciada ni autorizada", ["K22"])):
         out.append((c_, cond, _est(ids, byid)))
@@ -1093,20 +1118,29 @@ def bloque_markdown(ctr, textos, muts):
     for m in muts:
         regla = m.get("regla") or ("%s (%s)" % (m["control"], byid0.get(m["control"], {}).get("regla", "")))
         L.append("| %s | %s | %s | %s | %s | %s | %s |" % (m["id"], regla.replace("|", "/"), m["inicial"].replace("|", "/"), m["desc"].replace("|", "/"), m.get("esp", "rechazo por " + m["control"]).replace("|", "/"), m["real"].replace("|", "/"), "DETECTADA" if m["det"] else "NO DETECTADA"))
-    P_ = parse_4410(textos[SPEC]); mk45_, pos_ = MS.correr_mutaciones_k45(P_["matriz"]); esc_ = MS.correr_escenarios(); mk47_ = MS.correr_mutaciones_k47()
+    P_ = parse_4410(textos[SPEC]); mk45_, pos_ = MS.correr_mutaciones_k45(P_["matriz"]); esc_ = MS.correr_escenarios(); mk47_ = MS.correr_mutaciones_k47() + MS.correr_mutaciones_resoluciones() + MS.correr_mutaciones_assets()
     L.append("\n**Controles estructurales de K45 (C01 a C15) y su cobertura.** Se evalúan sobre las relaciones reales del modelo (joins por identificador), nunca por coincidencia de texto. Casos positivos: " + "; ".join("%s: %s" % (n_, "0 violaciones" if not v_ else "RECHAZADO") for n_, v_ in pos_) + ".\n")
     L.append("| Control | Condición | Mutaciones que lo ejercen |\n|---|---|---|")
     for c_, d_ in MS.CONTROLES_K45.items(): L.append("| %s | %s | %s |" % (c_, d_, ", ".join(m["id"] for m in mk45_ if m["esp"] == c_)))
     L.append("\n**Escenarios estructurales de K47 (12) y comprobaciones U, S, X y R.** Cada escenario ejecuta operaciones del motor sobre atribuciones individuales y un auditor independiente compara el estado anterior y el posterior; el resultado observado se compara con el esperado.\n")
     L.append("| ID | Escenario | Pasos auditados | Violaciones del auditor | Aserciones (esperado = observado) | Resultado |\n|---|---|---|---|---|---|")
     for e in esc_: L.append("| EA-%s | %s | %d | %s | %s | %s |" % (e["id"], e["nombre"], e["pasos"], ", ".join(e["viol"]) or "ninguna", "; ".join("%s → %s" % (a_[0], a_[2] if not isinstance(a_[2], (list, tuple)) else ", ".join(map(str, a_[2])) or "(vacío)") for a_ in e["asr"]).replace("|", "/")[:420], "APROBADO" if e["ok"] else "NO APROBADO"))
-    L.append("\n**Invariantes del auditor de K47 (I1 a I12).**\n")
+    L.append("\n**Invariantes del auditor de K47 (I1 a I21).**\n")
     L.append("| Invariante | Qué comprueba | Mutaciones que lo ejercen |\n|---|---|---|")
     for i_, d_ in (("I1", "toda atribución activa anterior sigue activa en la versión nueva (ninguna clasificación retira)"), ("I2", "el actor se incorpora solo si hay contribución material"), ("I3", "una resolución aceptada retira exactamente la atribución referenciada"),
                    ("I4", "una resolución aceptada cumple todas sus condiciones y R1 a R9 recalculadas por el auditor"), ("I5", "una resolución rechazada o inválida no cambia atribuciones, estados ni E"), ("I6", "la evidencia histórica se conserva"),
                    ("I7", "E del motor igual a E recalculado y no sale quien conserva otra atribución activa"), ("I8", "una cadena incompleta no produce un E presentado como completo"), ("I9", "brief, promoción y copy aplican la misma regla"),
-                   ("I10", "versiones, atribuciones, eventos y estados anteriores no se reescriben; la versión nueva hereda todo lo activo"), ("I11", "el resultado no depende de la similitud del texto"), ("I12", "un cambio de clasificación no altera atribuciones ni historia")):
+                   ("I10", "versiones, atribuciones, eventos y estados anteriores no se reescriben; la versión nueva hereda todo lo activo"), ("I11", "el resultado no depende de la similitud del texto"), ("I12", "un cambio de clasificación no altera atribuciones ni historia"),
+                   ("I13", "inmutabilidad de las resoluciones: ninguna se modifica, reemplaza ni elimina; sello SHA-256 coincidente; resultado definitivo"), ("I14", "cadena de reconsideración: sin ciclos, anterior existente, de la misma atribución, rechazada, anterior en el tiempo y con sello intacto"),
+                   ("I15", "cada baja histórica cita una resolución aceptada de esa atribución exacta; una sola aceptada por atribución"), ("I16", "cada asset usado tiene uploader, evento de carga y atribución del uploader"),
+                   ("I17", "el reutilizador no sustituye al uploader original y su evento de reutilización está registrado"), ("I18", "el asset corresponde a la versión exacta de copy que lo usa"),
+                   ("I19", "cadena de reutilización sin ciclos, con origen existente y misma organización y pieza"), ("I20", "completitud del arte y declaración explícita de no_aplica"), ("I21", "E incluye a los contribuyentes del arte exacto")):
         L.append("| %s | %s | %s |" % (i_, d_, ", ".join(m["id"] for m in mk47_ if m["esp"] == i_)))
+    L.append("\n**Casos positivos de arte (PA1 a PA7) e intentos directos contra el registro de resoluciones.**\n")
+    L.append("| ID | Caso | Violaciones del auditor | Aserciones | Resultado |\n|---|---|---|---|---|")
+    for e in MS.correr_positivos_arte(): L.append("| %s | %s | %s | %d | %s |" % (e["id"], e["nombre"], ", ".join(e["viol"]) or "ninguna", len(e["asr"]), "APRUEBA" if e["ok"] else "FALLA"))
+    L.append("\n| Intento directo | Rechazado con ResolucionInmutable y registro intacto |\n|---|---|")
+    for g_, ok_ in MS.pruebas_guarda(): L.append("| %s | %s |" % (g_, "sí" if ok_ else "NO"))
     L.append("\n**Matriz de los 28 controles.**\n")
     L.append("| ID | Control | Regla exacta | Documento y sección | Evidencia concreta | Procedimiento | Resultado real | Estado | Nivel de evidencia | Observación |\n|---|---|---|---|---|---|---|---|---|---|")
     for c in ctr: L.append("| " + " | ".join(x.replace("|", "/") for x in c) + " |")
@@ -1117,9 +1151,9 @@ def bloque_markdown(ctr, textos, muts):
     L.append("\n**Auditoría final (14 verificaciones).**\n")
     L.append("| # | Verificación | Comprobaciones | Resultado |\n|---|---|---|---|")
     for n_, nom, ids in AUDITORIA_V7: L.append("| %d | %s | %s | %s |" % (n_, nom, ", ".join(ids), _est(ids, byid)))
-    L.append("\n**Criterios binarios de aceptación de la v9 (resultado calculado).**\n")
+    L.append("\n**Criterios binarios de aceptación de la v10 (resultado calculado).**\n")
     L.append("| Criterio | Condición | Resultado |\n|---|---|---|")
-    for c_, cond, res_ in criterios_v9(byid, muts): L.append("| %s | %s | %s |" % (c_, cond, res_))
+    for c_, cond, res_ in criterios_v10(byid, muts): L.append("| %s | %s | %s |" % (c_, cond, res_))
     return "\n".join(L)
 
 def main():
