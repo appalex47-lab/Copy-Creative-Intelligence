@@ -5,7 +5,9 @@ description: Propuesta técnica integrada de cierre de G-1, G-5 y G-10 (maestra�
 
 # ESPECIFICACIÓN TÉCNICA — CIERRE DE G-1, G-5 Y G-10
 
-**Estado:** ESPECIFICACIÓN TÉCNICA v3 (revisión posterior a la v2, que se conserva como `ESPECIFICACION_TECNICA_G1_G5_G10_v2_historica.md`), lista para aceptación formal, **no aceptada**. Corrige siete defectos señalados sobre la v2: aprobación positiva inequívoca, `db_txid`, ciclo de vida de canales y formatos, longitudes pendientes (DG-16), independencia respecto de versiones intermedias (DG-17), cadena de evaluaciones del mismo par y política de `correlation_id`. Nada de lo que sigue se ha implementado ni validado técnicamente (evidencia nivel 1). Fase 1 no iniciada ni autorizada. La Adenda v9 sigue sin aceptarse (PO-05) y no se modificó. El modelo de 27 tablas se conserva como línea base histórica; las **32** tablas (27 + 5 nuevas propuestas) son el **modelo propuesto sujeto a aprobación**. Ninguna decisión autoriza SQL, migraciones ni implementación física.
+**Estado:** ESPECIFICACIÓN TÉCNICA v4 (revisión posterior a la v3, que se conserva como `historico/ESPECIFICACION_TECNICA_G1_G5_G10_v3_historica.md`). **Diseño técnico documental corregido y preparado para aceptación formal, con limitaciones documentadas; no aceptado por el propietario ni validado técnicamente.** Corrige cuatro hallazgos sobre la v3: **H-01** orden de creación de tablas (`impact_evaluations` dependía de `approvals`, creada después), **H-02** definición de contribuyente (T-04) y su efecto sobre la independencia de G-5, **H-03** declaración de estado de Fase 0 (v3.3 está aceptada como línea base documental y no se reabre) y **H-04** identidad del intento de publicación (`attempt_nonce` además de `db_txid`, con límites explícitos). Nada de lo que sigue se implementó ni se validó técnicamente (evidencia nivel 1). Las **32** tablas (27 históricas + 5 propuestas) son el modelo propuesto sujeto a aprobación; las 27 siguen siendo la línea base histórica.
+
+**Estados por nivel (IE-01):** **Fase 0 v3.3:** COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES DOCUMENTADAS (SHA-256 sin cambio; no se reabre). **Diseño complementario G-1, G-5 y G-10:** DISEÑO TÉCNICO DOCUMENTAL CORREGIDO Y PREPARADO PARA ACEPTACIÓN FORMAL, CON LIMITACIONES DOCUMENTADAS. **Fase 1:** NO INICIADA / NO AUTORIZADA. La aceptación de v3.3 no autoriza Fase 1, infraestructura, SQL ni implementación (IE-03). La Adenda v9 sigue sin aceptarse (PO-05) y no se modificó.
 
 **Alcance de la autorización usada:** diseño, especificación, contraste y validación documental. No se escribió SQL ejecutable, ni migraciones, políticas RLS reales, Edge Functions, código, infraestructura, repositorios, Git, despliegues ni integración con RevNavigator. Los nombres de tablas, columnas, funciones y triggers son **propuestas de nombre**; los fragmentos de reglas están en español, no en SQL.
 
@@ -21,12 +23,14 @@ SHA-256 de `fase0_v3_3_integral.md`: `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736f
 | MATRIZ_TRAZABILIDAD_OD01_OD16.md | `1c5c5ea5d9a6026a…` |
 | MATRIZ_NOTIFICACIONES_CCI.md | `6954adeb8d45d61e…` |
 | AUDITORIA_CONSISTENCIA_OD01_OD16.md | `d27d7769162622ee…` |
-| REGISTRO_HISTORICO_VERSIONES.md | `3934638d133a92e6…` |
+| REGISTRO_HISTORICO_VERSIONES.md | `19b643d09f4de47e…` |
 | INFORME_CIERRE_PO21_G7_AUDITORIA_V9.md | `cba4dcc29b766629…` |
 
 | Elemento | Estado |
 |---|---|
-| Fase 0 v3.3 como línea base documental | APROBADO (aceptada como línea base) |
+| Fase 0 v3.3 como línea base documental | COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES DOCUMENTADAS; no se reabre |
+| Diseño complementario G-1, G-5 y G-10 (esta especificación) | DISEÑO TÉCNICO DOCUMENTAL CORREGIDO Y PREPARADO PARA ACEPTACIÓN FORMAL, CON LIMITACIONES DOCUMENTADAS; no aceptado ni validado técnicamente |
+| Fase 1 | NO INICIADA / NO AUTORIZADA |
 | D-01 a D-08; 27 tablas; 17 claves físicas; T-02 con 13 transiciones | APROBADOS / vigentes; no se modifican |
 | Decisiones PO-11 a PO-21 de la Adenda v9 (incluidas las condiciones de PO-20 y PO-21) | Decididas por el propietario; la Adenda v9 que las recoge NO está aceptada (PO-05) |
 | G-7: mecanismo conceptual C1 a C9 y R-1 a R-8 | Diseño conceptual de v9, no aceptado; aquí se precisa (ver 6.2) |
@@ -127,6 +131,7 @@ Ajustes a tablas existentes y tablas nuevas de G-1:
 | creative_pieces | channel y format inmutables; FK (organization_id, channel, format) -> channel_formats(organization_id, channel, format) RESTRICT | Restricción + trigger | Cambiar de canal o formato es una pieza nueva. El trigger BEFORE INSERT exige canal y formato activos; el UPDATE de ambas columnas se rechaza |
 | channel_rules | Estructura mínima desde 1.8: id, organization_id, channel, active boolean NOT NULL DEFAULT true, created_at, created_by | Tabla existente en v3.3 (27); creación adelantada de 5.1 a 1.8 | v3.3 describe channel_rules como reglas por canal con una fila por organización y canal, sin columnas. Las columnas de reglas (extensión, tono, estructura, CTA) se agregan en 5.1 con ALTER ... ADD COLUMN anulables; no hay migración de piezas |
 | channel_rules | unique(organization_id, channel); sin DELETE; sin UPDATE de channel | Restricción | Destino de la FK compuesta desde channel_formats. Baja lógica por active = false mediante manage_channel_catalog (org.manage) |
+| publication_attempts | attempt_nonce uuid NOT NULL UNIQUE | Columna nueva propuesta (H-04) | Identidad del intento generada por el servidor y verificada por la guarda además de db_txid; protege contra reutilización por una fila antigua, por un intento de otra operación y contra el valor repetido tras una restauración o un clon |
 
 #### `piece_classification_events`
 
@@ -187,7 +192,7 @@ Claves foráneas e integridad de los ajustes a tablas existentes:
 
 ### 3.5 Autoría y contribuciones heredadas (G-3)
 
-Los contribuyentes de una versión de adaptación son: el autor del copy y quien subió el arte de **esa** versión (T-04), más los contribuyentes de la versión exacta de la maestra de la que deriva (`master_copy_version_id` y `master_creative_asset_id`). La unión se **calcula** al verificar independencia (función propuesta `version_contributors`) y no se copia en columnas, de modo que no puede desincronizarse. Sin la FK de versión de origen, la contribución heredada no podría ni calcularse: por eso G-3 queda cerrada por G-1.
+Los contribuyentes de una versión de adaptación se determinan con la **definición única de contribuyente (4.4.3)**: autor o solicitante del copy, editores, editor del brief, quien modificó datos promocionales, quien subió el arte y contribuyentes heredados, de **esa** versión y de la versión exacta de la maestra de la que deriva (`master_copy_version_id` y `master_creative_asset_id`). La unión se **calcula** al verificar independencia (función propuesta `version_contributors`) y no se copia en columnas, de modo que no puede desincronizarse. Sin la FK de versión de origen, la contribución heredada no podría ni calcularse: por eso G-3 queda cerrada por G-1. Las fuentes aún no representadas físicamente hacen fallar el cálculo (IG5-42).
 
 ### 3.6 Clasificación: variación interna o adaptación independiente (G-4)
 
@@ -388,7 +393,7 @@ La evaluación es una **actividad de revisión** (PO-21 A), no un estado ni una 
 
 #### `impact_evaluations`
 
-**Propósito:** Registro permanente e inmutable de cada evaluación humana de impacto de un cambio de la maestra sobre una versión aprobada de una adaptación independiente. **Brecha:** G-5. **Fase propuesta:** 5.4 y 6.5. **Estado:** aprobada conceptualmente (DG-01), sujeta a la aceptación de esta especificación.
+**Propósito:** Registro permanente e inmutable de cada evaluación humana de impacto de un cambio de la maestra sobre una versión aprobada de una adaptación independiente. **Brecha:** G-5. **Fase propuesta:** 6.5. **Estado:** aprobada conceptualmente (DG-01), sujeta a la aceptación de esta especificación.
 
 | Columna | Tipo | NULL | Descripción |
 |---|---|---|---|
@@ -535,15 +540,48 @@ Ninguna FK aislada garantiza la elegibilidad: las FK garantizan identidad y corr
 | Elemento | Definición |
 |---|---|
 | Intervalo I(V-D, V-B) | Todas las versiones de la maestra cuyo orden de versión está entre el de V-D (versión de origen de V-A) y el de V-B (versión actual evaluada), ambas incluidas, con sus artes (IG5-31). **Dependencia:** el orden de versión es el número de versión de `copy_versions`; v3.3 no fija esa columna (RR-24) |
-| Contribuyentes de una versión v: Ctr(v) | Según T-04: quien creó la versión de copy (si la generó la IA, quien la pidió) y quien subió su arte. **T-04 está pendiente en v3.3 (propuesta técnica, no aprobada):** la regla se aplica con esa definición y cambia con ella si el propietario la modifica (RR-21) |
+| Contribuyentes de una versión v: Ctr(v) | Según la definición única de 4.4.3 (OD-03, PO-08, PO-11 y PO-16, aprobadas con condiciones): autor o solicitante del copy, editor, editor del brief, quien modificó los datos promocionales, quien subió el arte y herederos. **La T-04 de v3.3 nunca fue aprobada como propuesta técnica; lo pendiente es el umbral de aportación sustantiva y la representación física (DT-01, RR-27):** mientras tanto el cálculo es fail-closed (IG5-42, IG5-48) |
 | Heredados Inh(V-A) | Contribuyentes de las versiones de la maestra de las que deriva V-A (3.5); V-D está en I y por tanto queda incluida |
 | Conjunto excluido E | E = Ctr(V-A) ∪ Inh(V-A) ∪ la unión de Ctr(v) para v en I (V-D, intermedias y V-B). Cubre contribuyentes directos de V-A, heredados, de V-D, de V-B y de las intermedias |
-| Quién no queda excluido | Quien no figura en Ctr por T-04: un editor menor o comentarista que no creó una versión ni subió un arte. No se amplía la definición aprobada de contribución (IG5-32) |
-| «Contenido materialmente relevante» | T-04 no distingue relevancia: se materializa en haber creado una versión. No se agrega una noción nueva |
+| Quién no queda excluido | Quien solo realizó controles o actos administrativos (comentar, consultar, revisar, aprobar, asignar) o fue la IA o el sistema (IG5-41). Quien edita contenido crea una versión y es contribuyente de esa versión |
+| «Contribución material» | Quien crea, edita o modifica contenido que forma parte de la versión (copy, brief, arte, datos promocionales), según 4.4.3. En duda sobre la herencia sustantiva se conserva la atribución (IG5-43) |
 | Regla de elegibilidad | Elegible = miembro activo, con `piece.review`, revisor asignado vigente de la adaptación y fuera de E. Se calcula en backend con `eligible_evaluators` y `version_contributors` (8.9) |
 | Revalidación | Al asignar y reasignar (informativa), al registrar la evaluación (decisiva, bajo los bloqueos de 4.10 y repetida por el trigger BEFORE INSERT) y al registrar una segunda evaluación o corrección. La interfaz no es un control (IG5-33) |
 | Contribuyentes incorporados después | Las versiones son inmutables, por lo que no se agregan contribuyentes a una versión existente: una versión nueva de la maestra crea otro par (otro V-B). La evaluación ya registrada no cambia; el nuevo par recalcula E (IG5-35) |
 | Sin persona elegible | No se permite la evaluación, no se presume independencia y no se asigna autoridad automática a Admin ni al propietario. Queda un bloqueo operativo: C4 impide publicar. La salida es incorporar o habilitar, con `org.manage`, a una persona independiente con `piece.review` (IG5-34) |
+
+#### 4.4.3 Definición única de contribuyente y elegibilidad (H-02, T-04)
+
+**Fuentes inspeccionadas.** v3.3 (T-04: «NO APROBADA», con la propuesta técnica de autor del copy y quien subió el arte); Adenda v9: OD-03 (resolver la definición y el mecanismo antes de 2.1; aprobada con condiciones), PO-08 (secuencia de trazabilidad), PO-11 (copy), PO-16 (contribuciones heredadas; sin umbral operativo) y la lista de actos que no son contribuciones; especificación v3 y su matriz de pruebas. **No se inventa una definición nueva:** esta sección reúne las del propietario y separa lo que está definido de lo que falta.
+
+**Estado de T-04 (sin ambigüedad).** (1) La *propuesta técnica* de v3.3 no fue aprobada tal cual. (2) El propietario aprobó **con condiciones** la definición conceptual y la secuencia (OD-03, PO-08, PO-11, PO-16), documentadas en la Adenda v9, que **no está aceptada como documento** (PO-05); no se presenta como aprobación de esta especificación. (3) **Siguen pendientes** el umbral operativo de «aportación sustantiva» y la representación física de las contribuciones de brief, datos promocionales y herencia (DT-01, RR-27). **Impacto sobre G-5:** la independencia no se declara completamente resuelta (IG5-48). **Comportamiento seguro mientras tanto:** fail-closed (IG5-42).
+
+| Figura | Definición | ¿Contribuyente? | Fuente | Estado de la representación |
+|---|---|---|---|---|
+| Autor de copy | Quien creó la versión de copy (`created_by`, escrito por trigger con `auth.uid()`) | Sí: autoría | copy_versions.created_by (v3.3) | Representada en v3.3 |
+| Solicitante de generación por IA | Quien pidió la propuesta que se guardó como versión; la IA es el origen y no una persona | Sí: autoría (la IA y el sistema no figuran) | created_by de la versión resultante; la llamada queda en ai_runs | Representada en v3.3 |
+| Editor que modificó materialmente una versión | Cada persona que modifica contenido: como las versiones son inmutables, edita creando una versión nueva | Sí: autoría de esa versión | created_by de la versión nueva; parent_version_id | Representada en v3.3 |
+| Quien editó el brief | Quien crea o edita el brief del que depende la versión | Sí: contribución material (Brief, 2.1) | Control de versión de briefs; la columna de persona no está definida en v3.3 | **Pendiente** (PC-02) |
+| Quien modificó datos promocionales | Quien da de alta o modifica datos promocionales y comerciales referidos por la versión | Sí: contribución material (Fase 4) | Sin versión ni persona definidas en v3.3 | **Pendiente** (PC-02) |
+| Quien cargó o modificó el arte | Quien subió el arte de la versión | Sí: contribución material | creative_assets.uploaded_by (v3.3) | Representada en v3.3 |
+| Contribuyente heredado | Quien contribuyó a una versión anterior cuando su aportación sustantiva continúa presente (PO-16) | Sí: herencia | Se calcula desde la versión de origen (3.5) | Umbral **pendiente**: en duda se conserva la atribución (IG5-43) |
+| Contribuyentes intermedios de la maestra | Autores y quienes subieron arte de las versiones entre V-D y V-B, ambas incluidas (DG-17) | Sí | Ctr(v) para v en el intervalo | Depende del orden de versión (RR-24) |
+| Quien propuso la clasificación vigente | propose_independence (autor o responsable) | No es contribución de contenido; **sí queda excluido de evaluar el impacto de esa adaptación** (comportamiento seguro) | piece_classification_events | Pendiente de DT-02 (IG5-45) |
+| Quien confirmó o revirtió la clasificación | resolve_independence (revisor asignado) | No es contribución ni queda excluido por ese acto | piece_classification_events | Sin cambio |
+| Controles y actos administrativos | Comentar, consultar, comparar, revisar, registrar hallazgos, solicitar cambios, aprobar, confirmar o descartar hallazgos, conceder o revocar excepciones, asignar revisores, delegar | No son contribuciones (IG5-41); siguen sujetos a independencia respecto de la versión | — | Definido por el propietario |
+| Operación automática | IA, sistema, triggers y funciones | No es persona contribuyente | ai_runs; registros de plataforma | Definido |
+
+**Distinciones.** *Autoría* (quien crea el contenido de la versión), *contribución material* (quien interviene en el brief, el arte o los datos), *intervención administrativa* (asignar, delegar, conceder excepciones: no contribuye), *revisión* y *aprobación* (controles: no contribuyen, pero deben ser independientes) y *operación automática* (no es una persona).
+
+**Conjunto excluido E.** E = Ctr(V-A) ∪ Inh(V-A) ∪ ⋃ Ctr(v) para v ∈ I(V-D, V-B) ∪ {quien propuso la clasificación vigente (DT-02)}. Ctr usa la definición de la tabla anterior; Inh incluye a los herederos de la versión de origen. La información usada para evaluar es la de V-A, V-D, las versiones intermedias y V-B: quien la modificó materialmente figura en E por Ctr de esas versiones.
+
+**Completitud y fallo cerrado (IG5-42).** `version_contributors` devuelve el conjunto **y** un indicador de completitud. Si el origen de algún tipo de contribución de la versión no es determinable (representación pendiente), la función falla con `CONTRIBUYENTES_NO_DETERMINABLES`: `eligible_evaluators`, `record_impact_evaluation` y la verificación de C4 a C6 bloquean. Nunca se devuelve un conjunto parcial presentado como completo.
+
+**Elegibilidad.** El evaluador (1) está asignado a la adaptación correcta y su asignación sigue vigente; (2) tiene `piece.review` y es miembro activo; (3) no pertenece a E; (4) no registró la evaluación cuya sustitución intenta validar si el nuevo resultado levanta un bloqueo (IG5-44, DG-06); (5) sigue elegible al guardar tras **revalidar bajo bloqueo** (4.10): la pérdida de permiso, la revocación de la asignación o una contribución relevante nueva invalidan la elegibilidad antes de confirmar. Las versiones son inmutables: una contribución «nueva» es una versión nueva y un par nuevo (IG5-35). Una versión descartada fuera del intervalo y de la herencia no aporta contribuyentes (IG5-46). Dos evaluadores sobre el mismo par se serializan por el bloqueo de la cabeza (IG5-47).
+
+**Sin persona elegible:** la operación se bloquea; no hay autoasignación, asignación automática a Admin ni excepción implícita (IG5-34).
+
+**Pruebas:** T-165 a T-178 (positivas y negativas), más T-125 a T-135 de la v3.
 
 ### 4.5 Historial, segunda evaluación y corrección
 
@@ -572,7 +610,7 @@ Ninguna FK aislada garantiza la elegibilidad: las FK garantizan identidad y corr
 | IG5-02 | Solo se evalúa una versión de adaptación con aprobación positiva vigente y una versión de maestra con aprobación positiva (FK compuestas a approvals más el trigger de arte; decision = 'aprobada') |
 | IG5-03 | Solo existe evaluación de un par cuando V-D es distinta de V-B |
 | IG5-04 | El evaluador es el revisor asignado vigente y tiene piece.review |
-| IG5-05 | El evaluador no pertenece al conjunto excluido E = Ctr(V-A) ∪ Inh(V-A) ∪ Ctr(v) para toda versión v de la maestra del intervalo [V-D, V-B] (4.4.2, DG-17) |
+| IG5-05 | El evaluador no pertenece al conjunto excluido E = Ctr(V-A) ∪ Inh(V-A) ∪ Ctr(v) para toda versión v de la maestra del intervalo [V-D, V-B] (4.4.2, DG-17), con Ctr según la definición única de contribuyente (4.4.3) |
 | IG5-06 | No hay autoevaluación: quien contribuyó a V-B o a cualquier versión intermedia entre V-D y V-B no evalúa ese cambio |
 | IG5-07 | Sin revisor elegible no se registra evaluación y la publicación sigue bloqueada; no pasa autoridad a Admin, propietario ni otro rol |
 | IG5-08 | La reasignación del revisor crea una asignación nueva y conserva la anterior |
@@ -607,6 +645,15 @@ Ninguna FK aislada garantiza la elegibilidad: las FK garantizan identidad y corr
 | IG5-37 | supersedes_evaluation_id solo apunta a una evaluación del mismo par (FK compuesta con las ocho columnas del par) |
 | IG5-38 | Hay a lo sumo una evaluación raíz por par (UNIQUE parcial) y a lo sumo un sucesor por evaluación (UNIQUE): la cadena es lineal, sin ramas, sin ciclos (CHECK id distinto y solo inserción) y con una sola vigente |
 | IG5-39 | Los reemplazos concurrentes bloquean la cabeza de la cadena FOR UPDATE; el segundo falla por UNIQUE o por versión obsoleta y reintenta revalidando |
+| IG5-40 | Existe una definición única de contribuyente (4.4.3) que distingue autor de copy, solicitante de IA, editor, editor del brief, modificador de datos promocionales, quien cargó el arte, contribuyente heredado y contribuyentes de versiones intermedias, apoyada en OD-03, PO-08, PO-11 y PO-16; T-04 de v3.3 no fue aprobada como propuesta técnica |
+| IG5-41 | No son contribuciones de contenido los controles, los actos administrativos ni la operación automática: comentar, consultar, comparar, revisar, registrar hallazgos, solicitar cambios, aprobar, confirmar o descartar hallazgos, conceder o revocar excepciones, asignar revisores, delegar; la IA y el sistema no son personas contribuyentes |
+| IG5-42 | version_contributors devuelve el conjunto y un indicador de completitud; si el origen de algún tipo de contribución no es determinable (representación física pendiente, PC-02), falla con CONTRIBUYENTES_NO_DETERMINABLES y la operación se bloquea: nunca se calcula con un conjunto incompleto |
+| IG5-43 | En duda sobre si una aportación sustantiva continúa presente en una versión posterior, se conserva la atribución (PO-16): el contribuyente heredado permanece en el conjunto hasta que el propietario defina un umbral |
+| IG5-44 | Quien registró una evaluación no puede validar su sustitución cuando el nuevo resultado levanta un bloqueo (DG-06): el evaluador de la evaluación sustituta es otra persona |
+| IG5-45 | Quien propuso la clasificación vigente de la adaptación no evalúa su impacto (comportamiento seguro propuesto, pendiente de la decisión DT-02 del propietario); quien confirmó o revirtió la clasificación no queda excluido por ese motivo |
+| IG5-46 | Una versión descartada o reemplazada fuera del intervalo [V-D, V-B] no aporta contribuyentes al conjunto excluido, salvo por herencia sustantiva (IG5-43) |
+| IG5-47 | Dos evaluadores que intentan registrar el primer dictamen del mismo par se serializan por el bloqueo de la cabeza: uno confirma y el otro recibe PAR_YA_EVALUADO; solo puede sustituir con motivo (IG5-13) |
+| IG5-48 | Mientras el umbral de aportación sustantiva y la representación física de las contribuciones de brief, datos promocionales y herencia no estén definidos y aprobados, la independencia de G-5 no se declara resuelta y el comportamiento es fail-closed (IG5-42) |
 
 ### 4.8 Reglas de auditoría
 
@@ -689,7 +736,7 @@ Ver sección 11 (T-12 a T-25, T-46, T-49, T-51 a T-56).
 | Restricciones | NOT NULL; CHECK (decision = 'aprobada'); una fila con otro valor es imposible y, si apareciera (CHECK retirado, importación, error), C2 y C3 la tratan como no verificable y bloquean (IG5-29) |
 | Relación con pieza y versión | FK de las tablas nuevas a `approvals(organization_id, id, copy_version_id)` más el trigger `asset_match` para el arte (IG5-28) |
 | Unicidad | Una versión puede tener más de una fila positiva a lo largo del tiempo (ciclo Aprobado, revocación de excepción #12, nueva aprobación); la vigencia no depende de la unicidad sino del estado de la pieza (abajo) |
-| Compatibilidad histórica | `approvals` nace en 6.1 y 6.5 con la columna: no hay filas históricas que migrar |
+| Compatibilidad histórica | `approvals` nace en 6.5 con la columna (14.1): no hay filas históricas que migrar |
 | Función autorizada de escritura | `record_approval` (propietario `cci_records_owner`), con permiso `piece.approve`; ningún cliente inserta directamente |
 | Permisos y RLS | SELECT para miembros de la organización (RLS por organización); sin INSERT, UPDATE, DELETE ni TRUNCATE para anon, authenticated y service_role |
 
@@ -732,7 +779,7 @@ C2 y C3 de G-10 leen exclusivamente esas aprobaciones; ninguna evaluación de im
 
 #### `publication_attempts`
 
-**Propósito:** Registro permanente e inmutable de cada intento de publicación (permitido o bloqueado) con el resultado de cada condición C1 a C9. **Brecha:** G-10. **Fase propuesta:** 6.1, 6.6 y 2.7. **Estado:** aprobada conceptualmente (DG-01), sujeta a la aceptación de esta especificación.
+**Propósito:** Registro permanente e inmutable de cada intento de publicación (permitido o bloqueado) con el resultado de cada condición C1 a C9. **Brecha:** G-10. **Fase propuesta:** 6.6. **Estado:** aprobada conceptualmente (DG-01), sujeta a la aceptación de esta especificación.
 
 | Columna | Tipo | NULL | Descripción |
 |---|---|---|---|
@@ -766,8 +813,9 @@ C2 y C3 de G-10 leen exclusivamente esas aprobaciones; ninguna evaluación de im
 | correlation_id | uuid | NO | Correlación de la solicitud, generada por el servidor (3.15); no es única ni clave |
 | client_correlation_id | uuid | SÍ | Identificador opcional del cliente (uuid canónico); no es evidencia ni autorización |
 | request_fingerprint | text | NO | sha-256 hexadecimal del servidor con actor, pieza y versiones citadas (V-E); una clave reutilizada con otros datos se rechaza |
-| attempted_at | timestamptz | NO | transaction_timestamp() asignado por trigger BEFORE INSERT; ningún valor del cliente |
-| db_txid | bigint | NO | (pg_current_xact_id())::text::bigint asignado por trigger BEFORE INSERT; ver 5.11 |
+| attempted_at | timestamptz | NO | transaction_timestamp() asignado por trigger BEFORE INSERT; marca de tiempo del inicio de la transacción: NO es un identificador ni es único (5.11) |
+| db_txid | bigint | NO | (pg_current_xact_id())::text::bigint asignado por trigger BEFORE INSERT; identifica la transacción dentro de la línea de tiempo del clúster; no basta por sí solo (5.11) |
+| attempt_nonce | uuid | NO | gen_random_uuid() asignado por trigger BEFORE INSERT (sobrescribe cualquier valor); único; sin SELECT para anon, authenticated y service_role; no se devuelve, no se registra y no sale de la función (5.11) |
 
 **Clave primaria:** `id`.
 
@@ -788,6 +836,7 @@ C2 y C3 de G-10 leen exclusivamente esas aprobaciones; ninguna evaluación de im
 - unique(organization_id, id)
 - unique(organization_id, actor_id, idempotency_key)
 - unique(db_txid, piece_id) donde result = permitido (una fila permitida por pieza y transacción)
+- unique(attempt_nonce)
 
 **Restricciones CHECK:**
 
@@ -802,6 +851,7 @@ C2 y C3 de G-10 leen exclusivamente esas aprobaciones; ninguna evaluación de im
 - piece_kind IN ('sin_relacion','maestra','adaptacion')
 - request_fingerprint ~ '^[0-9a-f]{64}$'
 - db_txid > 0
+- attempt_nonce IS NOT NULL (lo fija el trigger; un valor recibido se descarta)
 
 **Índices:**
 
@@ -854,16 +904,23 @@ Cada solicitud **aceptada** genera como máximo **una** fila (permitido o bloque
 | IG10-18 | Sin borrado desde la aplicación; no se define política de retención (DG-09 diferida) |
 | IG10-19 | Una solicitud sin autenticación o de una persona sin membresía no publica y no genera fila de negocio: es un evento de seguridad de plataforma; no se inventa un actor |
 | IG10-20 | Una clave de idempotencia identifica una acción del usuario: repetirla devuelve el resultado almacenado; una acción nueva tras corregir condiciones usa una clave nueva; si no hubo fila confirmada, el reintento con la misma clave se evalúa desde cero |
-| IG10-21 | La guarda exige una fila permitida cuyo db_txid y attempted_at son los de la transacción actual, de la misma pieza y de las mismas versiones (IG10-22 a IG10-24) |
+| IG10-21 | La guarda exige una fila permitida cuyo db_txid, attempted_at y attempt_nonce son los de la transacción actual, de la misma pieza y de las mismas versiones (IG10-22 a IG10-24 y IG10-31 a IG10-33) |
 | IG10-22 | db_txid se asigna con (pg_current_xact_id())::text::bigint en un trigger BEFORE INSERT que sobrescribe cualquier valor recibido; el cliente no puede suministrarlo |
-| IG10-23 | attempted_at se asigna con transaction_timestamp() en el mismo trigger; la guarda exige db_txid y attempted_at de la transacción actual, de modo que ni un valor de db_txid repetido tras una restauración autoriza nada |
-| IG10-24 | La guarda verifica conjuntamente: (1) fila de la transacción actual, (2) pieza exacta, (3) versión exacta de la adaptación (copy y arte), (4) versión exacta de la maestra cuando aplica, (5) resultado permitido, (6) C1 a C9 verificadas por completo, (7) actor igual a auth.uid() con membresía y piece.publish, (8) ausencia de ruta alterna |
+| IG10-23 | attempted_at se asigna con transaction_timestamp() en el mismo trigger; es una comprobación secundaria de coherencia (el valor es el inicio de la transacción), no un identificador ni garantiza unicidad, y no protege por sí sola contra restauraciones o clones (5.11) |
+| IG10-24 | La guarda verifica conjuntamente: (1) fila de la transacción actual, con db_txid y attempted_at coincidentes y el attempt_nonce de la identidad del intento fijada por la función en esa transacción, (2) pieza exacta, (3) versión exacta de la adaptación (copy y arte), (4) versión exacta de la maestra cuando aplica, (5) resultado permitido, (6) C1 a C9 verificadas por completo, (7) actor igual a auth.uid() con membresía y piece.publish, (8) ausencia de ruta alterna |
 | IG10-25 | Solo transition_piece_status inserta filas permitidas; ninguna función auxiliar tiene INSERT en publication_attempts ni UPDATE sobre status |
 | IG10-26 | Publicado solo se alcanza desde Aprobado (T-02 #10); una pieza no puede insertarse con status = publicado |
 | IG10-27 | Una pieza Publicada solo admite pasar a Archivado (#13) sin cambiar su versión vigente ni su canal y formato |
 | IG10-28 | correlation_id lo genera siempre el servidor; el cliente puede enviar client_correlation_id opcional (uuid canónico); si no es válido se descarta; ninguno es evidencia, ni autoriza, ni sustituye a la clave de idempotencia |
 | IG10-29 | request_fingerprint liga actor, pieza y versiones citadas a la clave de idempotencia: la misma clave con otros datos se rechaza y no crea fila |
 | IG10-30 | El comportamiento ante publicación permitida, bloqueada, error de validación, error al insertar el intento, error al actualizar el estado, cancelación, pérdida de conexión y reintento está definido en 5.10 sin prometer filas en transacciones abortadas |
+| IG10-31 | attempt_nonce (uuid) lo genera el servidor con gen_random_uuid() en un trigger BEFORE INSERT que sobrescribe cualquier valor recibido; es único; ningún rol de aplicación (anon, authenticated, service_role) tiene SELECT sobre esa columna; no se devuelve, no se registra y no sale de la función |
+| IG10-32 | transition_piece_status fija el nonce del intento en una variable local de la transacción tras insertar la fila; la guarda lo compara con la fila de la transacción y lo limpia al consumirlo, de modo que un segundo UPDATE de estado en la misma transacción se rechaza; la variable no es una defensa por sí sola porque quien tenga acceso SQL puede escribirla: por eso la guarda exige también la fila y las privaciones de IS-01 a IS-03 |
+| IG10-33 | Ningún parámetro, cabecera, variable de sesión ni valor del cliente se acepta como db_txid, nonce, actor o resultado; solo los fija el servidor |
+| IG10-34 | Tras una restauración, un clon o una recuperación a un punto anterior, db_txid puede repetirse respecto de filas de otra línea de tiempo; la guarda exige además el attempt_nonce aleatorio y único de la transacción, de modo que una fila de otra línea no autoriza; el diseño no afirma protección frente a un superusuario ni frente a la edición manual de datos (IS-11) |
+| IG10-35 | Un reintento idempotente con resultado confirmado devuelve la fila original sin generar nonce nuevo ni volver a actualizar el estado; el nonce original no se reutiliza |
+| IG10-36 | Un fallo al insertar la fila de intento o al actualizar el estado revierte la transacción completa: no hay Publicado sin fila ni fila permitida confirmada sin Publicado |
+| IG10-37 | Si un bloque EXCEPTION o un savepoint revierte el INSERT del intento, la variable del nonce queda limpiada y el UPDATE de estado se rechaza; el valor de pg_current_xact_id() dentro de subtransacciones no está verificado (RR-25) y la guarda falla cerrada si difiere |
 
 ### 5.5 Idempotencia, correlación, errores y reintentos
 
@@ -933,9 +990,9 @@ Distinción que se mantiene: **transacción abortada** (no hay fila confirmada n
 
 **Evidencia fuera de la transacción.** Si la transacción aborta pueden existir registros de la plataforma o de la aplicación; su existencia y conservación no están verificadas (RR-16) y no se presentan como una fila confirmada de `publication_attempts`.
 
-### 5.11 `db_txid` y guarda del estado Publicado (G-10)
+### 5.11 `db_txid`, identidad del intento y guarda del estado Publicado (G-10, H-04)
 
-**Garantía buscada.** Una fila permitida de `publication_attempts` solo puede autorizar el cambio de estado de la misma pieza y de las mismas versiones dentro de la misma transacción de PostgreSQL; una fila antigua nunca se reutiliza y el cliente no puede suministrar ni alterar el identificador.
+**Garantía buscada.** Una fila permitida de `publication_attempts` solo puede autorizar el cambio de estado de la misma pieza y de las mismas versiones dentro de la misma transacción de PostgreSQL; una fila antigua nunca se reutiliza y el cliente no puede suministrar ni alterar la identidad del intento. **No se afirma que la combinación de `db_txid` y `attempted_at` sea infalible:** `transaction_timestamp()` es el instante de inicio de la transacción, no un identificador, y dos transacciones pueden compartir el mismo valor; por eso la identidad del intento incluye además un nonce aleatorio del servidor.
 
 **Semántica de los identificadores (documentación de PostgreSQL 15, tabla 9.78 y sección de tipos de identificador de objetos; no son intercambiables)**
 
@@ -946,67 +1003,79 @@ Distinción que se mantiene: **transacción abortada** (no hay fila confirmada n
 | `pg_current_xact_id_if_assigned()` | xid8 | Devuelve NULL si aún no hay identificador; no lo consume | Desde PostgreSQL 13 | No elegida: NULL sería ambiguo en la guarda |
 | `xid` (p. ej. `xmin`) | 32 bits | Se reinicia por envoltura (wraparound) | — | Excluido |
 
-**Solución técnica única:** la columna `db_txid bigint NOT NULL` se asigna con la expresión `(pg_current_xact_id())::text::bigint` en un trigger BEFORE INSERT; la guarda compara con la misma expresión evaluada en su propia transacción. Se elige `bigint` por conversión desde `xid8` (y no `xid8` como tipo de columna) para depender solo de operaciones documentadas: igualdad de enteros y el índice único de `bigint`; el soporte de `xid8` como clase de operadores de un índice no se verificó.
+**Evaluación de alternativas para la identidad del intento (H-04)**
+
+| Alternativa | Descripción | Ventajas | Límites y decisión |
+|---|---|---|---|
+| A. Identificador de transacción más nonce aleatorio del servidor (**elegida**) | `db_txid` (de `xid8` a `bigint`) más `attempt_nonce` uuid generado por un trigger BEFORE INSERT con `gen_random_uuid()`; la función lo lleva a la guarda por una variable local de la transacción; la guarda exige la fila de la transacción actual **y** el nonce coincidente | Una fila de otra transacción o de otra línea de tiempo no coincide; el cliente no conoce el nonce; no exige infraestructura adicional | El nonce solo sirve si no se filtra (sin SELECT para roles de aplicación); la variable local no es la defensa (la puede escribir quien tenga acceso SQL); `gen_random_uuid()` en la versión de Supabase no verificado (RR-29, RR-31) |
+| B. Identificador de transacción más identidad de intento = la PK de la fila | Usar el `id` de la fila como identidad validada por la guarda | Sin columna nueva | El `id` se devuelve al cliente y sirve de referencia de consulta: un valor conocido no es un secreto; no distingue un intento repetido de otro. Se conserva como identificador de consulta, no como identidad |
+| C. Firma (HMAC) de transacción, pieza, versiones y actor con un secreto del servidor | La guarda verifica la firma | Verifica la integridad de los datos del intento | Depende de la gestión de secretos de la plataforma (no verificada), de su rotación y custodia; no mejora frente a un propietario o superusuario. Descartada |
+| No aceptadas por el encargo | Solo un timestamp; un UUID enviado por el cliente; una variable de sesión que el cliente pueda falsificar | — | Falsificables o repetibles |
+
+**Solución técnica única:** las columnas `db_txid bigint NOT NULL` (asignada con `(pg_current_xact_id())::text::bigint`), `attempt_nonce uuid NOT NULL UNIQUE` (asignada con `gen_random_uuid()`) y `attempted_at timestamptz NOT NULL` (asignada con `transaction_timestamp()`) las fija un trigger BEFORE INSERT que **sobrescribe** cualquier valor recibido. Se elige `bigint` por conversión desde `xid8` (y no `xid8` como tipo de columna) para depender solo de operaciones documentadas: igualdad de enteros y el índice único de `bigint`; el soporte de `xid8` como clase de operadores de un índice no se verificó.
 
 | Aspecto | Definición |
 |---|---|
-| Función exacta de generación | `pg_current_xact_id()` |
-| Tipo de dato exacto | `bigint` en la columna; `xid8` en el origen |
-| Compatibilidad con PostgreSQL y Supabase | Requiere PostgreSQL 13 o posterior. **No verificado:** la versión del proyecto de Supabase que se use; si fuera anterior a 13, esta solución no aplica y debe revisarse (RR-19) |
-| Conversión | `xid8` a texto y de texto a `bigint`. Si el valor superara 9 223 372 036 854 775 807 la conversión falla y con ella la transacción (fail-closed); es inalcanzable en la práctica |
-| Transacciones abortadas | La fila desaparece con el ROLLBACK: no queda evidencia confirmada (escenario C) |
-| Subtransacciones y bloques de excepción | La documentación consultada describe la función como el identificador de «la transacción actual». **No verificado:** su valor dentro de un savepoint o bloque EXCEPTION. La guarda no depende de ello: si el valor difiriera entre el INSERT y la guarda, la guarda rechaza (fail-closed). Se cubre con una prueba de infraestructura real |
-| Semántica de comparación | Igualdad exacta de enteros; no se compara orden |
-| Reutilización y desbordamiento | El identificador no se reutiliza en la vida del clúster, pero una restauración desde copia lógica o un clon pueden reiniciar la numeración y repetir un valor guardado. Por eso la guarda exige además `attempted_at = transaction_timestamp()`: un valor repetido en el tiempo no coincide. El desbordamiento de `bigint` no es alcanzable |
-| Migración futura | Si PostgreSQL cambia o retira la función, se sustituye la expresión en el trigger y en la guarda a la vez con una migración revisada; las filas históricas conservan su valor y no se reutilizan |
+| Funciones exactas de generación | `pg_current_xact_id()` (identificador de la transacción), `gen_random_uuid()` (nonce) y `transaction_timestamp()` (marca de tiempo) |
+| Tipos exactos | `bigint` (db_txid), `uuid` (attempt_nonce) y `timestamptz` (attempted_at) |
+| Compatibilidad con PostgreSQL y Supabase | `pg_current_xact_id()` exige PostgreSQL 13 o posterior; `gen_random_uuid()` es una función del núcleo desde PostgreSQL 13. **No verificado:** la versión del proyecto de Supabase ni la fuente aleatoria (RR-19, RR-29). Si la versión fuera anterior a 13, esta solución no aplica y debe revisarse |
+| Conversión | `xid8` a texto y de texto a `bigint`; si el valor superara el máximo de `bigint` la conversión falla y con ella la transacción (fail-closed); es inalcanzable en la práctica |
+| Transacciones abortadas | La fila desaparece con el ROLLBACK: no queda evidencia confirmada (5.10, escenario C) |
+| Subtransacciones y bloques EXCEPTION | **No verificado** el valor de `pg_current_xact_id()` dentro de un savepoint o bloque EXCEPTION. Si un bloque revierte el INSERT del intento, la variable del nonce se limpia y el UPDATE se rechaza; si el valor difiriera, la guarda falla cerrada (IG10-37, RR-25) |
+| Comparación | Igualdad exacta de enteros y de uuid; no se compara orden |
+| `attempted_at` | Comprobación **secundaria** de coherencia con `transaction_timestamp()`. No es un identificador ni garantiza unicidad: no basta por sí sola contra restauraciones ni clones (IG10-23). La v3 le atribuía esa protección; se corrige |
+| Reutilización tras restauración, clon o recuperación a un punto anterior | `pg_current_xact_id()` no se reutiliza dentro de una línea de tiempo del clúster, pero una restauración o recuperación crea otra línea donde los mismos valores pueden reaparecer. La guarda exige el nonce aleatorio (122 bits) y único de la transacción: una fila de otra línea no autoriza. No se afirma protección frente a un operador con privilegios de superusuario (IS-11) |
+| Migración futura | Si PostgreSQL cambia o retira una función, se sustituye la expresión en el trigger y en la guarda a la vez con una migración revisada; las filas históricas conservan su valor y no se reutilizan |
 
-**Generación exclusiva del servidor.** Clientes sin INSERT sobre `publication_attempts`. Un trigger BEFORE INSERT sobrescribe `db_txid`, `attempted_at` y el actor (`auth.uid()`) y rechaza el INSERT si `current_user` no es el propietario de `transition_piece_status`. El cliente no suministra `db_txid`, actor, resultado, fecha ni condiciones C1 a C9: la función calcula el resultado y las condiciones con datos leídos del servidor (IS-05, IS-08).
+**Generación exclusiva del servidor.** Clientes sin INSERT sobre `publication_attempts`. Un trigger BEFORE INSERT sobrescribe `db_txid`, `attempted_at`, `attempt_nonce` y el actor (`auth.uid()`) y rechaza el INSERT si `current_user` no es el propietario de `transition_piece_status`. Ningún rol de aplicación (`anon`, `authenticated`, `service_role`) tiene SELECT sobre `attempt_nonce` (privilegio por columna) y el nonce no se devuelve, no se registra y no figura en `activity_logs` ni en la respuesta. El cliente no suministra `db_txid`, nonce, actor, resultado, fecha ni condiciones C1 a C9 (IS-05, IS-08, IG10-33).
 
-**Guarda del trigger** (BEFORE INSERT y BEFORE UPDATE OF status sobre `creative_pieces`; mismo propietario `cci_state_owner`). Solo permite `status = publicado` si se cumplen **todas** estas ocho condiciones (IG10-24):
+**Variable de transacción.** Tras insertar el intento, `transition_piece_status` fija el nonce en una variable local de la transacción (`set_config(..., is_local => true)`); la guarda lo compara con la fila del intento de la transacción y lo **limpia al consumirlo**, de modo que un segundo UPDATE de estado en la misma transacción se rechaza (un intento, un uso). **La variable no es la defensa:** cualquiera con acceso SQL puede escribirla; por eso la guarda exige también la fila de la transacción actual, el nonce sin SELECT para roles de aplicación y los privilegios de IS-01 a IS-03 (IG10-32, RR-30).
+
+**Guarda del trigger** (BEFORE INSERT y BEFORE UPDATE OF status sobre `creative_pieces`; propietario `cci_state_owner`; función SECURITY INVOKER para que `current_user` sea el de quien ejecuta el UPDATE). Solo permite `status = publicado` si se cumplen **todas** estas ocho condiciones (IG10-24):
 
 | N.º | Condición | Cómo se comprueba |
 |---|---|---|
-| 1 | La fila de intento pertenece a la transacción actual | `db_txid` igual a `(pg_current_xact_id())::text::bigint` y `attempted_at` igual a `transaction_timestamp()` |
-| 2 | Corresponde a la pieza exacta | `piece_id` igual a la pieza actualizada |
-| 3 | Corresponde a la versión exacta de la adaptación | `target_copy_version_id` y arte iguales a la versión vigente de la pieza |
+| 1 | La fila de intento pertenece a la transacción actual y a esta operación | `db_txid` igual a `(pg_current_xact_id())::text::bigint`, `attempted_at` igual a `transaction_timestamp()` y `attempt_nonce` igual al nonce fijado en esta transacción |
+| 2 | Corresponde a la pieza y a la organización exactas | `piece_id` y `organization_id` iguales a los de la pieza actualizada |
+| 3 | Corresponde a la versión exacta de copy y arte de la adaptación | `target_copy_version_id` y arte iguales a la versión vigente de la pieza |
 | 4 | Corresponde a la versión exacta de la maestra, cuando aplica | `master_reference_copy_version_id` igual a la versión vigente de la maestra bloqueada |
 | 5 | El resultado es permitido | `result = 'permitido'` |
-| 6 | C1 a C9 verificadas por completo | `verification_complete` verdadero y todas las condiciones en cumple o no aplica (el CHECK de la tabla ya lo exige) |
+| 6 | C1 a C9 verificadas por completo por el servidor | `verification_complete` verdadero y todas en cumple o no aplica (el CHECK ya lo exige) |
 | 7 | Actor y membresía válidos | `actor_id` igual a `auth.uid()`, membresía activa con `piece.publish`, leídos bajo bloqueo |
 | 8 | No hay ruta alterna | Privilegios: nadie más tiene UPDATE sobre `status`; el INSERT con `status = publicado` se rechaza; las funciones auxiliares carecen de privilegio (IG10-25 y IG10-26) |
+
+**Protección frente a cada amenaza.** Ninguna se apoya solo en RLS: RLS controla lectura y aislamiento; la escritura la controlan los privilegios, la función y la guarda.
+
+| Amenaza | Mecanismo | Prueba | Límite |
+|---|---|---|---|
+| Cliente malicioso | Sin INSERT ni UPDATE de estado; la función ignora identificadores, actor y resultado enviados; el nonce no se expone (IG10-33) | T-188 | Ninguna si la API no reenvía datos del cliente |
+| Función auxiliar | Propietario distinto, sin UPDATE de status ni INSERT en publication_attempts; EXECUTE restringido (IS-03) | T-192 | Una función auxiliar del mismo propietario podría leer el nonce: revisión de propietarios (RR-31) |
+| service_role | No es propietario ni tiene UPDATE de status ni EXECUTE; las funciones rechazan `auth.uid()` nulo; la Edge Function reenvía el token del usuario (IS-04) | T-191 | service_role omite RLS pero no privilegios: depende de la revocación real (no verificada) |
+| Acceso directo a la tabla | Sin INSERT para roles de aplicación; trigger exige `current_user` propietario (IS-06) | T-190 | No cubre al propietario ni al superusuario (IS-11) |
+| Función SECURITY DEFINER no autorizada | `SET search_path = ''`, propietarios dedicados, REVOKE a PUBLIC (8.9) | T-192 | Una función nueva del propietario del estado sería de confianza: revisión de cambios |
+| Cambio de `current_user` | No hay pertenencia de roles de aplicación a los propietarios; la guarda usa `current_user` | T-193 | No verificado en Supabase (RR-31) |
+| Restauración y clonación | Nonce aleatorio y único exigido por la guarda (IG10-34); `attempted_at` solo como coherencia | T-187 | No cubre la edición manual de filas (IS-11); no verificado (RR-23) |
+| Subtransacciones y bloques EXCEPTION | La variable se limpia si el INSERT se revierte; el valor distinto falla cerrado (IG10-37) | T-195, T-196 | Valor de pg_current_xact_id() en subtransacciones no verificado (RR-25) |
+| Reintentos | Un reintento con resultado confirmado devuelve la fila original sin nonce nuevo (IG10-35); `request_fingerprint` rechaza otra pieza o versiones (IG10-29) | T-198, T-199 | El caso «commit incierto» depende del cliente |
+| Concurrencia | Bloqueo de la maestra y de la adaptación; `unique(db_txid, piece_id)` permitido; una publicación por pieza | T-197 | Comportamiento real de los bloqueos no probado (RR-20) |
+
+**Honestidad transaccional (resumen; detalle en 5.10).** (1) Un bloqueo comercial evaluado normalmente persiste como fila bloqueada. (2) Un error técnico capturado dentro de la transacción se registra como `error_tecnico` solo si la transacción continúa y confirma; si aborta, no queda fila. (3) Si falla el INSERT del intento no hay publicación ni fila confirmada. (4) Si falla el UPDATE de estado, se revierte la transacción completa, incluida la fila del intento permitido. (5) Una pérdida de conexión antes del COMMIT deja la transacción sin confirmar. (6) Tras un COMMIT con conexión perdida, el reintento idempotente devuelve el resultado original. (7) Una solicitud no autenticada no crea intento ni inventa actor. **Nunca se afirma que una fila sobreviva a un ROLLBACK dentro de la misma transacción** (T-194).
+
+**Límites declarados (IS-11).** No impide el diseño: el superusuario, el propietario de las tablas, la desactivación de triggers (`session_replication_role`, `ALTER TABLE ... DISABLE TRIGGER`), la edición manual de datos ni la pertenencia a los roles propietarios. Mitigación operativa y detección (comparar periódicamente la auditoría con los estados), no garantía. **Pendiente de validación técnica real:** versión de PostgreSQL, `gen_random_uuid()`, privilegios por columna, propietarios dedicados, valor de `pg_current_xact_id()` en subtransacciones y comportamiento ante restauración (T-183 a T-201).
 
 **Impedimentos y su mecanismo**
 
 | Impedimento | Mecanismo | Prueba |
 |---|---|---|
-| Reutilizar una fila permitida de una transacción anterior | Condición 1 (db_txid y attempted_at) | T-86 |
-| Reutilizar un intento de otra pieza | Condición 2 | T-87 |
-| Reutilizar un intento de otra versión | Condiciones 3 y 4 | T-88 |
-| Alterar el identificador desde el cliente | Trigger BEFORE INSERT sobrescribe; sin INSERT para el cliente | T-94 |
+| Reutilizar una fila permitida de una transacción anterior | Condición 1 (db_txid, attempted_at y nonce) | T-184, T-86 |
+| Reutilizar un nonce anterior o de otro intento | Condición 1; nonce aleatorio, único y sin SELECT | T-185, T-186 |
+| Reutilizar un intento de otra pieza o de otra versión | Condiciones 2, 3 y 4 | T-87, T-88 |
+| Alterar la identidad desde el cliente | Trigger BEFORE INSERT sobrescribe; sin INSERT para el cliente | T-94, T-188 |
 | Insertar una fila permitida desde una función auxiliar | Propietario sin INSERT en `publication_attempts`; el trigger exige `current_user` | T-93 |
 | Actualizar `creative_pieces.status` directamente | REVOKE UPDATE (status); guarda | T-92 |
 | Publicar por un camino alternativo | Única función con privilegio; INSERT con publicado rechazado; Publicado solo desde Aprobado; una pieza Publicada solo se archiva (IG10-26, IG10-27) | T-103, T-104 |
 
-**Ruta única.** La función transaccional autorizada `transition_piece_status` es la única que puede realizar la transición a Publicado (T-02 #10): reúne el bloqueo, la verificación de C1 a C9, el INSERT del intento y el UPDATE del estado en una sola transacción. Ninguna prueba se ejecutó; lo que depende de Supabase real está marcado como no verificado.
-
-### 5.12 Política de `correlation_id` e idempotencia (IG10-28 y IG10-29)
-
-La v2 decía a la vez que el servidor fija la correlación (IG10-05) y que el cliente la envía (5.1 y 5.5). Política única:
-
-| Aspecto | Política |
-|---|---|
-| `correlation_id` (servidor) | uuid; lo genera siempre el servidor (`gen_random_uuid()`); NOT NULL; no es única ni clave |
-| `client_correlation_id` (cliente) | uuid opcional; el cliente puede enviarlo; el servidor lo guarda en una columna aparte, sin que sustituya a `correlation_id` |
-| Formato y longitud | UUID canónico de 36 caracteres (32 hexadecimales y 4 guiones); minúsculas o mayúsculas se normalizan a minúsculas |
-| Validación | El servidor intenta convertirlo a uuid; si falla o excede la longitud, se **descarta** (no se guarda), la solicitud continúa y la respuesta indica que se ignoró. No es evidencia, por lo que su ausencia o invalidez no puede bloquear ni permitir nada |
-| Qué no puede hacer | Cambiar actor, resultado, pieza, versión ni condiciones; sustituir a la clave de idempotencia; probar autorización |
-| Persistencia | `correlation_id` y `client_correlation_id` en `publication_attempts` y en `impact_evaluations` |
-| Reintentos | Un reintento idempotente devuelve la fila original con su `correlation_id`; el `correlation_id` del reintento solo existe en los registros de plataforma (no verificados) |
-| Trazabilidad solicitud-registro | Por `correlation_id` de la fila y, si se envió, `client_correlation_id`; las coincidencias con los registros de plataforma no están verificadas |
-| Valores inválidos | Se descartan como se indicó; no generan un escenario nuevo ni una fila adicional |
-
-**Clave de idempotencia.** `idempotency_key`: obligatoria, texto de 1 a 128 caracteres del conjunto `A-Z a-z 0-9 _ -` (límites técnicos propuestos, no decisiones de negocio); la genera el cliente por acción del usuario; ámbito (organización, actor). El servidor calcula `request_fingerprint` (sha-256 hexadecimal de actor, pieza y versiones citadas; en evaluaciones, además el resultado solicitado). La misma clave con el mismo fingerprint devuelve el resultado almacenado; con otro fingerprint se rechaza y no crea fila. Así la idempotencia queda ligada a actor, pieza, versiones y clave, y es independiente de la correlación.
-
+**Ruta única.** La función transaccional autorizada `transition_piece_status` es la única que puede realizar la transición a Publicado (T-02 #10): reúne el bloqueo, la verificación de C1 a C9, el INSERT del intento, el nonce y el UPDATE del estado en una sola transacción. **Ninguna prueba se ejecutó**; lo que depende de Supabase real está marcado como no verificado.
 
 ## 6. Arquitectura integrada
 
@@ -1208,7 +1277,8 @@ sequenceDiagram
   T->>DB: Bloquea maestra y adaptacion
   T->>DB: C1 a C9 en cumple o no_aplica
   T->>DB: Inserta intento permitido
-  T->>DB: El trigger fija db_txid, attempted_at y actor en el intento
+  T->>DB: El trigger fija db_txid, attempt_nonce, attempted_at y actor en el intento
+  T->>DB: Fija el nonce en la variable local de la transaccion
   T->>DB: Estado a Publicado. La guarda comprueba las 8 condiciones de 5.11
   T->>DB: Puntero en activity_logs
   T-->>U: Publicada. Una sola transaccion
@@ -1346,17 +1416,48 @@ sequenceDiagram
   participant A as publication_attempts
   participant G as Guarda sobre creative_pieces
   T->>A: INSERT del intento permitido
-  A->>A: El trigger fija db_txid, attempted_at y actor
+  A->>A: El trigger fija db_txid, attempt_nonce, attempted_at y actor
+  T->>T: Fija el nonce en la variable local
   T->>G: UPDATE de status a publicado
-  alt Falla alguna de las 8 condiciones
+  alt Falla alguna de las 8 condiciones o el nonce no coincide
     G-->>T: Rechaza y aborta la transaccion
     Note over T,A: Se revierte tambien el intento y no queda fila confirmada
   else Cumple las 8 condiciones
-    G-->>T: Permite el cambio de estado
+    G-->>T: Permite el cambio de estado y limpia el nonce
     T->>T: COMMIT confirma la fila y el estado juntos
   end
 ```
 
+
+### 7.17 Orden único de creación y habilitación (H-01)
+
+Cada nodo es una subfase y sus objetos; la flecha indica «se crea después». Es el orden de 14.1; las FK diferidas de v3.3 se crean en la subfase de la tabla destino.
+
+```mermaid
+flowchart TD
+  S1_8["1.8<br/>organizations, profiles, memberships, role_permissions, membership_permission_grants, activity_logs, campaigns, channel_rules, channel_formats, creative_pieces<br/>+ cci_state_owner y cci_records_owner; manage_channel_catalog; BEFORE INSERT sobre creative_pieces; BEFORE INSERT y BEFORE UPDATE OF status sobre cr"]
+  S2_x["2.x<br/>brand_guidelines, brand_guideline_versions, briefs, copy_versions, ai_runs, ai_prompt_versions, ai_quotas<br/>+ creative_pieces → briefs; creative_pieces → copy_versions"]
+  S3_x["3.x<br/>creative_assets, audit_rubric_versions, audits, audit_findings<br/>+ copy_versions → creative_assets; creative_pieces → creative_assets"]
+  S4_x["4.x<br/>promotion_rules, validation_settings_versions<br/>+ audits → validation_settings_versions"]
+  S5_1["5.1<br/>sin tablas nuevas<br/>+ Columnas anulables de reglas"]
+  S5_3["5.3<br/>piece_classification_events, piece_reviewer_assignments<br/>+ create_adaptation; version_contributors; eligible_evaluators; propose_independence; resolve_independence; assign_reviewer"]
+  S6_x["6.x<br/>comments, commercial_block_exceptions"]
+  S6_1["6.1<br/>sin tablas nuevas<br/>+ transition_piece_status"]
+  S6_5["6.5<br/>approvals, impact_evaluations<br/>+ BEFORE INSERT sobre approvals; record_approval; record_impact_evaluation"]
+  S6_6["6.6<br/>publication_attempts<br/>+ BEFORE INSERT sobre publication_attempts; Sustituye el cuerpo de piece_status_guard por la; transition_piece_status ampliada"]
+  S8_x["8.x<br/>performance_metrics, ab_tests"]
+  S1_8 --> S2_x
+  S2_x --> S3_x
+  S3_x --> S4_x
+  S4_x --> S5_1
+  S5_1 --> S5_3
+  S5_3 --> S6_x
+  S6_x --> S6_1
+  S6_1 --> S6_5
+  S6_5 --> S6_6
+  S6_6 --> S8_x
+  S6_5 -. approvals antes de impact_evaluations .-> S6_6
+```
 
 ## 8. Seguridad, PostgreSQL y Supabase
 
@@ -1434,7 +1535,7 @@ Es una demostración **sobre el diseño**: cada fila indica el mecanismo, la reg
 
 | Garantía | Mecanismo | Reglas | Pruebas | Depende de infraestructura no verificada |
 |---|---|---|---|---|
-| La única ruta que deja Publicado es la función transaccional autorizada | Único propietario con UPDATE(status) más guarda de trigger con db_txid | IS-01, IG10-21 | T-60, T-70 | Sí: roles y privilegios de Supabase |
+| La única ruta que deja Publicado es la función transaccional autorizada | Único propietario con UPDATE(status) más guarda de trigger con db_txid y attempt_nonce | IS-01, IG10-21 | T-60, T-70 | Sí: roles y privilegios de Supabase |
 | Ningún usuario actualiza status directamente | Revocación de UPDATE(status) a anon, authenticated y service_role | IS-02 | T-60 | Sí: privilegios por defecto |
 | Ninguna función auxiliar publica | Propietario distinto sin UPDATE(status) ni INSERT en intentos | IS-03 | T-40, T-71 | Sí: creación de roles |
 | La Edge Function no suplanta con una clave privilegiada | EXECUTE revocado a service_role; la función rechaza auth.uid() nulo | IS-04 | T-61 | Sí; y que las credenciales de administración no estén en la Edge Function |
@@ -1455,11 +1556,11 @@ Es una demostración **sobre el diseño**: cada fila indica el mecanismo, la reg
 | propose_independence | records_owner | adaptación, justificación no vacía | Autor o responsable; secuencia vigente. Bloqueos: maestra FOR SHARE, adaptación FOR UPDATE | Evento de propuesta |
 | resolve_independence | records_owner | evento de propuesta, decisión, justificación no vacía | piece.review asignado y fuera del conjunto excluido; revalida la secuencia. Bloqueos: 1, 2, 3 | Evento de confirmación, no confirmación o reversión |
 | assign_reviewer | records_owner | adaptación, revisor, acción, motivo no vacío | org.manage (DG-07); el revisor tiene piece.review y no está en E (informativo); no concede permisos. Bloqueos: 1, 2 | Fila de asignación; historial |
-| version_contributors | records_owner, interna | pieza, versión | Solo lectura (STABLE); aplica T-04; EXECUTE solo para otras funciones, no para authenticated | Conjunto Ctr(v) |
-| eligible_evaluators | records_owner | adaptación, V-A, V-D y V-B | Solo lectura; el llamador necesita org.manage o piece.review en la organización; usa version_contributors sobre el intervalo (4.4.2) | Identificadores de miembros elegibles; vacío si no hay (IG5-34) |
+| version_contributors | records_owner, interna | pieza, versión | Solo lectura (STABLE); aplica la definición única de 4.4.3; devuelve el conjunto Ctr(v) y un indicador de completitud; **falla con CONTRIBUYENTES_NO_DETERMINABLES** si el origen de algún tipo no es determinable (IG5-42); EXECUTE solo para otras funciones, no para authenticated | Conjunto Ctr(v) o error controlado |
+| eligible_evaluators | records_owner | adaptación, V-A, V-D y V-B | Solo lectura; el llamador necesita org.manage o piece.review en la organización; usa version_contributors sobre el intervalo (4.4.2) y excluye a quien propuso la clasificación (IG5-45); si el cálculo no es completo, falla en vez de devolver una lista parcial (IG5-42) | Identificadores de miembros elegibles; vacío si no hay (IG5-34) |
 | record_approval (existente en v3.3, ampliada) | records_owner | pieza, versión, auditoría considerada, excepciones | piece.approve; independencia; estado; bloqueos confirmados; escribe `decision = 'aprobada'`. Bloqueos: 1 FOR SHARE, 2 | Fila de approvals; no cambia el estado por sí sola |
 | record_impact_evaluation | records_owner | adaptación, versiones citadas, resultado, siete dimensiones, justificación, motivo si desconocido, clave, `client_correlation_id` opcional y, si sustituye, la evaluación anterior | Asignación vigente, piece.review, fuera de E, V-B vigente aprobada, par y cabeza de la cadena; trigger repite la comprobación. Bloqueos: 1 FOR SHARE, 2, 3 y cabeza FOR UPDATE | Fila de impact_evaluations; errores de elegibilidad, versión obsoleta o par |
-| transition_piece_status (existente, ampliada) | state_owner | pieza, transición pedida, comentario o motivo, versiones citadas y clave cuando es Publicado | Permiso de T-02 por transición; para #10, C1 a C9 y la guarda (5.11). Bloqueos: 1 FOR SHARE, 2, 3 | Estado nuevo; fila de publication_attempts en #10 |
+| transition_piece_status (existente, ampliada) | state_owner | pieza, transición pedida, comentario o motivo, versiones citadas y clave cuando es Publicado | Permiso de T-02 por transición; para #10, C1 a C9, el INSERT del intento, el nonce en la variable de la transacción y la guarda (5.11). **Antes de 6.6 la transición a Publicado no está habilitada (14.1)**. Bloqueos: 1 FOR SHARE, 2, 3 | Estado nuevo; fila de publication_attempts en #10 |
 | manage_channel_catalog | records_owner | acción (crear, dar de baja, reactivar), canal, formato | org.manage; normalización; baja solo sin piezas no terminales. Bloqueo: 4 (catálogo FOR UPDATE) | Fila del catálogo; recuento de piezas afectadas |
 
 `record_approval`, `review_finding` y `verify_assets_integrity` no pueden publicar (R-4 de G-7). Los triggers de guarda y de asset_match pertenecen a `cci_state_owner` y `cci_records_owner` respectivamente.
@@ -1580,7 +1681,7 @@ Tipos: **Diseño** (comprobable documentalmente), **Ejecutable futura** (pruebas
 | T-33 | Intento con error de backend | Se fuerza una falla dentro de la verificación (por ejemplo, un dato ilegible) | Publicar | Resultado bloqueado con error_tecnico; fila escrita; estado intacto | Publicar por falla de la verificación | Fila con error_code controlado | Ejecutable futura | IG10-04, IG10-09, IG10-10, IG10-16, IS-09 |
 | T-34 | Fallo al registrar auditoría | Se fuerza una falla al insertar el intento | Publicar (que cumpliría todo) | Toda la transacción falla: A no queda Publicada y no existe fila confirmada | Publicar sin evidencia confirmada | Estado intacto; ninguna fila; la evidencia de plataforma, si existe, no se presenta como fila | Infraestructura real | IG10-08, IG10-11, IS-10, IG10-01 |
 | T-35 | Duplicación concurrente | Dos solicitudes de publicación idénticas con distinta clave | Ejecutarlas a la vez | Una publica; la otra queda bloqueada y registrada | Doble publicación | Una transición #10; dos filas de intento | Infraestructura real | IG10-06, IG10-07, IG10-08, IG10-20 |
-| T-36 | Duplicación concurrente | Misma clave repetida | Reenviar | Se devuelve el resultado almacenado | Reintentos que repiten efectos | Una fila; efectos únicos | Ejecutable futura | IG10-06, IG10-20 |
+| T-36 | Duplicación por reintento | Misma clave repetida | Reenviar | Se devuelve el resultado almacenado | Reintentos que repiten efectos | Una fila; efectos únicos | Ejecutable futura | IG10-06, IG10-20 |
 | T-37 | Modificación concurrente de maestra | A se publica mientras M se modifica o se revoca su aprobación | Ejecutarlas a la vez | Se serializan por el bloqueo maestra → adaptación; la verificación ve un estado consistente | Verificar y publicar con datos cambiados | Resultado válido en cualquier orden; sin interbloqueo | Infraestructura real | IG10-08, IG10-03, IG5-25 |
 | T-38 | Intento de modificar historial | Filas existentes | UPDATE o DELETE por authenticated, service_role y por la función de un usuario | Rechazo por privilegios y trigger | Reescritura de auditoría | Ningún cambio; el intento de modificar queda en los registros de la plataforma | Ejecutable futura | IG10-14, IG5-12, IG1-18, IS-06 |
 | T-39 | Intento de omitir validación por llamada directa | Sesión de usuario con piece.publish | UPDATE directo de creative_pieces.status a publicado o llamada con credencial de servicio | Rechazo: sin privilegio y por la guarda del trigger | Evadir C1 a C9 | Estado intacto | Infraestructura real | IG10-12, IG10-13, IS-01, IS-02 |
@@ -1600,7 +1701,7 @@ Tipos: **Diseño** (comprobable documentalmente), **Ejecutable futura** (pruebas
 | T-53 | Evaluador con asignación de otra pieza | Revisor asignado a la adaptación A2, no a A1 | Registrar una evaluación de A1 citando la asignación de A2 | Rechazo por la FK compuesta con piece_id | Credencial de elegibilidad prestada | La FK falla; no queda fila | Ejecutable futura | IG5-21 |
 | T-54 | Asignación retirada antes de evaluar | El revisor tuvo asignación y se registró su retiro | Evaluar citando la asignación antigua o la fila de retiro | Rechazo: no es una fila «asignado» ni es la vigente | Evaluar sin asignación vigente | Sin fila; el historial conserva ambas asignaciones | Ejecutable futura | IG5-22, IG5-23, IG5-08 |
 | T-55 | Evaluador que perdió piece.review | La persona estaba asignada pero perdió el rol Revisor/Aprobador | Intentar evaluar | Rechazo por la comprobación de permiso bajo bloqueo de la membresía | Autoridad residual de una asignación | Sin fila; la asignación sigue en el historial | Ejecutable futura | IG5-24 |
-| T-56 | Reasignación concurrente con evaluación | Evaluación en curso y reasignación del revisor simultáneas | Ejecutarlas a la vez | Se serializan por el mismo orden de bloqueo: gana una y la otra revalida; nunca queda una evaluación con asignación no vigente | Evaluación posterior a la reasignación | Resultado válido en cualquier orden; sin interbloqueo | Infraestructura real | IG5-25, IG5-23, IG5-08 |
+| T-56 | Reasignación concurrente con evaluación | Sesión A evalúa y sesión B reasigna al revisor, a la vez | Ejecutar A y B en simultáneo | Se serializan por el mismo orden de bloqueo: gana una y la otra revalida; nunca queda una evaluación con asignación no vigente | Evaluación posterior a la reasignación | Resultado válido en cualquier orden; sin interbloqueo | Infraestructura real | IG5-25, IG5-23, IG5-08 |
 | T-57 | Error de inserción de publication_attempts | Se fuerza una falla en la inserción del intento | Publicar un caso que cumpliría todo | La transacción falla: no hay Publicado ni fila confirmada. Si la plataforma conserva registros, la solicitud queda en ellos como evidencia de plataforma, nunca como fila de publication_attempts | Presentar evidencia externa como registro confirmado | Estado intacto; ninguna fila; la respuesta indica error y reintento | Infraestructura real | IG10-11, IG10-01, IS-10 |
 | T-58 | Solicitud no autenticada | Llamada sin sesión válida | Intentar publicar | Rechazo; ninguna fila de negocio; evento de seguridad de la plataforma | Inventar un actor | No existe fila con actor nulo (actor_id es NOT NULL con FK) | Infraestructura real | IG10-19, IS-04, IS-05 |
 | T-59 | Solicitud autenticada sin membresía | Usuario autenticado que no es miembro de la organización de la pieza | Intentar publicar | Rechazo; ninguna fila de negocio; RLS no le muestra la pieza | Publicar en otra organización | Sin fila y sin cambio de estado | Infraestructura real | IG10-19, IS-07 |
@@ -1615,7 +1716,7 @@ Tipos: **Diseño** (comprobable documentalmente), **Ejecutable futura** (pruebas
 | T-68 | Reintento tras una transacción abortada | La primera solicitud con clave k abortó sin fila | Reenviar con la misma clave k | Se evalúa desde cero y deja una fila | Quedar atrapado por una clave sin fila | Una fila; resultado actual | Ejecutable futura | IG10-20, IG10-01 |
 | T-69 | Clave repetida con resultado bloqueado | Intento bloqueado con clave k; luego se corrige la causa | Reenviar con k; después con una clave nueva | Con k: el mismo resultado bloqueado almacenado; con la clave nueva: nueva evaluación | Que un reintento de red cambie el resultado, o que una corrección quede bloqueada | Dos filas con claves distintas | Ejecutable futura | IG10-20, IG10-06 |
 | T-70 | Guarda y transacción | Existe una fila permitida de otra transacción para la misma pieza | Intentar cambiar status a Publicado fuera de esa transacción | Rechazo: db_txid o attempted_at distintos de los de la transacción actual | Reutilizar un permiso antiguo | La guarda compara db_txid, attempted_at, pieza y versión | Infraestructura real | IG10-21, IS-01 |
-| T-71 | Función auxiliar con intención de publicar | record_approval o review_finding bajo su propietario | Intentar UPDATE de status o INSERT en publication_attempts desde ellas | Rechazo por privilegios del propietario | Ruta alterna | Sin privilegio en el propietario de las auxiliares | Infraestructura real | IS-03, IS-01 |
+| T-71 | Función auxiliar con intención de publicar | record_approval o review_finding bajo su propietario | Intentar UPDATE de status o INSERT en publication_attempts desde ellas | Rechazo por privilegios del propietario | Ruta alterna | Sin privilegio en el propietario de las auxiliares | Infraestructura real | IS-03, IS-01, IS-11 |
 | T-72 | Condiciones en la base de datos | Cliente que envía datos adulterados (versión, aprobación, resultado) | Publicar | Se ignoran; solo cuenta lo leído del servidor; V-E distinta bloquea por C9 | Confiar en el cliente | Ningún dato del cliente satisface una condición | Ejecutable futura | IS-08, IS-09, IS-05 |
 | T-73 | RLS frente a privilegios | Usuario con política de lectura sobre las tablas nuevas | INSERT directo aunque la política lo permitiera | Rechazo por privilegio | Creer que RLS protege la escritura | Sin INSERT concedido; RLS solo SELECT | Infraestructura real | IS-07, IS-06 |
 | T-74 | Aprobación positiva de la versión exacta | Pieza en Pendiente de aprobación con versión V; aprobador independiente con piece.approve | record_approval inserta la aprobación (#7) y se evalúa C2 | approvals tiene decision = 'aprobada' para V; C2 cumple | Confundir fila con decisión | C2 solo cumple con esa fila, la pieza Aprobada y V vigente | Ejecutable futura | IG5-26, IG5-27 |
@@ -1686,7 +1787,7 @@ Tipos: **Diseño** (comprobable documentalmente), **Ejecutable futura** (pruebas
 | T-139 | Cadena: sustitución de otro V-B | e1 con V-B1 | e2 con V-B2 | Rechazo | Enlazar pares distintos | Violación de FK | Ejecutable futura | IG5-37 |
 | T-140 | Cadena: sustitución de otra adaptación | e1 de A1 | e2 de A2 con supersedes = e1 | Rechazo | Enlazar adaptaciones | Violación de FK | Ejecutable futura | IG5-37 |
 | T-141 | Cadena: ciclo de evaluaciones | e1, e2 encadenadas | Intentar que e1 sustituya a e2 | Imposible: solo inserción, FK a fila existente y CHECK id distinto | Ciclos | Sin UPDATE posible | Ejecutable futura | IG5-38 |
-| T-142 | Cadena: dos evaluaciones sustituyen a la misma | e1 vigente | e2 y e3 con supersedes = e1 a la vez | Una prospera; la otra falla por UNIQUE (supersedes) y reintenta | Ramas | Una cabeza | Infraestructura real | IG5-38, IG5-39 |
+| T-142 | Cadena: dos evaluaciones sustituyen a la misma | Sesiones A y B con supersedes = e1 a la vez | Ejecutar A y B en simultáneo | Una prospera; la otra falla por UNIQUE (supersedes) y reintenta | Ramas | Una cabeza | Infraestructura real | IG5-38, IG5-39 |
 | T-143 | Cadena: dos vigentes para el mismo par | Par X con e1 | Insertar otra raíz del mismo par | Rechazo por UNIQUE parcial de raíz | Dos vigentes | Rechazo | Ejecutable futura | IG5-38 |
 | T-144 | Cadena: evaluación nueva sin referencia previa | Par X sin evaluaciones | Registrar una inicial sin supersedes | Se acepta; si ya hay una, se rechaza | Doble raíz | Una raíz por par | Ejecutable futura | IG5-38 |
 | T-145 | Cadena: evaluación histórica conservada | Cadena e1 a e3 | Consultar e1 | Intacta; vigente = e3 derivada | Pérdida de historia | Filas completas | Ejecutable futura | IG5-13, IG5-38 |
@@ -1697,21 +1798,70 @@ Tipos: **Diseño** (comprobable documentalmente), **Ejecutable futura** (pruebas
 | T-150 | Correlación: reintento idempotente | Clave k con fila | Reenviar k con otra correlación | Se devuelve la fila original con su correlación; el reintento solo se traza en los registros de plataforma | Duplicar | Una fila | Ejecutable futura | IG10-28, IG10-29 |
 | T-151 | Correlación distinta con la misma clave | k con fila | Reenviar k con otra correlación y datos distintos | Rechazo por request_fingerprint | Eludir la clave con otra correlación | Rechazo | Ejecutable futura | IG10-29, IG10-28 |
 | T-152 | Manipulación de actor o resultado con correlación válida | Payload con actor y resultado falsos y una correlación válida | Solicitar | Se ignoran; el actor sale de auth.uid() y el resultado del servidor | Correlación como credencial | Sin efecto | Ejecutable futura | IG10-28, IS-05 |
+| T-153 | Orden de creación: plan único y coherente | Plan de creación de 14.1 | Comparar la tabla de orden de la especificación, el roadmap, el informe y la auditoría | Las tablas son idénticas y todas las subfases existen en el roadmap de 76 | Dos órdenes distintos en documentos distintos | Igualdad exacta y ninguna subfase nueva | Diseño | IM-01, IM-07 |
+| T-154 | Orden de creación: FK hacia una tabla todavía no creada | Plan en el que impact_evaluations se crea en 5.3 y approvals en 6.5 | Ejecutar la comprobación de FK contra el plan | Error: FK de impact_evaluations hacia una tabla posterior | Repetir el defecto de la v3 | La comprobación falla con el plan defectuoso y pasa con el plan vigente | Diseño | IM-02 |
+| T-155 | Orden de creación: FK hacia columnas sin PK o UNIQUE | Modelo sin el UNIQUE (organization_id, id, copy_version_id) de approvals | Ejecutar la comprobación de claves destino | Error: FK sin único en el destino | FK que PostgreSQL rechazaría | La comprobación falla sin el UNIQUE y pasa con él | Diseño | IM-03 |
+| T-156 | Orden de creación: dependencia circular | Plan con una arista adicional approvals hacia impact_evaluations | Ejecutar la detección de ciclos | Error: ciclo impact_evaluations, approvals | Dos tablas que se exigen mutuamente | Se detecta el ciclo; la dependencia copy_versions y creative_assets no es ciclo porque la FK diferida se crea al final | Diseño | IM-04 |
+| T-157 | Orden de creación: función creada antes de su tabla o columna | Plan con record_impact_evaluation en 5.3 o con una columna inexistente en el requisito de una función | Ejecutar la comprobación de funciones | Error: función anterior a su tabla y columna inexistente | Función que no compilaría o fallaría al ejecutarse | Ambos defectos se detectan; el plan vigente pasa | Diseño | IM-05 |
+| T-158 | Orden de creación: índice sobre columna inexistente | Modelo con un índice sobre una columna que no existe | Ejecutar la comprobación de índices | Error: columna inexistente | Índice que no podría crearse | Se detecta el defecto; los índices vigentes pasan | Diseño | IM-06 |
+| T-159 | Orden de creación: subfase incompatible con el roadmap | Roadmap con 6.5 dependiendo de 6.6 | Ejecutar la comprobación de dependencias de subfases | Error: dependencia posterior | Un plan que exige una subfase antes de que exista | Se detecta; el roadmap vigente pasa | Diseño | IM-07 |
+| T-160 | Orden de creación: diagrama con un orden distinto | Diagrama de orden con dos pasos permutados | Comparar el orden del diagrama con el plan | Error: el diagrama difiere del plan | Diagramas desalineados | Se detecta; el diagrama vigente coincide | Diseño | IM-08 |
+| T-161 | Orden de creación: estructura sin operación | approvals creada en 6.5 antes de habilitar record_approval | Cualquier rol de aplicación intenta INSERT directo o ejecutar una función inexistente | Rechazo: la tabla existe con RLS y sin privilegios | Una tabla vacía que ya acepta escrituras | Ningún rol de aplicación tiene INSERT | Ejecutable futura | IM-09 |
+| T-162 | Orden de creación: fase posterior no ejecutada | Migraciones hasta 6.5 aplicadas; 6.6 sin ejecutar | Solicitar la transición a Publicado de una pieza Aprobada | Rechazo: la guarda base rechaza Publicado; no hay intentos ni Publicado; sin 6.5 tampoco hay aprobaciones ni evaluaciones | Publicar sin la guarda completa | El estado Publicado no se alcanza | Ejecutable futura | IM-10, IS-01 |
+| T-163 | Orden de creación: reversión con datos | Migración de 6.6 con filas de publication_attempts | Revertir deshabilitando | Se revoca EXECUTE y privilegios; las filas se conservan; no hay DROP | Perder auditoría al revertir | Las filas permanecen consultables por el administrador autorizado | Infraestructura real | IM-11 |
+| T-164 | Orden de creación: compatibilidad con las 27 tablas | Modelo v3.3 de las 27 tablas | Comparar columnas históricas antes y después | Ninguna columna histórica cambia de nombre o tipo; solo se agregan | Romper la línea base | Diferencia vacía en columnas históricas | Diseño | IM-12 |
+| T-165 | Contribuyentes: editor del brief | P editó el brief usado por V-A | Intentar evaluar el par | Rechazo: P es contribuyente de brief | Ignorar contribuciones de brief | P pertenece a E | Ejecutable futura | IG5-40, IG5-32 |
+| T-166 | Contribuyentes: datos promocionales de origen no determinable | V-A usa datos promocionales sin atribución trazable | Calcular los contribuyentes | CONTRIBUYENTES_NO_DETERMINABLES; la operación se bloquea | Calcular con un conjunto incompleto | Sin evaluación ni publicación | Ejecutable futura | IG5-42, IG5-48 |
+| T-167 | Contribuyentes: conjunto incompleto nunca se usa | Una fuente de contribución falla o no existe | eligible_evaluators | Error controlado; no se devuelve una lista parcial | Lista parcial interpretada como completa | Falla cerrada | Ejecutable futura | IG5-42 |
+| T-168 | Contribuyentes: controles no son contribuciones | S comentó, revisó, solicitó cambios y confirmó hallazgos de V-A, sin crear versión ni subir arte | Evaluar el par | S no pertenece a E por esos actos | Excluir por consulta o administración | S elegible si cumple lo demás | Ejecutable futura | IG5-41 |
+| T-169 | Contribuyentes: IA y sistema no son personas | La versión se generó por IA; solicitó P | Calcular Ctr(V-A) | Ctr contiene a P; la IA y el sistema no figuran | Atribuir a la IA o dejar sin solicitante | P pertenece a E; ningún actor no humano | Ejecutable futura | IG5-41, IG5-40 |
+| T-170 | Contribuyentes: duda sobre aportación sustantiva heredada | V-A hereda de V-D; no se puede decidir si el aporte de R continúa presente | Calcular Inh(V-A) | R se conserva en E | Excluir a un heredado por duda | En duda se conserva la atribución | Ejecutable futura | IG5-43 |
+| T-171 | Contribuyentes: versión descartada fuera del intervalo | Versión de la maestra descartada, anterior a V-D, de la que V-A no hereda | Calcular E | Su autor no pertenece a E | Ampliar la exclusión más allá del intervalo | Autor fuera de E | Ejecutable futura | IG5-46 |
+| T-172 | Contribuyentes: evaluador que modificó la evaluación que valida | Q registró e1 con resultado desfavorable | Q registra e2 que sustituye a e1 y levanta el bloqueo | Rechazo: lo levanta otra persona | Autovalidar la propia evaluación | Sin fila | Ejecutable futura | IG5-44 |
+| T-173 | Contribuyentes: proponente de la clasificación | R propuso la clasificación independiente de A y es revisor asignado | R evalúa el impacto de A | Rechazo: comportamiento seguro pendiente de DT-02 | Proponer y evaluar la misma adaptación | R fuera de los elegibles | Ejecutable futura | IG5-45 |
+| T-174 | Contribuyentes: quien confirmó la clasificación | R2 confirmó la clasificación; no contribuyó; es revisor asignado | R2 evalúa el impacto | Permitido si cumple lo demás | Excluir de más al revisor independiente | Elegible | Ejecutable futura | IG5-45 |
+| T-175 | Contribuyentes: asignación revocada antes de guardar | Q es revisor asignado; se revoca su asignación mientras guarda | Continuar el guardado | Revalida bajo bloqueo y rechaza | Evaluar con una asignación revocada | Sin fila | Ejecutable futura | IG5-23, IG5-33 |
+| T-176 | Contribuyentes: nueva versión de la maestra mientras se evalúa | Q evalúa el par (V-D, V-B) y otra persona crea V-B+1 en la maestra; Q es autor de V-B+1 | Ambas operaciones concurrentes | La evaluación del par anterior queda; el par nuevo recalcula E e incluye a Q | Contribución agregada que pasa inadvertida | Q no puede evaluar el par nuevo | Ejecutable futura | IG5-35, IG5-32 |
+| T-177 | Contribuyentes: dos evaluadores sobre el mismo par | Q y R asignados al mismo par sin evaluación | Ambos guardan a la vez | Uno confirma; el otro recibe PAR_YA_EVALUADO | Dos dictámenes iniciales | Una fila raíz por par | Ejecutable futura | IG5-47, IG5-38 |
+| T-178 | Contribuyentes: T-04 pendiente declara G-5 abierta | T-04 sin aprobación del umbral y de la representación física | Leer el estado de G-5 en los documentos | G-5 se declara resuelta documentalmente con independencia condicionada y fail-closed, no cerrada | Presentar la independencia como resuelta | La declaración distingue lo resuelto de lo pendiente | Diseño | IG5-48, IE-04 |
+| T-179 | Estado de fase: tres niveles | Los cinco documentos activos | Buscar la declaración de los tres niveles | Cada documento distingue Fase 0 v3.3, el diseño complementario y Fase 1 | Mezclar niveles | Presentes en los cinco | Diseño | IE-01 |
+| T-180 | Estado de fase: sin reabrir v3.3 | Los cinco documentos activos y el SHA de v3.3 | Buscar expresiones que declaren abierta o sin cerrar la Fase 0 v3.3 y comparar el SHA | Ninguna expresión; SHA idéntico | Reabrir la aceptación histórica | Sin contradicciones | Diseño | IE-02 |
+| T-181 | Estado de fase: v3.3 no autoriza Fase 1 | Los cinco documentos activos | Buscar la declaración de que la aceptación no autoriza Fase 1, infraestructura, SQL ni implementación | Presente | Aceptación leída como autorización | Presente en los cinco | Diseño | IE-03 |
+| T-182 | Estado de fase: G-1, G-5 y G-10 sin aceptación ni validación técnica | Los cinco documentos activos | Buscar declaraciones de aceptación o validación | Ninguna afirma aceptación del propietario ni validación técnica | Aceptación implícita | Solo «pendiente de aceptación formal» | Diseño | IE-04 |
+| T-183 | Identidad del intento: mismo txid, mismo intento | Intento permitido de la transacción actual con su nonce | UPDATE de estado dentro de la misma transacción | La guarda lo acepta una sola vez | Rechazar la publicación legítima | Cumple las ocho condiciones | Ejecutable futura | IG10-24, IG10-32 |
+| T-184 | Identidad del intento: txid antiguo | Fila permitida de una transacción anterior con la misma pieza | UPDATE en otra transacción | Rechazo: db_txid distinto | Reutilizar una fila antigua | Sin cambio de estado | Ejecutable futura | IG10-24, IG10-21 |
+| T-185 | Identidad del intento: nonce antiguo | Variable local con el nonce de un intento anterior | UPDATE con la variable mal fijada | Rechazo: el nonce no coincide con la fila de la transacción | Reutilizar un nonce | Sin cambio de estado | Ejecutable futura | IG10-32, IG10-31 |
+| T-186 | Identidad del intento: nonce de otro intento | Dos intentos en transacciones distintas; se fija el nonce del otro | UPDATE de estado | Rechazo | Cruzar intentos | Sin cambio de estado | Ejecutable futura | IG10-32, IG10-33 |
+| T-187 | Identidad del intento: reutilización después de restauración | Base restaurada: la nueva transacción tiene el mismo db_txid que una fila de la línea anterior | UPDATE de estado con esa fila | Rechazo: el nonce aleatorio no coincide | Valor repetido tras restaurar o clonar | Sin cambio de estado | Infraestructura real | IG10-34, IG10-23 |
+| T-188 | Identidad del intento: identificador enviado por el cliente | Cliente con db_txid, nonce y actor propios en el payload | Solicitar publicación | Todos se ignoran; el servidor los fija | Identidad impuesta | Valores del servidor | Ejecutable futura | IG10-33, IG10-22 |
+| T-189 | Identidad del intento: actor falsificado | Cliente con el actor_id de otra persona con piece.publish en el payload | Solicitar publicación | El actor sale de auth.uid(); el valor enviado se ignora; la guarda compara actor_id con auth.uid() | Publicar a nombre de otra persona | actor_id es el de la sesión autenticada | Ejecutable futura | IS-05, IG10-33, IG10-24 |
+| T-190 | Identidad del intento: variable de sesión falsificada | Un rol con acceso SQL escribe la variable con un valor inventado | UPDATE de estado | Rechazo: falta la fila y el privilegio; la variable no basta | Creer que la variable es una defensa | Sin cambio de estado | Infraestructura real | IG10-32, IS-02 |
+| T-191 | Identidad del intento: service_role | Una Edge Function con service_role | Invocar transition_piece_status o actualizar el estado | Rechazo: sin EXECUTE, sin UPDATE y sin auth.uid() | Suplantar al usuario | Sin cambio de estado | Infraestructura real | IS-04, IS-02 |
+| T-192 | Identidad del intento: función SECURITY DEFINER no autorizada | Otra función con propietario distinto | Intentar actualizar el estado o insertar un intento | Rechazo por privilegios del propietario | Ruta alterna | Sin cambio de estado | Infraestructura real | IS-03, IG10-25 |
+| T-193 | Identidad del intento: cambio de current_user | Una función intenta SET ROLE a un propietario | Ejecutar el UPDATE de estado | Rechazo: no es miembro del rol propietario | Escalar el rol | Sin cambio de estado | Infraestructura real | IS-03, IS-11 |
+| T-194 | Identidad del intento: ROLLBACK | Intento permitido insertado en la transacción | Provocar un error y revertir | Ni fila ni Publicado persisten; no se promete evidencia confirmada | Afirmar una fila que no existe | Sin filas | Ejecutable futura | IG10-36, IG10-30 |
+| T-195 | Identidad del intento: savepoint | Savepoint antes del INSERT del intento y reversión del savepoint | UPDATE de estado | Rechazo: la fila no existe y el nonce se limpió | Estado sin fila | Sin cambio de estado | Infraestructura real | IG10-37 |
+| T-196 | Identidad del intento: bloque EXCEPTION | El bloque captura un error tras el INSERT | Continuar con el UPDATE | Rechazo si la fila fue revertida; el valor de la transacción no verificado falla cerrado | Valor distinto en subtransacciones | Sin cambio de estado | Infraestructura real | IG10-37, IG10-24 |
+| T-197 | Identidad del intento: dos publicaciones concurrentes | Dos sesiones publican la misma pieza | Ejecutar a la vez | Una confirma; la otra recibe un error por el bloqueo y el estado; una fila permitida por pieza y transacción | Doble publicación | Un solo Publicado | Ejecutable futura | IG10-24, IG10-08 |
+| T-198 | Identidad del intento: reintento tras timeout | La conexión se perdió después del COMMIT | Reenviar con la misma clave | Se devuelve la fila original sin nonce nuevo | Duplicar efectos | Una fila | Ejecutable futura | IG10-35, IG10-29 |
+| T-199 | Identidad del intento: clave con fingerprint distinto | Clave k con fila de P1 | Reenviar k con otra pieza o versiones | Rechazo por request_fingerprint | Eludir la clave | Rechazo | Ejecutable futura | IG10-29, IG10-35 |
+| T-200 | Identidad del intento: fallo de escritura de la auditoría | Se fuerza un error en el INSERT del intento | Solicitar publicación | Falla la transacción; no hay Publicado ni fila | Publicar sin registro | Sin cambios | Ejecutable futura | IG10-36, IS-10 |
+| T-201 | Identidad del intento: superusuario y edición manual | Operador con rol superusuario o propietario | Desactivar triggers o editar filas | El diseño no lo impide: queda como límite; se registra la discrepancia en la comparación periódica de auditoría con los estados | Prometer protección absoluta | El límite está declarado (IS-11) | Infraestructura real | IS-11 |
 
 ### 11.1 Resumen
 
 | Concepto | Cantidad |
 |---|---|
-| Pruebas totales | 152 |
-| Diseño | 7 |
-| Ejecutable futura | 117 |
-| Infraestructura real | 28 |
-| Reglas de integridad | 117 |
-| Reglas con al menos una prueba | 117 |
+| Pruebas totales | 201 |
+| Diseño | 21 |
+| Ejecutable futura | 143 |
+| Infraestructura real | 37 |
+| Reglas de integridad | 150 |
+| Reglas con al menos una prueba | 150 |
 
 ### 11.2 Validación documental realizada (no técnica)
 
-Un script (`work/g_verify.py`, resultados en `AUDITORIA_FINAL_G1_G5_G10.md`) verificó sobre los documentos activos: identificadores únicos y existentes, correspondencia regla-prueba y prueba-regla, coherencia de tablas, columnas, FK (origen, destino, aridad y clave única o primaria declarada), tipos de las columnas de pares, conteos de reglas, pruebas y diagramas, sintaxis de los diagramas Mermaid cuando la herramienta estuvo disponible, contradicciones entre documentos activos, y hashes de los documentos protegidos. Esto demuestra consistencia interna del diseño; **no** demuestra que funcione: ninguna prueba técnica se ejecutó.
+Un verificador documental reproducible (`g_verify.py`, con `v4_plan.py` y `v4_check.py`; su código y el comando figuran en `VERIFICADOR_DOCUMENTAL_G1_G5_G10.md`) comprueba sobre los documentos activos: el orden topológico de creación de tablas, FK hacia tablas y columnas existentes, dependencias circulares, funciones y triggers anteriores a sus tablas, índices sobre columnas existentes, coherencia de fases y subfases con el roadmap de 76, T-04 y DG-17, la elegibilidad y sus exclusiones, las garantías de G-5, la identidad y la guarda de G-10, `correlation_id` e idempotencia, estados y transiciones T-02, los 17 permisos, referencias cruzadas, cobertura regla-prueba y prueba-regla, identificadores duplicados, sintaxis Mermaid, estados de aceptación, hashes protegidos, ausencia de código, SQL o infraestructura y que cada documento declare qué está diseñado y qué no está validado. Incluye **controles negativos** que reproducen cada defecto de H-01 y comprueban que el verificador lo detecta. Esto demuestra consistencia interna del diseño; **no** demuestra que funcione: ninguna prueba técnica se ejecutó y las verificaciones documentales no son pruebas de PostgreSQL ni de Supabase.
 
 **Cobertura regla → pruebas:**
 
@@ -1754,7 +1904,7 @@ Un script (`work/g_verify.py`, resultados en `AUDITORIA_FINAL_G1_G5_G10.md`) ver
 | IG5-02 | Solo se evalúa una versión de adaptación con aprobación positiva vigente y una versión de maestra con aprobación positiva (FK compuestas a approvals más el trigger de arte; decision = 'aprobada') | T-51 |
 | IG5-03 | Solo existe evaluación de un par cuando V-D es distinta de V-B | T-52 |
 | IG5-04 | El evaluador es el revisor asignado vigente y tiene piece.review | T-16 |
-| IG5-05 | El evaluador no pertenece al conjunto excluido E = Ctr(V-A) ∪ Inh(V-A) ∪ Ctr(v) para toda versión v de la maestra del intervalo [V-D, V-B] (4.4.2, DG-17) | T-15 |
+| IG5-05 | El evaluador no pertenece al conjunto excluido E = Ctr(V-A) ∪ Inh(V-A) ∪ Ctr(v) para toda versión v de la maestra del intervalo [V-D, V-B] (4.4.2, DG-17), con Ctr según la definición única de contribuyente (4.4.3) | T-15 |
 | IG5-06 | No hay autoevaluación: quien contribuyó a V-B o a cualquier versión intermedia entre V-D y V-B no evalúa ese cambio | T-15, T-127 |
 | IG5-07 | Sin revisor elegible no se registra evaluación y la publicación sigue bloqueada; no pasa autoridad a Admin, propietario ni otro rol | T-17 |
 | IG5-08 | La reasignación del revisor crea una asignación nueva y conserva la anterior | T-16, T-54, T-56 |
@@ -1772,7 +1922,7 @@ Un script (`work/g_verify.py`, resultados en `AUDITORIA_FINAL_G1_G5_G10.md`) ver
 | IG5-20 | Sobre una adaptación ya Publicada la evaluación deja evidencia y aviso, sin transición | T-25, T-62 |
 | IG5-21 | La asignación que acredita al evaluador es de la adaptación evaluada (FK compuesta con piece_id) | T-53 |
 | IG5-22 | El evaluador es el revisor de esa asignación y la fila es de asignación, no de retiro (FK compuesta con constante) | T-54 |
-| IG5-23 | La asignación es la vigente (última de la secuencia) al momento de evaluar; se comprueba bajo bloqueo (función y trigger, no FK) | T-54, T-56 |
+| IG5-23 | La asignación es la vigente (última de la secuencia) al momento de evaluar; se comprueba bajo bloqueo (función y trigger, no FK) | T-54, T-56, T-175 |
 | IG5-24 | El evaluador tiene piece.review al momento de evaluar; se comprueba con la fila de membresía bloqueada | T-55, T-131 |
 | IG5-25 | Reasignación, evaluación, cambio de la maestra y publicación usan el mismo orden de bloqueo y revalidan lo que leyeron | T-37, T-56, T-133 |
 | IG5-26 | approvals.decision es NOT NULL con CHECK = 'aprobada': toda fila es una aprobación positiva; el rechazo, la solicitud de cambios y el registro de revisión no se guardan en approvals | T-74, T-75, T-76, T-83 |
@@ -1781,14 +1931,23 @@ Un script (`work/g_verify.py`, resultados en `AUDITORIA_FINAL_G1_G5_G10.md`) ver
 | IG5-29 | Una decisión desconocida, ausente, ambigua o no verificable bloquea; nunca se interpreta como aprobación | T-79, T-82, T-83 |
 | IG5-30 | Una versión nueva después de una aprobación exige una aprobación nueva; la aprobación de V-A no valida V-A-1 ni V-A-2 ni la de otra pieza | T-77, T-81 |
 | IG5-31 | El intervalo evaluado I(V-D, V-B) contiene todas las versiones de la maestra con orden entre V-D y V-B, ambas incluidas, y sus artes | T-128 |
-| IG5-32 | El conjunto excluido E reúne a los contribuyentes según T-04 (autor del copy o solicitante si lo generó la IA, y quien subió el arte) de V-A, de su herencia y de cada versión de I; un editor menor que T-04 no considera contribuyente no queda excluido | T-125, T-126, T-127, T-128, T-129, T-135 |
-| IG5-33 | La elegibilidad se calcula en backend (eligible_evaluators) y se revalida bajo bloqueo al registrar la evaluación (función y trigger BEFORE INSERT); la interfaz no es un control | T-125, T-130, T-131 |
+| IG5-32 | El conjunto excluido E reúne a los contribuyentes según T-04 (autor del copy o solicitante si lo generó la IA, y quien subió el arte) de V-A, de su herencia y de cada versión de I; un editor menor que T-04 no considera contribuyente no queda excluido | T-125, T-126, T-127, T-128, T-129, T-135, T-165, T-176 |
+| IG5-33 | La elegibilidad se calcula en backend (eligible_evaluators) y se revalida bajo bloqueo al registrar la evaluación (función y trigger BEFORE INSERT); la interfaz no es un control | T-125, T-130, T-131, T-175 |
 | IG5-34 | Si no existe una persona elegible no se permite la evaluación, no se presume independencia y no se asigna autoridad a Admin ni al propietario; queda un bloqueo operativo documentado (C4 bloquea la publicación) | T-134 |
-| IG5-35 | La independencia se recalcula en cada asignación, reasignación, evaluación y corrección; un contribuyente incorporado después no altera una evaluación ya registrada y sí condiciona toda evaluación nueva | T-132, T-133 |
+| IG5-35 | La independencia se recalcula en cada asignación, reasignación, evaluación y corrección; un contribuyente incorporado después no altera una evaluación ya registrada y sí condiciona toda evaluación nueva | T-132, T-133, T-176 |
 | IG5-36 | El par evaluado se identifica por nueve columnas: organization_id, adaptation_piece_id, adaptation_copy_version_id, adaptation_asset_key, master_piece_id, master_basis_copy_version_id y su arte, master_changed_copy_version_id y su arte | T-136 |
 | IG5-37 | supersedes_evaluation_id solo apunta a una evaluación del mismo par (FK compuesta con las ocho columnas del par) | T-136, T-137, T-138, T-139, T-140 |
-| IG5-38 | Hay a lo sumo una evaluación raíz por par (UNIQUE parcial) y a lo sumo un sucesor por evaluación (UNIQUE): la cadena es lineal, sin ramas, sin ciclos (CHECK id distinto y solo inserción) y con una sola vigente | T-141, T-142, T-143, T-144, T-145 |
+| IG5-38 | Hay a lo sumo una evaluación raíz por par (UNIQUE parcial) y a lo sumo un sucesor por evaluación (UNIQUE): la cadena es lineal, sin ramas, sin ciclos (CHECK id distinto y solo inserción) y con una sola vigente | T-141, T-142, T-143, T-144, T-145, T-177 |
 | IG5-39 | Los reemplazos concurrentes bloquean la cabeza de la cadena FOR UPDATE; el segundo falla por UNIQUE o por versión obsoleta y reintenta revalidando | T-142 |
+| IG5-40 | Existe una definición única de contribuyente (4.4.3) que distingue autor de copy, solicitante de IA, editor, editor del brief, modificador de datos promocionales, quien cargó el arte, contribuyente heredado y contribuyentes de versiones intermedias, apoyada en OD-03, PO-08, PO-11 y PO-16; T-04 de v3.3 no fue aprobada como propuesta técnica | T-165, T-169 |
+| IG5-41 | No son contribuciones de contenido los controles, los actos administrativos ni la operación automática: comentar, consultar, comparar, revisar, registrar hallazgos, solicitar cambios, aprobar, confirmar o descartar hallazgos, conceder o revocar excepciones, asignar revisores, delegar; la IA y el sistema no son personas contribuyentes | T-168, T-169 |
+| IG5-42 | version_contributors devuelve el conjunto y un indicador de completitud; si el origen de algún tipo de contribución no es determinable (representación física pendiente, PC-02), falla con CONTRIBUYENTES_NO_DETERMINABLES y la operación se bloquea: nunca se calcula con un conjunto incompleto | T-166, T-167 |
+| IG5-43 | En duda sobre si una aportación sustantiva continúa presente en una versión posterior, se conserva la atribución (PO-16): el contribuyente heredado permanece en el conjunto hasta que el propietario defina un umbral | T-170 |
+| IG5-44 | Quien registró una evaluación no puede validar su sustitución cuando el nuevo resultado levanta un bloqueo (DG-06): el evaluador de la evaluación sustituta es otra persona | T-172 |
+| IG5-45 | Quien propuso la clasificación vigente de la adaptación no evalúa su impacto (comportamiento seguro propuesto, pendiente de la decisión DT-02 del propietario); quien confirmó o revirtió la clasificación no queda excluido por ese motivo | T-173, T-174 |
+| IG5-46 | Una versión descartada o reemplazada fuera del intervalo [V-D, V-B] no aporta contribuyentes al conjunto excluido, salvo por herencia sustantiva (IG5-43) | T-171 |
+| IG5-47 | Dos evaluadores que intentan registrar el primer dictamen del mismo par se serializan por el bloqueo de la cabeza: uno confirma y el otro recibe PAR_YA_EVALUADO; solo puede sustituir con motivo (IG5-13) | T-177 |
+| IG5-48 | Mientras el umbral de aportación sustantiva y la representación física de las contribuciones de brief, datos promocionales y herencia no estén definidos y aprobados, la independencia de G-5 no se declara resuelta y el comportamiento es fail-closed (IG5-42) | T-166, T-178 |
 | IG10-01 | Toda solicitud autenticada, de un miembro de la organización y aceptada por el mecanismo de publicación termina en una de dos formas excluyentes: (a) exactamente una fila confirmada de publication_attempts, permitida o bloqueada, o (b) la transacción falla, sin publicación y sin fila confirmada | T-08, T-17, T-26, T-27, T-34, T-44, T-57, T-68, T-90 |
 | IG10-02 | Se evalúan todas las condiciones aplicables aunque una falle; si C1 falla, las demás se registran como no evaluadas para no revelar información | T-31 |
 | IG10-03 | El resultado es permitido solo si las nueve condiciones son cumple o no_aplica y la verificación está completa | T-13, T-26, T-27, T-28, T-29, T-30, T-32, T-37, T-44, T-50 |
@@ -1796,7 +1955,7 @@ Un script (`work/g_verify.py`, resultados en `AUDITORIA_FINAL_G1_G5_G10.md`) ver
 | IG10-05 | Actor, fecha y hora, correlation_id y db_txid los fija el servidor; el cliente solo puede enviar client_correlation_id opcional, que no es evidencia (IG10-28) | T-32, T-43 |
 | IG10-06 | Idempotencia: la misma clave devuelve el resultado almacenado sin repetir efectos | T-35, T-36, T-69 |
 | IG10-07 | Un intento con otra clave sobre una pieza ya Publicada queda bloqueado y registrado | T-35, T-45 |
-| IG10-08 | La fila del intento permitido y el cambio de estado ocurren en la misma transacción | T-34, T-35, T-37, T-44 |
+| IG10-08 | La fila del intento permitido y el cambio de estado ocurren en la misma transacción | T-34, T-35, T-37, T-44, T-197 |
 | IG10-09 | Un intento bloqueado devuelve un resultado normal tras escribir su fila, sin lanzar excepción que la revierta | T-33 |
 | IG10-10 | Un error técnico dentro de la verificación se captura en un subbloque, se registra como error_tecnico y bloquea | T-33 |
 | IG10-11 | Si falla la inserción del registro falla toda la transacción: el estado no cambia y no existe fila confirmada; cualquier evidencia fuera de la transacción es evidencia de plataforma y no se presenta como fila de publication_attempts | T-34, T-57 |
@@ -1809,31 +1968,55 @@ Un script (`work/g_verify.py`, resultados en `AUDITORIA_FINAL_G1_G5_G10.md`) ver
 | IG10-18 | Sin borrado desde la aplicación; no se define política de retención (DG-09 diferida) | T-48 |
 | IG10-19 | Una solicitud sin autenticación o de una persona sin membresía no publica y no genera fila de negocio: es un evento de seguridad de plataforma; no se inventa un actor | T-58, T-59, T-99, T-100 |
 | IG10-20 | Una clave de idempotencia identifica una acción del usuario: repetirla devuelve el resultado almacenado; una acción nueva tras corregir condiciones usa una clave nueva; si no hubo fila confirmada, el reintento con la misma clave se evalúa desde cero | T-35, T-36, T-68, T-69, T-95, T-96 |
-| IG10-21 | La guarda exige una fila permitida cuyo db_txid y attempted_at son los de la transacción actual, de la misma pieza y de las mismas versiones (IG10-22 a IG10-24) | T-60, T-70 |
-| IG10-22 | db_txid se asigna con (pg_current_xact_id())::text::bigint en un trigger BEFORE INSERT que sobrescribe cualquier valor recibido; el cliente no puede suministrarlo | T-85, T-94, T-102 |
-| IG10-23 | attempted_at se asigna con transaction_timestamp() en el mismo trigger; la guarda exige db_txid y attempted_at de la transacción actual, de modo que ni un valor de db_txid repetido tras una restauración autoriza nada | T-85, T-86 |
-| IG10-24 | La guarda verifica conjuntamente: (1) fila de la transacción actual, (2) pieza exacta, (3) versión exacta de la adaptación (copy y arte), (4) versión exacta de la maestra cuando aplica, (5) resultado permitido, (6) C1 a C9 verificadas por completo, (7) actor igual a auth.uid() con membresía y piece.publish, (8) ausencia de ruta alterna | T-85, T-86, T-87, T-88, T-89, T-101, T-102 |
-| IG10-25 | Solo transition_piece_status inserta filas permitidas; ninguna función auxiliar tiene INSERT en publication_attempts ni UPDATE sobre status | T-85, T-93 |
+| IG10-21 | La guarda exige una fila permitida cuyo db_txid, attempted_at y attempt_nonce son los de la transacción actual, de la misma pieza y de las mismas versiones (IG10-22 a IG10-24 y IG10-31 a IG10-33) | T-60, T-70, T-184 |
+| IG10-22 | db_txid se asigna con (pg_current_xact_id())::text::bigint en un trigger BEFORE INSERT que sobrescribe cualquier valor recibido; el cliente no puede suministrarlo | T-85, T-94, T-102, T-188 |
+| IG10-23 | attempted_at se asigna con transaction_timestamp() en el mismo trigger; es una comprobación secundaria de coherencia (el valor es el inicio de la transacción), no un identificador ni garantiza unicidad, y no protege por sí sola contra restauraciones o clones (5.11) | T-85, T-86, T-187 |
+| IG10-24 | La guarda verifica conjuntamente: (1) fila de la transacción actual, con db_txid y attempted_at coincidentes y el attempt_nonce de la identidad del intento fijada por la función en esa transacción, (2) pieza exacta, (3) versión exacta de la adaptación (copy y arte), (4) versión exacta de la maestra cuando aplica, (5) resultado permitido, (6) C1 a C9 verificadas por completo, (7) actor igual a auth.uid() con membresía y piece.publish, (8) ausencia de ruta alterna | T-85, T-86, T-87, T-88, T-89, T-101, T-102, T-183, T-184, T-189, T-196, T-197 |
+| IG10-25 | Solo transition_piece_status inserta filas permitidas; ninguna función auxiliar tiene INSERT en publication_attempts ni UPDATE sobre status | T-85, T-93, T-192 |
 | IG10-26 | Publicado solo se alcanza desde Aprobado (T-02 #10); una pieza no puede insertarse con status = publicado | T-85, T-92, T-103 |
 | IG10-27 | Una pieza Publicada solo admite pasar a Archivado (#13) sin cambiar su versión vigente ni su canal y formato | T-63, T-104 |
 | IG10-28 | correlation_id lo genera siempre el servidor; el cliente puede enviar client_correlation_id opcional (uuid canónico); si no es válido se descarta; ninguno es evidencia, ni autoriza, ni sustituye a la clave de idempotencia | T-146, T-147, T-148, T-149, T-150, T-151, T-152 |
-| IG10-29 | request_fingerprint liga actor, pieza y versiones citadas a la clave de idempotencia: la misma clave con otros datos se rechaza y no crea fila | T-96, T-97, T-150, T-151 |
-| IG10-30 | El comportamiento ante publicación permitida, bloqueada, error de validación, error al insertar el intento, error al actualizar el estado, cancelación, pérdida de conexión y reintento está definido en 5.10 sin prometer filas en transacciones abortadas | T-89, T-90, T-91, T-95, T-98 |
-| IS-01 | La única ruta que deja status = Publicado es transition_piece_status, cuyo propietario es un rol dedicado con UPDATE sobre la columna status | T-39, T-60, T-70, T-71, T-85 |
-| IS-02 | Ningún usuario ni rol de aplicación (anon, authenticated, service_role) puede actualizar creative_pieces.status directamente | T-39, T-60, T-61, T-85, T-92 |
-| IS-03 | Ninguna función auxiliar puede publicar: pertenecen a otro propietario, sin UPDATE sobre status ni INSERT en publication_attempts | T-40, T-71, T-93 |
-| IS-04 | EXECUTE sobre las funciones de publicación solo para authenticated; service_role no las ejecuta y las funciones rechazan auth.uid() nulo; una Edge Function reenvía el token del usuario | T-58, T-61, T-99 |
-| IS-05 | El actor se obtiene de la identidad autenticada dentro de la función; ninguna función recibe actor, fecha ni resultado como parámetro | T-43, T-58, T-61, T-72, T-94, T-152 |
+| IG10-29 | request_fingerprint liga actor, pieza y versiones citadas a la clave de idempotencia: la misma clave con otros datos se rechaza y no crea fila | T-96, T-97, T-150, T-151, T-198, T-199 |
+| IG10-30 | El comportamiento ante publicación permitida, bloqueada, error de validación, error al insertar el intento, error al actualizar el estado, cancelación, pérdida de conexión y reintento está definido en 5.10 sin prometer filas en transacciones abortadas | T-89, T-90, T-91, T-95, T-98, T-194 |
+| IG10-31 | attempt_nonce (uuid) lo genera el servidor con gen_random_uuid() en un trigger BEFORE INSERT que sobrescribe cualquier valor recibido; es único; ningún rol de aplicación (anon, authenticated, service_role) tiene SELECT sobre esa columna; no se devuelve, no se registra y no sale de la función | T-185 |
+| IG10-32 | transition_piece_status fija el nonce del intento en una variable local de la transacción tras insertar la fila; la guarda lo compara con la fila de la transacción y lo limpia al consumirlo, de modo que un segundo UPDATE de estado en la misma transacción se rechaza; la variable no es una defensa por sí sola porque quien tenga acceso SQL puede escribirla: por eso la guarda exige también la fila y las privaciones de IS-01 a IS-03 | T-183, T-185, T-186, T-190 |
+| IG10-33 | Ningún parámetro, cabecera, variable de sesión ni valor del cliente se acepta como db_txid, nonce, actor o resultado; solo los fija el servidor | T-186, T-188, T-189 |
+| IG10-34 | Tras una restauración, un clon o una recuperación a un punto anterior, db_txid puede repetirse respecto de filas de otra línea de tiempo; la guarda exige además el attempt_nonce aleatorio y único de la transacción, de modo que una fila de otra línea no autoriza; el diseño no afirma protección frente a un superusuario ni frente a la edición manual de datos (IS-11) | T-187 |
+| IG10-35 | Un reintento idempotente con resultado confirmado devuelve la fila original sin generar nonce nuevo ni volver a actualizar el estado; el nonce original no se reutiliza | T-198, T-199 |
+| IG10-36 | Un fallo al insertar la fila de intento o al actualizar el estado revierte la transacción completa: no hay Publicado sin fila ni fila permitida confirmada sin Publicado | T-194, T-200 |
+| IG10-37 | Si un bloque EXCEPTION o un savepoint revierte el INSERT del intento, la variable del nonce queda limpiada y el UPDATE de estado se rechaza; el valor de pg_current_xact_id() dentro de subtransacciones no está verificado (RR-25) y la guarda falla cerrada si difiere | T-195, T-196 |
+| IS-01 | La única ruta que deja status = Publicado es transition_piece_status, cuyo propietario es un rol dedicado con UPDATE sobre la columna status | T-39, T-60, T-70, T-71, T-85, T-162 |
+| IS-02 | Ningún usuario ni rol de aplicación (anon, authenticated, service_role) puede actualizar creative_pieces.status directamente | T-39, T-60, T-61, T-85, T-92, T-190, T-191 |
+| IS-03 | Ninguna función auxiliar puede publicar: pertenecen a otro propietario, sin UPDATE sobre status ni INSERT en publication_attempts | T-40, T-71, T-93, T-192, T-193 |
+| IS-04 | EXECUTE sobre las funciones de publicación solo para authenticated; service_role no las ejecuta y las funciones rechazan auth.uid() nulo; una Edge Function reenvía el token del usuario | T-58, T-61, T-99, T-191 |
+| IS-05 | El actor se obtiene de la identidad autenticada dentro de la función; ninguna función recibe actor, fecha ni resultado como parámetro | T-43, T-58, T-61, T-72, T-94, T-152, T-189 |
 | IS-06 | Los registros (clasificación, asignación, evaluación, intentos) no admiten escritura directa | T-38, T-73 |
 | IS-07 | RLS controla lectura y aislamiento; los privilegios controlan la escritura; ninguna política sustituye a la función | T-41, T-42, T-59, T-73 |
 | IS-08 | Las condiciones C1 a C9 se verifican en la base de datos, con datos del servidor | T-26, T-72, T-101 |
 | IS-09 | Una condición no verificable bloquea (tres valores; solo cumple o no aplica permiten) | T-33, T-46, T-50, T-72, T-98 |
-| IS-10 | Un fallo de registro nunca habilita la publicación | T-34, T-57 |
+| IS-10 | Un fallo de registro nunca habilita la publicación | T-34, T-57, T-200 |
+| IS-11 | Quedan fuera de lo que este diseño impide, y se declaran como límite con mitigación operativa y detección por auditoría y no como garantía: el superusuario, el propietario de las tablas, la desactivación de triggers (session_replication_role, ALTER TABLE ... DISABLE TRIGGER), la edición manual de datos y la pertenencia a los roles propietarios | T-71, T-193, T-201 |
 | IP-01 | T-02 conserva sus 13 transiciones: una pieza Publicada no se modifica; solo puede archivarse (#13) | T-47, T-63 |
 | IP-02 | Si cambia una maestra con adaptaciones ya Publicadas: se conservan artefacto y aprobación histórica, se registra la evaluación, se avisa (N-22) y se bloquean nuevas publicaciones de adaptaciones cuando C3 a C6 lo exigen | T-62 |
 | IP-03 | Una nueva versión comercial es una pieza nueva; la anterior se conserva y se archiva por #13; el archivo interno no retira contenido externo | T-63, T-64 |
 | IP-04 | El estado interno de la pieza y la disponibilidad en canales externos son cosas distintas; el retiro externo es una dependencia operativa sin procedimiento documentado (DEP-RET-01) | T-64 |
 | IP-05 | Los mínimos de 30 y 10 caracteres son propuestas pendientes de T-03 (DG-16): no hay CHECK, regla de aceptación ni requisito que los imponga; la restricción vigente es no vacío | T-120, T-121, T-123, T-124 |
+| IM-01 | Existe un único orden de creación de objetos (14.1): tablas, PK, UNIQUE, CHECK, FK, índices, funciones, triggers y habilitación operativa; la especificación, el roadmap, el informe y la auditoría reproducen la misma tabla de orden | T-153 |
+| IM-02 | Ninguna FK de una tabla nueva o de una columna añadida referencia una tabla creada en una subfase posterior; la única excepción son las FK diferidas de v3.3 entre tablas históricas, que se crean en la subfase de la tabla destino | T-154 |
+| IM-03 | Toda FK referencia columnas con PK o UNIQUE declarada; el UNIQUE se crea antes que la FK que lo referencia | T-155 |
+| IM-04 | El orden de creación no tiene ciclos de dependencia; la dependencia mutua entre copy_versions y creative_assets se resuelve con una FK diferida explícita | T-156 |
+| IM-05 | Ninguna función ni trigger se crea antes de las tablas y columnas que lee o escribe | T-157 |
+| IM-06 | Ningún índice ni restricción única se declara sobre una columna inexistente en su tabla | T-158 |
+| IM-07 | Las subfases del plan existen en el roadmap de 76 subfases y respetan sus dependencias; no se agrega ninguna subfase | T-153, T-159 |
+| IM-08 | Los diagramas que muestran el orden de creación coinciden con el plan | T-160 |
+| IM-09 | Crear una estructura no habilita su operación: toda tabla nueva nace con RLS activada y sin privilegios; políticas, privilegios y funciones se habilitan en la subfase indicada | T-161 |
+| IM-10 | Si una fase posterior no se ejecuta, el sistema queda fail-closed: sin 6.6 no hay Publicado; sin 6.5 no hay aprobaciones ni evaluaciones; sin 5.3 no hay adaptaciones; no hay datos huérfanos | T-162 |
+| IM-11 | La reversión no destruye registros de auditoría: con datos solo se deshabilita (revocar EXECUTE y privilegios) y se archiva; el borrado de objetos solo es válido antes de que existan datos | T-163 |
+| IM-12 | La compatibilidad con las 27 tablas históricas se conserva: solo se agregan tablas, columnas y restricciones; ninguna columna de v3.3 se renombra, elimina ni cambia de tipo | T-164 |
+| IE-01 | Cada documento activo distingue tres niveles: Fase 0 v3.3 (completada y aceptada como línea base documental, con limitaciones documentadas), diseño complementario G-1, G-5 y G-10 (pendiente de aceptación formal del propietario) y Fase 1 (no iniciada, no autorizada) | T-179 |
+| IE-02 | Ningún documento activo declara abierta, reabierta o sin cerrar la Fase 0 v3.3, ni altera su SHA-256 ni su registro de aceptación | T-180 |
+| IE-03 | La aceptación de v3.3 como línea base no autoriza Fase 1, infraestructura, SQL ni implementación | T-181 |
+| IE-04 | G-1, G-5 y G-10 no se declaran aceptadas por el propietario ni validadas técnicamente; se distinguen los puntos resueltos documentalmente de los que dependen de una decisión pendiente (T-04) | T-178, T-182 |
 
 ## 12. Decisiones del propietario
 
@@ -1861,7 +2044,7 @@ Un script (`work/g_verify.py`, resultados en `AUDITORIA_FINAL_G1_G5_G10.md`) ver
 
 ### 12.2 Precisiones que identifica esta revisión (no estaban en tu lista)
 
-Ninguna bloquea la especificación: cada una tiene un comportamiento por defecto definido.
+Ninguna impide aceptar la especificación y cada una tiene un comportamiento por defecto definido; **DT-01 sí impide declarar resuelta la independencia de G-5** (4.4.3).
 
 | ID | Precisión | Recomendación | Efecto de no decidir |
 |---|---|---|---|
@@ -1871,7 +2054,7 @@ Ninguna bloquea la especificación: cada una tiene un comportamiento por defecto
 
 ### 12.3 Pendientes que se mantienen
 
-DG-09 (retención), DG-12 (hash, 6.6), DG-16 (umbrales, T-03), DG-18 (`replaces_piece_id`), RP-01, P-01 a P-05, P-10, OD-13, PO-05 y la aceptación de la Adenda v9. G-9 completo sigue abierto.
+**T-04 (alcance pendiente, DT-01):** umbral de aportación sustantiva y representación física de las contribuciones; **impacto: la independencia de G-5 no se declara completamente resuelta; comportamiento fail-closed** (IG5-42, IG5-48). Además: DG-09 (retención), DG-12 (hash, 6.6), DG-16 (umbrales, T-03), DG-18 (`replaces_piece_id`), DG-19 y DG-20 (pendientes de aceptación), DT-02, RP-01, P-01 a P-05, P-10, OD-13, PO-05 y la aceptación de la Adenda v9, DEP-RET-01 y los valores reales de canales y formatos (DEP-CAT-01). G-9 completo sigue abierto.
 
 **Efecto de la aceptación:** al aceptar esta especificación se habilita el diseño técnico detallado, no la implementación; sin ella, ninguna adaptación independiente puede publicarse.
 
@@ -1901,26 +2084,101 @@ DG-09 (retención), DG-12 (hash, 6.6), DG-16 (umbrales, T-03), DG-18 (`replaces_
 | RR-20 | El comportamiento real de los bloqueos y del orden de bloqueo no se probó | Pruebas de concurrencia en 6.8 y 9.6 |
 | RR-21 | T-04 (definición de contribuyentes) está pendiente en v3.3; DG-17 y la independencia dependen de ella | Si T-04 cambia, el conjunto E cambia con ella |
 | RR-22 | Los valores reales de canales y formatos no existen: sin catálogo cargado no se crean piezas | Dependencia operativa de la organización (DG-19) |
-| RR-23 | Tras restaurar una copia lógica, un db_txid guardado podría repetirse | Mitigado por attempted_at = transaction_timestamp() en la guarda; validar en infraestructura real |
+| RR-23 | Tras una restauración, un clon o una recuperación a un punto anterior, un db_txid guardado podría repetirse; attempted_at no es un identificador | Mitigado por el attempt_nonce aleatorio y único que la guarda exige (IG10-34); validar en infraestructura real; no mitiga a un superusuario (RR-28) |
 | RR-24 | El orden de versión de la maestra (columna de copy_versions) no está fijado en v3.3 | Fijarlo al diseñar 2.7; el intervalo V-D a V-B depende de él |
 | RR-25 | El valor de pg_current_xact_id dentro de un savepoint o bloque EXCEPTION no está verificado | La guarda rechaza si difiere (fail-closed); prueba de infraestructura real |
 | RR-26 | La FK no distingue «sin arte» de «otro arte» con columnas anulables | Trigger asset_match y claves de arte no nulas en el par de evaluaciones |
+| RR-27 | T-04 solo está resuelta en su definición conceptual (OD-03, PO-08, PO-11, PO-16, aprobadas con condiciones): faltan el umbral de aportación sustantiva y la representación física de las contribuciones de brief, datos promocionales y herencia | Impacto: la independencia de G-5 no se declara resuelta. Comportamiento seguro: version_contributors falla con CONTRIBUYENTES_NO_DETERMINABLES y se bloquea evaluar y publicar adaptaciones independientes (IG5-42, IG5-48). Decisión DT-01 del propietario |
+| RR-28 | El superusuario, el propietario de las tablas, la desactivación de triggers y la edición manual de datos no los impide este diseño | Se declara como límite (IS-11); mitigación operativa y detección comparando periódicamente la auditoría con los estados; no se afirma protección absoluta |
+| RR-29 | La disponibilidad y la fuente aleatoria de gen_random_uuid() en la versión de PostgreSQL de Supabase no están verificadas (en PostgreSQL 13 o posterior es una función del núcleo) | Prueba de infraestructura real; si no estuviera, se revisa la generación del nonce antes de implementar |
+| RR-30 | La variable local de la transacción que lleva el nonce a la guarda puede ser escrita por quien tenga acceso SQL | No es la defensa: la guarda exige además la fila del intento de la transacción, el nonce sin SELECT para roles de aplicación y los privilegios de IS-01 a IS-03 (IG10-32) |
+| RR-31 | Los privilegios por columna (sin SELECT sobre attempt_nonce) y los roles propietarios no están verificados en Supabase | Prueba de infraestructura real; si no fueran viables, se revisa el mecanismo antes de implementar (RR-19) |
+| RR-32 | version_contributors no puede implementarse mientras no se defina la representación física de las contribuciones (PC-02; activity_logs no existe) | Se diseña el contrato de la función y su fallo cerrado; la implementación espera la decisión del propietario |
+| RR-33 | El orden de creación se verificó contra el modelo de esta revisión y a nivel de tabla contra las 27 tablas de v3.3, cuyas columnas exactas v3.3 no define | Revisar las FK históricas cuando se diseñen las migraciones reales (1.8 en adelante) |
 
 ## 14. Plan de migración, rollback y orden de implementación
 
-### 14.1 Plan de migración
+### 14.1 Orden único de creación (H-01)
 
-**Ruta vigente (no existe esquema ejecutado):** enmendar el diseño de línea base; no hay datos que migrar.
+**Problema corregido.** La v3 creaba `impact_evaluations` en 5.4, pero sus FK dependen de `approvals`, que v3.3 asigna a la Fase 6 y la v3 creaba en 6.1 y 6.6: una tabla no puede crear una FK hacia otra que todavía no existe. Se revisó el orden real de dependencias del modelo completo, no solo la tabla de migraciones.
 
-| Orden | Dónde | Qué |
-|---|---|---|
-| 1 | Fase 1 (1.x y 1.8) | channel_rules (estructura mínima) y channel_formats nacen antes que creative_pieces; creative_pieces nace con master_piece_id, is_adaptation, master_ref_is_adaptation, channel, format (con FK compuesta al catálogo), adaptation_key (y replaces_piece_id si se aprueba DG-18) y sus restricciones; se decide la forma de garantizar un solo nivel (T-09) |
-| 2 | Fase 2 (2.x y 2.7) | copy_versions nace con las tres columnas de origen y sus FK; se demuestra la capacidad de activity_logs (DA-01) |
-| 3 | Fase 3 | creative_assets con su clave única compuesta |
-| 4 | Fase 5 (5.3) | piece_classification_events y piece_reviewer_assignments; funciones create_adaptation, propose/resolve_independence, assign_reviewer, version_contributors y eligible_evaluators; en 5.1 solo se agregan columnas de reglas a channel_rules |
-| 5 | Fases 5.4 y 6.5 | impact_evaluations y record_impact_evaluation (sus FK a approvals exigen que approvals exista) |
-| 6 | Fase 6 (6.1 y 6.6) | approvals con decision y su clave única; publication_attempts con db_txid y request_fingerprint; ampliación de transition_piece_status; guarda del estado publicado; revocación de privilegios |
-| 7 | Pruebas (6.8) | Ejecutar la matriz de la sección 11 |
+| Alternativa | Evaluación |
+|---|---|
+| A. Crear una estructura mínima de `approvals` antes de `impact_evaluations` | Técnicamente posible tras la Fase 3 (necesita `audits`). **No elegida:** adelanta una tabla de v3.3 de la Fase 6, contradice la regla de v3.3 de que las columnas que apuntan a tablas posteriores se agregan en la migración de la tabla destino, deja una tabla de aprobaciones existiendo durante varias fases sin que nadie pueda escribirla, y no aporta nada: una evaluación exige una aprobación vigente de la adaptación y de la maestra (IG5-02), y las aprobaciones no se pueden registrar antes de 6.5 |
+| B. Mover la creación de `impact_evaluations` hasta que `approvals` exista | **Elegida.** `approvals` se crea en 6.5 junto con `record_approval`; `impact_evaluations` y `record_impact_evaluation` se crean también en 6.5, a continuación; `publication_attempts` y la guarda completa en 6.6. No mueve ninguna tabla de v3.3 y no pierde función: antes de 6.5 ninguna adaptación puede estar aprobada ni, por tanto, evaluarse |
+| C. Otra alternativa | Crear `impact_evaluations` sin las FK a `approvals` y agregarlas después: **descartada**, porque deja una tabla sin integridad referencial durante varias fases y es justo lo que este diseño evita |
+
+**Efecto sobre 5.4.** La subfase 5.4 conserva su alcance de verificador y detección de diferencias entre canales (notificaciones N-06 y N-22); **el registro persistente de la evaluación nace en 6.5**. No cambia ninguna subfase ni se agrega una nueva (76 subfases, sin subfase 77).
+
+**Reglas del orden.** Dentro de una tabla: PK, UNIQUE, CHECK, FK (cuando existen los UNIQUE destino) e índices. Una FK hacia una tabla creada después se crea en la subfase de la tabla destino (regla de v3.3, «FK diferida»); ninguna FK de una tabla nueva puede ser diferida. Las funciones y triggers se crean después de las tablas y columnas que usan. **Crear una estructura no habilita su operación:** toda tabla nueva nace con RLS activada y sin privilegios; las políticas, los privilegios y las funciones se habilitan en la subfase indicada (IM-09).
+
+**Secuencia de subfases:** 1.8 → 2.x → 3.x → 4.x → 5.1 → 5.3 → 6.x → 6.1 → 6.5 → 6.6 → 8.x.
+
+| Orden | Subfase | Tipo | Objeto | Depende de (ya creado) |
+|---|---|---|---|---|
+| 1 | 1.8 | tabla (estructura) | organizations | — |
+| 2 | 1.8 | tabla (estructura) | profiles | — |
+| 3 | 1.8 | tabla (estructura) | memberships | organizations, profiles |
+| 4 | 1.8 | tabla (estructura) | role_permissions | — |
+| 5 | 1.8 | tabla (estructura) | membership_permission_grants | memberships |
+| 6 | 1.8 | tabla (estructura) | activity_logs | — |
+| 7 | 1.8 | tabla (estructura) | campaigns | organizations |
+| 8 | 1.8 | tabla (estructura) | channel_rules | — |
+| 9 | 1.8 | tabla (estructura) | channel_formats | channel_rules, memberships |
+| 10 | 1.8 | tabla (estructura) | creative_pieces | campaigns, channel_formats |
+| 11 | 1.8 | rol | cci_state_owner y cci_records_owner (roles de base de datos) | — |
+| 12 | 1.8 | función | manage_channel_catalog | channel_rules, channel_formats |
+| 13 | 1.8 | trigger | BEFORE INSERT sobre creative_pieces: catálogo activo (3.14) | channel_formats, creative_pieces |
+| 14 | 1.8 | trigger | BEFORE INSERT y BEFORE UPDATE OF status sobre creative_pieces, versión base: INSERT solo en borrador; UPDATE de status solo por cci_state_owner; nunca Publicado | creative_pieces |
+| 15 | 1.8 | habilitación | Políticas RLS y privilegios de channel_rules y channel_formats | tablas y funciones anteriores |
+| 16 | 2.x | tabla (estructura) | brand_guidelines | — |
+| 17 | 2.x | tabla (estructura) | brand_guideline_versions | brand_guidelines |
+| 18 | 2.x | tabla (estructura) | briefs | campaigns |
+| 19 | 2.x | tabla (estructura) | copy_versions | briefs, creative_pieces |
+| 20 | 2.x | tabla (estructura) | ai_runs | profiles |
+| 21 | 2.x | tabla (estructura) | ai_prompt_versions | — |
+| 22 | 2.x | tabla (estructura) | ai_quotas | — |
+| 23 | 2.x | FK diferida | creative_pieces → briefs | creative_pieces, briefs |
+| 24 | 2.x | FK diferida | creative_pieces → copy_versions | creative_pieces, copy_versions |
+| 25 | 3.x | tabla (estructura) | creative_assets | copy_versions, creative_pieces |
+| 26 | 3.x | tabla (estructura) | audit_rubric_versions | — |
+| 27 | 3.x | tabla (estructura) | audits | ai_runs, audit_rubric_versions, copy_versions, creative_assets |
+| 28 | 3.x | tabla (estructura) | audit_findings | audits |
+| 29 | 3.x | FK diferida | copy_versions → creative_assets | copy_versions, creative_assets |
+| 30 | 3.x | FK diferida | creative_pieces → creative_assets | creative_pieces, creative_assets |
+| 31 | 4.x | tabla (estructura) | promotion_rules | campaigns |
+| 32 | 4.x | tabla (estructura) | validation_settings_versions | — |
+| 33 | 4.x | FK diferida | audits → validation_settings_versions | audits, validation_settings_versions |
+| 34 | 5.1 | columnas | Columnas anulables de reglas (extensión, tono, estructura, CTA) agregadas a channel_rules | channel_rules |
+| 35 | 5.3 | tabla (estructura) | piece_classification_events | creative_pieces, memberships |
+| 36 | 5.3 | tabla (estructura) | piece_reviewer_assignments | creative_pieces, memberships |
+| 37 | 5.3 | función | create_adaptation | creative_pieces, copy_versions, channel_formats |
+| 38 | 5.3 | función | version_contributors (interna) | copy_versions, creative_assets, activity_logs |
+| 39 | 5.3 | función | eligible_evaluators | piece_reviewer_assignments, memberships, copy_versions, creative_assets |
+| 40 | 5.3 | función | propose_independence | piece_classification_events, creative_pieces |
+| 41 | 5.3 | función | resolve_independence | piece_classification_events, piece_reviewer_assignments |
+| 42 | 5.3 | función | assign_reviewer | piece_reviewer_assignments, memberships |
+| 43 | 5.3 | habilitación | Políticas RLS y privilegios de piece_classification_events y piece_reviewer_assignments | tablas y funciones anteriores |
+| 44 | 6.x | tabla (estructura) | comments | audit_findings, creative_pieces |
+| 45 | 6.x | tabla (estructura) | commercial_block_exceptions | audit_findings, memberships |
+| 46 | 6.1 | función | transition_piece_status (T-02 sin la transición a Publicado habilitada) | creative_pieces, comments, memberships |
+| 47 | 6.5 | tabla (estructura) | approvals | audits, copy_versions, creative_assets, memberships |
+| 48 | 6.5 | tabla (estructura) | impact_evaluations | approvals, copy_versions, creative_assets, creative_pieces, memberships, piece_reviewer_assignments |
+| 49 | 6.5 | trigger | BEFORE INSERT sobre approvals: coherencia del arte (4.13) | approvals, creative_assets |
+| 50 | 6.5 | función | record_approval (ampliada) | approvals, copy_versions, creative_assets, audits, memberships |
+| 51 | 6.5 | función | record_impact_evaluation | impact_evaluations, approvals, piece_reviewer_assignments, memberships |
+| 52 | 6.5 | habilitación | Políticas RLS y privilegios de approvals e impact_evaluations | tablas y funciones anteriores |
+| 53 | 6.6 | tabla (estructura) | publication_attempts | approvals, copy_versions, creative_pieces, impact_evaluations, memberships |
+| 54 | 6.6 | trigger | BEFORE INSERT sobre publication_attempts: db_txid, attempted_at, attempt_nonce, actor (5.11) | publication_attempts |
+| 55 | 6.6 | trigger | Sustituye el cuerpo de piece_status_guard por la guarda de ocho condiciones (5.11) | publication_attempts, approvals, impact_evaluations, memberships, creative_pieces |
+| 56 | 6.6 | función | transition_piece_status ampliada: habilita la transición a Publicado (#10) | publication_attempts, approvals, impact_evaluations, creative_pieces |
+| 57 | 6.6 | habilitación | Políticas RLS y privilegios de publication_attempts y la transición a Publicado | tablas y funciones anteriores |
+| 58 | 8.x | tabla (estructura) | performance_metrics | creative_pieces |
+| 59 | 8.x | tabla (estructura) | ab_tests | creative_pieces, performance_metrics |
+
+**Dependencia circular conocida.** `copy_versions` y `creative_assets` se necesitan mutuamente (la versión de copy cita el arte de la maestra y el arte cita su versión de copy): se resuelve con la FK diferida de `copy_versions` hacia `creative_assets`, creada en la Fase 3 (IM-04). Las relaciones entre las 27 tablas históricas están a nivel de tabla porque v3.3 no define sus columnas exactas (RR-33).
+
+**Protección mientras la guarda completa no existe.** Desde 1.8 un trigger base impide que una pieza se inserte en un estado distinto de borrador y que `status` cambie salvo por el propietario de la función de estado; **nunca Publicado**. En 6.6 el cuerpo de ese trigger se sustituye por la guarda de ocho condiciones (5.11). Así no hay periodo en el que Publicado sea alcanzable sin guarda.
 
 **Ruta alterna si ya existiera un esquema:** migraciones aditivas por expansión: agregar columnas nullables, agregar restricciones como no validadas y validarlas después, crear las tablas nuevas, no rellenar datos (las piezas existentes quedan como maestras: `master_piece_id` nulo) y activar la función ampliada tras probarla. Nunca se reescriben versiones ni aprobaciones.
 
@@ -1928,30 +2186,69 @@ DG-09 (retención), DG-12 (hash, 6.6), DG-16 (umbrales, T-03), DG-18 (`replaces_
 
 | Situación | Acción |
 |---|---|
-| Documental | La v9 y las versiones históricas se conservan; si no apruebas DG-01 nada cambia y G-1, G-5 y G-10 siguen abiertas |
-| Físico, antes de que existan datos | Retirar en orden inverso: intentos, evaluaciones, clasificaciones y asignaciones, columnas; restaurar la versión anterior de la función |
-| Físico, con datos | No se borran registros de auditoría: se exportan y archivan; se deshabilita la creación y la publicación de adaptaciones independientes (fail-closed: sin las tablas, C3 a C6 no pueden verificarse y bloquean); las piezas sin maestra siguen su flujo. Volver a la función de v3.3 exige tu autorización expresa y que no haya adaptaciones independientes habilitadas |
+| Documental | Las versiones históricas se conservan (`historico/`); la v3.3 y la Adenda v9 no se tocan |
+| Físico, antes de que existan datos | Retirar en orden inverso al de 14.1: habilitaciones, guarda, funciones, tablas posteriores primero; restaurar el trigger base y la función anterior |
+| Físico, con datos | **No se borran registros de auditoría:** se exportan y archivan; la reversión es una **deshabilitación** (revocar EXECUTE y privilegios, restaurar el trigger base que impide Publicado); las tablas y filas permanecen. Sin las tablas, C3 a C6 no pueden verificarse y bloquean (fail-closed). Volver a la función de v3.3 exige tu autorización expresa y que no haya adaptaciones independientes habilitadas |
+| Compatibilidad con las 27 tablas | Solo se agregan tablas, columnas y restricciones; ninguna columna de v3.3 cambia de nombre, tipo ni se elimina; revertir elimina lo agregado sin alterar los datos históricos (IM-12) |
 
 ### 14.3 Orden recomendado de implementación
 
-1. Aceptar esta especificación (y resolver DG-17 a DG-19 o dejar sus valores por defecto).
+1. Aceptar esta especificación (y resolver DT-01 y DT-02, o dejar sus comportamientos seguros).
 2. Cerrar la decisión de un solo nivel con una prueba de concepto en 1.8.
-3. Columnas y claves de las tablas existentes (Fases 1 a 3).
+3. Catálogo de canales y formatos, columnas y claves de las tablas existentes y el trigger base (1.8 y Fases 2 a 4).
 4. Clasificación y asignaciones (5.3).
-5. Evaluaciones (5.4 y 6.5).
-6. Intentos y ampliación de la transición, con la guarda y los privilegios (6.1 y 6.6).
+5. Aprobaciones y evaluaciones (6.5, en ese orden).
+6. Intentos, guarda completa y habilitación de Publicado (6.6).
 7. Matriz de pruebas, incluidas las de infraestructura real (6.8).
 8. Solo entonces, habilitar adaptaciones independientes.
+
+### 14.4 Estructura y operación; qué ocurre si una fase posterior no se ejecuta
+
+| Objeto | Se crea la estructura | Se habilita la operación | Si la fase posterior no se ejecuta |
+|---|---|---|---|
+| channel_rules y channel_formats | 1.8 | 1.8 (`manage_channel_catalog`) | Si no se cargan valores (DEP-CAT-01) no se crean piezas |
+| piece_classification_events y piece_reviewer_assignments | 5.3 | 5.3 (funciones de clasificación y asignación) | Sin 5.3 no hay adaptaciones independientes; C3 a C6 bloquean |
+| approvals | 6.5 | 6.5 (`record_approval`) | Sin 6.5 no hay aprobaciones: no se alcanza Aprobado por la función ampliada ni Publicado |
+| impact_evaluations | 6.5 | 6.5 (`record_impact_evaluation`) | Sin evaluaciones C4 a C6 bloquean la publicación de adaptaciones independientes |
+| publication_attempts y la transición a Publicado | 6.6 | 6.6 (guarda y `transition_piece_status` ampliada) | Sin 6.6 el trigger base rechaza todo Publicado: fail-closed |
+
+### 14.5 Reglas de orden de creación (IM-01 a IM-12)
+
+| ID | Regla |
+|---|---|
+| IM-01 | Existe un único orden de creación de objetos (14.1): tablas, PK, UNIQUE, CHECK, FK, índices, funciones, triggers y habilitación operativa; la especificación, el roadmap, el informe y la auditoría reproducen la misma tabla de orden |
+| IM-02 | Ninguna FK de una tabla nueva o de una columna añadida referencia una tabla creada en una subfase posterior; la única excepción son las FK diferidas de v3.3 entre tablas históricas, que se crean en la subfase de la tabla destino |
+| IM-03 | Toda FK referencia columnas con PK o UNIQUE declarada; el UNIQUE se crea antes que la FK que lo referencia |
+| IM-04 | El orden de creación no tiene ciclos de dependencia; la dependencia mutua entre copy_versions y creative_assets se resuelve con una FK diferida explícita |
+| IM-05 | Ninguna función ni trigger se crea antes de las tablas y columnas que lee o escribe |
+| IM-06 | Ningún índice ni restricción única se declara sobre una columna inexistente en su tabla |
+| IM-07 | Las subfases del plan existen en el roadmap de 76 subfases y respetan sus dependencias; no se agrega ninguna subfase |
+| IM-08 | Los diagramas que muestran el orden de creación coinciden con el plan |
+| IM-09 | Crear una estructura no habilita su operación: toda tabla nueva nace con RLS activada y sin privilegios; políticas, privilegios y funciones se habilitan en la subfase indicada |
+| IM-10 | Si una fase posterior no se ejecuta, el sistema queda fail-closed: sin 6.6 no hay Publicado; sin 6.5 no hay aprobaciones ni evaluaciones; sin 5.3 no hay adaptaciones; no hay datos huérfanos |
+| IM-11 | La reversión no destruye registros de auditoría: con datos solo se deshabilita (revocar EXECUTE y privilegios) y se archiva; el borrado de objetos solo es válido antes de que existan datos |
+| IM-12 | La compatibilidad con las 27 tablas históricas se conserva: solo se agregan tablas, columnas y restricciones; ninguna columna de v3.3 se renombra, elimina ni cambia de tipo |
+
 
 ## 15. Estado de validación y declaración
 
 | Elemento | Resultado | Estado |
 |---|---|---|
 | G-1 | Modelo técnico **consistente en diseño**: identidad, un nivel, versión de origen, arte, ciclo de vida del catálogo de canales y formatos desde 1.8, clave, clasificación, autoría heredada y conservación | Decisiones DG-01 a DG-03, DG-14 y DG-15 incorporadas; DG-19 resuelta técnicamente (sujeta a aceptación); pendiente de aceptación formal y de validación técnica |
-| G-5 | Aprobación positiva inequívoca (DG-20), registro y elegibilidad **verificables en diseño**: independencia incluida la de versiones intermedias (DG-17), par exacto, cadena lineal de evaluaciones del mismo par, asignación correspondiente, vigencia, permiso y bloqueo uniforme | DG-04 a DG-07 y DG-17 incorporadas; DG-20 sujeta a aceptación; pendiente de aceptación formal y de validación técnica |
+| G-5 | Aprobación positiva inequívoca (DG-20), registro y elegibilidad **verificables en diseño**: par exacto, cadena lineal de evaluaciones, asignación correspondiente, vigencia, permiso y bloqueo uniforme; independencia con versiones intermedias (DG-17) **condicionada a T-04 (DT-01): la definición conceptual existe (OD-03, PO-08, PO-11, PO-16) pero faltan el umbral y la representación física; la independencia no se declara completamente resuelta y el comportamiento es fail-closed (IG5-42, IG5-48)** | DG-04 a DG-07 y DG-17 incorporadas; DG-20 sujeta a aceptación; DT-01 pendiente; pendiente de aceptación formal y de validación técnica |
 | G-10 | Registro e idempotencia con **comportamiento de fallo honesto**: `db_txid` con mecanismo PostgreSQL concreto, guarda de ocho condiciones, ruta única de publicación, política única de `correlation_id` y cuatro escenarios | DG-08, DG-10, DG-11 y DG-13 incorporadas; DG-09 y DG-12 diferidas; pendiente de aceptación formal y de validación técnica |
 | Flujo único | Las tres forman un solo flujo (6.1) con reglas, tablas, funciones y pruebas contrastadas por script | No se detectaron contradicciones en el contraste documental |
 | G-9 | Solo la asignación de revisor | **G-9 completo sigue abierto** |
 | Validación | Consistencia interna comprobada por script; ninguna prueba técnica ejecutada | No se marca nada como técnicamente validado |
 
-**G-1, G-5 y G-10 no se declaran cerradas oficialmente:** están resueltas en diseño técnico consolidado, listo para tu aceptación formal. Fase 0 no se declara cerrada y no se inicia Fase 1.
+**Declaración por nivel (IE-01 a IE-04).** **Fase 0 v3.3:** COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES DOCUMENTADAS; su SHA-256 y su registro de aceptación no cambian y no se reabre. **Diseño complementario G-1, G-5 y G-10:** DISEÑO TÉCNICO DOCUMENTAL CORREGIDO Y PREPARADO PARA ACEPTACIÓN FORMAL, CON LIMITACIONES DOCUMENTADAS; **no** está aceptado por el propietario ni validado técnicamente, y no es una reapertura de v3.3. **G-1, G-5 y G-10:** resueltas documentalmente salvo la independencia de G-5, que depende de DT-01 (T-04). **Fase 1:** NO INICIADA / NO AUTORIZADA; la aceptación de v3.3 no autoriza Fase 1, infraestructura, SQL ni implementación.
+
+### 15.1 Reglas de estado
+
+| ID | Regla |
+|---|---|
+| IE-01 | Cada documento activo distingue tres niveles: Fase 0 v3.3 (completada y aceptada como línea base documental, con limitaciones documentadas), diseño complementario G-1, G-5 y G-10 (pendiente de aceptación formal del propietario) y Fase 1 (no iniciada, no autorizada) |
+| IE-02 | Ningún documento activo declara abierta, reabierta o sin cerrar la Fase 0 v3.3, ni altera su SHA-256 ni su registro de aceptación |
+| IE-03 | La aceptación de v3.3 como línea base no autoriza Fase 1, infraestructura, SQL ni implementación |
+| IE-04 | G-1, G-5 y G-10 no se declaran aceptadas por el propietario ni validadas técnicamente; se distinguen los puntos resueltos documentalmente de los que dependen de una decisión pendiente (T-04) |
+

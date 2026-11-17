@@ -177,3 +177,24 @@ IMPLEMENTACIÓN: SIN AUTORIZACIÓN.
 | Estado | Resuelta documentalmente; lista para aceptación formal; no aceptada; no validada técnicamente; Adenda v9 sin cambios y sin aceptar (PO-05); Fase 1 no iniciada |
 | Sin cambio | 27 tablas históricas, 17 claves físicas, 13 transiciones de T-02, 76 subfases; G-9 completo sigue abierto |
 
+
+
+## Entrada: revisión v4 de G-1, G-5 y G-10 (posterior a la v3)
+
+| Concepto | Detalle |
+|---|---|
+| Fecha | 2026-11-16 |
+| Versión anterior | v3 (commit `8b81dd2ccb64bf3f6d1d6b1ffd21e7f1bcbce1a9`) |
+| Versión nueva | v4 |
+| Hallazgos corregidos | H-01 orden de creación (impact_evaluations dependía de approvals); H-02 T-04 y definición única de contribuyente (DG-17); H-03 estado de Fase 0 en tres niveles; H-04 guarda db_txid más attempt_nonce |
+| Correcciones | Orden único B (impact_evaluations en 6.5); contribuyentes con versiones intermedias y bloqueo fail-closed; tres niveles de estado; nonce de intento generado por el servidor y guarda de ocho condiciones con límites declarados |
+| Documentos modificados | ESPECIFICACION_TECNICA_G1_G5_G10.md; INFORME_CIERRE_G1_G5_G10.md; ROADMAP_Y_TRAZABILIDAD_G1_G5_G10.md; AUDITORIA_FINAL_G1_G5_G10.md; REGISTRO_HISTORICO_VERSIONES.md |
+| Versiones v3 conservadas | docs/fase0/historico/: ESPECIFICACION_TECNICA_G1_G5_G10_v3_historica.md; INFORME_CIERRE_G1_G5_G10_v3_historico.md; ROADMAP_Y_TRAZABILIDAD_G1_G5_G10_v3_historico.md; AUDITORIA_FINAL_G1_G5_G10_v3_historica.md |
+| Resultado de la auditoría | 36 verificaciones documentales por script, 0 fallas (ver AUDITORIA_FINAL_G1_G5_G10.md); no son pruebas técnicas |
+| Limitaciones | Nada ejecutado ni validado técnicamente; DT-01 (T-04) deja la independencia de G-5 condicionada; versión de PostgreSQL de Supabase, gen_random_uuid, privilegios por columna y valor del xid en subtransacciones sin verificar |
+| SHA-256 de la especificación v4 | `1f4396c649fdd62ab469ec60cd599901c2b6ccb875c9e554428c5dff6d6bc1d8` |
+| Estado | Fase 0 v3.3: COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES DOCUMENTADAS. Diseño técnico complementario (G-1, G-5, G-10): DISEÑO TÉCNICO DOCUMENTAL CORREGIDO Y PREPARADO PARA ACEPTACIÓN FORMAL, CON LIMITACIONES DOCUMENTADAS. Fase 1: NO INICIADA / NO AUTORIZADA. |
+| Sin cambio | 27 tablas históricas, 17 claves físicas, 13 transiciones de T-02, 76 subfases; Adenda v9 sin aceptar (PO-05); G-9 completo sigue abierto |
+
+
+Los SHA-256 de los demás documentos y el commit publicado se informan en el mensaje final (un documento no puede contener su propio hash).

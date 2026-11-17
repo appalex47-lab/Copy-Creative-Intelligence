@@ -1,56 +1,131 @@
 ---
 name: roadmap_trazabilidad_g1_g5_g10
-description: Roadmap y trazabilidad de la revisión v3 de G-1, G-5 y G-10; dependencias ajustadas por el catálogo de canales y formatos; los estados de las subfases no cambian
+description: Roadmap y trazabilidad de la revisión v4 de G-1, G-5 y G-10; orden único de creación; estados de subfases sin cambio
 ---
 
-# ROADMAP Y TRAZABILIDAD — REVISIÓN v3 DE G-1, G-5 Y G-10
+# ROADMAP Y TRAZABILIDAD — REVISIÓN v4 DE G-1, G-5 Y G-10
 
-Sustituye a la versión v2 (conservada como `ROADMAP_Y_TRAZABILIDAD_G1_G5_G10_v2_historico.md`). Complementa la Adenda v9 (no aceptada) sin reemplazarla ni alterar versiones históricas. **Ninguna subfase cambia de estado**: el diseño no se ha implementado ni validado técnicamente y Fase 1 no está autorizada. Se distinguen cuatro niveles: **diseño documental** (esta revisión), **implementación futura** (no autorizada), **validación en infraestructura** (pendiente) y **aceptación del propietario** (pendiente).
+Sustituye a la v3 (conservada en `historico/`). Complementa la Adenda v9 (no aceptada) sin reemplazarla ni alterar versiones históricas. **Ninguna subfase cambia de estado**; el diseño no se ha implementado ni validado técnicamente y Fase 1 no está autorizada.
+
+## 0. Estado por nivel (H-03)
+
+| Nivel | Estado | Alcance |
+|---|---|---|
+| 1. Fase 0 v3.3 | COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES DOCUMENTADAS | No se reabre ni se modifica; SHA-256 `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da` sin cambio |
+| 2. Diseño técnico complementario (G-1, G-5, G-10, v4) | DISEÑO TÉCNICO DOCUMENTAL CORREGIDO Y PREPARADO PARA ACEPTACIÓN FORMAL, CON LIMITACIONES DOCUMENTADAS | Pendiente de aceptación formal del propietario; no validado técnicamente; la independencia de G-5 depende de DT-01 (T-04) |
+| 3. Fase 1 | NO INICIADA / NO AUTORIZADA | Requiere autorización expresa; el diseño complementario no la concede |
+
 
 ## 1. Trazabilidad de brechas
 
 | Brecha | Qué es | Estado en v9 | Estado tras esta revisión | Subfase | Decisiones |
 |---|---|---|---|---|---|
-| G-1 | Vínculo maestra–adaptación y versión de origen | Pendiente (sin estructura) | Resuelta documentalmente en la revisión v3: autorreferencia compuesta de un nivel, versión de origen, clave, y ciclo de vida del catálogo de canales y formatos desde 1.8 | 1.8, 2.7 y 5.3 | DG-01 a 03, 14, 15; DG-19 (recomendación técnica, sujeta a aceptación) |
-| G-2 | Atributo de canal y formato | Pendiente | Resuelta documentalmente: columnas tipadas con FK compuesta a channel_formats y catálogo creado antes de las piezas | 1.8 (adelantada) y 5.1 | DG-19 |
-| G-3 | Autoría heredada | Pendiente | Resuelta documentalmente: contribuyentes calculados desde la versión de origen y de las versiones del intervalo | 5.3 y 6.5 | DG-01, DG-17 |
-| G-4 | Registro de la clasificación | Pendiente | Resuelta documentalmente: piece_classification_events | 5.3 y 6.5 | DG-01, DG-03 |
-| G-5 | Registro de la evaluación de impacto | Pendiente (sin estructura) | Resuelta documentalmente: aprobación positiva inequívoca (DG-20), independencia con versiones intermedias (DG-17), par exacto y cadena lineal de evaluaciones | 5.4 y 6.5 | DG-04 a 07 y DG-17; DG-20 sujeta a aceptación |
-| G-6 | Decisión de conservar o reabrir la aprobación | Pendiente | Cubierta por G-5; la reapertura usa T-02 #11; sin estado propio | 5.4 y 6.5 | DG-05 |
-| G-7 | Control obligatorio de publicación | Mecanismo conceptual | Precisado (C1 a C9; C2 y C3 leen aprobaciones positivas) y sustentado por G-1, G-5 y G-10; validación técnica pendiente | 6.1, 6.5 y 6.8 | DG-05 |
+| G-1 | Vínculo maestra–adaptación y versión de origen | Pendiente (sin estructura) | Diseño documental completo: autorreferencia compuesta, versión de origen, catálogo de canales y formatos desde 1.8 | 1.8, 2.7 y 5.3 | DG-01 a 03, 14, 15; DG-19 (sujeta a aceptación) |
+| G-2 | Atributo de canal y formato | Pendiente | Diseño documental completo: FK compuesta a channel_formats; catálogo creado antes de las piezas | 1.8 y 5.1 | DG-19 |
+| G-3 | Autoría heredada | Pendiente | Definición única de contribuyente (4.4.3) con versiones intermedias; **depende de DT-01 (T-04)** | 5.3 y 6.5 | DG-01, DG-17; DT-01 |
+| G-4 | Registro de la clasificación | Pendiente | Diseño documental completo: piece_classification_events; el proponente vigente entra al conjunto (DT-02) | 5.3 y 6.5 | DG-01, DG-03; DT-02 |
+| G-5 | Registro de la evaluación de impacto | Pendiente (sin estructura) | Diseño documental completo salvo la independencia, que **queda condicionada a DT-01 (T-04 pendiente) y falla cerrado** si el conjunto no es determinable; **G-5 no se declara plenamente cerrada**. impact_evaluations nace en 6.5, después de approvals | 6.5 | DG-04 a 07, DG-17, DG-20; DT-01 |
+| G-6 | Decisión de conservar o reabrir la aprobación | Pendiente | Cubierta por G-5; la reapertura usa T-02 #11; sin estado propio | 6.5 | DG-05 |
+| G-7 | Control obligatorio de publicación | Mecanismo conceptual | Precisado (C1 a C9) y sustentado por G-1, G-5 y G-10; validación técnica pendiente | 6.1, 6.5 y 6.8 | DG-05 |
 | G-8 | Notificaciones | Pendiente | Sin cambio | 2.7 y 6.6 | — |
 | G-9 | Asignaciones explícitas | Pendiente | Parcial: solo el revisor asignado (DG-07); **G-9 completo sigue abierto** | 5.3 y 6.5 | DG-07 |
-| G-10 | Registro de intentos de publicación bloqueados | Pendiente / parcial | Resuelta documentalmente: publication_attempts con db_txid de mecanismo concreto, guarda de ocho condiciones, correlation_id única política y cuatro escenarios de fallo | 6.1, 6.6 y 2.7 | DG-08, 10, 11, 13; DG-09 y DG-12 diferidas |
-| PT | Verificación técnica de que no hay escritura directa | Pendiente | Diseño de privilegios y guarda; verificación técnica pendiente (T-39 y T-92) | 6.1 y 6.8 | — |
+| G-10 | Registro de intentos de publicación bloqueados | Pendiente / parcial | Diseño documental completo: publication_attempts con db_txid más attempt_nonce, guarda de ocho condiciones y límites declarados (5.11); el aislamiento real queda como validación técnica pendiente | 6.1, 6.6 y 2.7 | DG-08, 10, 11, 13; DG-09 y DG-12 diferidas |
+| PT | Verificación técnica de que no hay escritura directa | Pendiente | Diseño de privilegios y guarda; verificación técnica pendiente | 6.1 y 6.8 | — |
 
-«Resuelta documentalmente» significa que existe una solución completa, coherente y verificada por script en el plano documental; **no** que esté aceptada formalmente ni validada técnicamente.
+«Diseño documental completo» significa una solución coherente y verificada por script en el plano documental; **no** aceptación formal ni validación técnica.
 
-## 2. Dependencias nuevas
+## 2. Dependencias
 
 | ID | Dependencia | Responsable |
 |---|---|---|
-| DEP-RET-01 | No existe procedimiento operativo para retirar contenido externo cuando una pieza se reemplaza o archiva; el diseño no lo resuelve ni inventa un estado o transición | Operativa |
-| DEP-CAT-01 | Los valores reales de canales y formatos de la organización no existen; sin ellos cargados en el catálogo (por org.manage) no se puede crear ninguna pieza. El diseño no inventa el catálogo (DG-19) | Del propietario o la organización; debe resolverse antes de la subfase 2.5 |
-| DEP-T04-01 | T-04 (definición de contribuyentes) sigue pendiente en v3.3; DG-17 la usa tal como está propuesta | Decisión del propietario |
-| DEP-VER-01 | El orden de versión de la maestra (columna de copy_versions) no está fijado en v3.3; el intervalo V-D a V-B depende de él | Diseño de 2.7 |
+| DEP-RET-01 | No existe procedimiento operativo para retirar contenido externo; el diseño no lo resuelve | Operativa |
+| DEP-CAT-01 | Los valores reales de canales y formatos no existen; sin ellos no se puede crear ninguna pieza (DG-19) | Propietario u organización; antes de 2.5 |
+| DEP-T04-01 / DT-01 | T-04 (definición de contribuyentes) no fue aprobada en v3.3; el umbral de aportación sustantiva y su representación física (PC-02) siguen pendientes | Decisión del propietario |
+| DT-02 | Si el proponente de la clasificación vigente entra al conjunto de contribuyentes (propuesta técnica) | Decisión del propietario |
+| DEP-VER-01 | El orden de versión de la maestra no está fijado en v3.3; el intervalo V-D a V-B depende de él | Diseño de 2.7 |
 
-## 3. Ajustes de secuencia por las correcciones
+## 3. Orden único de creación (H-01)
 
-**Primera creación de piezas.** `creative_pieces` tiene su estructura en 1.8 (v3.3: tablas de las Fases 1 y 6) y las piezas se crean desde la Fase 2 (2.5 y 2.7). **Primer uso de canales:** 5.1 en v3.3. **Primera validación de formato:** 5.2 y 5.3. La v2 dejaba un periodo (1.8 a 4.x) con piezas sin catálogo; la revisión v3 adelanta la estructura mínima de `channel_rules` y la tabla `channel_formats` a 1.8, de modo que la FK rige desde la primera pieza. El número de subfases (76) no cambia.
+Secuencia de subfases: **1.8 → 2.x → 3.x → 4.x → 5.1 → 5.3 → 6.x → 6.1 → 6.5 → 6.6 → 8.x**. Es la misma que figura en la especificación (7.17 y 14.1) y en la auditoría. La subfase 5.4 ya no crea ninguna tabla.
+
+| Orden | Subfase | Tipo | Objeto | Depende de (ya creado) |
+|---|---|---|---|---|
+| 1 | 1.8 | tabla (estructura) | organizations | — |
+| 2 | 1.8 | tabla (estructura) | profiles | — |
+| 3 | 1.8 | tabla (estructura) | memberships | organizations, profiles |
+| 4 | 1.8 | tabla (estructura) | role_permissions | — |
+| 5 | 1.8 | tabla (estructura) | membership_permission_grants | memberships |
+| 6 | 1.8 | tabla (estructura) | activity_logs | — |
+| 7 | 1.8 | tabla (estructura) | campaigns | organizations |
+| 8 | 1.8 | tabla (estructura) | channel_rules | — |
+| 9 | 1.8 | tabla (estructura) | channel_formats | channel_rules, memberships |
+| 10 | 1.8 | tabla (estructura) | creative_pieces | campaigns, channel_formats |
+| 11 | 1.8 | rol | cci_state_owner y cci_records_owner (roles de base de datos) | — |
+| 12 | 1.8 | función | manage_channel_catalog | channel_rules, channel_formats |
+| 13 | 1.8 | trigger | BEFORE INSERT sobre creative_pieces: catálogo activo (3.14) | channel_formats, creative_pieces |
+| 14 | 1.8 | trigger | BEFORE INSERT y BEFORE UPDATE OF status sobre creative_pieces, versión base: INSERT solo en borrador; UPDATE de status solo por cci_state_owner; nunca Publicado | creative_pieces |
+| 15 | 1.8 | habilitación | Políticas RLS y privilegios de channel_rules y channel_formats | tablas y funciones anteriores |
+| 16 | 2.x | tabla (estructura) | brand_guidelines | — |
+| 17 | 2.x | tabla (estructura) | brand_guideline_versions | brand_guidelines |
+| 18 | 2.x | tabla (estructura) | briefs | campaigns |
+| 19 | 2.x | tabla (estructura) | copy_versions | briefs, creative_pieces |
+| 20 | 2.x | tabla (estructura) | ai_runs | profiles |
+| 21 | 2.x | tabla (estructura) | ai_prompt_versions | — |
+| 22 | 2.x | tabla (estructura) | ai_quotas | — |
+| 23 | 2.x | FK diferida | creative_pieces → briefs | creative_pieces, briefs |
+| 24 | 2.x | FK diferida | creative_pieces → copy_versions | creative_pieces, copy_versions |
+| 25 | 3.x | tabla (estructura) | creative_assets | copy_versions, creative_pieces |
+| 26 | 3.x | tabla (estructura) | audit_rubric_versions | — |
+| 27 | 3.x | tabla (estructura) | audits | ai_runs, audit_rubric_versions, copy_versions, creative_assets |
+| 28 | 3.x | tabla (estructura) | audit_findings | audits |
+| 29 | 3.x | FK diferida | copy_versions → creative_assets | copy_versions, creative_assets |
+| 30 | 3.x | FK diferida | creative_pieces → creative_assets | creative_pieces, creative_assets |
+| 31 | 4.x | tabla (estructura) | promotion_rules | campaigns |
+| 32 | 4.x | tabla (estructura) | validation_settings_versions | — |
+| 33 | 4.x | FK diferida | audits → validation_settings_versions | audits, validation_settings_versions |
+| 34 | 5.1 | columnas | Columnas anulables de reglas (extensión, tono, estructura, CTA) agregadas a channel_rules | channel_rules |
+| 35 | 5.3 | tabla (estructura) | piece_classification_events | creative_pieces, memberships |
+| 36 | 5.3 | tabla (estructura) | piece_reviewer_assignments | creative_pieces, memberships |
+| 37 | 5.3 | función | create_adaptation | creative_pieces, copy_versions, channel_formats |
+| 38 | 5.3 | función | version_contributors (interna) | copy_versions, creative_assets, activity_logs |
+| 39 | 5.3 | función | eligible_evaluators | piece_reviewer_assignments, memberships, copy_versions, creative_assets |
+| 40 | 5.3 | función | propose_independence | piece_classification_events, creative_pieces |
+| 41 | 5.3 | función | resolve_independence | piece_classification_events, piece_reviewer_assignments |
+| 42 | 5.3 | función | assign_reviewer | piece_reviewer_assignments, memberships |
+| 43 | 5.3 | habilitación | Políticas RLS y privilegios de piece_classification_events y piece_reviewer_assignments | tablas y funciones anteriores |
+| 44 | 6.x | tabla (estructura) | comments | audit_findings, creative_pieces |
+| 45 | 6.x | tabla (estructura) | commercial_block_exceptions | audit_findings, memberships |
+| 46 | 6.1 | función | transition_piece_status (T-02 sin la transición a Publicado habilitada) | creative_pieces, comments, memberships |
+| 47 | 6.5 | tabla (estructura) | approvals | audits, copy_versions, creative_assets, memberships |
+| 48 | 6.5 | tabla (estructura) | impact_evaluations | approvals, copy_versions, creative_assets, creative_pieces, memberships, piece_reviewer_assignments |
+| 49 | 6.5 | trigger | BEFORE INSERT sobre approvals: coherencia del arte (4.13) | approvals, creative_assets |
+| 50 | 6.5 | función | record_approval (ampliada) | approvals, copy_versions, creative_assets, audits, memberships |
+| 51 | 6.5 | función | record_impact_evaluation | impact_evaluations, approvals, piece_reviewer_assignments, memberships |
+| 52 | 6.5 | habilitación | Políticas RLS y privilegios de approvals e impact_evaluations | tablas y funciones anteriores |
+| 53 | 6.6 | tabla (estructura) | publication_attempts | approvals, copy_versions, creative_pieces, impact_evaluations, memberships |
+| 54 | 6.6 | trigger | BEFORE INSERT sobre publication_attempts: db_txid, attempted_at, attempt_nonce, actor (5.11) | publication_attempts |
+| 55 | 6.6 | trigger | Sustituye el cuerpo de piece_status_guard por la guarda de ocho condiciones (5.11) | publication_attempts, approvals, impact_evaluations, memberships, creative_pieces |
+| 56 | 6.6 | función | transition_piece_status ampliada: habilita la transición a Publicado (#10) | publication_attempts, approvals, impact_evaluations, creative_pieces |
+| 57 | 6.6 | habilitación | Políticas RLS y privilegios de publication_attempts y la transición a Publicado | tablas y funciones anteriores |
+| 58 | 8.x | tabla (estructura) | performance_metrics | creative_pieces |
+| 59 | 8.x | tabla (estructura) | ab_tests | creative_pieces, performance_metrics |
+
+Estructura no es operación: las tablas nacen con RLS activada y sin privilegios; las funciones y políticas se habilitan en la subfase indicada. Si una fase posterior no se ejecuta, las anteriores siguen siendo consistentes porque ninguna FK apunta hacia adelante. La reversión es deshabilitar (retirar EXECUTE y privilegios, restaurar el trigger base), no eliminar tablas con datos.
+
+## 4. Cambios de subfase por la v4
 
 | Subfase | Tema | Contenido de diseño |
 |---|---|---|
-| 1.8 | Migraciones | Crea channel_rules (estructura mínima), channel_formats y creative_pieces con la FK al catálogo; depende de 1.6 y 1.7 |
-| 2.5 y 2.7 | Edición y versionado | Requieren catálogo cargado (DEP-CAT-01); copy_versions con columnas de origen; orden de versión (DEP-VER-01) |
-| 5.1 | Modelos de canal | Solo columnas de reglas anulables sobre channel_rules; depende de 1.8 |
-| 5.3 | Adaptación | Vínculo, clasificación, asignación de revisor, version_contributors y eligible_evaluators |
-| 5.4 | Consistencia entre adaptaciones | impact_evaluations con par exacto y cadena lineal |
-| 6.1 | Workflow | transition_piece_status ampliada; guarda con db_txid; ruta única de publicación |
-| 6.5 | Aprobaciones | approvals.decision (DG-20); independencia con versiones intermedias; evaluación |
-| 6.6 | Auditoría del flujo | publication_attempts; privilegios y protección |
-| 6.8 | Pruebas | Matriz documental con 152 casos (ninguno ejecutado) |
+| 1.8 | Migraciones | Tablas base, catálogo, creative_pieces, roles propietarios, manage_channel_catalog y triggers base |
+| 5.1 | Modelos de canal | Solo columnas de reglas anulables |
+| 5.3 | Adaptación | Clasificación, asignación, contribuyentes y elegibilidad |
+| 5.4 | Consistencia entre adaptaciones | Sin tablas propias; usa las evaluaciones de 6.5 |
+| 6.1 | Workflow | transition_piece_status base; Publicado deshabilitado |
+| 6.5 | Aprobaciones | approvals e impact_evaluations en el orden correcto |
+| 6.6 | Auditoría del flujo | publication_attempts, guarda completa y transición #10 |
+| 6.8 | Pruebas | Matriz documental con 201 casos (ninguno ejecutado) |
 
-Los nombres de subfase son los de la Adenda v9; no se renombró ni se agregó ninguna (76 subfases, sin subfase 77).
+Los nombres de subfase son los de la Adenda v9 (76 subfases, sin subfase 77).
 
 ## Roadmap consolidado (estados de la Adenda v9, sin cambio)
 
@@ -79,7 +154,7 @@ Situación: **Fase 0** (subfases 0.1–0.7) aceptada y cerrada como línea base 
 | 1.5 | Organización y usuarios | organizations, profiles, memberships | Alta de organización y personas | Aislamiento entre organizaciones | 1.4, P-04 | Fuga entre organizaciones | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | PO-01, PO-18 (membresía y elegibilidad del concedente); N-01 y N-02 de DA-02 (pendiente de diseño). |
 | 1.6 | Roles y permisos | role_permissions, permisos por persona, 17 claves | Funciones de permisos | Matriz probada en backend y frontend | 1.5 | Permisos solo en la interfaz | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | T-01; OD-05 a OD-08; PO-02, PO-15 y PO-18 (delegation.manage y block.exception.revoke conceptuales; 17 claves sin cambio); PO-07; N-01. |
 | 1.7 | Supabase | Proyecto, Storage, secretos | Entorno configurado | Sin credenciales en el repositorio | P-01 | Plan gratuito | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | P-01; PO-07 (nivel 2: verificar capacidades de la plataforma); herramientas verificadas si la estrategia lo requiere (Q1). |
-| 1.8 | Migraciones | Esquema versionado y RLS de las tablas de la fase | Migraciones reproducibles | Pruebas de aislamiento de las tablas creadas | 1.6, 1.7 | Primer SQL real | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | T-04 (PO-08): modelo conceptual antes de 1.8; durante 1.8, trazabilidad base implementada y validada en su alcance real (activity_logs es el mecanismo de eventos disponible antes de 2.7: DA-01); T-09 plan de migración; herramientas (Q1). **Ajuste v3:** crea también channel_rules (estructura mínima) y channel_formats antes de la primera pieza (3.14); depende además de 1.6 (org.manage). La FK de creative_pieces al catálogo nace con creative_pieces. |
+| 1.8 | Migraciones | Esquema versionado y RLS de las tablas de la fase | Migraciones reproducibles | Pruebas de aislamiento de las tablas creadas | 1.6, 1.7 | Primer SQL real | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | T-04 (PO-08): modelo conceptual antes de 1.8; durante 1.8, trazabilidad base implementada y validada en su alcance real (activity_logs es el mecanismo de eventos disponible antes de 2.7: DA-01); T-09 plan de migración; herramientas (Q1). **Ajuste v4:** crea las tablas base, channel_rules (estructura mínima), channel_formats y creative_pieces con la FK al catálogo; los roles propietarios cci_state_owner y cci_records_owner; manage_channel_catalog; y los triggers catalog_active_check y piece_status_guard_base. Todo nace con RLS activada y sin privilegios (estructura, no operación). |
 | 1.9 | Dashboard inicial | Command Center básico | Dashboard | Carga sin datos | 1.3, 1.8 | Exceso de tarjetas | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | Command Center básico: no entrega notificaciones (v3.3); DA-02: sin evento propio. |
 
 #### Fase 2 — Copy Studio
@@ -125,9 +200,9 @@ Situación: **Fase 0** (subfases 0.1–0.7) aceptada y cerrada como línea base 
 
 | ID | Nombre | Objetivo | Entregables | Criterios de aceptación | Dependencias | Riesgos | Estado | Limitaciones conocidas | Decisiones que deben estar resueltas antes |
 |---|---|---|---|---|---|---|---|---|---|
-| 5.1 | Modelos de canal | channel_rules por canal | Catálogo | Reglas por organización y canal | 1.8 | Reglas reales sin entregar | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | Atributo de canal (G-2); canal por organización; G-2. **Ajuste v3:** channel_rules ya existe desde 1.8: esta subfase agrega las columnas de reglas (extensión, tono, estructura, CTA) como columnas anulables; no crea la tabla ni toca piezas ni formatos. |
+| 5.1 | Modelos de canal | channel_rules por canal | Catálogo | Reglas por organización y canal | 1.8 | Reglas reales sin entregar | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | Atributo de canal (G-2); canal por organización; G-2. **Ajuste v4:** solo agrega columnas anulables de reglas a channel_rules (ya existente); no crea tablas. |
 | 5.2 | Reglas de extensión | Límites de longitud | Validador | Límites aplicados | 5.1 | Límites cambiantes | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | Ninguna decisión específica de esta matriz; ver dependencias. |
-| 5.3 | Adaptación | Adaptar copy por canal | Adaptador | Versión por canal | 2.3, 5.1 | Pérdida de sentido | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | T-04: adaptación por canal trazada y probada antes de habilitar 5.3; PO-20 (evaluación de impacto, dependencia de aprobación, declaración de independencia); G-1, G-3, G-4; sin tabla ni columna nueva. |
+| 5.3 | Adaptación | Adaptar copy por canal | Adaptador | Versión por canal | 2.3, 5.1 | Pérdida de sentido | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | T-04: adaptación por canal trazada y probada antes de habilitar 5.3; PO-20 (evaluación de impacto, dependencia de aprobación, declaración de independencia); G-1, G-3, G-4; sin tabla ni columna nueva. **Ajuste v4:** crea piece_classification_events, piece_reviewer_assignments, create_adaptation, version_contributors, eligible_evaluators, propose_independence, resolve_independence y assign_reviewer. version_contributors devuelve el conjunto y la marca de completitud (DT-01, T-04). |
 | 5.4 | Consistencia | Coherencia entre canales | Verificador | Diferencias señaladas | 5.3 | Falsas diferencias | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | DA-02 N-06 y N-22; PO-20: evaluación de impacto de la maestra (G-5). PO-21: evaluación de impacto por el revisor asignado independiente (sin estado nuevo). |
 | 5.5 | Comparación multicanal | Vista comparativa | Vista | Comparación correcta | 5.3 | — | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | Comparación multicanal: no genera notificación; usa la relación maestra–adaptación (G-1). |
 | 5.6 | Pruebas | Pruebas de la fase | Informe | Suite ejecutada | 5.1–5.5 | Mocks | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | DA-02: validación técnica de las notificaciones de Fase 5. |
@@ -136,12 +211,12 @@ Situación: **Fase 0** (subfases 0.1–0.7) aceptada y cerrada como línea base 
 
 | ID | Nombre | Objetivo | Entregables | Criterios de aceptación | Dependencias | Riesgos | Estado | Limitaciones conocidas | Decisiones que deben estar resueltas antes |
 |---|---|---|---|---|---|---|---|---|---|
-| 6.1 | Estados | Estados y transiciones (T-02) | transition_piece_status | Solo transiciones permitidas | 1.6 | Estados bloqueados | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | T-02 (13 transiciones verificadas contra v3.3; aplican a cada adaptación independiente); PO-13; AR-01; DA-02 N-09 a N-11, N-16, N-17 y N-22; G-7: control obligatorio de publicación en transition_piece_status (condiciones C1 a C9) y G-10 (registro del intento bloqueado). **Ajuste v3:** la guarda del estado Publicado usa db_txid y attempted_at (5.11) y transition_piece_status es la ruta única. |
+| 6.1 | Estados | Estados y transiciones (T-02) | transition_piece_status | Solo transiciones permitidas | 1.6 | Estados bloqueados | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | T-02 (13 transiciones verificadas contra v3.3; aplican a cada adaptación independiente); PO-13; AR-01; DA-02 N-09 a N-11, N-16, N-17 y N-22; G-7: control obligatorio de publicación en transition_piece_status (condiciones C1 a C9) y G-10 (registro del intento bloqueado). **Ajuste v4:** transition_piece_status en versión base, con el estado Publicado deshabilitado; sustituye al trigger base de 1.8 sin tocar datos. |
 | 6.2 | Asignaciones | Asignar piezas a personas | Asignaciones | Asignación auditada | 6.1 | — | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | Asignación de responsable, revisor y aprobador: D-02; destinatarios de PO-19; DA-02 N-07. PO-20: revisor asignado que confirma la independencia; regla D (asignaciones explícitas, G-9). |
 | 6.3 | Comentarios | Hilos y solicitudes de cambio | comments | Comentarios obligatorios donde corresponde | 6.1 | — | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | Solicitudes de cambio como evento informativo a contribuyentes (N-08); DA-02. |
 | 6.4 | Correcciones | Ciclo de corrección con versión nueva | Flujo | Aprobación previa no se hereda | 6.1–6.3 | Reprocesos | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | Ninguna decisión específica de esta matriz; ver dependencias. |
-| 6.5 | Aprobaciones | Aprobación humana independiente, confirmación y descarte, excepciones | record_approval, review_finding, excepciones | R-02 y R-03 pasan; sin autoaprobación | 6.4, P-04, P-05 | Menos de dos personas capaces | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | T-03, T-05, T-06, OD-06, OD-09, OD-10; P-05; PO-10, PO-12, PO-15, PO-16, PO-18; PO-14, PO-17, PO-19, AR-01; DA-02 N-12 a N-15. PO-20: decisión sobre cada adaptación afectada (G-6). G-7: verificación de aprobación de la maestra y de la adaptación antes de publicar. **Ajuste v3:** approvals incorpora decision (CHECK = 'aprobada', DG-20 sujeta a aceptación); record_approval la escribe; independencia con versiones intermedias (DG-17). |
-| 6.6 | Historial | Historial inmutable | activity_logs | Sin UPDATE ni DELETE | 6.5 | Volumen | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | Historial inmutable: trazabilidad de eventos de notificación según DA-02 (sin afirmar que cubre entrega). G-10: trazabilidad de intentos de publicación bloqueados. |
+| 6.5 | Aprobaciones | Aprobación humana independiente, confirmación y descarte, excepciones | record_approval, review_finding, excepciones | R-02 y R-03 pasan; sin autoaprobación | 6.4, P-04, P-05 | Menos de dos personas capaces | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | T-03, T-05, T-06, OD-06, OD-09, OD-10; P-05; PO-10, PO-12, PO-15, PO-16, PO-18; PO-14, PO-17, PO-19, AR-01; DA-02 N-12 a N-15. PO-20: decisión sobre cada adaptación afectada (G-6). G-7: verificación de aprobación de la maestra y de la adaptación antes de publicar. **Ajuste v4:** crea approvals (decision con CHECK = 'aprobada', unique(org,id,copy_version_id), asset_match), record_approval, impact_evaluations y record_impact_evaluation. **impact_evaluations nace aquí y no en 5.4**, porque depende de approvals (H-01). |
+| 6.6 | Historial | Historial inmutable | activity_logs | Sin UPDATE ni DELETE | 6.5 | Volumen | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | Historial inmutable: trazabilidad de eventos de notificación según DA-02 (sin afirmar que cubre entrega). G-10: trazabilidad de intentos de publicación bloqueados. **Ajuste v4:** crea publication_attempts, el trigger de db_txid y attempt_nonce, la guarda completa que sustituye a la base y habilita la transición #10 de transition_piece_status (H-04). |
 | 6.7 | Permisos | Permisos del flujo | Claves y políticas | Backend como autoridad | 6.5 | Permisos solo en UI | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | Permisos del flujo; DA-02 (restricciones de acceso al contenido de notificaciones). |
 | 6.8 | Pruebas | Pruebas de la fase | Informe | Suite ejecutada | 6.1–6.7 | Mocks | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | DA-02: validación de permisos, estados, destinatarios, independencia y trazabilidad de notificaciones (subfase de pruebas existente). |
 
