@@ -5,7 +5,7 @@ description: Propuesta técnica integrada de cierre de G-1, G-5 y G-10 (maestra�
 
 # ESPECIFICACIÓN TÉCNICA — CIERRE DE G-1, G-5 Y G-10
 
-**Estado:** ESPECIFICACIÓN TÉCNICA v5 (revisión posterior a la v4, que se conserva como `historico/ESPECIFICACION_TECNICA_G1_G5_G10_v4_historica.md`). **Diseño técnico documental corregido y preparado para aceptación formal, con limitaciones documentadas; no aceptado por el propietario ni validado técnicamente.** Resuelve en el diseño las decisiones pendientes de la v4: **DT-01** (definición operativa de contribuyente, materialidad y herencia por procedencia verificable), **PC-02** (representación física: `brief_versions`, `promotion_snapshots`, `contribution_events` y `copy_version_provenance`) y **DT-02** (el proponente de la clasificación vigente no evalúa esa adaptación). Estas reglas son el **diseño complementario de esta revisión**: no alteran el expediente histórico, no aprueban retroactivamente T-04 de v3.3 y no aceptan la Adenda v9 (PO-05). Nada de lo que sigue se implementó ni se validó técnicamente (evidencia nivel 1). Las **36** tablas (27 históricas + 9 propuestas) son el modelo propuesto sujeto a aprobación; las 27 siguen siendo la línea base histórica.
+**Estado:** ESPECIFICACIÓN TÉCNICA v6 (revisión posterior a la v5, que se conserva como `historico/ESPECIFICACION_TECNICA_G1_G5_G10_v5_historica.md`). **Diseño técnico documental preparado para aceptación formal del propietario, con limitaciones documentadas; no aceptado por el propietario ni validado técnicamente.** Corrige tres hallazgos de la auditoría de la v5: H-01 (auditoría sin evidencia ejecutada), H-02 (reconstrucción incompleta de contribuyentes heredados de brief y promociones) y H-03 (integridad insuficiente entre eventos, versiones, snapshots, assets y personas). La Fase 0 v3.3 conserva su estado: COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES DOCUMENTADAS. Fase 1: NO INICIADA / NO AUTORIZADA.
 
 **Estados por nivel (IE-01):** **Fase 0 v3.3:** COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES DOCUMENTADAS (SHA-256 sin cambio; no se reabre). **Diseño complementario G-1, G-5 y G-10:** DISEÑO TÉCNICO DOCUMENTAL CORREGIDO Y PREPARADO PARA ACEPTACIÓN FORMAL, CON LIMITACIONES DOCUMENTADAS. **Fase 1:** NO INICIADA / NO AUTORIZADA. La aceptación de v3.3 no autoriza Fase 1, infraestructura, SQL ni implementación (IE-03). La Adenda v9 sigue sin aceptarse (PO-05) y no se modificó.
 
@@ -35,7 +35,7 @@ SHA-256 de `fase0_v3_3_integral.md`: `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736f
 | Decisiones PO-11 a PO-21 de la Adenda v9 (incluidas las condiciones de PO-20 y PO-21) | Decididas por el propietario; la Adenda v9 que las recoge NO está aceptada (PO-05) |
 | G-7: mecanismo conceptual C1 a C9 y R-1 a R-8 | Diseño conceptual de v9, no aceptado; aquí se precisa (ver 6.2) |
 | G-1, G-5 y G-10 | Eran brechas abiertas; esta especificación es su PROPUESTA de cierre técnico |
-| Nueve tablas nuevas (`piece_classification_events`, `piece_reviewer_assignments`, `impact_evaluations`, `publication_attempts`, `channel_formats`, `brief_versions`, `contribution_events`, `copy_version_provenance` y `promotion_snapshots`) y ajustes al modelo | DG-01: aprobados conceptualmente, sujetos a completar tipos, claves, restricciones y justificación (esta versión los completa; la aprobación de la especificación sigue pendiente) |
+| Trece tablas nuevas (`piece_classification_events`, `piece_reviewer_assignments`, `impact_evaluations`, `publication_attempts`, `channel_formats`, `brief_versions`, `contribution_events`, `copy_version_provenance`, `promotion_snapshots` y las cuatro tablas de cambio y atribución por campo material) y ajustes al modelo | DG-01: aprobados conceptualmente, sujetos a completar tipos, claves, restricciones y justificación (esta versión los completa; la aprobación de la especificación sigue pendiente) |
 | Funciones, triggers y nombres de roles de este documento | Propuestas de diseño; no existen |
 | Decisiones DG-01 a DG-16 (sección 12) | Aprobadas: 01 a 08, 10, 11, 13, 14 y 15. Diferidas: 09 (retención), 12 (hash encadenado, a 6.6) y 16 (umbrales, hasta resolver T-03) |
 
@@ -51,7 +51,7 @@ SHA-256 de `fase0_v3_3_integral.md`: `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736f
 | P6 | Separación de verificación y registro | El registro del intento se escribe después de calcular el resultado y no puede cambiarlo; el resultado «permitido» solo existe si se cumplieron las nueve condiciones. |
 | P7 | Sin autoridad por defecto | Ninguna evaluación ni intento concede permisos, aprobaciones ni facultades; Admin, el propietario o cualquier rol no sustituyen a un revisor elegible. |
 | P8 | Sin T-02 nueva ni clave 18 | Las 13 transiciones y las 17 claves permanecen. La evaluación es una actividad de revisión (PO-21). |
-| P9 | Mínimo suficiente | Nueve tablas nuevas y columnas en las existentes; cada elemento se justifica en la sección 9. |
+| P9 | Mínimo suficiente | Trece tablas nuevas y columnas en las existentes; cada elemento se justifica en la sección 9. |
 | P10 | Fallo seguro y honesto | Un fallo de verificación o de registro nunca publica; los límites de atomicidad se declaran (sección 8.6). |
 
 ## 3. G-1 — Relación maestra–adaptación
@@ -137,6 +137,8 @@ Ajustes a tablas existentes y tablas nuevas de G-1:
 | copy_versions | parent_version_id (existente en v3.3): referencia a la versión de copy anterior | Sin columna nueva | Se conserva como la referencia exacta a la versión anterior; no se cambia |
 | creative_assets | reused_from_asset_id uuid NULL | Columna nueva (3.x) | Arte de origen cuando la versión reutiliza un arte ya cargado; NULL si es una carga nueva; quien reutiliza no es asset_uploader |
 | creative_assets | unique(organization_id, id) | Restricción nueva (3.x) | Permite la FK compuesta de reutilización |
+| copy_versions | unique(organization_id, id) | Restricción nueva (2.3) | Permite FK compuestas hacia la versión exacta de copy |
+| creative_assets | unique(organization_id, copy_version_id, id) | Restricción nueva (3.x) | Permite que la procedencia de arte exija que la fila de arte pertenece a la versión de copy que la usa |
 
 #### `piece_classification_events`
 
@@ -565,10 +567,10 @@ Ninguna FK aislada garantiza la elegibilidad: las FK garantizan identidad y corr
 |---|---|---|---|
 | A. Autoría de copy | Quien crea una versión de copy; identidad del servidor (`auth.uid()`), conservada en `created_by`; una modificación crea una versión nueva y no sobrescribe la autoría anterior; si la versión la generó la IA, la contribuyente es quien solicitó y guardó la propuesta; la IA no es persona contribuyente | copy_author | copy_versions.created_by y contribution_events (IG5-50) |
 | B. Edición material del contenido | Quien crea una versión nueva y modifica al menos un campo de contenido evaluable. Se normalizan exclusivamente Unicode NFKC, saltos de línea, espacios repetidos y espacios al inicio o final; si tras normalizar cambia el contenido de un campo, se registra la contribución. No es contribución un cambio exclusivo de `updated_at`, metadatos técnicos, identificadores, orden visual sin cambio de contenido, espacios o saltos de línea, ni el registro de consulta. Si hay cambio de contenido y no se puede determinar con certeza que sea exclusivamente mecánico, se conserva la atribución anterior y se añade al nuevo editor; la IA no decide por sí sola que un cambio carece de importancia | copy_editor | contribution_events y copy_version_provenance (IG5-49) |
-| C. Contribución al brief | Quien crea o modifica una versión del brief y cambia al menos uno de: objetivo comercial; audiencia o segmento; producto o servicio promovido; propuesta de valor; beneficio principal; mensajes o claims obligatorios; restricciones o claims prohibidos; oferta o condición comercial solicitada; CTA; canal o formato solicitado; tono o directriz que afecte el contenido. Los cambios administrativos o técnicos que no alteren esos campos no son contribución | brief_editor | brief_versions y contribution_events (IG5-51) |
-| D. Contribución a datos promocionales | Quien crea o modifica un snapshot y cambia código de promoción, SKU o productos incluidos, precio de referencia, precio promocional, descuento, vigencia, condiciones, moneda o restricciones comerciales. Un cambio administrativo que no modifique datos comerciales no es contribución. No se inventa integración con inventario ni disponibilidad de existencias | promotion_editor | promotion_snapshots y contribution_events (IG5-52) |
+| C. Contribución al brief | Quien crea o modifica una versión del brief y cambia al menos uno de: objetivo comercial; audiencia o segmento; producto o servicio promovido; propuesta de valor; beneficio principal; mensajes o claims obligatorios; restricciones o claims prohibidos; oferta o condición comercial solicitada; CTA; canal o formato solicitado; tono o directriz que afecte el contenido. Los cambios administrativos o técnicos que no alteren esos campos no son contribución | brief_editor | brief_versions, brief_field_changes, brief_field_attributions y contribution_events: atribución **por campo material** (IG5-51, IG5-69, IG5-72; 4.4.8) |
+| D. Contribución a datos promocionales | Quien crea o modifica un snapshot y cambia código de promoción, SKU o productos incluidos, precio de referencia, precio promocional, descuento, vigencia, condiciones, moneda o restricciones comerciales. Un cambio administrativo que no modifique datos comerciales no es contribución. No se inventa integración con inventario ni disponibilidad de existencias | promotion_editor | promotion_snapshots, promotion_field_changes, promotion_field_attributions y contribution_events: atribución **por campo material** (IG5-52, IG5-69, IG5-72; 4.4.8) |
 | E. Contribución de arte | Quien carga o reemplaza el archivo de arte asociado a una versión; identidad del servidor; arte de identidad y versión exactas; se conserva mientras el arte siga asociado a la versión evaluada o se herede en una posterior; reemplazar el arte genera una contribución nueva y no modifica el registro del arte anterior; quien solo reutiliza un arte no es quien lo cargó | asset_uploader | creative_assets.uploaded_by y contribution_events (IG5-53) |
-| F. Contribución heredada | Quien contribuyó a una versión anterior y cuya aportación permanece en la versión por procedencia verificable (reglas de herencia) | inherited_contributor | copy_version_provenance (IG5-54) |
+| F. Contribución heredada | Quien contribuyó a una versión anterior y cuya aportación permanece en la versión por procedencia verificable (reglas de herencia) | inherited_contributor | copy_version_provenance para copy y arte (IG5-54, IG5-83) y atribuciones heredadas por campo para brief y promoción (IG5-72, IG5-73) |
 
 **Actos que NO son contribución (IG5-41).** Consultar, comentar, comparar versiones, revisar, registrar hallazgos, solicitar cambios, aprobar o rechazar, confirmar o descartar hallazgos, conceder o revocar excepciones, asignar revisores, delegar permisos, administrar la organización y ejecutar operaciones automáticas. Siguen sujetos a las reglas de independencia correspondientes, pero no convierten a una persona en contribuyente de contenido. Los triggers, las funciones, el sistema y la IA no son personas contribuyentes.
 
@@ -582,13 +584,13 @@ Ninguna FK aislada garantiza la elegibilidad: las FK garantizan identidad y corr
 
 **Elegibilidad (IG5-57).** Una persona solo puede evaluar si (1) es miembro activo de la organización; (2) tiene `piece.review`; (3) está asignada a esa adaptación y su asignación sigue vigente; (4) no pertenece a E; (5) no está impedida por las reglas de sustitución de DG-06 (IG5-44); y (6) mantiene todos los requisitos al guardar, revalidados bajo bloqueo (4.10). Si no existe una persona elegible, no hay evaluación válida ni publicación; no se asigna la facultad a Admin, al propietario de la organización ni a quien concedió una excepción (IG5-34). Las versiones son inmutables: una contribución «nueva» es una versión nueva y un par nuevo (IG5-35). Dos evaluadores sobre el mismo par se serializan por el bloqueo de la cabeza (IG5-47).
 
-**Pruebas:** T-165 a T-178 (v4, ajustadas) y las pruebas de DT-01, PC-02, DT-02 e integración de esta revisión (T-202 a T-226; T-227 a T-268; T-251 a T-262; T-263 a T-274).
+**Pruebas:** T-165 a T-178 (v4, ajustadas) y las pruebas de DT-01, PC-02, DT-02 e integración de esta revisión (T-202 a T-226; T-227 a T-268; T-251 a T-262; T-263 a T-335).
 
-#### 4.4.4 Representación física de las contribuciones (PC-02)
+#### 4.4.4 Representación física de las contribuciones (PC-02, H-02, H-03)
 
-`version_contributors` no es una descripción: lee **cuatro fuentes físicas versionadas, consultables y verificables**, todas entidades propias; `activity_logs` no es fuente de contribuciones ni de procedencia y no se le atribuye contenido que v3.3 no define (IG5-65).
+`version_contributors` no es una descripción: lee **ocho fuentes físicas versionadas, consultables y verificables**, todas entidades propias, más `copy_versions` y `creative_assets`; `activity_logs` no es fuente de contribuciones ni de procedencia y no se le atribuye contenido ni columnas que v3.3 no define (IG5-65, IS-15).
 
-**Tablas nuevas y su subfase de creación (orden único de 14.1):** `brief_versions` y `contribution_events` en 2.1 (primer registro de brief); `copy_version_provenance` en 2.3 (adelantada desde 2.7 porque la primera versión de copy necesita su procedencia: dependencia real; 2.7 completa la cadena formal de versiones); `promotion_snapshots` en 4.x (Fase 4). Las columnas de origen de `contribution_events` se agregan con su fuente: copy en 2.3, arte en 3.x y datos promocionales en 4.x, con su FK compuesta y la restricción de exactamente un origen redefinida en cada paso.
+**Tablas nuevas y su subfase de creación (orden único de 14.1):** `brief_versions`, `brief_field_changes`, `brief_field_attributions` y `contribution_events` en 2.1 (primer registro de brief); `copy_version_provenance` en 2.3 (adelantada desde 2.7 por dependencia real: la primera versión de copy necesita su procedencia; 2.7 completa la cadena formal de versiones); `promotion_snapshots`, `promotion_field_changes` y `promotion_field_attributions` en 4.x (Fase 4). Las columnas de origen de `contribution_events` y de `copy_version_provenance` se agregan con su fuente (copy 2.3, arte 3.x, promoción 4.x), cada una con su FK compuesta, y la restricción de exactamente un origen se redefine al agregarla.
 
 #### `brief_versions`
 
@@ -649,6 +651,108 @@ Ninguna FK aislada garantiza la elegibilidad: las FK garantizan identidad y corr
 - (organization_id, created_by, created_at DESC)
 
 
+#### `brief_field_changes`
+
+**Propósito:** Hecho inmutable por versión y campo material: qué cambió respecto de la versión anterior, con hash anterior y nuevo, segmentos retenidos, evento y persona. Una fila por campo material en cada versión (12 por versión). Base de la atribución por campo; no usa IA, similitud ni embeddings. **Brecha:** G-3 / PC-02 / H-02. **Fase propuesta:** 2.1. **Estado:** aprobada conceptualmente (DG-01), sujeta a la aceptación de esta especificación.
+
+| Columna | Tipo | NULL | Descripción |
+|---|---|---|---|
+| id | uuid | NO | PK |
+| organization_id | uuid | NO | Aislamiento |
+| brief_id | uuid | NO | Identidad que agrupa la cadena de versiones (brief) |
+| brief_version_id | uuid | NO | Versión exacta cuyo cambio se registra |
+| field_key | text | NO | Campo material (catálogo cerrado de 12 campos) |
+| change_kind | text | NO | 'introducido', 'modificado', 'sustituido', 'eliminado' o 'sin_cambio' respecto de la versión anterior; lo calcula el servidor por la regla de segmentos exactos |
+| prior_value_hash | text | SÍ | SHA-256 del valor normalizado de la versión anterior; NULL si el campo no existía |
+| new_value_hash | text | SÍ | SHA-256 del valor normalizado de esta versión; NULL si el campo no existe o se eliminó |
+| prior_segments | integer | NO | Cantidad de segmentos del valor anterior |
+| retained_segments | integer | NO | Segmentos del valor anterior que aparecen idénticos (tras normalizar) en el valor nuevo |
+| contribution_event_id | uuid | SÍ | Evento de modificación; NULL si y solo si change_kind = 'sin_cambio' |
+| actor_id | uuid | SÍ | Persona del evento; igual al contribuyente del evento (FK compuesta); NULL si y solo si sin_cambio |
+| created_by | uuid | NO | Persona; la fija el servidor con auth.uid() (trigger BEFORE INSERT); el valor enviado se descarta |
+| created_at | timestamptz | NO | Fecha del servidor |
+
+**Clave primaria:** `id`.
+
+**Claves foráneas:**
+
+| Columnas | Referencia | Borrado |
+|---|---|---|
+| (organization_id, brief_id, brief_version_id) | brief_versions(organization_id, brief_id, id) | RESTRICT |
+| (organization_id, contribution_event_id, brief_version_id, actor_id) | contribution_events(organization_id, id, brief_version_id, contributor_id) | RESTRICT |
+| (organization_id, created_by) | memberships(organization_id, user_id) | RESTRICT |
+
+**Restricciones únicas:**
+
+- unique(organization_id, id)
+- unique(organization_id, brief_version_id, field_key)
+
+**Restricciones CHECK:**
+
+- field_key pertenece al catálogo cerrado de campos materiales de brief_versions
+- change_kind IN ('introducido', 'modificado', 'sustituido', 'eliminado', 'sin_cambio')
+- (change_kind = 'sin_cambio') = (contribution_event_id IS NULL) = (actor_id IS NULL)
+- introducido exige prior_value_hash NULL y new_value_hash NOT NULL; eliminado exige new_value_hash NULL y prior_value_hash NOT NULL; modificado y sustituido exigen ambos NOT NULL y distintos
+- modificado exige retained_segments >= 1; sustituido exige retained_segments = 0 y prior_segments >= 1; retained_segments <= prior_segments
+- hashes NULL o de 64 caracteres hexadecimales
+- sin_cambio exige prior_value_hash = new_value_hash (ambos NULL o iguales)
+
+**Índices:**
+
+- (organization_id, brief_version_id)
+- (organization_id, contribution_event_id)
+
+
+#### `brief_field_attributions`
+
+**Propósito:** Atribución materializada por versión exacta y campo material: personas cuyas aportaciones siguen presentes (activa) o fueron sustituidas o eliminadas (histórica). Cada versión recibe sus filas completas en la misma transacción; las filas de versiones anteriores no se modifican. version_contributors lee la versión fijada por el copy sin recorrer cadenas en la lectura; verify_field_provenance recalcula y compara. **Brecha:** G-3 / PC-02 / H-02. **Fase propuesta:** 2.1. **Estado:** aprobada conceptualmente (DG-01), sujeta a la aceptación de esta especificación.
+
+| Columna | Tipo | NULL | Descripción |
+|---|---|---|---|
+| id | uuid | NO | PK |
+| organization_id | uuid | NO | Aislamiento |
+| brief_id | uuid | NO | Identidad que agrupa la cadena |
+| brief_version_id | uuid | NO | Versión exacta a la que pertenece la atribución |
+| field_key | text | NO | Campo material |
+| contribution_event_id | uuid | NO | Evento de origen de la atribución |
+| contributor_id | uuid | NO | Persona; igual al contribuyente del evento (FK compuesta) |
+| origin_version_id | uuid | NO | Versión en la que ocurrió el evento (igual a la versión si es directa; anterior si es heredada) |
+| relation | text | NO | 'directa' o 'heredada' |
+| attribution_state | text | NO | 'activa' (el campo sigue presente en la versión exacta) o 'historica' (el campo fue sustituido o eliminado de forma demostrable) |
+| previous_attribution_id | uuid | SÍ | Fila equivalente en la versión anterior; NOT NULL si es heredada |
+| created_by | uuid | NO | Persona; la fija el servidor con auth.uid() (trigger BEFORE INSERT); el valor enviado se descarta |
+| created_at | timestamptz | NO | Fecha del servidor |
+
+**Clave primaria:** `id`.
+
+**Claves foráneas:**
+
+| Columnas | Referencia | Borrado |
+|---|---|---|
+| (organization_id, brief_version_id, field_key) | brief_field_changes(organization_id, brief_version_id, field_key) | RESTRICT |
+| (organization_id, contribution_event_id, origin_version_id, contributor_id) | contribution_events(organization_id, id, brief_version_id, contributor_id) | RESTRICT |
+| (organization_id, previous_attribution_id) | brief_field_attributions(organization_id, id) | RESTRICT |
+| (organization_id, created_by) | memberships(organization_id, user_id) | RESTRICT |
+
+**Restricciones únicas:**
+
+- unique(organization_id, id)
+- unique(organization_id, brief_version_id, field_key, contribution_event_id)
+
+**Restricciones CHECK:**
+
+- relation IN ('directa', 'heredada')
+- attribution_state IN ('activa', 'historica')
+- relation = 'directa' exige origin_version_id = brief_version_id y previous_attribution_id NULL; relation = 'heredada' exige origin_version_id <> brief_version_id y previous_attribution_id NOT NULL
+- previous_attribution_id <> id
+- una atribución histórica nunca vuelve a ser activa en versiones posteriores (lo verifica verify_field_provenance)
+
+**Índices:**
+
+- (organization_id, brief_version_id, field_key)
+- (organization_id, contributor_id)
+
+
 #### `promotion_snapshots`
 
 **Propósito:** Snapshots inmutables de datos promocionales y comerciales. Congelan lo que usó una pieza; no se consulta una promoción mutable para reconstruir una auditoría. Sin integración con inventario. **Brecha:** G-3 / PC-02. **Fase propuesta:** 4.x. **Estado:** aprobada conceptualmente (DG-01), sujeta a la aceptación de esta especificación.
@@ -657,6 +761,7 @@ Ninguna FK aislada garantiza la elegibilidad: las FK garantizan identidad y corr
 |---|---|---|---|
 | id | uuid | NO | PK |
 | organization_id | uuid | NO | Aislamiento |
+| promotion_line_id | uuid | NO | Identidad estable de la promoción a lo largo de sus snapshots; la asigna el servidor en el primer snapshot y se hereda en los siguientes; no es un campo material |
 | promotion_code | text | NO | Código de promoción |
 | promotion_rule_id | uuid | SÍ | Promoción de origen (promotion_rules), cuando exista |
 | included_items | jsonb | NO | SKU o productos incluidos (lista no vacía) |
@@ -682,11 +787,12 @@ Ninguna FK aislada garantiza la elegibilidad: las FK garantizan identidad y corr
 |---|---|---|
 | (organization_id, promotion_rule_id) | promotion_rules(organization_id, id) | RESTRICT |
 | (organization_id, created_by) | memberships(organization_id, user_id) | RESTRICT |
-| (organization_id, previous_snapshot_id) | promotion_snapshots(organization_id, id) | RESTRICT |
+| (organization_id, promotion_line_id, previous_snapshot_id) | promotion_snapshots(organization_id, promotion_line_id, id) | RESTRICT |
 
 **Restricciones únicas:**
 
 - unique(organization_id, id)
+- unique(organization_id, promotion_line_id, id)
 - unique(previous_snapshot_id)
 
 **Restricciones CHECK:**
@@ -697,11 +803,114 @@ Ninguna FK aislada garantiza la elegibilidad: las FK garantizan identidad y corr
 - integrity_status IN ('verificado', 'no_verificable')
 - previous_snapshot_id <> id
 - snapshot_hash NOT NULL con 64 caracteres hexadecimales
+- (previous_snapshot_id IS NULL) o el snapshot anterior pertenece a la misma promotion_line_id (la FK compuesta lo exige)
 
 **Índices:**
 
 - (organization_id, promotion_code, created_at DESC)
 - (organization_id, promotion_rule_id)
+
+
+#### `promotion_field_changes`
+
+**Propósito:** Hecho inmutable por versión y campo material: qué cambió respecto de la versión anterior, con hash anterior y nuevo, segmentos retenidos, evento y persona. Una fila por campo material en cada versión (9 por versión). Base de la atribución por campo; no usa IA, similitud ni embeddings. **Brecha:** G-3 / PC-02 / H-02. **Fase propuesta:** 4.x. **Estado:** aprobada conceptualmente (DG-01), sujeta a la aceptación de esta especificación.
+
+| Columna | Tipo | NULL | Descripción |
+|---|---|---|---|
+| id | uuid | NO | PK |
+| organization_id | uuid | NO | Aislamiento |
+| promotion_line_id | uuid | NO | Identidad que agrupa la cadena de versiones (promoción) |
+| promotion_snapshot_id | uuid | NO | Versión exacta cuyo cambio se registra |
+| field_key | text | NO | Campo material (catálogo cerrado de 9 campos) |
+| change_kind | text | NO | 'introducido', 'modificado', 'sustituido', 'eliminado' o 'sin_cambio' respecto de la versión anterior; lo calcula el servidor por la regla de segmentos exactos |
+| prior_value_hash | text | SÍ | SHA-256 del valor normalizado de la versión anterior; NULL si el campo no existía |
+| new_value_hash | text | SÍ | SHA-256 del valor normalizado de esta versión; NULL si el campo no existe o se eliminó |
+| prior_segments | integer | NO | Cantidad de segmentos del valor anterior |
+| retained_segments | integer | NO | Segmentos del valor anterior que aparecen idénticos (tras normalizar) en el valor nuevo |
+| contribution_event_id | uuid | SÍ | Evento de modificación; NULL si y solo si change_kind = 'sin_cambio' |
+| actor_id | uuid | SÍ | Persona del evento; igual al contribuyente del evento (FK compuesta); NULL si y solo si sin_cambio |
+| created_by | uuid | NO | Persona; la fija el servidor con auth.uid() (trigger BEFORE INSERT); el valor enviado se descarta |
+| created_at | timestamptz | NO | Fecha del servidor |
+
+**Clave primaria:** `id`.
+
+**Claves foráneas:**
+
+| Columnas | Referencia | Borrado |
+|---|---|---|
+| (organization_id, promotion_line_id, promotion_snapshot_id) | promotion_snapshots(organization_id, promotion_line_id, id) | RESTRICT |
+| (organization_id, contribution_event_id, promotion_snapshot_id, actor_id) | contribution_events(organization_id, id, promotion_snapshot_id, contributor_id) | RESTRICT |
+| (organization_id, created_by) | memberships(organization_id, user_id) | RESTRICT |
+
+**Restricciones únicas:**
+
+- unique(organization_id, id)
+- unique(organization_id, promotion_snapshot_id, field_key)
+
+**Restricciones CHECK:**
+
+- field_key pertenece al catálogo cerrado de campos materiales de promotion_snapshots
+- change_kind IN ('introducido', 'modificado', 'sustituido', 'eliminado', 'sin_cambio')
+- (change_kind = 'sin_cambio') = (contribution_event_id IS NULL) = (actor_id IS NULL)
+- introducido exige prior_value_hash NULL y new_value_hash NOT NULL; eliminado exige new_value_hash NULL y prior_value_hash NOT NULL; modificado y sustituido exigen ambos NOT NULL y distintos
+- modificado exige retained_segments >= 1; sustituido exige retained_segments = 0 y prior_segments >= 1; retained_segments <= prior_segments
+- hashes NULL o de 64 caracteres hexadecimales
+- sin_cambio exige prior_value_hash = new_value_hash (ambos NULL o iguales)
+
+**Índices:**
+
+- (organization_id, promotion_snapshot_id)
+- (organization_id, contribution_event_id)
+
+
+#### `promotion_field_attributions`
+
+**Propósito:** Atribución materializada por versión exacta y campo material: personas cuyas aportaciones siguen presentes (activa) o fueron sustituidas o eliminadas (histórica). Cada versión recibe sus filas completas en la misma transacción; las filas de versiones anteriores no se modifican. version_contributors lee la versión fijada por el copy sin recorrer cadenas en la lectura; verify_field_provenance recalcula y compara. **Brecha:** G-3 / PC-02 / H-02. **Fase propuesta:** 4.x. **Estado:** aprobada conceptualmente (DG-01), sujeta a la aceptación de esta especificación.
+
+| Columna | Tipo | NULL | Descripción |
+|---|---|---|---|
+| id | uuid | NO | PK |
+| organization_id | uuid | NO | Aislamiento |
+| promotion_line_id | uuid | NO | Identidad que agrupa la cadena |
+| promotion_snapshot_id | uuid | NO | Versión exacta a la que pertenece la atribución |
+| field_key | text | NO | Campo material |
+| contribution_event_id | uuid | NO | Evento de origen de la atribución |
+| contributor_id | uuid | NO | Persona; igual al contribuyente del evento (FK compuesta) |
+| origin_version_id | uuid | NO | Versión en la que ocurrió el evento (igual a la versión si es directa; anterior si es heredada) |
+| relation | text | NO | 'directa' o 'heredada' |
+| attribution_state | text | NO | 'activa' (el campo sigue presente en la versión exacta) o 'historica' (el campo fue sustituido o eliminado de forma demostrable) |
+| previous_attribution_id | uuid | SÍ | Fila equivalente en la versión anterior; NOT NULL si es heredada |
+| created_by | uuid | NO | Persona; la fija el servidor con auth.uid() (trigger BEFORE INSERT); el valor enviado se descarta |
+| created_at | timestamptz | NO | Fecha del servidor |
+
+**Clave primaria:** `id`.
+
+**Claves foráneas:**
+
+| Columnas | Referencia | Borrado |
+|---|---|---|
+| (organization_id, promotion_snapshot_id, field_key) | promotion_field_changes(organization_id, promotion_snapshot_id, field_key) | RESTRICT |
+| (organization_id, contribution_event_id, origin_version_id, contributor_id) | contribution_events(organization_id, id, promotion_snapshot_id, contributor_id) | RESTRICT |
+| (organization_id, previous_attribution_id) | promotion_field_attributions(organization_id, id) | RESTRICT |
+| (organization_id, created_by) | memberships(organization_id, user_id) | RESTRICT |
+
+**Restricciones únicas:**
+
+- unique(organization_id, id)
+- unique(organization_id, promotion_snapshot_id, field_key, contribution_event_id)
+
+**Restricciones CHECK:**
+
+- relation IN ('directa', 'heredada')
+- attribution_state IN ('activa', 'historica')
+- relation = 'directa' exige origin_version_id = promotion_snapshot_id y previous_attribution_id NULL; relation = 'heredada' exige origin_version_id <> promotion_snapshot_id y previous_attribution_id NOT NULL
+- previous_attribution_id <> id
+- una atribución histórica nunca vuelve a ser activa en versiones posteriores (lo verifica verify_field_provenance)
+
+**Índices:**
+
+- (organization_id, promotion_snapshot_id, field_key)
+- (organization_id, contributor_id)
 
 
 #### `contribution_events`
@@ -713,6 +922,7 @@ Ninguna FK aislada garantiza la elegibilidad: las FK garantizan identidad y corr
 | id | uuid | NO | PK |
 | organization_id | uuid | NO | Aislamiento |
 | contributor_id | uuid | NO | Persona contribuyente (membresía de la organización); la fija el servidor |
+| origin_kind | text | NO | 'brief', 'copy', 'asset' o 'promotion'; lo deriva el servidor de la columna de origen informada; permite FK compuestas que impiden asociar un evento a una fuente de otro tipo |
 | contribution_type | text | NO | copy_author, copy_editor, brief_editor, promotion_editor, asset_uploader o inherited_contributor |
 | brief_version_id | uuid | SÍ | Origen brief (2.1) |
 | copy_version_piece_id | uuid | SÍ | Pieza de la versión de copy de origen (agregada en 2.3) |
@@ -742,6 +952,11 @@ Ninguna FK aislada garantiza la elegibilidad: las FK garantizan identidad y corr
 
 - unique(organization_id, id)
 - unique(organization_id, operation_id, contribution_type, contributor_id)
+- unique(organization_id, id, contributor_id, origin_kind)
+- unique(organization_id, id, brief_version_id, contributor_id)
+- unique(organization_id, id, copy_version_id)
+- unique(organization_id, id, creative_asset_id)
+- unique(organization_id, id, promotion_snapshot_id, contributor_id)
 
 **Restricciones CHECK:**
 
@@ -753,6 +968,8 @@ Ninguna FK aislada garantiza la elegibilidad: las FK garantizan identidad y corr
 - previous_event_id <> id
 - inherited_contributor exige previous_event_id NOT NULL
 - source_hash NOT NULL con 64 caracteres hexadecimales
+- origin_kind = 'brief' si y solo si brief_version_id NOT NULL; 'copy' si y solo si copy_version_id NOT NULL; 'asset' si y solo si creative_asset_id NOT NULL; 'promotion' si y solo si promotion_snapshot_id NOT NULL
+- recorded_by = contributor_id salvo en inherited_contributor y en copy_author de una versión generada por IA, donde contributor_id es quien solicitó y guardó (la IA no es persona) y recorded_by sigue siendo auth.uid()
 
 **Índices:**
 
@@ -766,21 +983,25 @@ Ninguna FK aislada garantiza la elegibilidad: las FK garantizan identidad y corr
 
 #### `copy_version_provenance`
 
-**Propósito:** Procedencia por versión de copy y por unidad de contenido, directa o heredada, append-only. Permite responder sin inferencias quién creó, quién modificó, de qué versión procede, qué contribuciones permanecen y quién validó una exclusión. Nace en 2.3 (adelantada desde 2.7 por dependencia real: la primera versión necesita su procedencia). **Brecha:** G-3 / PC-02. **Fase propuesta:** 2.3. **Estado:** aprobada conceptualmente (DG-01), sujeta a la aceptación de esta especificación.
+**Propósito:** Procedencia por versión de copy, directa o heredada, append-only, de dos orígenes tipados: contenido de copy y arte. La procedencia de brief y de datos promocionales vive en sus tablas de atribución por campo material (brief_field_attributions y promotion_field_attributions). Nace en 2.3 (adelantada desde 2.7 por dependencia real); las columnas de arte se agregan en 3.x. **Brecha:** G-3 / PC-02. **Fase propuesta:** 2.3. **Estado:** aprobada conceptualmente (DG-01), sujeta a la aceptación de esta especificación.
 
 | Columna | Tipo | NULL | Descripción |
 |---|---|---|---|
 | id | uuid | NO | PK |
 | organization_id | uuid | NO | Aislamiento |
 | piece_id | uuid | NO | Pieza de la versión que usa la procedencia |
-| copy_version_id | uuid | NO | Versión exacta que usa la procedencia |
-| content_unit | text | NO | Unidad de contenido o campo evaluable al que se aplica (por ejemplo headline, cuerpo, cta, brief, promoción, arte) |
+| copy_version_id | uuid | NO | Versión exacta de copy que recibe la procedencia |
+| origin_kind | text | NO | 'copy' o 'asset' |
+| content_unit | text | NO | Unidad de contenido evaluable (por ejemplo headline, cuerpo, cta) o 'arte' |
 | contribution_event_id | uuid | NO | Evento de contribución de origen |
-| origin_piece_id | uuid | NO | Pieza de la versión de origen |
-| origin_copy_version_id | uuid | NO | Versión de origen de la aportación |
+| contributor_id | uuid | NO | Persona del evento; debe coincidir con el contribuyente del evento (FK compuesta) |
+| origin_piece_id | uuid | SÍ | Pieza de la versión de copy de origen (origin_kind = 'copy') |
+| origin_copy_version_id | uuid | SÍ | Versión de copy de origen (origin_kind = 'copy') |
+| used_asset_id | uuid | SÍ | Fila de arte de esta versión de copy que usa el arte (origin_kind = 'asset'; agregada en 3.x) |
+| origin_asset_id | uuid | SÍ | Arte de origen: igual a used_asset_id si es directa; alcanzable por reused_from_asset_id si es heredada (origin_kind = 'asset'; agregada en 3.x) |
 | relation | text | NO | 'directa' o 'heredada' |
 | presence_state | text | NO | 'vigente', 'no_presente' o 'excluida_por_resolucion' en esa versión |
-| previous_provenance_id | uuid | SÍ | Fila de procedencia de la versión anterior de la que procede esta (herencia) |
+| previous_provenance_id | uuid | SÍ | Fila de procedencia de la versión anterior de la que procede esta (herencia); NOT NULL si es heredada |
 | resolution_actor_id | uuid | SÍ | Persona independiente que resolvió la exclusión |
 | resolution_reason | text | SÍ | Motivo documentado |
 | resolution_evidence | text | SÍ | Evidencia verificable |
@@ -795,7 +1016,8 @@ Ninguna FK aislada garantiza la elegibilidad: las FK garantizan identidad y corr
 | Columnas | Referencia | Borrado |
 |---|---|---|
 | (organization_id, piece_id, copy_version_id) | copy_versions(organization_id, piece_id, id) | RESTRICT |
-| (organization_id, contribution_event_id) | contribution_events(organization_id, id) | RESTRICT |
+| (organization_id, contribution_event_id, contributor_id, origin_kind) | contribution_events(organization_id, id, contributor_id, origin_kind) | RESTRICT |
+| (organization_id, contribution_event_id, origin_copy_version_id) | contribution_events(organization_id, id, copy_version_id) | RESTRICT |
 | (organization_id, origin_piece_id, origin_copy_version_id) | copy_versions(organization_id, piece_id, id) | RESTRICT |
 | (organization_id, previous_provenance_id) | copy_version_provenance(organization_id, id) | RESTRICT |
 | (organization_id, resolution_actor_id) | memberships(organization_id, user_id) | RESTRICT |
@@ -804,50 +1026,64 @@ Ninguna FK aislada garantiza la elegibilidad: las FK garantizan identidad y corr
 **Restricciones únicas:**
 
 - unique(organization_id, id)
-- unique(copy_version_id, content_unit, contribution_event_id, presence_state)
+- unique(copy_version_id, origin_kind, content_unit, contribution_event_id, presence_state)
 
 **Restricciones CHECK:**
 
+- origin_kind IN ('copy', 'asset')
 - relation IN ('directa', 'heredada')
 - presence_state IN ('vigente', 'no_presente', 'excluida_por_resolucion')
-- relation = 'directa' exige origin_copy_version_id = copy_version_id; relation = 'heredada' exige origin_copy_version_id <> copy_version_id y previous_provenance_id NOT NULL
+- origin_kind = 'copy' exige origin_piece_id y origin_copy_version_id NOT NULL y used_asset_id, origin_asset_id NULL; origin_kind = 'asset' exige used_asset_id y origin_asset_id NOT NULL y origin_copy_version_id NULL
+- relation = 'directa' exige origin_copy_version_id = copy_version_id (copy) o origin_asset_id = used_asset_id (arte); relation = 'heredada' exige previous_provenance_id NOT NULL y origen distinto del de esta versión
 - resolution_actor_id, resolution_reason, resolution_evidence y resolved_at son todos NULL o todos NOT NULL, y NOT NULL si y solo si presence_state = 'excluida_por_resolucion'
 - previous_provenance_id <> id
 - char_length(btrim(content_unit)) >= 1
+- origin_kind = 'asset' exige content_unit = 'arte'
 
 **Índices:**
 
 - (organization_id, piece_id, copy_version_id)
 - (organization_id, contribution_event_id)
 - (organization_id, origin_piece_id, origin_copy_version_id)
+- (organization_id, used_asset_id)
 
 
 **Columnas agregadas a tablas históricas (solo se agregan, IM-12):**
 
 | Tabla | Cambio | Tipo de cambio | Detalle |
 |---|---|---|---|
+| copy_versions | unique(organization_id, piece_id, id) | Restricción | Destino de FK compuestas desde adaptaciones, evaluaciones e intentos |
+| creative_assets | unique(organization_id, piece_id, id, copy_version_id) | Restricción | Destino de la FK compuesta que valida que el arte acompaña a esa versión de copy |
 | copy_versions | brief_version_id uuid NOT NULL | Columna nueva (2.3) | Versión exacta del brief que usó la versión; FK compuesta (organization_id, brief_version_id) a brief_versions; sin referencia al «último» brief |
 | copy_versions | promotion_snapshot_id uuid NULL | Columna nueva (4.x) | Snapshot promocional exacto que usó la versión, cuando aplica; FK compuesta a promotion_snapshots; la columna y su FK se agregan en 4.x |
 | copy_versions | parent_version_id (existente en v3.3): referencia a la versión de copy anterior | Sin columna nueva | Se conserva como la referencia exacta a la versión anterior; no se cambia |
 | creative_assets | reused_from_asset_id uuid NULL | Columna nueva (3.x) | Arte de origen cuando la versión reutiliza un arte ya cargado; NULL si es una carga nueva; quien reutiliza no es asset_uploader |
 | creative_assets | unique(organization_id, id) | Restricción nueva (3.x) | Permite la FK compuesta de reutilización |
+| copy_versions | unique(organization_id, id) | Restricción nueva (2.3) | Permite FK compuestas hacia la versión exacta de copy |
+| creative_assets | unique(organization_id, copy_version_id, id) | Restricción nueva (3.x) | Permite que la procedencia de arte exija que la fila de arte pertenece a la versión de copy que la usa |
 
-**Versionado del brief.** Un brief no se modifica en sitio: cada cambio es una fila de `brief_versions` con `created_by` fijado por el servidor a partir de `auth.uid()`, sin posibilidad de cambiar de autor ni de borrarse; se conserva el historial completo. Cada versión de copy fija `brief_version_id` exacto; ninguna pieza depende de «el último brief» (IG5-58, IG5-62).
+**Versionado del brief.** Un brief no se modifica en sitio: cada cambio es una fila de `brief_versions` con `created_by` fijado por el servidor a partir de `auth.uid()`, sin posibilidad de cambiar de autor ni de borrarse; se conserva el historial completo. Cada versión de copy fija `brief_version_id` exacto; ninguna pieza depende de «el último brief» (IG5-58, IG5-62, IG5-79).
 
-**Snapshots promocionales.** Los datos promocionales que usa una pieza quedan congelados en un `promotion_snapshots` exacto; no se consulta una promoción mutable para reconstruir una auditoría; cada cambio comercial genera un snapshot nuevo con su referencia al anterior; no se publica con un snapshot que no pueda recuperarse o verificarse (IG5-59).
+**Snapshots promocionales.** Los datos promocionales que usa una pieza quedan congelados en un `promotion_snapshots` exacto; cada cambio comercial genera un snapshot nuevo con su referencia al anterior dentro de la misma `promotion_line_id`; no se publica con un snapshot que no pueda recuperarse o verificarse (IG5-59).
 
-**Registro de contribuciones.** `contribution_events` es append-only y sin referencia polimórfica: cada origen tiene una columna tipada con FK compuesta que valida organización y versión exacta y la restricción `num_nonnulls(...) = 1` garantiza exactamente un origen; la corrección es un evento nuevo con `previous_event_id`; UPDATE, DELETE y TRUNCATE se rechazan (IG5-60, IS-13).
+**Registro de contribuciones.** `contribution_events` es append-only y sin referencia polimórfica: cada origen tiene una columna tipada con FK compuesta, `origin_kind` lo deriva el servidor y la restricción `num_nonnulls(...) = 1` garantiza exactamente un origen; la corrección es un evento nuevo con `previous_event_id`; UPDATE, DELETE y TRUNCATE se rechazan (IG5-60, IG5-81, IS-13).
 
-**Procedencia por versión de copy.** `copy_version_provenance` responde sin inferencias quién creó cada unidad, quién la modificó, de qué versión procede, qué heredó, qué permanece, qué dejó de estar presente y quién validó una exclusión y por qué; la procedencia de una versión nueva nunca reescribe la de una anterior (IG5-61).
+**Procedencia por campo material y por versión de copy.** Brief y promoción se atribuyen por campo en sus tablas de cambio y atribución (4.4.8); copy y arte, en `copy_version_provenance` (IG5-61, IG5-83, IG5-84). La procedencia de una versión nueva nunca reescribe la de una anterior.
 
-**Seguridad (IS-12 a IS-14).** Las cuatro tablas nacen con RLS activada y sin privilegios para `anon`, `authenticated` y `service_role`; solo escriben funciones del propietario dedicado `cci_records_owner`, con `search_path` fijo, `EXECUTE` mínimo y validación interna del actor con `auth.uid()`; triggers BEFORE UPDATE, DELETE y TRUNCATE las protegen; RLS no es la única defensa. **No se afirma que una función `SECURITY DEFINER` sea segura por el mero hecho de usarla:** su seguridad depende de esos controles, que quedan como validación técnica pendiente. Los límites de IS-11 (superusuario, propietario, desactivación de triggers, edición manual) se mantienen y se mitigan con detección por auditoría. No existe privilegio implícito por ser Admin.
+**Seguridad (IS-12 a IS-16).** Las trece tablas nuevas nacen con RLS activada y sin privilegios para `anon`, `authenticated` y `service_role`; solo escriben funciones del propietario dedicado `cci_records_owner`, con `search_path` fijo, `EXECUTE` mínimo y validación interna del actor con `auth.uid()`; triggers BEFORE UPDATE, DELETE y TRUNCATE las protegen; RLS no es la única defensa. **No se afirma que una función `SECURITY DEFINER` sea segura por sí sola** (IS-15). Los límites de IS-11 (superusuario, propietario, desactivación de triggers, edición manual de la base) se declaran y no se resuelven documentalmente.
 
-**Funciones de escritura (8.9):** `create_brief_version` (2.1), `record_contribution_event` (interna, 2.1), `create_copy_version` (2.3), `detect_material_change` (2.5, interna), `verify_version_chain` (2.7, interna), `register_asset_contribution` (3.x), `create_promotion_snapshot` (4.x) y `exclude_inherited_attribution` (5.3). Ninguna crea permisos, estados ni transiciones.
+**Funciones de escritura (8.9):** `create_brief_version` (2.1), `record_contribution_event` (interna, 2.1), `create_copy_version` (2.3), `detect_material_change` (2.5, interna), `verify_version_chain` (2.7, interna), `register_asset_contribution` (3.x), `create_promotion_snapshot` (4.x), `exclude_inherited_attribution` (5.3) y `verify_field_provenance` (5.3, interna, solo lectura). Ninguna crea permisos, estados ni transiciones.
 
 **Diagrama de relaciones de la representación física.**
 
 ```mermaid
 erDiagram
+  brief_field_attributions }o--|| brief_field_changes : referencia
+  brief_field_attributions }o--|| contribution_events : referencia
+  brief_field_attributions }o--|| memberships : referencia
+  brief_field_changes }o--|| brief_versions : referencia
+  brief_field_changes }o--|| contribution_events : referencia
+  brief_field_changes }o--|| memberships : referencia
   brief_versions }o--|| briefs : referencia
   brief_versions }o--|| memberships : referencia
   contribution_events }o--|| brief_versions : referencia
@@ -857,9 +1093,16 @@ erDiagram
   contribution_events }o--|| promotion_snapshots : referencia
   copy_version_provenance }o--|| contribution_events : referencia
   copy_version_provenance }o--|| copy_versions : referencia
+  copy_version_provenance }o--|| creative_assets : referencia
   copy_version_provenance }o--|| memberships : referencia
   copy_versions }o--|| brief_versions : referencia
   copy_versions }o--|| promotion_snapshots : referencia
+  promotion_field_attributions }o--|| contribution_events : referencia
+  promotion_field_attributions }o--|| memberships : referencia
+  promotion_field_attributions }o--|| promotion_field_changes : referencia
+  promotion_field_changes }o--|| contribution_events : referencia
+  promotion_field_changes }o--|| memberships : referencia
+  promotion_field_changes }o--|| promotion_snapshots : referencia
   promotion_snapshots }o--|| memberships : referencia
   promotion_snapshots }o--|| promotion_rules : referencia
 ```
@@ -868,38 +1111,197 @@ erDiagram
 
 | Elemento | Contrato |
 |---|---|
-| Naturaleza | Función interna, determinista, STABLE y de solo lectura; propietario `cci_records_owner`; `EXECUTE` solo para otras funciones; no es invocable por `authenticated` (IG5-63) |
+| Naturaleza | Función interna, determinista, STABLE y de solo lectura; propietario `cci_records_owner`; `EXECUTE` solo para otras funciones; no invocable por `authenticated` (IG5-63, IS-15) |
 | Entradas | Organización, pieza y versión exacta de copy; sin actor ni fecha del cliente |
-| Fuentes físicas | copy_versions (created_by, brief_version_id, promotion_snapshot_id, parent_version_id), brief_versions, promotion_snapshots, creative_assets (versión exacta y uploaded_by, reused_from_asset_id), contribution_events, copy_version_provenance |
-| Procedimiento | 1 recibe organización, pieza y versión exacta; 2 lee la autoría; 3 lee los eventos de contribución vinculados; 4 lee la procedencia directa y heredada; 5 lee el brief y el snapshot promocional exactos; 6 lee los assets exactos; 7 recorre la cadena de versiones requerida; 8 elimina duplicados por identidad de persona sin eliminar evidencia; 9 devuelve el conjunto de personas excluidas; 10 devuelve las evidencias de cada exclusión; 11 devuelve el indicador de completitud; 12 devuelve un código de error específico si falta una fuente |
-| Salidas | Conjunto de personas, lista de evidencias por persona, indicador de completitud y, si falla, el código de error; **nunca** un conjunto parcial presentado como completo |
-| Errores mínimos | CONTRIBUYENTES_NO_DETERMINABLES; BRIEF_VERSION_NO_VERIFICABLE; PROMOTION_SNAPSHOT_NO_VERIFICABLE; ASSET_PROVENANCE_NO_VERIFICABLE; COPY_PROVENANCE_INCOMPLETA; VERSION_CHAIN_INCONSISTENTE |
-| Bloqueos ante un error | La evaluación de impacto, la confirmación de independencia y la aprobación o publicación que dependan de esa evaluación |
-| Levantamiento | Solo cuando la fuente faltante esté representada y verificada; no por excepción administrativa ni por intervención de Admin (IG5-64) |
+| Fuentes físicas | copy_versions (created_by, brief_version_id, promotion_snapshot_id, parent_version_id), brief_versions, brief_field_changes, brief_field_attributions, promotion_snapshots, promotion_field_changes, promotion_field_attributions, creative_assets (versión exacta, uploaded_by, reused_from_asset_id), contribution_events, copy_version_provenance |
+| Procedimiento | 1 recibe organización, pieza y versión exacta. 2 lee la fila de copy_versions y sus referencias fijadas; si falta, CONTRIBUYENTES_NO_DETERMINABLES. 3 `verify_version_chain` sobre parent_version_id; VERSION_CHAIN_INCONSISTENTE. 4 lee la autoría, los eventos de copy y la procedencia de copy; COPY_PROVENANCE_INCOMPLETA si falta alguna unidad. 5 brief: comprueba integrity_status de la versión fijada (BRIEF_VERSION_NO_VERIFICABLE) y ejecuta `verify_field_provenance` (BRIEF_CHAIN_INCONSISTENTE, BRIEF_FIELD_PROVENANCE_INCOMPLETE). 6 promoción, si hay snapshot fijado: PROMOTION_SNAPSHOT_NO_VERIFICABLE, PROMOTION_CHAIN_INCONSISTENTE, PROMOTION_FIELD_PROVENANCE_INCOMPLETE. 7 arte: filas de arte de la versión y su procedencia; ASSET_PROVENANCE_NO_VERIFICABLE. 8 reúne las filas activas y las históricas de cada fuente. 9 clasifica cada persona en una de cinco categorías (IG5-77). 10 elimina duplicados por identidad de persona sin eliminar evidencia. 11 calcula el indicador de completitud: verdadero solo si 2 a 7 terminaron sin error. 12 devuelve el conjunto de contribuyentes activos, las evidencias, los históricos, los actores no contribuyentes, la cadena consultada, el estado de integridad, la completitud y los errores |
+| Salidas por persona | contributor_id; tipo de contribución; campo material; versión de origen; evento de origen; relación (directa o heredada); categoría; evidencia; cadena de versiones consultada |
+| Salidas globales | Estado de integridad; indicador de completitud; lista de errores; **nunca** un conjunto parcial presentado como completo |
+| Categorías | (1) contribuyente directo; (2) contribuyente heredado activo; (3) contribuyente histórico cuyo contenido fue sustituido o eliminado (se devuelve como evidencia; integra E solo si conserva otra contribución activa); (4) actor no contribuyente (recorded_by sin aportación: revisores, comentaristas, Admin, operaciones automáticas); (5) procedencia no verificable (fuerza un error) |
+| Errores (10) | CONTRIBUYENTES_NO_DETERMINABLES; BRIEF_VERSION_NO_VERIFICABLE; PROMOTION_SNAPSHOT_NO_VERIFICABLE; BRIEF_CHAIN_INCONSISTENTE; PROMOTION_CHAIN_INCONSISTENTE; BRIEF_FIELD_PROVENANCE_INCOMPLETE; PROMOTION_FIELD_PROVENANCE_INCOMPLETE; ASSET_PROVENANCE_NO_VERIFICABLE; COPY_PROVENANCE_INCOMPLETA; VERSION_CHAIN_INCONSISTENTE |
+| Bloqueos ante un error | Evaluación de impacto; confirmación de independencia; aprobación o publicación que dependan de esa evaluación; ninguna ausencia de evidencia se convierte en ausencia de contribuyente |
+| Levantamiento | Solo cuando la fuente faltante esté representada y verificada; nunca por excepción administrativa ni por intervención de Admin (IG5-64, IG5-78) |
 
 #### 4.4.6 Elegibilidad de quien propone la clasificación (DT-02)
 
 **Regla sin alternativas:** la persona que propuso la clasificación independiente vigente de una adaptación no puede evaluar el impacto de esa misma adaptación (IG5-45). La exclusión es por adaptación y por clasificación vigente. (1) `propose_independence` registra al actor autenticado y la clasificación propuesta; (2) la identidad del proponente queda vinculada al evento de clasificación; (3) mientras esa clasificación siga vigente, el proponente está excluido (P en E); (4) si la clasificación se reemplaza o revierte, deja de aplicarse la exclusión derivada de esa propuesta; (5) la exclusión histórica no desaparece de la auditoría; (6) quien confirma o revierte la clasificación no queda excluido solo por esa operación; (7) si es contribuyente por otra causa, queda excluido por esa causa; (8) el proponente no puede confirmar su propia propuesta (IG5-67); (9) no se crea permiso; (10) no se modifica T-02; (11) no se concede autoridad automática a Admin, al propietario ni a quien asigna el revisor. La evaluación revalida bajo bloqueo la clasificación vigente y la identidad de su proponente antes de guardar (IG5-68). Sin evaluador elegible la operación falla cerrada.
 
-#### 4.4.7 Flujo integrado de DT-01, PC-02 y DT-02
+#### 4.4.7 Flujo integrado de DT-01, PC-02, DT-02, H-02 y H-03
 
-1 Se crea una versión inmutable de copy. 2 La versión fija el brief, el snapshot promocional y los assets exactos. 3 Se registran las contribuciones directas. 4 Se conserva la procedencia heredada. 5 `version_contributors` reconstruye el conjunto completo. 6 Se obtiene la clasificación vigente. 7 Se identifica a su proponente. 8 Se construye E. 9 Se determina la elegibilidad del evaluador asignado. 10 Se valida la versión exacta de la maestra y de la adaptación. 11 Se registra la evaluación de impacto. 12 Un cambio posterior en la maestra o en la adaptación obliga a usar el nuevo par y recalcular E. 13 Una evaluación anterior nunca se reutiliza para una versión distinta (IG5-66).
+1 Se crea una versión inmutable del brief con sus filas de cambio y atribución por campo. 2 Se crea un snapshot promocional inmutable cuando corresponde, con sus filas por campo. 3 Se registran los assets exactos usados. 4 Se crea una versión inmutable de copy con referencias exactas a esas fuentes. 5 Se registran las contribuciones directas. 6 Se registra y conserva la procedencia heredada. 7 `verify_version_chain` y `verify_field_provenance` validan las cadenas. 8 Se ejecuta `version_contributors`. 9 Se obtiene el conjunto completo E. 10 Se recupera la clasificación vigente y su proponente. 11 Se comprueba la elegibilidad del evaluador. 12 Se verifica que es miembro activo, tiene `piece.review`, tiene asignación vigente y no pertenece a E. 13 Se revalidan las condiciones bajo el mecanismo de concurrencia (4.10). 14 Se verifica el par exacto de versiones aprobadas de master y adaptación. 15 Se registra la evaluación de impacto. 16 Se comprueban C1 a C9 de G-7. 17 Se registra el intento de publicación y sus resultados (G-10). 18 Se bloquea cualquier publicación cuando falte una evidencia o condición requerida. 19 Se exige la aprobación humana independiente de la versión exacta. Una modificación material posterior requiere una versión o registro nuevo y repetir las verificaciones que correspondan (IG5-89).
 
 La evaluación solo se registra cuando la procedencia está completa, el evaluador es elegible, la asignación y la clasificación están vigentes, las versiones exactas coinciden y se cumplen las reglas de concurrencia y bloqueo. No agrega estado ni transición a T-02, no cambia el requisito de aprobación independiente de la versión y no sustituye la aprobación humana de la pieza.
 
 ```mermaid
 flowchart TD
-  F1["1 Versión inmutable de copy"] --> F2["2 Brief, snapshot y arte exactos"]
-  F2 --> F3["3 Contribuciones directas"]
-  F3 --> F4["4 Procedencia heredada"]
-  F4 --> F5["5 version_contributors"]
-  F5 --> F6["6 a 8 Clasificación vigente, proponente y E"]
-  F6 --> F7["9 Elegibilidad del evaluador"]
-  F7 --> F8["10 a 11 Par exacto y evaluación"]
-  F5 -. "fuente ausente" .-> FX["Bloqueo fail-closed"]
-  F7 -. "sin elegible" .-> FX
-  F8 -. "cambio de versión: recalcular" .-> F5
+  F1["1 a 3 Versiones inmutables de brief, promoción y arte"] --> F2["4 Versión inmutable de copy con referencias exactas"]
+  F2 --> F3["5 a 6 Contribuciones directas y procedencia heredada"]
+  F3 --> F4["7 a 9 Cadenas, version_contributors y E"]
+  F4 --> F5["10 a 13 Clasificación, elegibilidad y revalidación"]
+  F5 --> F6["14 a 15 Par exacto y evaluación"]
+  F6 --> F7["16 a 18 C1 a C9 e intento de publicación"]
+  F7 --> F8["19 Aprobación humana independiente"]
+  F4 -. "fuente faltante: error concreto" .-> FB["Bloqueo sin excepción administrativa"]
+  F5 -. "no elegible o no vigente" .-> FB
+  F7 -. "evidencia faltante" .-> FB
 ```
+
+#### 4.4.8 Reconstrucción determinista de contribuyentes de brief y promociones (H-02)
+
+**Defecto de la v5.** `brief_versions` y `promotion_snapshots` existían, pero no se definía cómo se reconstruyen los contribuyentes de versiones anteriores cuyos campos permanecen en la versión usada por el copy. La cadena de versiones no resuelve la atribución por sí sola: la procedencia se reconstruye **por campo material** (IG5-69). No se usa IA, embeddings, similitud semántica ni inferencias probabilísticas como autoridad (IG5-43, IG5-70).
+
+**Qué se identifica para cada campo material y dónde está.**
+
+| Requisito | Representación física |
+|---|---|
+| Valor anterior | `prior_value_hash` (y `prior_segments`) en la fila de cambio de la versión |
+| Valor nuevo | `new_value_hash` |
+| Versión de origen | `origin_version_id` de cada fila de atribución |
+| Evento de modificación | `contribution_event_id` de la fila de cambio y de cada atribución |
+| Persona que realizó el cambio | `actor_id` (fila de cambio) y `contributor_id` (atribución); ambos iguales al contribuyente del evento por FK compuesta |
+| El contenido sigue presente en la versión exacta | `attribution_state = activa` en la fila de la versión exacta |
+| Fue sustituido o eliminado | `change_kind` = sustituido o eliminado y `attribution_state = historica` |
+| Atribución completa y verificable | `integrity_status` de la versión y el resultado de `verify_field_provenance` (IG5-76) |
+
+**Campos materiales del brief (12).** | Clave | Campo material | Tratamiento de segmentos |
+|---|---|---|
+| objective | Objetivo comercial | texto por segmentos |
+| audience | Audiencia | texto por segmentos |
+| promoted_item | Producto o servicio | valor único |
+| value_proposition | Propuesta de valor | texto por segmentos |
+| main_benefit | Beneficio principal | texto por segmentos |
+| required_claims | Claims obligatorios | lista (un claim por línea) |
+| prohibited_claims | Claims prohibidos | lista (un claim por línea) |
+| commercial_offer | Oferta y condiciones solicitadas | texto por segmentos |
+| cta | CTA | valor único |
+| requested_channel | Canal | valor único |
+| requested_format | Formato | valor único |
+| tone_directive | Tono y directrices que afectan al contenido | texto por segmentos |
+
+**Campos materiales de la promoción (9).** | Clave | Campo material | Tratamiento de segmentos |
+|---|---|---|
+| promotion_code | Promotion code | valor único |
+| included_items | SKU y productos | lista (un SKU por línea) |
+| reference_price | Precio de referencia | valor único |
+| promotional_price | Precio promocional | valor único |
+| discount | Descuento | valor único |
+| validity | Vigencia (valid_from y valid_to) | valor único |
+| conditions | Condiciones | texto por segmentos |
+| currency | Moneda | valor único |
+| commercial_restrictions | Restricciones aplicables | texto por segmentos |
+
+**Regla de cambio por campo (IG5-70).** Normalización exclusiva: Unicode NFKC, saltos de línea, espacios repetidos y espacios al inicio o final. Segmento: cada línea no vacía; un campo de valor único tiene un solo segmento. `retained_segments` cuenta los segmentos del valor anterior que aparecen idénticos en el valor nuevo.
+
+| change_kind | Condición exacta | Efecto |
+|---|---|---|
+| sin_cambio | El hash nuevo es igual al anterior (o ambos ausentes) | Sin evento; las atribuciones pasan sin cambio |
+| introducido | No había valor anterior y hay valor nuevo | Evento de quien introdujo el campo |
+| modificado | El valor cambia y retained_segments >= 1 | Evento de quien modificó; se conservan las atribuciones activas |
+| sustituido | El valor cambia y retained_segments = 0 con valor anterior | Evento de quien sustituyó; las atribuciones activas anteriores pasan a históricas |
+| eliminado | Había valor anterior y el valor nuevo está vacío o ausente | Evento de quien eliminó; las atribuciones activas pasan a históricas |
+
+**Cálculo de atribuciones de la versión V_n (IG5-72).** Cada versión recibe en la misma transacción todas sus filas de atribución, calculadas desde las de V_n-1 y nunca modificando filas de versiones anteriores:
+
+| change_kind | Filas de V_n-1 | Fila nueva en V_n |
+|---|---|---|
+| sin_cambio | Hereda todas las filas de V_n-1 con el mismo estado | Ninguna |
+| introducido | — | Directa activa para el evento de V_n |
+| modificado | Activas heredadas activas; históricas heredadas históricas | Directa activa para quien modificó |
+| sustituido | Activas heredadas históricas; históricas siguen históricas | Directa activa para quien sustituyó |
+| eliminado | Activas heredadas históricas; históricas siguen históricas | Directa activa para quien eliminó (modificó materialmente el contenido) |
+
+**Garantías.** (1) Una modificación de un campo no altera las atribuciones de otro: cambiar el descuento no borra a quien definió las condiciones que permanecen. (2) El historial se conserva íntegro: las filas históricas pasan a todas las versiones posteriores y no vuelven a activas (IG5-73). (3) No se atribuye automáticamente todo cambio de una versión a su creador ni se elimina a los autores anteriores por existir una versión nueva. (4) La regla es conservadora y se declara como limitación: en un campo `modificado` se conservan todas las atribuciones activas del campo aunque la parte conservada provenga de una sola persona; esa sobreinclusión excluye a más personas de evaluar y nunca a menos (PO-16, doubt ⇒ se conserva).
+
+**Algoritmo para una versión exacta B_n del brief (IG5-74, IG5-76).** 1 Obtener la cadena desde B_n por `previous_version_id` hasta la raíz. 2 Comprobar que todas las versiones pertenecen a la misma organización y al mismo brief (las FK compuestas lo imponen en la escritura; se recomprueba en la lectura). 3 Comprobar que no hay ciclos (el recorrido se detiene tras n pasos), saltos de `version_number` ni referencias rotas, y una sola raíz. 4 Para cada versión y cada uno de los 12 campos, leer la fila de `brief_field_changes` y comprobar que existen exactamente 12. 5 Relacionar cada cambio con su evento y su persona (FK compuesta evento-versión-actor). 6 Conservar las atribuciones de quienes introdujeron campos que siguen presentes. 7 Incorporar a quienes modificaron materialmente esos campos. 8 Retirar de la atribución activa solo los campos sustituidos o eliminados (IG5-72). 9 Conservar el historial de atribución. 10 Recalcular las atribuciones esperadas desde la raíz y compararlas con las filas almacenadas; si no se puede demostrar qué ocurrió con un campo o hay diferencia, BRIEF_FIELD_PROVENANCE_INCOMPLETE; si la cadena falla, BRIEF_CHAIN_INCONSISTENTE.
+
+**Algoritmo para un snapshot exacto S_n de la promoción (IG5-75, IG5-76).** 1 Recorrer `previous_snapshot_id` hasta la raíz. 2 Comprobar organización y pertenencia a la misma `promotion_line_id`. 3 Comprobar continuidad (una raíz, sin ciclos ni referencias rotas). 4 Comparar los 9 campos materiales con su predecesor. 5 Relacionar cada modificación con su evento y actor. 6 Conservar la atribución de campos sin cambios. 7 Incorporar a quienes modifican materialmente campos. 8 Retirar de la activa solo campos sustituidos o eliminados. 9 Conservar la historia de los snapshots anteriores. 10 Bloquear si la procedencia no puede reconstruirse (PROMOTION_CHAIN_INCONSISTENTE o PROMOTION_FIELD_PROVENANCE_INCOMPLETE).
+
+**Ejemplo (cadena de cuatro versiones de brief).** B1 (A) introduce objetivo, audiencia, producto, propuesta de valor y beneficio; B2 (C) modifica la propuesta de valor conservando una línea; B3 (D) sustituye el CTA; B4 (E) elimina los claims prohibidos que C había introducido. Atribuciones activas en B4: objetivo, audiencia, producto y beneficio de A; propuesta de valor de A (heredada) y C (directa); CTA de D; los claims prohibidos no tienen atribución activa y E figura como contribuyente directo de la eliminación; el CTA original y los claims de C quedan como históricos. `version_contributors` de un copy que fija B4 devuelve A, C, D y E con su evidencia, y los históricos aparte.
+
+**Pruebas:** T-275 a T-300 (26 escenarios, ninguno ejecutado).
+
+#### 4.4.9 Contrato de integridad entre eventos, versiones, snapshots, assets y personas (H-03)
+
+**Defecto de la v5.** Describía relaciones con FK y triggers, pero no fijaba todas las condiciones que impiden asociar un evento a una fuente que no le corresponde. Una FK simple no basta cuando la integridad depende de la organización, de la versión exacta, del tipo de origen y del actor (IG5-80).
+
+**Qué valida cada relación (A).** Organización (`organization_id` en toda clave), identificador de la entidad, versión exacta, tipo de origen (`origin_kind` y columna tipada), actor autenticado (`contributor_id` igual al del evento) y evento correspondiente. **Claves únicas de destino que respaldan las FK compuestas:** `contribution_events`: (organization_id, id, contributor_id, origin_kind), (organization_id, id, brief_version_id, contributor_id), (organization_id, id, promotion_snapshot_id, contributor_id), (organization_id, id, copy_version_id), (organization_id, id, creative_asset_id); `brief_versions`: (organization_id, brief_id, id); `promotion_snapshots`: (organization_id, promotion_line_id, id); `brief_field_changes` y `promotion_field_changes`: (organization_id, versión, field_key); `copy_versions`: (organization_id, id) y (organization_id, piece_id, id); `creative_assets`: (organization_id, id) y (organization_id, copy_version_id, id).
+
+**Contrato de integridad (F).** Cada fila es una relación; toda FK es compuesta e incluye `organization_id`.
+
+| Relación | Tabla origen | Tabla destino | FK o restricción | Columnas | Condición de integridad | Mecanismo de validación | Momento de validación | Error si falla | Consecuencia funcional |
+|---|---|---|---|---|---|---|---|---|---|
+| brief_versions → briefs | brief_versions | briefs | FK compuesta: (organization_id, brief_id) → briefs(organization_id, id) | organization_id, brief_id | El brief o la promoción pertenece a la misma organización | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | BRIEF_FIELD_PROVENANCE_INCOMPLETE (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| brief_versions → memberships | brief_versions | memberships | FK compuesta: (organization_id, created_by) → memberships(organization_id, user_id) | organization_id, created_by | La persona es miembro de la misma organización | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | Violación de integridad referencial (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| brief_versions → brief_versions | brief_versions | brief_versions | FK compuesta: (organization_id, brief_id, previous_version_id) → brief_versions(organization_id, brief_id, id) | organization_id, brief_id, previous_version_id | La versión exacta existe en la misma organización y en la misma cadena (brief o promoción) | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | BRIEF_FIELD_PROVENANCE_INCOMPLETE (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| brief_field_changes → brief_versions | brief_field_changes | brief_versions | FK compuesta: (organization_id, brief_id, brief_version_id) → brief_versions(organization_id, brief_id, id) | organization_id, brief_id, brief_version_id | La versión exacta existe en la misma organización y en la misma cadena (brief o promoción) | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | BRIEF_FIELD_PROVENANCE_INCOMPLETE (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| brief_field_changes → contribution_events | brief_field_changes | contribution_events | FK compuesta: (organization_id, contribution_event_id, brief_version_id, actor_id) → contribution_events(organization_id, id, brief_version_id, contributor_id) | organization_id, contribution_event_id, brief_version_id, actor_id | El evento existe en la misma organización, corresponde al origen tipado y su contribuyente coincide con la persona de la fila | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | Violación de integridad referencial (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| brief_field_changes → memberships | brief_field_changes | memberships | FK compuesta: (organization_id, created_by) → memberships(organization_id, user_id) | organization_id, created_by | La persona es miembro de la misma organización | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | Violación de integridad referencial (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| brief_field_attributions → brief_field_changes | brief_field_attributions | brief_field_changes | FK compuesta: (organization_id, brief_version_id, field_key) → brief_field_changes(organization_id, brief_version_id, field_key) | organization_id, brief_version_id, field_key | La fila de cambio del mismo campo y de la misma versión existe | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | BRIEF_FIELD_PROVENANCE_INCOMPLETE (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| brief_field_attributions → contribution_events | brief_field_attributions | contribution_events | FK compuesta: (organization_id, contribution_event_id, origin_version_id, contributor_id) → contribution_events(organization_id, id, brief_version_id, contributor_id) | organization_id, contribution_event_id, origin_version_id, contributor_id | El evento existe en la misma organización, corresponde al origen tipado y su contribuyente coincide con la persona de la fila | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | Violación de integridad referencial (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| brief_field_attributions → brief_field_attributions | brief_field_attributions | brief_field_attributions | FK compuesta: (organization_id, previous_attribution_id) → brief_field_attributions(organization_id, id) | organization_id, previous_attribution_id | La fila antecesora existe en la misma organización y pertenece a la versión anterior de la misma cadena | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | BRIEF_FIELD_PROVENANCE_INCOMPLETE (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| brief_field_attributions → memberships | brief_field_attributions | memberships | FK compuesta: (organization_id, created_by) → memberships(organization_id, user_id) | organization_id, created_by | La persona es miembro de la misma organización | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | Violación de integridad referencial (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| promotion_snapshots → promotion_rules | promotion_snapshots | promotion_rules | FK compuesta: (organization_id, promotion_rule_id) → promotion_rules(organization_id, id) | organization_id, promotion_rule_id | El brief o la promoción pertenece a la misma organización | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | PROMOTION_FIELD_PROVENANCE_INCOMPLETE (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| promotion_snapshots → memberships | promotion_snapshots | memberships | FK compuesta: (organization_id, created_by) → memberships(organization_id, user_id) | organization_id, created_by | La persona es miembro de la misma organización | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | PROMOTION_FIELD_PROVENANCE_INCOMPLETE (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| promotion_snapshots → promotion_snapshots | promotion_snapshots | promotion_snapshots | FK compuesta: (organization_id, promotion_line_id, previous_snapshot_id) → promotion_snapshots(organization_id, promotion_line_id, id) | organization_id, promotion_line_id, previous_snapshot_id | La versión exacta existe en la misma organización y en la misma cadena (brief o promoción) | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | PROMOTION_FIELD_PROVENANCE_INCOMPLETE (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| promotion_field_changes → promotion_snapshots | promotion_field_changes | promotion_snapshots | FK compuesta: (organization_id, promotion_line_id, promotion_snapshot_id) → promotion_snapshots(organization_id, promotion_line_id, id) | organization_id, promotion_line_id, promotion_snapshot_id | La versión exacta existe en la misma organización y en la misma cadena (brief o promoción) | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | PROMOTION_FIELD_PROVENANCE_INCOMPLETE (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| promotion_field_changes → contribution_events | promotion_field_changes | contribution_events | FK compuesta: (organization_id, contribution_event_id, promotion_snapshot_id, actor_id) → contribution_events(organization_id, id, promotion_snapshot_id, contributor_id) | organization_id, contribution_event_id, promotion_snapshot_id, actor_id | El evento existe en la misma organización, corresponde al origen tipado y su contribuyente coincide con la persona de la fila | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | PROMOTION_FIELD_PROVENANCE_INCOMPLETE (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| promotion_field_changes → memberships | promotion_field_changes | memberships | FK compuesta: (organization_id, created_by) → memberships(organization_id, user_id) | organization_id, created_by | La persona es miembro de la misma organización | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | PROMOTION_FIELD_PROVENANCE_INCOMPLETE (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| promotion_field_attributions → promotion_field_changes | promotion_field_attributions | promotion_field_changes | FK compuesta: (organization_id, promotion_snapshot_id, field_key) → promotion_field_changes(organization_id, promotion_snapshot_id, field_key) | organization_id, promotion_snapshot_id, field_key | La fila de cambio del mismo campo y de la misma versión existe | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | PROMOTION_FIELD_PROVENANCE_INCOMPLETE (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| promotion_field_attributions → contribution_events | promotion_field_attributions | contribution_events | FK compuesta: (organization_id, contribution_event_id, origin_version_id, contributor_id) → contribution_events(organization_id, id, promotion_snapshot_id, contributor_id) | organization_id, contribution_event_id, origin_version_id, contributor_id | El evento existe en la misma organización, corresponde al origen tipado y su contribuyente coincide con la persona de la fila | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | PROMOTION_FIELD_PROVENANCE_INCOMPLETE (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| promotion_field_attributions → promotion_field_attributions | promotion_field_attributions | promotion_field_attributions | FK compuesta: (organization_id, previous_attribution_id) → promotion_field_attributions(organization_id, id) | organization_id, previous_attribution_id | La fila antecesora existe en la misma organización y pertenece a la versión anterior de la misma cadena | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | PROMOTION_FIELD_PROVENANCE_INCOMPLETE (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| promotion_field_attributions → memberships | promotion_field_attributions | memberships | FK compuesta: (organization_id, created_by) → memberships(organization_id, user_id) | organization_id, created_by | La persona es miembro de la misma organización | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | PROMOTION_FIELD_PROVENANCE_INCOMPLETE (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| contribution_events → memberships | contribution_events | memberships | FK compuesta: (organization_id, contributor_id) → memberships(organization_id, user_id) | organization_id, contributor_id | La persona es miembro de la misma organización | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | Violación de integridad referencial (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| contribution_events → brief_versions | contribution_events | brief_versions | FK compuesta: (organization_id, brief_version_id) → brief_versions(organization_id, id) | organization_id, brief_version_id | La versión exacta existe en la misma organización y en la misma cadena (brief o promoción) | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | Violación de integridad referencial (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| contribution_events → contribution_events | contribution_events | contribution_events | FK compuesta: (organization_id, previous_event_id) → contribution_events(organization_id, id) | organization_id, previous_event_id | El evento existe en la misma organización, corresponde al origen tipado y su contribuyente coincide con la persona de la fila | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | Violación de integridad referencial (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| copy_version_provenance → copy_versions | copy_version_provenance | copy_versions | FK compuesta: (organization_id, piece_id, copy_version_id) → copy_versions(organization_id, piece_id, id) | organization_id, piece_id, copy_version_id | La versión exacta de copy existe en la misma organización y pertenece a la pieza indicada | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | COPY_PROVENANCE_INCOMPLETA (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| copy_version_provenance → contribution_events | copy_version_provenance | contribution_events | FK compuesta: (organization_id, contribution_event_id, contributor_id, origin_kind) → contribution_events(organization_id, id, contributor_id, origin_kind) | organization_id, contribution_event_id, contributor_id, origin_kind | El evento existe en la misma organización, corresponde al origen tipado y su contribuyente coincide con la persona de la fila | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | COPY_PROVENANCE_INCOMPLETA (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| copy_version_provenance → contribution_events | copy_version_provenance | contribution_events | FK compuesta: (organization_id, contribution_event_id, origin_copy_version_id) → contribution_events(organization_id, id, copy_version_id) | organization_id, contribution_event_id, origin_copy_version_id | El evento existe en la misma organización, corresponde al origen tipado y su contribuyente coincide con la persona de la fila | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | COPY_PROVENANCE_INCOMPLETA (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| copy_version_provenance → copy_versions | copy_version_provenance | copy_versions | FK compuesta: (organization_id, origin_piece_id, origin_copy_version_id) → copy_versions(organization_id, piece_id, id) | organization_id, origin_piece_id, origin_copy_version_id | La versión exacta de copy existe en la misma organización y pertenece a la pieza indicada | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | COPY_PROVENANCE_INCOMPLETA (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| copy_version_provenance → copy_version_provenance | copy_version_provenance | copy_version_provenance | FK compuesta: (organization_id, previous_provenance_id) → copy_version_provenance(organization_id, id) | organization_id, previous_provenance_id | La fila antecesora existe en la misma organización y pertenece a la versión anterior de la misma cadena | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | COPY_PROVENANCE_INCOMPLETA (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| copy_version_provenance → memberships | copy_version_provenance | memberships | FK compuesta: (organization_id, resolution_actor_id) → memberships(organization_id, user_id) | organization_id, resolution_actor_id | La persona es miembro de la misma organización | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | COPY_PROVENANCE_INCOMPLETA (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| copy_version_provenance → memberships | copy_version_provenance | memberships | FK compuesta: (organization_id, created_by) → memberships(organization_id, user_id) | organization_id, created_by | La persona es miembro de la misma organización | FK declarativa respaldada por clave única de destino | Al insertar (BEFORE/AFTER INSERT, comprobación de la FK) | COPY_PROVENANCE_INCOMPLETA (rechazo de la escritura) | La escritura no se confirma; la versión no pasa las validaciones dependientes |
+| copy_versions → copy_versions (columna agregada) | copy_versions | copy_versions | FK compuesta agregada: (organization_id, master_piece_id, master_copy_version_id) → copy_versions(organization_id, piece_id, id) | organization_id, master_piece_id, master_copy_version_id | La versión exacta de copy existe en la misma organización y pertenece a la pieza indicada | FK declarativa agregada con la columna de la subfase indicada | Al insertar | VERSION_CHAIN_INCONSISTENTE (rechazo de la escritura) | La escritura no se confirma |
+| copy_versions → creative_assets (columna agregada) | copy_versions | creative_assets | FK compuesta agregada: (organization_id, master_piece_id, master_creative_asset_id, master_copy_version_id) → creative_assets(organization_id, piece_id, id, copy_version_id) | organization_id, master_piece_id, master_creative_asset_id, master_copy_version_id | La fila de arte existe en la misma organización y pertenece a la versión de copy que la usa | FK declarativa agregada con la columna de la subfase indicada | Al insertar | Violación de integridad referencial (rechazo de la escritura) | La escritura no se confirma |
+| copy_versions → brief_versions (columna agregada) | copy_versions | brief_versions | FK compuesta agregada: (organization_id, brief_version_id) → brief_versions(organization_id, id) | organization_id, brief_version_id | La versión exacta existe en la misma organización y en la misma cadena (brief o promoción) | FK declarativa agregada con la columna de la subfase indicada | Al insertar | Violación de integridad referencial (rechazo de la escritura) | La escritura no se confirma |
+| copy_versions → promotion_snapshots (columna agregada) | copy_versions | promotion_snapshots | FK compuesta agregada: (organization_id, promotion_snapshot_id) → promotion_snapshots(organization_id, id) | organization_id, promotion_snapshot_id | La versión exacta existe en la misma organización y en la misma cadena (brief o promoción) | FK declarativa agregada con la columna de la subfase indicada | Al insertar | PROMOTION_FIELD_PROVENANCE_INCOMPLETE (rechazo de la escritura) | La escritura no se confirma |
+| contribution_events → copy_versions (columna agregada) | contribution_events | copy_versions | FK compuesta agregada: (organization_id, copy_version_piece_id, copy_version_id) → copy_versions(organization_id, piece_id, id) | organization_id, copy_version_piece_id, copy_version_id | La versión exacta de copy existe en la misma organización y pertenece a la pieza indicada | FK declarativa agregada con la columna de la subfase indicada | Al insertar | VERSION_CHAIN_INCONSISTENTE (rechazo de la escritura) | La escritura no se confirma |
+| contribution_events → creative_assets (columna agregada) | contribution_events | creative_assets | FK compuesta agregada: (organization_id, asset_piece_id, creative_asset_id, asset_copy_version_id) → creative_assets(organization_id, piece_id, id, copy_version_id) | organization_id, asset_piece_id, creative_asset_id, asset_copy_version_id | La fila de arte existe en la misma organización y pertenece a la versión de copy que la usa | FK declarativa agregada con la columna de la subfase indicada | Al insertar | Violación de integridad referencial (rechazo de la escritura) | La escritura no se confirma |
+| contribution_events → promotion_snapshots (columna agregada) | contribution_events | promotion_snapshots | FK compuesta agregada: (organization_id, promotion_snapshot_id) → promotion_snapshots(organization_id, id) | organization_id, promotion_snapshot_id | La versión exacta existe en la misma organización y en la misma cadena (brief o promoción) | FK declarativa agregada con la columna de la subfase indicada | Al insertar | PROMOTION_FIELD_PROVENANCE_INCOMPLETE (rechazo de la escritura) | La escritura no se confirma |
+| creative_assets → creative_assets (columna agregada) | creative_assets | creative_assets | FK compuesta agregada: (organization_id, reused_from_asset_id) → creative_assets(organization_id, id) | organization_id, reused_from_asset_id | La fila de arte existe en la misma organización y pertenece a la versión de copy que la usa | FK declarativa agregada con la columna de la subfase indicada | Al insertar | Violación de integridad referencial (rechazo de la escritura) | La escritura no se confirma |
+| copy_version_provenance → contribution_events (columna agregada) | copy_version_provenance | contribution_events | FK compuesta agregada: (organization_id, contribution_event_id, origin_asset_id) → contribution_events(organization_id, id, creative_asset_id) | organization_id, contribution_event_id, origin_asset_id | El evento existe en la misma organización, corresponde al origen tipado y su contribuyente coincide con la persona de la fila | FK declarativa agregada con la columna de la subfase indicada | Al insertar | COPY_PROVENANCE_INCOMPLETA (rechazo de la escritura) | La escritura no se confirma |
+| copy_version_provenance → creative_assets (columna agregada) | copy_version_provenance | creative_assets | FK compuesta agregada: (organization_id, copy_version_id, used_asset_id) → creative_assets(organization_id, copy_version_id, id) | organization_id, copy_version_id, used_asset_id | La fila de arte existe en la misma organización y pertenece a la versión de copy que la usa | FK declarativa agregada con la columna de la subfase indicada | Al insertar | ASSET_PROVENANCE_NO_VERIFICABLE (rechazo de la escritura) | La escritura no se confirma |
+| Evento de un solo origen | contribution_events | — | CHECK num_nonnulls(brief_version_id, copy_version_id, creative_asset_id, promotion_snapshot_id) = 1 y origin_kind coherente | origin_kind y columnas de origen | Exactamente un origen tipado por evento y origin_kind igual al origen informado | CHECK declarativa | Al insertar | Violación de CHECK (rechazo) | No existe evento sin origen ni con dos |
+| Actor autenticado de un evento | contribution_events | memberships | Trigger BEFORE INSERT y función sin parámetro de actor | contributor_id, recorded_by | contributor_id y recorded_by proceden de auth.uid() (o del solicitante de IA o heredado) y el actor es miembro activo | Trigger + función interna del propietario | Al insertar | ACTOR_NO_VERIFICABLE (rechazo, sin escritura) | No existen eventos con actor falso |
+| Cadena de versiones de brief | brief_versions | brief_versions | FK (organization_id, brief_id, previous_version_id) + unique(previous_version_id) + CHECK de raíz | organization_id, brief_id, previous_version_id, version_number | Misma organización y mismo brief, número consecutivo, una raíz, sin ciclos | FK compuesta + CHECK + verify_field_provenance (recorrido acotado) | Al insertar y en cada lectura de version_contributors | BRIEF_CHAIN_INCONSISTENTE | Se bloquea evaluar, confirmar independencia y aprobar o publicar |
+| Cadena de snapshots promocionales | promotion_snapshots | promotion_snapshots | FK (organization_id, promotion_line_id, previous_snapshot_id) + unique(previous_snapshot_id) | organization_id, promotion_line_id, previous_snapshot_id | Misma organización y misma promoción, una raíz, sin ciclos | FK compuesta + verify_field_provenance (recorrido acotado) | Al insertar y en cada lectura | PROMOTION_CHAIN_INCONSISTENTE | Se bloquea evaluar, confirmar independencia y aprobar o publicar |
+| Antecesor de procedencia en la versión anterior | copy_version_provenance | copy_version_provenance | Trigger BEFORE INSERT sobre previous_provenance_id | previous_provenance_id, copy_version_id | La fila antecesora pertenece a la versión anterior (parent_version_id) de la misma cadena y a la misma unidad de contenido o arte | Trigger | Al insertar | COPY_PROVENANCE_INCOMPLETA | La versión no pasa las validaciones dependientes |
+| Arte heredado alcanzable | copy_version_provenance | creative_assets | Trigger BEFORE INSERT: origin_asset_id alcanzable desde used_asset_id por reused_from_asset_id | used_asset_id, origin_asset_id | La cadena de reutilización existe en la misma organización y no tiene ciclos | Trigger con recorrido acotado | Al insertar | ASSET_PROVENANCE_NO_VERIFICABLE | La procedencia de arte no se registra |
+| Fuentes fijadas de la versión de copy | copy_versions | brief_versions, promotion_snapshots, creative_assets | Trigger BEFORE UPDATE sobre brief_version_id, promotion_snapshot_id, parent_version_id, organization_id y created_by; create_copy_version | brief_version_id, promotion_snapshot_id, parent_version_id | Las columnas fijadas no cambian; las fuentes existen y están verificadas al crear la versión | Trigger + función interna | Al crear y en todo UPDATE | BRIEF_VERSION_NO_VERIFICABLE, PROMOTION_SNAPSHOT_NO_VERIFICABLE, ASSET_PROVENANCE_NO_VERIFICABLE o VERSION_CHAIN_INCONSISTENTE | No existe versión sin fuente verificable ni cambio retroactivo de fuente |
+| Inmutabilidad de los registros | las trece tablas nuevas | — | Triggers BEFORE UPDATE, DELETE y TRUNCATE y revocación de privilegios | todas | Ninguna fila se modifica, borra ni trunca | Triggers del propietario + REVOKE (RLS no es la única defensa) | En cada UPDATE, DELETE o TRUNCATE | Rechazo con error de inmutabilidad | Las correcciones son filas nuevas (IG5-87) |
+
+**Identidad del actor (B, E).** El actor procede de la identidad autenticada en el backend (IG5-82): las funciones de escritura no tienen parámetro de actor y rechazan cualquier valor recibido; el frontend, RLS por sí sola y los valores enviados por el cliente no establecen la identidad. **Origen verificable (B).** Cada evento tiene un origen tipado: copy → versión exacta de copy; brief → versión exacta de brief; promoción → snapshot exacto; arte → arte exacto usado.
+
+**Integridad de `copy_version_provenance` (C).** Cada fila valida conjuntamente organización, versión de copy que recibe la procedencia, versión o arte de origen, evento, tipo de origen, actor, campo o unidad, relación directa o heredada y antecesor (IG5-83). Una procedencia de brief no puede apuntar a un evento promocional (IG5-84): vive en `brief_field_attributions`, cuya FK al evento exige `brief_version_id` y contribuyente coincidentes. Una procedencia de arte no puede apuntar a una versión de copy que no use ese arte (IS-16).
+
+**Integridad de `copy_versions` (D).** Fija de forma inmutable `brief_version_id`, `promotion_snapshot_id`, los assets (filas de `creative_assets` con su `copy_version_id`), `parent_version_id`, organización, autor autenticado y evidencia de creación (IG5-85); si la fuente fijada no puede verificarse, el copy no pasa las validaciones dependientes (IG5-86).
+
+**Escritura y modificación (E).** Mecanismos por amenaza:
+
+| Amenaza | Mecanismo |
+|---|---|
+| Insertar eventos con actor falso | Sin parámetro de actor; auth.uid() y membresía activa (IG5-82, IS-15) |
+| Asociar eventos a versiones de otra organización | Todas las FK incluyen organization_id (IG5-80) |
+| Asociar eventos de brief con snapshots promocionales | origin_kind, num_nonnulls = 1 y FK tipadas (IG5-81, IG5-84) |
+| Asociar assets no utilizados | FK (organization_id, copy_version_id, used_asset_id) hacia creative_assets (IS-16) |
+| Alterar la procedencia histórica | Triggers BEFORE UPDATE (IS-13); la corrección es una fila nueva (IG5-87) |
+| Eliminar contribuciones previas | Triggers BEFORE DELETE y TRUNCATE y REVOKE (IS-13) |
+| Cambiar el actor de un evento | Trigger de inmutabilidad; la corrección es un evento nuevo con previous_event_id (IG5-87) |
+| Crear versiones sin fuente verificable | create_copy_version y verify_field_provenance (IG5-86) |
+| Modificar directamente una versión inmutable | Trigger sobre las columnas fijadas y ausencia de UPDATE concedido (IG5-85, IS-13) |
+
+**Funciones privilegiadas y `SECURITY DEFINER` (IS-15).** Cada función de escritura de 8.9 declara propietario `cci_records_owner` sin superusuario, `search_path` fijo con esquemas explícitos, `EXECUTE` revocado a PUBLIC y concedido solo al rol mínimo, y validación interna del actor con `auth.uid()`. La seguridad no se atribuye a `SECURITY DEFINER` por sí solo. `activity_logs` no es fuente y no se inventan columnas que no figuren en la línea base verificada.
+
+**Demostración por ruta de procedencia.** Brief: evento → fila de cambio (FK evento-versión-actor) → atribución (FK a la fila de cambio y al evento) → copy (brief_version_id fijado). Promoción: igual con snapshot. Copy: evento → procedencia (FK evento-contribuyente-tipo, evento-versión de copy, versión de origen) → copy_versions. Arte: evento → procedencia (FK evento-arte, arte-versión de copy) → creative_assets. Cada eslabón tiene una fila en el contrato anterior; cada escenario de H-03 (T-301 a T-319) intenta romper uno.
 
 ### 4.5 Historial, segunda evaluación y corrección
 
@@ -965,13 +1367,13 @@ flowchart TD
 | IG5-39 | Los reemplazos concurrentes bloquean la cabeza de la cadena FOR UPDATE; el segundo falla por UNIQUE o por versión obsoleta y reintenta revalidando |
 | IG5-40 | Existe una definición única de contribuyente (4.4.3). Una persona es contribuyente si es autora de copy, editora material del contenido, editora de un campo material del brief, editora de un campo material de los datos promocionales o quien cargó o reemplazó el arte exacto de una versión; o si lo es por herencia con procedencia verificable. La definición operativa deriva de OD-03, PO-08, PO-11 y PO-16 y se incorpora como diseño complementario de esta revisión: T-04 de v3.3 no fue aprobada y no se aprueba retroactivamente, y la Adenda v9 no está aceptada (PO-05) |
 | IG5-41 | No son contribuciones de contenido los controles, los actos administrativos ni la operación automática: comentar, consultar, comparar, revisar, registrar hallazgos, solicitar cambios, aprobar, confirmar o descartar hallazgos, conceder o revocar excepciones, asignar revisores, delegar; la IA y el sistema no son personas contribuyentes |
-| IG5-42 | version_contributors devuelve el conjunto, las evidencias y un indicador de completitud; si falta una fuente física (brief_versions, promotion_snapshots, contribution_events, copy_version_provenance, arte exacto o cadena de versiones) falla con el código específico (CONTRIBUYENTES_NO_DETERMINABLES, BRIEF_VERSION_NO_VERIFICABLE, PROMOTION_SNAPSHOT_NO_VERIFICABLE, ASSET_PROVENANCE_NO_VERIFICABLE, COPY_PROVENANCE_INCOMPLETA o VERSION_CHAIN_INCONSISTENTE) y se bloquean la evaluación de impacto, la confirmación de independencia y la aprobación o publicación que dependan de ella; nunca se devuelve un conjunto parcial como completo |
+| IG5-42 | version_contributors devuelve el conjunto de personas, la evidencia por persona, el tipo de contribución, el campo material, la versión y el evento de origen, la relación directa o heredada, la cadena consultada, el estado de integridad, el indicador de completitud y los errores específicos (IG5-77); si falta una fuente física (brief_versions y sus tablas de cambio y atribución, promotion_snapshots y sus tablas de cambio y atribución, contribution_events, copy_version_provenance, arte exacto o cadena de versiones) falla con el error concreto en vez de devolver una lista parcial; la ausencia de evidencia nunca equivale a ausencia de contribuyente |
 | IG5-43 | En duda sobre si una aportación anterior continúa presente en una versión posterior se conserva la atribución (PO-16): la procedencia se decide por contenido y por referencias exactas, nunca por porcentajes de similitud, embeddings ni puntuaciones semánticas, y la IA no la decide |
 | IG5-44 | Quien registró una evaluación no puede validar su sustitución cuando el nuevo resultado levanta un bloqueo (DG-06): el evaluador de la evaluación sustituta es otra persona |
 | IG5-45 | La persona que propuso la clasificación independiente vigente de una adaptación no puede evaluar el impacto de esa adaptación (DT-02): la exclusión es por adaptación y por clasificación vigente, deja de aplicarse si la clasificación se reemplaza o revierte, nunca borra el historial y no se extiende a quien solo confirma o revierte la clasificación |
 | IG5-46 | Una versión descartada o reemplazada fuera del intervalo [V-D, V-B] no aporta contribuyentes al conjunto excluido, salvo por herencia sustantiva (IG5-43) |
 | IG5-47 | Dos evaluadores que intentan registrar el primer dictamen del mismo par se serializan por el bloqueo de la cabeza: uno confirma y el otro recibe PAR_YA_EVALUADO; solo puede sustituir con motivo (IG5-13) |
-| IG5-48 | G-5 no se declara completamente cerrada: la representación física de las contribuciones (PC-02), la definición operativa (DT-01) y la elegibilidad del proponente (DT-02) quedan resueltas en el diseño complementario v5, pero ninguna está aceptada por el propietario ni validada técnicamente, y si falta una fuente el comportamiento es fail-closed (IG5-42, IG5-64) |
+| IG5-48 | G-5 no se declara completamente cerrada: la representación física de las contribuciones (PC-02), la procedencia por campo de brief y promoción (H-02), la integridad compuesta (H-03), la definición operativa (DT-01) y la elegibilidad del proponente (DT-02) quedan precisadas en el diseño complementario v6, pero ninguna está aceptada por el propietario ni validada técnicamente; T-04 de v3.3 no se aprueba retroactivamente |
 | IG5-49 | Contribución material de copy: una versión nueva registra a su editor (copy_editor) si, tras normalizar exclusivamente Unicode NFKC, saltos de línea, espacios repetidos y espacios al inicio o final, cambia el contenido de al menos un campo evaluable; no es contribución un cambio exclusivo de updated_at, metadatos técnicos, identificadores, orden visual sin cambio de contenido, espacios o saltos de línea, ni el registro de consulta; si hay un cambio de contenido y no puede determinarse con certeza que sea exclusivamente mecánico, se conserva la atribución anterior y se añade al nuevo editor; una IA no decide por sí sola que un cambio carece de importancia |
 | IG5-50 | Autoría de copy: la persona que crea una versión es su autora (copy_author); la identidad es auth.uid() del servidor y se conserva en created_by; una modificación crea una versión nueva y nunca sobrescribe la autoría de las anteriores; si la versión se generó con IA, la contribuyente es quien solicitó y guardó la propuesta, y la IA no es persona contribuyente |
 | IG5-51 | Contribución al brief: quien crea o modifica una versión del brief y cambia uno o más de objetivo comercial, audiencia o segmento, producto o servicio promovido, propuesta de valor, beneficio principal, mensajes o claims obligatorios, restricciones o claims prohibidos, oferta o condición comercial solicitada, CTA, canal o formato solicitado, o tono o directriz que afecte el contenido, registra brief_editor; un cambio administrativo o técnico que no altere esos campos no es contribución |
@@ -987,11 +1389,32 @@ flowchart TD
 | IG5-61 | copy_version_provenance relaciona la versión exacta de copy, el evento de contribución, la unidad de contenido, la versión de origen, la relación directa o heredada, el evento de procedencia anterior, el estado de vigencia y la resolución independiente; es append-only; permite responder sin inferencias quién creó cada unidad, quién la modificó, de qué versión procede, qué heredó, qué permanece, qué dejó de estar presente y quién validó una exclusión y por qué; la procedencia de una versión nueva nunca reescribe la de una anterior |
 | IG5-62 | Cada versión de copy fija las referencias exactas que usó: brief_version_id, promotion_snapshot_id cuando aplica, los assets exactos (filas de creative_assets de la versión) y la versión de copy anterior; no hay referencias implícitas a versiones actuales o últimas; toda FK incluye organization_id e impide referencias cruzadas entre organizaciones |
 | IG5-63 | version_contributors es una función determinista (STABLE, solo lectura) que recibe organización, pieza y versión exacta; lee la autoría de la versión, los eventos, la procedencia directa y heredada, los briefs y snapshots exactos y los assets exactos; recorre la cadena requerida; elimina duplicados por persona sin eliminar la evidencia de sus múltiples contribuciones; devuelve el conjunto excluido, la lista de evidencias de cada exclusión, un indicador de completitud y un código de error específico cuando falta una fuente |
-| IG5-64 | Ante cualquiera de los seis códigos de error de version_contributors se bloquean la evaluación de impacto, la confirmación de independencia y la aprobación o publicación que dependan de la evaluación; el bloqueo solo se levanta cuando la fuente faltante está representada y verificada, nunca por excepción administrativa ni por intervención de Admin |
+| IG5-64 | Ante cualquiera de los diez códigos de error de version_contributors se bloquean la evaluación de impacto, la confirmación de independencia y la aprobación o publicación que dependan de la evaluación; el bloqueo solo se levanta cuando la fuente faltante está representada y verificada, nunca por excepción administrativa ni por intervención de Admin |
 | IG5-65 | activity_logs no es fuente de verdad de contribuciones ni de procedencia y no se le atribuye contenido que v3.3 no define: brief_versions, promotion_snapshots, contribution_events y copy_version_provenance son entidades propias |
 | IG5-66 | Flujo integrado: versión inmutable de copy, que fija brief, snapshot promocional y assets exactos; registro de contribuciones directas; conservación de la procedencia heredada; reconstrucción del conjunto con version_contributors; clasificación vigente y su proponente; construcción de E; elegibilidad del evaluador asignado; validación del par exacto; registro de la evaluación; un cambio posterior en la maestra o la adaptación obliga a usar el nuevo par y recalcular E; una evaluación anterior nunca se reutiliza para una versión distinta; la evaluación solo se registra con procedencia completa, evaluador elegible, asignación vigente, clasificación vigente, versiones exactas coincidentes y bloqueo; no sustituye a la aprobación humana ni a la aprobación independiente de la versión |
 | IG5-67 | Quien propuso una clasificación independiente no puede confirmar su propia propuesta (DT-02); propose_independence registra al actor autenticado y la clasificación propuesta, y su identidad queda vinculada al evento de clasificación |
 | IG5-68 | La evaluación de impacto revalida bajo bloqueo la clasificación vigente y la identidad de su proponente antes de guardar; si la clasificación cambió, la evaluación obsoleta se bloquea; quien confirma o revierte la clasificación no queda excluido solo por esa operación, pero sí si es contribuyente por otra causa; no se crea permiso, no se modifica T-02 y no hay autoridad automática para Admin, el propietario ni quien asigna el revisor |
+| IG5-69 | La procedencia del brief y de los datos promocionales se reconstruye por campo material y no por el creador de la versión completa: brief_field_changes registra una fila por cada uno de los 12 campos materiales del brief y promotion_field_changes una por cada uno de los 9 campos materiales de la promoción (código, SKU o productos, precio de referencia, precio promocional, descuento, vigencia, condiciones, moneda, restricciones) en cada versión, con change_kind, hash anterior, hash nuevo, segmentos anteriores y retenidos, evento y persona; la versión completa nunca se atribuye en bloque a quien la creó |
+| IG5-70 | Regla determinista de cambio por campo (sin IA, embeddings, similitud ni inferencias probabilísticas): tras normalizar exclusivamente Unicode NFKC, saltos de línea, espacios repetidos y espacios al inicio o final, un campo se divide en segmentos (una línea no vacía por segmento; los campos de valor único tienen un solo segmento); retained_segments es el número de segmentos del valor anterior que aparecen idénticos en el valor nuevo; sin_cambio si ambos hashes son iguales; introducido si no había valor anterior; eliminado si el valor nuevo está vacío o ausente; sustituido si había valor anterior, el valor es distinto y retained_segments = 0; modificado si el valor es distinto y retained_segments >= 1. Cualquier cambio de un campo de valor único (por ejemplo canal, formato, moneda, descuento) es sustituido. Si el resultado no puede determinarse con esta regla se declara procedencia incompleta |
+| IG5-71 | Las filas de cambio y de atribución de una versión se crean únicamente dentro de create_brief_version o create_promotion_snapshot, en la misma transacción que la versión, con una fila de cambio por campo material (12 para brief, 9 para promoción); si falta alguna la versión queda no_verificable; triggers BEFORE UPDATE, DELETE y TRUNCATE rechazan toda modificación y un trigger BEFORE INSERT fija created_by = auth.uid() y comprueba que la fila corresponde a la versión y a la organización |
+| IG5-72 | Atribuciones de la versión V_n por campo, calculadas desde las de V_n-1: (a) sin_cambio: todas las filas de V_n-1 pasan a V_n como heredadas con el mismo estado; (b) introducido: una fila directa activa para el evento de V_n; (c) modificado: las filas activas de V_n-1 pasan como heredadas activas, las históricas como heredadas históricas y se agrega una fila directa activa para quien modificó; (d) sustituido: las filas activas de V_n-1 pasan como heredadas históricas, las históricas siguen históricas y se agrega una fila directa activa para quien sustituyó; (e) eliminado: las filas activas pasan como históricas y quien eliminó el campo queda como contribuyente directo activo de esa modificación material. Una modificación de un campo no altera las atribuciones de ningún otro campo (modificar el descuento no borra a quien definió las condiciones que permanecen) |
+| IG5-73 | El historial de atribución se conserva íntegro: toda fila histórica se arrastra a todas las versiones posteriores con attribution_state = historica, no vuelve nunca a activa y no se borra; el conjunto activo de contribuyentes de una versión solo incluye filas activas; las históricas se devuelven como evidencia separada |
+| IG5-74 | Cadena de versiones de brief: para la versión exacta B_n, verify_field_provenance recorre previous_version_id hasta la raíz y exige misma organización, mismo brief, version_number consecutivo descendente de n a 1, una sola raíz con previous_version_id NULL, ningún ciclo (el recorrido se detiene tras n pasos) y ninguna referencia rota; cualquier incumplimiento devuelve BRIEF_CHAIN_INCONSISTENTE y bloquea |
+| IG5-75 | Cadena de snapshots promocionales: para el snapshot exacto S_n, verify_field_provenance recorre previous_snapshot_id hasta la raíz y exige misma organización, misma promotion_line_id, una sola raíz, ningún ciclo (el recorrido se detiene tras el número de snapshots de la línea) y ninguna referencia rota; cualquier incumplimiento devuelve PROMOTION_CHAIN_INCONSISTENTE y bloquea |
+| IG5-76 | Recalculo y comparación por campo: verify_field_provenance recalcula, desde la raíz y aplicando IG5-70 e IG5-72 a las filas de cambio, las atribuciones esperadas de la versión exacta y las compara una por una con las filas almacenadas; cualquier fila faltante, sobrante, con estado distinto o con evento que no coincida con el de la fila de cambio devuelve BRIEF_FIELD_PROVENANCE_INCOMPLETE o PROMOTION_FIELD_PROVENANCE_INCOMPLETE según el dominio y bloquea; un evento de cambio sin persona verificable en memberships equivale a procedencia incompleta |
+| IG5-77 | Contrato de salida de version_contributors: por cada persona devuelve contributor_id, tipo de contribución, campo material (si aplica), versión de origen, evento de origen, relación (directa o heredada), categoría, evidencia y la cadena de versiones consultada; categorías: contribuyente directo, contribuyente heredado activo, contribuyente histórico cuyo contenido fue sustituido o eliminado (no integra E salvo que además conserve otra contribución activa o directa), actor no contribuyente (recorded_by sin aportación) y procedencia no verificable; devuelve además integrity_state, el indicador de completitud (verdadero solo si las diez comprobaciones del contrato terminaron sin error) y la lista de errores; con cualquier error el conjunto no se entrega como completo |
+| IG5-78 | Los diez errores de procedencia (CONTRIBUYENTES_NO_DETERMINABLES, BRIEF_VERSION_NO_VERIFICABLE, PROMOTION_SNAPSHOT_NO_VERIFICABLE, BRIEF_CHAIN_INCONSISTENTE, PROMOTION_CHAIN_INCONSISTENTE, BRIEF_FIELD_PROVENANCE_INCOMPLETE, PROMOTION_FIELD_PROVENANCE_INCOMPLETE, ASSET_PROVENANCE_NO_VERIFICABLE, COPY_PROVENANCE_INCOMPLETA, VERSION_CHAIN_INCONSISTENTE) se devuelven con su código propio, sin sustituirlos por un mensaje genérico; cada uno bloquea la evaluación de impacto, la confirmación de independencia y la aprobación o publicación que dependan de esa evaluación; ninguna excepción administrativa ni Admin los levanta |
+| IG5-79 | Un copy que usa una versión anterior del brief o un snapshot anterior (no el último) conserva esa fuente exacta: sus contribuyentes se calculan con las atribuciones de la versión fijada; un cambio posterior del brief o de la promoción crea una versión nueva y no altera el conjunto de esa versión de copy; incorporar el cambio exige una versión nueva de copy que fije la fuente nueva y repetir las verificaciones |
+| IG5-80 | Toda relación de las trece tablas nuevas y de las columnas agregadas valida organization_id junto con el identificador de la entidad: ninguna FK de integridad es simple; las claves compuestas y las claves únicas que las respaldan son las del contrato de integridad (4.4.9), que lista para cada relación la tabla de origen y de destino, las columnas, la condición, el mecanismo, el momento de validación, el error y la consecuencia |
+| IG5-81 | Cada evento de contribution_events tiene exactamente un origen tipado (brief, copy, arte o promoción) mediante columnas FK compuestas y la restricción num_nonnulls(...) = 1; origin_kind lo deriva el servidor de la columna informada y una CHECK exige que origin_kind coincida con la columna no nula; las tablas dependientes referencian al evento con claves que incluyen origin_kind o la columna tipada, de modo que un evento de brief no pueda asociarse a un snapshot promocional ni a una versión de copy |
+| IG5-82 | El actor de todo evento y de toda fila de procedencia procede de la identidad autenticada en el backend: las funciones de escritura no tienen parámetro de actor, calculan contributor_id y recorded_by con auth.uid() (salvo inherited_contributor y copy_author de una versión generada por IA, donde contributor_id es la persona que solicitó y guardó) y rechazan, sin escribir, cualquier valor de actor recibido del cliente; el actor debe ser miembro activo de la organización del evento; ni el frontend ni RLS por sí sola establecen la identidad |
+| IG5-83 | Cada fila de copy_version_provenance valida conjuntamente: (1) organización; (2) versión de copy que recibe la procedencia (FK a copy_versions); (3) versión o arte de origen; (4) evento de contribución; (5) tipo de origen (origin_kind coincide con el del evento); (6) actor (contributor_id coincide con el del evento); (7) unidad de contenido o campo; (8) relación directa o heredada con sus columnas obligatorias; (9) fila antecesora cuando es heredada, que debe pertenecer a la versión anterior de la misma cadena (trigger); cualquier incumplimiento rechaza la inserción con COPY_PROVENANCE_INCOMPLETA o ASSET_PROVENANCE_NO_VERIFICABLE |
+| IG5-84 | Una procedencia de brief solo puede referenciar eventos de origin_kind = brief y una de promoción solo eventos de origin_kind = promotion (FK compuestas de las tablas de atribución al evento con la columna tipada y contributor_id); una procedencia de arte exige que la fila de arte used_asset_id pertenezca a la versión de copy que la usa (FK compuesta a creative_assets por organización, versión de copy e identificador); una procedencia heredada de arte exige que origin_asset_id sea alcanzable desde used_asset_id por reused_from_asset_id dentro de la misma organización (trigger, sin ciclos) |
+| IG5-85 | Cada versión de copy fija de forma inmutable su brief_version_id exacto, su promotion_snapshot_id exacto cuando aplica, sus filas de arte exactas (creative_assets con su copy_version_id), la versión anterior de copy (parent_version_id), la organización, el autor autenticado y la evidencia de creación (hash del contenido y de las fuentes fijadas); un trigger rechaza todo UPDATE de esas columnas; una modificación posterior del brief, de la promoción o de un arte genera filas nuevas y no cambia retroactivamente la fuente de una versión anterior; si la fuente fijada no es verificable, el copy no pasa las validaciones dependientes |
+| IG5-86 | create_copy_version rechaza crear la versión si el brief_version_id fijado, el snapshot, un arte o la versión anterior no existen en la organización, no tienen integrity_status = verificado o su cadena no es verificable (BRIEF_VERSION_NO_VERIFICABLE, PROMOTION_SNAPSHOT_NO_VERIFICABLE, ASSET_PROVENANCE_NO_VERIFICABLE, VERSION_CHAIN_INCONSISTENTE); no existen versiones sin fuente verificable |
+| IG5-87 | Las correcciones de contribuciones y de procedencia producen registros nuevos: un evento se corrige con otro evento con previous_event_id, una exclusión es una fila nueva con presence_state = excluida_por_resolucion, una atribución histórica no se reactiva; el actor de un evento no puede cambiarse ni los eventos eliminarse; ninguna operación reescribe el historial |
+| IG5-88 | Orden lógico obligatorio del flujo integrado (19 pasos, 4.4.7): versión inmutable de brief; snapshot promocional cuando corresponda; assets exactos; versión inmutable de copy con referencias exactas; contribuciones directas; procedencia heredada; validación de cadenas; version_contributors; conjunto completo E; clasificación vigente y su proponente; elegibilidad; verificación de miembro activo, piece.review, asignación vigente y fuera de E; revalidación bajo bloqueo; par exacto de master y adaptación; evaluación de impacto; C1 a C9; intento de publicación (G-10); bloqueo ante cualquier evidencia o condición faltante; aprobación humana independiente de la versión exacta; no cambia las 13 transiciones de T-02 y la evaluación de impacto no sustituye la aprobación humana |
+| IG5-89 | Toda modificación material posterior (contenido, brief, promoción, arte, maestra o clasificación) requiere una versión o un registro nuevo y repetir las verificaciones que le corresponden: una evaluación, una confirmación de independencia o una aprobación anteriores no se reutilizan sobre una fuente distinta de la que evaluaron |
 
 ### 4.8 Reglas de auditoría
 
@@ -1775,14 +2198,14 @@ Cada nodo es una subfase y sus objetos; la flecha indica «se crea después». E
 flowchart TD
   S1_8["1.8<br/>organizations, profiles, memberships, role_permissions, membership_permission_grants, activity_logs, campaigns, channel_rules, channel_formats, creative_pieces<br/>+ cci_state_owner y cci_records_owner; manage_channel_catalog; BEFORE INSERT sobre creative_pieces; BEFORE INSERT y BEFORE UPDATE OF status sobre cr"]
   S2_x["2.x<br/>brand_guidelines, brand_guideline_versions, briefs, ai_runs, ai_prompt_versions, ai_quotas<br/>+ creative_pieces → briefs"]
-  S2_1["2.1<br/>brief_versions, contribution_events<br/>+ record_contribution_event; BEFORE INSERT sobre brief_versions; BEFORE UPDATE, DELETE y TRUNCATE sobre contribut; create_brief_version"]
+  S2_1["2.1<br/>brief_versions, contribution_events, brief_field_changes, brief_field_attributions<br/>+ record_contribution_event; BEFORE INSERT sobre brief_versions; BEFORE UPDATE, DELETE y TRUNCATE sobre contribut; create_brief_version; BEFORE UPDATE, DELETE y TRUNCATE sobre brief_fie"]
   S2_3["2.3<br/>copy_versions, copy_version_provenance<br/>+ contribution_events.copy_version_id; contribution_events.copy_version_piece_id; contribution_events → copy_versions; creative_pieces → copy_versions; create_copy_version; BEFORE UPDATE, DELETE y TRUNCATE sobre copy_vers"]
   S2_5["2.5<br/>sin tablas nuevas<br/>+ detect_material_change"]
   S2_7["2.7<br/>sin tablas nuevas<br/>+ verify_version_chain"]
-  S3_x["3.x<br/>creative_assets, audit_rubric_versions, audits, audit_findings<br/>+ contribution_events.asset_copy_version_id; contribution_events.asset_piece_id; contribution_events.creative_asset_id; copy_versions → creative_assets; contribution_events → creative_assets; creative_pieces → creative_assets; register_asset_contribution"]
-  S4_x["4.x<br/>promotion_rules, promotion_snapshots, validation_settings_versions<br/>+ contribution_events.promotion_snapshot_id; copy_versions.promotion_snapshot_id; copy_versions → promotion_snapshots; contribution_events → promotion_snapshots; audits → validation_settings_versions; create_promotion_snapshot; BEFORE INSERT sobre promotion_snapshots"]
+  S3_x["3.x<br/>creative_assets, audit_rubric_versions, audits, audit_findings<br/>+ contribution_events.asset_copy_version_id; contribution_events.asset_piece_id; contribution_events.creative_asset_id; copy_version_provenance.origin_asset_id; copy_version_provenance.used_asset_id; copy_versions → creative_assets; contribution_events → creative_assets; copy_version_provenance → creative_assets; creative_pieces → creative_assets; register_asset_contribution"]
+  S4_x["4.x<br/>promotion_rules, promotion_snapshots, promotion_field_changes, promotion_field_attributions, validation_settings_versions<br/>+ contribution_events.promotion_snapshot_id; copy_versions.promotion_snapshot_id; copy_versions → promotion_snapshots; contribution_events → promotion_snapshots; audits → validation_settings_versions; create_promotion_snapshot; BEFORE INSERT sobre promotion_snapshots; BEFORE UPDATE, DELETE y TRUNCATE sobre promotion"]
   S5_1["5.1<br/>sin tablas nuevas<br/>+ Columnas anulables de reglas"]
-  S5_3["5.3<br/>piece_classification_events, piece_reviewer_assignments<br/>+ create_adaptation; version_contributors; exclude_inherited_attribution; eligible_evaluators; propose_independence; resolve_independence; assign_reviewer"]
+  S5_3["5.3<br/>piece_classification_events, piece_reviewer_assignments<br/>+ create_adaptation; verify_field_provenance; version_contributors; exclude_inherited_attribution; eligible_evaluators; propose_independence; resolve_independence; assign_reviewer"]
   S6_x["6.x<br/>comments, commercial_block_exceptions"]
   S6_1["6.1<br/>sin tablas nuevas<br/>+ transition_piece_status"]
   S6_5["6.5<br/>approvals, impact_evaluations<br/>+ BEFORE INSERT sobre approvals; record_approval; record_impact_evaluation"]
@@ -1833,7 +2256,7 @@ Todas son `SECURITY DEFINER` con `search_path` vacío y propietario dedicado; ni
 
 ### 8.3 Prevención de escrituras directas y de manipulación del actor
 
-- `REVOKE` de INSERT, UPDATE, DELETE y TRUNCATE sobre las nueve tablas nuevas (incluidas `channel_formats`, `brief_versions`, `contribution_events`, `copy_version_provenance` y `promotion_snapshots`) y sobre `channel_rules` a `anon`, `authenticated` y `service_role`; `REVOKE UPDATE (status)` sobre `creative_pieces` a los mismos roles. Los privilegios por defecto de Supabase conceden permisos amplios a esos roles en el esquema público: debe **verificarse y revocarse expresamente** (T-60, T-73; requieren infraestructura real).
+- `REVOKE` de INSERT, UPDATE, DELETE y TRUNCATE sobre las trece tablas nuevas (incluidas `channel_formats`, `brief_versions`, `contribution_events`, `copy_version_provenance`, `promotion_snapshots` y las cuatro de cambio y atribución por campo) y sobre `channel_rules` a `anon`, `authenticated` y `service_role`; `REVOKE UPDATE (status)` sobre `creative_pieces` a los mismos roles. Los privilegios por defecto de Supabase conceden permisos amplios a esos roles en el esquema público: debe **verificarse y revocarse expresamente** (T-60, T-73; requieren infraestructura real).
 - **Dos propietarios de funciones** (nombres propuestos; su creación y viabilidad en Supabase no están verificadas): `cci_state_owner`, dueño solo de `transition_piece_status`, con UPDATE sobre `status` e INSERT en `publication_attempts`; y `cci_records_owner`, dueño de las demás funciones (aprobación, hallazgos, clasificación, asignación, evaluación), con INSERT en sus tablas y **sin** UPDATE sobre `status` ni INSERT en `publication_attempts`. Así ninguna auxiliar puede publicar por privilegios, no solo por no contener el código.
 - `REVOKE EXECUTE ... FROM PUBLIC`; EXECUTE de las funciones de usuario solo para `authenticated`. `service_role` no las ejecuta, y las funciones rechazan `auth.uid()` nulo.
 - El actor se toma de `auth.uid()`; ninguna función recibe actor, fecha ni resultado. **Dependencia no verificada:** `auth.uid()` lee la identidad de la sesión de la solicitud; quien tenga credenciales de base de datos de administración puede fijarla. Por eso las credenciales de administración de la base no pueden estar en el navegador, en una Edge Function ni en la aplicación.
@@ -1902,12 +2325,13 @@ Es una demostración **sobre el diseño**: cada fila indica el mecanismo, la reg
 | propose_independence | records_owner | adaptación, justificación no vacía | Autor o responsable; secuencia vigente. Bloqueos: maestra FOR SHARE, adaptación FOR UPDATE | Evento de propuesta |
 | resolve_independence | records_owner | evento de propuesta, decisión, justificación no vacía | piece.review asignado y fuera del conjunto excluido; revalida la secuencia. Bloqueos: 1, 2, 3 | Evento de confirmación, no confirmación o reversión |
 | assign_reviewer | records_owner | adaptación, revisor, acción, motivo no vacío | org.manage (DG-07); el revisor tiene piece.review y no está en E (informativo); no concede permisos. Bloqueos: 1, 2 | Fila de asignación; historial |
-| version_contributors | records_owner, interna | organización, pieza, versión exacta | Solo lectura (STABLE); contrato de 4.4.5: lee las cuatro fuentes físicas, elimina duplicados por persona conservando evidencia y devuelve conjunto, evidencias, completitud y error; **nunca un conjunto parcial** (IG5-63, IG5-42); EXECUTE solo para otras funciones | Conjunto, evidencias y completitud, o uno de los seis códigos de error |
+| verify_field_provenance | records_owner, interna | organización, versión exacta de brief o snapshot exacto | Solo lectura (STABLE): recorre la cadena (IG5-74, IG5-75), recalcula las atribuciones esperadas desde la raíz y las compara con las filas (IG5-76); devuelve BRIEF_CHAIN_INCONSISTENTE, PROMOTION_CHAIN_INCONSISTENTE, BRIEF_FIELD_PROVENANCE_INCOMPLETE o PROMOTION_FIELD_PROVENANCE_INCOMPLETE; EXECUTE solo para otras funciones | Resultado de verificación o error concreto |
+| version_contributors | records_owner, interna | organización, pieza, versión exacta | Solo lectura (STABLE); contrato de 4.4.5: lee las fuentes físicas de 4.4.4, delega las cadenas en verify_field_provenance, elimina duplicados por persona conservando evidencia y devuelve conjunto, evidencias, categorías, completitud y errores; **nunca un conjunto parcial** (IG5-63, IG5-42, IG5-77); EXECUTE solo para otras funciones | Conjunto, evidencias y completitud, o el código de error |
 | eligible_evaluators | records_owner | adaptación, V-A, V-D y V-B | Solo lectura; usa version_contributors sobre el intervalo y agrega P, el proponente de la clasificación vigente (IG5-45, IG5-56); si el cálculo no es completo, falla en vez de devolver una lista parcial; el llamador necesita org.manage o piece.review | Identificadores elegibles; vacío si no hay (IG5-34) |
-| create_brief_version | records_owner | brief, campos (sin actor) | Permiso de edición de briefs de v3.3; `created_by` = `auth.uid()`; versión consecutiva; hash; registra brief_editor si cambia un campo material (IG5-51, IG5-58) | Versión nueva inmutable |
+| create_brief_version | records_owner | brief, campos (sin actor) | Permiso de edición de briefs de v3.3; `created_by` = `auth.uid()`; versión consecutiva; hash; en una sola transacción calcula las 12 filas de `brief_field_changes` con IG5-70 y las atribuciones con IG5-72 y registra brief_editor si cambia un campo material (IG5-51, IG5-58, IG5-71); si falta una fila la versión queda no_verificable | Versión nueva inmutable con sus filas por campo |
 | create_copy_version | records_owner | pieza, texto, brief_version_id, assets (sin actor) | Permiso de edición de v3.3; versión inmutable; fija referencias exactas; registra copy_author y la procedencia directa; `detect_material_change` decide copy_editor y la herencia (IG5-49, IG5-50, IG5-62) | Versión y filas de contribución y procedencia |
 | register_asset_contribution | records_owner | arte, versión (sin actor) | Permiso de carga de v3.3; identidad del servidor; registra asset_uploader solo en carga o reemplazo, no en reutilización (IG5-53) | Evento de contribución |
-| create_promotion_snapshot | records_owner | promoción, datos (sin actor) | Permiso de edición de promociones de v3.3; `created_by` = `auth.uid()`; hash; registra promotion_editor si cambia un campo material (IG5-52, IG5-59) | Snapshot inmutable |
+| create_promotion_snapshot | records_owner | promoción, datos (sin actor) | Permiso de edición de promociones de v3.3; `created_by` = `auth.uid()`; hash; asigna o hereda `promotion_line_id`; en una sola transacción calcula las 9 filas de `promotion_field_changes` y las atribuciones y registra promotion_editor si cambia un campo material (IG5-52, IG5-59, IG5-71) | Snapshot inmutable con sus filas por campo |
 | exclude_inherited_attribution | records_owner | fila de procedencia, motivo, evidencia | `piece.review`; persona distinta de quien aportó el contenido (IG5-55); fila nueva `excluida_por_resolucion`; nunca retroactiva | Fila nueva de procedencia |
 | record_approval (existente en v3.3, ampliada) | records_owner | pieza, versión, auditoría considerada, excepciones | piece.approve; independencia; estado; bloqueos confirmados; escribe `decision = 'aprobada'`. Bloqueos: 1 FOR SHARE, 2 | Fila de approvals; no cambia el estado por sí sola |
 | record_impact_evaluation | records_owner | adaptación, versiones citadas, resultado, siete dimensiones, justificación, motivo si desconocido, clave, `client_correlation_id` opcional y, si sustituye, la evaluación anterior | Asignación vigente, piece.review, fuera de E, V-B vigente aprobada, par y cabeza de la cadena; trigger repite la comprobación. Bloqueos: 1 FOR SHARE, 2, 3 y cabeza FOR UPDATE | Fila de impact_evaluations; errores de elegibilidad, versión obsoleta o par |
@@ -1939,7 +2363,7 @@ Es una demostración **sobre el diseño**: cada fila indica el mecanismo, la reg
 | Aislamiento y lectura | RLS por organization_id | Aislamiento por organización | Tablas nuevas | Mismo patrón |
 | Notificaciones | Matriz de notificaciones (N-22) | Definidas con limitación | Ninguna estructural | Sin cambio |
 
-**Reutilizable sin cambio (22 de 27):** organizations, profiles, memberships, role_permissions, membership_permission_grants, brand_guidelines, brand_guideline_versions, campaigns, briefs, audits, audit_findings, comments, promotion_rules, performance_metrics, ab_tests, ai_runs, ai_prompt_versions, activity_logs, audit_rubric_versions, validation_settings_versions, ai_quotas y commercial_block_exceptions. **Con cambio:** creative_pieces y copy_versions (columnas), channel_rules (una columna y una única), creative_assets y approvals (solo una restricción única) y la función transition_piece_status. **Nuevas:** 9 (cinco de la v4 y cuatro de la v5: brief_versions, promotion_snapshots, contribution_events y copy_version_provenance). Total propuesto: **36 tablas**; las 27 permanecen como línea base histórica.
+**Reutilizable sin cambio (22 de 27):** organizations, profiles, memberships, role_permissions, membership_permission_grants, brand_guidelines, brand_guideline_versions, campaigns, briefs, audits, audit_findings, comments, promotion_rules, performance_metrics, ab_tests, ai_runs, ai_prompt_versions, activity_logs, audit_rubric_versions, validation_settings_versions, ai_quotas y commercial_block_exceptions. **Con cambio:** creative_pieces y copy_versions (columnas), channel_rules (una columna y una única), creative_assets y approvals (solo una restricción única) y la función transition_piece_status. **Nuevas:** 13 (cinco de la v4, cuatro de la v5 —brief_versions, promotion_snapshots, contribution_events y copy_version_provenance— y cuatro de la v6 —brief_field_changes, brief_field_attributions, promotion_field_changes y promotion_field_attributions—). Total propuesto: **40 tablas**; las 27 permanecen como línea base histórica.
 
 **Justificación de cada elemento nuevo:**
 
@@ -1947,6 +2371,10 @@ Es una demostración **sobre el diseño**: cada fila indica el mecanismo, la reg
 |---|---|
 | brief_versions | El brief debe versionarse para saber quién cambió cada campo material; v3.3 no lo define |
 | promotion_snapshots | Los datos promocionales usados deben congelarse; una promoción mutable no reconstruye una auditoría |
+| brief_field_changes | Una fila por campo material y versión (12 por versión) con hash anterior y nuevo, segmentos retenidos, evento y persona: sin ella no se puede saber si un campo cambió, se sustituyó o se eliminó (H-02) |
+| brief_field_attributions | Atribución materializada por versión exacta y campo: quién sigue siendo contribuyente activo y quién quedó en el historial (H-02) |
+| promotion_field_changes | Igual que brief_field_changes para los 9 campos materiales de la promoción (H-02) |
+| promotion_field_attributions | Igual que brief_field_attributions para promociones; evita que cambiar el descuento borre las condiciones que permanecen (H-02) |
 | contribution_events | Fuente append-only de contribuciones con FK compuestas por origen; activity_logs no la sustituye |
 | copy_version_provenance | Procedencia directa y heredada por unidad de contenido, y exclusión documentada de atribuciones |
 | piece_classification_events | Historial con restricción de proponente distinto y secuencia; no cabe en activity_logs genérico |
@@ -2047,7 +2475,7 @@ Tipos: **Diseño** (comprobable documentalmente), **Ejecutable futura** (pruebas
 | T-44 | — | Intento permitido | Publicar con todo en regla | Fila permitido con C1 a C9 en cumple o no_aplica y la transición #10 | Cobertura sin ledger de éxitos | Una fila por publicación | Ejecutable futura | IG10-03, IG10-08, IG10-01 |
 | T-45 | — | Pieza ya Publicada | Publicar de nuevo con otra clave | Bloqueado con ESTADO_NO_APROBADO | Re-publicación | Fila bloqueada | Ejecutable futura | IG10-07 |
 | T-46 | — | Dos evaluaciones con la misma raíz o una cadena ramificada simulada | Publicar | Bloqueado por EVALUACION_AMBIGUA | Dictamen ambiguo | imposibilidad_verificar | Ejecutable futura | IG5-14, IG10-04, IS-09 |
-| T-47 | — | Cinco tablas y columnas propuestas | Revisar claves, T-02 y 27 tablas | 17 claves y 13 transiciones sin cambio | Ampliación encubierta | Sin cambio en role_permissions ni en la tabla de transiciones | Diseño | IG5-17, IG1-21, IP-01 |
+| T-47 | — | Trece tablas nuevas y columnas propuestas | Revisar claves, T-02 y 27 tablas | 17 claves y 13 transiciones sin cambio | Ampliación encubierta | Sin cambio en role_permissions ni en la tabla de transiciones | Diseño | IG5-17, IG1-21, IP-01 |
 | T-48 | — | Registro de intentos bloqueados | Contar retención | Ningún mecanismo de borrado desde la aplicación | Pérdida de evidencia | Retención solo por archivo | Diseño | IG10-18 |
 | T-49 | — | Evaluación con revisor asignado | Revisar estado de resolución | Derivado, no almacenado | Estado almacenado que se desincroniza | No hay columna de estado en impact_evaluations | Diseño | IG5-18 |
 | T-50 | — | Candidata con arte de V-A | Alterar el arte en Storage fuera de la aplicación | C8 bloquea por INTEGRIDAD_NO_VERIFICABLE o ARTE_INCONSISTENTE | Publicar un arte alterado | Depende de la inmutabilidad del bucket y de verify_assets_integrity | Infraestructura real | IG10-04, IG10-03, IS-09 |
@@ -2275,21 +2703,82 @@ Tipos: **Diseño** (comprobable documentalmente), **Ejecutable futura** (pruebas
 | T-272 | Integración: dos evaluadores intentan registrar el primer dictamen simultáneamente | Q y R elegibles sobre el mismo par | Ejecutar a la vez | Uno confirma y el otro recibe PAR_YA_EVALUADO | Dos dictámenes iniciales | Resultado esperado cumplido y ninguno prohibido | Infraestructura real | IG5-47, IG5-66 |
 | T-273 | Integración: una versión nueva de la maestra altera el conjunto de contribuyentes | Q evalúa el par (V-D, V-B) y se crea V-B+1 por X | Evaluar V-B+1 | Se exige el par nuevo y se recalcula E con X; la evaluación anterior no se reutiliza | Reutilizar una evaluación para otra versión | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-66, IG5-56 |
 | T-274 | Integración: T-04 sin aprobación retroactiva y G-5 no cerrada | Los cinco documentos activos | Buscar si declaran aprobada T-04 de v3.3 o cerrada G-5 | Ninguno: se declara diseño complementario pendiente de aceptación; G-5 no cerrada | Aprobación implícita | Resultado esperado cumplido y ninguno prohibido | Diseño | IG5-40, IG5-48 |
+| T-275 | H-02 reconstrucción: brief inicial con cinco campos materiales | Brief b1, versión B1 creada por A con objetivo, audiencia, producto, propuesta de valor y beneficio; el resto de campos opcionales sin valor | A llama a create_brief_version | 12 filas de cambio: cinco introducido y siete sin_cambio con hashes NULL; cinco atribuciones directas activas de A; brief_editor de A con cinco campos | Atribuir la versión completa sin filas por campo | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-69, IG5-70, IG5-71, IG5-72 |
+| T-276 | H-02 reconstrucción: modificación de un solo campo | B1 de A con cinco campos; B2 creada por C que cambia solo el beneficio principal | C crea B2 | Beneficio: change_kind según IG5-70 con evento de C; los otros once campos sin_cambio y sus atribuciones de A heredadas activas | Atribuir los cinco campos a C | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-70, IG5-72 |
+| T-277 | H-02 reconstrucción: modificación de un campo que conserva otros autores | B1 de A; B2 de C modifica la propuesta de valor de varias líneas conservando una línea idéntica | C crea B2 | modificado con retained_segments = 1; la propuesta de valor queda atribuida activa a A (heredada) y a C (directa) | Borrar a A del campo | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-70, IG5-72 |
+| T-278 | H-02 reconstrucción: eliminación de un campo | B2 con claims prohibidos escritos por C; D crea B3 sin ese campo | D crea B3 | eliminado: la atribución de C en ese campo pasa a historica; D queda como contribuyente directo activo de la eliminación; el historial de C se conserva | Mantener a C como activo o borrar su fila | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-70, IG5-72, IG5-73 |
+| T-279 | H-02 reconstrucción: sustitución completa de un campo | B1 con CTA escrito por A; E crea B2 con otro CTA | E crea B2 | sustituido (campo de valor único, retained_segments = 0); A pasa a historica en B2; E directa activa | Mantener a A como activo | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-70, IG5-72, IG5-73 |
+| T-280 | H-02 reconstrucción: modificación de metadatos sin cambio material | B2; F guarda B3 cambiando solo una nota administrativa fuera de los 12 campos | F crea B3 | Las 12 filas de cambio son sin_cambio; no se registra brief_editor ni atribución nueva para F | Registrar contribución sin cambio material | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-51, IG5-70 |
+| T-281 | H-02 reconstrucción: cadena de cuatro versiones | B1 (A), B2 (C), B3 (D), B4 (E) del mismo brief; cada una modifica un campo distinto | version_contributors para un copy que fija B4 | Conjunto activo con A, C, D y E según los campos presentes; verify_field_provenance recorrió B4, B3, B2, B1 con version_number 4, 3, 2, 1 | Considerar solo a E como creador de B4 | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-74, IG5-76, IG5-77 |
+| T-282 | H-02 reconstrucción: versión intermedia con actor no verificable | B3 cuyo evento apunta a una persona que no es miembro de la organización | version_contributors para un copy que fija B4 | BRIEF_FIELD_PROVENANCE_INCOMPLETE; no se entrega conjunto completo y se bloquea la evaluación | Ignorar la versión intermedia | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-76, IG5-78 |
+| T-283 | H-02 reconstrucción: cadena rota | B4 con previous_version_id que no existe en la organización | version_contributors | BRIEF_CHAIN_INCONSISTENTE; se bloquea | Completar la cadena con la versión que parece anterior | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-74, IG5-78 |
+| T-284 | H-02 reconstrucción: ciclo de referencias | B2 apunta a B3 y B3 apunta a B2; en la promoción, S2 apunta a S3 y S3 apunta a S2 | version_contributors para un copy que fija B3 y para otro que fija S3 | BRIEF_CHAIN_INCONSISTENTE y PROMOTION_CHAIN_INCONSISTENTE al superar el número de pasos permitido; se bloquea | Recorrido sin fin | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-74, IG5-78 |
+| T-285 | H-02 reconstrucción: cambio de organización | B2 con previous_version_id hacia una versión de otra organización | Insertar B2 o consultar la cadena | La inserción se rechaza por la FK compuesta; si el dato existiera, BRIEF_CHAIN_INCONSISTENTE | Aceptar una versión de otra organización | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-74, IG5-80 |
+| T-286 | H-02 reconstrucción: snapshot promocional con cambio de descuento | S1 de H con condiciones y descuento 10 por ciento; S2 de I cambia solo el descuento | I crea S2 | descuento: sustituido con evento de I; condiciones sin_cambio con H activo heredado | Borrar a H por cambiar el descuento | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-70, IG5-72, IG5-75 |
+| T-287 | H-02 reconstrucción: snapshot con cambio de condiciones | S2 con condiciones de tres líneas; J crea S3 que conserva dos líneas y agrega una | J crea S3 | condiciones: modificado con retained_segments = 2; H heredado activo y J directo activo | Sustituir toda la atribución | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-70, IG5-72 |
+| T-288 | H-02 reconstrucción: snapshot con modificación de precio | S3; K crea S4 con otro precio promocional | K crea S4 | precio promocional: sustituido; K directo activo; el autor anterior del precio pasa a historica; las condiciones conservan sus atribuciones | Modificar atribuciones de otros campos | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-70, IG5-72 |
+| T-289 | H-02 reconstrucción: campo promocional eliminado | S4 con restricciones comerciales de L; M crea S5 sin ellas | M crea S5 | eliminado: L histórica; M directo activo de la eliminación | Mantener restricciones de L como vigentes | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-70, IG5-72, IG5-73 |
+| T-290 | H-02 reconstrucción: campo promocional heredado | S5 con moneda definida por N en S1 y sin cambios desde entonces | version_contributors para un copy que fija S5 | N figura como contribuyente heredado activo de moneda con origen S1 y su evento | Perder a N porque no editó S5 | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-72, IG5-77 |
+| T-291 | H-02 reconstrucción: evento duplicado | Un segundo evento con el mismo operation_id, tipo y contribuyente | record_contribution_event | Rechazo por la unicidad (organization_id, operation_id, contribution_type, contributor_id); no se duplica la atribución | Dos eventos para la misma acción | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-81, IG5-87 |
+| T-292 | H-02 reconstrucción: evento que no corresponde a la versión | Fila de cambio de B3 que referencia un evento cuyo brief_version_id es B2 | Insertar la fila | Rechazo por la FK compuesta (organization_id, evento, brief_version_id, actor) | Asociar el evento a otra versión | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-80, IG5-84 |
+| T-293 | H-02 reconstrucción: actor diferente del autenticado | O autenticada intenta crear B2 enviando contributor_id = P | create_brief_version | La función no acepta actor del cliente: rechaza la solicitud o escribe auth.uid() = O; nunca P | Registrar a P como editor | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-82, IS-15 |
+| T-294 | H-02 reconstrucción: copy que utiliza un snapshot anterior y no el último | Copy V1 fija S3; existen S4 y S5 | version_contributors para V1 | Conjunto calculado con las atribuciones de S3 únicamente | Usar el último snapshot | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-79 |
+| T-295 | H-02 reconstrucción: copy que utiliza una versión antigua de brief | Copy V1 fija B2; existe B4 | version_contributors para V1 | Conjunto con las atribuciones de B2; los autores de B3 y B4 no se incorporan | Seguir el último brief | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-79 |
+| T-296 | H-02 reconstrucción: cambio de brief después de generar copy | Copy V1 fija B2; Q crea B3 | Consultar V1 y repetir version_contributors | V1 sigue apuntando a B2 y su conjunto no cambia; una V2 que fije B3 incorporaría a Q | Cambiar retroactivamente la fuente de V1 | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-79, IG5-85 |
+| T-297 | H-02 reconstrucción: cambio promocional después de generar copy | Copy V1 fija S2; R crea S3 | Consultar V1 | V1 conserva S2; las atribuciones de S3 no se aplican a V1 | Actualizar la fuente de V1 | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-79, IG5-85 |
+| T-298 | H-02 reconstrucción: contribuyente heredado que no debe desaparecer | Brief B1 con objetivo de A; B2 de C cambia solo la audiencia; B3 de D cambia solo el CTA | version_contributors para un copy que fija B3 | A permanece como heredado activo del objetivo; C del campo de audiencia; D del CTA | Eliminar a A por existir versiones nuevas | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-72, IG5-77 |
+| T-299 | H-02 reconstrucción: contribuyente cuyo campo fue realmente sustituido | Beneficio de A sustituido por C en B2 sin segmentos retenidos | version_contributors para un copy que fija B2 | A figura como contribuyente histórico (no integra E por ese campo) y C como directo activo; el historial de A se devuelve como evidencia | Mantener a A en E por ese campo | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-70, IG5-73, IG5-77 |
+| T-300 | H-02 reconstrucción: procedencia incompleta que bloquea la evaluación | Falta la fila de cambio de un campo material de B3 | El evaluador asignado intenta registrar la evaluación del par | BRIEF_FIELD_PROVENANCE_INCOMPLETE; la evaluación se bloquea y Admin no puede levantar el bloqueo | Tratar la ausencia como ausencia de contribuyente | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-71, IG5-76, IG5-78 |
+| T-301 | H-03 integridad: evento con actor falso | Cliente envía recorded_by distinto de auth.uid() | record_contribution_event desde la API | La función no tiene parámetro de actor; el valor del cliente se rechaza o se descarta y se registra auth.uid() | Actor libre desde el cliente | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-82, IS-15 |
+| T-302 | H-03 integridad: evento asociado a una versión de otra organización | Evento de la organización X que referencia una versión de copy de la organización Y | Insertar el evento | Rechazo por la FK compuesta con organization_id | Cruzar organizaciones | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-80, IG5-81 |
+| T-303 | H-03 integridad: evento de brief asociado a un snapshot promocional | Evento con origin_kind = brief y promotion_snapshot_id informado | Insertar el evento o la atribución promocional que lo referencia | Rechazo por la restricción de exactamente un origen y por la FK compuesta tipada | Asociación entre tipos de origen | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-81, IG5-84 |
+| T-304 | H-03 integridad: procedencia de brief que apunta a un evento promocional | Fila de atribución de brief_field_attributions con un evento de origin_kind = promotion | Insertar la fila | Rechazo: la FK exige un evento con brief_version_id y el contribuyente coincidentes | Mezclar procedencias | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-84 |
+| T-305 | H-03 integridad: asset no utilizado asociado a una procedencia | Arte a9 que ninguna fila de la versión V usa | Insertar procedencia de arte de V con used_asset_id = a9 | Rechazo por la FK compuesta (organización, versión de copy, arte) | Atribuir un arte no usado | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-84, IS-16 |
+| T-306 | H-03 integridad: procedencia de arte que apunta a una versión de copy que no lo utiliza | Arte a1 de la versión V1 y procedencia declarada para V2 | Insertar la procedencia en V2 | Rechazo | Procedencia de arte en una versión ajena | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-84, IS-16 |
+| T-307 | H-03 integridad: reutilizar un arte no convierte al reutilizador en asset_uploader | J cargó a1; K crea V2 con una fila de arte reused_from_asset_id = a1 | register_asset_contribution para V2 | No se registra asset_uploader para K; J permanece como contribuyente heredado de arte | Atribuir la carga a K | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IS-16, IG5-53 |
+| T-308 | H-03 integridad: alterar la procedencia histórica | Fila de copy_version_provenance existente | UPDATE de presence_state o del evento | Rechazo del trigger; la corrección es una fila nueva | Reescribir el historial | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-87, IS-13 |
+| T-309 | H-03 integridad: eliminar contribuciones previas | Eventos y atribuciones de versiones anteriores | DELETE y TRUNCATE sobre contribution_events y las tablas de atribución | Rechazo del trigger en ambos casos | Borrar evidencia | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-87, IS-13 |
+| T-310 | H-03 integridad: cambiar el actor de un evento | Evento e1 con contributor_id = A | UPDATE contributor_id = B | Rechazo; la corrección es un evento nuevo con previous_event_id | Reasignar la autoría | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-87, IS-13 |
+| T-311 | H-03 integridad: crear una versión de copy sin fuente verificable | brief_version_id con integrity_status = no_verificable | create_copy_version | BRIEF_VERSION_NO_VERIFICABLE; no se crea la versión | Versión sin fuente verificable | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-86 |
+| T-312 | H-03 integridad: modificar directamente una versión inmutable | Versión de copy V1 con brief_version_id = B2 | UPDATE copy_versions SET brief_version_id = B3 | Rechazo del trigger de inmutabilidad de las columnas fijadas | Cambiar la fuente retroactivamente | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-85, IS-13 |
+| T-313 | H-03 integridad: snapshot promocional que no es de la promoción | Atribución de S4 con previous_attribution_id de una promotion_line_id distinta | Insertar la fila | Rechazo por la cadena compuesta (organización, promotion_line_id, snapshot) | Mezclar promociones | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-75, IG5-80 |
+| T-314 | H-03 integridad: versión sin una de las filas por campo material | Versión de brief con 11 de 12 filas de cambio | create_brief_version | La versión queda no_verificable y bloquea; la operación no confirma una versión incompleta | Versión parcialmente atribuida | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-71 |
+| T-315 | H-03 integridad: función privilegiada sin search_path fijo o sin validación de actor | Función de escritura con search_path mutable o sin comprobar auth.uid() | Revisión de 8.9 y del contrato de integridad | Se rechaza el diseño: cada función declara propietario, search_path fijo, EXECUTE mínimo y validación interna del actor | Confiar en SECURITY DEFINER por sí solo | Resultado esperado cumplido y ninguno prohibido | Diseño | IS-15 |
+| T-316 | H-03 integridad: ninguna FK de integridad es simple | Contrato de integridad 4.4.8 | Revisar cada relación | Toda relación incluye organization_id y la clave exacta de la entidad | FK simple que permita cruzar organizaciones | Resultado esperado cumplido y ninguno prohibido | Diseño | IG5-80 |
+| T-317 | H-03 integridad: procedencia con actor distinto del evento | Evento e1 con contributor_id = A | Insertar copy_version_provenance con contributor_id = B y contribution_event_id = e1 | Rechazo por la FK compuesta (organización, evento, contribuyente, tipo de origen) | Procedencia a nombre de otra persona | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-83, IG5-82 |
+| T-318 | H-03 integridad: procedencia con tipo de origen distinto del evento | Evento e2 de origin_kind = asset | Insertar procedencia con origin_kind = copy que referencia e2 | Rechazo por la FK compuesta y por la CHECK de columnas de origen | Mezclar origen de copy y de arte | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-83, IG5-81 |
+| T-319 | H-03 integridad: procedencia heredada con antecesor de otra cadena | Fila heredada de V3 cuyo previous_provenance_id pertenece a una versión que no es la anterior de V3 | Insertar la fila | Rechazo del trigger de coherencia: el antecesor debe ser de la versión anterior de la misma cadena | Antecesor ajeno | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-83 |
+| T-320 | H-01 auditoría: 28 controles con evidencia individual | Matriz de auditoría | Ejecutar el verificador | 28 controles, cada uno con ID, regla, sección, evidencia, procedimiento, resultado, estado y nivel | Control sin evidencia | Resultado esperado cumplido y ninguno prohibido | Diseño | IE-05, IE-07 |
+| T-321 | H-01 auditoría: ningún control OK sin comprobación | Matriz y salida del verificador | Contrastar estado y resultado de cada control | Todo OK tiene comprobaciones ejecutadas y aprobadas; lo no comprobado figura PENDIENTE | OK por mención | Resultado esperado cumplido y ninguno prohibido | Diseño | IE-06 |
+| T-322 | H-01 auditoría: el número ejecutado coincide con el resultado | Salida del verificador y auditoría | Comparar el número de comprobaciones declaradas con las filas de resultados | Coinciden; no hay tabla de resultados vacía | Cero comprobaciones con controles OK | Resultado esperado cumplido y ninguno prohibido | Diseño | IE-06, IE-08 |
+| T-323 | H-01 auditoría: salida reproducible | Mismos archivos | Ejecutar el verificador dos veces | Salida idéntica | Resultados no reproducibles | Resultado esperado cumplido y ninguno prohibido | Diseño | IE-08 |
+| T-324 | H-01 auditoría: control negativo detecta un ID duplicado | Copia temporal de la especificación con un ID de regla repetido | Ejecutar el verificador sobre la copia | La comprobación de IDs únicos falla | Verificador que no detecta duplicados | Resultado esperado cumplido y ninguno prohibido | Diseño | IE-08 |
+| T-325 | H-01 auditoría: control negativo detecta una regla sin escenario | Copia temporal sin los escenarios de una regla | Ejecutar el verificador | La comprobación de cobertura falla | Verificador que no detecta reglas sin escenario | Resultado esperado cumplido y ninguno prohibido | Diseño | IE-08 |
+| T-326 | H-01 auditoría: no se confunde verificación documental con validación técnica | Los cinco documentos | Buscar declaraciones de validación técnica | Ninguna sin negación o pendiente; todos los controles tienen nivel Diseñado o Verificado documentalmente | Validación técnica no ejecutada | Resultado esperado cumplido y ninguno prohibido | Diseño | IE-05 |
+| T-327 | H-01 auditoría: los controles técnicos permanecen pendientes | Pruebas de PostgreSQL, RLS, Supabase, concurrencia, locks y rollback | Leer la matriz | Figuran PENDIENTES; no figuran OK | Cerrar controles técnicos sin ejecución | Resultado esperado cumplido y ninguno prohibido | Diseño | IE-06 |
+| T-328 | Integración v6: flujo completo de 19 pasos con procedencia completa | Brief B3, snapshot S2, arte a1, copy V1 y adaptación asignada a un evaluador elegible | Ejecutar los 19 pasos en orden | La evaluación se registra, C1 a C9 se comprueban, la publicación exige la aprobación humana independiente de la versión exacta | Saltar o reordenar pasos | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-88, IG5-77 |
+| T-329 | Integración v6: procedencia incompleta bloquea hasta la publicación | Falta la atribución de un campo del snapshot fijado | Intentar evaluar, confirmar independencia, aprobar y publicar | PROMOTION_FIELD_PROVENANCE_INCOMPLETE en cada paso dependiente; el intento de publicación queda registrado como bloqueado | Publicar con procedencia incompleta | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-78, IG5-88 |
+| T-330 | Integración v6: evaluación anterior no se reutiliza tras un cambio de brief | Evaluación registrada con V1 fijando B2; luego Q crea B3 y R crea V2 fijando B3 | Intentar publicar V2 con la evaluación de V1 | Rechazo: la evaluación corresponde a otra versión exacta; se repiten las verificaciones | Reutilizar la evaluación | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-89 |
+| T-331 | Integración v6: el contribuyente heredado activo no puede evaluar | A introdujo el objetivo en B1 y sigue activo en B3 fijado por V1; A es revisor asignado | A intenta evaluar | Rechazo: A pertenece a E como heredado activo | Evaluar propio aporte | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-77, IG5-56 |
+| T-332 | Integración v6: el contribuyente histórico sustituido no pertenece a E por ese campo | A solo contribuyó un campo sustituido y ninguna otra contribución | A intenta evaluar | Permitido si cumple las demás condiciones; su historial permanece como evidencia | Excluir sin contribución activa | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-73, IG5-77 |
+| T-333 | Integración v6: Admin no levanta un error de procedencia | BRIEF_CHAIN_INCONSISTENTE y Admin con org.manage | Admin intenta una excepción o una asignación para continuar | Rechazo; el bloqueo solo se levanta cuando la fuente está representada y verificada | Excepción administrativa | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-78, IS-14 |
+| T-334 | Integración v6: modificación posterior de la clasificación o de la maestra repite las verificaciones | Evaluación vigente; cambia la clasificación o aparece una versión nueva de la maestra | Intentar publicar | Se bloquea hasta repetir la elegibilidad y la evaluación sobre la fuente vigente | Publicación con evaluación obsoleta | Resultado esperado cumplido y ninguno prohibido | Ejecutable futura | IG5-89, IG5-68 |
+| T-335 | Integración v6: regresión de las 13 transiciones y las 17 claves | Documentos activos | Comparar con v3.3 | Sin transición nueva ni clave nueva; T-02 intacta | Nuevo permiso o transición | Resultado esperado cumplido y ninguno prohibido | Diseño | IG5-88 |
 
 ### 11.1 Resumen
 
 | Concepto | Cantidad |
 |---|---|
-| Pruebas totales | 274 |
-| Diseño | 22 |
-| Ejecutable futura | 203 |
+| Pruebas totales | 335 |
+| Diseño | 33 |
+| Ejecutable futura | 253 |
 | Infraestructura real | 49 |
-| Reglas de integridad | 173 |
-| Reglas con al menos una prueba | 173 |
+| Reglas de integridad | 200 |
+| Reglas con al menos una prueba | 200 |
 
 ### 11.2 Validación documental realizada (no técnica)
 
-Un verificador documental reproducible (`g_verify.py`, con `v4_plan.py` y `v4_check.py`; su código y el comando figuran en `VERIFICADOR_DOCUMENTAL_G1_G5_G10.md`) comprueba sobre los documentos activos: el orden topológico de creación de tablas, FK hacia tablas y columnas existentes, dependencias circulares, funciones y triggers anteriores a sus tablas, índices sobre columnas existentes, coherencia de fases y subfases con el roadmap de 76, T-04 y DG-17, la elegibilidad y sus exclusiones, las garantías de G-5, la identidad y la guarda de G-10, `correlation_id` e idempotencia, estados y transiciones T-02, los 17 permisos, referencias cruzadas, cobertura regla-prueba y prueba-regla, identificadores duplicados, sintaxis Mermaid, estados de aceptación, hashes protegidos, ausencia de código, SQL o infraestructura y que cada documento declare qué está diseñado y qué no está validado. Incluye **controles negativos** que reproducen cada defecto de H-01 y comprueban que el verificador lo detecta. Esto demuestra consistencia interna del diseño; **no** demuestra que funcione: ninguna prueba técnica se ejecutó y las verificaciones documentales no son pruebas de PostgreSQL ni de Supabase.
+Un verificador documental reproducible y publicado (`docs/fase0/herramientas/verificar_expediente.py`, solo biblioteca estándar de Python 3, sin SQL ni lógica de producto; comando y salida real en `AUDITORIA_FINAL_G1_G5_G10.md`, sección 3) lee exclusivamente los cinco documentos activos y los históricos y devuelve un resultado individual por comprobación. Comprueba sobre los documentos activos: identificadores únicos y sin referencias inexistentes, cobertura regla-escenario y escenario-regla, cifras coherentes entre documentos, la fórmula del conjunto excluido E, los diez errores de procedencia, el contrato de integridad, el orden de creación de tablas, los 17 permisos, las 13 transiciones y las 76 subfases, los pendientes del propietario y la ausencia de afirmaciones de validación técnica. No ejecuta SQL ni valida PostgreSQL, RLS ni Supabase: su resultado es verificación documental y no validación técnica (IE-05, IE-08). El verificador de generación interno usado para producir los documentos no se publica y no sustituye al publicado.
 
 **Cobertura regla → pruebas:**
 
@@ -2369,21 +2858,21 @@ Un verificador documental reproducible (`g_verify.py`, con `v4_plan.py` y `v4_ch
 | IG5-39 | Los reemplazos concurrentes bloquean la cabeza de la cadena FOR UPDATE; el segundo falla por UNIQUE o por versión obsoleta y reintenta revalidando | T-142 |
 | IG5-40 | Existe una definición única de contribuyente (4.4.3). Una persona es contribuyente si es autora de copy, editora material del contenido, editora de un campo material del brief, editora de un campo material de los datos promocionales o quien cargó o reemplazó el arte exacto de una versión; o si lo es por herencia con procedencia verificable. La definición operativa deriva de OD-03, PO-08, PO-11 y PO-16 y se incorpora como diseño complementario de esta revisión: T-04 de v3.3 no fue aprobada y no se aprueba retroactivamente, y la Adenda v9 no está aceptada (PO-05) | T-165, T-169, T-178, T-274 |
 | IG5-41 | No son contribuciones de contenido los controles, los actos administrativos ni la operación automática: comentar, consultar, comparar, revisar, registrar hallazgos, solicitar cambios, aprobar, confirmar o descartar hallazgos, conceder o revocar excepciones, asignar revisores, delegar; la IA y el sistema no son personas contribuyentes | T-168, T-169 |
-| IG5-42 | version_contributors devuelve el conjunto, las evidencias y un indicador de completitud; si falta una fuente física (brief_versions, promotion_snapshots, contribution_events, copy_version_provenance, arte exacto o cadena de versiones) falla con el código específico (CONTRIBUYENTES_NO_DETERMINABLES, BRIEF_VERSION_NO_VERIFICABLE, PROMOTION_SNAPSHOT_NO_VERIFICABLE, ASSET_PROVENANCE_NO_VERIFICABLE, COPY_PROVENANCE_INCOMPLETA o VERSION_CHAIN_INCONSISTENTE) y se bloquean la evaluación de impacto, la confirmación de independencia y la aprobación o publicación que dependan de ella; nunca se devuelve un conjunto parcial como completo | T-166, T-167, T-225, T-226, T-236, T-244, T-245, T-250, T-271 |
+| IG5-42 | version_contributors devuelve el conjunto de personas, la evidencia por persona, el tipo de contribución, el campo material, la versión y el evento de origen, la relación directa o heredada, la cadena consultada, el estado de integridad, el indicador de completitud y los errores específicos (IG5-77); si falta una fuente física (brief_versions y sus tablas de cambio y atribución, promotion_snapshots y sus tablas de cambio y atribución, contribution_events, copy_version_provenance, arte exacto o cadena de versiones) falla con el error concreto en vez de devolver una lista parcial; la ausencia de evidencia nunca equivale a ausencia de contribuyente | T-166, T-167, T-225, T-226, T-236, T-244, T-245, T-250, T-271 |
 | IG5-43 | En duda sobre si una aportación anterior continúa presente en una versión posterior se conserva la atribución (PO-16): la procedencia se decide por contenido y por referencias exactas, nunca por porcentajes de similitud, embeddings ni puntuaciones semánticas, y la IA no la decide | T-170, T-223 |
 | IG5-44 | Quien registró una evaluación no puede validar su sustitución cuando el nuevo resultado levanta un bloqueo (DG-06): el evaluador de la evaluación sustituta es otra persona | T-172 |
 | IG5-45 | La persona que propuso la clasificación independiente vigente de una adaptación no puede evaluar el impacto de esa adaptación (DT-02): la exclusión es por adaptación y por clasificación vigente, deja de aplicarse si la clasificación se reemplaza o revierte, nunca borra el historial y no se extiende a quien solo confirma o revierte la clasificación | T-173, T-174, T-251, T-253, T-256, T-257, T-267 |
 | IG5-46 | Una versión descartada o reemplazada fuera del intervalo [V-D, V-B] no aporta contribuyentes al conjunto excluido, salvo por herencia sustantiva (IG5-43) | T-171, T-222 |
 | IG5-47 | Dos evaluadores que intentan registrar el primer dictamen del mismo par se serializan por el bloqueo de la cabeza: uno confirma y el otro recibe PAR_YA_EVALUADO; solo puede sustituir con motivo (IG5-13) | T-177, T-272 |
-| IG5-48 | G-5 no se declara completamente cerrada: la representación física de las contribuciones (PC-02), la definición operativa (DT-01) y la elegibilidad del proponente (DT-02) quedan resueltas en el diseño complementario v5, pero ninguna está aceptada por el propietario ni validada técnicamente, y si falta una fuente el comportamiento es fail-closed (IG5-42, IG5-64) | T-166, T-178, T-274 |
+| IG5-48 | G-5 no se declara completamente cerrada: la representación física de las contribuciones (PC-02), la procedencia por campo de brief y promoción (H-02), la integridad compuesta (H-03), la definición operativa (DT-01) y la elegibilidad del proponente (DT-02) quedan precisadas en el diseño complementario v6, pero ninguna está aceptada por el propietario ni validada técnicamente; T-04 de v3.3 no se aprueba retroactivamente | T-166, T-178, T-274 |
 | IG5-49 | Contribución material de copy: una versión nueva registra a su editor (copy_editor) si, tras normalizar exclusivamente Unicode NFKC, saltos de línea, espacios repetidos y espacios al inicio o final, cambia el contenido de al menos un campo evaluable; no es contribución un cambio exclusivo de updated_at, metadatos técnicos, identificadores, orden visual sin cambio de contenido, espacios o saltos de línea, ni el registro de consulta; si hay un cambio de contenido y no puede determinarse con certeza que sea exclusivamente mecánico, se conserva la atribución anterior y se añade al nuevo editor; una IA no decide por sí sola que un cambio carece de importancia | T-204, T-205, T-206, T-207, T-208, T-217 |
 | IG5-50 | Autoría de copy: la persona que crea una versión es su autora (copy_author); la identidad es auth.uid() del servidor y se conserva en created_by; una modificación crea una versión nueva y nunca sobrescribe la autoría de las anteriores; si la versión se generó con IA, la contribuyente es quien solicitó y guardó la propuesta, y la IA no es persona contribuyente | T-202, T-203 |
-| IG5-51 | Contribución al brief: quien crea o modifica una versión del brief y cambia uno o más de objetivo comercial, audiencia o segmento, producto o servicio promovido, propuesta de valor, beneficio principal, mensajes o claims obligatorios, restricciones o claims prohibidos, oferta o condición comercial solicitada, CTA, canal o formato solicitado, o tono o directriz que afecte el contenido, registra brief_editor; un cambio administrativo o técnico que no altere esos campos no es contribución | T-209, T-210 |
+| IG5-51 | Contribución al brief: quien crea o modifica una versión del brief y cambia uno o más de objetivo comercial, audiencia o segmento, producto o servicio promovido, propuesta de valor, beneficio principal, mensajes o claims obligatorios, restricciones o claims prohibidos, oferta o condición comercial solicitada, CTA, canal o formato solicitado, o tono o directriz que afecte el contenido, registra brief_editor; un cambio administrativo o técnico que no altere esos campos no es contribución | T-209, T-210, T-280 |
 | IG5-52 | Contribución a datos promocionales: quien crea o modifica un snapshot y cambia código de promoción, SKU o productos incluidos, precio de referencia, precio promocional, descuento, vigencia, condiciones, moneda o restricciones comerciales registra promotion_editor; un cambio administrativo que no modifique datos comerciales no lo es; no se inventa integración con inventario ni disponibilidad de existencias | T-211, T-212, T-213, T-265 |
-| IG5-53 | Contribución de arte: quien carga o reemplaza el archivo de arte asociado a una versión registra asset_uploader con identidad del servidor y arte de identidad y versión exactas; la contribución se conserva mientras el arte siga asociado a la versión evaluada o se herede en una posterior; reemplazar el arte genera una contribución nueva y no modifica el registro del arte anterior; quien reutiliza un arte ya cargado no es asset_uploader | T-214, T-215, T-237, T-266 |
+| IG5-53 | Contribución de arte: quien carga o reemplaza el archivo de arte asociado a una versión registra asset_uploader con identidad del servidor y arte de identidad y versión exactas; la contribución se conserva mientras el arte siga asociado a la versión evaluada o se herede en una posterior; reemplazar el arte genera una contribución nueva y no modifica el registro del arte anterior; quien reutiliza un arte ya cargado no es asset_uploader | T-214, T-215, T-237, T-266, T-307 |
 | IG5-54 | Herencia por procedencia verificable: cada unidad de contenido conserva referencias a sus contribuciones de origen; (1) un contenido conservado sin cambios materiales conserva sus referencias; (2) un contenido modificado materialmente registra al nuevo editor; (3) un contenido nuevo que reemplaza a otro conserva provisionalmente la atribución anterior mientras no haya evidencia verificable de que la aportación anterior fue completamente descartada; (4) un bloque o campo eliminado por completo deja de aportar procedencia a la versión nueva y nunca se elimina del historial anterior; (5) un contenido transformado cuya aportación anterior no puede determinarse objetivamente se conserva; (6) la IA no puede eliminar, reducir ni modificar atribuciones | T-216, T-217, T-218, T-223, T-266 |
 | IG5-55 | Exclusión de una atribución heredada: solo mediante una decisión documentada de una persona independiente, con motivo y evidencia, registrada como una fila nueva de procedencia que nunca modifica versiones anteriores; la persona que realizó la aportación original no puede validar su propia exclusión; la resuelve quien tiene piece.review (clave existente, sin permiso nuevo) | T-219, T-220 |
-| IG5-56 | El conjunto excluido para evaluar la independencia es E = Ctr(V-A) ∪ Inh(V-A) ∪ ⋃ Ctr(v) para v ∈ [V-D, V-B] ∪ P, donde Ctr(V-A) son los contribuyentes directos de la versión exacta de la adaptación, Inh(V-A) los heredados cuya procedencia permanece en esa versión, Ctr(v) los contribuyentes directos de cada versión de la maestra del intervalo (ambos extremos incluidos), con el arte exacto de cada versión usada, y P la persona que propuso la clasificación independiente vigente; no incluye autores de versiones descartadas fuera del intervalo salvo herencia material; no cambia la definición de V-D ni V-B | T-202, T-204, T-209, T-211, T-214, T-221, T-222, T-251, T-255, T-256, T-263, T-264, T-267, T-273 |
+| IG5-56 | El conjunto excluido para evaluar la independencia es E = Ctr(V-A) ∪ Inh(V-A) ∪ ⋃ Ctr(v) para v ∈ [V-D, V-B] ∪ P, donde Ctr(V-A) son los contribuyentes directos de la versión exacta de la adaptación, Inh(V-A) los heredados cuya procedencia permanece en esa versión, Ctr(v) los contribuyentes directos de cada versión de la maestra del intervalo (ambos extremos incluidos), con el arte exacto de cada versión usada, y P la persona que propuso la clasificación independiente vigente; no incluye autores de versiones descartadas fuera del intervalo salvo herencia material; no cambia la definición de V-D ni V-B | T-202, T-204, T-209, T-211, T-214, T-221, T-222, T-251, T-255, T-256, T-263, T-264, T-267, T-273, T-331 |
 | IG5-57 | Una persona solo puede evaluar si (1) es miembro activo, (2) tiene piece.review, (3) está asignada a la adaptación y su asignación sigue vigente, (4) no pertenece a E, (5) no está impedida por las reglas de sustitución de DG-06 y (6) mantiene todos los requisitos al guardar, revalidados bajo bloqueo; si no existe una persona elegible no hay evaluación válida ni publicación, y la facultad no se asigna automáticamente a Admin, al propietario de la organización ni a quien concedió una excepción | T-249, T-252, T-260, T-261, T-262, T-268, T-270 |
 | IG5-58 | brief_versions es inmutable: un brief no se modifica en sitio, cada cambio genera una versión nueva con version_number, created_by fijado por el servidor con auth.uid() (inmodificable), versión anterior, campos materiales, snapshot_hash y estado de integridad; se conserva el historial completo; copy_versions fija brief_version_id exacto y ninguna pieza depende de la referencia mutable al último brief | T-227, T-228, T-229, T-230, T-246 |
 | IG5-59 | promotion_snapshots es inmutable: los datos promocionales que usa una pieza quedan congelados en un snapshot exacto; cada cambio comercial genera un snapshot nuevo con autor del servidor, referencia al anterior y hash; no se consulta una promoción mutable para reconstruir una auditoría; no se publica con una referencia promocional cuyo snapshot no pueda recuperarse o verificarse | T-232, T-233, T-234, T-235, T-265 |
@@ -2391,11 +2880,32 @@ Un verificador documental reproducible (`g_verify.py`, con `v4_plan.py` y `v4_ch
 | IG5-61 | copy_version_provenance relaciona la versión exacta de copy, el evento de contribución, la unidad de contenido, la versión de origen, la relación directa o heredada, el evento de procedencia anterior, el estado de vigencia y la resolución independiente; es append-only; permite responder sin inferencias quién creó cada unidad, quién la modificó, de qué versión procede, qué heredó, qué permanece, qué dejó de estar presente y quién validó una exclusión y por qué; la procedencia de una versión nueva nunca reescribe la de una anterior | T-216, T-243, T-244 |
 | IG5-62 | Cada versión de copy fija las referencias exactas que usó: brief_version_id, promotion_snapshot_id cuando aplica, los assets exactos (filas de creative_assets de la versión) y la versión de copy anterior; no hay referencias implícitas a versiones actuales o últimas; toda FK incluye organization_id e impide referencias cruzadas entre organizaciones | T-231, T-235, T-238 |
 | IG5-63 | version_contributors es una función determinista (STABLE, solo lectura) que recibe organización, pieza y versión exacta; lee la autoría de la versión, los eventos, la procedencia directa y heredada, los briefs y snapshots exactos y los assets exactos; recorre la cadena requerida; elimina duplicados por persona sin eliminar la evidencia de sus múltiples contribuciones; devuelve el conjunto excluido, la lista de evidencias de cada exclusión, un indicador de completitud y un código de error específico cuando falta una fuente | T-224, T-228, T-237, T-239, T-245, T-263 |
-| IG5-64 | Ante cualquiera de los seis códigos de error de version_contributors se bloquean la evaluación de impacto, la confirmación de independencia y la aprobación o publicación que dependan de la evaluación; el bloqueo solo se levanta cuando la fuente faltante está representada y verificada, nunca por excepción administrativa ni por intervención de Admin | T-225, T-226, T-227, T-232, T-236, T-260, T-271 |
+| IG5-64 | Ante cualquiera de los diez códigos de error de version_contributors se bloquean la evaluación de impacto, la confirmación de independencia y la aprobación o publicación que dependan de la evaluación; el bloqueo solo se levanta cuando la fuente faltante está representada y verificada, nunca por excepción administrativa ni por intervención de Admin | T-225, T-226, T-227, T-232, T-236, T-260, T-271 |
 | IG5-65 | activity_logs no es fuente de verdad de contribuciones ni de procedencia y no se le atribuye contenido que v3.3 no define: brief_versions, promotion_snapshots, contribution_events y copy_version_provenance son entidades propias | T-250 |
 | IG5-66 | Flujo integrado: versión inmutable de copy, que fija brief, snapshot promocional y assets exactos; registro de contribuciones directas; conservación de la procedencia heredada; reconstrucción del conjunto con version_contributors; clasificación vigente y su proponente; construcción de E; elegibilidad del evaluador asignado; validación del par exacto; registro de la evaluación; un cambio posterior en la maestra o la adaptación obliga a usar el nuevo par y recalcular E; una evaluación anterior nunca se reutiliza para una versión distinta; la evaluación solo se registra con procedencia completa, evaluador elegible, asignación vigente, clasificación vigente, versiones exactas coincidentes y bloqueo; no sustituye a la aprobación humana ni a la aprobación independiente de la versión | T-269, T-272, T-273 |
 | IG5-67 | Quien propuso una clasificación independiente no puede confirmar su propia propuesta (DT-02); propose_independence registra al actor autenticado y la clasificación propuesta, y su identidad queda vinculada al evento de clasificación | T-173, T-258 |
-| IG5-68 | La evaluación de impacto revalida bajo bloqueo la clasificación vigente y la identidad de su proponente antes de guardar; si la clasificación cambió, la evaluación obsoleta se bloquea; quien confirma o revierte la clasificación no queda excluido solo por esa operación, pero sí si es contribuyente por otra causa; no se crea permiso, no se modifica T-02 y no hay autoridad automática para Admin, el propietario ni quien asigna el revisor | T-174, T-253, T-254, T-255, T-259, T-262, T-269 |
+| IG5-68 | La evaluación de impacto revalida bajo bloqueo la clasificación vigente y la identidad de su proponente antes de guardar; si la clasificación cambió, la evaluación obsoleta se bloquea; quien confirma o revierte la clasificación no queda excluido solo por esa operación, pero sí si es contribuyente por otra causa; no se crea permiso, no se modifica T-02 y no hay autoridad automática para Admin, el propietario ni quien asigna el revisor | T-174, T-253, T-254, T-255, T-259, T-262, T-269, T-334 |
+| IG5-69 | La procedencia del brief y de los datos promocionales se reconstruye por campo material y no por el creador de la versión completa: brief_field_changes registra una fila por cada uno de los 12 campos materiales del brief y promotion_field_changes una por cada uno de los 9 campos materiales de la promoción (código, SKU o productos, precio de referencia, precio promocional, descuento, vigencia, condiciones, moneda, restricciones) en cada versión, con change_kind, hash anterior, hash nuevo, segmentos anteriores y retenidos, evento y persona; la versión completa nunca se atribuye en bloque a quien la creó | T-275 |
+| IG5-70 | Regla determinista de cambio por campo (sin IA, embeddings, similitud ni inferencias probabilísticas): tras normalizar exclusivamente Unicode NFKC, saltos de línea, espacios repetidos y espacios al inicio o final, un campo se divide en segmentos (una línea no vacía por segmento; los campos de valor único tienen un solo segmento); retained_segments es el número de segmentos del valor anterior que aparecen idénticos en el valor nuevo; sin_cambio si ambos hashes son iguales; introducido si no había valor anterior; eliminado si el valor nuevo está vacío o ausente; sustituido si había valor anterior, el valor es distinto y retained_segments = 0; modificado si el valor es distinto y retained_segments >= 1. Cualquier cambio de un campo de valor único (por ejemplo canal, formato, moneda, descuento) es sustituido. Si el resultado no puede determinarse con esta regla se declara procedencia incompleta | T-275, T-276, T-277, T-278, T-279, T-280, T-286, T-287, T-288, T-289, T-299 |
+| IG5-71 | Las filas de cambio y de atribución de una versión se crean únicamente dentro de create_brief_version o create_promotion_snapshot, en la misma transacción que la versión, con una fila de cambio por campo material (12 para brief, 9 para promoción); si falta alguna la versión queda no_verificable; triggers BEFORE UPDATE, DELETE y TRUNCATE rechazan toda modificación y un trigger BEFORE INSERT fija created_by = auth.uid() y comprueba que la fila corresponde a la versión y a la organización | T-275, T-300, T-314 |
+| IG5-72 | Atribuciones de la versión V_n por campo, calculadas desde las de V_n-1: (a) sin_cambio: todas las filas de V_n-1 pasan a V_n como heredadas con el mismo estado; (b) introducido: una fila directa activa para el evento de V_n; (c) modificado: las filas activas de V_n-1 pasan como heredadas activas, las históricas como heredadas históricas y se agrega una fila directa activa para quien modificó; (d) sustituido: las filas activas de V_n-1 pasan como heredadas históricas, las históricas siguen históricas y se agrega una fila directa activa para quien sustituyó; (e) eliminado: las filas activas pasan como históricas y quien eliminó el campo queda como contribuyente directo activo de esa modificación material. Una modificación de un campo no altera las atribuciones de ningún otro campo (modificar el descuento no borra a quien definió las condiciones que permanecen) | T-275, T-276, T-277, T-278, T-279, T-286, T-287, T-288, T-289, T-290, T-298 |
+| IG5-73 | El historial de atribución se conserva íntegro: toda fila histórica se arrastra a todas las versiones posteriores con attribution_state = historica, no vuelve nunca a activa y no se borra; el conjunto activo de contribuyentes de una versión solo incluye filas activas; las históricas se devuelven como evidencia separada | T-278, T-279, T-289, T-299, T-332 |
+| IG5-74 | Cadena de versiones de brief: para la versión exacta B_n, verify_field_provenance recorre previous_version_id hasta la raíz y exige misma organización, mismo brief, version_number consecutivo descendente de n a 1, una sola raíz con previous_version_id NULL, ningún ciclo (el recorrido se detiene tras n pasos) y ninguna referencia rota; cualquier incumplimiento devuelve BRIEF_CHAIN_INCONSISTENTE y bloquea | T-281, T-283, T-284, T-285 |
+| IG5-75 | Cadena de snapshots promocionales: para el snapshot exacto S_n, verify_field_provenance recorre previous_snapshot_id hasta la raíz y exige misma organización, misma promotion_line_id, una sola raíz, ningún ciclo (el recorrido se detiene tras el número de snapshots de la línea) y ninguna referencia rota; cualquier incumplimiento devuelve PROMOTION_CHAIN_INCONSISTENTE y bloquea | T-286, T-313 |
+| IG5-76 | Recalculo y comparación por campo: verify_field_provenance recalcula, desde la raíz y aplicando IG5-70 e IG5-72 a las filas de cambio, las atribuciones esperadas de la versión exacta y las compara una por una con las filas almacenadas; cualquier fila faltante, sobrante, con estado distinto o con evento que no coincida con el de la fila de cambio devuelve BRIEF_FIELD_PROVENANCE_INCOMPLETE o PROMOTION_FIELD_PROVENANCE_INCOMPLETE según el dominio y bloquea; un evento de cambio sin persona verificable en memberships equivale a procedencia incompleta | T-281, T-282, T-300 |
+| IG5-77 | Contrato de salida de version_contributors: por cada persona devuelve contributor_id, tipo de contribución, campo material (si aplica), versión de origen, evento de origen, relación (directa o heredada), categoría, evidencia y la cadena de versiones consultada; categorías: contribuyente directo, contribuyente heredado activo, contribuyente histórico cuyo contenido fue sustituido o eliminado (no integra E salvo que además conserve otra contribución activa o directa), actor no contribuyente (recorded_by sin aportación) y procedencia no verificable; devuelve además integrity_state, el indicador de completitud (verdadero solo si las diez comprobaciones del contrato terminaron sin error) y la lista de errores; con cualquier error el conjunto no se entrega como completo | T-281, T-290, T-298, T-299, T-328, T-331, T-332 |
+| IG5-78 | Los diez errores de procedencia (CONTRIBUYENTES_NO_DETERMINABLES, BRIEF_VERSION_NO_VERIFICABLE, PROMOTION_SNAPSHOT_NO_VERIFICABLE, BRIEF_CHAIN_INCONSISTENTE, PROMOTION_CHAIN_INCONSISTENTE, BRIEF_FIELD_PROVENANCE_INCOMPLETE, PROMOTION_FIELD_PROVENANCE_INCOMPLETE, ASSET_PROVENANCE_NO_VERIFICABLE, COPY_PROVENANCE_INCOMPLETA, VERSION_CHAIN_INCONSISTENTE) se devuelven con su código propio, sin sustituirlos por un mensaje genérico; cada uno bloquea la evaluación de impacto, la confirmación de independencia y la aprobación o publicación que dependan de esa evaluación; ninguna excepción administrativa ni Admin los levanta | T-282, T-283, T-284, T-300, T-329, T-333 |
+| IG5-79 | Un copy que usa una versión anterior del brief o un snapshot anterior (no el último) conserva esa fuente exacta: sus contribuyentes se calculan con las atribuciones de la versión fijada; un cambio posterior del brief o de la promoción crea una versión nueva y no altera el conjunto de esa versión de copy; incorporar el cambio exige una versión nueva de copy que fije la fuente nueva y repetir las verificaciones | T-294, T-295, T-296, T-297 |
+| IG5-80 | Toda relación de las trece tablas nuevas y de las columnas agregadas valida organization_id junto con el identificador de la entidad: ninguna FK de integridad es simple; las claves compuestas y las claves únicas que las respaldan son las del contrato de integridad (4.4.9), que lista para cada relación la tabla de origen y de destino, las columnas, la condición, el mecanismo, el momento de validación, el error y la consecuencia | T-285, T-292, T-302, T-313, T-316 |
+| IG5-81 | Cada evento de contribution_events tiene exactamente un origen tipado (brief, copy, arte o promoción) mediante columnas FK compuestas y la restricción num_nonnulls(...) = 1; origin_kind lo deriva el servidor de la columna informada y una CHECK exige que origin_kind coincida con la columna no nula; las tablas dependientes referencian al evento con claves que incluyen origin_kind o la columna tipada, de modo que un evento de brief no pueda asociarse a un snapshot promocional ni a una versión de copy | T-291, T-302, T-303, T-318 |
+| IG5-82 | El actor de todo evento y de toda fila de procedencia procede de la identidad autenticada en el backend: las funciones de escritura no tienen parámetro de actor, calculan contributor_id y recorded_by con auth.uid() (salvo inherited_contributor y copy_author de una versión generada por IA, donde contributor_id es la persona que solicitó y guardó) y rechazan, sin escribir, cualquier valor de actor recibido del cliente; el actor debe ser miembro activo de la organización del evento; ni el frontend ni RLS por sí sola establecen la identidad | T-293, T-301, T-317 |
+| IG5-83 | Cada fila de copy_version_provenance valida conjuntamente: (1) organización; (2) versión de copy que recibe la procedencia (FK a copy_versions); (3) versión o arte de origen; (4) evento de contribución; (5) tipo de origen (origin_kind coincide con el del evento); (6) actor (contributor_id coincide con el del evento); (7) unidad de contenido o campo; (8) relación directa o heredada con sus columnas obligatorias; (9) fila antecesora cuando es heredada, que debe pertenecer a la versión anterior de la misma cadena (trigger); cualquier incumplimiento rechaza la inserción con COPY_PROVENANCE_INCOMPLETA o ASSET_PROVENANCE_NO_VERIFICABLE | T-317, T-318, T-319 |
+| IG5-84 | Una procedencia de brief solo puede referenciar eventos de origin_kind = brief y una de promoción solo eventos de origin_kind = promotion (FK compuestas de las tablas de atribución al evento con la columna tipada y contributor_id); una procedencia de arte exige que la fila de arte used_asset_id pertenezca a la versión de copy que la usa (FK compuesta a creative_assets por organización, versión de copy e identificador); una procedencia heredada de arte exige que origin_asset_id sea alcanzable desde used_asset_id por reused_from_asset_id dentro de la misma organización (trigger, sin ciclos) | T-292, T-303, T-304, T-305, T-306 |
+| IG5-85 | Cada versión de copy fija de forma inmutable su brief_version_id exacto, su promotion_snapshot_id exacto cuando aplica, sus filas de arte exactas (creative_assets con su copy_version_id), la versión anterior de copy (parent_version_id), la organización, el autor autenticado y la evidencia de creación (hash del contenido y de las fuentes fijadas); un trigger rechaza todo UPDATE de esas columnas; una modificación posterior del brief, de la promoción o de un arte genera filas nuevas y no cambia retroactivamente la fuente de una versión anterior; si la fuente fijada no es verificable, el copy no pasa las validaciones dependientes | T-296, T-297, T-312 |
+| IG5-86 | create_copy_version rechaza crear la versión si el brief_version_id fijado, el snapshot, un arte o la versión anterior no existen en la organización, no tienen integrity_status = verificado o su cadena no es verificable (BRIEF_VERSION_NO_VERIFICABLE, PROMOTION_SNAPSHOT_NO_VERIFICABLE, ASSET_PROVENANCE_NO_VERIFICABLE, VERSION_CHAIN_INCONSISTENTE); no existen versiones sin fuente verificable | T-311 |
+| IG5-87 | Las correcciones de contribuciones y de procedencia producen registros nuevos: un evento se corrige con otro evento con previous_event_id, una exclusión es una fila nueva con presence_state = excluida_por_resolucion, una atribución histórica no se reactiva; el actor de un evento no puede cambiarse ni los eventos eliminarse; ninguna operación reescribe el historial | T-291, T-308, T-309, T-310 |
+| IG5-88 | Orden lógico obligatorio del flujo integrado (19 pasos, 4.4.7): versión inmutable de brief; snapshot promocional cuando corresponda; assets exactos; versión inmutable de copy con referencias exactas; contribuciones directas; procedencia heredada; validación de cadenas; version_contributors; conjunto completo E; clasificación vigente y su proponente; elegibilidad; verificación de miembro activo, piece.review, asignación vigente y fuera de E; revalidación bajo bloqueo; par exacto de master y adaptación; evaluación de impacto; C1 a C9; intento de publicación (G-10); bloqueo ante cualquier evidencia o condición faltante; aprobación humana independiente de la versión exacta; no cambia las 13 transiciones de T-02 y la evaluación de impacto no sustituye la aprobación humana | T-328, T-329, T-335 |
+| IG5-89 | Toda modificación material posterior (contenido, brief, promoción, arte, maestra o clasificación) requiere una versión o un registro nuevo y repetir las verificaciones que le corresponden: una evaluación, una confirmación de independencia o una aprobación anteriores no se reutilizan sobre una fuente distinta de la que evaluaron | T-330, T-334 |
 | IG10-01 | Toda solicitud autenticada, de un miembro de la organización y aceptada por el mecanismo de publicación termina en una de dos formas excluyentes: (a) exactamente una fila confirmada de publication_attempts, permitida o bloqueada, o (b) la transacción falla, sin publicación y sin fila confirmada | T-08, T-17, T-26, T-27, T-34, T-44, T-57, T-68, T-90 |
 | IG10-02 | Se evalúan todas las condiciones aplicables aunque una falle; si C1 falla, las demás se registran como no evaluadas para no revelar información | T-31 |
 | IG10-03 | El resultado es permitido solo si las nueve condiciones son cumple o no_aplica y la verificación está completa | T-13, T-26, T-27, T-28, T-29, T-30, T-32, T-37, T-44, T-50 |
@@ -2445,8 +2955,10 @@ Un verificador documental reproducible (`g_verify.py`, con `v4_plan.py` y `v4_ch
 | IS-10 | Un fallo de registro nunca habilita la publicación | T-34, T-57, T-200 |
 | IS-11 | Quedan fuera de lo que este diseño impide, y se declaran como límite con mitigación operativa y detección por auditoría y no como garantía: el superusuario, el propietario de las tablas, la desactivación de triggers (session_replication_role, ALTER TABLE ... DISABLE TRIGGER), la edición manual de datos y la pertenencia a los roles propietarios | T-71, T-193, T-201 |
 | IS-12 | brief_versions, promotion_snapshots, contribution_events y copy_version_provenance nacen con RLS activada y sin privilegios para anon, authenticated y service_role; la escritura solo ocurre por funciones del propietario cci_records_owner con search_path fijo, permisos mínimos y validación interna del actor con auth.uid(); no se afirma que una función SECURITY DEFINER sea segura por el mero hecho de usarla; ningún cliente escribe directamente registros de contribución o procedencia | T-247, T-248 |
-| IS-13 | Los cuatro registros son inmutables: triggers BEFORE UPDATE, DELETE y TRUNCATE los rechazan y ninguna función concede UPDATE o DELETE; RLS no es la única defensa; los límites de IS-11 (superusuario, propietario, desactivar triggers, edición manual) se declaran y se mitigan con detección por auditoría | T-215, T-230, T-240, T-241 |
-| IS-14 | Admin no obtiene privilegio implícito sobre contribuciones, procedencia, exclusiones, evaluaciones ni elegibilidad; no existe autoevaluación ni autovalidación | T-249, T-261, T-268 |
+| IS-13 | Los cuatro registros son inmutables: triggers BEFORE UPDATE, DELETE y TRUNCATE los rechazan y ninguna función concede UPDATE o DELETE; RLS no es la única defensa; los límites de IS-11 (superusuario, propietario, desactivar triggers, edición manual) se declaran y se mitigan con detección por auditoría | T-215, T-230, T-240, T-241, T-308, T-309, T-310, T-312 |
+| IS-14 | Admin no obtiene privilegio implícito sobre contribuciones, procedencia, exclusiones, evaluaciones ni elegibilidad; no existe autoevaluación ni autovalidación | T-249, T-261, T-268, T-333 |
+| IS-15 | Las funciones privilegiadas que escriben contribuciones, procedencia, atribuciones o versiones pertenecen a un propietario dedicado (cci_records_owner) sin privilegios de superusuario, tienen search_path fijo con esquemas explícitos, EXECUTE revocado a PUBLIC y concedido solo a los roles mínimos de 8.9, y validan internamente al actor con auth.uid() no nulo y membresía activa; el diseño no afirma que SECURITY DEFINER sea seguro por sí solo: su seguridad depende de esos cuatro controles y de que ningún parámetro de identidad provenga del cliente; no se usa activity_logs como fuente de contribuciones ni se le atribuyen columnas no verificadas en la línea base | T-293, T-301, T-315 |
+| IS-16 | Un evento asset_uploader solo puede referenciar un arte efectivamente usado por la versión de copy indicada (FK compuesta); la reutilización de un arte mediante reused_from_asset_id no genera asset_uploader para quien reutiliza; un arte no usado por ninguna versión de copy no puede asociarse a una procedencia | T-305, T-306, T-307 |
 | IP-01 | T-02 conserva sus 13 transiciones: una pieza Publicada no se modifica; solo puede archivarse (#13) | T-47, T-63 |
 | IP-02 | Si cambia una maestra con adaptaciones ya Publicadas: se conservan artefacto y aprobación histórica, se registra la evaluación, se avisa (N-22) y se bloquean nuevas publicaciones de adaptaciones cuando C3 a C6 lo exigen | T-62 |
 | IP-03 | Una nueva versión comercial es una pieza nueva; la anterior se conserva y se archiva por #13; el archivo interno no retira contenido externo | T-63, T-64 |
@@ -2468,6 +2980,10 @@ Un verificador documental reproducible (`g_verify.py`, con `v4_plan.py` y `v4_ch
 | IE-02 | Ningún documento activo declara abierta, reabierta o sin cerrar la Fase 0 v3.3, ni altera su SHA-256 ni su registro de aceptación | T-180 |
 | IE-03 | La aceptación de v3.3 como línea base no autoriza Fase 1, infraestructura, SQL ni implementación | T-181 |
 | IE-04 | G-1, G-5 y G-10 no se declaran aceptadas por el propietario ni validadas técnicamente; DT-01, PC-02 y DT-02 se incorporan como diseño complementario de esta revisión, sin aprobar T-04 de v3.3 retroactivamente ni aceptar la Adenda v9 | T-182 |
+| IE-05 | Cada control de auditoría se clasifica en exactamente uno de tres niveles de evidencia, sin mezclarlos: Diseñado (existe una regla documentada), Verificado documentalmente (comprobado por el verificador contra archivos, reglas, referencias y escenarios reales del expediente) o Validado técnicamente (existe una ejecución real del mecanismo técnico); ningún control de esta revisión alcanza el tercer nivel | T-320, T-326 |
+| IE-06 | Un control solo puede figurar como OK si el verificador publicado lo ejecutó en la corrida registrada y todas sus comprobaciones pasaron; un control que no pudo comprobarse figura como PENDIENTE y un control con una comprobación fallida como NO OK; el número de controles ejecutados debe coincidir con el de resultados individuales de la salida del verificador | T-321, T-322, T-327 |
+| IE-07 | La matriz de auditoría registra por control: ID estable, nombre, regla exacta, documento y sección, evidencia concreta (identificadores de reglas, escenarios o secciones), procedimiento, resultado real, estado, nivel de evidencia y observación; no se aceptan referencias a documentos completos | T-320 |
+| IE-08 | El verificador publicado en docs/fase0/herramientas lee solo los cinco documentos activos y los archivos históricos, no contiene lógica de producto, SQL ni código de aplicación, devuelve un resultado individual por comprobación y es reproducible: dos ejecuciones sobre los mismos archivos producen la misma salida; su resultado verifica el expediente y no constituye validación técnica de PostgreSQL ni de Supabase | T-322, T-323, T-324, T-325 |
 
 ## 12. Decisiones del propietario
 
@@ -2505,7 +3021,7 @@ Ninguna impide aceptar la especificación y cada una tiene un comportamiento por
 
 ### 12.3 Pendientes que se mantienen
 
-**DT-01, PC-02 y DT-02:** resueltas en el diseño complementario v5 y sujetas a aceptación formal; T-04 de v3.3 no se aprueba retroactivamente; la independencia de G-5 sigue sin declararse cerrada mientras no haya aceptación y validación técnica (IG5-48). Además: DG-09 (retención), DG-12 (hash, 6.6), DG-16 (umbrales, T-03), DG-18 (`replaces_piece_id`), DG-19 y DG-20 (pendientes de aceptación), RP-01, P-01 a P-05, P-10, OD-13, PO-05 y la aceptación de la Adenda v9, DEP-RET-01 y los valores reales de canales y formatos (DEP-CAT-01). G-9 completo sigue abierto.
+**DT-01, PC-02, DT-02, H-01, H-02 y H-03:** precisadas en el diseño complementario v6 y sujetas a aceptación formal; T-04 de v3.3 no se aprueba retroactivamente; la independencia de G-5 sigue sin declararse cerrada mientras no haya aceptación y validación técnica (IG5-48). Además: DG-09 (retención), DG-12 (hash, 6.6), DG-16 (umbrales, T-03), DG-18 (`replaces_piece_id`), DG-19 y DG-20 (pendientes de aceptación), RP-01, P-01 a P-05, P-10, OD-13, PO-05 y la aceptación de la Adenda v9, DEP-RET-01 y los valores reales de canales y formatos (DEP-CAT-01). G-9 completo sigue abierto.
 
 **Efecto de la aceptación:** al aceptar esta especificación se habilita el diseño técnico detallado, no la implementación; sin ella, ninguna adaptación independiente puede publicarse.
 
@@ -2539,7 +3055,7 @@ Ninguna impide aceptar la especificación y cada una tiene un comportamiento por
 | RR-24 | El orden de versión de la maestra (columna de copy_versions) no está fijado en v3.3 | Fijarlo al diseñar 2.7; el intervalo V-D a V-B depende de él |
 | RR-25 | El valor de pg_current_xact_id dentro de un savepoint o bloque EXCEPTION no está verificado | La guarda rechaza si difiere (fail-closed); prueba de infraestructura real |
 | RR-26 | La FK no distingue «sin arte» de «otro arte» con columnas anulables | Trigger asset_match y claves de arte no nulas en el par de evaluaciones |
-| RR-27 | DT-01, PC-02 y DT-02 se resuelven en el diseño complementario v5 (definición operativa, representación física y elegibilidad del proponente), pero no están aceptadas por el propietario ni validadas técnicamente | G-5 no se declara cerrada; si el propietario cambia alguna regla se revisa 4.4.3 a 4.4.7; mientras no se implementen y validen las cuatro fuentes, la evaluación falla cerrada (IG5-42, IG5-64) |
+| RR-27 | DT-01, PC-02 y DT-02 se resuelven en el diseño complementario v6 (definición operativa, representación física y elegibilidad del proponente), pero no están aceptadas por el propietario ni validadas técnicamente | G-5 no se declara cerrada; si el propietario cambia alguna regla se revisa 4.4.3 a 4.4.7; mientras no se implementen y validen las cuatro fuentes, la evaluación falla cerrada (IG5-42, IG5-64) |
 | RR-28 | El superusuario, el propietario de las tablas, la desactivación de triggers y la edición manual de datos no los impide este diseño | Se declara como límite (IS-11); mitigación operativa y detección comparando periódicamente la auditoría con los estados; no se afirma protección absoluta |
 | RR-29 | La disponibilidad y la fuente aleatoria de gen_random_uuid() en la versión de PostgreSQL de Supabase no están verificadas (en PostgreSQL 13 o posterior es una función del núcleo) | Prueba de infraestructura real; si no estuviera, se revisa la generación del nonce antes de implementar |
 | RR-30 | La variable local de la transacción que lleva el nonce a la guarda puede ser escrita por quien tenga acceso SQL | No es la defensa: la guarda exige además la fila del intento de la transacción, el nonce sin SELECT para roles de aplicación y los privilegios de IS-01 a IS-03 (IG10-32) |
@@ -2552,6 +3068,12 @@ Ninguna impide aceptar la especificación y cada una tiene un comportamiento por
 | RR-37 | La resolución independiente de una exclusión de atribución reutiliza piece.review (clave existente) porque el encargo no define otra facultad | Si el propietario no la acepta, no existe forma de excluir una atribución heredada y se conserva siempre (PO-16); no se crea permiso |
 | RR-38 | creative_assets.reused_from_asset_id es una columna propuesta que v3.3 no define; sin ella no se puede determinar la herencia del arte reutilizado | Sin la columna, un arte reutilizado produce ASSET_PROVENANCE_NO_VERIFICABLE y se bloquea; se aprueba con DG-19/DG-20 en la misma aceptación |
 | RR-39 | Saber si una versión de copy usa datos promocionales (y por tanto exige promotion_snapshot_id) depende de la Fase 4, no definida en v3.3 | Mientras no se defina, una pieza que declare promoción sin snapshot verificable se bloquea (IG5-59); lo define 4.1 |
+| RR-40 | La regla de segmentos (una línea no vacía por segmento) puede sobreatribuir: una línea idéntica conservada por un cambio de formato mantiene al autor anterior como contribuyente activo | Limitación declarada de IG5-70: ante la duda se conserva la atribución (PO-16); la corrección es un evento nuevo (IG5-87) |
+| RR-41 | La normalización NFKC, de saltos de línea y de espacios depende de funciones de PostgreSQL y de la configuración regional no verificadas | Validación técnica en 2.1 y 4.1 tras autorización; el diseño fija la regla, no la implementación |
+| RR-42 | verify_field_provenance recorre la cadena completa y recalcula las atribuciones: su costo crece con el número de versiones | Medir en validación técnica; el diseño fija el límite de pasos y el error de cadena inconsistente, no el rendimiento |
+| RR-43 | La alcanzabilidad del arte heredado (reused_from_asset_id) se impone por trigger, no por FK declarativa | Escenarios de H-03 diseñados; ejecución pendiente de PostgreSQL real |
+| RR-44 | El verificador publicado analiza texto Markdown con reglas sintácticas: no ejecuta SQL, no renderiza Mermaid y no valida semántica de negocio | Su resultado es verificación documental; no sustituye la validación técnica ni la aceptación formal del propietario |
+| RR-45 | Un nombre de tabla con formato distinto al esperado por el verificador podría omitirse de una comprobación | Los controles negativos del propio verificador detectan los defectos inyectados, no todos los posibles |
 
 ## 14. Plan de migración, rollback y orden de implementación
 
@@ -2597,71 +3119,81 @@ Ninguna impide aceptar la especificación y cada una tiene un comportamiento por
 | 22 | 2.x | FK diferida | creative_pieces → briefs | creative_pieces, briefs |
 | 23 | 2.1 | tabla (estructura) | brief_versions | briefs, memberships |
 | 24 | 2.1 | tabla (estructura) | contribution_events | brief_versions, memberships |
-| 25 | 2.1 | función | record_contribution_event (interna; solo invocable por las funciones del propietario cci_records_owner; sin EXECUTE para roles de aplicación) | contribution_events |
-| 26 | 2.1 | trigger | BEFORE INSERT sobre brief_versions: created_by = auth.uid(), version_number, snapshot_hash; BEFORE UPDATE, DELETE y TRUNCATE: rechazo (inmutable) | brief_versions |
-| 27 | 2.1 | trigger | BEFORE UPDATE, DELETE y TRUNCATE sobre contribution_events: rechazo; la corrección es un evento nuevo | contribution_events |
-| 28 | 2.1 | función | create_brief_version (única ruta de escritura de brief_versions; registra brief_editor cuando cambia un campo material) | brief_versions, briefs, contribution_events |
-| 29 | 2.1 | habilitación | Políticas RLS y privilegios de brief_versions y contribution_events | tablas y funciones anteriores |
-| 30 | 2.3 | tabla (estructura) | copy_versions | brief_versions, briefs, creative_pieces |
-| 31 | 2.3 | tabla (estructura) | copy_version_provenance | contribution_events, copy_versions, memberships |
-| 32 | 2.3 | columna agregada | contribution_events.copy_version_id | contribution_events |
-| 33 | 2.3 | columna agregada | contribution_events.copy_version_piece_id | contribution_events |
-| 34 | 2.3 | FK agregada | contribution_events → copy_versions | contribution_events, copy_versions |
-| 35 | 2.3 | FK diferida | creative_pieces → copy_versions | creative_pieces, copy_versions |
-| 36 | 2.3 | función | create_copy_version (versión inmutable de copy; fija brief_version_id; registra copy_author y la procedencia directa) | copy_versions, brief_versions, contribution_events, copy_version_provenance |
-| 37 | 2.3 | trigger | BEFORE UPDATE, DELETE y TRUNCATE sobre copy_version_provenance: rechazo; coherencia de la procedencia | copy_version_provenance |
-| 38 | 2.3 | habilitación | Políticas RLS y privilegios de copy_version_provenance | tablas y funciones anteriores |
-| 39 | 2.5 | función | detect_material_change (interna): normalización NFKC, saltos de línea, espacios repetidos y extremos; decide copy_editor y la herencia; en duda conserva la atribución anterior | copy_versions, contribution_events, copy_version_provenance |
-| 40 | 2.7 | función | verify_version_chain (interna): cadena exacta de versiones y orden de versión de la maestra; VERSION_CHAIN_INCONSISTENTE | copy_versions |
-| 41 | 3.x | tabla (estructura) | creative_assets | copy_versions, creative_pieces |
-| 42 | 3.x | tabla (estructura) | audit_rubric_versions | — |
-| 43 | 3.x | tabla (estructura) | audits | ai_runs, audit_rubric_versions, copy_versions, creative_assets |
-| 44 | 3.x | tabla (estructura) | audit_findings | audits |
-| 45 | 3.x | columna agregada | contribution_events.asset_copy_version_id | contribution_events |
-| 46 | 3.x | columna agregada | contribution_events.asset_piece_id | contribution_events |
-| 47 | 3.x | columna agregada | contribution_events.creative_asset_id | contribution_events |
-| 48 | 3.x | FK diferida | copy_versions → creative_assets | copy_versions, creative_assets |
-| 49 | 3.x | FK agregada | contribution_events → creative_assets | contribution_events, creative_assets |
-| 50 | 3.x | FK diferida | creative_pieces → creative_assets | creative_pieces, creative_assets |
-| 51 | 3.x | función | register_asset_contribution: asset_uploader al cargar o reemplazar arte (identidad del servidor) | creative_assets, contribution_events |
-| 52 | 4.x | tabla (estructura) | promotion_rules | campaigns |
-| 53 | 4.x | tabla (estructura) | promotion_snapshots | memberships, promotion_rules |
-| 54 | 4.x | tabla (estructura) | validation_settings_versions | — |
-| 55 | 4.x | columna agregada | contribution_events.promotion_snapshot_id | contribution_events |
-| 56 | 4.x | columna agregada | copy_versions.promotion_snapshot_id | copy_versions |
-| 57 | 4.x | FK agregada | copy_versions → promotion_snapshots | copy_versions, promotion_snapshots |
-| 58 | 4.x | FK agregada | contribution_events → promotion_snapshots | contribution_events, promotion_snapshots |
-| 59 | 4.x | FK diferida | audits → validation_settings_versions | audits, validation_settings_versions |
-| 60 | 4.x | función | create_promotion_snapshot (única ruta de escritura de promotion_snapshots; registra promotion_editor cuando cambia un campo material) | promotion_snapshots, promotion_rules, contribution_events |
-| 61 | 4.x | trigger | BEFORE INSERT sobre promotion_snapshots: created_by = auth.uid(), snapshot_hash; BEFORE UPDATE, DELETE y TRUNCATE: rechazo (inmutable) | promotion_snapshots |
-| 62 | 4.x | habilitación | Políticas RLS y privilegios de promotion_snapshots | tablas y funciones anteriores |
-| 63 | 5.1 | columnas | Columnas anulables de reglas (extensión, tono, estructura, CTA) agregadas a channel_rules | channel_rules |
-| 64 | 5.3 | tabla (estructura) | piece_classification_events | creative_pieces, memberships |
-| 65 | 5.3 | tabla (estructura) | piece_reviewer_assignments | creative_pieces, memberships |
-| 66 | 5.3 | función | create_adaptation | creative_pieces, copy_versions, channel_formats |
-| 67 | 5.3 | función | version_contributors (interna, STABLE): conjunto de contribuyentes, evidencias, completitud y error; lee solo fuentes físicas versionadas | copy_versions, brief_versions, promotion_snapshots, creative_assets, contribution_events, copy_version_provenance |
-| 68 | 5.3 | función | exclude_inherited_attribution: resolución documentada de una persona independiente que excluye una atribución heredada (fila nueva de procedencia; nunca retroactiva) | copy_version_provenance, contribution_events, memberships |
-| 69 | 5.3 | función | eligible_evaluators | piece_reviewer_assignments, memberships, copy_versions, creative_assets, piece_classification_events, contribution_events, copy_version_provenance |
-| 70 | 5.3 | función | propose_independence | piece_classification_events, creative_pieces |
-| 71 | 5.3 | función | resolve_independence | piece_classification_events, piece_reviewer_assignments |
-| 72 | 5.3 | función | assign_reviewer | piece_reviewer_assignments, memberships |
-| 73 | 5.3 | habilitación | Políticas RLS y privilegios de piece_classification_events y piece_reviewer_assignments | tablas y funciones anteriores |
-| 74 | 6.x | tabla (estructura) | comments | audit_findings, creative_pieces |
-| 75 | 6.x | tabla (estructura) | commercial_block_exceptions | audit_findings, memberships |
-| 76 | 6.1 | función | transition_piece_status (T-02 sin la transición a Publicado habilitada) | creative_pieces, comments, memberships |
-| 77 | 6.5 | tabla (estructura) | approvals | audits, copy_versions, creative_assets, memberships |
-| 78 | 6.5 | tabla (estructura) | impact_evaluations | approvals, copy_versions, creative_assets, creative_pieces, memberships, piece_reviewer_assignments |
-| 79 | 6.5 | trigger | BEFORE INSERT sobre approvals: coherencia del arte (4.13) | approvals, creative_assets |
-| 80 | 6.5 | función | record_approval (ampliada) | approvals, copy_versions, creative_assets, audits, memberships |
-| 81 | 6.5 | función | record_impact_evaluation | impact_evaluations, approvals, piece_reviewer_assignments, memberships |
-| 82 | 6.5 | habilitación | Políticas RLS y privilegios de approvals e impact_evaluations | tablas y funciones anteriores |
-| 83 | 6.6 | tabla (estructura) | publication_attempts | approvals, copy_versions, creative_pieces, impact_evaluations, memberships |
-| 84 | 6.6 | trigger | BEFORE INSERT sobre publication_attempts: db_txid, attempted_at, attempt_nonce, actor (5.11) | publication_attempts |
-| 85 | 6.6 | trigger | Sustituye el cuerpo de piece_status_guard por la guarda de ocho condiciones (5.11) | publication_attempts, approvals, impact_evaluations, memberships, creative_pieces |
-| 86 | 6.6 | función | transition_piece_status ampliada: habilita la transición a Publicado (#10) | publication_attempts, approvals, impact_evaluations, creative_pieces |
-| 87 | 6.6 | habilitación | Políticas RLS y privilegios de publication_attempts y la transición a Publicado | tablas y funciones anteriores |
-| 88 | 8.x | tabla (estructura) | performance_metrics | creative_pieces |
-| 89 | 8.x | tabla (estructura) | ab_tests | creative_pieces, performance_metrics |
+| 25 | 2.1 | tabla (estructura) | brief_field_changes | brief_versions, contribution_events, memberships |
+| 26 | 2.1 | tabla (estructura) | brief_field_attributions | brief_field_changes, contribution_events, memberships |
+| 27 | 2.1 | función | record_contribution_event (interna; solo invocable por las funciones del propietario cci_records_owner; sin EXECUTE para roles de aplicación) | contribution_events |
+| 28 | 2.1 | trigger | BEFORE INSERT sobre brief_versions: created_by = auth.uid(), version_number, snapshot_hash; BEFORE UPDATE, DELETE y TRUNCATE: rechazo (inmutable) | brief_versions |
+| 29 | 2.1 | trigger | BEFORE UPDATE, DELETE y TRUNCATE sobre contribution_events: rechazo; la corrección es un evento nuevo | contribution_events |
+| 30 | 2.1 | función | create_brief_version (única ruta de escritura de brief_versions; en una sola transacción calcula las 12 filas de cambio por campo y las atribuciones, y registra brief_editor cuando cambia un campo material) | brief_versions, briefs, contribution_events, brief_field_changes, brief_field_attributions |
+| 31 | 2.1 | trigger | BEFORE UPDATE, DELETE y TRUNCATE sobre brief_field_changes y brief_field_attributions: rechazo; BEFORE INSERT: created_by = auth.uid() y coherencia con la versión (IG5-71) | brief_field_changes, brief_field_attributions |
+| 32 | 2.1 | habilitación | Políticas RLS y privilegios de brief_versions, contribution_events, brief_field_changes y brief_field_attributions | tablas y funciones anteriores |
+| 33 | 2.3 | tabla (estructura) | copy_versions | brief_versions, briefs, creative_pieces |
+| 34 | 2.3 | tabla (estructura) | copy_version_provenance | contribution_events, copy_versions, memberships |
+| 35 | 2.3 | columna agregada | contribution_events.copy_version_id | contribution_events |
+| 36 | 2.3 | columna agregada | contribution_events.copy_version_piece_id | contribution_events |
+| 37 | 2.3 | FK agregada | contribution_events → copy_versions | contribution_events, copy_versions |
+| 38 | 2.3 | FK diferida | creative_pieces → copy_versions | creative_pieces, copy_versions |
+| 39 | 2.3 | función | create_copy_version (versión inmutable de copy; fija brief_version_id; registra copy_author y la procedencia directa) | copy_versions, brief_versions, contribution_events, copy_version_provenance |
+| 40 | 2.3 | trigger | BEFORE UPDATE, DELETE y TRUNCATE sobre copy_version_provenance: rechazo; coherencia de la procedencia | copy_version_provenance |
+| 41 | 2.3 | habilitación | Políticas RLS y privilegios de copy_version_provenance | tablas y funciones anteriores |
+| 42 | 2.5 | función | detect_material_change (interna): normalización NFKC, saltos de línea, espacios repetidos y extremos; decide copy_editor y la herencia; en duda conserva la atribución anterior | copy_versions, contribution_events, copy_version_provenance |
+| 43 | 2.7 | función | verify_version_chain (interna): cadena exacta de versiones y orden de versión de la maestra; VERSION_CHAIN_INCONSISTENTE | copy_versions |
+| 44 | 3.x | tabla (estructura) | creative_assets | copy_versions, creative_pieces |
+| 45 | 3.x | tabla (estructura) | audit_rubric_versions | — |
+| 46 | 3.x | tabla (estructura) | audits | ai_runs, audit_rubric_versions, copy_versions, creative_assets |
+| 47 | 3.x | tabla (estructura) | audit_findings | audits |
+| 48 | 3.x | columna agregada | contribution_events.asset_copy_version_id | contribution_events |
+| 49 | 3.x | columna agregada | contribution_events.asset_piece_id | contribution_events |
+| 50 | 3.x | columna agregada | contribution_events.creative_asset_id | contribution_events |
+| 51 | 3.x | columna agregada | copy_version_provenance.origin_asset_id | copy_version_provenance |
+| 52 | 3.x | columna agregada | copy_version_provenance.used_asset_id | copy_version_provenance |
+| 53 | 3.x | FK diferida | copy_versions → creative_assets | copy_versions, creative_assets |
+| 54 | 3.x | FK agregada | contribution_events → creative_assets | contribution_events, creative_assets |
+| 55 | 3.x | FK agregada | copy_version_provenance → creative_assets | copy_version_provenance, creative_assets |
+| 56 | 3.x | FK diferida | creative_pieces → creative_assets | creative_pieces, creative_assets |
+| 57 | 3.x | función | register_asset_contribution: asset_uploader al cargar o reemplazar arte (identidad del servidor) | creative_assets, contribution_events |
+| 58 | 4.x | tabla (estructura) | promotion_rules | campaigns |
+| 59 | 4.x | tabla (estructura) | promotion_snapshots | memberships, promotion_rules |
+| 60 | 4.x | tabla (estructura) | promotion_field_changes | contribution_events, memberships, promotion_snapshots |
+| 61 | 4.x | tabla (estructura) | promotion_field_attributions | contribution_events, memberships, promotion_field_changes |
+| 62 | 4.x | tabla (estructura) | validation_settings_versions | — |
+| 63 | 4.x | columna agregada | contribution_events.promotion_snapshot_id | contribution_events |
+| 64 | 4.x | columna agregada | copy_versions.promotion_snapshot_id | copy_versions |
+| 65 | 4.x | FK agregada | copy_versions → promotion_snapshots | copy_versions, promotion_snapshots |
+| 66 | 4.x | FK agregada | contribution_events → promotion_snapshots | contribution_events, promotion_snapshots |
+| 67 | 4.x | FK diferida | audits → validation_settings_versions | audits, validation_settings_versions |
+| 68 | 4.x | función | create_promotion_snapshot (única ruta de escritura de promotion_snapshots; en una sola transacción calcula las 9 filas de cambio por campo y las atribuciones, y registra promotion_editor cuando cambia un campo material) | promotion_snapshots, promotion_rules, contribution_events, promotion_field_changes, promotion_field_attributions |
+| 69 | 4.x | trigger | BEFORE INSERT sobre promotion_snapshots: created_by = auth.uid(), snapshot_hash; BEFORE UPDATE, DELETE y TRUNCATE: rechazo (inmutable) | promotion_snapshots |
+| 70 | 4.x | trigger | BEFORE UPDATE, DELETE y TRUNCATE sobre promotion_field_changes y promotion_field_attributions: rechazo; BEFORE INSERT: created_by = auth.uid() y coherencia con el snapshot (IG5-71) | promotion_field_changes, promotion_field_attributions |
+| 71 | 4.x | habilitación | Políticas RLS y privilegios de promotion_snapshots, promotion_field_changes y promotion_field_attributions | tablas y funciones anteriores |
+| 72 | 5.1 | columnas | Columnas anulables de reglas (extensión, tono, estructura, CTA) agregadas a channel_rules | channel_rules |
+| 73 | 5.3 | tabla (estructura) | piece_classification_events | creative_pieces, memberships |
+| 74 | 5.3 | tabla (estructura) | piece_reviewer_assignments | creative_pieces, memberships |
+| 75 | 5.3 | función | create_adaptation | creative_pieces, copy_versions, channel_formats |
+| 76 | 5.3 | función | verify_field_provenance (interna, STABLE): recorre la cadena de versiones de brief y de promoción, recalcula por campo las atribuciones esperadas y las compara con las filas; BRIEF_CHAIN_INCONSISTENTE, PROMOTION_CHAIN_INCONSISTENTE, BRIEF_FIELD_PROVENANCE_INCOMPLETE, PROMOTION_FIELD_PROVENANCE_INCOMPLETE | brief_versions, brief_field_changes, brief_field_attributions, promotion_snapshots, promotion_field_changes, promotion_field_attributions, contribution_events |
+| 77 | 5.3 | función | version_contributors (interna, STABLE): conjunto de contribuyentes, evidencias, completitud y error; lee solo fuentes físicas versionadas | copy_versions, brief_versions, brief_field_changes, brief_field_attributions, promotion_snapshots, promotion_field_changes, promotion_field_attributions, creative_assets, contribution_events, copy_version_provenance |
+| 78 | 5.3 | función | exclude_inherited_attribution: resolución documentada de una persona independiente que excluye una atribución heredada (fila nueva de procedencia; nunca retroactiva) | copy_version_provenance, contribution_events, memberships |
+| 79 | 5.3 | función | eligible_evaluators | piece_reviewer_assignments, memberships, copy_versions, creative_assets, piece_classification_events, contribution_events, copy_version_provenance |
+| 80 | 5.3 | función | propose_independence | piece_classification_events, creative_pieces |
+| 81 | 5.3 | función | resolve_independence | piece_classification_events, piece_reviewer_assignments |
+| 82 | 5.3 | función | assign_reviewer | piece_reviewer_assignments, memberships |
+| 83 | 5.3 | habilitación | Políticas RLS y privilegios de piece_classification_events y piece_reviewer_assignments | tablas y funciones anteriores |
+| 84 | 6.x | tabla (estructura) | comments | audit_findings, creative_pieces |
+| 85 | 6.x | tabla (estructura) | commercial_block_exceptions | audit_findings, memberships |
+| 86 | 6.1 | función | transition_piece_status (T-02 sin la transición a Publicado habilitada) | creative_pieces, comments, memberships |
+| 87 | 6.5 | tabla (estructura) | approvals | audits, copy_versions, creative_assets, memberships |
+| 88 | 6.5 | tabla (estructura) | impact_evaluations | approvals, copy_versions, creative_assets, creative_pieces, memberships, piece_reviewer_assignments |
+| 89 | 6.5 | trigger | BEFORE INSERT sobre approvals: coherencia del arte (4.13) | approvals, creative_assets |
+| 90 | 6.5 | función | record_approval (ampliada) | approvals, copy_versions, creative_assets, audits, memberships |
+| 91 | 6.5 | función | record_impact_evaluation | impact_evaluations, approvals, piece_reviewer_assignments, memberships |
+| 92 | 6.5 | habilitación | Políticas RLS y privilegios de approvals e impact_evaluations | tablas y funciones anteriores |
+| 93 | 6.6 | tabla (estructura) | publication_attempts | approvals, copy_versions, creative_pieces, impact_evaluations, memberships |
+| 94 | 6.6 | trigger | BEFORE INSERT sobre publication_attempts: db_txid, attempted_at, attempt_nonce, actor (5.11) | publication_attempts |
+| 95 | 6.6 | trigger | Sustituye el cuerpo de piece_status_guard por la guarda de ocho condiciones (5.11) | publication_attempts, approvals, impact_evaluations, memberships, creative_pieces |
+| 96 | 6.6 | función | transition_piece_status ampliada: habilita la transición a Publicado (#10) | publication_attempts, approvals, impact_evaluations, creative_pieces |
+| 97 | 6.6 | habilitación | Políticas RLS y privilegios de publication_attempts y la transición a Publicado | tablas y funciones anteriores |
+| 98 | 8.x | tabla (estructura) | performance_metrics | creative_pieces |
+| 99 | 8.x | tabla (estructura) | ab_tests | creative_pieces, performance_metrics |
 
 **Dependencia circular conocida.** `copy_versions` y `creative_assets` se necesitan mutuamente (la versión de copy cita el arte de la maestra y el arte cita su versión de copy): se resuelve con la FK diferida de `copy_versions` hacia `creative_assets`, creada en la Fase 3 (IM-04). Las relaciones entre las 27 tablas históricas están a nivel de tabla porque v3.3 no define sus columnas exactas (RR-33).
 
@@ -2728,7 +3260,7 @@ Ninguna impide aceptar la especificación y cada una tiene un comportamiento por
 | G-9 | Solo la asignación de revisor | **G-9 completo sigue abierto** |
 | Validación | Consistencia interna comprobada por script; ninguna prueba técnica ejecutada | No se marca nada como técnicamente validado |
 
-**Declaración por nivel (IE-01 a IE-04).** **Fase 0 v3.3:** COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES DOCUMENTADAS; su SHA-256 y su registro de aceptación no cambian y no se reabre. **Diseño complementario G-1, G-5 y G-10 (v5):** DISEÑO TÉCNICO DOCUMENTAL CORREGIDO Y PREPARADO PARA ACEPTACIÓN FORMAL, CON LIMITACIONES DOCUMENTADAS; **no** está aceptado por el propietario ni validado técnicamente, y no es una reapertura de v3.3. **G-1, G-5 y G-10:** con diseño documental completo; G-5 no se declara completamente cerrada. **Fase 1:** NO INICIADA / NO AUTORIZADA; la aceptación de v3.3 no autoriza Fase 1, infraestructura, SQL ni implementación.
+**Declaración por nivel (IE-01 a IE-08).** **Fase 0 v3.3:** COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES DOCUMENTADAS; su SHA-256 y su registro de aceptación no cambian y no se reabre. **Diseño complementario G-1, G-5 y G-10 (v6):** PREPARADA PARA ACEPTACIÓN FORMAL DEL PROPIETARIO, CON LIMITACIONES DOCUMENTADAS; **no** está aceptado por el propietario ni validado técnicamente, y no es una reapertura de v3.3. **G-1, G-5 y G-10:** con diseño documental completo; G-5 no se declara completamente cerrada. **Fase 1:** NO INICIADA / NO AUTORIZADA; la aceptación de v3.3 no autoriza Fase 1, infraestructura, SQL ni implementación.
 
 ### 15.1 Reglas de estado
 
@@ -2738,4 +3270,8 @@ Ninguna impide aceptar la especificación y cada una tiene un comportamiento por
 | IE-02 | Ningún documento activo declara abierta, reabierta o sin cerrar la Fase 0 v3.3, ni altera su SHA-256 ni su registro de aceptación |
 | IE-03 | La aceptación de v3.3 como línea base no autoriza Fase 1, infraestructura, SQL ni implementación |
 | IE-04 | G-1, G-5 y G-10 no se declaran aceptadas por el propietario ni validadas técnicamente; DT-01, PC-02 y DT-02 se incorporan como diseño complementario de esta revisión, sin aprobar T-04 de v3.3 retroactivamente ni aceptar la Adenda v9 |
+| IE-05 | Cada control de auditoría se clasifica en exactamente uno de tres niveles de evidencia, sin mezclarlos: Diseñado (existe una regla documentada), Verificado documentalmente (comprobado por el verificador contra archivos, reglas, referencias y escenarios reales del expediente) o Validado técnicamente (existe una ejecución real del mecanismo técnico); ningún control de esta revisión alcanza el tercer nivel |
+| IE-06 | Un control solo puede figurar como OK si el verificador publicado lo ejecutó en la corrida registrada y todas sus comprobaciones pasaron; un control que no pudo comprobarse figura como PENDIENTE y un control con una comprobación fallida como NO OK; el número de controles ejecutados debe coincidir con el de resultados individuales de la salida del verificador |
+| IE-07 | La matriz de auditoría registra por control: ID estable, nombre, regla exacta, documento y sección, evidencia concreta (identificadores de reglas, escenarios o secciones), procedimiento, resultado real, estado, nivel de evidencia y observación; no se aceptan referencias a documentos completos |
+| IE-08 | El verificador publicado en docs/fase0/herramientas lee solo los cinco documentos activos y los archivos históricos, no contiene lógica de producto, SQL ni código de aplicación, devuelve un resultado individual por comprobación y es reproducible: dos ejecuciones sobre los mismos archivos producen la misma salida; su resultado verifica el expediente y no constituye validación técnica de PostgreSQL ni de Supabase |
 
