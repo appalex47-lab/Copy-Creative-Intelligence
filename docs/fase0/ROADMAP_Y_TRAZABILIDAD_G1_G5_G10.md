@@ -1,11 +1,11 @@
 ---
 name: roadmap_trazabilidad_g1_g5_g10
-description: Roadmap y trazabilidad de la revisión v6 de G-1, G-5 y G-10; orden único de creación con la representación física de contribuciones; estados de subfases sin cambio
+description: Roadmap y trazabilidad de la revisión v7 de G-1, G-5 y G-10; orden único de creación con la representación física de contribuciones; estados de subfases sin cambio
 ---
 
-# ROADMAP Y TRAZABILIDAD — REVISIÓN v6 DE G-1, G-5 Y G-10
+# ROADMAP Y TRAZABILIDAD — REVISIÓN v7 DE G-1, G-5 Y G-10
 
-Sustituye a la v5 (conservada en `historico/`). Complementa la Adenda v9 (no aceptada) sin reemplazarla ni alterar versiones históricas. **Ninguna subfase cambia de estado**; el diseño no se ha implementado ni validado técnicamente y Fase 1 no está autorizada.
+Sustituye a la v6 (conservada en `historico/`). Complementa la Adenda v9 (no aceptada) sin reemplazarla ni alterar versiones históricas. **Ninguna subfase cambia de estado**; el diseño no se ha implementado ni validado técnicamente y Fase 1 no está autorizada.
 
 ## 0. Estado por nivel (H-03)
 
@@ -22,7 +22,7 @@ Sustituye a la v5 (conservada en `historico/`). Complementa la Adenda v9 (no ace
 |---|---|---|---|---|---|
 | G-1 | Vínculo maestra–adaptación y versión de origen | Pendiente (sin estructura) | Diseño documental completo: autorreferencia compuesta, versión de origen, catálogo de canales y formatos desde 1.8 | 1.8, 2.7 y 5.3 | DG-01 a 03, 14, 15; DG-19 (sujeta a aceptación) |
 | G-2 | Atributo de canal y formato | Pendiente | Diseño documental completo: FK compuesta a channel_formats; catálogo creado antes de las piezas | 1.8 y 5.1 | DG-19 |
-| G-3 | Autoría heredada | Pendiente | Diseño documental completo: definición única de contribuyente (4.4.3), ocho fuentes físicas (4.4.4), contrato de version_contributors con diez errores (4.4.5), reconstrucción por campo material de brief y promoción (4.4.8, H-02) y contrato de integridad con claves compuestas (4.4.9, H-03); verificado documentalmente, sin validar técnicamente ni aceptar | 2.1, 2.3, 3.1, 4.1 y 5.3 | DG-01, DG-17; DT-01, PC-02, H-02 y H-03 (precisadas en el diseño, sujetas a aceptación) |
+| G-3 | Autoría heredada | Pendiente | Diseño documental completo: definición única de contribuyente (4.4.3), nueve fuentes físicas (4.4.4), contrato de version_contributors con diez errores (4.4.5), reconstrucción por campo material de brief y promoción (4.4.8, H-02) y contrato de integridad con claves compuestas (4.4.9, H-03); verificado documentalmente, sin validar técnicamente ni aceptar | 2.1, 2.3, 3.1, 4.1 y 5.3 | DG-01, DG-17; DT-01, PC-02, H-02 y H-03 (precisadas en el diseño, sujetas a aceptación) |
 | G-4 | Registro de la clasificación | Pendiente | Diseño documental completo: piece_classification_events; el proponente vigente queda excluido de evaluar esa adaptación (DT-02) | 5.3 y 6.5 | DG-01, DG-03; DT-02 |
 | G-5 | Registro de la evaluación de impacto | Pendiente (sin estructura) | Diseño documental completo: par exacto, cadena lineal, independencia con E = Ctr(V-A) ∪ Inh(V-A) ∪ ⋃ Ctr(v) para v ∈ [V-D, V-B] ∪ P, procedencia verificable y fail-closed si falta una fuente. **No se declara plenamente cerrada**: sin aceptación del propietario ni validación técnica. impact_evaluations nace en 6.5 | 6.5 | DG-04 a 07, DG-17, DG-20; DT-01, PC-02, DT-02 |
 | G-6 | Decisión de conservar o reabrir la aprobación | Pendiente | Cubierta por G-5; la reapertura usa T-02 #11; sin estado propio | 6.5 | DG-05 |
@@ -124,36 +124,37 @@ Secuencia de subfases: **1.8 → 2.x → 2.1 → 2.3 → 2.5 → 2.7 → 3.x →
 | 71 | 4.x | habilitación | Políticas RLS y privilegios de promotion_snapshots, promotion_field_changes y promotion_field_attributions | tablas y funciones anteriores |
 | 72 | 5.1 | columnas | Columnas anulables de reglas (extensión, tono, estructura, CTA) agregadas a channel_rules | channel_rules |
 | 73 | 5.3 | tabla (estructura) | piece_classification_events | creative_pieces, memberships |
-| 74 | 5.3 | tabla (estructura) | piece_reviewer_assignments | creative_pieces, memberships |
-| 75 | 5.3 | función | create_adaptation | creative_pieces, copy_versions, channel_formats |
-| 76 | 5.3 | función | verify_field_provenance (interna, STABLE): recorre la cadena de versiones de brief y de promoción, recalcula por campo las atribuciones esperadas y las compara con las filas; BRIEF_CHAIN_INCONSISTENTE, PROMOTION_CHAIN_INCONSISTENTE, BRIEF_FIELD_PROVENANCE_INCOMPLETE, PROMOTION_FIELD_PROVENANCE_INCOMPLETE | brief_versions, brief_field_changes, brief_field_attributions, promotion_snapshots, promotion_field_changes, promotion_field_attributions, contribution_events |
-| 77 | 5.3 | función | version_contributors (interna, STABLE): conjunto de contribuyentes, evidencias, completitud y error; lee solo fuentes físicas versionadas | copy_versions, brief_versions, brief_field_changes, brief_field_attributions, promotion_snapshots, promotion_field_changes, promotion_field_attributions, creative_assets, contribution_events, copy_version_provenance |
-| 78 | 5.3 | función | exclude_inherited_attribution: resolución documentada de una persona independiente que excluye una atribución heredada (fila nueva de procedencia; nunca retroactiva) | copy_version_provenance, contribution_events, memberships |
-| 79 | 5.3 | función | eligible_evaluators | piece_reviewer_assignments, memberships, copy_versions, creative_assets, piece_classification_events, contribution_events, copy_version_provenance |
-| 80 | 5.3 | función | propose_independence | piece_classification_events, creative_pieces |
-| 81 | 5.3 | función | resolve_independence | piece_classification_events, piece_reviewer_assignments |
-| 82 | 5.3 | función | assign_reviewer | piece_reviewer_assignments, memberships |
-| 83 | 5.3 | habilitación | Políticas RLS y privilegios de piece_classification_events y piece_reviewer_assignments | tablas y funciones anteriores |
-| 84 | 6.x | tabla (estructura) | comments | audit_findings, creative_pieces |
-| 85 | 6.x | tabla (estructura) | commercial_block_exceptions | audit_findings, memberships |
-| 86 | 6.1 | función | transition_piece_status (T-02 sin la transición a Publicado habilitada) | creative_pieces, comments, memberships |
-| 87 | 6.5 | tabla (estructura) | approvals | audits, copy_versions, creative_assets, memberships |
-| 88 | 6.5 | tabla (estructura) | impact_evaluations | approvals, copy_versions, creative_assets, creative_pieces, memberships, piece_reviewer_assignments |
-| 89 | 6.5 | trigger | BEFORE INSERT sobre approvals: coherencia del arte (4.13) | approvals, creative_assets |
-| 90 | 6.5 | función | record_approval (ampliada) | approvals, copy_versions, creative_assets, audits, memberships |
-| 91 | 6.5 | función | record_impact_evaluation | impact_evaluations, approvals, piece_reviewer_assignments, memberships |
-| 92 | 6.5 | habilitación | Políticas RLS y privilegios de approvals e impact_evaluations | tablas y funciones anteriores |
-| 93 | 6.6 | tabla (estructura) | publication_attempts | approvals, copy_versions, creative_pieces, impact_evaluations, memberships |
-| 94 | 6.6 | trigger | BEFORE INSERT sobre publication_attempts: db_txid, attempted_at, attempt_nonce, actor (5.11) | publication_attempts |
-| 95 | 6.6 | trigger | Sustituye el cuerpo de piece_status_guard por la guarda de ocho condiciones (5.11) | publication_attempts, approvals, impact_evaluations, memberships, creative_pieces |
-| 96 | 6.6 | función | transition_piece_status ampliada: habilita la transición a Publicado (#10) | publication_attempts, approvals, impact_evaluations, creative_pieces |
-| 97 | 6.6 | habilitación | Políticas RLS y privilegios de publication_attempts y la transición a Publicado | tablas y funciones anteriores |
-| 98 | 8.x | tabla (estructura) | performance_metrics | creative_pieces |
-| 99 | 8.x | tabla (estructura) | ab_tests | creative_pieces, performance_metrics |
+| 74 | 5.3 | tabla (estructura) | attribution_discard_resolutions | brief_field_attributions, copy_version_provenance, memberships, promotion_field_attributions |
+| 75 | 5.3 | tabla (estructura) | piece_reviewer_assignments | creative_pieces, memberships |
+| 76 | 5.3 | función | create_adaptation | creative_pieces, copy_versions, channel_formats |
+| 77 | 5.3 | función | verify_field_provenance (interna, STABLE): recorre la cadena de versiones de brief y de promoción, recalcula por campo las atribuciones esperadas y las compara con las filas; BRIEF_CHAIN_INCONSISTENTE, PROMOTION_CHAIN_INCONSISTENTE, BRIEF_FIELD_PROVENANCE_INCOMPLETE, PROMOTION_FIELD_PROVENANCE_INCOMPLETE | brief_versions, brief_field_changes, brief_field_attributions, promotion_snapshots, promotion_field_changes, promotion_field_attributions, contribution_events |
+| 78 | 5.3 | función | version_contributors (interna, STABLE): conjunto de contribuyentes, evidencias, completitud y error; lee solo fuentes físicas versionadas | copy_versions, brief_versions, brief_field_changes, brief_field_attributions, promotion_snapshots, promotion_field_changes, promotion_field_attributions, creative_assets, contribution_events, copy_version_provenance, attribution_discard_resolutions |
+| 79 | 5.3 | función | resolve_attribution_discard: resolución independiente de descarte de una atribución (registro nuevo en attribution_discard_resolutions; nunca retroactiva; fail-closed sin evidencia o sin resolutor elegible) | attribution_discard_resolutions, brief_field_attributions, promotion_field_attributions, copy_version_provenance, contribution_events, memberships |
+| 80 | 5.3 | función | eligible_evaluators | piece_reviewer_assignments, memberships, copy_versions, creative_assets, piece_classification_events, contribution_events, copy_version_provenance |
+| 81 | 5.3 | función | propose_independence | piece_classification_events, creative_pieces |
+| 82 | 5.3 | función | resolve_independence | piece_classification_events, piece_reviewer_assignments |
+| 83 | 5.3 | función | assign_reviewer | piece_reviewer_assignments, memberships |
+| 84 | 5.3 | habilitación | Políticas RLS y privilegios de piece_classification_events y piece_reviewer_assignments | tablas y funciones anteriores |
+| 85 | 6.x | tabla (estructura) | comments | audit_findings, creative_pieces |
+| 86 | 6.x | tabla (estructura) | commercial_block_exceptions | audit_findings, memberships |
+| 87 | 6.1 | función | transition_piece_status (T-02 sin la transición a Publicado habilitada) | creative_pieces, comments, memberships |
+| 88 | 6.5 | tabla (estructura) | approvals | audits, copy_versions, creative_assets, memberships |
+| 89 | 6.5 | tabla (estructura) | impact_evaluations | approvals, copy_versions, creative_assets, creative_pieces, memberships, piece_reviewer_assignments |
+| 90 | 6.5 | trigger | BEFORE INSERT sobre approvals: coherencia del arte (4.13) | approvals, creative_assets |
+| 91 | 6.5 | función | record_approval (ampliada) | approvals, copy_versions, creative_assets, audits, memberships |
+| 92 | 6.5 | función | record_impact_evaluation | impact_evaluations, approvals, piece_reviewer_assignments, memberships |
+| 93 | 6.5 | habilitación | Políticas RLS y privilegios de approvals e impact_evaluations | tablas y funciones anteriores |
+| 94 | 6.6 | tabla (estructura) | publication_attempts | approvals, copy_versions, creative_pieces, impact_evaluations, memberships |
+| 95 | 6.6 | trigger | BEFORE INSERT sobre publication_attempts: db_txid, attempted_at, attempt_nonce, actor (5.11) | publication_attempts |
+| 96 | 6.6 | trigger | Sustituye el cuerpo de piece_status_guard por la guarda de ocho condiciones (5.11) | publication_attempts, approvals, impact_evaluations, memberships, creative_pieces |
+| 97 | 6.6 | función | transition_piece_status ampliada: habilita la transición a Publicado (#10) | publication_attempts, approvals, impact_evaluations, creative_pieces |
+| 98 | 6.6 | habilitación | Políticas RLS y privilegios de publication_attempts y la transición a Publicado | tablas y funciones anteriores |
+| 99 | 8.x | tabla (estructura) | performance_metrics | creative_pieces |
+| 100 | 8.x | tabla (estructura) | ab_tests | creative_pieces, performance_metrics |
 
 Estructura no es operación: las tablas nacen con RLS activada y sin privilegios; las funciones y políticas se habilitan en la subfase indicada. Si una fase posterior no se ejecuta, las anteriores siguen siendo consistentes porque ninguna FK apunta hacia adelante. La reversión es deshabilitar (retirar EXECUTE y privilegios, restaurar el trigger base), no eliminar tablas con datos.
 
-## 4. Cambios de subfase por la v5 y la v6 (la v6 solo agrega tablas de atribución por campo y verify_field_provenance; no cambia subfases ni estados)
+## 4. Cambios de subfase por la v5, la v6 y la v7 (la v7 solo agrega la tabla attribution_discard_resolutions y la función resolve_attribution_discard dentro de subfases existentes; no cambia subfases ni estados)
 
 | Subfase | Tema | Contenido de diseño |
 |---|---|---|
@@ -170,7 +171,7 @@ Estructura no es operación: las tablas nacen con RLS activada y sin privilegios
 | 6.1 | Workflow | transition_piece_status base; Publicado deshabilitado |
 | 6.5 | Aprobaciones | approvals e impact_evaluations en el orden correcto; revalidación de procedencia y clasificación |
 | 6.6 | Auditoría del flujo | publication_attempts, guarda completa y transición #10 |
-| 6.8 | Pruebas | Matriz documental con 335 casos (ninguno ejecutado) |
+| 6.8 | Pruebas | Matriz documental con 375 casos (ninguno ejecutado) |
 
 **Distinción por subfase.** *Diseño documental*: esta revisión. *Preparación técnica*: tablas, funciones y triggers que cada subfase crearía; nada existe. *Implementación*: Fase 1 y siguientes, no iniciadas. *Validación real*: pruebas en PostgreSQL y Supabase, pendientes. Se adelanta copy_version_provenance a 2.3 y contribution_events a 2.1 por dependencia real (la primera operación que las necesita). Los nombres de subfase son los de la Adenda v9 (76 subfases, sin subfase 77).
 
@@ -249,7 +250,7 @@ Situación: **Fase 0** (subfases 0.1–0.7) aceptada y cerrada como línea base 
 |---|---|---|---|---|---|---|---|---|---|
 | 5.1 | Modelos de canal | channel_rules por canal | Catálogo | Reglas por organización y canal | 1.8 | Reglas reales sin entregar | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | Atributo de canal (G-2); canal por organización; G-2. **Ajuste v4:** solo agrega columnas anulables de reglas a channel_rules (ya existente); no crea tablas. |
 | 5.2 | Reglas de extensión | Límites de longitud | Validador | Límites aplicados | 5.1 | Límites cambiantes | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | Ninguna decisión específica de esta matriz; ver dependencias. |
-| 5.3 | Adaptación | Adaptar copy por canal | Adaptador | Versión por canal | 2.3, 5.1 | Pérdida de sentido | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | T-04: adaptación por canal trazada y probada antes de habilitar 5.3; PO-20 (evaluación de impacto, dependencia de aprobación, declaración de independencia); G-1, G-3, G-4; sin tabla ni columna nueva. **Ajuste v4:** crea piece_classification_events, piece_reviewer_assignments, create_adaptation, version_contributors, exclude_inherited_attribution, verify_field_provenance (cadenas y atribuciones por campo de brief y promoción), eligible_evaluators, propose_independence, resolve_independence y assign_reviewer. **La trazabilidad de contribuciones solo está completa aquí porque sus fuentes (ocho tablas, más copy_versions y creative_assets) se crean antes (2.1, 2.3 y 4.1)**; si alguna fase previa no se ejecutó, version_contributors falla cerrado. |
+| 5.3 | Adaptación | Adaptar copy por canal | Adaptador | Versión por canal | 2.3, 5.1 | Pérdida de sentido | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | T-04: adaptación por canal trazada y probada antes de habilitar 5.3; PO-20 (evaluación de impacto, dependencia de aprobación, declaración de independencia); G-1, G-3, G-4; sin tabla ni columna nueva. **Ajuste v4:** crea piece_classification_events, piece_reviewer_assignments, attribution_discard_resolutions (resolución independiente de descarte, H-02 v7), create_adaptation, version_contributors, resolve_attribution_discard, verify_field_provenance (cadenas y atribuciones por campo de brief y promoción), eligible_evaluators, propose_independence, resolve_independence y assign_reviewer. **La trazabilidad de contribuciones solo está completa aquí porque sus fuentes (ocho tablas, más copy_versions y creative_assets) se crean antes (2.1, 2.3 y 4.1)**; si alguna fase previa no se ejecutó, version_contributors falla cerrado. |
 | 5.4 | Consistencia | Coherencia entre canales | Verificador | Diferencias señaladas | 5.3 | Falsas diferencias | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | DA-02 N-06 y N-22; PO-20: evaluación de impacto de la maestra (G-5). PO-21: evaluación de impacto por el revisor asignado independiente (sin estado nuevo). |
 | 5.5 | Comparación multicanal | Vista comparativa | Vista | Comparación correcta | 5.3 | — | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | Comparación multicanal: no genera notificación; usa la relación maestra–adaptación (G-1). |
 | 5.6 | Pruebas | Pruebas de la fase | Informe | Suite ejecutada | 5.1–5.5 | Mocks | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | DA-02: validación técnica de las notificaciones de Fase 5. |
