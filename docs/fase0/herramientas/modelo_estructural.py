@@ -352,35 +352,63 @@ class Motor:
         if "arte" in cv: cv["arte"].update(contenido=aid, clasif=clasif, eliminado=False)
         else: cv["arte"] = dict(contenido=aid, clasif=clasif, eliminado=False)
         self.clas_hist.append((vid, "arte", clasif))
-    def _origen_carga(self, aid):
-        """Evento de carga, uploader y atribución directa del asset exacto `aid` (en un reutilizado, los de la raíz original)."""
-        y = self.assets[aid]; ue = y["evento_carga_original"] if y["tipo"] == "reutilizado" else y["evento_carga"]; e = self.ev.get(ue); up = e["actor"] if e else None
-        at0 = [b["id"] for b in self.at.values() if e and b["persona"] == up and b["evento"] == ue and b["rel"] == "directa" and b.get("asset") == e.get("asset")]
-        return ue, up, (at0[0] if at0 else None)
+    def _origen_carga(self, aid, err=None):
+        """H-01 (v13): cadena de procedencia exacta del asset `aid`: asset raíz, versión exacta de la raíz, evento original de carga, uploader original y atribución directa original.
+        Se deriva la raíz recorriendo la cadena y se contrasta cada eslabón con el registro concreto de la raíz (no con campos derivados guardados en el reutilizado, ni por número de versión,
+        organización, pieza o actor por separado). Los problemas se acumulan en `err` (lista) o, si no se entrega, se lanza ReutilizacionInvalida. Devuelve (evento de carga, uploader, atribución directa)."""
+        propia = err is None; err = [] if err is None else err; n0 = len(err)
+        def fin():
+            if propia and err[n0:]: raise ReutilizacionInvalida("; ".join(err[n0:]))
+        y = self.assets.get(aid)
+        try: r = self._raiz_asset(aid)
+        except KeyError: err.append("la cadena de origen de %s no es verificable (referencia ausente o ciclo)" % aid); fin(); return None, None, None
+        if y is None or r is None: err.append("el asset de origen %s no existe" % aid); fin(); return None, None, None
+        rid = r["id"]; ue = r.get("evento_carga"); e = self.ev.get(ue); up = r.get("uploader")
+        if y["tipo"] == "reutilizado":
+            if y.get("evento_carga_original") != ue: err.append("la cadena de reutilización de %s no conserva el evento original de carga del asset raíz %s" % (aid, rid))
+            if y.get("uploader_original") != up: err.append("la cadena de reutilización de %s no conserva el uploader original del asset raíz %s" % (aid, rid))
+        if r.get("org") != self.org: err.append("el asset raíz %s pertenece a otra organización" % rid)
+        if e is None: err.append("el asset raíz %s no tiene evento original de carga" % rid); fin(); return ue, up, None
+        if e.get("id") != ue: err.append("el evento original de carga de %s está intercambiado: su registro no corresponde al identificador referenciado" % rid)
+        if e.get("tipo") != "asset_uploader": err.append("el evento original de carga de %s no es un evento de carga de asset (%s)" % (rid, e.get("tipo")))
+        if e.get("asset_id") != r.get("asset_id"): err.append("el evento original de carga corresponde a otro asset (%s) y no al asset raíz %s" % (e.get("asset"), rid))
+        elif e.get("asset") != rid or e.get("asset_version_id") != rid or e.get("asset_version") != r.get("version_asset"): err.append("el evento original de carga corresponde a otra versión del mismo asset (%s) y no a la versión exacta de la raíz %s" % (e.get("asset"), rid))
+        if e.get("org") != self.org or e.get("org") != r.get("org"): err.append("el evento original de carga de %s pertenece a otra organización" % rid)
+        if e.get("pieza") != r.get("pieza"): err.append("el evento original de carga de %s pertenece a otra pieza" % rid)
+        if e.get("version") != r.get("copy_version"): err.append("el evento original de carga de %s corresponde a otra versión de copy" % rid)
+        if up is None or e.get("actor") != up or e.get("auth") != up: err.append("el actor del evento original de carga de %s no coincide con el uploader del asset raíz" % rid)
+        mm = self.members.get(up)
+        if mm is None or mm.get("org") != self.org: err.append("el uploader original de %s no es miembro de la organización" % rid)
+        elif not mm.get("activo"): err.append("el uploader original de %s no tiene membresía activa" % rid)
+        dirs = [b for b in self.at.values() if b["rel"] == "directa" and b["fuente"] == "asset" and (b.get("asset") == rid or b["evento"] == ue)]
+        exactas = [b for b in dirs if b.get("asset") == rid and b["evento"] == ue and b["persona"] == up and (b["org"], b["pieza"], b["version"], b["origen_version"], b.get("asset_version"), b["campo"]) == (r["org"], r["pieza"], r["copy_version"], r["copy_version"], r["version_asset"], "arte")]
+        if len(exactas) == 1: fin(); return ue, up, exactas[0]["id"]
+        if len(exactas) > 1: err.append("la atribución directa original de %s es ambigua" % rid)
+        elif not dirs: err.append("no existe la atribución directa del uploader original del asset raíz %s" % rid)
+        else:
+            for b in dirs:
+                if b["evento"] == ue and b.get("asset") != rid: err.append("la atribución directa %s pertenece a otro asset (%s) y no al asset raíz %s" % (b["id"], b.get("asset"), rid))
+                elif b.get("asset") == rid and b["evento"] != ue: err.append("la atribución directa %s pertenece a otro evento de carga (%s) y no al evento original de %s" % (b["id"], b["evento"], rid))
+                elif b.get("asset") == rid and b["persona"] != up: err.append("la atribución directa %s pertenece a otro uploader (%s) y no al uploader original %s" % (b["id"], b["persona"], up))
+                else: err.append("la atribución directa %s no corresponde a la organización, pieza, versión de copy y versión de asset exactas del asset raíz %s" % (b["id"], rid))
+        fin(); return ue, up, None
     def _validar_reutilizacion(self, aid, copy_version, uploader, reused_from):
-        """H-01 (v12), pasos 1 a 8: localiza y comprueba el asset original, su versión exacta, su evento de carga, su uploader y su atribución directa antes de escribir nada."""
+        """H-01 (v12 y v13): valida todo antes de escribir. Orden: (1) identidad completa del origen y de su asset raíz, (2) evento original de carga, (3) atribución directa original, (4) membresía y actor del reutilizador,
+        (5) pieza y versión exacta de copy de destino, (6) cadena de reutilización sin ciclos ni referencias ausentes; solo después se construyen los registros nuevos."""
         err = []; o = self.assets.get(reused_from)
-        if aid in self.assets: err.append("el asset %s ya existe" % aid)
-        if copy_version not in self.v: err.append("la versión de copy de destino %s no existe" % copy_version)
+        if o is None: raise ReutilizacionInvalida("el asset de origen %s no existe" % reused_from)
+        if o.get("id") != reused_from or o.get("version_id") != reused_from or not isinstance(o.get("version_asset"), int): err.append("la versión exacta del asset de origen no está identificada")
+        if o["org"] != self.org: err.append("el asset de origen pertenece a otra organización")
+        self._origen_carga(reused_from, err)
+        oc = self.v.get(o.get("copy_version")); propio = self.ev.get(o.get("evento_carga") if o["tipo"] != "reutilizado" else o.get("evento_reutilizacion"))
+        if oc is None or oc["pieza"] != o["pieza"] or propio is None or propio.get("pieza") != o["pieza"] or propio.get("version") != o.get("copy_version"): err.append("la pieza y la versión de copy del asset de origen no coinciden con su evento propio")
         mm = self.members.get(uploader)
         if mm is None or mm["org"] != self.org or not mm.get("activo"): err.append("el reutilizador %s no es miembro activo de la organización" % uploader)
-        if o is None: raise ReutilizacionInvalida("el asset de origen %s no existe" % reused_from)
-        if o.get("id") != reused_from or not isinstance(o.get("version_asset"), int): err.append("la versión exacta del asset de origen no está identificada")
-        if o["org"] != self.org: err.append("el asset de origen pertenece a otra organización")
-        try: self._raiz_asset(reused_from)
-        except KeyError: err.append("la cadena de origen no es verificable")
-        ue, up, at0 = self._origen_carga(reused_from); e = self.ev.get(ue)
-        if e is None or e.get("tipo") != "asset_uploader": err.append("el asset de origen no tiene un evento original de carga válido")
-        else:
-            if e["org"] != self.org: err.append("el evento original de carga pertenece a otra organización")
-            if e.get("asset") not in self.assets or self.assets[e["asset"]]["org"] != self.org: err.append("el evento original de carga no corresponde a un asset de la organización")
-        if up is None or up not in self.members: err.append("el uploader original no está identificado")
-        elif self.members[up]["org"] != self.org or not self.members[up].get("activo"): err.append("el uploader original no tiene membresía activa en la organización")
-        if at0 is None: err.append("no existe la atribución directa del uploader original")
-        oc = self.v.get(o.get("copy_version")); propio = self.ev.get(o.get("evento_carga") if o["tipo"] != "reutilizado" else o.get("evento_reutilizacion"))
-        if oc is None or oc["pieza"] != o["pieza"] or propio is None or propio.get("pieza") != o["pieza"] or (e is not None and e.get("pieza") != self.assets.get(e.get("asset"), {}).get("pieza")): err.append("la pieza del asset de origen no coincide con su versión de copy y su evento")
+        if copy_version not in self.v: err.append("la versión de copy de destino %s no existe" % copy_version)
+        if aid in self.assets: err.append("el asset %s ya existe" % aid)
+        if aid in self._cierre_asset(reused_from): err.append("la reutilización crearía un ciclo en la cadena de origen")
         if err: raise ReutilizacionInvalida("; ".join(err))
-        return ue, up, at0
+        return self._origen_carga(reused_from)
     def registrar_asset(self, aid, copy_version, uploader, reused_from=None, material=True):
         """Asset nuevo (reused_from=None): uploader original y evento de carga. Asset reutilizado: valida antes de escribir todo el origen exacto (v12) y registra por separado al reutilizador y su evento, con referencias explícitas al origen."""
         pieza = self.v[copy_version]["pieza"]
@@ -393,10 +421,12 @@ class Motor:
         ue, up, at0 = self._validar_reutilizacion(aid, copy_version, uploader, reused_from); o = self.assets[reused_from]
         raiz = self._raiz_asset(reused_from); er = self._evento("copy", copy_version, uploader, "arte")
         self.ev[er].update(asset=aid, asset_id=aid, asset_version_id=aid, asset_version=o["version_asset"], source_asset_id=o["asset_id"], source_asset_version_id=reused_from, source_asset_version=o["version_asset"],
-                           source_upload_event_id=ue, source_uploader_id=up, source_attribution_id=at0)
+                           source_upload_event_id=ue, source_uploader_id=up, source_attribution_id=at0,
+                           source_root_asset_id=raiz["asset_id"], source_root_asset_version_id=raiz["id"])
         self.assets[aid] = dict(id=aid, asset_id=aid, version_id=aid, org=self.org, pieza=pieza, version_asset=1, tipo="reutilizado", origen=reused_from, origen_version_asset=o["version_asset"], previo=None, uploader=None, evento_carga=None, uploader_original=raiz["uploader_original"],
                                 evento_carga_original=raiz["evento_carga_original"], reutilizador=uploader, evento_reutilizacion=er, material=bool(material), copy_version=copy_version, procedencia="reutilizacion",
-                                source_asset_id=o["asset_id"], source_asset_version_id=reused_from, source_upload_event_id=ue, source_attribution_id=at0)
+                                source_asset_id=o["asset_id"], source_asset_version_id=reused_from, source_upload_event_id=ue, source_attribution_id=at0,
+                                source_root_asset_id=raiz["asset_id"], source_root_asset_version_id=raiz["id"])
         cierre = set(self._cierre_asset(reused_from)); ov = o["copy_version"]
         for b in sorted(self.activas(ov), key=lambda x: x["seq"]):
             if b["campo"] == "arte" and b.get("asset") in cierre:
@@ -544,7 +574,10 @@ class Motor:
         if o is None: h.append("%s: el origen declarado por %s no existe" % (cur, x)); return h
         if o.get("id") != y["source_asset_version_id"]: h.append("%s: el registro del asset de origen de %s no corresponde a su identificador" % (cur, x))
         if (e.get("source_asset_version_id"), e.get("source_asset_id")) != (o["id"], o.get("asset_id")) or y.get("source_asset_id") != o.get("asset_id"): h.append("%s: la reutilización %s no identifica el asset y la versión exactos del origen" % (cur, x))
-        ue, up, at0 = self._origen_carga(o["id"]); eo = self.ev.get(ue)
+        _eo = []; ue, up, at0 = self._origen_carga(o["id"], _eo); eo = self.ev.get(ue); h += ["%s: %s" % (cur, z) for z in _eo]
+        try: _rz = self._raiz_asset(o["id"])
+        except KeyError: _rz = None
+        if _rz is not None and (e.get("source_root_asset_version_id"), e.get("source_root_asset_id"), y.get("source_root_asset_version_id")) != (_rz["id"], _rz.get("asset_id"), _rz["id"]): h.append("%s: la reutilización %s no identifica el asset raíz y su versión exacta" % (cur, x))
         if e.get("source_upload_event_id") != ue or y.get("source_upload_event_id") != ue: h.append("%s: la reutilización %s no identifica el evento de carga del origen" % (cur, x))
         if eo is None or eo.get("id") != ue: h.append("%s: el evento de carga del origen de %s no existe o no corresponde a su identificador" % (cur, x))
         if e.get("source_uploader_id") != up: h.append("%s: la reutilización %s no identifica al uploader original del origen" % (cur, x))
@@ -760,10 +793,12 @@ def _hall_identidad(s, cur, ids):
             a = n
         return None
     def carga_esperada(o):
-        """Evento de carga, uploader y atribución directa esperados del asset exacto o, reconstruidos solo de las tablas."""
-        ue = (raiz_(o["id"]) or {}).get("evento_carga") if o["tipo"] == "reutilizado" else o.get("evento_carga"); e_ = EV.get(ue); up = e_.get("actor") if e_ else None
-        at0 = [b["id"] for b in AT.values() if e_ and b["persona"] == up and b["evento"] == ue and b["rel"] == "directa" and b.get("asset") == e_.get("asset")]
-        return ue, up, (at0[0] if at0 else None)
+        """Evento de carga, uploader y atribución directa esperados del asset raíz exacto de `o`, reconstruidos solo de las tablas (v13: de la raíz, no del campo guardado en el reutilizado ni del evento por su asset)."""
+        r_ = raiz_(o["id"])
+        if r_ is None: return None, None, None
+        ue = r_.get("evento_carga"); up = r_.get("uploader")
+        at0 = [b["id"] for b in AT.values() if b["rel"] == "directa" and b["fuente"] == "asset" and b.get("asset") == r_["id"] and b["evento"] == ue and b["persona"] == up and (b["org"], b["pieza"], b["version"], b["origen_version"], b.get("asset_version"), b["campo"]) == (r_["org"], r_["pieza"], r_["copy_version"], r_["copy_version"], r_["version_asset"], "arte")]
+        return ue, up, (at0[0] if len(at0) == 1 else None)
     for aid in ids:
         for x in cierre(aid):
             if x in vistos: continue
@@ -776,16 +811,24 @@ def _hall_identidad(s, cur, ids):
                 if e is None: continue
                 if e["org"] != y["org"] or e["org"] != org: out.append(("I23", "%s: el evento de carga de %s pertenece a otra organización" % (cur, x)))
                 if e["pieza"] != y["pieza"]: out.append(("I23", "%s: el evento de carga de %s pertenece a otra pieza" % (cur, x)))
-                if e.get("asset") != x or e.get("asset_version") != y["version_asset"]: out.append(("I23", "%s: el evento de carga de %s corresponde a otra versión del asset" % (cur, x)))
+                if e.get("asset") != x or e.get("asset_version") != y["version_asset"] or e.get("asset_version_id") != x: out.append(("I23", "%s: el evento de carga de %s corresponde a otra versión del asset" % (cur, x)))
+                if e.get("tipo") != "asset_uploader": out.append(("I23", "%s: el evento de carga de %s no es un evento de carga de asset (%s)" % (cur, x, e.get("tipo"))))
                 if e.get("asset") != x:
                     z_ = T.get(e.get("asset"))
                     if z_ is not None and EV.get(z_.get("evento_carga"), {}).get("asset") == x: out.append(("I28", "%s: los eventos de carga de %s y %s están intercambiados" % (cur, x, e.get("asset"))))
                 if e["version"] != y["copy_version"]: out.append(("I23", "%s: el evento de carga de %s corresponde a otra versión de copy" % (cur, x)))
                 if e["actor"] != u: out.append(("I23", "%s: el actor del evento de carga de %s no es el uploader" % (cur, x)))
                 if e.get("auth") != u: out.append(("I23", "%s: el actor autenticado del evento de carga de %s no es el uploader" % (cur, x)))
-                dirs = [b for b in AT.values() if b["persona"] == u and b.get("asset") == x and b["evento"] == y["evento_carga"] and b["rel"] == "directa"]
-                if dirs and not any((b["version"], b["origen_version"], b["pieza"], b["org"], b.get("asset_version"), b["fuente"], b["campo"]) == (y["copy_version"], y["copy_version"], y["pieza"], y["org"], y["version_asset"], "asset", "arte") for b in dirs):
-                    out.append(("I24", "%s: la atribución directa del uploader de %s no corresponde a la versión de copy, pieza u organización exactas" % (cur, x)))
+                cand = [b for b in AT.values() if b["rel"] == "directa" and b["fuente"] == "asset" and (b.get("asset") == x or b["evento"] == y["evento_carga"])]
+                exact = [b for b in cand if b.get("asset") == x and b["evento"] == y["evento_carga"] and b["persona"] == u and (b["version"], b["origen_version"], b["pieza"], b["org"], b.get("asset_version"), b["campo"]) == (y["copy_version"], y["copy_version"], y["pieza"], y["org"], y["version_asset"], "arte")]
+                if len(exact) != 1:
+                    if not cand: out.append(("I24", "%s: no existe la atribución directa del uploader de %s" % (cur, x)))
+                    for b in cand:
+                        if b["evento"] == y["evento_carga"] and b.get("asset") != x: out.append(("I24", "%s: la atribución directa del uploader de %s pertenece a otro asset (%s)" % (cur, x, b.get("asset"))))
+                        elif b.get("asset") == x and b["evento"] != y["evento_carga"]: out.append(("I24", "%s: la atribución directa del uploader de %s pertenece a otro evento de carga" % (cur, x)))
+                        elif b.get("asset") == x and b["persona"] != u: out.append(("I24", "%s: la atribución directa del uploader de %s pertenece a otro uploader (%s)" % (cur, x, b["persona"])))
+                        elif b.get("asset") == x: out.append(("I24", "%s: la atribución directa del uploader de %s no corresponde a la versión de copy, pieza u organización exactas" % (cur, x)))
+                    if len(exact) > 1: out.append(("I24", "%s: la atribución directa del uploader de %s es ambigua" % (cur, x)))
             elif t == "reutilizado":
                 r = y.get("reutilizador"); e = EV.get(y.get("evento_reutilizacion")); o = T.get(y.get("origen"))
                 if y.get("uploader") is not None: out.append(("I17", "%s: el reutilizador figura como uploader de %s" % (cur, x)))
@@ -820,6 +863,11 @@ def _hall_identidad(s, cur, ids):
                     if e.get("actor") == r and e.get("auth") != r: out.append(("I27", "%s: el actor autenticado del evento de reutilización de %s no coincide con el reutilizador registrado" % (cur, x)))
                     if e.get("asset_id") != y.get("asset_id") or e.get("asset_version_id") != x: out.append(("I27", "%s: el evento de reutilización de %s no identifica el asset reutilizado y su versión" % (cur, x)))
                     rz = raiz_(x)
+                    if rz is None: out.append(("I27", "%s: la cadena de origen de %s no es verificable (referencia ausente o ciclo)" % (cur, x)))
+                    else:
+                        if (e.get("source_root_asset_version_id"), e.get("source_root_asset_id"), y.get("source_root_asset_version_id")) != (rz["id"], rz.get("asset_id"), rz["id"]): out.append(("I27", "%s: la reutilización de %s no identifica el asset raíz y su versión exacta" % (cur, x)))
+                        eu_ = EV.get(e.get("source_upload_event_id"))
+                        if eu_ is not None and (eu_.get("asset") != rz["id"] or eu_.get("asset_version_id") != rz["id"]): out.append(("I27", "%s: el evento de carga referenciado por la reutilización de %s no corresponde al asset raíz %s" % (cur, x, rz["id"])))
                     if rz is not None and (y.get("evento_carga_original") != rz.get("evento_carga") or y.get("evento_carga_original") not in EV): out.append(("I28", "%s: la cadena de reutilización de %s pierde el vínculo con el evento original de carga" % (cur, x)))
                 if e is None: continue
                 if e["org"] != y["org"] or e["org"] != org: out.append(("I25", "%s: el evento de reutilización de %s pertenece a otra organización" % (cur, x)))
@@ -1708,9 +1756,16 @@ def _fx12(cls, mod=False):
     return m, x
 def _ev_carga(m, aid): return [e for e in m.ev.values() if e["tipo"] == "asset_uploader" and e.get("asset") == aid][0]
 def _atr_dir(m, persona, aid): return [t["id"] for t in m.at.values() if t["persona"] == persona and t.get("asset") == aid and t["rel"] == "directa" and t["fuente"] == "asset"][0]
+def _raiz_t(m, aid):
+    """Raíz de la cadena recorrida en la prueba (independiente del motor)."""
+    x = aid
+    while True:
+        y = m.assets[x]; n = y.get("origen") if y["tipo"] == "reutilizado" else y.get("previo") if y["tipo"] == "modificado" else None
+        if n is None: return x
+        x = n
 def _asr_identidad(m, aid, src, org="X", pieza=None, cv=None, reut=None, up=None):
     """Los doce vínculos de identidad de una reutilización, cada uno contrastado con el registro concreto que debe referenciar (buscado en las tablas, no copiado del asset)."""
-    y = m.assets[aid]; e = m.ev[y["evento_reutilizacion"]]; o = m.assets[src]; eo = _ev_carga(m, o["id"] if o["tipo"] != "reutilizado" else m.ev[o["source_upload_event_id"]]["asset"]) if True else None
+    y = m.assets[aid]; e = m.ev[y["evento_reutilizacion"]]; o = m.assets[src]; eo = _ev_carga(m, _raiz_t(m, src))
     return [("1 organización propietaria", org, e["org"]), ("2 pieza de destino", pieza or m.v[y["copy_version"]]["pieza"], e["pieza"]), ("3 versión exacta de copy de destino", cv or y["copy_version"], e["version"]),
             ("4 asset reutilizado", (aid, aid), (e["asset"], e["asset_id"])), ("5 versión exacta del asset reutilizado", aid, e["asset_version_id"]), ("6 asset de origen", o["asset_id"], e["source_asset_id"]),
             ("7 versión exacta del asset de origen", src, e["source_asset_version_id"]), ("8 evento original de carga", eo["id"], e["source_upload_event_id"]), ("9 evento de reutilización propio", (y["evento_reutilizacion"], "copy_author"), (e["id"], e["tipo"])),
@@ -1766,18 +1821,22 @@ def esc_p20(cls=Motor):
 ESC_ARTE += [("P15", "reutilización válida con identidad exacta del origen", esc_p15), ("P16", "dos assets distintos con el mismo número de versión", esc_p16), ("P17", "dos reutilizaciones del mismo asset original en dos piezas", esc_p17),
              ("P18", "cadena de tres niveles con eventos propios y uploader original conservado", esc_p18), ("P19", "reutilización y modificación posterior del asset reutilizado", esc_p19), ("P20", "motor y auditor reconstruyen la misma cadena sin compartir funciones", esc_p20)]
 
+def _estado_completo(m):
+    """Instantánea completa del motor (todas las tablas y contadores), para comparar antes y después de un intento fallido."""
+    return copy.deepcopy(m.__dict__)
 def pruebas_atomicidad():
-    """H-01 (v12): una reutilización con un elemento obligatorio ausente falla de forma segura y no deja registros parciales."""
+    """H-01 (v12 y v13): una reutilización con un elemento obligatorio ausente o inconsistente falla antes de escribir y no deja registros parciales (comparación del estado completo, no solo del asset nuevo). Los ocho primeros casos son de la v12; los doce siguientes, A54 a A65."""
     casos = [("el asset de origen no existe", lambda m: None, "zz"), ("el origen no tiene evento de carga", lambda m: m.assets["a1"].update(evento_carga=None), "a1"), ("el uploader original no tiene membresía activa", lambda m: m.members["U"].update(activo=False), "a1"),
              ("no existe la atribución directa del uploader original", lambda m: [m.at.pop(k) for k in [t["id"] for t in m.at.values() if t["rel"] == "directa" and t.get("asset") == "a1"]], "a1"), ("el origen pertenece a otra organización", lambda m: m.assets["a1"].update(org="Y"), "a1"),
              ("la pieza del origen no coincide con su evento", lambda m: m.assets["a1"].update(pieza="P9"), "a1"), ("el reutilizador no es miembro activo", lambda m: m.members["W"].update(activo=False), "a1"), ("el identificador del asset reutilizado ya existe", lambda m: None, "dup")]
     out = []
     for nombre, corrompe, origen in casos:
-        m, x = _base(Motor); _intro_cv(x, m, "cvm", "A"); m.registrar_asset("a1", "cvm", "U"); _intro_cv(x, m, "ca", "W", pieza="P2", refs={"master": "cvm"}); corrompe(m); antes = snapshot(m)
+        m, x = _base(Motor); _intro_cv(x, m, "cvm", "A"); m.registrar_asset("a1", "cvm", "U"); _intro_cv(x, m, "ca", "W", pieza="P2", refs={"master": "cvm"}); corrompe(m); antes = _estado_completo(m)
         try: m.registrar_asset("a1" if origen == "dup" else "a2", "ca", "W", reused_from="a1" if origen == "dup" else origen); ok = False
         except ReutilizacionInvalida: ok = True
         except Exception: ok = False
-        out.append((nombre, ok and snapshot(m) == antes))
+        out.append((nombre, ok and _estado_completo(m) == antes))
+    for r in correr_mutaciones_rechazo(): out.append(("%s: %s" % (r["id"].replace("K47-", ""), r["mut"]), r["atomico"] and r["rechaza"]))
     return out
 
 def _mk(metodo, objetivo, fn):
@@ -1834,7 +1893,7 @@ A33 = _mk("registrar_asset", "a2", lambda s: _src_set(s, source_asset_id=s.asset
 A34 = _mk("registrar_asset", "a2", lambda s: _src_set(s, source_asset_id="ax", source_asset_version_id="ax"))
 A35 = _mk("registrar_asset", "a2", lambda s: _src_set(s, source_asset_version_id="a1"))
 A36 = _mk("registrar_asset", "a2", lambda s: _src_set(s, source_upload_event_id=_ev_carga(s, "ax")["id"]))
-A37 = _mk("registrar_asset", "a2", lambda s: _src_set(s, source_upload_event_id=_ev_carga(s, "a1")["id"]))
+A37 = _mk("registrar_asset", "a2", lambda s: _src_set(s, source_upload_event_id=_ev_carga(s, "a1b")["id"]))
 A38 = _mk("registrar_asset", "a2", lambda s: _src_set(s, source_uploader_id="Z"))
 A39 = _mk("registrar_asset", "a2", lambda s: _set(s.assets["a2"], origen="ax"))
 A40 = _mk("registrar_asset", "a2", lambda s: _src_set(s, source_asset_version=7))
@@ -1883,6 +1942,107 @@ ADV += [_adv(("ADV6", "asset diferente con el mismo número de versión"), esc_o
         _adv(("ADV8", "versión de asset diferente del mismo origen"), esc_o12m, "ca2", lambda m: _src_set(m, source_asset_version_id="a1"), "I27"),
         _adv(("ADV9", "asset de otra pieza con el mismo número de versión"), esc_o12, "ca2", lambda m: _src_set(m, source_asset_id="aq", source_asset_version_id="aq"), "I27"),
         _adv(("ADV10", "asset de otra organización con identificadores de versión coincidentes"), esc_o12, "ca2", lambda m: (_foraneo(m), _src_set(m, source_asset_id="yq", source_asset_version_id="yq", source_upload_event_id="ey")), "I27")]
+# ---- v13: A54 a A65 (el motor rechaza antes de escribir), P21 a P26 y ADV11 a ADV16 ----
+def _fx13(cls=Motor):
+    """Estado válido previo a la reutilización: a1 (raíz de U, v1) con su versión a1b (de D), ax (de Z) con el mismo número de versión, au (de U), todos en la pieza P1, y la copia de destino ca (P2) lista."""
+    m, x = _base(cls); _intro_cv(x, m, "cvm", "A"); x.op("registrar_asset", lambda: m.registrar_asset("a1", "cvm", "U"))
+    x.op("modificar", lambda: m.modificar_asset("cvm", "cvm2", "a1b", "a1", "D"), prev="cvm", nueva="cvm2", actor="D", campo="arte")
+    _intro_cv(x, m, "cvx", "B"); x.op("registrar_asset", lambda: m.registrar_asset("ax", "cvx", "Z"))
+    _intro_cv(x, m, "cvu", "B"); x.op("registrar_asset", lambda: m.registrar_asset("au", "cvu", "U"))
+    _intro_cv(x, m, "cvq", "B", pieza="P5"); x.op("registrar_asset", lambda: m.registrar_asset("aq", "cvq", "Pm"))
+    _intro_cv(x, m, "ca", "W", pieza="P2", refs={"master": "cvm"}); return m, x
+def _ec(m, aid): return _ev_carga(m, aid)["id"]
+def _swap_carga(m): m.assets["a1"]["evento_carga"], m.assets["ax"]["evento_carga"] = m.assets["ax"]["evento_carga"], m.assets["a1"]["evento_carga"]
+def _quita_directa(m):
+    for k in [b["id"] for b in m.at.values() if b["rel"] == "directa" and b["fuente"] == "asset" and b.get("asset") == "a1"]: del m.at[k]
+ART_RECH = [("K47-A54", "el evento original de carga pertenece a otro asset de la misma organización y pieza", lambda m: _set(m.assets["a1"], evento_carga=_ec(m, "au")), "corresponde a otro asset"),
+            ("K47-A55", "el evento original de carga pertenece a otro asset con el mismo número de versión", lambda m: _set(m.assets["a1"], evento_carga=_ec(m, "ax")), "corresponde a otro asset"),
+            ("K47-A56", "el evento original de carga es el de otra versión del mismo asset raíz", lambda m: _set(m.assets["a1"], evento_carga=_ec(m, "a1b")), "otra versión del mismo asset"),
+            ("K47-A57", "la atribución directa del uploader pertenece a otro evento de carga del mismo asset", lambda m: _set(_directa(m, "a1"), evento=_ec(m, "a1b")), "pertenece a otro evento de carga"),
+            ("K47-A58", "la atribución directa pertenece a otro asset de la misma organización", lambda m: _set(_directa(m, "a1"), asset="au"), "pertenece a otro asset"),
+            ("K47-A59", "la atribución directa pertenece a otro uploader", lambda m: _set(_directa(m, "a1"), persona="Z"), "pertenece a otro uploader"),
+            ("K47-A60", "el actor del evento de carga no coincide con el uploader declarado", lambda m: _set(_carga(m, "a1"), actor="Z"), "no coincide con el uploader"),
+            ("K47-A61", "el evento de carga es correcto pero está asociado a otra versión de copy", lambda m: _set(_carga(m, "a1"), version="cvu"), "otra versión de copy"),
+            ("K47-A62", "el evento de carga es correcto pero está asociado a otra pieza", lambda m: _set(_carga(m, "a1"), pieza="P5"), "otra pieza"),
+            ("K47-A63", "el uploader original no tiene membresía activa", lambda m: _set(m.members["U"], activo=False), "no tiene membresía activa"),
+            ("K47-A64", "evento de carga y uploader correctos pero la atribución directa no existe", _quita_directa, "no existe la atribución directa"),
+            ("K47-A65", "la referencia al evento de carga se intercambia con la de otro asset después de construir la cadena", _swap_carga, "corresponde a otro asset")]
+ART_RECH_IDS = [r[0] for r in ART_RECH]
+def _intento(m, origen="a1"):
+    antes = _estado_completo(m)
+    try: m.registrar_asset("a2", "ca", "W", reused_from=origen); return None, antes
+    except ReutilizacionInvalida as ex: return str(ex), antes
+def _bloqueada(m, vid):
+    """E nulo, procedencia no completa y ni impacto ni publicación posibles sobre la versión `vid`."""
+    r = calcular_E_verificado(m, vid)
+    try: evaluar_impacto(m, vid); imp = False
+    except ProcedenciaIncompleta: imp = True
+    return (not r["completa"]) and r["E"] is None and imp and not puede_publicar(m, vid)
+def correr_mutaciones_rechazo():
+    """A54 a A65: cada una parte de un estado válido (en el que la reutilización se acepta y el auditor no halla violaciones), altera UNA relación del origen, y exige: el motor rechaza antes de escribir, el error identifica la relación, el estado completo queda idéntico, E es nulo y no hay impacto ni publicación."""
+    res = []
+    for mid, nom, corrompe, kw in ART_RECH:
+        try:
+            m0, x0 = _fx13(Motor); msg0, _ = _intento(m0); e0 = x0.E("ca") if False else calcular_E_verificado(m0, "ca"); inicial = msg0 is None and e0["completa"] and e0["E"] is not None and not auditar_E(snapshot(m0), m0.calcular_E("ca"), "ca") and not _hall_arte_exactas(snapshot(m0), "ca")
+            m, x = _fx13(Motor); previo = _estado_completo(m); corrompe(m); cambio = _estado_completo(m) != previo; msg, antes = _intento(m)
+            rechaza = msg is not None; atomico = _estado_completo(m) == antes and len(m.ev) == len(antes["ev"]) and len(m.at) == len(antes["at"]) and len(m.assets) == len(antes["assets"]) and "a2" not in m.assets
+            ident = rechaza and kw in msg; bloq = _bloqueada(m, "ca") and _bloqueada(m, "cvm")
+            err = None
+        except Exception as ex: inicial = cambio = rechaza = atomico = ident = bloq = False; msg = ""; err = "%s: %s" % (type(ex).__name__, str(ex)[:60])
+        det = bool(inicial and cambio and rechaza and atomico and ident and bloq and err is None)
+        res.append(dict(id=mid, mut=nom, esp="rechazo del motor con «%s»" % kw, kw=kw, obs=("rechazada: " + (msg or "")[:150]) if rechaza else ("ACEPTADA" if err is None else "ERROR " + err), det=det, valido=bool(inicial), cambio=bool(cambio), err=err, rechaza=rechaza, atomico=atomico, ident=ident, bloq=bloq))
+    return res
+
+def _pos13(m, x, src="a1", cv="ca", aid="a2"):
+    e = x.E(cv); est = snapshot(m); ev = m.ev[m.assets[aid]["evento_reutilizacion"]]; rz = _raiz_t(m, src); eo = _ev_carga(m, rz)
+    return [("el motor registra la reutilización", True, aid in m.assets), ("asset raíz y versión exacta de la raíz", (rz, rz), (ev["source_root_asset_id"] if False else ev["source_root_asset_version_id"], m.assets[aid]["source_root_asset_version_id"])),
+            ("evento original de carga = el de la raíz", eo["id"], ev["source_upload_event_id"]), ("el evento de carga apunta al asset raíz y a su versión exacta", (rz, rz), (eo["asset"], eo["asset_version_id"])),
+            ("uploader original = actor del evento de carga de la raíz", (eo["actor"], eo["actor"]), (ev["source_uploader_id"], m.assets[aid]["uploader_original"])), ("atribución directa de la raíz, de ese uploader y de ese evento", _atr_dir(m, eo["actor"], rz), ev["source_attribution_id"]),
+            ("el reutilizador figura distinto del uploader original", True, m.assets[aid]["reutilizador"] != m.assets[aid]["uploader_original"]), ("el auditor no halla violaciones", [], auditar_E(est, m.calcular_E(cv), cv) + _hall_arte_exactas(est, cv)), ("E completo", True, e["completa"])]
+def esc_p21(cls=Motor):
+    m, x = _fx13(cls); x.op("registrar_asset", lambda: m.registrar_asset("a2", "ca", "W", reused_from="a1")); return m, x, _pos13(m, x)
+def esc_p22(cls=Motor):
+    m, x = _fx13(cls); x.op("registrar_asset", lambda: m.registrar_asset("a2", "ca", "W", reused_from="a1")); _intro_cv(x, m, "cb", "D", pieza="P3", refs={"master": "cvx"}); x.op("registrar_asset", lambda: m.registrar_asset("a3", "cb", "D", reused_from="ax"))
+    asr = _pos13(m, x) + _pos13(m, x, "ax", "cb", "a3") + [("dos assets distintos con el mismo número de versión", (1, 1, True), (m.assets["a1"]["version_asset"], m.assets["ax"]["version_asset"], m.assets["a2"]["source_upload_event_id"] != m.assets["a3"]["source_upload_event_id"])),
+                                                         ("cada reutilización conserva su uploader original", ("U", "Z"), (m.assets["a2"]["uploader_original"], m.assets["a3"]["uploader_original"]))]
+    return m, x, asr
+def esc_p23(cls=Motor):
+    m, x = _fx13(cls); ok0 = _intento(copy.deepcopy(m))[0] is None; _swap_carga(m); msg, antes = _intento(m)
+    return m, x, [("con los dos eventos de carga válidos la reutilización se acepta", True, ok0), ("al intercambiar los eventos de carga de dos assets el motor rechaza", True, msg is not None and "corresponde a otro asset" in msg),
+                  ("no se escribió ningún registro", True, _estado_completo(m) == antes), ("E de la versión de origen queda nulo y bloqueado", True, _bloqueada(m, "cvm"))]
+def esc_p24(cls=Motor):
+    m, x = _fx13(cls); x.op("registrar_asset", lambda: m.registrar_asset("a2", "ca", "W", reused_from="a1")); _intro_cv(x, m, "cb", "D", pieza="P3", refs={"master": "ca"}); x.op("registrar_asset", lambda: m.registrar_asset("a3", "cb", "D", reused_from="a2"))
+    _intro_cv(x, m, "cc", "B", pieza="P4", refs={"master": "cb"}); x.op("registrar_asset", lambda: m.registrar_asset("a4", "cc", "B", reused_from="a3")); eo = _ev_carga(m, "a1"); asr = _pos13(m, x, "a3", "cc", "a4")
+    return m, x, asr + [("los tres niveles conservan el evento original y el uploader de la raíz", [(eo["id"], "U")] * 3, [(m.assets[k]["source_upload_event_id"], m.assets[k]["uploader_original"]) for k in ("a2", "a3", "a4")]), ("la raíz de los tres niveles es a1", ["a1"] * 3, [m.assets[k]["source_root_asset_version_id"] for k in ("a2", "a3", "a4")])]
+def esc_p25(cls=Motor):
+    m, x = _fx13(cls); x.op("registrar_asset", lambda: m.registrar_asset("a2", "ca", "W", reused_from="a1")); e = x.E("ca"); est = snapshot(m)
+    return m, x, _pos13(m, x) + [("el motor y el auditor reconstruyen la misma cadena", m.cadena_identidad("a2"), cadena_identidad_independiente(est, "a2")), ("el E del motor coincide con el recalculado por el auditor", sorted(_E(est, "ca")), sorted(e["E"] or {})),
+                                ("el auditor no usa funciones del motor", [], _compartidas())]
+def esc_p26(cls=Motor):
+    m, x = _fx13(cls); ok_au = not [v for v in auditar_E(snapshot(m), m.calcular_E("cvu"), "cvu")]; _set(m.assets["a1"], evento_carga=_ec(m, "au")); msg, antes = _intento(m)
+    return m, x, [("el evento de carga ajeno y su atribución son válidos para su propio asset", True, ok_au), ("la reutilización con el evento de otro asset se rechaza", True, msg is not None and "corresponde a otro asset" in msg), ("sin escritura alguna", True, _estado_completo(m) == antes and "a2" not in m.assets)]
+ESC_ARTE += [("P21", "reutilización válida con asset raíz, versión, evento de carga, uploader y atribución exactos", esc_p21), ("P22", "dos assets de la misma organización y pieza con el mismo número de versión", esc_p22), ("P23", "dos eventos de carga válidos de assets distintos: intercambiarlos provoca rechazo", esc_p23),
+             ("P24", "cadena de tres niveles con evento de carga y uploader de la raíz", esc_p24), ("P25", "reutilización válida con el auditor independiente coincidente", esc_p25), ("P26", "evento de carga y atribución válidos pero de otro asset: rechazo sin escritura", esc_p26)]
+
+class _Forzado(_Ciego):
+    """Motor que acepta cualquier reutilización: reproduce la validación débil de la v12 (toma el evento de carga guardado en el origen y la atribución por el asset del propio evento) y no revalida la procedencia."""
+    def _validar_reutilizacion(s, aid, copy_version, uploader, reused_from):
+        o = s.assets[reused_from]; ue = o["evento_carga_original"] if o["tipo"] == "reutilizado" else o["evento_carga"]; e = s.ev.get(ue); up = e["actor"] if e else None
+        at0 = [b["id"] for b in s.at.values() if e and b["persona"] == up and b["evento"] == ue and b["rel"] == "directa" and b.get("asset") == e.get("asset")]
+        return ue, up, (at0[0] if at0 else None)
+def _adv13(nombre, mid, codigo):
+    corrompe = [r[2] for r in ART_RECH if r[0] == mid][0]
+    def f():
+        m, x = _fx13(_Forzado); corrompe(m); m.registrar_asset("a2", "ca", "W", reused_from="a1"); r = m.calcular_E("ca"); est = snapshot(m)
+        cods = sorted({c[0] for c in auditar_E(est, r, "ca")}); v = calcular_E_verificado(m, "ca")
+        try: evaluar_impacto(m, "ca"); falla = False
+        except ProcedenciaIncompleta: falla = True
+        return dict(id=nombre[0], nombre=nombre[1], motor_acepta=bool(r["completa"]) and r["E"] is not None and "a2" in m.assets, auditor=codigo in cods, E_bloqueado=(not v["completa"]) and v["E"] is None, impacto_falla=falla, no_publica=not puede_publicar(m, "ca"), codigos=cods)
+    return f
+ADV += [_adv13(("ADV11", "evento de carga de otro asset de la misma organización y pieza (A54)"), "K47-A54", "I23"), _adv13(("ADV12", "evento de carga de otro asset con el mismo número de versión (A55)"), "K47-A55", "I23"),
+        _adv13(("ADV13", "atribución directa de otro evento de carga del mismo asset (A57)"), "K47-A57", "I24"), _adv13(("ADV14", "atribución directa de otro asset de la misma organización (A58)"), "K47-A58", "I24"),
+        _adv13(("ADV15", "actor del evento de carga distinto del uploader declarado (A60)"), "K47-A60", "I23"), _adv13(("ADV16", "referencia al evento de carga intercambiada con otro asset (A65)"), "K47-A65", "I23")]
+
 def correr_adversariales():
     out = []
     for f in ADV:
@@ -1944,3 +2104,64 @@ def correr_mutaciones_k45(M):
         det = (not v0) and cambio and err is None and e2 is None and cod in codes
         res.append(dict(id=mid, mut=nom, esp=cod, obs=("rechazado con " + ", ".join(codes)) if codes else ("ERROR: %s" % (err or e2) if (err or e2) else "ACEPTADO (no detectado)"), det=bool(det), valido=not v0, cambio=cambio, err=err or e2))
     return res, positivos
+
+# =====================================================================================================
+# v13 (IG5-102, IG5-103): integridad referencial de las relaciones source_* y de creación de assets
+# Datos del diseño físico (solo documentales). El verificador los contrasta con el contrato 4.4.9 y la sección 4.4.15;
+# la sección 4.4.15 se genera a partir de estos mismos datos y la mutación de cualquiera de las dos partes se detecta.
+# =====================================================================================================
+def _rs(id_, origen, pares, destino, accion, momento, garantiza, prueba, fk):
+    return dict(id=id_, origen=origen, locales=tuple(p[0] for p in pares), destino=destino, ref=tuple(p[1] for p in pares), pares=dict(pares), accion=accion, momento=momento, garantiza=garantiza, prueba=prueba, fk=fk)
+RELACIONES_SOURCE = [
+    _rs("RS-01", "contribution_events", (("organization_id", "organization_id"), ("source_asset_version_id", "id"), ("source_asset_id", "asset_lineage_id"), ("source_root_asset_version_id", "root_asset_version_id")), "creative_assets", "RESTRICT", "inmediata",
+        "existencia del asset de origen; misma organización; versión exacta (fila); asset lógico exacto de esa versión; raíz exacta de su cadena", "K47-A33, K47-A34, K47-A35, K47-A45", ["FK01", "FK03", "FK04", "FK10", "FK11", "FK13"]),
+    _rs("RS-02", "contribution_events", (("organization_id", "organization_id"), ("source_upload_event_id", "id"), ("source_root_asset_version_id", "creative_asset_id"), ("source_uploader_id", "contributor_id")), "contribution_events", "RESTRICT", "inmediata",
+        "existencia del evento de carga; misma organización; el evento es de la fila raíz exacta (solo los eventos de carga tienen creative_asset_id); uploader igual al actor del evento", "K47-A36, K47-A37, K47-A38, K47-A54, K47-A55, K47-A56, K47-A60", ["FK02", "FK07", "FK09", "FK12"]),
+    _rs("RS-03", "contribution_events", (("organization_id", "organization_id"), ("source_attribution_id", "id"), ("source_upload_event_id", "contribution_event_id"), ("source_uploader_id", "contributor_id"), ("source_root_asset_version_id", "origin_asset_id"), ("source_attribution_relation", "relation")), "copy_version_provenance", "RESTRICT", "inmediata",
+        "existencia de la atribución; misma organización; atribución de ese evento, de ese uploader, del asset raíz exacto y de relación directa", "K47-A57, K47-A58, K47-A59, K47-A64", ["FK08", "FK12"]),
+    _rs("RS-04", "creative_assets", (("organization_id", "organization_id"), ("lineage_parent_asset_id", "id"), ("asset_lineage_id", "asset_lineage_id"), ("root_asset_version_id", "root_asset_version_id")), "creative_assets", "RESTRICT", "inmediata",
+        "una versión modificada conserva el asset lógico y la raíz de la versión anterior", "K47-A35, K47-A56", ["FK05"]),
+    _rs("RS-05", "creative_assets", (("organization_id", "organization_id"), ("reused_from_asset_id", "id"), ("root_asset_version_id", "root_asset_version_id")), "creative_assets", "RESTRICT", "inmediata",
+        "un asset reutilizado hereda la raíz exacta de su origen", "K47-A39, K47-A48", ["FK06"]),
+    _rs("RS-06", "creative_assets", (("organization_id", "organization_id"), ("upload_event_id", "id"), ("id", "creative_asset_id"), ("uploader_id", "contributor_id"), ("piece_id", "asset_piece_id"), ("copy_version_id", "asset_copy_version_id")), "contribution_events", "NO ACTION", "DEFERRABLE INITIALLY DEFERRED",
+        "el evento de carga de la fila es de esa fila, de su uploader, pieza y versión de copy; relación circular con el evento: se resuelve con esta única FK diferida", "K47-A19, K47-A20, K47-A22, K47-A60, K47-A61, K47-A62", ["FK13"]),
+    _rs("RS-07", "creative_assets", (("organization_id", "organization_id"), ("reuse_event_id", "id"), ("reused_from_asset_id", "source_asset_version_id"), ("piece_id", "copy_version_piece_id"), ("copy_version_id", "copy_version_id")), "contribution_events", "RESTRICT", "inmediata",
+        "el evento de reutilización es propio del asset, referencia el mismo origen y la misma pieza y versión exacta de copy de destino", "K47-A25, K47-A46, K47-A47", ["FK09"]),
+]
+UNICAS_SOURCE = {"contribution_events": [("organization_id", "id", "creative_asset_id", "contributor_id"), ("organization_id", "id", "creative_asset_id", "contributor_id", "asset_piece_id", "asset_copy_version_id"), ("organization_id", "id", "source_asset_version_id", "copy_version_piece_id", "copy_version_id")],
+                 "copy_version_provenance": [("organization_id", "id", "contribution_event_id", "contributor_id", "origin_asset_id", "relation")],
+                 "creative_assets": [("organization_id", "id", "asset_lineage_id", "root_asset_version_id"), ("organization_id", "id", "root_asset_version_id")]}
+# Inventario de las columnas source_* de contribution_events y de las relaciones indirectas (id de relación que las cubre)
+INVENTARIO_SOURCE = [
+ ("source_hash", "— (valor de integridad, no una referencia)", "—", "hash hexadecimal de 64 caracteres del origen (CHECK de formato)", "ninguna FK: el valor no identifica un registro; la identidad del origen la fijan RS-01, RS-02 y RS-03"),
+    ("source_asset_id", "creative_assets.asset_lineage_id", "RS-01", "asset lógico de la versión de origen; la organización y el asset lógico los fija RS-01", "ninguna: FK declarativa compuesta"),
+    ("source_asset_version_id", "creative_assets.id", "RS-01", "versión exacta (fila) del asset de origen; pieza y versión de copy del origen las fija la propia fila", "ninguna: FK declarativa compuesta"),
+    ("source_root_asset_version_id", "creative_assets.root_asset_version_id y contribution_events.creative_asset_id", "RS-01, RS-02, RS-03", "fila raíz exacta de la cadena; ancla las tres FK", "ninguna: FK declarativa compuesta"),
+    ("source_upload_event_id", "contribution_events.id", "RS-02", "evento original de carga de la raíz; su pieza y versión de copy las fija su propia FK compuesta a creative_assets", "ninguna: autorreferencia declarativa; no hay ciclo de inserción (el evento original es anterior)"),
+    ("source_uploader_id", "contribution_events.contributor_id y copy_version_provenance.contributor_id", "RS-02, RS-03", "uploader original, igual al actor del evento de carga y al de la atribución", "ninguna: FK declarativa compuesta"),
+    ("source_attribution_id", "copy_version_provenance.id", "RS-03", "atribución directa original (evento, uploader, asset raíz y relación 'directa')", "ninguna: FK declarativa; el ciclo de tablas con copy_version_provenance se evita agregando la FK por ALTER en 3.x"),
+    ("source_attribution_relation", "copy_version_provenance.relation", "RS-03", "constante 'directa' (CHECK) que permite fijar la relación en la FK", "ninguna: FK declarativa compuesta"),
+    ("creative_assets.upload_event_id", "contribution_events.id", "RS-06", "relación indirecta: el evento de carga de la fila", "FK diferida: ciclo de inserción real con contribution_events.creative_asset_id"),
+    ("creative_assets.reuse_event_id", "contribution_events.id", "RS-07", "relación indirecta: el evento propio de la reutilización", "ninguna: FK inmediata; el evento se inserta antes que el asset"),
+]
+# Excepciones: el único campo del modelo sin columna física, con su mecanismo alternativo y su prueba negativa específica en K45
+EXCEPCIONES_SOURCE = [("source_asset_version (entero del modelo en memoria)", "no existe como columna: dos assets distintos pueden tener el mismo número", "no se almacena: el número es creative_assets.asset_version de la fila identificada por RS-01 y nunca sustituye a la identidad", "K47-A34 (mismo número de versión) y K47-A42 (intercambio con igual número)", "K45")]
+# Ciclos entre tablas y su resolución (4.4.15): tablas, aristas, tipo de ciclo y orden de inserción
+CICLOS_SOURCE = [("C-1", ("contribution_events", "copy_version_provenance"), "RS-03 contra contribution_event_id de copy_version_provenance", "solo de creación", "contribution_events (2.1) y copy_version_provenance (2.3) se crean antes; la FK RS-03 se agrega por ALTER en 3.x; no hay ciclo de filas: la atribución original es anterior a la reutilización"),
+                 ("C-2", ("contribution_events", "creative_assets"), "RS-01, RS-07 contra creative_asset_id y las FK de creative_assets", "solo de creación", "las FK se agregan por ALTER en 3.x; el evento de reutilización se inserta antes que el asset reutilizado y no lo referencia; no hay ciclo de filas"),
+                 ("C-3", ("contribution_events", "creative_assets"), "RS-06 contra la FK de contribution_events a creative_assets", "de creación y de filas", "el asset de una carga y su evento de carga se referencian entre sí: ninguna FK inmediata permite insertar la primera fila; RS-06 es DEFERRABLE INITIALLY DEFERRED y se verifica al confirmar")]
+ORDEN_INSERCION = [("carga nueva", 1, "creative_assets", "—", "RS-06 (diferida, al paso 2)"), ("carga nueva", 2, "contribution_events", "creative_asset_id → paso 1", "—"), ("carga nueva", 3, "copy_version_provenance", "contribution_event_id → paso 2", "—"),
+                   ("modificación", 1, "creative_assets", "RS-04 → versión anterior (preexistente)", "RS-06 (diferida, al paso 2)"), ("modificación", 2, "contribution_events", "creative_asset_id → paso 1", "—"), ("modificación", 3, "copy_version_provenance", "contribution_event_id → paso 2", "—"),
+                   ("reutilización", 1, "contribution_events", "RS-01, RS-02, RS-03 → origen, raíz, evento y atribución (preexistentes)", "—"), ("reutilización", 2, "creative_assets", "RS-05 → origen (preexistente); RS-07 → paso 1", "—"), ("reutilización", 3, "copy_version_provenance", "contribution_event_id → paso 1", "—")]
+
+# ===== v13: descripciones de las mutaciones estructurales FK01 a FK15 =====
+FK_DESC = [("FK01", "eliminar la FK de source_asset_version_id (RS-01)", "K32"), ("FK02", "eliminar otra FK requerida (RS-04, linaje del asset)", "K32"),
+ ("FK03", "FK RS-01 sin organization_id", "K44"), ("FK04", "columnas de destino invertidas en RS-01", "K44"),
+ ("FK05", "destino sin la unicidad suficiente (org, id, creative_asset_id, contributor_id)", "K44"), ("FK06", "tipo incompatible de source_attribution_relation", "K44"),
+ ("FK07", "source_upload_event_id sin FK (RS-02) ni mecanismo alternativo", "K32"), ("FK08", "source_attribution_id sin FK (RS-03) ni mecanismo alternativo", "K32"),
+ ("FK09", "RS-06 (evento de carga del asset) sin organization_id: equivalente declarativo del trigger diferido sin validar la organización", "K44"),
+ ("FK10", "RS-01 sin el asset exacto (source_asset_id → asset_lineage_id): equivalente declarativo del trigger que no valida el asset", "K32"),
+ ("FK11", "RS-01 con source_asset_id y source_asset_version_id intercambiados: equivalente de no validar la versión exacta", "K45"),
+ ("FK12", "RS-03 con source_uploader_id sustituido: equivalente de no validar uploader y atribución", "K45"),
+ ("FK13", "ON DELETE RESTRICT cambiado a SET NULL: referencia huérfana tras una operación de corrección", "K32"),
+ ("FK14", "excepción de K32 sin la referencia a K45 que la justifica", "K32"), ("FK15", "excepción de K45 con una prueba negativa inexistente", "K45")]

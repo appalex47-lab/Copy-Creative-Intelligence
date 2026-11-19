@@ -1,18 +1,18 @@
 ---
 name: informe_cierre_g1_g5_g10
-description: Informe de la revisión v12 de G-1, G-5 y G-10 (identidad exacta del asset de origen en las reutilizaciones; K45, K46 y K47 conservados); diseño documental con pruebas de modelo en memoria; nada ejecutado en PostgreSQL
+description: Informe de la revisión v13 de G-1, G-5 y G-10 (validación previa de la identidad exacta del asset de origen e integridad referencial de las relaciones source_*; K45, K46 y K47 conservados); diseño documental con pruebas de modelo en memoria; nada ejecutado en PostgreSQL
 ---
 
-# INFORME — IDENTIDAD EXACTA DEL ASSET DE ORIGEN EN REUTILIZACIONES (revisión v12)
+# INFORME — VALIDACIÓN PREVIA DEL ORIGEN E INTEGRIDAD REFERENCIAL source_* (revisión v13)
 
-Sustituye al informe v11 (conservado en `historico/`). Diseño documental con pruebas de modelo en memoria: no se ejecutó SQL, código de producto, Supabase ni PostgreSQL. La «v12» de este documento es la revisión del diseño complementario; no es la Adenda v9 del propietario (PO-05).
+Sustituye al informe v12 (conservado en `historico/`). Diseño documental con pruebas de modelo en memoria: no se ejecutó SQL, código de producto, Supabase ni PostgreSQL. La «v13» de este documento es la revisión del diseño complementario; no es la Adenda v9 del propietario (PO-05).
 
 ## A. Dictamen ejecutivo
 
 | Nivel | Estado | Alcance |
 |---|---|---|
 | 1. Fase 0 v3.3 | COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES DOCUMENTADAS | No se reabre ni se modifica; SHA-256 `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da` sin cambio |
-| 2. Diseño complementario v12 (G-1, G-5, G-10) | COMPLETADO DOCUMENTALMENTE Y PREPARADO PARA ACEPTACIÓN FORMAL DEL PROPIETARIO, CON LIMITACIONES TÉCNICAS EXPLÍCITAS | Pendiente de aceptación formal del propietario; no validado técnicamente; la Adenda v9 sigue sin aceptar (PO-05) |
+| 2. Diseño complementario v13 (G-1, G-5, G-10) | COMPLETADO DOCUMENTALMENTE Y PREPARADO PARA ACEPTACIÓN FORMAL DEL PROPIETARIO, CON LIMITACIONES TÉCNICAS EXPLÍCITAS | Pendiente de aceptación formal del propietario; no validado técnicamente; la Adenda v9 sigue sin aceptar (PO-05) |
 | 3. Fase 1 | NO INICIADA / NO AUTORIZADA | Requiere autorización expresa; este diseño no la concede |
 
 
@@ -33,46 +33,37 @@ Sustituye al informe v11 (conservado en `historico/`). Diseño documental con pr
 | K46 | 12 | 12 | resolutores elegibles aceptados | OK |
 | K47 | 36 | 36 | 12/12 escenarios A a L y comprobaciones U, S, X y R aprobados | OK |
 | K47 resoluciones inmutables | 12 | 12 | escenario RS y 9 intentos directos rechazados | OK |
-| K47 procedencia e identidad del arte (A01 a A53) | 53 | 53 | 20/20 casos positivos de arte (P01 a P20) aprobados; 10/10 pruebas adversariales aprobadas | OK |
-| Total estructural | 140 | 140 | más 25 mutaciones documentales M-01 a M-25 |  |
+| K47 validación previa del origen (A54 a A65) | 12 | 12 | rechazo sin escritura, estado previo idéntico y E nulo en cada una; 20 pruebas de atomicidad aprobadas | OK |
+| K47 procedencia e identidad del arte (A01 a A53) | 53 | 53 | 26/26 casos positivos de arte (P01 a P26) aprobados; 16/16 pruebas adversariales aprobadas | OK |
+| FK01 a FK15 (K32, K44, K45 y K55) | 15 | 15 (lo calcula el verificador) | mutaciones estructurales sobre la especificación |  |
+| Total estructural | 152 | 152 | más 25 mutaciones documentales M-01 a M-25 y 15 mutaciones FK01 a FK15 |  |
 
 
-Los hallazgos de la v11 se corrigen en el diseño (sección 4.4.14) y se comprueban con **pruebas de modelo en memoria**: cada reutilización identifica por referencias explícitas el asset de origen, su versión exacta, su evento original de carga, su uploader y su atribución original, y un auditor independiente de 28 invariantes, sin funciones compartidas con el motor, las reconstruye desde las instantáneas; E falla de forma segura si algún vínculo no coincide; la inmutabilidad de resoluciones y la identidad del uploader de la v10 y la v11 no cambian; K45 y K46 se conservan. Cada mutación parte de un caso válido y se detecta por la condición esperada; el resultado esperado y el observado de cada una están en la auditoría. El hash del original de v3.3 se calcula sobre sus bytes cuando el archivo se indica con `--v33`; sin él, K48 queda PENDIENTE y el hash escrito es solo un registro histórico. Ninguna prueba se ejecutó en PostgreSQL ni Supabase. G-5 no se declara completamente cerrada ni validada técnicamente. No hay aceptación del propietario de esta revisión.
+Los hallazgos de la v12 se corrigen en el diseño (secciones 4.4.14 y 4.4.15) y se comprueban con **pruebas de modelo en memoria y comprobaciones documentales**: antes de escribir, el motor demuestra que el evento original de carga, el uploader y su atribución directa pertenecen al asset raíz exacto (cadena organización → pieza → asset raíz → versión exacta → evento de carga → uploader → atribución) y rechaza con `ReutilizacionInvalida` sin dejar registros parciales; el auditor independiente (28 invariantes, sin funciones compartidas con el motor) reconstruye la cadena desde los registros y detecta el origen inconsistente aunque el motor lo acepte; cada columna `source_*` tiene una FK compuesta declarativa o una excepción individual justificada (K32, K44, K45 y K55); E falla de forma segura si algún vínculo no coincide; la inmutabilidad de resoluciones y la identidad del uploader de la v10 a la v12 no cambia; K45 y K46 se conservan. Cada mutación parte de un caso válido y se detecta por la condición esperada; el resultado esperado y el observado de cada una están en la auditoría. El hash del original de v3.3 se calcula sobre sus bytes cuando el archivo se indica con `--v33`; sin él, K48 queda PENDIENTE y el hash escrito es solo un registro histórico. Ninguna prueba se ejecutó en PostgreSQL ni Supabase. G-5 no se declara completamente cerrada ni validada técnicamente. No hay aceptación del propietario de esta revisión.
 
 ## B. Qué se corrigió
 
-### H-01 La identidad del asset de origen en las reutilizaciones no se demostraba por referencias explícitas
+### H-01 La validación previa no probaba que el evento original de carga perteneciera al asset raíz exacto
 
 | Concepto | Detalle |
 |---|---|
-| Defecto en la v11 | En la v11 el evento de reutilización guardaba solo el asset y un número entero de versión del origen: otro asset de la misma organización o pieza con el mismo número de versión, otro evento de carga del mismo uploader o otra versión del mismo origen se aceptaban como el origen correcto; el evento no identificaba el asset de origen, su versión exacta, su evento original de carga ni la atribución original del uploader. |
-| Corrección | Cada reutilización registra los campos explícitos `source_asset_id`, `source_asset_version_id`, `source_upload_event_id`, `source_uploader_id` y `source_attribution_id` (además de organización, pieza, versión de copy, asset y versión reutilizados, actor y actor autenticado); `registrar_asset` valida el origen completo antes de escribir y falla sin registros parciales (`ReutilizacionInvalida`); `_id_reutilizacion` y `_id_origen` comprueban cada vínculo contra el registro referenciado. |
-| Documento y sección | ESPECIFICACION 4.4.14 |
-| Reglas | IG5-101, IE-12 |
-| Evidencia | Mutaciones K47-A33 a A41 y A46 a A48; casos positivos P15 a P19; 8 pruebas de atomicidad |
-| Escenarios diseñados | T-503 a T-540 (38; ninguno ejecutado) |
+| Defecto en la v12 | En la v12 `_origen_carga` tomaba el evento de los campos derivados guardados en el reutilizado y buscaba la atribución por el asset del propio evento; `_validar_reutilizacion` solo comprobaba que el evento perteneciera a algún asset de la organización. Un evento de carga de otro asset de la misma organización y pieza, con su propia atribución, se aceptaba como origen; tampoco se comparaban el actor, la versión de copy, la pieza ni la atribución con el uploader y la fila raíz. |
+| Corrección | `_origen_carga` deriva la raíz recorriendo la cadena y comprueba contra los registros de esa raíz: evento de tipo `asset_uploader`, asset y versión exactos, organización, pieza y versión de copy, actor y actor autenticado igual al uploader original, membresía activa y una única atribución directa del uploader, del evento y del asset exactos. `_validar_reutilizacion` valida el origen, el reutilizador, la versión de copy de destino y los ciclos antes de escribir; un rechazo lanza `ReutilizacionInvalida` con la relación inválida y no deja registros parciales. |
+| Documento y sección | ESPECIFICACION 4.4.15 |
+| Reglas | IG5-102, IE-12 |
+| Evidencia | Mutaciones K47-A54 a A65; casos positivos P21 a P26; ADV11 a ADV16; 20 pruebas de atomicidad con comparación del estado completo |
+| Escenarios diseñados | T-541 a T-576 (36; ninguno ejecutado) |
 
-### H-02 El auditor no distinguía identidad de coincidencia de atributos
-
-| Concepto | Detalle |
-|---|---|
-| Defecto en la v11 | El auditor comparaba el número de versión del origen; no podía detectar referencias intercambiadas entre assets, eventos o versiones con atributos coincidentes, ni la pérdida del vínculo con el evento original de carga. |
-| Corrección | El auditor independiente (I27 e I28) reconstruye la identidad desde las instantáneas sin llamar a funciones del motor (se inspecciona su código): compara `source_asset_id`, `source_asset_version_id` y `source_upload_event_id` contra los registros reales, el uploader y la atribución originales, la organización, la pieza y la versión de copy, y detecta registros intercambiados y vínculos perdidos. |
-| Documento y sección | ESPECIFICACION 4.4.14 |
-| Reglas | IG5-101, IE-12 |
-| Evidencia | Mutaciones K47-A42 a A45; caso positivo P20; K55 |
-| Escenarios diseñados | T-503 a T-540 (38; ninguno ejecutado) |
-
-### H-03 Faltaban pruebas adversariales de identidad exacta
+### H-02 Las relaciones source_* quedaban fuera de K32 y K45 por exclusiones generales y sin integridad referencial declarativa
 
 | Concepto | Detalle |
 |---|---|
-| Defecto en la v11 | No había pruebas que alteraran solo la referencia del origen manteniendo iguales los demás campos posibles. |
-| Corrección | Cinco pruebas adversariales nuevas (ADV6 a ADV10): asset distinto con igual número de versión, evento de carga distinto del mismo uploader, versión distinta del mismo origen, asset de otra pieza y asset de otra organización con identificadores coincidentes; en cada una el motor acepta, el auditor detecta y E, la evaluación de impacto y la publicación se bloquean. |
-| Documento y sección | ESPECIFICACION 4.4.14 |
-| Reglas | IG5-101, IE-12 |
-| Evidencia | ADV6 a ADV10 |
-| Escenarios diseñados | T-503 a T-540 (38; ninguno ejecutado) |
+| Defecto en la v12 | El verificador de la v12 excluía de forma general las columnas `source_*` de K32 y K45 y la documentación afirmaba un ciclo de creación sin grafo de dependencias ni orden de inserción; la FK compuesta existía solo para `source_asset_version_id`. |
+| Corrección | Cada columna `source_*` y cada columna de origen de `creative_assets` tiene una FK compuesta con `organization_id` y una clave única de destino (RS-01 a RS-07); solo RS-06 es DEFERRABLE INITIALLY DEFERRED por el ciclo de filas demostrado entre un asset y su evento de carga; K32, K44, K45 y K55 verifican columnas, orden, destino, acción, momento, pares exactos, inventario, matriz de ciclos, orden de inserción y la única excepción individual (el entero `source_asset_version` del modelo en memoria, con pruebas negativas específicas); FK01 a FK15 prueban que el verificador detecta su ausencia o corrupción. |
+| Documento y sección | ESPECIFICACION 4.4.15 |
+| Reglas | IG5-103, IE-12 |
+| Evidencia | FK01 a FK15; K32, K44, K45 y K55 |
+| Escenarios diseñados | T-577 a T-599 (23; ninguno ejecutado) |
 
 ## C. Modelo y relaciones
 
@@ -93,11 +84,11 @@ Los hallazgos de la v11 se corrigen en el diseño (sección 4.4.14) y se comprue
 
 | Concepto | Resultado |
 |---|---|
-| Reglas de integridad | 216 |
-| Pruebas diseñadas | 540 (documental 210 / técnica futura ejecutable 281 / infraestructura real 49); **ninguna ejecutada**; cobertura regla↔escenario completa según el verificador |
+| Reglas de integridad | 218 |
+| Pruebas diseñadas | 599 (documental 269 / técnica futura ejecutable 281 / infraestructura real 49); **ninguna ejecutada**; cobertura regla↔escenario completa según el verificador |
 | Tablas propuestas | 41 (27 históricas + 14 nuevas) |
-| Verificación documental y estructural | 54 comprobaciones y 165 mutaciones del verificador publicado; resultado real en AUDITORIA_FINAL_G1_G5_G10.md, sección 3 |
-| Pruebas estructurales ejecutadas | Modelo relacional de K45 (15 controles, 3 casos positivos), motor de K47 (12 escenarios A a L, comprobaciones U, S, X, R y RS, 20 casos positivos de arte, 10 pruebas adversariales, 8 pruebas de atomicidad de la reutilización, 9 intentos directos contra el registro de resoluciones, 28 invariantes) y modelo de K46: todas en memoria, con datos ficticios; resultado real en la auditoría |
+| Verificación documental y estructural | 55 comprobaciones y 192 mutaciones del verificador publicado; resultado real en AUDITORIA_FINAL_G1_G5_G10.md, sección 3 |
+| Pruebas estructurales ejecutadas | Modelo relacional de K45 (15 controles, 3 casos positivos), motor de K47 (12 escenarios A a L, comprobaciones U, S, X, R y RS, 26 casos positivos de arte, 16 pruebas adversariales, 20 pruebas de atomicidad de la reutilización con comparación del estado completo, 12 mutaciones de rechazo previo A54 a A65, 9 intentos directos contra el registro de resoluciones, 28 invariantes), modelo de K46 y 15 mutaciones estructurales FK01 a FK15 sobre las FK compuestas: todas en memoria o sobre el texto de la especificación, con datos ficticios; resultado real en la auditoría |
 | Pruebas técnicas pendientes | Todas las de PostgreSQL, RLS, Supabase, transacciones, concurrencia, bloqueos y rollback: nada de eso se ejecutó; tampoco la unicidad, los triggers de independencia ni las FK compuestas de attribution_discard_resolutions |
 
 ## F. Pendientes
@@ -106,7 +97,7 @@ PO-05 y aceptación de la Adenda v9; aceptación formal de esta revisión; DG-09
 
 ## G. Integridad y GitHub
 
-SHA-256 de v3.3: `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da` (sin cambio). Publicación en `main` de `appalex47-lab/Copy-Creative-Intelligence`, carpeta `docs/fase0/`. Commit anterior `7916115e3476fdb07f5c3bf1c3e35ef9f0ae927a`. El commit nuevo y los SHA-256 de los cinco documentos se informan en el mensaje final.
+SHA-256 de v3.3: `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da` (sin cambio). Publicación en `main` de `appalex47-lab/Copy-Creative-Intelligence`, carpeta `docs/fase0/`. Commit anterior `603b03963ea30797a28154d0e08e4cfa66f3ae53`. El commit nuevo y los SHA-256 de los cinco documentos se informan en el mensaje final.
 
 ## H. Declaración de alcance
 
