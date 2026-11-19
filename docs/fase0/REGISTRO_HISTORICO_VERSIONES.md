@@ -477,3 +477,75 @@ Permite comprobar que los históricos no se alteraron; el verificador lo recalcu
 
 
 Los SHA-256 de los cinco documentos activos y el commit publicado se informan en el mensaje final (un documento no puede contener su propio hash).
+
+
+## Entrada: revisión v12 de G-1, G-5 y G-10 (posterior a la v11)
+
+| Concepto | Detalle |
+|---|---|
+| Fecha | 2026-11-17 |
+| Versión anterior | v11 (commit `7916115e3476fdb07f5c3bf1c3e35ef9f0ae927a`) |
+| Versión nueva | v12 (revisión del diseño complementario; no es la Adenda v9 del propietario) |
+| Hallazgos corregidos | H-01: la identidad del asset de origen en las reutilizaciones no se demostraba por referencias explícitas (asset, versión exacta, evento original de carga, uploader y atribución original); H-02: el auditor no distinguía identidad de coincidencia de atributos; H-03: faltaban pruebas adversariales de identidad exacta |
+| Correcciones | Sección 4.4.14; regla IG5-101 y texto de IE-12 actualizado; campos explícitos del evento de reutilización (`source_asset_id`, `source_asset_version_id`, `source_upload_event_id`, `source_uploader_id`, `source_attribution_id`); `registrar_asset` valida el origen antes de escribir (`ReutilizacionInvalida`, sin registros parciales); `_id_origen` en el motor; auditor independiente ampliado a 28 invariantes (I27 e I28) sin funciones compartidas con el motor; mutaciones K47-A33 a A48 (las A33 a A37 de la v11 se conservan renumeradas como A49 a A53), casos positivos P15 a P20, cinco pruebas adversariales nuevas (ADV6 a ADV10), ocho pruebas de atomicidad y verificador con K55 y 165 mutaciones negativas; K45, K46, K47, R01 a R12, A01 a A32 y los casos de la v11 se conservan |
+| Naturaleza de las reglas | Instrucciones de diseño complementario; no aprueban T-04 de v3.3 retroactivamente, no aceptan la Adenda v9 (PO-05) y no alteran el expediente histórico |
+| Documentos modificados | ESPECIFICACION_TECNICA_G1_G5_G10.md; INFORME_CIERRE_G1_G5_G10.md; ROADMAP_Y_TRAZABILIDAD_G1_G5_G10.md; AUDITORIA_FINAL_G1_G5_G10.md; REGISTRO_HISTORICO_VERSIONES.md; herramientas/verificar_expediente.py; herramientas/modelo_estructural.py |
+| Versiones v11 conservadas | docs/fase0/historico/: copias `_v11_historica.md` o `_v11_historico.md` de los cuatro documentos (el registro es acumulativo); las v2 a v10 siguen en la misma carpeta |
+| Resultado de la verificación | 54 comprobaciones y 165 mutaciones negativas por el verificador publicado (resultado real en AUDITORIA_FINAL_G1_G5_G10.md, sección 3); incluyen pruebas estructurales de un modelo en memoria, no pruebas técnicas en PostgreSQL |
+| Cantidades recalculadas | 216 reglas, 540 escenarios diseñados, 41 tablas propuestas (14 nuevas) |
+| Limitaciones | Ejecutadas solo pruebas de modelo en memoria; sin validación técnica ni aceptación del propietario; PostgreSQL de Supabase, RLS, triggers de inmutabilidad y de elegibilidad, cálculo del sello en el servidor, FK compuestas de la cadena de resoluciones y de assets, transacciones, concurrencia, bloqueos, rollback, privilegios y SECURITY DEFINER sin verificar; el verificador no es una base de datos |
+| SHA-256 de v3.3 | `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da` (sin cambio) |
+| Estado de la v11 | Superado en lo que respecta a la identidad exacta del asset de origen en las reutilizaciones: la v11 declaró preparación para aceptación formal sin demostrar el origen por referencias explícitas; la v11 no debe considerarse preparada y se conserva como histórico |
+| Estado | v3.3: COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES DOCUMENTADAS. Complemento v12: COMPLETADO DOCUMENTALMENTE Y PREPARADO PARA ACEPTACIÓN FORMAL DEL PROPIETARIO, CON LIMITACIONES TÉCNICAS EXPLÍCITAS. No aceptado por el propietario ni validado técnicamente en PostgreSQL ni Supabase. Fase 1: NO INICIADA / NO AUTORIZADA |
+| Sin cambio | 27 tablas históricas, 17 claves físicas, 13 transiciones de T-02, 76 subfases; Adenda v9 sin aceptar (PO-05); pendientes DG-09, DG-12, DG-16, DG-18, DG-19, DG-20, RP-01, P-01 a P-05, P-10, OD-13, G-9 y DEP-RET-01 sin resolver |
+
+
+### Manifiesto de archivos históricos (SHA-256)
+
+Permite comprobar que los históricos no se alteraron; el verificador lo recalcula con `--dir`.
+
+| Archivo | SHA-256 |
+|---|---|
+| AUDITORIA_FINAL_G1_G5_G10_v10_historica.md | `586a20f5c407901ade39eab815087fd207fe99528e74bb3e772e7f9d26a46963` |
+| AUDITORIA_FINAL_G1_G5_G10_v11_historica.md | `cfc8066add89d050e0dab6180f7d23b843426c2f9bd4ed3300c5568bd86eb558` |
+| AUDITORIA_FINAL_G1_G5_G10_v3_historica.md | `21df21970222ef3c8eb8ad5e23b236aa7852bbc85526f98b11fe6fb27950bd93` |
+| AUDITORIA_FINAL_G1_G5_G10_v4_historica.md | `0fef2e4827a30fb264df8a4a8da10d3447ce7b00d32955fd24e03e6970d0964a` |
+| AUDITORIA_FINAL_G1_G5_G10_v5_historica.md | `3222ee6a594dc0f1cb8b33cabe49c29e93bfa161d2ade3e811f43757cef98725` |
+| AUDITORIA_FINAL_G1_G5_G10_v6_historica.md | `103b02d0ce401f696b1c78727af66474d668d4209e349d8dbbca15f9da94c784` |
+| AUDITORIA_FINAL_G1_G5_G10_v7_historica.md | `ddb8f26e28c13c8cdef9d3ab3e1653f5e366d62cbc56fac006dc644992645a84` |
+| AUDITORIA_FINAL_G1_G5_G10_v8_historica.md | `595ac923cbde40c6471523be076ffa7aee3687eacaeb14f76957f5dbd0120160` |
+| AUDITORIA_FINAL_G1_G5_G10_v9_historica.md | `82004d7836e3b4310a564614517a0f7fe752dc074d3281714c67e8e4c96cf642` |
+| ESPECIFICACION_TECNICA_G1_G5_G10_v10_historica.md | `3840f24c7b3dae264deb3ef068d6ab57e1503da7d09bc171423274ddec076698` |
+| ESPECIFICACION_TECNICA_G1_G5_G10_v11_historica.md | `25a928a9e639ac981f8c2bcc1e650741b5118b90b4b81370249d8f7adcca1404` |
+| ESPECIFICACION_TECNICA_G1_G5_G10_v2_historica.md | `1b57b17786bd6dd67c0cc4de826bd73502194e0e9a597c201fbbf03694d652c0` |
+| ESPECIFICACION_TECNICA_G1_G5_G10_v3_historica.md | `dcadd62f2d35effba71324b6e91fb54128c4ed772f1591e70fe36bf56b6921a8` |
+| ESPECIFICACION_TECNICA_G1_G5_G10_v4_historica.md | `1f4396c649fdd62ab469ec60cd599901c2b6ccb875c9e554428c5dff6d6bc1d8` |
+| ESPECIFICACION_TECNICA_G1_G5_G10_v5_historica.md | `38fc3f2ae9edce94ecd705f8a972f7deba999c4df13208b732c48876c8399e79` |
+| ESPECIFICACION_TECNICA_G1_G5_G10_v6_historica.md | `f557efde8ed7a04d4a3ad602e0436638404af32401b9e669d8a1514a8491de3a` |
+| ESPECIFICACION_TECNICA_G1_G5_G10_v7_historica.md | `f285de3ec033aab43d9978da617803034db556668ad02828feae22a4e8842fdf` |
+| ESPECIFICACION_TECNICA_G1_G5_G10_v8_historica.md | `3962dd534a3cd44e4f6565bdd5d93fc1f870fddb4f80a3e66d09dac5c32223f6` |
+| ESPECIFICACION_TECNICA_G1_G5_G10_v9_historica.md | `d8692cadbd1e95c70b5c54878166316129ee5dcd414fe897bf7780682dcf1067` |
+| EXTRACCION_V2_G1_G5_G10_historica.md | `7af04c3fe5a5f9acb8a580f525da7397f7154553d14a397a5afcf148eade641d` |
+| INFORME_CIERRE_G1_G5_G10_v10_historico.md | `59cb3d2fb4341740f445c322efcb6b76b934f6c2b478b2d18107c88d9cf4cac8` |
+| INFORME_CIERRE_G1_G5_G10_v11_historico.md | `e305664c7b47b6fba6c82e49ee6bd754b1f2a7446631bfc7f22fe46caf3c316b` |
+| INFORME_CIERRE_G1_G5_G10_v2_historico.md | `f949bd63e0453be05dd7711af1314e40077686075b99b8cac5d88d3b5fc29bb3` |
+| INFORME_CIERRE_G1_G5_G10_v3_historico.md | `72d27958d8ad2591d070e16412d935ecea47be4d130c43795d6e661494e920bb` |
+| INFORME_CIERRE_G1_G5_G10_v4_historico.md | `72ca4be269a0aad89adfad6f5881ba2f0cdb4f67d25230f8f8632b78a6eb9b2c` |
+| INFORME_CIERRE_G1_G5_G10_v5_historico.md | `55ededfa7494113919340f82db90ecd12927a4a53e2e1affea2f7c884b130ad4` |
+| INFORME_CIERRE_G1_G5_G10_v6_historico.md | `1f720820b3ec41400d087c89147fe575c2afbd2ae7da8507c6e9680f88e3b14f` |
+| INFORME_CIERRE_G1_G5_G10_v7_historico.md | `54fcc0b099c4ea7bcc108bcae05668991bb6a0dfb7028b470258e71f81482b41` |
+| INFORME_CIERRE_G1_G5_G10_v8_historico.md | `3a63f80acd1b4a874893771ff72ddd8afed96bcd20a50d98ea1e7c42373a6546` |
+| INFORME_CIERRE_G1_G5_G10_v9_historico.md | `19a725ed244992ea4363401eec24d543f74cef251cc9f02c4b8cd291c7ea84fe` |
+| ROADMAP_Y_TRAZABILIDAD_G1_G5_G10_v10_historico.md | `302add91be435a50813f181ce604e13063e13e0017c776c63c3e616d8655bc31` |
+| ROADMAP_Y_TRAZABILIDAD_G1_G5_G10_v11_historico.md | `9f4880b23a1378aa5e5e096eff9fe09990996745cdb5a4d72fbd3261f239396e` |
+| ROADMAP_Y_TRAZABILIDAD_G1_G5_G10_v2_historico.md | `adea2199076db57df5744a5eb38f01a2dab00f104a688e9227ca9ac4817ef7f6` |
+| ROADMAP_Y_TRAZABILIDAD_G1_G5_G10_v3_historico.md | `0b8d8a162430dec89e6ea6f268c52e649191220d3aa30a4ddf2d08212c7f50c4` |
+| ROADMAP_Y_TRAZABILIDAD_G1_G5_G10_v4_historico.md | `2b87c0e546381ed52feb824d1ce09ca22a2f7b70cd21cef7882dee96f534e328` |
+| ROADMAP_Y_TRAZABILIDAD_G1_G5_G10_v5_historico.md | `68a311e269cfb49c0df0f3039f060e8ce7df7a5d04733ac5a991354f014f958f` |
+| ROADMAP_Y_TRAZABILIDAD_G1_G5_G10_v6_historico.md | `9e920516ed07cdf447d3513522ea1b0e215d61d89e8ed78717476b0686e48432` |
+| ROADMAP_Y_TRAZABILIDAD_G1_G5_G10_v7_historico.md | `315fe95325a345a66df89439eeee4cac74629cc43ac325ed952f12302cd38f6c` |
+| ROADMAP_Y_TRAZABILIDAD_G1_G5_G10_v8_historico.md | `7a8f08e90d23689ef5de42c96652af5b63e05de3fc1c7d5e7f22d0f603318691` |
+| ROADMAP_Y_TRAZABILIDAD_G1_G5_G10_v9_historico.md | `63b26a3e4fc3ed91b367f51fc8bfe90717e36a2f55c3d7e7ff6f809fcc971f66` |
+
+
+Los SHA-256 de los cinco documentos activos y el commit publicado se informan en el mensaje final (un documento no puede contener su propio hash).
