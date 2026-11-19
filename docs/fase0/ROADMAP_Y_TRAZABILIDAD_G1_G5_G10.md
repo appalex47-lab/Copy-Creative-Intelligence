@@ -12,7 +12,7 @@ Sustituye a la v14 (conservada en `historico/`). Complementa la Adenda v9 (no ac
 | Nivel | Estado | Alcance |
 |---|---|---|
 | 1. Fase 0 v3.3 | COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES DOCUMENTADAS | No se reabre ni se modifica; SHA-256 `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da` sin cambio |
-| 2. Diseño técnico complementario (G-1, G-5, G-10, v5) | COMPLETADO DOCUMENTALMENTE Y PREPARADO PARA ACEPTACIÓN FORMAL DEL PROPIETARIO, CON LIMITACIONES TÉCNICAS EXPLÍCITAS | Pendiente de aceptación formal del propietario; no validado técnicamente; DT-01, PC-02 y DT-02 resueltas en el diseño, sin aceptación; G-5 no se declara cerrada |
+| 2. Diseño técnico complementario (G-1, G-5, G-10, v15) | COMPLETADO DOCUMENTALMENTE Y PREPARADO PARA ACEPTACIÓN FORMAL DEL PROPIETARIO, CON LIMITACIONES TÉCNICAS EXPLÍCITAS | Pendiente de aceptación formal del propietario; no validado técnicamente; DT-01, PC-02 y DT-02 resueltas en el diseño, sin aceptación; G-5 no se declara cerrada |
 | 3. Fase 1 | NO INICIADA / NO AUTORIZADA | Requiere autorización expresa; el diseño complementario no la concede |
 
 
