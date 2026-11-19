@@ -279,7 +279,19 @@ def _atomica(aid_de=None):
     return deco
 
 class ReutilizacionInvalida(OperacionInvalida):
-    """H-01 de la v12: una reutilización sin origen, versión, evento de carga, uploader o atribución verificables no se registra y no deja registros parciales."""
+    """H-01 de la v12: una reutilización sin origen, versión, evento de carga, uploader o atribución verificables no se registra y no deja registros parciales.
+    v15 (H-03): `detalles` conserva, para el expediente de auditoría, un registro estructurado por inconsistencia (eslabón, evento, campo, valor esperado, valor observado y motivo); `mensaje_usuario` no expone identificadores ni valores internos."""
+    def __init__(self, msg="", detalles=()): super().__init__(msg); self.detalles = [dict(d) for d in detalles]
+    @property
+    def mensaje_usuario(self): return "La reutilización no se puede registrar: la procedencia del asset de origen no es verificable (%d inconsistencia(s)). El detalle técnico queda en el expediente de auditoría." % max(1, len(self.detalles))
+
+class _Err(list):
+    """Lista de mensajes de error con su registro estructurado (v15)."""
+    def __init__(self, *a): super().__init__(*a); self.det = []
+def _det(err, L, evento, campo, esperado, hallado, motivo):
+    """Agrega una inconsistencia: el mensaje conserva la frase de motivo y añade evento, campo, valor esperado y valor observado; el registro estructurado se guarda en `err.det`."""
+    err.append("%s %s [evento %s; campo %s; esperado %r; hallado %r]" % (L, motivo, evento, campo, esperado, hallado))
+    if hasattr(err, "det"): err.det.append(dict(eslabon=L[len("[eslabón "):-1] if L.startswith("[eslabón ") else L, evento=evento, campo=campo, esperado=esperado, hallado=hallado, motivo=motivo))
 
 class Motor:
     """Estado: versiones inmutables, atribuciones individuales, eventos, resoluciones y bitácora de estados (solo se agrega)."""
@@ -422,8 +434,8 @@ class Motor:
         actor autenticado, uploader original, atribución directa original) y los contrasta contra los registros concretos de eventos y atribuciones: ningún campo guardado en un eslabón prueba su propia validez. Detecta referencias ausentes, ciclos,
         cadenas ambiguas, versiones inexistentes, registros duplicados, organización o pieza cruzadas, versión de copy equivocada, evento que no corresponde a la operación, uploader o reutilizador equivocado y atribuciones de otro asset, evento, uploader o versión.
         Nunca devuelve una cadena válida (ok=True) si algún eslabón está incompleto o es inconsistente."""
-        err = []; links = []; vis = []; x = aid
-        if aid not in self.assets: return dict(ok=False, errores=["el asset de origen %s no existe" % aid], eslabones=[], raiz=None, evento_carga=None, uploader=None, atribucion=None)
+        err = _Err(); links = []; vis = []; x = aid
+        if aid not in self.assets: return dict(ok=False, errores=["el asset de origen %s no existe" % aid], detalles=[dict(eslabon=aid, evento=None, campo="asset", esperado="asset existente", hallado=None, motivo="el asset de origen no existe")], eslabones=[], raiz=None, evento_carga=None, uploader=None, atribucion=None)
         while True:
             L = "[eslabón %s]" % x
             if x not in self.assets: err.append("%s la referencia a un asset de la cadena es inexistente o ausente (referencia ausente)" % ("[eslabón %s]" % (vis[-1] if vis else aid))); break
@@ -433,7 +445,7 @@ class Motor:
             nxt, raiz = self._siguiente_eslabon(y, err, L)
             if raiz or nxt is None: break
             x = nxt
-        if err: return dict(ok=False, errores=err, eslabones=links, raiz=None, evento_carga=None, uploader=None, atribucion=None)
+        if err: return dict(ok=False, errores=list(err), detalles=list(err.det), eslabones=links, raiz=None, evento_carga=None, uploader=None, atribucion=None)
         r = self.assets[links[-1]]; rid = r["id"]; ue = r.get("evento_carga"); up = r.get("uploader"); at0 = self._verificar_raiz(r, err)
         for i, x in enumerate(links):
             y = self.assets[x]; L = "[eslabón %s]" % x
@@ -444,21 +456,47 @@ class Motor:
             if x == rid: continue
             if y["tipo"] == "reutilizado": self._verificar_reutilizado(y, self.assets[y["origen"]], r, ue, up, at0, err)
             else: self._verificar_modificado(y, self.assets[y["previo"]], err)
-        return dict(ok=not err, errores=err, eslabones=links, raiz=rid, evento_carga=ue, uploader=up, atribucion=at0)
-    def _datos_evento(self, e, y, L, esperado_tipos, actor, err, cual):
-        """Campos comunes del evento propio de un eslabón (reutilización o carga de una versión modificada)."""
-        if e is None: err.append("%s el evento propio (%s) no existe (referencia ausente)" % (L, cual)); return False
-        ok = True
-        if e.get("id") != (y.get("evento_reutilizacion") if cual == "reutilización" else y.get("evento_carga")): err.append("%s el evento propio de %s está intercambiado: su registro no corresponde al identificador referenciado" % (L, cual)); ok = False
-        if e.get("tipo") not in esperado_tipos: err.append("%s el evento propio no corresponde a la operación de %s (%s)" % (L, cual, e.get("tipo"))); ok = False
-        if e.get("asset") != y["id"] or e.get("asset_version_id") != y["id"] or e.get("asset_id") != y.get("asset_id"): err.append("%s el evento propio corresponde a otro asset (%s) y no a este eslabón" % (L, e.get("asset"))); ok = False
-        if e.get("org") != y.get("org") or e.get("org") != self.org: err.append("%s el evento propio pertenece a otra organización" % L); ok = False
-        if e.get("pieza") != y.get("pieza"): err.append("%s el evento propio pertenece a otra pieza" % L); ok = False
-        if e.get("version") != y.get("copy_version"): err.append("%s el evento propio corresponde a otra versión de copy" % L); ok = False
-        if actor is None or e.get("actor") != actor: err.append("%s el actor del evento propio no coincide con el actor del eslabón" % L); ok = False
-        if actor is None or e.get("auth") != actor: err.append("%s el actor autenticado del evento propio no coincide con el actor del eslabón" % L); ok = False
+        return dict(ok=not err, errores=list(err), detalles=list(err.det), eslabones=links, raiz=rid, evento_carga=ue, uploader=up, atribucion=at0)
+    def _campos_permitidos(self):
+        """Campos que un evento puede declarar: los de las versiones de copy, brief y promoción del modelo y el campo de arte."""
+        return {"arte"} | {c for v in self.v.values() for c in v["campos"]}
+    def _chk_actor(self, e, y, L, actor, err):
+        """Actor del evento propio: coincide con el actor del eslabón, está autenticado como tal y es miembro activo de la organización."""
+        ok = True; i = e.get("id")
+        if actor is None or e.get("actor") != actor: _det(err, L, i, "actor", actor, e.get("actor"), "el actor del evento propio no coincide con el actor del eslabón"); ok = False
+        if actor is None or e.get("auth") != actor: _det(err, L, i, "auth", actor, e.get("auth"), "el actor autenticado del evento propio no coincide con el actor del eslabón"); ok = False
         mm = self.members.get(actor)
-        if mm is None or mm.get("org") != self.org or not mm.get("activo"): err.append("%s el actor %s no es miembro activo de la organización" % (L, actor)); ok = False
+        if mm is None or mm.get("org") != self.org or not mm.get("activo"): _det(err, L, i, "miembro", "miembro activo de %s" % self.org, None if mm is None else (mm.get("org"), mm.get("activo")), "el actor %s no es miembro activo de la organización" % actor); ok = False
+        return ok
+    def _chk_asset_version(self, e, y, L, err):
+        """v15 (H-01): `asset_version` del evento propio es la versión exacta del asset de DESTINO que produjo el evento (no la del origen), y el par (asset, versión) del evento identifica la fila de ese asset."""
+        ok = True; v = e.get("asset_version"); i = e.get("id")
+        if isinstance(v, bool) or not isinstance(v, int) or v != y.get("version_asset"): _det(err, L, i, "asset_version", y.get("version_asset"), v, "el evento propio corresponde a otra versión del asset (asset_version)"); ok = False
+        fila = self.assets.get(e.get("asset_version_id"))
+        if fila is None or fila.get("version_asset") != v or fila.get("asset_id") != e.get("asset_id"): _det(err, L, i, "asset_version_id", (y.get("id"), y.get("asset_id"), y.get("version_asset")), (e.get("asset_version_id"), e.get("asset_id"), None if fila is None else fila.get("version_asset")), "el par asset-versión del evento propio no identifica la fila exacta del asset de destino (versión del asset)"); ok = False
+        return ok
+    def _chk_campo(self, e, y, L, err):
+        """v15 (H-02): el evento propio de un asset está vinculado al campo «arte»: presente, permitido, igual a «arte» y coherente con el campo de arte de la versión de copy donde se usa el asset."""
+        ok = True; i = e.get("id"); c = e.get("campo")
+        if "campo" not in e or c is None: _det(err, L, i, "campo", "arte", c, "el evento propio no declara el campo (campo ausente)"); return False
+        if c not in self._campos_permitidos(): _det(err, L, i, "campo", "arte", c, "el campo del evento propio no es un campo permitido (campo no permitido)"); ok = False
+        elif c != "arte": _det(err, L, i, "campo", "arte", c, "el evento propio no está vinculado al campo arte (otro campo)"); ok = False
+        arte = self.v.get(y.get("copy_version"), {}).get("campos", {}).get("arte")
+        if arte is None or arte.get("contenido") != y.get("id"): _det(err, L, i, "copy_version.arte", y.get("id"), None if arte is None else arte.get("contenido"), "la versión de copy no usa este asset en el campo arte (versión de copy)"); ok = False
+        return ok
+    def _datos_evento(self, e, y, L, esperado_tipos, actor, err, cual):
+        """Validaciones comunes del evento propio de un eslabón (reutilización o carga de una versión modificada): existencia, identidad, tipo, asset de destino, versión de destino (asset_version), campo, organización, pieza, versión de copy y actor."""
+        if e is None: err.append("%s el evento propio (%s) no existe (referencia ausente)" % (L, cual)); (err.det.append(dict(eslabon=y["id"], evento=None, campo="evento", esperado="evento existente", hallado=None, motivo="el evento propio no existe")) if hasattr(err, "det") else None); return False
+        ok = True; i = e.get("id"); ref = y.get("evento_reutilizacion") if cual == "reutilización" else y.get("evento_carga")
+        if i != ref: _det(err, L, i, "id", ref, i, "el evento propio de %s está intercambiado: su registro no corresponde al identificador referenciado" % cual); ok = False
+        if e.get("tipo") not in esperado_tipos: _det(err, L, i, "tipo", esperado_tipos, e.get("tipo"), "el evento propio no corresponde a la operación de %s" % cual); ok = False
+        if e.get("asset") != y["id"] or e.get("asset_version_id") != y["id"] or e.get("asset_id") != y.get("asset_id"): _det(err, L, i, "asset", (y["id"], y.get("asset_id")), (e.get("asset"), e.get("asset_id")), "el evento propio corresponde a otro asset (%s) y no a este eslabón" % e.get("asset")); ok = False
+        if not self._chk_asset_version(e, y, L, err): ok = False
+        if not self._chk_campo(e, y, L, err): ok = False
+        if e.get("org") != y.get("org") or e.get("org") != self.org: _det(err, L, i, "org", y.get("org"), e.get("org"), "el evento propio pertenece a otra organización"); ok = False
+        if e.get("pieza") != y.get("pieza"): _det(err, L, i, "pieza", y.get("pieza"), e.get("pieza"), "el evento propio pertenece a otra pieza"); ok = False
+        if e.get("version") != y.get("copy_version"): _det(err, L, i, "version", y.get("copy_version"), e.get("version"), "el evento propio corresponde a otra versión de copy"); ok = False
+        if not self._chk_actor(e, y, L, actor, err): ok = False
         return ok
     def _verificar_reutilizado(self, y, o, r, ue, up, at0, err):
         x = y["id"]; L = "[eslabón %s]" % x; er = self.ev.get(y.get("evento_reutilizacion"))
@@ -468,6 +506,7 @@ class Motor:
         if cv is None: err.append("%s la versión de copy %s no existe" % (L, y.get("copy_version")))
         elif cv["pieza"] != y.get("pieza"): err.append("%s la pieza del asset no coincide con la pieza de su versión de copy" % L)
         if not isinstance(o.get("version_asset"), int) or y.get("origen_version_asset") != o.get("version_asset"): err.append("%s la versión del asset de origen declarada (%s) no es la versión exacta del origen inmediato (%s)" % (L, y.get("origen_version_asset"), o.get("version_asset")))
+        if y.get("asset_id") != x or y.get("version_asset") != 1: _det(err, L, er.get("id") if er else None, "version_asset", 1, y.get("version_asset"), "la fila del asset reutilizado no es la versión 1 de su propio linaje (versión del asset)")
         self._datos_evento(er, y, L, ("copy_author", "copy_editor"), y.get("reutilizador"), err, "reutilización")
         if er is not None:
             comp = [a for a in self.assets.values() if a.get("evento_reutilizacion") == er.get("id")]
@@ -479,14 +518,17 @@ class Motor:
                 if er.get(k) != v: err.append("%s el campo %s del evento propio no corresponde a: %s (origen inmediato o raíz) (esperado %s, hallado %s)" % (L, k, nom, v, er.get(k)))
         for k, v in (("source_asset_id", o["asset_id"]), ("source_asset_version_id", o["id"]), ("source_upload_event_id", ue), ("source_attribution_id", at0), ("source_root_asset_id", r["asset_id"]), ("source_root_asset_version_id", r["id"])):
             if y.get(k) != v: err.append("%s el campo %s guardado en el asset no coincide con la reconstrucción independiente (esperado %s, hallado %s)" % (L, k, v, y.get(k)))
-        if er is not None:
-            dirs = [b for b in self.at.values() if b["rel"] == "directa" and b["fuente"] == "copy" and b["evento"] == er.get("id")]
-            if y.get("material"):
-                ex = [b for b in dirs if b["persona"] == y.get("reutilizador") and b.get("asset") == x and (b["org"], b["pieza"], b["version"], b["campo"]) == (y["org"], y["pieza"], y["copy_version"], "arte")]
-                if len(ex) > 1: err.append("%s la atribución directa del reutilizador está duplicada (duplicada)" % L)
-                elif len(ex) == 0: err.append("%s falta la atribución directa del reutilizador en el evento propio de reutilización" % L)
-                if len(dirs) != len(ex): err.append("%s existe una atribución directa del evento propio que no corresponde al reutilizador, asset o versión de copy exactos" % L)
-            elif dirs: err.append("%s la reutilización no material tiene atribución directa del reutilizador" % L)
+        if er is not None: self._chk_atribucion_reutilizador(y, er, err)
+    def _chk_atribucion_reutilizador(self, y, er, err):
+        """Atribución directa del reutilizador en el evento propio de reutilización: única, del asset, organización, pieza, versión de copy y campo «arte» exactos."""
+        x = y["id"]; L = "[eslabón %s]" % x
+        dirs = [b for b in self.at.values() if b["rel"] == "directa" and b["fuente"] == "copy" and b["evento"] == er.get("id")]
+        if y.get("material"):
+            ex = [b for b in dirs if b["persona"] == y.get("reutilizador") and b.get("asset") == x and (b["org"], b["pieza"], b["version"], b["campo"]) == (y["org"], y["pieza"], y["copy_version"], "arte")]
+            if len(ex) > 1: err.append("%s la atribución directa del reutilizador está duplicada (duplicada)" % L)
+            elif len(ex) == 0: err.append("%s falta la atribución directa del reutilizador en el evento propio de reutilización" % L)
+            if len(dirs) != len(ex): err.append("%s existe una atribución directa del evento propio que no corresponde al reutilizador, asset o versión de copy exactos" % L)
+        elif dirs: err.append("%s la reutilización no material tiene atribución directa del reutilizador" % L)
     def _verificar_modificado(self, y, p, err):
         x = y["id"]; L = "[eslabón %s]" % x; e = self.ev.get(y.get("evento_carga"))
         if y.get("previo") != p["id"] or y.get("asset_id") != p.get("asset_id") or y.get("version_asset") != p.get("version_asset", 0) + 1: err.append("%s la versión anterior no es la versión exacta inmediatamente anterior del mismo asset (versión anterior)" % L)
@@ -497,7 +539,6 @@ class Motor:
         elif cv["pieza"] != y.get("pieza"): err.append("%s la pieza del asset no coincide con la pieza de su versión de copy" % L)
         self._datos_evento(e, y, L, ("asset_uploader",), y.get("uploader"), err, "carga de la versión")
         if e is not None:
-            if e.get("asset_version") != y.get("version_asset"): err.append("%s el evento propio corresponde a otra versión del asset (%s)" % (L, e.get("asset_version")))
             dirs = [b for b in self.at.values() if b["rel"] == "directa" and b["fuente"] == "asset" and b["evento"] == e.get("id")]
             ex = [b for b in dirs if b["persona"] == y.get("uploader") and b.get("asset") == x and (b["org"], b["pieza"], b["version"], b["campo"]) == (y["org"], y["pieza"], y["copy_version"], "arte")]
             if len(ex) > 1: err.append("%s la atribución directa del editor de la versión está duplicada (duplicada)" % L)
@@ -511,6 +552,7 @@ class Motor:
         if e.get("tipo") != "asset_uploader": err.append("el evento original de carga de %s no es un evento de carga de asset (%s)" % (rid, e.get("tipo")))
         if e.get("asset_id") != r.get("asset_id"): err.append("el evento original de carga corresponde a otro asset (%s) y no al asset raíz %s" % (e.get("asset"), rid))
         elif e.get("asset") != rid or e.get("asset_version_id") != rid or e.get("asset_version") != r.get("version_asset"): err.append("el evento original de carga corresponde a otra versión del mismo asset (%s) y no a la versión exacta de la raíz %s" % (e.get("asset"), rid))
+        if e.get("campo") != "arte": err.append("el evento original de carga de %s no está vinculado al campo arte (campo %r)" % (rid, e.get("campo")))
         if e.get("org") != self.org or e.get("org") != r.get("org"): err.append("el evento original de carga de %s pertenece a otra organización" % rid)
         if e.get("pieza") != r.get("pieza"): err.append("el evento original de carga de %s pertenece a otra pieza" % rid)
         if e.get("version") != r.get("copy_version"): err.append("el evento original de carga de %s corresponde a otra versión de copy" % rid)
@@ -533,14 +575,15 @@ class Motor:
     def _origen_carga(self, aid, err=None):
         """H-02 (v14): usa la reconstrucción completa de la cadena (todos los eslabones). No toma como verdad primaria el evento ni el uploader guardados en un asset reutilizado: solo los contrasta. Los problemas se acumulan en `err` o, si no se entrega, se lanza ReutilizacionInvalida.
         Devuelve (evento de carga original, uploader original, atribución directa original)."""
-        propia = err is None; err = [] if err is None else err; c = self.reconstruir_cadena_procedencia(aid); err.extend(c["errores"])
-        if propia and c["errores"]: raise ReutilizacionInvalida("; ".join(c["errores"]))
+        propia = err is None; err = _Err() if err is None else err; c = self.reconstruir_cadena_procedencia(aid); err.extend(c["errores"])
+        if hasattr(err, "det"): err.det.extend(c["detalles"])
+        if propia and c["errores"]: raise ReutilizacionInvalida("; ".join(c["errores"]), c["detalles"])
         return c["evento_carga"], c["uploader"], c["atribucion"]
     def _validar_reutilizacion(self, aid, copy_version, uploader, reused_from):
         """H-01 (v12 y v13): valida todo antes de escribir. Orden: (1) identidad completa del origen y de su asset raíz, (2) evento original de carga, (3) atribución directa original, (4) membresía y actor del reutilizador,
         (5) pieza y versión exacta de copy de destino, (6) cadena de reutilización sin ciclos ni referencias ausentes; solo después se construyen los registros nuevos."""
-        err = []; o = self.assets.get(reused_from)
-        if o is None: raise ReutilizacionInvalida("el asset de origen %s no existe" % reused_from)
+        err = _Err(); o = self.assets.get(reused_from)
+        if o is None: raise ReutilizacionInvalida("el asset de origen %s no existe" % reused_from, [dict(eslabon=reused_from, evento=None, campo="asset", esperado="asset existente", hallado=None, motivo="el asset de origen no existe")])
         if o.get("id") != reused_from or o.get("version_id") != reused_from or not isinstance(o.get("version_asset"), int): err.append("la versión exacta del asset de origen no está identificada")
         if o["org"] != self.org: err.append("el asset de origen pertenece a otra organización")
         self._origen_carga(reused_from, err)
@@ -551,7 +594,7 @@ class Motor:
         if copy_version not in self.v: err.append("la versión de copy de destino %s no existe" % copy_version)
         if aid in self.assets: err.append("el asset %s ya existe" % aid)
         if aid in self._cierre_asset(reused_from): err.append("la reutilización crearía un ciclo en la cadena de origen")
-        if err: raise ReutilizacionInvalida("; ".join(err))
+        if err: raise ReutilizacionInvalida("; ".join(err), err.det)
         return self._origen_carga(reused_from)
     @_atomica(lambda a, k: a[0] if a else k['aid'])
     def registrar_asset(self, aid, copy_version, uploader, reused_from=None, material=True):
@@ -569,7 +612,7 @@ class Motor:
             return aid
         ue, up, at0 = self._validar_reutilizacion(aid, copy_version, uploader, reused_from); o = self.assets[reused_from]
         raiz = self._raiz_asset(reused_from); er = self._evento("copy", copy_version, uploader, "arte")
-        self.ev[er].update(asset=aid, asset_id=aid, asset_version_id=aid, asset_version=o["version_asset"], source_asset_id=o["asset_id"], source_asset_version_id=reused_from, source_asset_version=o["version_asset"],
+        self.ev[er].update(asset=aid, asset_id=aid, asset_version_id=aid, asset_version=1, source_asset_id=o["asset_id"], source_asset_version_id=reused_from, source_asset_version=o["version_asset"],
                            source_upload_event_id=ue, source_uploader_id=up, source_attribution_id=at0,
                            source_root_asset_id=raiz["asset_id"], source_root_asset_version_id=raiz["id"])
         self.assets[aid] = dict(id=aid, asset_id=aid, version_id=aid, org=self.org, pieza=pieza, version_asset=1, tipo="reutilizado", origen=reused_from, origen_version_asset=o["version_asset"], previo=None, uploader=None, evento_carga=None, uploader_original=raiz["uploader_original"],
@@ -699,6 +742,7 @@ class Motor:
             if e["org"] != y["org"] or e["org"] != self.org: h.append("%s: el evento de carga del asset %s pertenece a otra organización" % (cur, x))
             if e["pieza"] != y["pieza"]: h.append("%s: el evento de carga del asset %s pertenece a otra pieza" % (cur, x))
             if e.get("asset_version") != y["version_asset"]: h.append("%s: el evento de carga del asset %s corresponde a otra versión del asset" % (cur, x))
+            if e.get("campo") != "arte": h.append("%s: el evento de carga del asset %s no está vinculado al campo arte" % (cur, x))
             if e["version"] != y["copy_version"]: h.append("%s: el evento de carga del asset %s corresponde a otra versión de copy" % (cur, x))
             if e.get("actor") != u: h.append("%s: el actor del evento de carga del asset %s no es el uploader" % (cur, x))
             if e.get("auth") != u: h.append("%s: el actor autenticado del evento de carga del asset %s no es el uploader" % (cur, x))
@@ -718,7 +762,8 @@ class Motor:
             if e["pieza"] != y["pieza"] or e["pieza"] != self.v[y["copy_version"]]["pieza"]: h.append("%s: el evento de reutilización de %s pertenece a otra pieza" % (cur, x))
             if e.get("actor") != r or e.get("auth") != r: h.append("%s: el evento de reutilización de %s identifica a otro actor" % (cur, x))
             if e.get("campo") != "arte" or e.get("asset") != x: h.append("%s: el evento de reutilización de %s no es una reutilización del asset exacto" % (cur, x))
-            if o is not None and (e.get("asset_version") != o["version_asset"] or y.get("origen_version_asset") != o["version_asset"]): h.append("%s: el evento de reutilización de %s referencia otra versión de asset" % (cur, x))
+            if e.get("asset_version") != y["version_asset"] or e.get("asset_version_id") != x: h.append("%s: el evento de reutilización de %s referencia otra versión de asset (la versión del asset de destino no coincide)" % (cur, x))
+            if o is not None and y.get("origen_version_asset") != o["version_asset"]: h.append("%s: el evento de reutilización de %s referencia otra versión de asset de origen" % (cur, x))
             if e["version"] != y["copy_version"]: h.append("%s: el evento de reutilización de %s no referencia la versión exacta de copy" % (cur, x))
         return h + self._id_origen(cur, x, y)
     def _id_origen(self, cur, x, y):
@@ -731,7 +776,7 @@ class Motor:
         if o is None: h.append("%s: el origen declarado por %s no existe" % (cur, x)); return h
         if o.get("id") != y["source_asset_version_id"]: h.append("%s: el registro del asset de origen de %s no corresponde a su identificador" % (cur, x))
         if (e.get("source_asset_version_id"), e.get("source_asset_id")) != (o["id"], o.get("asset_id")) or y.get("source_asset_id") != o.get("asset_id"): h.append("%s: la reutilización %s no identifica el asset y la versión exactos del origen" % (cur, x))
-        _eo = []; ue, up, at0 = self._origen_carga(o["id"], _eo); eo = self.ev.get(ue); h += ["%s: %s" % (cur, z) for z in _eo]
+        _eo = _Err(); ue, up, at0 = self._origen_carga(o["id"], _eo); eo = self.ev.get(ue); h += ["%s: %s" % (cur, z) for z in _eo]
         try: _rz = self._raiz_asset(o["id"])
         except KeyError: _rz = None
         if _rz is not None and (e.get("source_root_asset_version_id"), e.get("source_root_asset_id"), y.get("source_root_asset_version_id")) != (_rz["id"], _rz.get("asset_id"), _rz["id"]): h.append("%s: la reutilización %s no identifica el asset raíz y su versión exacta" % (cur, x))
@@ -970,6 +1015,7 @@ def _hall_identidad(s, cur, ids):
                 if e["org"] != y["org"] or e["org"] != org: out.append(("I23", "%s: el evento de carga de %s pertenece a otra organización" % (cur, x)))
                 if e["pieza"] != y["pieza"]: out.append(("I23", "%s: el evento de carga de %s pertenece a otra pieza" % (cur, x)))
                 if e.get("asset") != x or e.get("asset_version") != y["version_asset"] or e.get("asset_version_id") != x: out.append(("I23", "%s: el evento de carga de %s corresponde a otra versión del asset" % (cur, x)))
+                if e.get("campo") != "arte": out.append(("I23", "%s: el evento de carga de %s no está vinculado al campo arte" % (cur, x)))
                 if e.get("tipo") != "asset_uploader": out.append(("I23", "%s: el evento de carga de %s no es un evento de carga de asset (%s)" % (cur, x, e.get("tipo"))))
                 if e.get("asset") != x:
                     z_ = T.get(e.get("asset"))
@@ -1032,7 +1078,8 @@ def _hall_identidad(s, cur, ids):
                 if e["pieza"] != y["pieza"] or e["pieza"] != s["v"].get(y["copy_version"], {}).get("pieza"): out.append(("I25", "%s: el evento de reutilización de %s pertenece a otra pieza" % (cur, x)))
                 if e["actor"] != r or e.get("auth") != r: out.append(("I25", "%s: el evento de reutilización de %s identifica a otro actor" % (cur, x)))
                 if e.get("campo") != "arte" or e.get("asset") != x: out.append(("I25", "%s: el evento de reutilización de %s no es del asset exacto" % (cur, x)))
-                if o is not None and (e.get("asset_version") != o["version_asset"] or y.get("origen_version_asset") != o["version_asset"]): out.append(("I25", "%s: el evento de reutilización de %s referencia otra versión de asset" % (cur, x)))
+                if e.get("asset_version") != y["version_asset"] or e.get("asset_version_id") != x: out.append(("I25", "%s: el evento de reutilización de %s referencia otra versión de asset (la versión del asset de destino no coincide)" % (cur, x)))
+                if o is not None and y.get("origen_version_asset") != o["version_asset"]: out.append(("I25", "%s: el evento de reutilización de %s referencia otra versión de asset de origen" % (cur, x)))
                 if e["version"] != y["copy_version"]: out.append(("I25", "%s: el evento de reutilización de %s no referencia la versión exacta de copy" % (cur, x)))
     for b in AT.values():
         if b["version"] != cur or b["rel"] != "heredada" or not b.get("asset"): continue
@@ -1073,13 +1120,21 @@ def _hall_cadena(s, cur, ids):
             cvr = V.get(y.get("copy_version"))
             if cvr is None or cvr["pieza"] != y["pieza"]: hal("I27", x, "la pieza o la versión de copy del asset no existen o no coinciden")
             if tp in ("reutilizado", "modificado") and (y.get("uploader_original") != upl or y.get("evento_carga_original") != ue): hal("I28", x, "no conserva el uploader original ni el evento original de carga de la raíz %s" % R["id"])
+            arte_ = (cvr or {}).get("campos", {}).get("arte")
+            if arte_ is None or arte_.get("contenido") != x: hal("I27", x, "la versión de copy %s no usa este asset en el campo arte (esperado %s, hallado %s)" % (y.get("copy_version"), x, None if arte_ is None else arte_.get("contenido")))
+            if tp in ("nuevo", "sustituto"):
+                ev = EV.get(y.get("evento_carga")); act = y.get("uploader")
+                if ev is None: hal("I23", x, "el evento original de carga no existe"); continue
+                esp = dict(id=y.get("evento_carga"), tipo="asset_uploader", asset=x, asset_id=y["asset_id"], asset_version_id=x, asset_version=y["version_asset"], campo="arte", org=y["org"], pieza=y["pieza"], version=y["copy_version"], actor=act, auth=act)
+                for d in difs(ev, esp): hal("I23", x, "el evento original de carga difiere del esperado: " + d)
             if tp == "reutilizado":
                 o = T[y["origen"]]; ev = EV.get(y.get("evento_reutilizacion")); act = y.get("reutilizador")
                 if ev is None: hal("I25", x, "el evento propio de reutilización no existe"); continue
                 if [z for z, w in T.items() if w.get("evento_reutilizacion") == ev.get("id")] != [x]: hal("I25", x, "el evento propio de reutilización pertenece a otro asset o está compartido")
                 if o["org"] != y["org"]: hal("I27", x, "el origen inmediato %s pertenece a otra organización" % o["id"])
                 if y.get("origen_version_asset") != o["version_asset"]: hal("I27", x, "la versión de origen guardada en el asset no es la del origen inmediato")
-                esp = dict(id=y.get("evento_reutilizacion"), asset=x, asset_id=y["asset_id"], asset_version_id=x, asset_version=o["version_asset"], org=y["org"], pieza=y["pieza"], version=y["copy_version"], actor=act, auth=act,
+                if (y.get("asset_id"), y.get("version_asset")) != (x, 1): hal("I27", x, "la fila del asset reutilizado no es la versión 1 de su propio linaje (esperado %s, hallado %s)" % ((x, 1), (y.get("asset_id"), y.get("version_asset"))))
+                esp = dict(id=y.get("evento_reutilizacion"), asset=x, asset_id=y["asset_id"], asset_version_id=x, asset_version=y["version_asset"], campo="arte", org=y["org"], pieza=y["pieza"], version=y["copy_version"], actor=act, auth=act,
                            source_asset_id=o["asset_id"], source_asset_version_id=o["id"], source_asset_version=o["version_asset"], source_upload_event_id=ue, source_uploader_id=upl, source_attribution_id=atr_raiz, source_root_asset_id=R["asset_id"], source_root_asset_version_id=R["id"])
                 for d in difs(ev, esp): hal("I27", x, "el evento propio de reutilización difiere del esperado: " + d)
                 if ev.get("tipo") not in ("copy_author", "copy_editor"): hal("I27", x, "el evento propio no es de reutilización (%s)" % ev.get("tipo"))
@@ -1094,7 +1149,7 @@ def _hall_cadena(s, cur, ids):
                 pv = T[y["previo"]]; ev = EV.get(y.get("evento_carga")); act = y.get("uploader")
                 if (pv["asset_id"], pv["version_asset"] + 1, pv["org"], pv["pieza"]) != (y["asset_id"], y["version_asset"], y["org"], y["pieza"]): hal("I28", x, "la versión anterior no es la inmediata del mismo asset, organización y pieza")
                 if ev is None: hal("I23", x, "el evento propio de carga de la versión no existe"); continue
-                esp = dict(id=y.get("evento_carga"), tipo="asset_uploader", asset=x, asset_id=y["asset_id"], asset_version_id=x, asset_version=y["version_asset"], org=y["org"], pieza=y["pieza"], version=y["copy_version"], actor=act, auth=act)
+                esp = dict(id=y.get("evento_carga"), tipo="asset_uploader", asset=x, asset_id=y["asset_id"], asset_version_id=x, asset_version=y["version_asset"], campo="arte", org=y["org"], pieza=y["pieza"], version=y["copy_version"], actor=act, auth=act)
                 for d in difs(ev, esp): hal("I23", x, "el evento propio de carga difiere del esperado: " + d)
                 mm = MB.get(act)
                 if mm is None or mm["org"] != y["org"] or not mm.get("activo"): hal("I22", x, "el editor de la versión no es miembro activo de la organización")
@@ -2737,16 +2792,225 @@ def pruebas_E14():
                       ("E14-04", "elegibilidad del evaluador por código E1 a E5", e4), ("E14-05", "evaluador inactivo y fallo cerrado con procedencia incompleta", e5), ("E14-06", "independencia de las resoluciones aplicables", e6)): caso(i, nom, f)
     return out
 
+# ===== v15 BEGIN: integridad de los eventos propios en cada eslabón (AV, CF, AC, AP, ADV15, AT15) =====
+def _fx15(cls=Motor, construida=False):
+    """v14 más: a5 (W reutiliza la versión modificada a1b en P7) y a6 (D reutiliza a5 en P8), de modo que la modificación a1b queda como eslabón INTERMEDIO de la cadena a6 → a5 → a1b → a1; a2c (W reutiliza a1 en la misma pieza P2 que a2, ambos en la versión 1); destinos cf (P9, B), cg (P10, D). Con `construida`, a4 (B, desde a3) ya está registrada."""
+    m, x = _fx14(cls)
+    _intro_cv(x, m, "cd", "W", pieza="P7", refs={"master": "cvm2"}); x.op("registrar_asset", lambda: m.registrar_asset("a5", "cd", "W", reused_from="a1b"))
+    _intro_cv(x, m, "ce", "D", pieza="P8", refs={"master": "cd"}); x.op("registrar_asset", lambda: m.registrar_asset("a6", "ce", "D", reused_from="a5"))
+    _intro_cv(x, m, "cf", "B", pieza="P9", refs={"master": "ce"})
+    _intro_cv(x, m, "cac", "W", pieza="P2", refs={"master": "cvm"}); x.op("registrar_asset", lambda: m.registrar_asset("a2c", "cac", "W", reused_from="a1"))
+    if construida: x.op("registrar_asset", lambda: m.registrar_asset("a4", "cc", "B", reused_from="a3"))
+    _intro_cv(x, m, "cg", "D", pieza="P10", refs={"master": "cc"})
+    return m, x
+def _quita_campo(m, aid): m.ev[m.assets[aid]["evento_reutilizacion"]].pop("campo")
+def _swap_av(m):
+    c, r = _carga(m, "a1b"), _reu(m, "a5"); c["asset_version"], r["asset_version"] = r["asset_version"], c["asset_version"]
+def _swap_campo(m):
+    r = _reu(m, "a2"); h = [e for e in m.ev.values() if e["version"] == "ca" and e["campo"] == "headline"][0]; r["campo"], h["campo"] = h["campo"], r["campo"]
+def _cruce_a2(m):
+    e2, ec = _reu(m, "a2"), _reu(m, "a2c"); e2["asset"], ec["asset"] = ec["asset"], e2["asset"]; e2["asset_version_id"], ec["asset_version_id"] = ec["asset_version_id"], e2["asset_version_id"]
+_D_A6 = dict(origen="a6", destino=("a7", "cf", "B"))
+_D_A3 = dict(origen="a3", destino=("a4", "cc", "B"))
+_D_A4 = dict(origen="a4", destino=("a8", "cg", "D"), construida=True)
+# (id, nombre, corrompe, campos esperados en el detalle, eslabón, escenario, versiones de copy cuya procedencia debe quedar incompleta)
+AV = [
+ ("AV-01", "asset_version del evento propio del último eslabón (a3) cambia a una versión inexistente", lambda m: _ev_pr(m, "a3", asset_version=7), ("asset_version",), "a3", _D_A3, ("cb", "cc")),
+ ("AV-02", "asset_version del evento propio de un eslabón intermedio (a2) cambia a una versión inexistente", lambda m: _ev_pr(m, "a2", asset_version=5), ("asset_version",), "a2", _D_A3, ("cb", "ca")),
+ ("AV-03", "asset_version de a3 usa un número de versión existente pero perteneciente a otro asset (el de la modificación a1b)", lambda m: _ev_pr(m, "a3", asset_version=m.assets["a1b"]["version_asset"]), ("asset_version",), "a3", _D_A3, ("cb", "cc")),
+ ("AV-04", "el evento propio de la modificación intermedia a1b usa la versión anterior del mismo asset (1 en lugar de 2)", lambda m: _set(_carga(m, "a1b"), asset_version=1), ("asset_version",), "a1b", _D_A6, ("cvm2", "cd")),
+ ("AV-05", "asset_version intercambiado entre dos eventos válidos (la modificación a1b y la reutilización a5)", _swap_av, ("asset_version",), "a5", _D_A6, ("cd", "cvm2")),
+ ("AV-06", "asset_version de a5 guarda la versión del origen (2) en lugar de la del destino (1), con la raíz y las demás referencias correctas", lambda m: _ev_pr(m, "a5", asset_version=m.assets["a1b"]["version_asset"]), ("asset_version",), "a5", _D_A6, ("cd", "ce")),
+ ("AV-07", "asset_version del evento propio de una modificación intermedia (a1b) cambia a otro número", lambda m: _set(_carga(m, "a1b"), asset_version=9), ("asset_version",), "a1b", _D_A6, ("cvm2", "ce")),
+ ("AV-08", "asset_version de a3 se altera después de construir la cadena (a4 ya registrada)", lambda m: _ev_pr(m, "a3", asset_version=4), ("asset_version",), "a3", _D_A4, ("cb", "cc")),
+]
+CF = [
+ ("CF-01", "el campo del evento propio del último eslabón (a3) cambia de arte a otro campo (precio)", lambda m: _ev_pr(m, "a3", campo="precio"), ("campo",), "a3", _D_A3, ("cb", "cc")),
+ ("CF-02", "el campo del evento propio de un eslabón intermedio (a2) cambia de arte a otro campo (precio)", lambda m: _ev_pr(m, "a2", campo="precio"), ("campo",), "a2", _D_A3, ("cb", "ca")),
+ ("CF-03", "se elimina el campo del evento propio de un eslabón intermedio (a2)", lambda m: _quita_campo(m, "a2"), ("campo",), "a2", _D_A3, ("cb", "ca")),
+ ("CF-04", "el campo del evento propio del último eslabón (a3) es nulo", lambda m: _ev_pr(m, "a3", campo=None), ("campo",), "a3", _D_A3, ("cb", "cc")),
+ ("CF-05", "el evento propio de la modificación a1b declara un campo permitido pero distinto de arte (headline)", lambda m: _set(_carga(m, "a1b"), campo="headline"), ("campo",), "a1b", _D_A6, ("cvm2", "ce")),
+ ("CF-06", "el campo se intercambia entre dos eventos válidos (la reutilización de a2 y la introducción de headline de la misma versión de copy)", _swap_campo, ("campo",), "a2", _D_A3, ("cb", "ca")),
+ ("CF-07", "el campo de a3 se modifica después de construir la cadena (a4 ya registrada)", lambda m: _ev_pr(m, "a3", campo="headline"), ("campo",), "a3", _D_A4, ("cb", "cc")),
+ ("CF-08", "todos los identificadores de a5 son correctos y solo cambia el campo (headline)", lambda m: _ev_pr(m, "a5", campo="headline"), ("campo",), "a5", _D_A6, ("cd", "ce")),
+]
+AC = [
+ ("AC-01", "asset_version incorrecto y campo correcto en a2", lambda m: _ev_pr(m, "a2", asset_version=5), ("asset_version",), "a2", _D_A3, ("cb", "ca")),
+ ("AC-02", "asset_version correcto y campo incorrecto en a3", lambda m: _ev_pr(m, "a3", campo="headline"), ("campo",), "a3", _D_A3, ("cb", "cc")),
+ ("AC-03", "asset_version y campo incorrectos en a3", lambda m: _ev_pr(m, "a3", asset_version=5, campo="precio"), ("asset_version", "campo"), "a3", _D_A3, ("cb", "cc")),
+ ("AC-04", "asset_version y campo incorrectos a la vez en el eslabón intermedio a5, con la raíz intacta", lambda m: _ev_pr(m, "a5", asset_version=7, campo="headline"), ("asset_version", "campo"), "a5", _D_A6, ("cd", "ce")),
+ ("AC-05", "asset_version y campo incorrectos en el último eslabón a6, con todos los anteriores correctos", lambda m: _ev_pr(m, "a6", asset_version=7, campo="headline"), ("asset_version", "campo"), "a6", _D_A6, ("ce", "cf")),
+ ("AC-06", "a2 y a2c (misma pieza P2, ambos en la versión 1) con las referencias de asset y versión cruzadas entre sus eventos", _cruce_a2, ("asset", "asset_version_id"), "a2", _D_A3, ("cb", "ca")),
+]
+def _bloqueo15(m, vid):
+    """(E nulo con procedencia incompleta, evaluación de impacto bloqueada, sin publicación ni aprobación) de la versión `vid`."""
+    r = calcular_E_verificado(m, vid)
+    try: evaluar_impacto(m, vid); imp = False
+    except ProcedenciaIncompleta: imp = True
+    return (not r["completa"]) and r["E"] is None, imp, not puede_publicar(m, vid)
+def _inicial15(esc, fx):
+    """Estado inicial válido: la reutilización se acepta sobre una copia, el auditor independiente no halla violaciones y E del destino está completo."""
+    m0, x0 = fx(Motor, esc.get("construida", False)); o = esc["origen"]; a, cv, q = esc["destino"]
+    try: m0.registrar_asset(a, cv, q, reused_from=o)
+    except Exception: return False
+    est = snapshot(m0); return a in m0.assets and calcular_E_verificado(m0, cv)["completa"] and not auditar_E(est, m0.calcular_E(cv), cv) and not _hall_arte_exactas(est, cv) and not _hall_cadena(est, cv, [a]) and not x0.viol
+def _correr15(casos):
+    """AV, CF y AC: cada caso parte de un estado válido, cambia UN dato y exige las doce condiciones de H-04. Una excepción distinta de ReutilizacionInvalida no cuenta como detección."""
+    res = []
+    for mid, nom, corrompe, campos, eslabon, esc, cvs in casos:
+        r = dict(id=mid, mut=nom, esp="rechazo con el campo %s del eslabón %s" % (" y ".join(campos), eslabon), kw=" y ".join(campos), err=None)
+        try:
+            r["valido"] = bool(_inicial15(esc, _fx15)); m, x = _fx15(Motor, esc.get("construida", False)); previo = _estado_completo(m); corrompe(m); r["cambio"] = _estado_completo(m) != previo
+            antes = _estado_completo(m); a, cv, q = esc["destino"]; n = (len(m.assets), len(m.ev), len(m.at), len(m.est), len(m.clas_hist)); exc = None
+            try: m.registrar_asset(a, cv, q, reused_from=esc["origen"])
+            except ReutilizacionInvalida as ex: exc = ex
+            r["rechaza"] = exc is not None; det = exc.detalles if exc else []
+            r["ident"] = bool(exc) and all(any(d["eslabon"] == eslabon and d["campo"] == c and d.get("evento") is not None for d in det) for c in campos) and all(c in str(exc) for c in campos)
+            r["sin_asset"] = a not in m.assets and len(m.assets) == n[0]; r["sin_evento"] = len(m.ev) == n[1]; r["sin_atribucion"] = len(m.at) == n[2] and len(m.est) == n[3]; r["sin_relacion"] = len(m.clas_hist) == n[4] and m.v == antes["v"] and m.arte_decl == antes["arte_decl"]
+            r["atomico"] = _estado_completo(m) == antes; r["incompleta"] = not m.reconstruir_cadena_procedencia(esc["origen"])["ok"]
+            b = [_bloqueo15(m, v) for v in cvs]; r["E_nulo"] = all(z[0] for z in b); r["impacto_bloq"] = all(z[1] for z in b); r["no_publica"] = all(z[2] for z in b)
+            r["obs"] = ("rechazada: " + str(exc)[:150]) if exc else "ACEPTADA"
+        except Exception as ex:
+            r["err"] = "%s: %s" % (type(ex).__name__, str(ex)[:80]); r["obs"] = "ERROR " + r["err"]
+        r["det"] = r["err"] is None and all(r.get(k) for k in ("valido", "cambio", "rechaza", "ident", "sin_asset", "sin_evento", "sin_atribucion", "sin_relacion", "atomico", "incompleta", "E_nulo", "impacto_bloq", "no_publica"))
+        for k in ("valido", "cambio", "rechaza", "ident", "sin_asset", "sin_evento", "sin_atribucion", "sin_relacion", "atomico", "incompleta", "E_nulo", "impacto_bloq", "no_publica"): r[k] = bool(r.get(k))
+        res.append(r)
+    return res
+def correr_mutaciones_av(): return _correr15(AV)
+def correr_mutaciones_cf(): return _correr15(CF)
+def correr_mutaciones_ac(): return _correr15(AC)
+
+# ---- AP-01 a AP-08: casos positivos (el control no bloquea relaciones válidas) ----
+def _ap_cadena(n, quien=("W", "D", "B")):
+    """Cadena a1 → a2 → … con `n` reutilizaciones sucesivas; devuelve (modelo, ejecución, lista de assets reutilizados)."""
+    m, x = _fx13(Motor); ids = []; prev = "a1"; piezas = ["P2", "P3", "P4"]; cvs = ["ca", "cb", "cc"]; refs = "cvm"
+    for i in range(n):
+        if i: _intro_cv(x, m, cvs[i], quien[i], pieza=piezas[i], refs={"master": cvs[i - 1]})
+        aid = "a%d" % (i + 2); x.op("registrar_asset", lambda aid=aid, i=i, prev=prev: m.registrar_asset(aid, cvs[i], quien[i], reused_from=prev)); ids.append(aid); prev = aid
+    return m, x, ids
+def _evs_cadena(m, aid):
+    out = []; vis = []; z = aid
+    while z in m.assets and z not in vis:
+        vis.append(z); y = m.assets[z]; out.append(m.ev[y["evento_reutilizacion"] or y["evento_carga"]]); z = y.get("origen") if y["tipo"] == "reutilizado" else y.get("previo") if y["tipo"] == "modificado" else None
+    return out
+def _pos15_base(m, x, aid, cv):
+    est = snapshot(m); r = m.reconstruir_cadena_procedencia(aid); e = x.E(cv)
+    return [("el motor registró la reutilización sin rechazarla", True, aid in m.assets), ("la reconstrucción de la cadena es válida y sin detalles de error", (True, []), (r["ok"], r["detalles"])), ("el auditor independiente no halla violaciones", [], auditar_E(est, m.calcular_E(cv), cv) + _hall_arte_exactas(est, cv) + _hall_cadena(est, cv, [aid])),
+            ("E completo", True, e["completa"]), ("sin violaciones de la ejecución", [], list(x.viol))]
+def _ap01():
+    m, x, ids = _ap_cadena(2); return _pos15_base(m, x, "a3", "cb") + [("cadena de dos niveles de reutilización: a3 → a2 → a1", ["a3", "a2", "a1"], m.reconstruir_cadena_procedencia("a3")["eslabones"])]
+def _ap02():
+    m, x, ids = _ap_cadena(3); return _pos15_base(m, x, "a4", "cc") + [("cadena de tres niveles de reutilización: a4 → a3 → a2 → a1", ["a4", "a3", "a2", "a1"], m.reconstruir_cadena_procedencia("a4")["eslabones"])]
+def _ap03():
+    m, x = _fx13(Motor); x.op("registrar_asset", lambda: m.registrar_asset("a2", "ca", "W", reused_from="a1")); _intro_cv(x, m, "cb", "D", pieza="P3", refs={"master": "cvx"}); x.op("registrar_asset", lambda: m.registrar_asset("a3", "cb", "D", reused_from="ax"))
+    return _pos15_base(m, x, "a2", "ca") + _pos15_base(m, x, "a3", "cb") + [("a1 y ax tienen el mismo número de versión y son assets distintos", (1, 1, True), (m.assets["a1"]["version_asset"], m.assets["ax"]["version_asset"], m.assets["a1"]["asset_id"] != m.assets["ax"]["asset_id"])),
+            ("cada reutilización conserva la identidad exacta de su propio origen y raíz", (("a1", "a1"), ("ax", "ax")), ((_reu(m, "a2")["source_asset_version_id"], _reu(m, "a2")["source_root_asset_version_id"]), (_reu(m, "a3")["source_asset_version_id"], _reu(m, "a3")["source_root_asset_version_id"])))]
+def _ap04():
+    m, x = _fx13(Motor); _intro_cv(x, m, "cd", "W", pieza="P7", refs={"master": "cvm2"}); x.op("registrar_asset", lambda: m.registrar_asset("a5", "cd", "W", reused_from="a1b")); e = _reu(m, "a5")
+    return _pos15_base(m, x, "a5", "cd") + [("el evento propio identifica la versión del asset de destino (1)", 1, e["asset_version"]), ("source_asset_version identifica la versión del origen modificado (2)", 2, e["source_asset_version"]), ("ambas referencias son distintas y las dos se validan", True, e["asset_version"] != e["source_asset_version"]),
+                                              ("la cadena pasa por la modificación", ["a5", "a1b", "a1"], m.reconstruir_cadena_procedencia("a5")["eslabones"])]
+def _ap05():
+    m, x, ids = _ap_cadena(2); return _pos15_base(m, x, "a3", "cb") + [("el uploader original (U) es distinto de cada reutilizador", True, all(m.assets[k]["uploader_original"] == "U" and m.assets[k]["reutilizador"] != "U" for k in ids)), ("la reconstrucción conserva al uploader original", "U", m.reconstruir_cadena_procedencia("a3")["uploader"])]
+def _ap06():
+    m, x, ids = _ap_cadena(2); r = m.reconstruir_cadena_procedencia("a3"); d = _directa(m, "a1"); e = _reu(m, "a3")
+    return _pos15_base(m, x, "a3", "cb") + [("la atribución directa de la raíz es única, de U, del evento de carga y del asset raíz", [(d["id"], "U", "a1")], [(r["atribucion"], d["persona"], d["asset"])]), ("los dos eventos de reutilización la referencian exactamente", (d["id"], d["id"]), (_reu(m, "a2")["source_attribution_id"], e["source_attribution_id"]))]
+def _ap07():
+    m, x, ids = _ap_cadena(3); evs = _evs_cadena(m, "a4")
+    return _pos15_base(m, x, "a4", "cc") + [("todos los eventos propios de la cadena están vinculados al campo arte", ["arte"] * 4, [e["campo"] for e in evs]), ("cada evento identifica la versión exacta de su propio asset de destino", [1] * 4, [e["asset_version"] for e in evs])]
+def _ap08():
+    m, x, ids = _ap_cadena(3); est = snapshot(m); e = x.E("cc")
+    return _pos15_base(m, x, "a4", "cc") + [("el motor y el auditor reconstruyen la misma cadena de identidad", m.cadena_identidad("a4"), cadena_identidad_independiente(est, "a4")), ("el E del motor coincide con el E recalculado por el auditor", sorted(_E(est, "cc")), sorted(e["E"] or {})), ("el auditor no usa funciones del motor", [], _compartidas())]
+AP = [("AP-01", "cadena válida de dos niveles de reutilización", _ap01), ("AP-02", "cadena válida de tres niveles de reutilización", _ap02), ("AP-03", "cadena válida con dos assets de igual número de versión y la identidad exacta conservada", _ap03), ("AP-04", "reutilización válida después de una modificación del asset", _ap04),
+      ("AP-05", "uploader original distinto del reutilizador", _ap05), ("AP-06", "cadena válida con la atribución directa exacta", _ap06), ("AP-07", "cadena válida con todos los eventos propios vinculados al campo arte", _ap07), ("AP-08", "el motor y el auditor independiente coinciden en una cadena íntegra", _ap08)]
+def correr_positivos15():
+    out = []
+    for i, nom, f in AP:
+        try: comp = f(); mal = [c[0] for c in comp if c[1] != c[2]]; r = dict(id=i, nombre=nom, ok=not mal, n=len(comp), mal=mal[:3], err=None)
+        except Exception as ex: r = dict(id=i, nombre=nom, ok=False, n=0, mal=[], err="%s: %s" % (type(ex).__name__, str(ex)[:80]))
+        out.append(r)
+    return out
+
+# ---- ADV15-01 a ADV15-08: el motor acepta por sustitución controlada de su validación y el auditor independiente detecta ----
+def _swap_ev_asset(m): m.assets["a3"]["evento_reutilizacion"] = m.assets["ay"]["evento_reutilizacion"]
+ADV15 = [
+ ("ADV15-01", "asset_version incorrecto en el eslabón intermedio (a2)", lambda m: _ev_pr(m, "a2", asset_version=5), "a2", ("asset_version",), "a3", False),
+ ("ADV15-02", "asset_version incorrecto en el último eslabón (a3)", lambda m: _ev_pr(m, "a3", asset_version=5), "a3", ("asset_version",), "a3", False),
+ ("ADV15-03", "campo incorrecto en el eslabón intermedio (a2)", lambda m: _ev_pr(m, "a2", campo="headline"), "a2", ("campo",), "a3", False),
+ ("ADV15-04", "campo incorrecto en el último eslabón (a3)", lambda m: _ev_pr(m, "a3", campo="precio"), "a3", ("campo",), "a3", False),
+ ("ADV15-05", "asset_version y campo incorrectos a la vez en el último eslabón (a3)", lambda m: _ev_pr(m, "a3", asset_version=5, campo="headline"), "a3", ("asset_version", "campo"), "a3", False),
+ ("ADV15-06", "evento de reutilización de otro asset con el mismo número de versión (a3 usa el de ay)", _swap_ev_asset, "a3", ("asset", "id"), "a3", False),
+ ("ADV15-07", "evento propio de la modificación intermedia con referencias incompatibles (el evento de a1b referencia el asset ax)", lambda m: _set(_carga(m, "a1b"), asset="ax", asset_id="ax", asset_version_id="ax"), "a1b", ("asset",), "a6", False),
+ ("ADV15-08", "corrupción posterior a la construcción de la cadena (a4 registrada; después a3 cambia asset_version y campo)", lambda m: _ev_pr(m, "a3", asset_version=4, campo="headline"), "a3", ("asset_version", "campo"), "a4", True),
+]
+class _Forzado15(_Forzado14):
+    """Motor que acepta la reutilización aunque la cadena esté corrupta (sustitución controlada de su validación previa y de su verificación final). Solo demuestra que el auditor detecta lo que el motor deja pasar."""
+def correr_adversariales15():
+    out = []
+    for mid, nom, corrompe, eslabon, campos, origen, despues in ADV15:
+        try:
+            m, x = _fx15(_Forzado15, False); a, cv, q = ("a4", "cc", "B") if origen == "a3" else ("a7", "cf", "B")
+            if despues: m.registrar_asset("a4", "cc", "B", reused_from="a3"); corrompe(m); a, cv, q = "a8", "cg", "D"; m.registrar_asset(a, cv, q, reused_from="a4")
+            else:
+                corrompe(m); m.registrar_asset(a, cv, q, reused_from=origen)
+            acepta = a in m.assets
+            est = snapshot(m); r = m.calcular_E(cv); hall = auditar_E(est, r, cv); msgs = [c[1] for c in hall]; cods = sorted({c[0] for c in hall}); v = calcular_E_verificado(m, cv)
+            try: evaluar_impacto(m, cv); falla = False
+            except ProcedenciaIncompleta: falla = True
+            det_ = any(("[eslabón %s]" % eslabon) in z and any(c in z for c in campos) for z in msgs) if True else False
+            det_campos = all(any(("[eslabón %s]" % eslabon) in z and c in z for z in msgs) for c in campos)
+            out.append(dict(id=mid, nombre=nom, motor_acepta=acepta, auditor=bool(det_campos), enlace=eslabon, E_bloqueado=(not v["completa"]) and v["E"] is None, impacto_falla=falla, no_publica=not puede_publicar(m, cv), codigos=cods))
+        except Exception as ex: out.append(dict(id=mid, nombre=nom, motor_acepta=False, auditor=False, enlace=eslabon, E_bloqueado=False, impacto_falla=False, no_publica=False, codigos=[], error="%s: %s" % (type(ex).__name__, str(ex)[:80])))
+        out[-1]["ok"] = out[-1]["motor_acepta"] and out[-1]["auditor"] and out[-1]["E_bloqueado"] and out[-1]["impacto_falla"] and out[-1]["no_publica"]
+    return out
+
+# ---- AT15-01 a AT15-08: atomicidad con instantánea completa en ocho momentos del registro ----
+class _Falla15(Motor):
+    """Inyecta un fallo en un momento concreto de la validación o del registro de una reutilización."""
+    def _f(s, donde):
+        if s.__dict__.get("falla15") == donde: raise RuntimeError("fallo inyectado en %s" % donde)
+    def _verificar_raiz(s, r, err): s._f("raiz"); return super()._verificar_raiz(r, err)
+    def _verificar_reutilizado(s, y, o, r, ue, up, at0, err):
+        if y["id"] == "a2": s._f("eslabon")
+        return super()._verificar_reutilizado(y, o, r, ue, up, at0, err)
+    def _chk_asset_version(s, e, y, L, err): s._f("asset_version"); return super()._chk_asset_version(e, y, L, err)
+    def _chk_campo(s, e, y, L, err): s._f("campo"); return super()._chk_campo(e, y, L, err)
+    def _chk_atribucion_reutilizador(s, y, er, err): s._f("atribucion"); return super()._chk_atribucion_reutilizador(y, er, err)
+    def _chk_actor(s, e, y, L, actor, err): s._f("actor"); return super()._chk_actor(e, y, L, actor, err)
+    def _evento(s, *a, **k): s._f("antes_escribir"); return super()._evento(*a, **k)
+    def _atribuir(s, *a, **k): r = super()._atribuir(*a, **k); s._f("registro"); return r
+def _derivados(m):
+    """Datos derivados que pueden afectar a E: la reconstrucción de cada asset, E de cada versión de copy y las comprobaciones del estado."""
+    return dict(cadenas={k: (m.reconstruir_cadena_procedencia(k)["ok"], m.reconstruir_cadena_procedencia(k)["eslabones"]) for k in sorted(m.assets)}, E={v: repr(m.calcular_E(v)) for v in sorted(m.v)}, invariantes=m._invariantes_basicos())
+def pruebas_atomicidad15():
+    out = []
+    momentos = [("AT15-01", "antes de validar la raíz", "raiz"), ("AT15-02", "durante la validación de un eslabón intermedio", "eslabon"), ("AT15-03", "durante la validación de asset_version", "asset_version"), ("AT15-04", "durante la validación de campo", "campo"),
+                ("AT15-05", "durante la validación de la atribución", "atribucion"), ("AT15-06", "durante la validación del actor", "actor"), ("AT15-07", "antes de escribir", "antes_escribir"), ("AT15-08", "durante el proceso de registro (con escritura parcial)", "registro")]
+    for i, nom, donde in momentos:
+        try:
+            m, x = _fx14(_Falla15); der = _derivados(m); m.falla15 = donde; antes = _estado_completo(m); n = (len(m.assets), len(m.ev), len(m.at), len(m.est), len(m.v), len(m.clas_hist), len(m.res), len(m.arte_decl))
+            try: m.registrar_asset("a4", "cc", "B", reused_from="a3"); lanzo = False
+            except RuntimeError: lanzo = True
+            est_ok = _estado_completo(m) == antes; m.falla15 = None; der2 = _derivados(m); m.falla15 = donde
+            d = dict(
+                lanzo=lanzo, estado=est_ok, derivados=der2 == der, cuentas=(len(m.assets), len(m.ev), len(m.at), len(m.est), len(m.v), len(m.clas_hist), len(m.res), len(m.arte_decl)) == n, sin_huerfanos=_sin_huerfanos(m), sin_asset="a4" not in m.assets)
+            m.falla15 = None; m.registrar_asset("a4", "cc", "B", reused_from="a3"); d["reintento"] = m.reconstruir_cadena_procedencia("a4")["ok"] and not auditar_E(snapshot(m), m.calcular_E("cc"), "cc") and _sin_huerfanos(m)
+            out.append(dict(id=i, nombre=nom, ok=all(d.values()), obs=", ".join(k for k, v in d.items() if not v) or "estado completo y derivados idénticos; el reintento sin fallo registra una cadena válida"))
+        except Exception as ex: out.append(dict(id=i, nombre=nom, ok=False, obs="%s: %s" % (type(ex).__name__, str(ex)[:100])))
+    return out
+# ===== v15 END =====
+
 # ===== v14: mutaciones del propio código del modelo (K56-M01 a K56-M08) =====
 # Cada una degrada UNA pieza del código nuevo y exige que al menos una batería (CHAIN, ADVC, ATTR, AT14, E14) la detecte.
 import contextlib as _cl
 def _baterias14():
     r = []
-    for nom, f, k in (("CHAIN", correr_mutaciones_cadena, "det"), ("ADVC", correr_adversariales_cadena, "ok"), ("ATTR", correr_mutaciones_atribucion, "det")):
+    for nom, f, k in (("CHAIN", correr_mutaciones_cadena, "det"), ("ADVC", correr_adversariales_cadena, "ok"), ("ATTR", correr_mutaciones_atribucion, "det"), ("AV", correr_mutaciones_av, "det"), ("CF", correr_mutaciones_cf, "det"), ("AC", correr_mutaciones_ac, "det"), ("AP", correr_positivos15, "ok"), ("ADV15", correr_adversariales15, "ok")):
         try: r += [(nom, x["id"], bool(x[k])) for x in f()]
         except Exception as ex: r.append((nom, "EXC", False))
     try: r += [("AT14", x["id"], bool(x["ok"])) for x in pruebas_atomicidad14()]
     except Exception: r.append(("AT14", "EXC", False))
+    try: r += [("AT15", x["id"], bool(x["ok"])) for x in pruebas_atomicidad15()]
+    except Exception: r.append(("AT15", "EXC", False))
     try: r += [("E14", x["id"], bool(x["ok"])) for x in pruebas_E14()]
     except Exception: r.append(("E14", "EXC", False))
     return r
@@ -2758,6 +3022,14 @@ def _debil_siguiente(self, y, err, L):
 def _k56_filtra_I15(f):
     def g(antes, despues):
         return [x for x in f(antes, despues) if "reactiv" not in str(x).lower()]
+    return g
+def _k56_sin_av_campo(f):
+    def g(s, cur, ids):
+        return [x for x in f(s, cur, ids) if "asset_version" not in x[1] and "campo" not in x[1]]
+    return g
+def _k56_sin_detalle(f):
+    def g(self, aid):
+        r = f(self, aid); r = dict(r); r["detalles"] = []; return r
     return g
 def _k56_E4_ignorado(f):
     def g(m, vid, u):
@@ -2772,6 +3044,10 @@ K56_MUT = [
  ("K56-M06", "la elegibilidad del evaluador ignora su pertenencia a E (E4)", lambda: (_sys_mod(), "elegibilidad_evaluador", _k56_E4_ignorado(elegibilidad_evaluador))),
  ("K56-M07", "registrar_asset se ejecuta sin la transacción (sin restauración ante fallo)", lambda: (Motor, "registrar_asset", Motor.registrar_asset.__wrapped__)),
  ("K56-M08", "la validación de una versión modificada pasa a ser un no-op", lambda: (Motor, "_verificar_modificado", lambda self, *a, **k: None)),
+ ("K56-M09", "la validación de asset_version del evento propio pasa a ser un no-op (v14: solo se comparaba source_asset_version)", lambda: (Motor, "_chk_asset_version", lambda self, e, y, L, err: True)),
+ ("K56-M10", "la validación del campo del evento propio pasa a ser un no-op (v14: no se comprobaba campo en la reconstrucción)", lambda: (Motor, "_chk_campo", lambda self, e, y, L, err: True)),
+ ("K56-M11", "el auditor independiente de cadena deja de comparar asset_version y campo", lambda: (_sys_mod(), "_hall_cadena", _k56_sin_av_campo(_hall_cadena))),
+ ("K56-M12", "la reconstrucción de la cadena no entrega el detalle estructurado de cada inconsistencia (eslabón, evento, campo, esperado, hallado)", lambda: (Motor, "reconstruir_cadena_procedencia", _k56_sin_detalle(Motor.reconstruir_cadena_procedencia))),
 ]
 class _GlobalesProxy:
     """Lee y escribe las funciones del módulo en su espacio de nombres, aunque el módulo no esté registrado en sys.modules (carga por ruta)."""
@@ -2822,3 +3098,42 @@ RS_PUNTOS_V14 = [
  "prueba negativa documental (al menos una mutación FK la nombra)", "prueba positiva de modelo en memoria (los identificadores citados existen)", "límite declarado: verificación documental, no validación en PostgreSQL",
 ]
 assert len(RS_PUNTOS_V14) == 20
+
+# ===== v15: datos de la auditoría, la trazabilidad, las 15 validaciones por evento propio y la equivalencia de K55 (se contrastan con el documento) =====
+AUDITORIA_V15 = [
+ ("D-13", "El evento propio de reutilización no se validaba contra la versión exacta del asset de destino (asset_version)", "`Motor._verificar_reutilizado` y `Motor._datos_evento` (v14)", "IG5-111", "solo se comparaba source_asset_version; un asset_version corrupto en cualquier eslabón se aceptaba y se guardaba la versión del origen en el evento del destino", "validar asset_version contra la versión exacta del asset que produjo el evento (`Motor._chk_asset_version`) y registrar la versión 1 del destino", "AV-01 a AV-08; K56-M09", "AP-04, AP-07", "auditor independiente `_hall_cadena`"),
+ ("D-14", "El campo del evento propio no se comprobaba como «arte» en cada eslabón", "`Motor._datos_evento` y `reconstruir_cadena_procedencia` (v14)", "IG5-112", "un evento de reutilización o de carga intermedia vinculado a otro campo se aceptaba", "validar campo = arte y pertenencia a los campos permitidos (`Motor._chk_campo`)", "CF-01 a CF-08; K56-M10", "AP-07", "auditor independiente `_hall_cadena`"),
+ ("D-15", "El rechazo no identificaba vínculo, evento, campo, valor esperado, valor hallado ni motivo", "`ReutilizacionInvalida` (v14)", "IG5-113", "un rechazo no permitía distinguir qué relación fallaba ni si otra excepción lo había provocado", "detalle estructurado por inconsistencia, sin datos internos en el mensaje al usuario", "AC-01 a AC-06; K56-M12", "AP-01 a AP-08", "mensaje_usuario sin identificadores internos"),
+ ("D-16", "La atomicidad se probaba con pocos momentos de fallo y sin instantánea completa", "`pruebas_atomicidad14` (v14)", "IG5-114", "un fallo en la validación de asset_version, campo, actor o atribución, o durante el registro, no comparaba el estado completo ni los datos derivados", "instantánea completa antes y después y datos derivados idénticos en ocho momentos", "AT15-01 a AT15-08", "AT15-01 a AT15-08 (reintento sin fallo)", "`_estado_completo` y `_derivados`"),
+ ("D-17", "El auditor independiente no comparaba asset_version ni campo por eslabón", "`_hall_cadena` (v14)", "IG5-115", "un motor que aceptaba un asset_version o un campo corrupto no era detectado", "`_hall_cadena` compara asset_version, campo, evento raíz y versión 1 con implementación propia", "ADV15-01 a ADV15-08; K56-M11", "AP-08", "`_compartidas` vacío"),
+ ("D-18", "El identificador K55 estaba asignado a dos controles", "`verificar_expediente.py` (v12 a v14)", "IG5-116", "un identificador repetido impedía citar y mutar cada control de forma inequívoca", "segundo control renombrado a K55-V12 sin eliminar ninguna condición; K58 exige identificadores únicos y estables", "K57-D09 a K57-D12", "K58", "K58"),
+]
+TRAZA_V15 = [
+ ("IG5-111", "`Motor._chk_asset_version`, `Motor._datos_evento`, `Motor._verificar_reutilizado`, `Motor.reconstruir_cadena_procedencia`", "AV-01 a AV-08; K56-M09", "K56"),
+ ("IG5-112", "`Motor._chk_campo`, `Motor._campos_permitidos`, `Motor._datos_evento`", "CF-01 a CF-08; K56-M10", "K56"),
+ ("IG5-113", "`ReutilizacionInvalida`, `Motor._chk_actor`, `Motor._chk_atribucion_reutilizador`, `_det`", "AC-01 a AC-06; AP-01 a AP-08; K56-M12", "K56"),
+ ("IG5-114", "`_atomica`, `Motor._verificar_final`, `_derivados`, `_estado_completo`", "AT15-01 a AT15-08", "K56"),
+ ("IG5-115", "`_hall_cadena`, `_hall_identidad`, `auditar_E`, `_compartidas`", "ADV15-01 a ADV15-08; K56-M11", "K56"),
+ ("IG5-116", "`AUDITORIA_V15`, `TRAZA_V15`, `VALIDACIONES_EVENTO15`, `EQUIV_K55`", "K56-M09 a K56-M12", "K57, K58, K59"),
+]
+VALIDACIONES_EVENTO15 = [
+ (1, "El evento existe", "`Motor._datos_evento`", "CHAIN-01 a CHAIN-24"),
+ (2, "Su tipo corresponde a una reutilización", "`Motor._datos_evento`", "CHAIN-01 a CHAIN-24"),
+ (3, "Pertenece a la organización correcta", "`Motor._datos_evento`", "CHAIN-01 a CHAIN-24"),
+ (4, "Pertenece a la pieza correcta", "`Motor._datos_evento`", "CHAIN-01 a CHAIN-24"),
+ (5, "Su actor autenticado coincide con el actor registrado", "`Motor._chk_actor`", "CHAIN-01 a CHAIN-24"),
+ (6, "El asset de destino coincide con el asset que produjo el evento", "`Motor._datos_evento`", "AV-03; AC-06"),
+ (7, "asset_version coincide con la versión exacta del asset de destino que produjo el evento", "`Motor._chk_asset_version`", "AV-01 a AV-08; AC-01; AC-03 a AC-05; K56-M09"),
+ (8, "source_asset_id identifica el asset inmediato de origen", "`Motor._verificar_reutilizado`", "CHAIN-01 a CHAIN-24"),
+ (9, "source_asset_version_id identifica su versión exacta", "`Motor._verificar_reutilizado`", "AC-06; CHAIN-01 a CHAIN-24"),
+ (10, "source_asset_version coincide con el número de versión de esa referencia exacta", "`Motor._verificar_reutilizado`", "AV-06; AP-04"),
+ (11, "source_upload_event_id identifica el evento original de carga del asset raíz", "`Motor._verificar_reutilizado`", "CHAIN-01 a CHAIN-24"),
+ (12, "source_uploader_id coincide con el uploader original", "`Motor._verificar_reutilizado`", "CHAIN-01 a CHAIN-24; AP-05"),
+ (13, "source_attribution_id identifica la atribución directa correspondiente", "`Motor._chk_atribucion_reutilizador`", "CHAIN-01 a CHAIN-24; AP-06"),
+ (14, "El evento está vinculado al campo arte", "`Motor._chk_campo`", "CF-01 a CF-08; K56-M10"),
+ (15, "La versión de copy coincide con la versión exacta donde se utiliza el asset", "`Motor._datos_evento`", "CHAIN-01 a CHAIN-24"),
+]
+EQUIV_K55 = [
+ ("K55", "Cobertura v13 (4.4.15): IG5-102, IG5-103 e IE-12; inventario source_*, RS-01 a RS-08, matriz de ciclos, orden de inserción, mutaciones FK", "se conserva con su identificador"),
+ ("K55-V12", "Cobertura v12 (4.4.14): IG5-101 e IE-12; I27 e I28, mutaciones A33 a A48, casos P15 a P20 y pruebas adversariales de identidad de origen", "antes también K55; se conservan sus condiciones íntegras"),
+]

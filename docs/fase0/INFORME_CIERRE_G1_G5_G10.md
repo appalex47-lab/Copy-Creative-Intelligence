@@ -1,18 +1,18 @@
 ---
 name: informe_cierre_g1_g5_g10
-description: Informe de la revisión v14 de G-1, G-5 y G-10 (cierre integral de la procedencia de assets, atomicidad, auditor independiente, atribuciones, evaluador e integridad referencial RS-01 a RS-08); diseño documental con pruebas de modelo en memoria; nada ejecutado en PostgreSQL
+description: Informe de la revisión v15 de G-1, G-5 y G-10 (integridad del evento propio en cada eslabón: asset_version y campo, validación previa del motor, auditor independiente, atomicidad con instantánea completa y cierre de K55); diseño documental con pruebas de modelo en memoria; nada ejecutado en PostgreSQL
 ---
 
-# INFORME — CIERRE INTEGRAL DE LA PROCEDENCIA DE ASSETS (revisión v14)
+# INFORME — INTEGRIDAD DEL EVENTO PROPIO EN CADA ESLABÓN (revisión v15)
 
-Sustituye al informe v13 (conservado en `historico/`). Diseño documental con pruebas de modelo en memoria: no se ejecutó SQL, código de producto, Supabase ni PostgreSQL. La «v14» de este documento es la revisión del diseño complementario; no es la Adenda v9 del propietario (PO-05).
+Sustituye al informe v14 (conservado en `historico/`). Diseño documental con pruebas de modelo en memoria: no se ejecutó SQL, código de producto, Supabase ni PostgreSQL. La «v15» de este documento es la revisión del diseño complementario; no es la Adenda v9 del propietario (PO-05).
 
 ## A. Dictamen ejecutivo
 
 | Nivel | Estado | Alcance |
 |---|---|---|
 | 1. Fase 0 v3.3 | COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES DOCUMENTADAS | No se reabre ni se modifica; SHA-256 `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da` sin cambio |
-| 2. Diseño complementario v14 (G-1, G-5, G-10) | COMPLETADO DOCUMENTALMENTE Y PREPARADO PARA ACEPTACIÓN FORMAL DEL PROPIETARIO, CON LIMITACIONES TÉCNICAS EXPLÍCITAS | Pendiente de aceptación formal del propietario; no validado técnicamente; la Adenda v9 sigue sin aceptar (PO-05) |
+| 2. Diseño complementario v15 (G-1, G-5, G-10) | COMPLETADO DOCUMENTALMENTE Y PREPARADO PARA ACEPTACIÓN FORMAL DEL PROPIETARIO, CON LIMITACIONES TÉCNICAS EXPLÍCITAS | Pendiente de aceptación formal del propietario; no validado técnicamente; la Adenda v9 sigue sin aceptar (PO-05) |
 | 3. Fase 1 | NO INICIADA / NO AUTORIZADA | Requiere autorización expresa; este diseño no la concede |
 
 
@@ -35,146 +35,146 @@ Sustituye al informe v13 (conservado en `historico/`). Diseño documental con pr
 | K47 resoluciones inmutables | 12 | 12 | escenario RS y 9 intentos directos rechazados | OK |
 | K47 validación previa del origen (A54 a A65) | 12 | 12 | rechazo sin escritura, estado previo idéntico y E nulo en cada una; 20 pruebas de atomicidad aprobadas | OK |
 | K47 procedencia e identidad del arte (A01 a A53) | 53 | 53 | 26/26 casos positivos de arte (P01 a P26) aprobados; 16/16 pruebas adversariales aprobadas | OK |
-| K56 cadena, atribuciones y código del modelo (CHAIN, ATTR, K56-M) | 44 | 44 | ADVC 24/24, AT14 11/11 y E14 6/6 aprobadas | OK |
+| K56 cadena, atribuciones, asset_version, campo y código del modelo (CHAIN, ATTR, AV, CF, AC, K56-M) | 70 | 70 | ADVC 24/24, AT14 11/11, E14 6/6, AP 8/8, ADV15 8/8 y AT15 8/8 aprobadas | OK |
 | FK01 a FK41 (K32, K44, K45 y K55) | 41 | 41 (lo calcula el verificador) | mutaciones estructurales sobre la especificación |  |
-| K57 mutaciones documentales de trazabilidad | 8 | 8 (lo calcula el verificador) | K57-D01 a K57-D08 |  |
-| Total estructural | 196 | 196 | más 25 mutaciones documentales M-01 a M-25, 41 mutaciones FK y 8 mutaciones K57-D |  |
+| K57 mutaciones documentales de trazabilidad e identidad de controles | 12 | 12 (lo calcula el verificador) | K57-D01 a K57-D12 |  |
+| Total estructural | 222 | 222 | más 25 mutaciones documentales M-01 a M-25, 41 mutaciones FK y 12 mutaciones K57-D |  |
 
 
-La v14 audita la v13, corrige la validación de la cadena completa de procedencia (todos los eslabones, sus eventos, versiones, uploader original, atribución directa, organización, pieza y versiones de copy), refuerza la atomicidad, la conservación de atribuciones, la reconstrucción de E, la elegibilidad del evaluador y la independencia del auditor, y revisa la integridad referencial de RS-01 a RS-08 (la v13 declaró RS-01 a RS-08; RS-08 se agrega en la v14). Las pruebas son de modelo en memoria y comprobaciones documentales; **ninguna es una prueba en PostgreSQL ni Supabase** y la aceptación del propietario sigue pendiente.
+La v15 audita la v14 y corrige la validación del evento propio de cada eslabón: `asset_version` contra la versión exacta del asset de destino y `campo` igual a arte, con diagnóstico estructurado por vínculo, rechazo previo a escritura, atomicidad con instantánea completa en ocho momentos, auditor independiente reforzado y el identificador K55 duplicado resuelto (K55 y K55-V12). Las pruebas son de modelo en memoria y comprobaciones documentales; **ninguna es una prueba en PostgreSQL ni Supabase** y la aceptación del propietario sigue pendiente.
 
 ## B. Qué se corrigió
 
-### H-01 La cadena de procedencia se validaba solo en la raíz y en el eslabón inmediato
+### H-01 El asset_version del evento propio de reutilización no se validaba contra la versión exacta del asset de destino
 
 | Concepto | Detalle |
 |---|---|
-| Defecto en la v13 | `_origen_carga` y `_validar_reutilizacion` de la v13 contrastaban la raíz y tomaban los campos guardados en los eslabones intermedios (evento, uploader, atribución, organización, pieza, versión de copy, actor) como prueba de sí mismos: una corrupción solo intermedia podía aceptarse con una raíz correcta. |
-| Corrección | `reconstruir_cadena_procedencia` recorre todos los eslabones hasta la raíz y valida 13 vínculos por eslabón contra los registros concretos (sección 4.4.16 B); devuelve error ante ambigüedad, ciclo, referencia ausente, evento intercambiado o compartido, atribución duplicada o de otro asset, y nunca declara válida una cadena incompleta. |
-| Documento y sección | ESPECIFICACION 4.4.16 A y B |
-| Reglas | IG5-104, IE-12 |
-| Evidencia | CHAIN-01 a CHAIN-24 (24 mutaciones de eslabones, 4 de ellas sobre eslabones modificados) |
-| Escenarios diseñados | T-627 a T-650 (24; ninguno ejecutado) |
+| Defecto en la v14 | `Motor._verificar_reutilizado` y `Motor._datos_evento` de la v14 comprobaban `source_asset_version` pero no que `asset_version` coincidiera con la versión exacta del asset que produjo el evento: una corrupción en cualquier eslabón se aceptaba y el evento del destino guardaba la versión del origen. |
+| Corrección | `Motor._chk_asset_version` valida por identidad exacta (`asset_version_id`) en todos los eslabones; `registrar_asset` escribe la versión 1 del destino; `source_asset_version` se valida aparte; las 15 validaciones por evento propio (sección 4.4.17 C) rechazan antes de escribir. |
+| Documento y sección | ESPECIFICACION 4.4.17 A, B y C |
+| Reglas | IG5-111, IE-12 |
+| Evidencia | AV-01 a AV-08; K56-M09 |
+| Escenarios diseñados | T-727 a T-734 (8; ninguno ejecutado) |
 
-### H-02 El orden de validación y escritura de una reutilización no usaba la cadena completa ni era atómico
-
-| Concepto | Detalle |
-|---|---|
-| Defecto en la v13 | El registro de un asset y de su evento podía dejar registros parciales o un estado final inconsistente cuando la validación previa era débil. |
-| Corrección | Orden documentado de 14 pasos: validación completa y acumulación de errores antes de escribir (pasos 1 a 12), escritura (13) y verificación final con restauración exacta (14); `_origen_carga`, `_validar_reutilizacion` y `registrar_asset` usan la reconstrucción de H-01. |
-| Documento y sección | ESPECIFICACION 4.4.16 C y D |
-| Reglas | IG5-104, IG5-105 |
-| Evidencia | AT14-01 a AT14-11; K56-M03; K56-M07 |
-| Escenarios diseñados | T-687 a T-697 (11; ninguno ejecutado) |
-
-### H-03 El auditor no era independiente por eslabón ni detectaba modificación, duplicidad o ambigüedad
+### H-02 El campo del evento propio no se validaba como «arte» en cada eslabón
 
 | Concepto | Detalle |
 |---|---|
-| Defecto en la v13 | El auditor de la v13 no recalculaba la cadena completa con implementación propia: un motor que aceptaba una cadena corrupta no siempre era detectado. |
-| Corrección | `_hall_cadena` recalcula cada cadena desde las instantáneas sin llamar a funciones del motor (`_compartidas()` vacío); ADVC-01 a ADVC-24 fuerzan al motor a aceptar y exigen detección del auditor, E bloqueado y fallo cerrado de impacto y publicación. |
-| Documento y sección | ESPECIFICACION 4.4.16 F |
-| Reglas | IG5-106 |
-| Evidencia | ADVC-01 a ADVC-24; K56-M04 |
-| Escenarios diseñados | T-651 a T-674 (24; ninguno ejecutado) |
+| Defecto en la v14 | La v14 no comprobaba el campo del evento propio en la reconstrucción de la cadena: un evento vinculado a otro campo (por ejemplo headline o precio), ausente o nulo se aceptaba. |
+| Corrección | `Motor._chk_campo` y `Motor._campos_permitidos` exigen campo = arte en reutilizaciones, cargas modificadas y raíz, antes de escribir y también después de construida una cadena posterior. |
+| Documento y sección | ESPECIFICACION 4.4.17 C y F |
+| Reglas | IG5-112, IE-12 |
+| Evidencia | CF-01 a CF-08; K56-M10 |
+| Escenarios diseñados | T-735 a T-742 (8; ninguno ejecutado) |
 
-### H-04 La conservación de atribuciones y la inmutabilidad de resoluciones no tenían pruebas negativas específicas ni detectaban la reactivación
-
-| Concepto | Detalle |
-|---|---|
-| Defecto en la v13 | Una atribución descartada podía volver a activa sin resolución sin ser detectada; faltaban mutaciones para duplicados, cambios de persona, pieza, versión o evento, modificación posterior de resoluciones y auto-retiro. |
-| Corrección | Regla I15 del auditor de resoluciones (reactivación histórica → activa sin resolución) y doce mutaciones ATTR-01 a ATTR-12 desde un estado válido. |
-| Documento y sección | ESPECIFICACION 4.4.16 G |
-| Reglas | IG5-107 |
-| Evidencia | ATTR-01 a ATTR-12; K56-M05 |
-| Escenarios diseñados | T-675 a T-686 (12; ninguno ejecutado) |
-
-### H-05 La reconstrucción de E y la elegibilidad del evaluador no estaban modeladas con fallo cerrado
+### H-03 El rechazo no identificaba el vínculo, el evento, el campo, lo esperado ni lo hallado
 
 | Concepto | Detalle |
 |---|---|
-| Defecto en la v13 | No había una función que decidiera, con los datos reales, quién es elegible para evaluar, ni asignación, confirmación y publicación revalidadas. |
-| Corrección | `elegibilidad_evaluador` (E1 a E7), `asignar_evaluador`, `confirmar_independencia` e `intentar_publicacion` con revalidación; sin permisos nuevos ni asignación automática a Admin; la autoridad que asigna sigue en G-9 (abierto). |
-| Documento y sección | ESPECIFICACION 4.4.16 H y O |
-| Reglas | IG5-108 |
-| Evidencia | E14-01 a E14-06; AT14-09; AT14-10; K56-M06 |
-| Escenarios diseñados | T-698 a T-703 (6; ninguno ejecutado) |
+| Defecto en la v14 | Un rechazo no permitía distinguir qué relación fallaba ni descartar que otra excepción lo hubiera provocado. |
+| Corrección | `ReutilizacionInvalida.detalles` informa eslabón, evento, campo, esperado, hallado y motivo; `mensaje_usuario` no expone datos internos; una excepción ajena nunca cuenta como detección; mutaciones combinadas AC-01 a AC-06. |
+| Documento y sección | ESPECIFICACION 4.4.17 D y G |
+| Reglas | IG5-113, IE-12 |
+| Evidencia | AC-01 a AC-06; K56-M12 |
+| Escenarios diseñados | T-743 a T-748 (6; ninguno ejecutado) |
 
-### H-06 La integridad referencial RS-01 a RS-08 no tenía una auditoría completa por relación
-
-| Concepto | Detalle |
-|---|---|
-| Defecto en la v13 | Faltaba la relación que ata el evento de carga original al asset raíz exacto (RS-08), una restricción única propia sobre el evento de reutilización, y la trazabilidad RS → mutaciones era inexacta. |
-| Corrección | RS-08 y `unique(organization_id, reuse_event_id)`; auditoría de 20 puntos por relación (RS-01 a RS-08) calculada sobre el documento y el modelo; mutaciones FK16 a FK41; excepciones individuales con riesgo residual. |
-| Documento y sección | ESPECIFICACION 4.4.15 y 4.4.16 I y J |
-| Reglas | IG5-103, IG5-109 |
-| Evidencia | FK01 a FK41; K32, K44, K45 y K55 |
-| Escenarios diseñados | T-712 a T-719 (8; ninguno ejecutado) |
-
-### H-07 La matriz de mutaciones no cubría el código nuevo
+### H-04 Faltaban suites negativas con doce condiciones por mutación
 
 | Concepto | Detalle |
 |---|---|
-| Defecto en la v13 | Una defensa del modelo podía eliminarse sin que ninguna prueba fallara. |
-| Corrección | Se conservan las mutaciones previas (K47-A33 a A48 y A54 a A65, P15 a P26, ADV6 a ADV16, FK01 a FK15) y se agregan CHAIN-01 a CHAIN-24, ATTR-01 a ATTR-12, FK16 a FK41 y K56-M01 a K56-M08 (degradación del propio código). |
-| Documento y sección | ESPECIFICACION 4.4.16 E a K |
-| Reglas | IG5-110 |
-| Evidencia | K56-M01 a K56-M08 |
-| Escenarios diseñados | T-704 a T-711 (8; ninguno ejecutado) |
+| Defecto en la v14 | Las mutaciones de la v14 no exigían, juntas, estado inicial válido, cambio real, rechazo, causa concreta, ausencia de asset, evento, atribución y relación parciales, estado completo idéntico, procedencia incompleta, E no completo y bloqueo de impacto, aprobación y publicación. |
+| Corrección | AV-01 a AV-08, CF-01 a CF-08 y AC-01 a AC-06, cada una con las doce condiciones; ninguna se acepta por una excepción ajena. |
+| Documento y sección | ESPECIFICACION 4.4.17 E, F y G |
+| Reglas | IG5-111 a IG5-114 |
+| Evidencia | AV-01 a AV-08; CF-01 a CF-08; AC-01 a AC-06 |
+| Escenarios diseñados | T-727 a T-748 (22; ninguno ejecutado) |
 
-### H-08 Las operaciones que escriben procedencia no eran todas atómicas
-
-| Concepto | Detalle |
-|---|---|
-| Defecto en la v13 | Un fallo a mitad de una operación o una validación previa debilitada dejaba registros parciales. |
-| Corrección | El decorador `_atomica` cubre 19 operaciones (altas, modificaciones, resoluciones, asignación, confirmación y publicación): captura del estado, verificación final y restauración exacta. |
-| Documento y sección | ESPECIFICACION 4.4.16 D |
-| Reglas | IG5-105 |
-| Evidencia | AT14-01 a AT14-11 |
-| Escenarios diseñados | T-687 a T-697 (11; ninguno ejecutado) |
-
-### H-09 K55 comparaba sobre todo texto
+### H-05 Faltaban casos positivos de las nuevas validaciones
 
 | Concepto | Detalle |
 |---|---|
-| Defecto en la v13 | Las pruebas citadas por cada relación y las cifras del documento no se contrastaban con lo ejecutado. |
-| Corrección | K55 verifica que los identificadores citados (K47-A y CHAIN) existen; K57 traza cada regla nueva a funciones existentes, pruebas existentes del conjunto ejecutado y verificador, y compara tablas y cifras del documento con las ejecutadas. |
-| Documento y sección | ESPECIFICACION 4.4.16 L y M |
-| Reglas | IG5-110 |
-| Evidencia | K57-D01 a K57-D08 |
-| Escenarios diseñados | T-720 a T-720 (1; ninguno ejecutado) |
+| Defecto en la v14 | Sin casos válidos no se demuestra que las validaciones no bloqueen relaciones correctas. |
+| Corrección | AP-01 a AP-08: cadenas de dos y tres niveles, versiones iguales de assets distintos, reutilización tras una modificación, uploader original distinto, atribución directa exacta, campo arte en todos los eventos y coincidencia motor-auditor. |
+| Documento y sección | ESPECIFICACION 4.4.17 H |
+| Reglas | IG5-111 a IG5-113 |
+| Evidencia | AP-01 a AP-08 |
+| Escenarios diseñados | T-749 a T-756 (8; ninguno ejecutado) |
 
-### H-10 La reproducibilidad no cubría las nuevas baterías
+### H-06 El auditor independiente no comparaba asset_version ni campo por eslabón
 
 | Concepto | Detalle |
 |---|---|
-| Defecto en la v13 | Los resultados nuevos debían ser deterministas y estar separados por categoría de evidencia. |
-| Corrección | Dos ejecuciones limpias con `env -i` producen salidas --md y --json idénticas; la sección 4.4.16 N separa diseño, verificación documental, ejecución en memoria y ejecución en PostgreSQL o Supabase (ninguna). |
-| Documento y sección | ESPECIFICACION 4.4.16 N; AUDITORIA 3 |
-| Reglas | IG5-110 |
+| Defecto en la v14 | Un motor que aceptaba una corrupción de esas referencias no era detectado por el auditor. |
+| Corrección | `_hall_cadena` compara asset_version y campo por eslabón sin funciones del motor (`_compartidas()` vacío); ADV15-01 a ADV15-08 fuerzan la aceptación y exigen detección, E bloqueado y fallo cerrado de impacto y publicación. |
+| Documento y sección | ESPECIFICACION 4.4.17 I |
+| Reglas | IG5-115 |
+| Evidencia | ADV15-01 a ADV15-08; K56-M11 |
+| Escenarios diseñados | T-757 a T-764 (8; ninguno ejecutado) |
+
+### H-07 La atomicidad no se probaba con instantánea completa en cada momento de fallo
+
+| Concepto | Detalle |
+|---|---|
+| Defecto en la v14 | Un fallo en la validación de asset_version, campo, actor o atribución, o durante el registro, no comparaba el estado completo ni los datos derivados. |
+| Corrección | AT15-01 a AT15-08 inyectan el fallo en ocho momentos, comparan el estado completo y los datos derivados y repiten sin fallo con un registro válido. |
+| Documento y sección | ESPECIFICACION 4.4.17 J |
+| Reglas | IG5-114 |
+| Evidencia | AT15-01 a AT15-08 |
+| Escenarios diseñados | T-765 a T-772 (8; ninguno ejecutado) |
+
+### H-08 El identificador K55 estaba asignado a dos controles del verificador
+
+| Concepto | Detalle |
+|---|---|
+| Defecto en la v14 | Un identificador repetido impedía citar y mutar cada control de forma inequívoca. |
+| Corrección | El segundo control pasa a K55-V12 sin eliminar ninguna condición; equivalencia documentada; K58 exige identificadores únicos y que los documentos citen K55-V12; K57-D09 reintroduce el duplicado y es detectada. |
+| Documento y sección | ESPECIFICACION 4.4.17 N |
+| Reglas | IG5-116 |
+| Evidencia | K58; K57-D09 |
+| Escenarios diseñados | T-777 a T-777 (1; ninguno ejecutado) |
+
+### H-09 La comparación estructural no cubría las nuevas validaciones ni las suites
+
+| Concepto | Detalle |
+|---|---|
+| Defecto en la v14 | Las validaciones, el auditor, las suites AV, CF, AC y AP y la cobertura debían contrastarse con el modelo y el documento. |
+| Corrección | K56 ejecuta las doce baterías y verifica la estructura del código (validaciones existentes e invocadas, auditor sin llamadas al motor, pruebas históricas conservadas, sin skip ni xfail); K57 compara reglas, validaciones y tablas; K59 comprueba la cobertura v15; K56-M09 a K56-M12 y K57-D09 a K57-D12 degradan código y documento. |
+| Documento y sección | ESPECIFICACION 4.4.17 K, L y M |
+| Reglas | IG5-116 |
+| Evidencia | K56-M09 a K56-M12; K57-D09 a K57-D12 |
+| Escenarios diseñados | T-773 a T-776 (4; ninguno ejecutado) |
+
+### H-10 La regresión debía conservar todas las pruebas históricas y ser reproducible
+
+| Concepto | Detalle |
+|---|---|
+| Defecto en la v14 | Una corrección no debe reducir cobertura ni producir resultados distintos entre ejecuciones. |
+| Corrección | Se conservan CHAIN, ADVC, ATTR, AT14, E14, K45, K46, K47, FK y K57-D01 a K57-D12; dos ejecuciones limpias con `env -i` producen salidas --md y --json idénticas. |
+| Documento y sección | ESPECIFICACION 4.4.17 O; AUDITORIA 3 |
+| Reglas | IG5-116 |
 | Evidencia | K41 y la comparación de salidas de la publicación |
-| Escenarios diseñados | T-721 a T-721 (1; ninguno ejecutado) |
+| Escenarios diseñados | T-779 a T-779 (1; ninguno ejecutado) |
 
-### H-11 Los documentos debían describir la v14 sin contradicciones
+### H-11 Los documentos debían describir la v15 sin contradicciones
 
 | Concepto | Detalle |
 |---|---|
-| Defecto en la v13 | Especificación, informe, auditoría, roadmap, registro y herramientas debían contar lo mismo. |
-| Corrección | Los cinco documentos se regeneran con las mismas cifras; se conservan las copias históricas v13 y las anteriores con su SHA-256 en el manifiesto. |
+| Defecto en la v14 | Especificación, informe, auditoría, roadmap, registro y herramientas debían contar lo mismo. |
+| Corrección | Los cinco documentos se regeneran con las mismas cifras; se conservan las copias históricas v14 y las anteriores con su SHA-256 en el manifiesto. |
 | Documento y sección | todos |
-| Reglas | IG5-110, IE-12 |
+| Reglas | IG5-116, IE-12 |
 | Evidencia | K09, K22, K25, K27, K28 |
-| Escenarios diseñados | T-722 a T-722 (1; ninguno ejecutado) |
+| Escenarios diseñados | T-780 a T-780 (1; ninguno ejecutado) |
 
 ## C. Modelo y relaciones
 
 | Elemento | Detalle |
 |---|---|
-| Tablas | 27 históricas sin cambio; 14 nuevas propuestas: `piece_classification_events`, `piece_reviewer_assignments`, `impact_evaluations`, `publication_attempts`, `channel_formats`, `brief_versions`, `promotion_snapshots`, `contribution_events`, `copy_version_provenance`, `brief_field_changes`, `brief_field_attributions`, `promotion_field_changes`, `promotion_field_attributions`, `attribution_discard_resolutions`; la v14 no crea tablas |
+| Tablas | 27 históricas sin cambio; 14 nuevas propuestas: `piece_classification_events`, `piece_reviewer_assignments`, `impact_evaluations`, `publication_attempts`, `channel_formats`, `brief_versions`, `promotion_snapshots`, `contribution_events`, `copy_version_provenance`, `brief_field_changes`, `brief_field_attributions`, `promotion_field_changes`, `promotion_field_attributions`, `attribution_discard_resolutions`; la v15 no crea tablas |
 | Orden definitivo | 1.8 → 2.x → 2.1 → 2.3 → 2.5 → 2.7 → 3.x → 4.x → 5.1 → 5.3 → 6.x → 6.1 → 6.5 → 6.6 → 8.x |
 | Atribución por campo | 12 campos materiales de brief y 9 de promoción; las atribuciones se conservan siempre; solo una resolución aceptada de `attribution_discard_resolutions` (independiente y con evidencia) las vuelve históricas; el historial no se reactiva sin resolución (regla I15) |
 | Integridad | Toda FK es compuesta e incluye organization_id; RS-01 a RS-08 fijan la identidad exacta del origen; solo RS-06 es diferida; `unique(organization_id, reuse_event_id)` impide que un evento de reutilización pertenezca a dos assets |
-| Funciones | create_brief_version, create_promotion_snapshot, create_copy_version, verify_field_provenance (interna), version_contributors y las anteriores; sin funciones ni triggers nuevos en la v14 |
+| Funciones | create_brief_version, create_promotion_snapshot, create_copy_version, verify_field_provenance (interna), version_contributors y las anteriores; sin funciones ni triggers nuevos en la v15 |
 | Límites | IS-11: superusuario, propietario, desactivación de triggers y edición manual no los impide el diseño |
 
 ## D. Fórmula de contribuyentes y elegibilidad
@@ -185,11 +185,11 @@ La v14 audita la v13, corrige la validación de la cadena completa de procedenci
 
 | Concepto | Resultado |
 |---|---|
-| Reglas de integridad | 225 |
-| Pruebas diseñadas | 722 (documental 392 / técnica futura ejecutable 281 / infraestructura real 49); **ninguna ejecutada**; cobertura regla↔escenario completa según el verificador |
+| Reglas de integridad | 231 |
+| Pruebas diseñadas | 780 (documental 450 / técnica futura ejecutable 281 / infraestructura real 49); **ninguna ejecutada**; cobertura regla↔escenario completa según el verificador |
 | Tablas propuestas | 41 (27 históricas + 14 nuevas) |
-| Verificación documental y estructural | 57 comprobaciones y 270 mutaciones del verificador publicado; resultado real en AUDITORIA_FINAL_G1_G5_G10.md, sección 3 |
-| Pruebas de modelo en memoria ejecutadas | K45 (15 controles), K47 (12 escenarios, 26 casos positivos de arte, 16 adversariales, 28 invariantes), K46, CHAIN 24, ADVC 24, ATTR 12, AT14 11, E14 6 y K56-M 8, con datos ficticios; resultado real en la auditoría |
+| Verificación documental y estructural | 59 comprobaciones y 300 mutaciones del verificador publicado; resultado real en AUDITORIA_FINAL_G1_G5_G10.md, sección 3 |
+| Pruebas de modelo en memoria ejecutadas | K45 (15 controles), K47 (12 escenarios, 26 casos positivos de arte, 16 adversariales, 28 invariantes), K46, CHAIN 24, ADVC 24, ATTR 12, AT14 11, E14 6, AV 8, CF 8, AC 6, AP 8, ADV15 8, AT15 8 y K56-M 12, con datos ficticios; resultado real en la auditoría |
 | Pruebas técnicas pendientes | Todas las de PostgreSQL, RLS, Supabase, transacciones, concurrencia, bloqueos y rollback: nada de eso se ejecutó |
 
 ## F. Pendientes
@@ -198,7 +198,7 @@ PO-05 y aceptación de la Adenda v9; aceptación formal de esta revisión; DG-09
 
 ## G. Integridad y GitHub
 
-SHA-256 de v3.3: `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da` (sin cambio). Publicación en `main` de `appalex47-lab/Copy-Creative-Intelligence`, carpeta `docs/fase0/`. Commit anterior `d4044c2a618e8f492a2dd3b8cddcf1ccbd3d85a8`. El commit nuevo y los SHA-256 de los cinco documentos se informan en el mensaje final.
+SHA-256 de v3.3: `b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da` (sin cambio). Publicación en `main` de `appalex47-lab/Copy-Creative-Intelligence`, carpeta `docs/fase0/`. Commit anterior `1d14e51a539bca3e8b938288bd63c6d8aba0d0ed`. El commit nuevo y los SHA-256 de los cinco documentos se informan en el mensaje final.
 
 ## H. Declaración de alcance
 

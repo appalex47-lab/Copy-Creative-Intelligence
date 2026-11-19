@@ -1,11 +1,11 @@
 ---
 name: roadmap_trazabilidad_g1_g5_g10
-description: Roadmap y trazabilidad de la revisión v14 de G-1, G-5 y G-10; orden único de creación con la representación física de contribuciones; estados de subfases sin cambio
+description: Roadmap y trazabilidad de la revisión v15 de G-1, G-5 y G-10; orden único de creación con la representación física de contribuciones; estados de subfases sin cambio
 ---
 
-# ROADMAP Y TRAZABILIDAD — REVISIÓN v14 DE G-1, G-5 Y G-10
+# ROADMAP Y TRAZABILIDAD — REVISIÓN v15 DE G-1, G-5 Y G-10
 
-Sustituye a la v13 (conservada en `historico/`). Complementa la Adenda v9 (no aceptada) sin reemplazarla ni alterar versiones históricas. **Ninguna subfase cambia de estado**; el diseño no se ha implementado ni validado técnicamente y Fase 1 no está autorizada.
+Sustituye a la v14 (conservada en `historico/`). Complementa la Adenda v9 (no aceptada) sin reemplazarla ni alterar versiones históricas. **Ninguna subfase cambia de estado**; el diseño no se ha implementado ni validado técnicamente y Fase 1 no está autorizada.
 
 ## 0. Estado por nivel (H-03)
 
@@ -154,7 +154,7 @@ Secuencia de subfases: **1.8 → 2.x → 2.1 → 2.3 → 2.5 → 2.7 → 3.x →
 
 Estructura no es operación: las tablas nacen con RLS activada y sin privilegios; las funciones y políticas se habilitan en la subfase indicada. Si una fase posterior no se ejecuta, las anteriores siguen siendo consistentes porque ninguna FK apunta hacia adelante. La reversión es deshabilitar (retirar EXECUTE y privilegios, restaurar el trigger base), no eliminar tablas con datos.
 
-## 4. Cambios de subfase por la v5, la v6, la v7, la v8, la v11, la v12, la v13 y la v14 (la v7 agregó attribution_discard_resolutions y resolve_attribution_discard dentro de subfases existentes; la v8 agrega columnas a esa tabla y una unicidad en contribution_events dentro de las mismas subfases; la v11, la v12, la v13 y la v14 solo cambian el verificador, el modelo estructural, las secciones 4.4.11 a 4.4.16 y las FK y restricciones documentadas dentro de subfases existentes (RS-01 a RS-08; la v14 agrega RS-08 y una restricción única propia de creative_assets); no cambian subfases ni estados)
+## 4. Cambios de subfase por la v5, la v6, la v7, la v8, la v11, la v12, la v13, la v14 y la v15 (la v7 agregó attribution_discard_resolutions y resolve_attribution_discard dentro de subfases existentes; la v8 agrega columnas a esa tabla y una unicidad en contribution_events dentro de las mismas subfases; la v11, la v12, la v13, la v14 y la v15 solo cambian el verificador, el modelo estructural, las secciones 4.4.11 a 4.4.17 y las FK y restricciones documentadas dentro de subfases existentes (RS-01 a RS-08; la v14 agrega RS-08 y una restricción única propia de creative_assets); no cambian subfases ni estados)
 
 | Subfase | Tema | Contenido de diseño |
 |---|---|---|
@@ -171,7 +171,7 @@ Estructura no es operación: las tablas nacen con RLS activada y sin privilegios
 | 6.1 | Workflow | transition_piece_status base; Publicado deshabilitado |
 | 6.5 | Aprobaciones | approvals e impact_evaluations en el orden correcto; revalidación de procedencia y clasificación |
 | 6.6 | Auditoría del flujo | publication_attempts, guarda completa y transición #10 |
-| 6.8 | Pruebas | Matriz documental con 722 casos (ninguno ejecutado) |
+| 6.8 | Pruebas | Matriz documental con 780 casos (ninguno ejecutado) |
 
 **Distinción por subfase.** *Diseño documental*: esta revisión. *Preparación técnica*: tablas, funciones y triggers que cada subfase crearía; nada existe. *Implementación*: Fase 1 y siguientes, no iniciadas. *Validación real*: pruebas en PostgreSQL y Supabase, pendientes. Se adelanta copy_version_provenance a 2.3 y contribution_events a 2.1 por dependencia real (la primera operación que las necesita). Los nombres de subfase son los de la Adenda v9 (76 subfases, sin subfase 77).
 
