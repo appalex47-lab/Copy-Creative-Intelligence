@@ -3,7 +3,7 @@
 Alcance: pruebas de modelo en memoria sobre entidades relacionadas. No es PostgreSQL ni Supabase: no valida RLS, transacciones,
 concurrencia, locks ni rollback. Todos los datos son ficticios.
 """
-import copy, difflib, hashlib, json
+import copy, functools, difflib, hashlib, json
 
 # =====================================================================================================
 # K45: modelo relacional de fuentes, eventos y atribuciones
@@ -228,6 +228,7 @@ class _Fila(dict):
     """Fila de resolución: no admite escritura, eliminación ni actualización una vez construida."""
     def _no(s, *a, **k): raise ResolucionInmutable("la fila de la resolución ya persistida no se modifica")
     __setitem__ = __delitem__ = update = pop = popitem = clear = setdefault = __ior__ = _no
+    def __reduce__(s): return (_Fila, (dict(s),))
 
 def _congelar(x):
     if isinstance(x, dict): return _Fila({k: _congelar(v) for k, v in x.items()})
@@ -238,10 +239,16 @@ class RegistroResoluciones(dict):
     """Solo se agrega con agregar(). No hay asignación, reemplazo por el mismo ID, actualización ni eliminación."""
     def _no(s, *a, **k): raise ResolucionInmutable("el registro de resoluciones es de solo agregar")
     __setitem__ = __delitem__ = update = pop = popitem = clear = setdefault = __ior__ = _no
+    def __reduce__(s): return (_reg_de, (list(dict.items(s)),))
     def agregar(self, fila):
         if fila["id"] in self: raise ResolucionInmutable("el ID %s ya existe: una resolución no se reemplaza" % fila["id"])
         fila = dict(fila); fila["sello"] = sello_de(fila)
         dict.__setitem__(self, fila["id"], _congelar(fila)); return self[fila["id"]]
+
+def _reg_de(items):
+    r = RegistroResoluciones()
+    for k, v in items: dict.__setitem__(r, k, v)
+    return r
 
 def _plano(o):
     """Copia plana (dict/list) de una estructura, apta para comparar instantáneas."""
@@ -255,14 +262,30 @@ EVT_TIPO = {"brief": ("brief_editor", "brief_editor"), "promotion": ("promotion_
 TABLA_ATTR = {"brief": "brief_field_attributions", "promotion": "promotion_field_attributions", "copy": "copy_version_provenance", "asset": "copy_version_provenance"}
 CLASIFICACIONES = ("sin_cambio", "introducido", "modificado", "sustituido", "eliminado")
 
-class ReutilizacionInvalida(Exception):
+class OperacionInvalida(Exception):
+    """Una operación cuyo estado final no cumple las invariantes se revierte por completo y se rechaza (v14, H-08)."""
+def _atomica(aid_de=None):
+    """v14 (H-02 y H-08): toda operación que escribe en el modelo es transaccional. Captura el estado completo, ejecuta, verifica el estado final (invariantes básicas y cadena de procedencia del asset afectado) y, ante cualquier fallo, restaura el estado exacto anterior."""
+    def deco(fn):
+        @functools.wraps(fn)
+        def w(self, *a, **k):
+            if self.__dict__.get("_tx", 0): return fn(self, *a, **k)
+            ant = copy.deepcopy(self.__dict__); self._tx = 1
+            try:
+                r = fn(self, *a, **k); self._verificar_final(fn.__name__, aid_de(a, k) if aid_de else None); self._tx = 0; return r
+            except BaseException:
+                self.__dict__.clear(); self.__dict__.update(ant); raise
+        return w
+    return deco
+
+class ReutilizacionInvalida(OperacionInvalida):
     """H-01 de la v12: una reutilización sin origen, versión, evento de carga, uploader o atribución verificables no se registra y no deja registros parciales."""
 
 class Motor:
     """Estado: versiones inmutables, atribuciones individuales, eventos, resoluciones y bitácora de estados (solo se agrega)."""
     def __init__(self, org="X"):
         self.org = org; self.v = {}; self.assets = {}; self.ev = {}; self.at = {}; self.est = []; self.res = RegistroResoluciones(); self.solicitudes = {}; self.arte_decl = {}; self.clas_hist = []
-        self.members = {}; self.roles = {"revisor": {"piece.review"}, "editor": {"piece.edit"}, "admin": {"org.manage"}}; self.seq = 0; self.n = 0
+        self._tx = 0; self.asignaciones = {}; self.confirmaciones = []; self.intentos_pub = []; self.publicadas = set(); self.members = {}; self.roles = {"revisor": {"piece.review"}, "editor": {"piece.edit"}, "admin": {"org.manage"}}; self.seq = 0; self.n = 0
 
     # ---- utilidades ----
     def nid(self, p): self.n += 1; return "%s%d" % (p, self.n)
@@ -284,6 +307,7 @@ class Motor:
         return i
 
     # ---- 1 y 6: crear versión y heredar atribuciones activas ----
+    @_atomica()
     def crear_version(self, fuente, vid, pieza, parent=None, refs=None, autor=None, arte=None):
         assert vid not in self.v
         campos = copy.deepcopy(self.v[parent]["campos"]) if parent else {}
@@ -294,6 +318,7 @@ class Motor:
             elif parent in self.arte_decl: self.arte_decl[vid] = dict(estado=self.arte_decl[parent]["estado"], actor=self.arte_decl[parent]["actor"], heredada_de=parent, seq=self.tick())
         if parent: self.heredar_atribuciones(parent, vid)
         return vid
+    @_atomica()
     def heredar_atribuciones(self, parent, vid):
         for a in sorted(self.activas(parent), key=lambda x: x["seq"]):
             n = self._atribuir(a["fuente"], vid, a["campo"], a["evento"], a["persona"], "heredada", a["id"], a["origen_version"], a.get("asset"))
@@ -306,25 +331,30 @@ class Motor:
             if a["campo"] == campo and a["rel"] == "heredada": self.est.append(dict(seq=self.tick(), atr=a["id"], estado="activa", resolucion=None, motivo="conservada provisionalmente"))
 
     # ---- 2 a 5: operaciones sobre campos (siempre generan una versión nueva) ----
+    @_atomica()
     def introducir_campo(self, fuente, prev, nueva, campo, contenido, actor, pieza=None, refs=None, arte=None):
         pieza = pieza or (self.v[prev]["pieza"] if prev else "P1"); self._nueva(fuente, prev, nueva, pieza, refs or (self.v[prev]["refs"] if prev else None), actor, arte)
         self.v[nueva]["campos"][campo] = dict(contenido=contenido, clasif="introducido", eliminado=False); self.clas_hist.append((nueva, campo, "introducido"))
         e = self._evento(fuente, nueva, actor, campo); self._atribuir(fuente, nueva, campo, e, actor); return nueva
+    @_atomica()
     def modificar_campo(self, fuente, prev, nueva, campo, contenido, actor):
         self._nueva(fuente, prev, nueva, self.v[prev]["pieza"], self.v[prev]["refs"], actor)
         self.v[nueva]["campos"][campo].update(contenido=contenido, clasif="modificado"); self.clas_hist.append((nueva, campo, "modificado"))
         e = self._evento(fuente, nueva, actor, campo); self._atribuir(fuente, nueva, campo, e, actor); return nueva
+    @_atomica()
     def sustituir_campo(self, fuente, prev, nueva, campo, contenido, actor):
         self._nueva(fuente, prev, nueva, self.v[prev]["pieza"], self.v[prev]["refs"], actor)
         self.v[nueva]["campos"][campo].update(contenido=contenido, clasif="sustituido"); self.clas_hist.append((nueva, campo, "sustituido"))
         self._marcar_provisional(nueva, campo)
         e = self._evento(fuente, nueva, actor, campo); self._atribuir(fuente, nueva, campo, e, actor); return nueva
+    @_atomica()
     def eliminar_campo(self, fuente, prev, nueva, campo, actor, material=True):
         self._nueva(fuente, prev, nueva, self.v[prev]["pieza"], self.v[prev]["refs"], actor)
         self.v[nueva]["campos"][campo].update(contenido=None, clasif="eliminado", eliminado=True); self.clas_hist.append((nueva, campo, "eliminado"))
         self._marcar_provisional(nueva, campo)
         if material: e = self._evento(fuente, nueva, actor, campo); self._atribuir(fuente, nueva, campo, e, actor)
         return nueva
+    @_atomica()
     def version_sin_cambio(self, fuente, prev, nueva, actor):
         self._nueva(fuente, prev, nueva, self.v[prev]["pieza"], self.v[prev]["refs"], actor)
         for c in self.v[nueva]["campos"]: self.clas_hist.append((nueva, c, "sin_cambio"))
@@ -352,23 +382,131 @@ class Motor:
         if "arte" in cv: cv["arte"].update(contenido=aid, clasif=clasif, eliminado=False)
         else: cv["arte"] = dict(contenido=aid, clasif=clasif, eliminado=False)
         self.clas_hist.append((vid, "arte", clasif))
-    def _origen_carga(self, aid, err=None):
-        """H-01 (v13): cadena de procedencia exacta del asset `aid`: asset raíz, versión exacta de la raíz, evento original de carga, uploader original y atribución directa original.
-        Se deriva la raíz recorriendo la cadena y se contrasta cada eslabón con el registro concreto de la raíz (no con campos derivados guardados en el reutilizado, ni por número de versión,
-        organización, pieza o actor por separado). Los problemas se acumulan en `err` (lista) o, si no se entrega, se lanza ReutilizacionInvalida. Devuelve (evento de carga, uploader, atribución directa)."""
-        propia = err is None; err = [] if err is None else err; n0 = len(err)
-        def fin():
-            if propia and err[n0:]: raise ReutilizacionInvalida("; ".join(err[n0:]))
-        y = self.assets.get(aid)
-        try: r = self._raiz_asset(aid)
-        except KeyError: err.append("la cadena de origen de %s no es verificable (referencia ausente o ciclo)" % aid); fin(); return None, None, None
-        if y is None or r is None: err.append("el asset de origen %s no existe" % aid); fin(); return None, None, None
+    def _invariantes_basicos(self):
+        """Invariantes de integridad del estado completo del modelo (referencias de atribuciones, eventos, bitácora de estados y resoluciones)."""
+        e = []
+        for k, a in self.at.items():
+            if a["id"] != k: e.append("la atribución %s está intercambiada con la clave %s" % (a["id"], k))
+            if a["version"] not in self.v: e.append("la atribución %s referencia una versión inexistente" % k)
+            if a["evento"] not in self.ev: e.append("la atribución %s referencia un evento inexistente" % k)
+            if a["rel"] == "heredada" and a.get("previo") not in self.at: e.append("la atribución heredada %s carece de antecesor" % k)
+        for k, v_ in self.ev.items():
+            if v_.get("id") != k or v_["version"] not in self.v: e.append("el evento %s está intercambiado o referencia una versión inexistente" % k)
+        for x in self.est:
+            if x["atr"] not in self.at: e.append("la bitácora de estados referencia una atribución inexistente (%s)" % x["atr"])
+        for k, r in self.res.items():
+            if r["atribucion"] not in self.at: e.append("la resolución %s referencia una atribución inexistente" % k)
+        return e
+    def _verificar_final(self, op, aid):
+        """Verificación del estado final dentro de la transacción: invariantes básicas y, si la operación escribe un asset, reconstrucción completa de su cadena de procedencia."""
+        err = self._invariantes_basicos()
+        if aid is not None and aid in self.assets: err += ["estado final: " + z for z in self.reconstruir_cadena_procedencia(aid)["errores"]]
+        if err: raise OperacionInvalida("; ".join(err))
+    def _siguiente_eslabon(self, y, err, L):
+        """Un solo tipo de relación por eslabón: reutilizado → origen; modificado → versión anterior; nuevo/sustituto → raíz. Devuelve (siguiente, es_raíz)."""
+        tipo = y["tipo"]; o = y.get("origen"); pv = y.get("previo")
+        if tipo == "reutilizado":
+            if o is not None and pv is not None: err.append("%s la cadena es ambigua: el asset reutilizado declara a la vez origen y versión anterior" % L); return None, False
+            if o is None: err.append("%s falta la referencia al asset de origen del asset reutilizado" % L); return None, False
+            return o, False
+        if tipo == "modificado":
+            if o is not None and pv is not None: err.append("%s la cadena es ambigua: el asset modificado declara a la vez origen y versión anterior" % L); return None, False
+            if pv is None: err.append("%s falta la versión anterior del asset modificado: la cadena pierde su raíz original" % L); return None, False
+            return pv, False
+        if tipo in ("nuevo", "sustituto"):
+            if o is not None or pv is not None: err.append("%s la cadena es ambigua: un asset raíz no puede declarar origen ni versión anterior" % L); return None, False
+            return None, True
+        err.append("%s el tipo de asset %r no es válido para la cadena de procedencia" % (L, tipo)); return None, False
+    def reconstruir_cadena_procedencia(self, aid):
+        """H-01 (v14): reconstrucción completa de la cadena de procedencia del asset exacto `aid`. Recorre CADA eslabón hasta la raíz (origen, versión anterior, evento propio, referencias source_*, organización, pieza, versión de copy, actor,
+        actor autenticado, uploader original, atribución directa original) y los contrasta contra los registros concretos de eventos y atribuciones: ningún campo guardado en un eslabón prueba su propia validez. Detecta referencias ausentes, ciclos,
+        cadenas ambiguas, versiones inexistentes, registros duplicados, organización o pieza cruzadas, versión de copy equivocada, evento que no corresponde a la operación, uploader o reutilizador equivocado y atribuciones de otro asset, evento, uploader o versión.
+        Nunca devuelve una cadena válida (ok=True) si algún eslabón está incompleto o es inconsistente."""
+        err = []; links = []; vis = []; x = aid
+        if aid not in self.assets: return dict(ok=False, errores=["el asset de origen %s no existe" % aid], eslabones=[], raiz=None, evento_carga=None, uploader=None, atribucion=None)
+        while True:
+            L = "[eslabón %s]" % x
+            if x not in self.assets: err.append("%s la referencia a un asset de la cadena es inexistente o ausente (referencia ausente)" % ("[eslabón %s]" % (vis[-1] if vis else aid))); break
+            if x in vis: err.append("[eslabón %s] la referencia a %s cierra un ciclo: la cadena de origen de %s no es verificable (ciclo)" % (vis[-1], x, aid)); break
+            vis.append(x); y = self.assets[x]; links.append(x)
+            if y.get("id") != x or y.get("version_id") != x: err.append("%s la versión exacta del eslabón no está identificada por su propia fila" % L)
+            nxt, raiz = self._siguiente_eslabon(y, err, L)
+            if raiz or nxt is None: break
+            x = nxt
+        if err: return dict(ok=False, errores=err, eslabones=links, raiz=None, evento_carga=None, uploader=None, atribucion=None)
+        r = self.assets[links[-1]]; rid = r["id"]; ue = r.get("evento_carga"); up = r.get("uploader"); at0 = self._verificar_raiz(r, err)
+        for i, x in enumerate(links):
+            y = self.assets[x]; L = "[eslabón %s]" % x
+            if y["org"] != self.org: err.append("%s el asset pertenece a otra organización" % L) if x != rid else None
+            if y["tipo"] != "nuevo" and y["tipo"] != "sustituto":
+                if y.get("uploader_original") != up: err.append("%s la cadena de reutilización de %s no conserva el uploader original del asset raíz %s" % (L, aid, rid))
+                if y.get("evento_carga_original") != ue: err.append("%s la cadena de reutilización de %s no conserva el evento original de carga del asset raíz %s" % (L, aid, rid))
+            if x == rid: continue
+            if y["tipo"] == "reutilizado": self._verificar_reutilizado(y, self.assets[y["origen"]], r, ue, up, at0, err)
+            else: self._verificar_modificado(y, self.assets[y["previo"]], err)
+        return dict(ok=not err, errores=err, eslabones=links, raiz=rid, evento_carga=ue, uploader=up, atribucion=at0)
+    def _datos_evento(self, e, y, L, esperado_tipos, actor, err, cual):
+        """Campos comunes del evento propio de un eslabón (reutilización o carga de una versión modificada)."""
+        if e is None: err.append("%s el evento propio (%s) no existe (referencia ausente)" % (L, cual)); return False
+        ok = True
+        if e.get("id") != (y.get("evento_reutilizacion") if cual == "reutilización" else y.get("evento_carga")): err.append("%s el evento propio de %s está intercambiado: su registro no corresponde al identificador referenciado" % (L, cual)); ok = False
+        if e.get("tipo") not in esperado_tipos: err.append("%s el evento propio no corresponde a la operación de %s (%s)" % (L, cual, e.get("tipo"))); ok = False
+        if e.get("asset") != y["id"] or e.get("asset_version_id") != y["id"] or e.get("asset_id") != y.get("asset_id"): err.append("%s el evento propio corresponde a otro asset (%s) y no a este eslabón" % (L, e.get("asset"))); ok = False
+        if e.get("org") != y.get("org") or e.get("org") != self.org: err.append("%s el evento propio pertenece a otra organización" % L); ok = False
+        if e.get("pieza") != y.get("pieza"): err.append("%s el evento propio pertenece a otra pieza" % L); ok = False
+        if e.get("version") != y.get("copy_version"): err.append("%s el evento propio corresponde a otra versión de copy" % L); ok = False
+        if actor is None or e.get("actor") != actor: err.append("%s el actor del evento propio no coincide con el actor del eslabón" % L); ok = False
+        if actor is None or e.get("auth") != actor: err.append("%s el actor autenticado del evento propio no coincide con el actor del eslabón" % L); ok = False
+        mm = self.members.get(actor)
+        if mm is None or mm.get("org") != self.org or not mm.get("activo"): err.append("%s el actor %s no es miembro activo de la organización" % (L, actor)); ok = False
+        return ok
+    def _verificar_reutilizado(self, y, o, r, ue, up, at0, err):
+        x = y["id"]; L = "[eslabón %s]" % x; er = self.ev.get(y.get("evento_reutilizacion"))
+        if y.get("origen") != o["id"]: err.append("%s el origen inmediato declarado no existe como versión exacta" % L)
+        if o["org"] != y["org"]: err.append("%s el origen inmediato %s pertenece a otra organización" % (L, o["id"]))
+        cv = self.v.get(y.get("copy_version"))
+        if cv is None: err.append("%s la versión de copy %s no existe" % (L, y.get("copy_version")))
+        elif cv["pieza"] != y.get("pieza"): err.append("%s la pieza del asset no coincide con la pieza de su versión de copy" % L)
+        if not isinstance(o.get("version_asset"), int) or y.get("origen_version_asset") != o.get("version_asset"): err.append("%s la versión del asset de origen declarada (%s) no es la versión exacta del origen inmediato (%s)" % (L, y.get("origen_version_asset"), o.get("version_asset")))
+        self._datos_evento(er, y, L, ("copy_author", "copy_editor"), y.get("reutilizador"), err, "reutilización")
+        if er is not None:
+            comp = [a for a in self.assets.values() if a.get("evento_reutilizacion") == er.get("id")]
+            if len(comp) != 1: err.append("%s el evento propio de reutilización está compartido por varios assets (duplicada)" % L)
+            exp = (("source_asset_id", o["asset_id"], "el asset de origen"), ("source_asset_version_id", o["id"], "la versión referenciada no es el origen inmediato exacto (versión)"), ("source_asset_version", o["version_asset"], "la versión del asset de origen (versión)"),
+                   ("source_upload_event_id", ue, "el evento de carga original (evento de carga)"), ("source_uploader_id", up, "el uploader original (uploader)"), ("source_attribution_id", at0, "la atribución directa original (atribución)"),
+                   ("source_root_asset_id", r["asset_id"], "el asset raíz"), ("source_root_asset_version_id", r["id"], "la versión exacta de la raíz"))
+            for k, v, nom in exp:
+                if er.get(k) != v: err.append("%s el campo %s del evento propio no corresponde a: %s (origen inmediato o raíz) (esperado %s, hallado %s)" % (L, k, nom, v, er.get(k)))
+        for k, v in (("source_asset_id", o["asset_id"]), ("source_asset_version_id", o["id"]), ("source_upload_event_id", ue), ("source_attribution_id", at0), ("source_root_asset_id", r["asset_id"]), ("source_root_asset_version_id", r["id"])):
+            if y.get(k) != v: err.append("%s el campo %s guardado en el asset no coincide con la reconstrucción independiente (esperado %s, hallado %s)" % (L, k, v, y.get(k)))
+        if er is not None:
+            dirs = [b for b in self.at.values() if b["rel"] == "directa" and b["fuente"] == "copy" and b["evento"] == er.get("id")]
+            if y.get("material"):
+                ex = [b for b in dirs if b["persona"] == y.get("reutilizador") and b.get("asset") == x and (b["org"], b["pieza"], b["version"], b["campo"]) == (y["org"], y["pieza"], y["copy_version"], "arte")]
+                if len(ex) > 1: err.append("%s la atribución directa del reutilizador está duplicada (duplicada)" % L)
+                elif len(ex) == 0: err.append("%s falta la atribución directa del reutilizador en el evento propio de reutilización" % L)
+                if len(dirs) != len(ex): err.append("%s existe una atribución directa del evento propio que no corresponde al reutilizador, asset o versión de copy exactos" % L)
+            elif dirs: err.append("%s la reutilización no material tiene atribución directa del reutilizador" % L)
+    def _verificar_modificado(self, y, p, err):
+        x = y["id"]; L = "[eslabón %s]" % x; e = self.ev.get(y.get("evento_carga"))
+        if y.get("previo") != p["id"] or y.get("asset_id") != p.get("asset_id") or y.get("version_asset") != p.get("version_asset", 0) + 1: err.append("%s la versión anterior no es la versión exacta inmediatamente anterior del mismo asset (versión anterior)" % L)
+        if p["org"] != y["org"]: err.append("%s la versión anterior pertenece a otra organización" % L)
+        if p["pieza"] != y["pieza"]: err.append("%s la versión anterior pertenece a otra pieza" % L)
+        cv = self.v.get(y.get("copy_version"))
+        if cv is None: err.append("%s la versión de copy %s no existe" % (L, y.get("copy_version")))
+        elif cv["pieza"] != y.get("pieza"): err.append("%s la pieza del asset no coincide con la pieza de su versión de copy" % L)
+        self._datos_evento(e, y, L, ("asset_uploader",), y.get("uploader"), err, "carga de la versión")
+        if e is not None:
+            if e.get("asset_version") != y.get("version_asset"): err.append("%s el evento propio corresponde a otra versión del asset (%s)" % (L, e.get("asset_version")))
+            dirs = [b for b in self.at.values() if b["rel"] == "directa" and b["fuente"] == "asset" and b["evento"] == e.get("id")]
+            ex = [b for b in dirs if b["persona"] == y.get("uploader") and b.get("asset") == x and (b["org"], b["pieza"], b["version"], b["campo"]) == (y["org"], y["pieza"], y["copy_version"], "arte")]
+            if len(ex) > 1: err.append("%s la atribución directa del editor de la versión está duplicada (duplicada)" % L)
+            elif len(ex) == 0: err.append("%s falta la atribución directa del editor de la versión" % L)
+    def _verificar_raiz(self, r, err):
+        """Raíz de la cadena: registro exacto, evento original de carga, uploader original y atribución directa original (únicos y coherentes). Devuelve el id de la atribución directa o None."""
         rid = r["id"]; ue = r.get("evento_carga"); e = self.ev.get(ue); up = r.get("uploader")
-        if y["tipo"] == "reutilizado":
-            if y.get("evento_carga_original") != ue: err.append("la cadena de reutilización de %s no conserva el evento original de carga del asset raíz %s" % (aid, rid))
-            if y.get("uploader_original") != up: err.append("la cadena de reutilización de %s no conserva el uploader original del asset raíz %s" % (aid, rid))
         if r.get("org") != self.org: err.append("el asset raíz %s pertenece a otra organización" % rid)
-        if e is None: err.append("el asset raíz %s no tiene evento original de carga" % rid); fin(); return ue, up, None
+        if e is None: err.append("el asset raíz %s no tiene evento original de carga" % rid); return None
         if e.get("id") != ue: err.append("el evento original de carga de %s está intercambiado: su registro no corresponde al identificador referenciado" % rid)
         if e.get("tipo") != "asset_uploader": err.append("el evento original de carga de %s no es un evento de carga de asset (%s)" % (rid, e.get("tipo")))
         if e.get("asset_id") != r.get("asset_id"): err.append("el evento original de carga corresponde a otro asset (%s) y no al asset raíz %s" % (e.get("asset"), rid))
@@ -382,7 +520,7 @@ class Motor:
         elif not mm.get("activo"): err.append("el uploader original de %s no tiene membresía activa" % rid)
         dirs = [b for b in self.at.values() if b["rel"] == "directa" and b["fuente"] == "asset" and (b.get("asset") == rid or b["evento"] == ue)]
         exactas = [b for b in dirs if b.get("asset") == rid and b["evento"] == ue and b["persona"] == up and (b["org"], b["pieza"], b["version"], b["origen_version"], b.get("asset_version"), b["campo"]) == (r["org"], r["pieza"], r["copy_version"], r["copy_version"], r["version_asset"], "arte")]
-        if len(exactas) == 1: fin(); return ue, up, exactas[0]["id"]
+        if len(exactas) == 1: return exactas[0]["id"]
         if len(exactas) > 1: err.append("la atribución directa original de %s es ambigua" % rid)
         elif not dirs: err.append("no existe la atribución directa del uploader original del asset raíz %s" % rid)
         else:
@@ -391,7 +529,13 @@ class Motor:
                 elif b.get("asset") == rid and b["evento"] != ue: err.append("la atribución directa %s pertenece a otro evento de carga (%s) y no al evento original de %s" % (b["id"], b["evento"], rid))
                 elif b.get("asset") == rid and b["persona"] != up: err.append("la atribución directa %s pertenece a otro uploader (%s) y no al uploader original %s" % (b["id"], b["persona"], up))
                 else: err.append("la atribución directa %s no corresponde a la organización, pieza, versión de copy y versión de asset exactas del asset raíz %s" % (b["id"], rid))
-        fin(); return ue, up, None
+        return None
+    def _origen_carga(self, aid, err=None):
+        """H-02 (v14): usa la reconstrucción completa de la cadena (todos los eslabones). No toma como verdad primaria el evento ni el uploader guardados en un asset reutilizado: solo los contrasta. Los problemas se acumulan en `err` o, si no se entrega, se lanza ReutilizacionInvalida.
+        Devuelve (evento de carga original, uploader original, atribución directa original)."""
+        propia = err is None; err = [] if err is None else err; c = self.reconstruir_cadena_procedencia(aid); err.extend(c["errores"])
+        if propia and c["errores"]: raise ReutilizacionInvalida("; ".join(c["errores"]))
+        return c["evento_carga"], c["uploader"], c["atribucion"]
     def _validar_reutilizacion(self, aid, copy_version, uploader, reused_from):
         """H-01 (v12 y v13): valida todo antes de escribir. Orden: (1) identidad completa del origen y de su asset raíz, (2) evento original de carga, (3) atribución directa original, (4) membresía y actor del reutilizador,
         (5) pieza y versión exacta de copy de destino, (6) cadena de reutilización sin ciclos ni referencias ausentes; solo después se construyen los registros nuevos."""
@@ -409,8 +553,13 @@ class Motor:
         if aid in self._cierre_asset(reused_from): err.append("la reutilización crearía un ciclo en la cadena de origen")
         if err: raise ReutilizacionInvalida("; ".join(err))
         return self._origen_carga(reused_from)
+    @_atomica(lambda a, k: a[0] if a else k['aid'])
     def registrar_asset(self, aid, copy_version, uploader, reused_from=None, material=True):
         """Asset nuevo (reused_from=None): uploader original y evento de carga. Asset reutilizado: valida antes de escribir todo el origen exacto (v12) y registra por separado al reutilizador y su evento, con referencias explícitas al origen."""
+        if copy_version not in self.v: raise ReutilizacionInvalida("la versión de copy de destino %s no existe" % copy_version)
+        mm_ = self.members.get(uploader)
+        if mm_ is None or mm_["org"] != self.org or not mm_.get("activo"): raise ReutilizacionInvalida("el actor %s no es miembro activo de la organización" % uploader)
+        if aid in self.assets: raise ReutilizacionInvalida("el asset %s ya existe" % aid)
         pieza = self.v[copy_version]["pieza"]
         if reused_from is None:
             e = self._evento("asset", copy_version, uploader, "arte"); self.ev[e].update(asset=aid, asset_id=aid, asset_version_id=aid, asset_version=1)
@@ -443,21 +592,25 @@ class Motor:
             out.append((x, t, y["version_asset"], y.get("evento_carga") or y.get("source_upload_event_id"), y.get("uploader") or y.get("reutilizador"), y.get("evento_reutilizacion")))
             x = y.get("origen") if t == "reutilizado" else y.get("previo") if t == "modificado" else None
         return out
+    @_atomica(lambda a, k: a[2])
     def modificar_asset(self, prev, nueva, aid, aid_prev, editor):
         """Nueva versión del asset (fila nueva, previo = versión anterior). Quien la sube es el asset_uploader de esa fila; el uploader original y las atribuciones anteriores se conservan."""
         self._nueva("copy", prev, nueva, self.v[prev]["pieza"], self.v[prev]["refs"], editor); raiz = self._raiz_asset(aid_prev); e = self._evento("asset", nueva, editor, "arte"); self.ev[e].update(asset=aid, asset_id=self.assets[aid_prev]["asset_id"], asset_version_id=aid, asset_version=self.assets[aid_prev]["version_asset"] + 1)
         self.assets[aid] = dict(id=aid, asset_id=self.assets[aid_prev]["asset_id"], version_id=aid, org=self.org, pieza=self.v[nueva]["pieza"], version_asset=self.assets[aid_prev]["version_asset"] + 1, tipo="modificado", origen=None, previo=aid_prev, uploader=editor, evento_carga=e,
                                 uploader_original=raiz["uploader_original"], evento_carga_original=raiz["evento_carga_original"], reutilizador=None, evento_reutilizacion=None, material=None, copy_version=nueva)
         self._campo_arte(nueva, aid, "modificado"); self._marcar_provisional(nueva, "arte"); self._atribuir("asset", nueva, "arte", e, editor, used=aid); return nueva
+    @_atomica(lambda a, k: a[2])
     def sustituir_asset(self, prev, nueva, aid, aid_prev, uploader):
         self._nueva("copy", prev, nueva, self.v[prev]["pieza"], self.v[prev]["refs"], uploader); e = self._evento("asset", nueva, uploader, "arte"); self.ev[e].update(asset=aid, asset_id=aid, asset_version_id=aid, asset_version=1)
         self.assets[aid] = dict(id=aid, asset_id=aid, version_id=aid, org=self.org, pieza=self.v[nueva]["pieza"], version_asset=1, tipo="sustituto", origen=None, previo=None, sustituye=aid_prev, uploader=uploader, evento_carga=e, uploader_original=uploader,
                                 evento_carga_original=e, reutilizador=None, evento_reutilizacion=None, material=None, copy_version=nueva)
         self._campo_arte(nueva, aid, "sustituido"); self._marcar_provisional(nueva, "arte"); self._atribuir("asset", nueva, "arte", e, uploader, used=aid); return nueva
+    @_atomica()
     def eliminar_asset(self, prev, nueva, actor):
         return self.eliminar_campo("copy", prev, nueva, "arte", actor, True)
 
     # ---- 10: cambiar clasificación ----
+    @_atomica()
     def cambiar_clasificacion(self, vid, campo, nueva, actor):
         assert nueva in CLASIFICACIONES
         self.clas_hist.append((vid, campo, nueva, "cambio por %s" % actor))
@@ -465,9 +618,11 @@ class Motor:
         h = [x for x in self.clas_hist if x[0] == vid and x[1] == campo]; return h[-1][2] if h else self.v[vid]["campos"][campo]["clasif"]
 
     # ---- 7, 8, 9: resoluciones de descarte (registros nuevos, con resultado definitivo y sello; nunca se modifican) ----
+    @_atomica()
     def solicitar_resolucion(self, rid, **kw):
         """Formulario de solicitud: no es una resolución, no tiene resultado y no forma parte del estado auditado."""
         self.solicitudes[rid] = dict(kw); return rid
+    @_atomica()
     def registrar_resolucion(self, rid, resultado, motivos=(), **sol):
         """Persiste una resolución con resultado definitivo ('aceptada' o 'rechazada'). El ID no puede existir."""
         assert resultado in ("aceptada", "rechazada")
@@ -476,6 +631,7 @@ class Motor:
                     previo_sello=self.res[p]["sello"] if p in self.res else None, **{k: sol.get(k) for k in CAMPOS_SOL})
         if resultado == "aceptada": fila["evidencia_historica"] = copy.deepcopy(self.v[sol["version_evidencia"]]["campos"].get(sol["campo"]))
         return self.res.agregar(fila)
+    @_atomica()
     def rechazar_resolucion(self, rid, motivos):
         """Decisión de rechazo: crea un registro nuevo y definitivo; la atribución no cambia."""
         self.registrar_resolucion(rid, "rechazada", motivos, **self.solicitudes[rid]); return False
@@ -498,6 +654,7 @@ class Motor:
             if pr is None or pr["org"] != r["org"] or pr["atribucion"] != r["atribucion"] or pr["resultado"] != "rechazada": c.append("V13")
         c += elegibilidad_resolutor(self, r)
         return c
+    @_atomica()
     def aplicar_resolucion(self, rid):
         if rid in self.res: raise ResolucionInmutable("el ID %s ya existe: una resolución no se reemplaza" % rid)
         sol = self.solicitudes[rid]; cod = self.validar_resolucion(sol)
@@ -770,6 +927,7 @@ def _hall_arte(s, cur):
             if z is not None and z["pieza"] != y["pieza"] and t != "reutilizado": out.append(("I19", "%s: la cadena de %s cruza pieza sin reutilización" % (cur, x)))
             cabeza = False; x = n
     out += _hall_identidad(s, cur, ids)
+    out += _hall_cadena(s, cur, ids)
     return out
 def _hall_identidad(s, cur, ids):
     """Auditor independiente H-01 a H-03: identidad del uploader, del evento de carga, de la atribución directa, de la reutilización y de los antecesores. Solo lee las tablas del estado."""
@@ -882,6 +1040,67 @@ def _hall_identidad(s, cur, ids):
         if p is None: out.append(("I26", "%s: la atribución heredada %s carece de antecesor verificable" % (cur, b["id"])))
         elif (p["persona"], p["evento"], p["org"], p["fuente"], p["campo"], p["origen_version"]) != (b["persona"], b["evento"], b["org"], b["fuente"], b["campo"], b["origen_version"]) or p.get("asset") not in cierre(b["asset"]):
             out.append(("I26", "%s: el antecesor de la atribución heredada %s no corresponde a su cadena" % (cur, b["id"])))
+    return out
+def _hall_cadena(s, cur, ids):
+    """Auditor independiente de la cadena completa de procedencia (v14, H-03). Implementación propia, sin llamar al motor ni a su reconstrucción: para cada asset recorre TODOS los eslabones leyendo solo las tablas de la instantánea, arma para cada eslabón la fila
+    esperada del evento propio y de la atribución directa y la compara campo por campo con los registros guardados. Un campo guardado nunca se acepta como prueba de sí mismo. Códigos: I28 estructura de la cadena (ausencia, ciclo, ambigüedad), I27 relación de reutilización, I23 y I24 carga y atribución."""
+    out = []; T = s["assets"]; EV = s["ev"]; AT = s["at"]; MB = s["members"]; V = s["v"]; org = s["org"]; hechos = set()
+    def hal(cod, x, msg): out.append((cod, "%s: [eslabón %s] %s" % (cur, x, msg)))
+    def difs(real, esperado): return ["%s (esperado %s, hallado %s)" % (k, v, real.get(k)) for k, v in esperado.items() if real.get(k) != v]
+    for aid in ids:
+        x = aid; vis = []; eslabones = []; roto = False
+        while True:
+            if x not in T: hal("I28", vis[-1] if vis else aid, "referencia ausente: el asset %s referenciado no existe" % x); roto = True; break
+            if x in vis: hal("I28", vis[-1], "ciclo: la referencia vuelve a %s" % x); roto = True; break
+            vis.append(x); y = T[x]; tp = y["tipo"]; o, pv = y.get("origen"), y.get("previo"); eslabones.append(x)
+            if tp == "reutilizado": sig, fin = o, False; falta = o is None; amb = pv is not None
+            elif tp == "modificado": sig, fin = pv, False; falta = pv is None; amb = o is not None
+            elif tp in ("nuevo", "sustituto"): sig, fin = None, True; falta = False; amb = o is not None or pv is not None
+            else: hal("I28", x, "tipo de asset no válido (%s)" % tp); roto = True; break
+            if amb: hal("I28", x, "cadena ambigua: declara más de una relación de origen"); roto = True
+            if falta: hal("I28", x, "referencia ausente: el eslabón no declara su origen o versión anterior"); roto = True
+            if roto or fin: break
+            x = sig
+        if roto: continue
+        R = T[eslabones[-1]]; ue = R.get("evento_carga"); upl = R.get("uploader")
+        ar = [b["id"] for b in AT.values() if b["rel"] == "directa" and b["fuente"] == "asset" and b.get("asset") == R["id"] and b["evento"] == ue and b["persona"] == upl
+              and (b["org"], b["pieza"], b["version"], b.get("asset_version"), b["campo"]) == (R["org"], R["pieza"], R["copy_version"], R["version_asset"], "arte")]
+        atr_raiz = ar[0] if len(ar) == 1 else None
+        for k, x in enumerate(eslabones):
+            if x in hechos: continue
+            hechos.add(x); y = T[x]; tp = y["tipo"]
+            if y["org"] != org: hal("I27", x, "el asset pertenece a otra organización")
+            cvr = V.get(y.get("copy_version"))
+            if cvr is None or cvr["pieza"] != y["pieza"]: hal("I27", x, "la pieza o la versión de copy del asset no existen o no coinciden")
+            if tp in ("reutilizado", "modificado") and (y.get("uploader_original") != upl or y.get("evento_carga_original") != ue): hal("I28", x, "no conserva el uploader original ni el evento original de carga de la raíz %s" % R["id"])
+            if tp == "reutilizado":
+                o = T[y["origen"]]; ev = EV.get(y.get("evento_reutilizacion")); act = y.get("reutilizador")
+                if ev is None: hal("I25", x, "el evento propio de reutilización no existe"); continue
+                if [z for z, w in T.items() if w.get("evento_reutilizacion") == ev.get("id")] != [x]: hal("I25", x, "el evento propio de reutilización pertenece a otro asset o está compartido")
+                if o["org"] != y["org"]: hal("I27", x, "el origen inmediato %s pertenece a otra organización" % o["id"])
+                if y.get("origen_version_asset") != o["version_asset"]: hal("I27", x, "la versión de origen guardada en el asset no es la del origen inmediato")
+                esp = dict(id=y.get("evento_reutilizacion"), asset=x, asset_id=y["asset_id"], asset_version_id=x, asset_version=o["version_asset"], org=y["org"], pieza=y["pieza"], version=y["copy_version"], actor=act, auth=act,
+                           source_asset_id=o["asset_id"], source_asset_version_id=o["id"], source_asset_version=o["version_asset"], source_upload_event_id=ue, source_uploader_id=upl, source_attribution_id=atr_raiz, source_root_asset_id=R["asset_id"], source_root_asset_version_id=R["id"])
+                for d in difs(ev, esp): hal("I27", x, "el evento propio de reutilización difiere del esperado: " + d)
+                if ev.get("tipo") not in ("copy_author", "copy_editor"): hal("I27", x, "el evento propio no es de reutilización (%s)" % ev.get("tipo"))
+                for d in difs(y, dict(source_asset_id=o["asset_id"], source_asset_version_id=o["id"], source_upload_event_id=ue, source_attribution_id=atr_raiz, source_root_asset_id=R["asset_id"], source_root_asset_version_id=R["id"])): hal("I27", x, "el asset guardado difiere de la reconstrucción: " + d)
+                mm = MB.get(act)
+                if mm is None or mm["org"] != y["org"] or not mm.get("activo"): hal("I25", x, "el reutilizador no es miembro activo de la organización")
+                ds = [b for b in AT.values() if b["rel"] == "directa" and b["fuente"] == "copy" and b["evento"] == ev.get("id")]
+                ex = [b for b in ds if b["persona"] == act and b.get("asset") == x and (b["org"], b["pieza"], b["version"], b["campo"]) == (y["org"], y["pieza"], y["copy_version"], "arte")]
+                if y.get("material") and len(ex) != 1: hal("I24", x, "la atribución directa del reutilizador %s (duplicada o ausente: %d)" % (act, len(ex)))
+                if len(ds) != len(ex) or (not y.get("material") and ds): hal("I24", x, "hay una atribución directa del evento de reutilización que no corresponde al reutilizador o al asset exactos")
+            elif tp == "modificado":
+                pv = T[y["previo"]]; ev = EV.get(y.get("evento_carga")); act = y.get("uploader")
+                if (pv["asset_id"], pv["version_asset"] + 1, pv["org"], pv["pieza"]) != (y["asset_id"], y["version_asset"], y["org"], y["pieza"]): hal("I28", x, "la versión anterior no es la inmediata del mismo asset, organización y pieza")
+                if ev is None: hal("I23", x, "el evento propio de carga de la versión no existe"); continue
+                esp = dict(id=y.get("evento_carga"), tipo="asset_uploader", asset=x, asset_id=y["asset_id"], asset_version_id=x, asset_version=y["version_asset"], org=y["org"], pieza=y["pieza"], version=y["copy_version"], actor=act, auth=act)
+                for d in difs(ev, esp): hal("I23", x, "el evento propio de carga difiere del esperado: " + d)
+                mm = MB.get(act)
+                if mm is None or mm["org"] != y["org"] or not mm.get("activo"): hal("I22", x, "el editor de la versión no es miembro activo de la organización")
+                ds = [b for b in AT.values() if b["rel"] == "directa" and b["fuente"] == "asset" and b["evento"] == ev.get("id")]
+                ex = [b for b in ds if b["persona"] == act and b.get("asset") == x and (b["org"], b["pieza"], b["version"], b["campo"]) == (y["org"], y["pieza"], y["copy_version"], "arte")]
+                if len(ex) != 1 or len(ds) != len(ex): hal("I24", x, "la atribución directa del editor (duplicada, ausente o de otro asset)")
     return out
 def cadena_identidad_independiente(s, aid):
     """Eslabones de identidad reconstruidos solo desde la instantánea (sin llamar al motor): misma estructura que Motor.cadena_identidad."""
@@ -1032,6 +1251,9 @@ def _auditar_resoluciones(antes, despues):
         if r is None or r["resultado"] != "aceptada" or r["atribucion"] != e["atr"]: cod.append(("I15", "la baja de %s cita la resolución %s, que no existe, no fue aceptada o no corresponde a esa atribución" % (e["atr"], e.get("resolucion"))))
     for k, r in R1.items():
         if r["resultado"] == "aceptada" and sum(1 for e in bajas if e.get("resolucion") == k and e["atr"] == r["atribucion"]) != 1: cod.append(("I15", "la resolución aceptada %s no tiene exactamente una baja registrada para su atribución" % k))
+    for atr in {e["atr"] for e in despues["est"]}:
+        seq_ = [e["estado"] for e in despues["est"] if e["atr"] == atr]
+        if "historica" in seq_ and "activa" in seq_[seq_.index("historica"):]: cod.append(("I15", "la atribución histórica %s volvió a activa sin una resolución: una baja resuelta no se reactiva" % atr))
     for atr in {r["atribucion"] for r in R1.values() if r["resultado"] == "aceptada"}:
         if sum(1 for r in R1.values() if r["atribucion"] == atr and r["resultado"] == "aceptada") > 1: cod.append(("I15", "la atribución %s tiene más de una resolución aceptada" % atr))
     return cod
@@ -1808,7 +2030,7 @@ def _compartidas():
     """Funciones del auditor independiente que usan funciones de validación o reconstrucción del motor (debe ser vacío)."""
     import ast, inspect
     prohibidas = {"_id_reutilizacion", "_id_uploader", "_id_origen", "_huecos_arte", "_huecos_asset", "_huecos_ancestros", "_origen_carga", "_validar_reutilizacion", "reconstruir_procedencia", "calcular_E", "cadena_identidad", "Motor", "_raiz_asset", "_cierre_asset"}; out = set()
-    for f in (_hall_arte, _hall_identidad, cadena_identidad_independiente, _hall_arte_exactas, _completa):
+    for f in (_hall_arte, _hall_identidad, _hall_cadena, cadena_identidad_independiente, _hall_arte_exactas, _completa):
         for n in ast.walk(ast.parse(inspect.getsource(f))):
             if isinstance(n, ast.Name) and n.id in prohibidas: out.add((f.__name__, n.id))
             if isinstance(n, ast.Attribute) and n.attr in prohibidas: out.add((f.__name__, n.attr))
@@ -1841,7 +2063,8 @@ def pruebas_atomicidad():
 
 def _mk(metodo, objetivo, fn):
     """Motor defectuoso: ejecuta el método correcto y después altera UNA relación del estado cuando el asset objetivo ya está registrado."""
-    class _C(Motor): pass
+    class _C(Motor):
+        _verificar_final = lambda s, op, aid: None   # el motor defectuoso no tiene la segunda línea de defensa: el auditor independiente debe detectar la alteración
     def envuelto(s, *a, **k):
         r = getattr(Motor, metodo)(s, *a, **k)
         if objetivo in a or objetivo in k.values(): fn(s)
@@ -2026,6 +2249,7 @@ ESC_ARTE += [("P21", "reutilización válida con asset raíz, versión, evento d
 
 class _Forzado(_Ciego):
     """Motor que acepta cualquier reutilización: reproduce la validación débil de la v12 (toma el evento de carga guardado en el origen y la atribución por el asset del propio evento) y no revalida la procedencia."""
+    def _verificar_final(s, op, aid): pass
     def _validar_reutilizacion(s, aid, copy_version, uploader, reused_from):
         o = s.assets[reused_from]; ue = o["evento_carga_original"] if o["tipo"] == "reutilizado" else o["evento_carga"]; e = s.ev.get(ue); up = e["actor"] if e else None
         at0 = [b["id"] for b in s.at.values() if e and b["persona"] == up and b["evento"] == ue and b["rel"] == "directa" and b.get("asset") == e.get("asset")]
@@ -2127,41 +2351,474 @@ RELACIONES_SOURCE = [
         "el evento de carga de la fila es de esa fila, de su uploader, pieza y versión de copy; relación circular con el evento: se resuelve con esta única FK diferida", "K47-A19, K47-A20, K47-A22, K47-A60, K47-A61, K47-A62", ["FK13"]),
     _rs("RS-07", "creative_assets", (("organization_id", "organization_id"), ("reuse_event_id", "id"), ("reused_from_asset_id", "source_asset_version_id"), ("piece_id", "copy_version_piece_id"), ("copy_version_id", "copy_version_id")), "contribution_events", "RESTRICT", "inmediata",
         "el evento de reutilización es propio del asset, referencia el mismo origen y la misma pieza y versión exacta de copy de destino", "K47-A25, K47-A46, K47-A47", ["FK09"]),
+    _rs("RS-08", "contribution_events", (("organization_id", "organization_id"), ("source_root_asset_version_id", "id"), ("source_upload_event_id", "upload_event_id")), "creative_assets", "RESTRICT", "inmediata",
+        "el evento original de carga referenciado es exactamente el upload_event_id de la fila raíz (v14: cierra la brecha de que otro evento de carga de la misma fila, o de otra, satisficiera RS-02 y RS-03)", "K47-A54, K47-A55, CHAIN-04, CHAIN-18", ["FK19", "FK25"]),
 ]
 UNICAS_SOURCE = {"contribution_events": [("organization_id", "id", "creative_asset_id", "contributor_id"), ("organization_id", "id", "creative_asset_id", "contributor_id", "asset_piece_id", "asset_copy_version_id"), ("organization_id", "id", "source_asset_version_id", "copy_version_piece_id", "copy_version_id")],
                  "copy_version_provenance": [("organization_id", "id", "contribution_event_id", "contributor_id", "origin_asset_id", "relation")],
-                 "creative_assets": [("organization_id", "id", "asset_lineage_id", "root_asset_version_id"), ("organization_id", "id", "root_asset_version_id")]}
+                 "creative_assets": [("organization_id", "id", "asset_lineage_id", "root_asset_version_id"), ("organization_id", "id", "root_asset_version_id"), ("organization_id", "id", "upload_event_id")]}
+# v14: restricciones únicas propias (no son destino de una FK): impiden que dos assets compartan el mismo evento de reutilización
+UNICAS_PROPIAS_SOURCE = {"creative_assets": [("organization_id", "reuse_event_id")]}
 # Inventario de las columnas source_* de contribution_events y de las relaciones indirectas (id de relación que las cubre)
 INVENTARIO_SOURCE = [
  ("source_hash", "— (valor de integridad, no una referencia)", "—", "hash hexadecimal de 64 caracteres del origen (CHECK de formato)", "ninguna FK: el valor no identifica un registro; la identidad del origen la fijan RS-01, RS-02 y RS-03"),
     ("source_asset_id", "creative_assets.asset_lineage_id", "RS-01", "asset lógico de la versión de origen; la organización y el asset lógico los fija RS-01", "ninguna: FK declarativa compuesta"),
     ("source_asset_version_id", "creative_assets.id", "RS-01", "versión exacta (fila) del asset de origen; pieza y versión de copy del origen las fija la propia fila", "ninguna: FK declarativa compuesta"),
-    ("source_root_asset_version_id", "creative_assets.root_asset_version_id y contribution_events.creative_asset_id", "RS-01, RS-02, RS-03", "fila raíz exacta de la cadena; ancla las tres FK", "ninguna: FK declarativa compuesta"),
-    ("source_upload_event_id", "contribution_events.id", "RS-02", "evento original de carga de la raíz; su pieza y versión de copy las fija su propia FK compuesta a creative_assets", "ninguna: autorreferencia declarativa; no hay ciclo de inserción (el evento original es anterior)"),
+    ("source_root_asset_version_id", "creative_assets.root_asset_version_id, creative_assets.id y contribution_events.creative_asset_id", "RS-01, RS-02, RS-03, RS-08", "fila raíz exacta de la cadena; ancla las cuatro FK", "ninguna: FK declarativa compuesta"),
+    ("source_upload_event_id", "contribution_events.id y creative_assets.upload_event_id", "RS-02, RS-08", "evento original de carga de la raíz: RS-08 lo ata al upload_event_id de la fila raíz y RS-02 a su creative_asset_id y su actor", "ninguna: autorreferencia declarativa; no hay ciclo de inserción (el evento original es anterior)"),
     ("source_uploader_id", "contribution_events.contributor_id y copy_version_provenance.contributor_id", "RS-02, RS-03", "uploader original, igual al actor del evento de carga y al de la atribución", "ninguna: FK declarativa compuesta"),
     ("source_attribution_id", "copy_version_provenance.id", "RS-03", "atribución directa original (evento, uploader, asset raíz y relación 'directa')", "ninguna: FK declarativa; el ciclo de tablas con copy_version_provenance se evita agregando la FK por ALTER en 3.x"),
     ("source_attribution_relation", "copy_version_provenance.relation", "RS-03", "constante 'directa' (CHECK) que permite fijar la relación en la FK", "ninguna: FK declarativa compuesta"),
-    ("creative_assets.upload_event_id", "contribution_events.id", "RS-06", "relación indirecta: el evento de carga de la fila", "FK diferida: ciclo de inserción real con contribution_events.creative_asset_id"),
+    ("creative_assets.asset_lineage_id", "creative_assets.asset_lineage_id", "RS-04", "asset lógico: igual al de la versión anterior de la misma línea", "ninguna: FK declarativa compuesta"),
+    ("creative_assets.lineage_parent_asset_id", "creative_assets.id", "RS-04", "versión anterior exacta de la misma línea y de la misma raíz", "ninguna: FK declarativa compuesta"),
+    ("creative_assets.root_asset_version_id", "creative_assets.id", "RS-04, RS-05", "raíz exacta heredada de la versión anterior o del origen", "ninguna: FK declarativa compuesta"),
+    ("creative_assets.reused_from_asset_id", "creative_assets.id", "RS-05", "origen exacto de un asset reutilizado, con la raíz heredada", "ninguna: FK declarativa compuesta"),
+    ("creative_assets.upload_event_id", "contribution_events.id", "RS-06, RS-08", "relación indirecta: el evento de carga de la fila", "FK diferida: ciclo de inserción real con contribution_events.creative_asset_id"),
     ("creative_assets.reuse_event_id", "contribution_events.id", "RS-07", "relación indirecta: el evento propio de la reutilización", "ninguna: FK inmediata; el evento se inserta antes que el asset"),
 ]
 # Excepciones: el único campo del modelo sin columna física, con su mecanismo alternativo y su prueba negativa específica en K45
 EXCEPCIONES_SOURCE = [("source_asset_version (entero del modelo en memoria)", "no existe como columna: dos assets distintos pueden tener el mismo número", "no se almacena: el número es creative_assets.asset_version de la fila identificada por RS-01 y nunca sustituye a la identidad", "K47-A34 (mismo número de versión) y K47-A42 (intercambio con igual número)", "K45")]
 # Ciclos entre tablas y su resolución (4.4.15): tablas, aristas, tipo de ciclo y orden de inserción
 CICLOS_SOURCE = [("C-1", ("contribution_events", "copy_version_provenance"), "RS-03 contra contribution_event_id de copy_version_provenance", "solo de creación", "contribution_events (2.1) y copy_version_provenance (2.3) se crean antes; la FK RS-03 se agrega por ALTER en 3.x; no hay ciclo de filas: la atribución original es anterior a la reutilización"),
-                 ("C-2", ("contribution_events", "creative_assets"), "RS-01, RS-07 contra creative_asset_id y las FK de creative_assets", "solo de creación", "las FK se agregan por ALTER en 3.x; el evento de reutilización se inserta antes que el asset reutilizado y no lo referencia; no hay ciclo de filas"),
+                 ("C-2", ("contribution_events", "creative_assets"), "RS-01, RS-07, RS-08 contra creative_asset_id y las FK de creative_assets", "solo de creación", "las FK se agregan por ALTER en 3.x; el evento de reutilización se inserta antes que el asset reutilizado y no lo referencia; no hay ciclo de filas"),
                  ("C-3", ("contribution_events", "creative_assets"), "RS-06 contra la FK de contribution_events a creative_assets", "de creación y de filas", "el asset de una carga y su evento de carga se referencian entre sí: ninguna FK inmediata permite insertar la primera fila; RS-06 es DEFERRABLE INITIALLY DEFERRED y se verifica al confirmar")]
 ORDEN_INSERCION = [("carga nueva", 1, "creative_assets", "—", "RS-06 (diferida, al paso 2)"), ("carga nueva", 2, "contribution_events", "creative_asset_id → paso 1", "—"), ("carga nueva", 3, "copy_version_provenance", "contribution_event_id → paso 2", "—"),
                    ("modificación", 1, "creative_assets", "RS-04 → versión anterior (preexistente)", "RS-06 (diferida, al paso 2)"), ("modificación", 2, "contribution_events", "creative_asset_id → paso 1", "—"), ("modificación", 3, "copy_version_provenance", "contribution_event_id → paso 2", "—"),
-                   ("reutilización", 1, "contribution_events", "RS-01, RS-02, RS-03 → origen, raíz, evento y atribución (preexistentes)", "—"), ("reutilización", 2, "creative_assets", "RS-05 → origen (preexistente); RS-07 → paso 1", "—"), ("reutilización", 3, "copy_version_provenance", "contribution_event_id → paso 1", "—")]
+                   ("reutilización", 1, "contribution_events", "RS-01, RS-02, RS-03, RS-08 → origen, raíz, evento y atribución (preexistentes)", "—"), ("reutilización", 2, "creative_assets", "RS-05 → origen (preexistente); RS-07 → paso 1", "—"), ("reutilización", 3, "copy_version_provenance", "contribution_event_id → paso 1", "—")]
 
 # ===== v13: descripciones de las mutaciones estructurales FK01 a FK15 =====
 FK_DESC = [("FK01", "eliminar la FK de source_asset_version_id (RS-01)", "K32"), ("FK02", "eliminar otra FK requerida (RS-04, linaje del asset)", "K32"),
  ("FK03", "FK RS-01 sin organization_id", "K44"), ("FK04", "columnas de destino invertidas en RS-01", "K44"),
- ("FK05", "destino sin la unicidad suficiente (org, id, creative_asset_id, contributor_id)", "K44"), ("FK06", "tipo incompatible de source_attribution_relation", "K44"),
+ ("FK05", "destino de RS-02 sin la unicidad suficiente (org, id, creative_asset_id, contributor_id)", "K44"), ("FK06", "tipo incompatible de source_attribution_relation (RS-03)", "K44"),
  ("FK07", "source_upload_event_id sin FK (RS-02) ni mecanismo alternativo", "K32"), ("FK08", "source_attribution_id sin FK (RS-03) ni mecanismo alternativo", "K32"),
  ("FK09", "RS-06 (evento de carga del asset) sin organization_id: equivalente declarativo del trigger diferido sin validar la organización", "K44"),
  ("FK10", "RS-01 sin el asset exacto (source_asset_id → asset_lineage_id): equivalente declarativo del trigger que no valida el asset", "K32"),
  ("FK11", "RS-01 con source_asset_id y source_asset_version_id intercambiados: equivalente de no validar la versión exacta", "K45"),
  ("FK12", "RS-03 con source_uploader_id sustituido: equivalente de no validar uploader y atribución", "K45"),
- ("FK13", "ON DELETE RESTRICT cambiado a SET NULL: referencia huérfana tras una operación de corrección", "K32"),
+ ("FK13", "RS-01 con ON DELETE RESTRICT cambiado a SET NULL: referencia huérfana tras una operación de corrección", "K32"),
  ("FK14", "excepción de K32 sin la referencia a K45 que la justifica", "K32"), ("FK15", "excepción de K45 con una prueba negativa inexistente", "K45")]
+
+FK_DESC += [("FK16", "RS-05 eliminada (un asset reutilizado no hereda la raíz exacta de su origen)", "K32"), ("FK17", "RS-06 eliminada (el evento de carga de la fila no queda atado a su asset, uploader, pieza y versión de copy)", "K32"),
+ ("FK18", "RS-07 eliminada (el evento de reutilización deja de ser propio del asset)", "K32"), ("FK19", "RS-08 eliminada (el evento de carga referenciado puede ser otro evento de la misma raíz)", "K32"),
+ ("FK20", "RS-02 sin source_uploader_id (columna source_* y de destino contributor_id)", "K32"), ("FK21", "RS-03 sin source_attribution_relation (la atribución puede no ser la directa)", "K32"),
+ ("FK22", "RS-03 sin source_root_asset_version_id (la atribución puede ser de otra raíz)", "K32"), ("FK23", "RS-08 con las columnas de destino en otro orden", "K44"),
+ ("FK24", "destino de RS-05 sin su clave única (organization_id, id, root_asset_version_id)", "K44"), ("FK25", "destino de RS-08 sin su clave única (organization_id, id, upload_event_id)", "K44"),
+ ("FK26", "RS-02 sin organization_id", "K44"), ("FK27", "RS-07 sin la pieza (piece_id y copy_version_piece_id)", "K32"), ("FK28", "RS-06 sin la versión de copy (copy_version_id y asset_copy_version_id)", "K32"),
+ ("FK29", "asset sustituido: RS-05 con lineage_parent_asset_id en lugar de reused_from_asset_id", "K32"), ("FK30", "versión sustituida: RS-07 con previous_asset_id en lugar de reused_from_asset_id", "K32"),
+ ("FK31", "evento sustituido: RS-06 con reuse_event_id en lugar de upload_event_id", "K32"), ("FK32", "uploader sustituido: RS-02 con source_uploader_id y source_upload_event_id intercambiados", "K45"),
+ ("FK33", "atribución sustituida: RS-03 con source_attribution_id y source_uploader_id intercambiados", "K45"), ("FK34", "relación de origen cruzada: RS-03 apunta a brief_field_attributions", "K32"),
+ ("FK35", "borrado indebido: RS-02 con ON DELETE CASCADE", "K32"), ("FK36", "actualización indebida: RS-01 con ON UPDATE CASCADE", "K32"), ("FK37", "ciclo de inserción: la reutilización referencia en el paso 2 un registro del paso 2", "K44"),
+ ("FK38", "FK diferida mal aplicada: RS-05 declarada DEFERRABLE INITIALLY DEFERRED sin ciclo de filas", "K32"), ("FK39", "excepción sin mecanismo alternativo", "K32"), ("FK40", "excepción sin prueba negativa", "K45"),
+ ("FK41", "se elimina la restricción única propia de creative_assets (organization_id, reuse_event_id)", "K32")]
+for _r in RELACIONES_SOURCE: _r["fk"] = [f for f, d, _c in FK_DESC if _r["id"] in d]   # v14: la correspondencia se deriva de la descripción de cada mutación (en la v13 estaba escrita a mano y era inexacta)
+
+# ===== v14 BEGIN: mutaciones de eslabones intermedios (CHAIN-01 a CHAIN-20) =====
+def _fx14(cls=Motor):
+    """Cadena a1 (raíz de U, P1) → a2 (reutiliza W, P2) → a3 (reutiliza D, P3); destino del intento: a4 (B, P4) desde a3. Incluye a1b (modificado de a1) y ay (reutilizado de ax, P6)."""
+    m, x = _fx13(cls)
+    x.op("registrar_asset", lambda: m.registrar_asset("a2", "ca", "W", reused_from="a1"))
+    _intro_cv(x, m, "cb", "D", pieza="P3", refs={"master": "ca"}); x.op("registrar_asset", lambda: m.registrar_asset("a3", "cb", "D", reused_from="a2"))
+    _intro_cv(x, m, "cc", "B", pieza="P4", refs={"master": "cb"})
+    _intro_cv(x, m, "cy", "Pm", pieza="P6", refs={"master": "cvx"}); x.op("registrar_asset", lambda: m.registrar_asset("ay", "cy", "D", reused_from="ax"))
+    return m, x
+def _ev_pr(m, aid, **kw): m.ev[m.assets[aid]["evento_reutilizacion"]].update(**kw)
+def _dup_atr(m, aid):
+    b = [t for t in m.at.values() if t.get("asset") == aid and t["rel"] == "directa" and t["fuente"] == "copy"][0]; n = dict(b); n["id"] = "dup_" + b["id"]; m.at[n["id"]] = n
+CHAIN = [
+ ("CHAIN-01", "asset inmediato incorrecto, raíz correcta (el eslabón a3 apunta a a1 saltando a a2)", lambda m: m.assets["a3"].update(origen="a1"), "origen", "a3"),
+ ("CHAIN-02", "versión inmediata incorrecta, raíz correcta (el evento de a3 declara otra versión del origen)", lambda m: _ev_pr(m, "a3", source_asset_version=7), "versión", "a3"),
+ ("CHAIN-03", "evento propio de reutilización de otro eslabón (a3 usa el evento de a2)", lambda m: m.assets["a3"].update(evento_reutilizacion=m.assets["a2"]["evento_reutilizacion"]), "evento propio", "a3"),
+ ("CHAIN-04", "evento original correcto en la raíz pero referencia intermedia incorrecta (a2 referencia el evento de carga de otro asset)", lambda m: _ev_pr(m, "a2", source_upload_event_id=_ec(m, "au")), "evento de carga", "a2"),
+ ("CHAIN-05", "uploader correcto en la raíz y referencia intermedia a otra persona (a2)", lambda m: _ev_pr(m, "a2", source_uploader_id="Z"), "uploader", "a2"),
+ ("CHAIN-06", "atribución raíz correcta pero referencia intermedia a otra atribución (a2)", lambda m: _ev_pr(m, "a2", source_attribution_id=_atr_dir(m, "U", "au")), "atribución", "a2"),
+ ("CHAIN-07", "asset intermedio de otra organización (a2)", lambda m: m.assets["a2"].update(org="Y"), "organización", "a2"),
+ ("CHAIN-08", "asset intermedio de otra pieza (a2)", lambda m: m.assets["a2"].update(pieza="P9"), "pieza", "a2"),
+ ("CHAIN-09", "versión de copy del asset intermedio incorrecta (a2)", lambda m: m.assets["a2"].update(copy_version="cvu"), "versión de copy", "a2"),
+ ("CHAIN-10", "actor autenticado incorrecto en el evento del eslabón intermedio (a2)", lambda m: _ev_pr(m, "a2", auth="Z"), "actor autenticado", "a2"),
+ ("CHAIN-11", "cadena con referencia circular (a2 apunta a a3)", lambda m: m.assets["a2"].update(origen="a3"), "ciclo", "a2"),
+ ("CHAIN-12", "cadena con dos raíces posibles (a2 con origen y versión previa)", lambda m: m.assets["a2"].update(previo="ax"), "ambigua", "a2"),
+ ("CHAIN-13", "referencia faltante en un eslabón intermedio (a2 sin origen)", lambda m: m.assets["a2"].update(origen=None), "referencia", "a2"),
+ ("CHAIN-14", "referencia duplicada: la atribución directa del reutilizador de a2 está duplicada", lambda m: _dup_atr(m, "a2"), "duplicada", "a2"),
+ ("CHAIN-15", "datos de la raíz correctos y campos source_* intermedios intercambiados entre a2 y a3", lambda m: _swap_src(m), "source_asset_version_id", "a2"),
+ ("CHAIN-16", "asset modificado que pierde la raíz original (a1b sin versión anterior)", lambda m: m.assets["a1b"].update(previo=None), "versión anterior", "a1b"),
+ ("CHAIN-17", "reutilización de una versión anterior en lugar de la exacta (a2 referencia la versión a1 y a1b es la vigente del origen)", lambda m: _ev_pr(m, "a2", source_asset_version_id="a1b"), "versión", "a2"),
+ ("CHAIN-18", "evento de carga válido de otro asset con el mismo número de versión (a2 referencia el de ax)", lambda m: _ev_pr(m, "a2", source_upload_event_id=_ec(m, "ax")), "evento de carga", "a2"),
+ ("CHAIN-19", "evento de reutilización válido de otro asset (a3 usa el de ay)", lambda m: m.assets["a3"].update(evento_reutilizacion=m.assets["ay"]["evento_reutilizacion"]), "evento propio", "a3"),
+ ("CHAIN-20", "cadena de tres niveles con corrupción solo en el nivel intermedio (el evento de a2 pertenece a otra versión de copy)", lambda m: _ev_pr(m, "a2", version="cvu"), "versión de copy", "a2"),
+]
+def _dup_atr_asset(m, aid):
+    b = [t for t in m.at.values() if t.get("asset") == aid and t["rel"] == "directa" and t["fuente"] == "asset"][0]; n = dict(b); n["id"] = "dupa_" + b["id"]; m.at[n["id"]] = n
+CHAIN += [
+ ("CHAIN-21", "eslabón modificado intermedio con el evento de carga de otro asset (a1b usa el de ax)", lambda m: m.assets["a1b"].update(evento_carga=_ec(m, "ax")), "evento propio", "a1b"),
+ ("CHAIN-22", "eslabón modificado intermedio con otro editor que el del evento (a1b declara al uploader Z)", lambda m: m.assets["a1b"].update(uploader="Z"), "actor", "a1b"),
+ ("CHAIN-23", "eslabón modificado intermedio con número de versión que no sigue al anterior (a1b declara la versión 3)", lambda m: m.assets["a1b"].update(version_asset=3), "versión anterior", "a1b"),
+ ("CHAIN-24", "eslabón modificado intermedio con la atribución directa del editor duplicada (a1b)", lambda m: _dup_atr_asset(m, "a1b"), "duplicada", "a1b"),
+]
+_CHAIN_A1B = ("CHAIN-16", "CHAIN-21", "CHAIN-22", "CHAIN-23", "CHAIN-24")
+def _swap_src(m):
+    e2, e3 = _reu(m, "a2"), _reu(m, "a3")
+    for k in ("source_asset_version_id", "source_asset_id", "source_asset_version"): e2[k], e3[k] = e3[k], e2[k]
+def _intento14(m, origen="a3"):
+    antes = _estado_completo(m)
+    try: m.registrar_asset("a4", "cc", "B", reused_from=origen); return None, antes
+    except ReutilizacionInvalida as ex: return str(ex), antes
+def correr_mutaciones_cadena():
+    """CHAIN-01 a CHAIN-20 sobre eslabones intermedios: parten de una cadena válida de tres niveles (la reutilización de a3 se acepta y el auditor no halla violaciones), alteran UNA relación y exigen rechazo, error específico, estado idéntico, E incompleto, impacto, aprobación y publicación bloqueados."""
+    res = []
+    for mid, nom, corrompe, kw, eslabon in CHAIN:
+        try:
+            m0, x0 = _fx14(Motor); msg0, _ = _intento14(m0); inicial = msg0 is None and calcular_E_verificado(m0, "cc")["completa"] and not auditar_E(snapshot(m0), m0.calcular_E("cc"), "cc") and not _hall_arte_exactas(snapshot(m0), "cc")
+            m, x = _fx14(Motor); previo = _estado_completo(m); corrompe(m); cambio = _estado_completo(m) != previo
+            origen = "a1b" if mid in _CHAIN_A1B else "a3"; msg, antes = _intento14(m, origen)
+            rechaza = msg is not None; atomico = _estado_completo(m) == antes and "a4" not in m.assets
+            ident = rechaza and kw in msg and eslabon in msg; bloq = _bloqueada(m, "cb") or _bloqueada(m, "cvm2")
+            err = None
+        except Exception as ex: inicial = cambio = rechaza = atomico = ident = bloq = False; msg = ""; err = "%s: %s" % (type(ex).__name__, str(ex)[:80])
+        det = bool(inicial and cambio and rechaza and atomico and ident and bloq and err is None)
+        res.append(dict(id=mid, mut=nom, esp="rechazo del motor con «%s» y el eslabón %s" % (kw, eslabon), kw=kw, obs=("rechazada: " + (msg or "")[:170]) if rechaza else ("ACEPTADA" if err is None else "ERROR " + err), det=det, valido=bool(inicial), cambio=bool(cambio), err=err, rechaza=rechaza, atomico=atomico, ident=ident, bloq=bool(bloq)))
+    return res
+# ===== v14 END =====
+
+# ===== v14: adversariales de la cadena completa (motor forzado + auditor independiente) =====
+class _Forzado14(_Forzado):
+    """Motor que acepta la reutilización aunque la cadena esté corrupta: validación débil de la v12 y resolución tolerante de la raíz (cae en a1 cuando la cadena no se puede recorrer). No se usa en producción: solo demuestra que el auditor detecta lo que el motor deja pasar."""
+    def _raiz_asset(s, aid):
+        try: return Motor._raiz_asset(s, aid)
+        except KeyError: return s.assets["a1"]
+def correr_adversariales_cadena():
+    out = []
+    for mid, nom, corrompe, kw, eslabon in CHAIN:
+        try:
+            m, x = _fx14(_Forzado14); corrompe(m); origen = "a1b" if mid in _CHAIN_A1B else "a3"
+            try: m.registrar_asset("a4", "cc", "B", reused_from=origen); acepta = "a4" in m.assets
+            except Exception: acepta = False
+            est = snapshot(m); r = m.calcular_E("cc"); hall = auditar_E(est, r, "cc"); msgs = [c[1] for c in hall]; cods = sorted({c[0] for c in hall}); v = calcular_E_verificado(m, "cc")
+            try: evaluar_impacto(m, "cc"); falla = False
+            except ProcedenciaIncompleta: falla = True
+            det_ = any(("[eslabón %s]" % eslabon) in z for z in msgs)
+            out.append(dict(id=mid.replace("CHAIN", "ADVC"), nombre=nom, motor_acepta=acepta, auditor=det_, enlace=eslabon, E_bloqueado=(not v["completa"]) and v["E"] is None, impacto_falla=falla, no_publica=not puede_publicar(m, "cc"), codigos=cods))
+        except Exception as ex: out.append(dict(id=mid.replace("CHAIN", "ADVC"), nombre=nom, motor_acepta=False, auditor=False, enlace=eslabon, E_bloqueado=False, impacto_falla=False, no_publica=False, codigos=[], error="%s: %s" % (type(ex).__name__, str(ex)[:80])))
+        out[-1]["ok"] = out[-1]["motor_acepta"] and out[-1]["auditor"] and out[-1]["E_bloqueado"] and out[-1]["impacto_falla"] and out[-1]["no_publica"]
+    return out
+
+# ===== v14: mutaciones de atribuciones y resoluciones (ATTR-01 a ATTR-12) =====
+class _ForzRes(Motor):
+    """Motor que acepta toda resolución (validación sustituida): el auditor independiente debe detectar la aceptación indebida."""
+    def validar_resolucion(s, sol): return []
+def _sc_res(cls=Motor, quien="B", resolutor="R", solicitante="Q", **kw):
+    """v1 (A introduce el headline) → v2 (`quien` sustituye) → solicitud r1 sobre la atribución de A; no se aplica."""
+    m, x = _base(cls); m.miembro("Rb", "revisor")
+    x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="v1", actor="A", campo="headline")
+    x.op("sustituir", lambda: m.sustituir_campo("copy", "v1", "v2", "headline", "Oferta nueva", quien), prev="v1", nueva="v2", actor=quien, campo="headline")
+    a = _a_headline(m, x); mot = [k for k, ev in m.ev.items() if ev["actor"] == quien][-1]; _res(m, "r1", a, resolutor, solicitante=solicitante, motivador=mot, **kw); return m, x, a
+def _sc_res_aplicada():
+    m, x, a = _sc_res(); x.op("aplicar_resolucion", lambda: m.aplicar_resolucion("r1"), res="r1", vid="v2"); return m, x, a
+def _aud_estado(m, tocar):
+    antes = snapshot(m); tocar(m); return sorted({c[0] for c in auditar(antes, snapshot(m), dict(op="ninguna"))})
+def _set_res(m, k, **kw): dict.__setitem__(m.res, k, dict(m.res[k], **kw))
+def _aplicar_y_auditar(cls, quien, resolutor, solicitante, cod, **kw):
+    """Regla de elegibilidad o de evidencia violada: el motor honesto rechaza (conserva la atribución, E y estado) y el motor forzado que acepta es detectado por el auditor."""
+    m, x, a = _sc_res(Motor, quien, resolutor, solicitante, **kw); e0 = sorted(m.calcular_E("v2")["E"]); antes = _estado_completo(m); ok = m.aplicar_resolucion("r1")
+    rechaza = (not ok) and cod in m.res["r1"]["motivos"] and m.estado(a) == "activa" and sorted(m.calcular_E("v2")["E"]) == e0
+    mf, xf, af = _sc_res(_ForzRes, quien, resolutor, solicitante, **kw); xf.op("aplicar_resolucion", lambda: mf.aplicar_resolucion("r1"), res="r1", vid="v2")
+    return rechaza, ("I4" in {c[0] for c in xf.viol}), sorted({c[0] for c in xf.viol})
+class _AutoRetiro(Motor):
+    def sustituir_campo(s, fuente, prev, nueva, campo, contenido, actor):
+        r = super().sustituir_campo(fuente, prev, nueva, campo, contenido, actor)
+        if not (set(s.v[prev]["campos"][campo]["contenido"].split()) & set(contenido.split())): _retirar(s, [a["id"] for a in s.activas(nueva) if a["campo"] == campo and a["rel"] == "heredada"])
+        return r
+def correr_mutaciones_atribucion():
+    out = []
+    def reg(i, nom, esp, obs, det, **kw): out.append(dict(id=i, mut=nom, esp=esp, obs=obs, det=bool(det), **kw))
+    # ATTR-01/02/03: la resolución aceptada se altera, se elimina o se duplica en el almacenamiento
+    m, x, a = _sc_res_aplicada(); fila = dict(m.res["r1"])
+    c = _aud_estado(m, lambda m: _set_res(m, "r1", evidencia="otra evidencia")); reg("ATTR-01", "resolución modificada después de su creación", "I13", ",".join(c), "I13" in c)
+    m, x, a = _sc_res_aplicada(); c = _aud_estado(m, lambda m: dict.__delitem__(m.res, "r1")); reg("ATTR-02", "resolución eliminada", "I13 e I15", ",".join(c), "I13" in c and "I15" in c)
+    m, x, a = _sc_res_aplicada()
+    def dup(m): n = dict(m.res["r1"], id="r1b", seq=m.tick()); n["sello"] = _sello_ind(n); dict.__setitem__(m.res, "r1b", n)
+    c = _aud_estado(m, dup); reg("ATTR-03", "resolución duplicada para la misma atribución", "I15", ",".join(c), "I15" in c)
+    # ATTR-04..09: elegibilidad y evidencia
+    for i, nom, quien, rs, sol, cod, kw in (("ATTR-04", "resolutor que fue el editor que sustituyó", "Rb", "Rb", "Q", "R5", {}), ("ATTR-05", "resolutor que fue el solicitante", "B", "R2", "R2", "R4", {}),
+                                           ("ATTR-07", "evidencia ausente", "B", "R", "Q", "V11", dict(evidencia="  ")), ("ATTR-08", "evidencia de otro campo", "B", "R", "Q", "V05", dict(campo="subheadline")), ("ATTR-09", "evidencia de otra versión", "B", "R", "Q", "V06", dict(version="v1"))):
+        rj, ad, cods = _aplicar_y_auditar(Motor, quien, rs, sol, cod, **kw); reg(i, nom, "rechazo del motor con %s y aceptación forzada detectada (I4)" % cod, "rechaza=%s auditor=%s %s" % (rj, ad, cods), rj and ad)
+    # ATTR-06: resolutor que heredó la contribución evaluada (v1 A → v2 Rc modifica → v3 B sustituye)
+    def sc6(cls):
+        m, x = _base(cls); m.miembro("Rc", "revisor")
+        x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="v1", actor="A", campo="headline")
+        x.op("modificar", lambda: m.modificar_campo("copy", "v1", "v2", "headline", "Compra hoy mismo", "Rc"), prev="v1", nueva="v2", actor="Rc", campo="headline")
+        x.op("sustituir", lambda: m.sustituir_campo("copy", "v2", "v3", "headline", "Oferta nueva", "B"), prev="v2", nueva="v3", actor="B", campo="headline")
+        a = [t["id"] for t in m.at.values() if t["version"] == "v3" and t["persona"] == "A" and t["campo"] == "headline"][0]; _res(m, "r1", a, "Rc", motivador=[k for k, ev in m.ev.items() if ev["actor"] == "B"][-1], version="v3"); return m, x, a
+    m, x, a = sc6(Motor); ok = m.aplicar_resolucion("r1"); rj = (not ok) and "R7" in m.res["r1"]["motivos"] and m.estado(a) == "activa"
+    mf, xf, af = sc6(_ForzRes); xf.op("aplicar_resolucion", lambda: mf.aplicar_resolucion("r1"), res="r1", vid="v3"); ad = "I4" in {c[0] for c in xf.viol}
+    reg("ATTR-06", "resolutor que heredó la contribución evaluada", "rechazo del motor con R7 y aceptación forzada detectada (I4)", "rechaza=%s auditor=%s" % (rj, ad), rj and ad)
+    # ATTR-10: la reconsideración modifica el registro anterior
+    m, x, a = _sc_res(); x.op("rechazar_resolucion", lambda: m.rechazar_resolucion("r1", ["evidencia insuficiente"]), res="r1", vid="v2")
+    _res(m, "r2", a, "R", motivador=[k for k, ev in m.ev.items() if ev["actor"] == "B"][-1], previo="r1"); x.op("aplicar_resolucion", lambda: m.aplicar_resolucion("r2"), res="r2", vid="v2")
+    c = _aud_estado(m, lambda m: _set_res(m, "r1", motivos=("sin motivo",))); reg("ATTR-10", "reconsideración que modifica el registro anterior", "I13 e I14", ",".join(c), "I13" in c and "I14" in c and m.estado(a) == "historica")
+    # ATTR-11: atribución histórica reactivada sin resolución
+    m, x, a = _sc_res_aplicada(); c = _aud_estado(m, lambda m: m.est.append(dict(seq=m.tick(), atr=a, estado="activa", resolucion=None, motivo="reactivada sin resolución"))); reg("ATTR-11", "atribución histórica reactivada sin resolución", "I15", ",".join(c), "I15" in c)
+    # ATTR-12: atribución activa eliminada por coincidencia de segmentos (ningún segmento idéntico)
+    m, x = _base(Motor); x.op("introducir", lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="v1", actor="A", campo="headline")
+    x.op("sustituir", lambda: m.sustituir_campo("copy", "v1", "v2", "headline", "Oferta nueva", "B"), prev="v1", nueva="v2", actor="B", campo="headline")
+    sano = any(t["persona"] == "A" and m.estado(t["id"]) == "activa" for t in m.activas("v2")) and not x.viol
+    m2, x2 = _base(_AutoRetiro); x2.op("introducir", lambda: m2.introducir_campo("copy", None, "v1", "headline", "Compra hoy", "A", pieza="P1", arte="no_aplica"), prev=None, nueva="v1", actor="A", campo="headline")
+    x2.op("sustituir", lambda: m2.sustituir_campo("copy", "v1", "v2", "headline", "Oferta nueva", "B"), prev="v1", nueva="v2", actor="B", campo="headline"); c = sorted({z[0] for z in x2.viol})
+    reg("ATTR-12", "atribución activa eliminada por cero segmentos idénticos", "el motor conserva la atribución y el auditor detecta la eliminación (I1)", "motor conserva=%s auditor=%s" % (sano, c), sano and "I1" in c)
+    return sorted(out, key=lambda r: r["id"])
+
+# ===== v14: elegibilidad del evaluador, confirmación de independencia e intento de publicación (modelo en memoria de reglas ya documentadas: IG5-55, IG5-57, IG5-64, IG5-67, IG5-68, IG5-78, IG5-89) =====
+def elegibilidad_evaluador(m, vid, u):
+    """Códigos que impiden que `u` evalúe la versión `vid` (vacío si es elegible): E1 miembro activo de la organización, E2 permiso piece.review del rol, E3 asignación vigente, E4 independiente de E, E5 independiente de la clasificación evaluada,
+    E6 independiente de las resoluciones aplicables, E7 procedencia completa (si no, ninguno es elegible: fallo cerrado). No usa permisos nuevos ni asigna automáticamente a Admin."""
+    c = []; mem = m.members.get(u)
+    if not (mem and mem["org"] == m.org and mem["activo"]): c.append("E1")
+    if "piece.review" not in (m.roles.get(mem["rol"], set()) if mem else set()): c.append("E2")
+    if u not in m.asignaciones.get(vid, ()): c.append("E3")
+    r = calcular_E_verificado(m, vid)
+    if not r["completa"]: c.append("E7")
+    elif u in (r["E"] or {}): c.append("E4")
+    exactas = m._versiones_exactas(vid)
+    for v_ in exactas:
+        for campo in m.v[v_]["campos"]:
+            h = [x for x in m.clas_hist if x[0] == v_ and x[1] == campo]
+            prop = h[-1][3].replace("cambio por ", "") if h and len(h[-1]) > 3 else m.v[v_].get("autor")
+            if prop == u and "E5" not in c: c.append("E5")
+    for rs in m.res.values():
+        if rs["version"] in exactas and u in (rs.get("afectado"), rs.get("solicitante"), rs.get("actor_cambio")) and "E6" not in c: c.append("E6")
+    return c
+@_atomica()
+def _asignar_evaluador(self, vid, u):
+    """Asignación explícita; no existe asignación automática (ni a Admin ni al propietario)."""
+    if vid not in self.v: raise OperacionInvalida("la versión %s no existe" % vid)
+    self.asignaciones.setdefault(vid, set()).add(u)
+@_atomica()
+def _confirmar_independencia(self, vid, u):
+    """Registra la confirmación solo si el evaluador es elegible en este momento (revalidación) y la procedencia está completa; si no, se rechaza sin escribir."""
+    c = elegibilidad_evaluador(self, vid, u)
+    if c: raise OperacionInvalida("el evaluador %s no puede confirmar la independencia: %s" % (u, ",".join(c)))
+    self.confirmaciones.append(dict(version=vid, evaluador=u, seq=self.tick(), E=sorted(calcular_E_verificado(self, vid)["E"])))
+@_atomica()
+def _intentar_publicacion(self, vid, actor):
+    """El intento se registra siempre (solo se agrega). La publicación exige procedencia completa verificada, una confirmación de independencia y que el evaluador siga siendo elegible; si no, queda bloqueada con sus motivos."""
+    mot = []
+    if not puede_publicar(self, vid): mot.append("procedencia incompleta o inconsistente")
+    conf = [x for x in self.confirmaciones if x["version"] == vid]
+    if not conf: mot.append("sin confirmación de independencia")
+    elif elegibilidad_evaluador(self, vid, conf[-1]["evaluador"]): mot.append("el evaluador dejó de ser elegible")
+    self.intentos_pub.append(dict(version=vid, actor=actor, seq=self.tick(), resultado="bloqueada" if mot else "publicada", motivos=tuple(mot)))
+    if not mot: self.publicadas.add(vid)
+    return not mot
+Motor.asignar_evaluador = _asignar_evaluador; Motor.confirmar_independencia = _confirmar_independencia; Motor.intentar_publicacion = _intentar_publicacion
+
+# ===== v14: atomicidad de las diez operaciones sobre procedencia (AT14-01 a AT14-10) =====
+class _Falla(Motor):
+    """Inyecta un fallo en la escritura (después de haber escrito parte del estado) para comprobar la reversión completa."""
+    falla_en = None
+    def _chk(s, donde):
+        if s.__dict__.get("falla") == donde: raise RuntimeError("fallo inyectado en %s" % donde)
+    def _campo_arte(s, vid, aid, clasif): r = super()._campo_arte(vid, aid, clasif); s._chk("campo_arte"); return r
+    def _marcar_provisional(s, vid, campo): r = super()._marcar_provisional(vid, campo); s._chk("provisional"); return r
+    def _atribuir(s, *a, **k): r = super()._atribuir(*a, **k); s._chk("atribuir"); return r
+    def registrar_resolucion(s, rid, resultado, motivos=(), **sol): r = super().registrar_resolucion(rid, resultado, motivos, **sol); s._chk("resolucion"); return r
+    def tick(s):
+        if s.__dict__.get("falla") == "tick" and s.__dict__.get("_tx"): raise RuntimeError("fallo inyectado en tick")
+        return super().tick()
+def _sin_huerfanos(m):
+    """Ninguna referencia colgante: assets con evento/origen/versión de copy existentes, atribuciones con evento y versión existentes."""
+    e = m._invariantes_basicos()
+    for k, a in m.assets.items():
+        if a.get("copy_version") not in m.v or (a.get("evento_carga") or a.get("evento_reutilizacion")) not in m.ev: e.append("asset huérfano %s" % k)
+    return not e
+def pruebas_atomicidad14():
+    out = []
+    def caso(i, nom, fn):
+        try: ok, obs = fn()
+        except Exception as ex: ok, obs = False, "%s: %s" % (type(ex).__name__, str(ex)[:100])
+        out.append(dict(id=i, nombre=nom, ok=bool(ok), obs=obs))
+    def igual(m, intento, esperado=Exception):
+        antes = _estado_completo(m)
+        try: intento(); lanzo = False
+        except esperado: lanzo = True
+        return lanzo and _estado_completo(m) == antes
+    def a01():
+        m, x = _base(_Falla); _intro_cv(x, m, "cv", "A"); m.falla = "atribuir"; f1 = igual(m, lambda: m.registrar_asset("n1", "cv", "U")); m.falla = None
+        f2 = igual(m, lambda: m.registrar_asset("n1", "cv", "Fantasma"), ReutilizacionInvalida); f3 = igual(m, lambda: m.registrar_asset("n1", "no_existe", "U"), ReutilizacionInvalida)
+        m.registrar_asset("n1", "cv", "U"); return f1 and f2 and f3 and _sin_huerfanos(m) and m.reconstruir_cadena_procedencia("n1")["ok"], "fallo a mitad de escritura, actor ajeno y versión de copy inexistente revierten; el éxito deja una cadena válida"
+    def a02():
+        m, x = _fx14(_Falla); m.falla = "campo_arte"; f1 = igual(m, lambda: m.registrar_asset("a4", "cc", "B", reused_from="a3")); m.falla = "atribuir"; f2 = igual(m, lambda: m.registrar_asset("a4", "cc", "B", reused_from="a3")); m.falla = None
+        m.registrar_asset("a4", "cc", "B", reused_from="a3"); return f1 and f2 and _sin_huerfanos(m) and m.reconstruir_cadena_procedencia("a4")["ok"] and not auditar_E(snapshot(m), m.calcular_E("cc"), "cc"), "el asset, el evento, la atribución, la relación de procedencia y el registro de reutilización no quedan parciales"
+    def a03():
+        m, x = _base(_Falla); _intro_cv(x, m, "cvm", "A"); m.registrar_asset("a1", "cvm", "U"); m.falla = "provisional"; f1 = igual(m, lambda: m.modificar_asset("cvm", "cvm2", "a1b", "a1", "D")); m.falla = None
+        f2 = igual(m, lambda: m.modificar_asset("cvm", "cvm2", "a1b", "inexistente", "D"), KeyError); m.modificar_asset("cvm", "cvm2", "a1b", "a1", "D")
+        return f1 and f2 and "cvm2" in m.v and _sin_huerfanos(m) and m.reconstruir_cadena_procedencia("a1b")["ok"], "una modificación fallida no crea versión, asset ni atribución"
+    def a04():
+        m, x = _base(_Falla); m.falla = "atribuir"; f1 = igual(m, lambda: m.introducir_campo("copy", None, "v1", "headline", "Compra", "A", pieza="P1", arte="no_aplica")); m.falla = None
+        m.introducir_campo("copy", None, "v1", "headline", "Compra", "A", pieza="P1", arte="no_aplica"); return f1 and "v1" in m.v and len(m.at) == 1 and _sin_huerfanos(m), "el evento y la versión no quedan sin su atribución directa"
+    def a05():
+        m, x = _base(_Falla); m.introducir_campo("copy", None, "v1", "headline", "Compra", "A", pieza="P1", arte="no_aplica"); m.falla = "atribuir"; f1 = igual(m, lambda: m.version_sin_cambio("copy", "v1", "v2", "B")); m.falla = None
+        m.version_sin_cambio("copy", "v1", "v2", "B"); return f1 and "v2" in m.v and len(m.activas("v2")) == 1 and _sin_huerfanos(m), "la herencia a mitad de camino no deja una versión con atribuciones parciales"
+    def res(cls, previo):
+        m, x, a = _sc_res(cls)
+        if previo: m.rechazar_resolucion("r1", ["evidencia insuficiente"]); _res(m, "r2", a, "R", motivador=[k for k, ev in m.ev.items() if ev["actor"] == "B"][-1], previo="r1")
+        return m, a
+    def a06():
+        m, a = res(_Falla, False); m.falla = "resolucion"; f1 = igual(m, lambda: m.aplicar_resolucion("r1")) and "r1" not in m.res and m.estado(a) == "activa"; m.falla = None
+        ok = m.aplicar_resolucion("r1"); return f1 and ok and m.estado(a) == "historica" and _sin_huerfanos(m), "la resolución no queda persistida si el cambio de estado falla"
+    def a07():
+        m, a = res(_Falla, True); m.falla = "resolucion"; f1 = igual(m, lambda: m.aplicar_resolucion("r2")) and "r2" not in m.res and m.res["r1"]["resultado"] == "rechazada"; m.falla = None
+        ok = m.aplicar_resolucion("r2"); return f1 and ok and m.res["r2"]["previo"] == "r1" and _sin_huerfanos(m), "la reconsideración fallida no toca el registro anterior ni deja un registro nuevo"
+    def a08():
+        m, x = _fx14(); m.registrar_asset("a4", "cc", "B", reused_from="a3"); antes = _estado_completo(m); evaluar_impacto(m, "cc"); f_ok = _estado_completo(m) == antes
+        for k in [k for k, t in m.at.items() if t.get("asset") == "a1" and t["rel"] == "directa"]: m.at.pop(k)
+        antes = _estado_completo(m)
+        try: evaluar_impacto(m, "cc"); lanzo = False
+        except ProcedenciaIncompleta: lanzo = True
+        return f_ok and lanzo and _estado_completo(m) == antes and not puede_publicar(m, "cc"), "la evaluación de impacto no escribe; con procedencia incompleta falla cerrada sin cambiar el estado"
+    def a09():
+        m, x = _fx14(_Falla); m.registrar_asset("a4", "cc", "B", reused_from="a3"); [m.asignar_evaluador("cc", u) for u in ("R", "U", "Adm")]
+        f1 = all(igual(m, lambda u=u: m.confirmar_independencia("cc", u), OperacionInvalida) for u in ("U", "Adm", "Z"))
+        m.falla = "tick"; f2 = igual(m, lambda: m.confirmar_independencia("cc", "R")); m.falla = None; m.confirmar_independencia("cc", "R")
+        return f1 and f2 and len(m.confirmaciones) == 1 and elegibilidad_evaluador(m, "cc", "U") == ["E2", "E4"] and elegibilidad_evaluador(m, "cc", "Z") == ["E2", "E3"], "el evaluador dentro de E, sin piece.review o sin asignación se rechaza sin escribir; el elegible se registra una vez"
+    def a10():
+        m, x = _fx14(_Falla); m.registrar_asset("a4", "cc", "B", reused_from="a3"); m.asignar_evaluador("cc", "R"); m.confirmar_independencia("cc", "R")
+        m.falla = "tick"; f1 = igual(m, lambda: m.intentar_publicacion("cc", "Q")) and not m.intentos_pub; m.falla = None
+        ok = m.intentar_publicacion("cc", "Q"); pub = "cc" in m.publicadas and m.intentos_pub[-1]["resultado"] == "publicada"
+        _ev_pr(m, "a2", source_uploader_id="Z"); m.publicadas.discard("cc"); bloq = (not m.intentar_publicacion("cc", "Q")) and "cc" not in m.publicadas and m.intentos_pub[-1]["resultado"] == "bloqueada"
+        return f1 and ok and pub and bloq, "el intento se registra solo si la operación termina; con procedencia incompleta queda bloqueado y no se alcanza un estado publicado"
+    def a11():
+        class _PreDebil(_Forzado14):
+            _verificar_final = Motor._verificar_final
+        m, x = _fx14(_PreDebil); _ev_pr(m, "a2", version="cvu"); previo = _estado_completo(m)
+        try: m.registrar_asset("a4", "cc", "B", reused_from="a3"); lanzo = False
+        except OperacionInvalida as ex: lanzo = "estado final" in str(ex)
+        m2, x2 = _fx14(_PreDebil); m2.registrar_asset("a4", "cc", "B", reused_from="a3")
+        return lanzo and _estado_completo(m) == previo and "a4" not in m.assets and m2.reconstruir_cadena_procedencia("a4")["ok"], "con la validación previa debilitada, la verificación final de la transacción rechaza una cadena inconsistente y restaura el estado exacto; con una cadena válida confirma"
+    for i, nom, f in (("AT14-11", "verificación final de la transacción (segunda línea de defensa)", a11), ("AT14-01", "registrar carga de asset", a01), ("AT14-02", "registrar reutilización", a02), ("AT14-03", "registrar modificación de asset", a03), ("AT14-04", "registrar atribución", a04), ("AT14-05", "heredar atribuciones", a05),
+                      ("AT14-06", "resolver descarte", a06), ("AT14-07", "reconsiderar una resolución", a07), ("AT14-08", "construir evaluación de impacto", a08), ("AT14-09", "confirmar independencia", a09), ("AT14-10", "registrar intento de publicación", a10)): caso(i, nom, f)
+    return sorted(out, key=lambda r: r["id"])
+
+# ===== v14: reconstrucción de E y elegibilidad del evaluador (E14-01 a E14-06) =====
+def _fx_E(cls=Motor):
+    m, x = _base(cls)
+    x.op("introducir", lambda: m.introducir_campo("brief", None, "bv1", "commercial_offer", "Oferta", "A", pieza="P1"), prev=None, nueva="bv1", actor="A", campo="commercial_offer")
+    x.op("introducir", lambda: m.introducir_campo("promotion", None, "pv1", "discount", "10%", "Pm", pieza="P1"), prev=None, nueva="pv1", actor="Pm", campo="discount")
+    _intro_cv(x, m, "cvm", "B"); x.op("registrar_asset", lambda: m.registrar_asset("a1", "cvm", "U"))
+    x.op("modificar", lambda: m.modificar_asset("cvm", "cvm2", "a1b", "a1", "D"), prev="cvm", nueva="cvm2", actor="D", campo="arte")
+    _intro_cv(x, m, "cad", "W", pieza="P2", refs={"brief": "bv1", "promotion": "pv1", "master": "cvm2"}); x.op("registrar_asset", lambda: m.registrar_asset("a2", "cad", "W", reused_from="a1b"))
+    return m, x
+def pruebas_E14():
+    out = []
+    def caso(i, nom, fn):
+        try: ok, obs = fn()
+        except Exception as ex: ok, obs = False, "%s: %s" % (type(ex).__name__, str(ex)[:100])
+        out.append(dict(id=i, nombre=nom, ok=bool(ok), obs=obs))
+    def e1():
+        m, x = _fx_E(); r = calcular_E_verificado(m, "cad"); est = snapshot(m)
+        return r["completa"] and set(r["E"]) == {"A", "Pm", "B", "U", "D", "W"} and set(r["E"]) == _E(est, "cad") and not x.viol, "E = brief (A), datos promocionales (Pm), versión maestra exacta (B), uploader original del asset (U), editor material de la modificación (D) y autor de la adaptación y reutilizador (W): %s" % sorted(r["E"] or [])
+    def e2():
+        m, x = _fx_E(); [m.at.pop(k) for k in [k for k, t in m.at.items() if t["version"] == "cad" and t.get("asset") == "a2" and t["persona"] == "U"]]
+        r = calcular_E_verificado(m, "cad"); return (not r["completa"]) and r["E"] is None, "sin la atribución heredada del uploader original, la procedencia es incompleta y E no se entrega"
+    def e3():
+        m, x = _fx_E(); [m.at.pop(k) for k in [k for k, t in m.at.items() if t["version"] == "bv1"]]
+        r = calcular_E_verificado(m, "cad"); return (not r["completa"]) and r["E"] is None, "sin evidencia del brief, E no se entrega"
+    def e4():
+        m, x = _fx_E(); [m.asignar_evaluador("cad", u) for u in ("R", "Q", "Adm", "B", "Rb")]; m.miembro("Rb", "revisor")
+        got = {u: elegibilidad_evaluador(m, "cad", u) for u in ("R", "Q", "Adm", "B", "Rb", "R2")}; m.cambiar_clasificacion("cad", "headline", "modificado", "Rb"); got["Rb"] = got["Rb"] + elegibilidad_evaluador(m, "cad", "Rb")
+        return got == {"R": [], "Q": [], "Adm": ["E2"], "B": ["E2", "E4"], "Rb": ["E5"], "R2": ["E3"]}, "elegibilidad: miembro activo, piece.review, asignación, independencia de E y de la clasificación: %s" % got
+    def e5():
+        m, x = _fx_E(); m.members["R"]["activo"] = False; m.asignar_evaluador("cad", "R"); c1 = elegibilidad_evaluador(m, "cad", "R")
+        m2, x2 = _fx_E(); m2.asignar_evaluador("cad", "R"); _ev_pr(m2, "a2", source_uploader_id="Z"); c2 = elegibilidad_evaluador(m2, "cad", "R")
+        return "E1" in c1 and c2 == ["E7"], "un evaluador inactivo no es elegible; con procedencia incompleta ninguno es elegible (fallo cerrado, sin asignación automática a Admin)"
+    def e6():
+        m, x, a = _sc_res_aplicada(); m.asignar_evaluador("v2", "R"); m.asignar_evaluador("v2", "Q"); m.asignar_evaluador("v2", "R2")
+        got = {u: elegibilidad_evaluador(m, "v2", u) for u in ("Q", "R", "R2")}
+        return got["Q"] == ["E6"] and got["R2"] == [] and got["R"] == [], "el solicitante de una resolución aplicable no es independiente de ella (E6); el resolutor y otro revisor asignado sí lo son: %s" % got
+    for i, nom, f in (("E14-01", "E reconstruido con todos los contribuyentes verificables", e1), ("E14-02", "falta la atribución heredada del uploader original: procedencia incompleta", e2), ("E14-03", "falta la evidencia del brief: procedencia incompleta", e3),
+                      ("E14-04", "elegibilidad del evaluador por código E1 a E5", e4), ("E14-05", "evaluador inactivo y fallo cerrado con procedencia incompleta", e5), ("E14-06", "independencia de las resoluciones aplicables", e6)): caso(i, nom, f)
+    return out
+
+# ===== v14: mutaciones del propio código del modelo (K56-M01 a K56-M08) =====
+# Cada una degrada UNA pieza del código nuevo y exige que al menos una batería (CHAIN, ADVC, ATTR, AT14, E14) la detecte.
+import contextlib as _cl
+def _baterias14():
+    r = []
+    for nom, f, k in (("CHAIN", correr_mutaciones_cadena, "det"), ("ADVC", correr_adversariales_cadena, "ok"), ("ATTR", correr_mutaciones_atribucion, "det")):
+        try: r += [(nom, x["id"], bool(x[k])) for x in f()]
+        except Exception as ex: r.append((nom, "EXC", False))
+    try: r += [("AT14", x["id"], bool(x["ok"])) for x in pruebas_atomicidad14()]
+    except Exception: r.append(("AT14", "EXC", False))
+    try: r += [("E14", x["id"], bool(x["ok"])) for x in pruebas_E14()]
+    except Exception: r.append(("E14", "EXC", False))
+    return r
+def _debil_siguiente(self, y, err, L):
+    tipo = y["tipo"]; o = y.get("origen"); pv = y.get("previo")
+    if tipo == "reutilizado": return (o, False) if o is not None else (None, False)
+    if tipo == "modificado": return (pv, False) if pv is not None else (None, False)
+    return None, True
+def _k56_filtra_I15(f):
+    def g(antes, despues):
+        return [x for x in f(antes, despues) if "reactiv" not in str(x).lower()]
+    return g
+def _k56_E4_ignorado(f):
+    def g(m, vid, u):
+        return [c for c in f(m, vid, u) if c != "E4"]
+    return g
+K56_MUT = [
+ ("K56-M01", "la validación de cada eslabón reutilizado pasa a ser un no-op (solo se mira la raíz, como en la v13)", lambda: (Motor, "_verificar_reutilizado", lambda self, *a, **k: None)),
+ ("K56-M02", "la reconstrucción ignora la ambigüedad origen/versión anterior", lambda: (Motor, "_siguiente_eslabon", _debil_siguiente)),
+ ("K56-M03", "la verificación final de la transacción deja de ejecutarse", lambda: (Motor, "_verificar_final", lambda self, op, aid: None)),
+ ("K56-M04", "el auditor independiente de cadena no devuelve hallazgos", lambda: (_sys_mod(), "_hall_cadena", lambda s, cur, ids: [])),
+ ("K56-M05", "el auditor de resoluciones filtra la reactivación de atribuciones históricas", lambda: (_sys_mod(), "_auditar_resoluciones", _k56_filtra_I15(_auditar_resoluciones))),
+ ("K56-M06", "la elegibilidad del evaluador ignora su pertenencia a E (E4)", lambda: (_sys_mod(), "elegibilidad_evaluador", _k56_E4_ignorado(elegibilidad_evaluador))),
+ ("K56-M07", "registrar_asset se ejecuta sin la transacción (sin restauración ante fallo)", lambda: (Motor, "registrar_asset", Motor.registrar_asset.__wrapped__)),
+ ("K56-M08", "la validación de una versión modificada pasa a ser un no-op", lambda: (Motor, "_verificar_modificado", lambda self, *a, **k: None)),
+]
+class _GlobalesProxy:
+    """Lee y escribe las funciones del módulo en su espacio de nombres, aunque el módulo no esté registrado en sys.modules (carga por ruta)."""
+    def __getattr__(self, n): return globals()[n]
+    def __setattr__(self, n, v): globals()[n] = v
+def _sys_mod(): return _GlobalesProxy()
+def correr_mutaciones_modelo14():
+    base = _baterias14(); assert all(x[2] for x in base), [x for x in base if not x[2]]
+    out = []
+    for mid, desc, fab in K56_MUT:
+        obj, nom, nuevo = fab(); viejo = getattr(obj, nom); setattr(obj, nom, nuevo)
+        try: r = _baterias14()
+        finally: setattr(obj, nom, viejo)
+        fallan = [x[0] + ":" + x[1] for x in r if not x[2]]
+        out.append(dict(id=mid, mut=desc, det=bool(fallan), detectada_por=fallan[:6], n_detectores=len(fallan)))
+    assert all(x[2] for x in _baterias14())
+    return out
+
+# ===== v14: datos de la auditoría, la trazabilidad y la auditoría por relación (se contrastan con el documento) =====
+AUDITORIA_V14 = [
+ ("D-01", "La cadena de procedencia se validaba solo en la raíz y en el eslabón inmediato", "`Motor._origen_carga` y `Motor._validar_reutilizacion` (v13)", "IG5-102", "una corrupción solo en un eslabón intermedio (evento, uploader, atribución, organización, pieza, versión de copy, actor) se aceptaba si la raíz era correcta", "reconstruir y validar vínculo por vínculo toda la cadena (`reconstruir_cadena_procedencia`)", "CHAIN-01 a CHAIN-24; K56-M01; K56-M08", "precondición válida de cada CHAIN (cadena de tres niveles aceptada, cero violaciones del auditor, E completo)", "`_hall_cadena` y ADVC-01 a ADVC-24"),
+ ("D-02", "Un campo derivado guardado en un eslabón se aceptaba como prueba de sí mismo", "`Motor._origen_carga` (v13)", "IG5-102", "el evento, el uploader o la atribución guardados en el reutilizado reemplazaban la comprobación contra los registros concretos", "contrastar siempre contra el registro concreto del evento, la atribución y la versión", "CHAIN-03, CHAIN-05, CHAIN-06, CHAIN-15, CHAIN-19", "precondición válida de cada CHAIN", "`_hall_cadena` (ADVC-03, ADVC-05, ADVC-06, ADVC-15, ADVC-19)"),
+ ("D-03", "Las operaciones que escriben no eran transaccionales ni verificaban el estado final", "`Motor.registrar_asset`, `modificar_asset`, `sustituir_asset`, `eliminar_asset`, `crear_version`, `heredar_atribuciones`, campos, resoluciones", "IG5-105", "un fallo a mitad de escritura o una validación previa debilitada dejaba registros parciales o un estado inconsistente", "decorador `_atomica`: captura del estado, verificación final y restauración exacta", "AT14-01 a AT14-11; K56-M03; K56-M07", "el éxito deja una cadena válida y cero huérfanos (AT14-01 a AT14-11)", "`_estado_completo` y `_sin_huerfanos` (comparación del estado completo)"),
+ ("D-04", "El auditor no comprobaba por eslabón la modificación, la duplicidad ni la ambigüedad", "`_hall_arte` y `_hall_identidad` (v13)", "IG5-106", "un motor que acepta una cadena corrupta no era detectado en eslabones modificados, duplicados o ambiguos", "auditor independiente `_hall_cadena` con implementación propia", "ADVC-01 a ADVC-24; K56-M04", "cero hallazgos del auditor en los fixtures válidos", "`_compartidas()` vacío (el auditor no usa funciones del motor)"),
+ ("D-05", "La reactivación de una atribución histórica sin resolución no se detectaba", "`_auditar_resoluciones` (v13)", "IG5-107", "una atribución descartada podía volver a activa sin una resolución que la ordenara", "regla I15 del auditor de resoluciones", "ATTR-11; K56-M05", "escenarios de resoluciones válidos sin violaciones (ATTR precondición)", "auditor independiente (I15)"),
+ ("D-06", "Las pruebas negativas de conservación de atribuciones e inmutabilidad de resoluciones eran incompletas", "`correr_mutaciones_resoluciones` (v13)", "IG5-107", "no había mutación específica para duplicados, modificación posterior, cambio de persona, pieza, versión o evento, ni auto-retiro", "doce mutaciones específicas ATTR-01 a ATTR-12", "ATTR-01 a ATTR-12", "precondición válida de cada ATTR", "auditor independiente (I8, I13, I15)"),
+ ("D-07", "El conjunto E y la elegibilidad del evaluador no se reconstruían con comprobación de fallo cerrado", "`calcular_E` (v13)", "IG5-108", "un evaluador inactivo, sin permiso, sin asignación o dentro de E, o con procedencia incompleta, no quedaba bloqueado de forma verificable", "`elegibilidad_evaluador` (E1 a E7), asignación explícita, confirmación y publicación con revalidación", "E14-01 a E14-06; AT14-09; AT14-10; K56-M06", "E14-01 y E14-04 (evaluador elegible y E completo)", "`auditar_E`"),
+ ("D-08", "Un evento de carga de otra fila podía quedar referenciado como evento original (relación RS-08 ausente)", "contrato de integridad de `contribution_events` (v13)", "IG5-103", "RS-02 fija evento, raíz y uploader entre eventos, pero no ata el evento de carga al asset raíz exacto", "RS-08 hacia creative_assets(organization_id, id, upload_event_id) con su clave única", "FK19, FK23, FK25; CHAIN-04; CHAIN-18", "RS-08 presente en el contrato, el inventario y la matriz (K55)", "K32, K44 y K55"),
+ ("D-09", "Un evento de reutilización podía pertenecer a más de un asset", "`creative_assets` (v13)", "IG5-103", "no había una restricción única propia sobre el evento de reutilización", "unique(organization_id, reuse_event_id)", "FK41", "restricción presente en 4.4.9 y en el ALTER (K32)", "K32"),
+ ("D-10", "La trazabilidad de cada relación RS a sus mutaciones FK era inexacta", "`modelo_estructural.RELACIONES_SOURCE` (v13)", "IG5-103", "algunas relaciones listaban mutaciones que no las prueban", "lista derivada de la descripción de cada mutación", "FK01 a FK41", "cada RS tiene al menos una mutación y cada mutación nombra una RS (K55)", "K55 y K57"),
+ ("D-11", "K55 comparaba sobre todo texto y no los identificadores de las pruebas de cada relación", "`verificar_source` (v13)", "IG5-103", "una prueba inexistente citada en una relación no se detectaba", "comparación estructural: cada identificador citado existe en las pruebas ejecutadas", "mutaciones de K55 y de K57", "K55 y K57 aprueban sobre el documento válido", "K57 (trazabilidad regla → implementación → prueba → verificador)"),
+ ("D-12", "Las mutaciones FK cubrían 15 casos y no los pares, el momento, la acción, ON UPDATE, el ciclo de inserción ni la unicidad propia", "`_FKM` del verificador (v13)", "IG5-103", "una FK con pares, acción o momento erróneos en RS-02, RS-03, RS-05, RS-06, RS-07 o RS-08 no se detectaba", "mutaciones FK16 a FK41", "FK16 a FK41", "el documento válido pasa K32, K44, K45 y K55", "K32, K44, K45 y K55"),
+]
+TRAZA_V14 = [
+ ("IG5-104", "`Motor.reconstruir_cadena_procedencia`, `Motor._siguiente_eslabon`, `Motor._verificar_reutilizado`, `Motor._verificar_modificado`, `Motor._verificar_raiz`, `Motor._datos_evento`, `Motor._origen_carga`", "CHAIN-01 a CHAIN-24", "K56"),
+ ("IG5-105", "`_atomica`, `Motor._verificar_final`, `Motor._invariantes_basicos`", "AT14-01 a AT14-11; K56-M03; K56-M07", "K56"),
+ ("IG5-106", "`_hall_cadena`, `auditar_E`, `_compartidas`", "ADVC-01 a ADVC-24; K56-M04", "K56"),
+ ("IG5-107", "`_auditar_resoluciones`, `RegistroResoluciones`, `ResolucionInmutable`", "ATTR-01 a ATTR-12; K56-M05", "K56"),
+ ("IG5-108", "`elegibilidad_evaluador`, `calcular_E_verificado`, `Motor.asignar_evaluador`, `Motor.confirmar_independencia`, `Motor.intentar_publicacion`", "E14-01 a E14-06; K56-M06", "K56"),
+ ("IG5-109", "`RELACIONES_SOURCE`, `FK_DESC`, `UNICAS_SOURCE`, `UNICAS_PROPIAS_SOURCE`, `INVENTARIO_SOURCE`", "FK01 a FK41", "K32, K44, K45, K55"),
+ ("IG5-110", "`AUDITORIA_V14`, `TRAZA_V14`, `RS_PUNTOS_V14`", "K56-M01 a K56-M08", "K57"),
+]
+RS_PUNTOS_V14 = [
+ "tabla de origen existe", "tabla de destino existe", "columnas locales existen en el origen", "columnas referenciadas existen en el destino", "misma longitud de columnas",
+ "organization_id en la primera posición de ambas listas", "orden y pares exactos según el modelo", "tipos compatibles columna a columna", "PK o UNIQUE de destino con las mismas columnas en el mismo orden",
+ "acción ON DELETE esperada", "sin ON UPDATE", "momento de verificación esperado (inmediata o diferida)", "figura en el contrato de integridad", "figura en el inventario de columnas",
+ "ciclo declarado o ausencia de ciclo de filas", "orden de inserción sin referencia a un paso no anterior", "columnas sin FK con excepción individual justificada (o sin excepciones)",
+ "prueba negativa documental (al menos una mutación FK la nombra)", "prueba positiva de modelo en memoria (los identificadores citados existen)", "límite declarado: verificación documental, no validación en PostgreSQL",
+]
+assert len(RS_PUNTOS_V14) == 20

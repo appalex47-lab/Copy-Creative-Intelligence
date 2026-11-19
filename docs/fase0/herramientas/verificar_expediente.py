@@ -116,7 +116,7 @@ def ejecutar(textos, dir_hist=None, mutaciones=False):
     spec = C.spec
     AR = dict(A)
     if "## Entrada: revisión v8" in A[REG]:
-        r_ = A[REG]; k_ = r_.index("## Entrada: revisión v13"); AR[REG] = r_[k_:r_.index("### Manifiesto") if "### Manifiesto" in r_ else len(r_)]
+        r_ = A[REG]; k_ = r_.index("## Entrada: revisión v14"); AR[REG] = r_[k_:r_.index("### Manifiesto") if "### Manifiesto" in r_ else len(r_)]
     nR, nT = len(C.reglas), len(C.pruebas)
     tablas_hist = 27
     ent_tabs = [r for r in C.orden if r[2].startswith("tabla")]
@@ -268,8 +268,8 @@ def ejecutar(textos, dir_hist=None, mutaciones=False):
         if FASE1 not in t: mal22.append((f[:10], "Fase 1"))
         if ESTADO_V6 not in t: mal22.append((f[:10], "estado v7"))
     if ESTADO_V33 not in A[INF] or ESTADO_V33 not in spec: mal22.append(("estado v3.3",))
-    acep = [(f[:10], i) for f, t in A.items() for i, l in enumerate(t.split("\n"), 1) if re.search(r"(aceptad[oa]|aprobad[oa]) por el propietario", l, re.I) and re.search(r"v([6789]|1[0123])|complementari|esta revisión", l, re.I) and not NEG.search(l) and "preparad" not in l.lower()]
-    chk("K22", "Estados: v3.3 aceptada como línea base, v13 completada documentalmente y preparada para aceptación formal, Fase 1 no iniciada; ningún documento declara aceptación del propietario de la v13", not mal22 and not acep, (mal22[:4], acep[:3]), "IE-04", "todos")
+    acep = [(f[:10], i) for f, t in A.items() for i, l in enumerate(t.split("\n"), 1) if re.search(r"(aceptad[oa]|aprobad[oa]) por el propietario", l, re.I) and re.search(r"v([6789]|1[01234])|complementari|esta revisión", l, re.I) and not NEG.search(l) and "preparad" not in l.lower()]
+    chk("K22", "Estados: v3.3 aceptada como línea base, v14 completada documentalmente y preparada para aceptación formal, Fase 1 no iniciada; ningún documento declara aceptación del propietario de la v14", not mal22 and not acep, (mal22[:4], acep[:3]), "IE-04", "todos")
     # ---- K23 sin validación técnica no ejecutada ----
     vt = [(f[:10], i, l[:70]) for f, t in A.items() for i, l in enumerate(t.split("\n"), 1) if re.search(r"validad[oa]s? técnicamente|validación técnica (completa|realizada|exitosa)|pruebas? (técnicas? )?(ejecutad|aprobad|superad)|se ejecutó (con éxito|correctamente) en (postgres|supabase)", l, re.I) and not NEG.search(l)]
     chk("K23", "Ningún documento afirma validación técnica ni pruebas técnicas ejecutadas (toda mención está negada o pendiente)", not vt, vt[:3], "IE-05", "todos")
@@ -309,8 +309,8 @@ def ejecutar(textos, dir_hist=None, mutaciones=False):
     # ---- K28 registro histórico ----
     regt = A[REG]
     ent = re.findall(r"^## Entrada: (.+)$", regt, re.M)
-    v6 = "revisión v13" in regt and "603b03963ea30797a28154d0e08e4cfa66f3ae53" in regt and "7916115e3476fdb07f5c3bf1c3e35ef9f0ae927a" in regt and "651c7307c0420fb09184ab6d39aebe60e3dee715" in regt and "638ca8c3a334123315704bd117a369c8615f926f" in regt and "a6b36b955f9e3103174a6d49dd1ae5a7fa194e6c" in regt
-    chk("K28", "Registro histórico: entradas ordenadas por revisión hasta la v13 con el commit previo 603b039… (v12 sobre 7916115…, v11 sobre 651c730…, v10 sobre 638ca8c… y v9 sobre a6b36b9…) y manifiesto de históricos", len(ent) >= 3 and v6 and "v5" in " ".join(ent) and "v13" in " ".join(ent) and len(mf) >= 10, ent[-3:], "IE-04", "REGISTRO")
+    v6 = "revisión v14" in regt and "d4044c2a618e8f492a2dd3b8cddcf1ccbd3d85a8" in regt and "603b03963ea30797a28154d0e08e4cfa66f3ae53" in regt and "7916115e3476fdb07f5c3bf1c3e35ef9f0ae927a" in regt and "651c7307c0420fb09184ab6d39aebe60e3dee715" in regt and "638ca8c3a334123315704bd117a369c8615f926f" in regt and "a6b36b955f9e3103174a6d49dd1ae5a7fa194e6c" in regt
+    chk("K28", "Registro histórico: entradas ordenadas por revisión hasta la v14 con el commit previo d4044c2… (v13 sobre 603b039…, v12 sobre 7916115…, v11 sobre 651c730…, v10 sobre 638ca8c… y v9 sobre a6b36b9…) y manifiesto de históricos", len(ent) >= 3 and v6 and "v5" in " ".join(ent) and "v14" in " ".join(ent) and len(mf) >= 10, ent[-3:], "IE-04", "REGISTRO")
     # ---- K29 herramienta documentada ----
     chk("K29", "La especificación documenta la herramienta publicada, su comando y sus límites", "herramientas/verificar_expediente.py" in (seccion(spec, "11.2") or "") and "verificar_expediente.py" in A[AUD], "", "IE-08", "ESPECIFICACION 11.2; AUDITORIA 3")
     # ---- K30 integración: flujo de 19 pasos ----
@@ -383,7 +383,7 @@ def checks_adicionales(textos, C, A, info):
             if re.search(r"(latest|current|last)", c): ultimo.append((n, c))
     ult_txt = [(f[:10], i) for f, t in A.items() for i, l in enumerate(t.split("\n"), 1) if re.search(r"(seguir|usar) el (último|ultimo) (brief|snapshot)", l, re.I) and not NEG.search(l) and not l.startswith("| T-")]
     src = verificar_source(spec)
-    chk("K32", "Las ocho tablas de procedencia no tienen referencias polimórficas, cada columna *_id (incluidas todas las source_*) está cubierta por una FK compuesta exacta (RS-01 a RS-07: columnas, destino, acción y momento) o por una excepción individual justificada con verificador K45, sin exclusiones generales, y ninguna apunta al último o al actual", not polimorfo and not sin_fk and not ultimo and not ult_txt and not src["K32"], (polimorfo, sin_fk[:4], ultimo, ult_txt[:2], src["K32"][:3]), "IG5-81, IG5-62", "ESPECIFICACION 4.4.4")
+    chk("K32", "Las ocho tablas de procedencia no tienen referencias polimórficas, cada columna *_id (incluidas todas las source_*) está cubierta por una FK compuesta exacta (RS-01 a RS-08: columnas, destino, acción y momento) o por una excepción individual justificada con verificador K45, sin exclusiones generales, y ninguna apunta al último o al actual", not polimorfo and not sin_fk and not ultimo and not ult_txt and not src["K32"], (polimorfo, sin_fk[:4], ultimo, ult_txt[:2], src["K32"][:3]), "IG5-81, IG5-62", "ESPECIFICACION 4.4.4")
     # K33 inmutabilidad
     cont = info["cont"]
     fila = [c for c in cont if c[0].startswith("Inmutabilidad")]
@@ -568,7 +568,7 @@ def _tabla_src(spec, enc):
     return tablas(seccion(spec, "4.4.15") or "", enc)
 
 def verificar_source(spec):
-    """K32, K44, K45 y K55: cada relación source_* (RS-01 a RS-07), su inventario, sus excepciones individuales, la matriz de ciclos y el orden de inserción, sin exclusiones generales de columnas."""
+    """K32, K44, K45 y K55: cada relación source_* (RS-01 a RS-08), su inventario, sus excepciones individuales, la matriz de ciclos y el orden de inserción, sin exclusiones generales de columnas."""
     out = {"K32": [], "K44": [], "K45": [], "K55": []}
     s = seccion(spec, "4.4.15")
     if not s:
@@ -577,6 +577,7 @@ def verificar_source(spec):
     con = parse_contrato(spec); ents = parse_entidades(spec); hist = parse_historicas(spec)
     filas = [r for r in con if r["fk"] and r["agregada"]]
     ids_a = {"K47-A%02d" % i for i in range(1, 66)}
+    ids_pr = ids_a | {"CHAIN-%02d" % i for i in range(1, N_CHAIN + 1)}
     cubiertas = set()
     for rs in MS.RELACIONES_SOURCE:
         loc = tuple(rs["locales"]); ref = tuple(rs["ref"])
@@ -586,6 +587,7 @@ def verificar_source(spec):
         if r["fk"][2] != ref and dict(zip(r["fk"][0], r["fk"][2])) == rs["pares"]: out["K32"].append((rs["id"], "columnas de destino distintas", r["fk"][2]))
         if dict(zip(r["fk"][0], r["fk"][2])) != rs["pares"]: out["K45"].append((rs["id"], "pares origen-destino distintos de los exactos", dict(zip(r["fk"][0], r["fk"][2]))))
         if ("ON DELETE %s" % rs["accion"]) not in r["txt"]: out["K32"].append((rs["id"], "acción referencial distinta de %s" % rs["accion"]))
+        if "ON UPDATE" in r["txt"]: out["K32"].append((rs["id"], "política de actualización indebida: ningún RS admite ON UPDATE (la actualización de las claves la impide el trigger de inmutabilidad y el valor por defecto NO ACTION)"))
         if ("DEFERRABLE INITIALLY DEFERRED" in r["txt"]) != (rs["momento"] != "inmediata"): out["K32"].append((rs["id"], "momento de verificación distinto"))
     # cada columna source_* y cada columna de origen de creative_assets está cubierta por una FK o por una excepción individual
     ce = ents.get("contribution_events", {}).get("cols", {})
@@ -595,6 +597,10 @@ def verificar_source(spec):
             out["K32"].append(("contribution_events." + c, "columna source_* sin FK ni valor justificado individualmente en el inventario"))
     for c in ("upload_event_id", "reuse_event_id", "asset_lineage_id", "root_asset_version_id", "lineage_parent_asset_id", "reused_from_asset_id"):
         if not any(r["origen"] == "creative_assets" and c in r["fk"][0] for r in filas): out["K32"].append(("creative_assets." + c, "columna de origen sin FK compuesta"))
+    # restricciones únicas propias (no son destino de una FK): un evento de reutilización pertenece a un solo asset
+    for tb, us in MS.UNICAS_PROPIAS_SOURCE.items():
+        for u in us:
+            if u not in {tuple(x) for x in (hist.get(tb, {}).get("uniq") or [])}: out["K32"].append(("restricción única propia ausente en %s" % tb, u))
     # excepciones individuales
     exc = _tabla_src(spec, "| Elemento | Motivo |"); esperadas = {e[0] for e in MS.EXCEPCIONES_SOURCE}
     if {r[0] for r in exc} != esperadas: out["K32"].append(("las excepciones del documento no coinciden con las justificadas", sorted({r[0] for r in exc} ^ esperadas)[:2]))
@@ -609,8 +615,9 @@ def verificar_source(spec):
     else:
         for r, x in zip(B, MS.RELACIONES_SOURCE):
             if r[1] != "%s(%s)" % (x["origen"], ", ".join(x["locales"])) or r[2] != "%s(%s)" % (x["destino"], ", ".join(x["ref"])): out["K55"].append((x["id"], "origen o destino de la matriz distintos del modelo"))
-            for q in re.findall(r"K47-A\d\d", r[5]):
-                if q not in ids_a: out["K55"].append((x["id"], "prueba inexistente", q))
+            for q in re.findall(r"(?:K47-A|CHAIN-)\d\d", r[5]):
+                if q not in ids_pr: out["K55"].append((x["id"], "prueba inexistente", q))
+            if not re.findall(r"(?:K47-A|CHAIN-)\d\d", r[5]): out["K55"].append((x["id"], "relación sin prueba positiva citada"))
     A_ = _tabla_src(spec, "| Columna de origen | Destino |")
     if [r[0] for r in A_] != [x[0] for x in MS.INVENTARIO_SOURCE]: out["K55"].append(("inventario distinto del modelo",))
     elif any(not r[2].startswith("—") and any(q.strip() not in {x["id"] for x in MS.RELACIONES_SOURCE} for q in r[2].split(",")) for r in A_): out["K55"].append(("inventario con relación inexistente",))
@@ -618,7 +625,7 @@ def verificar_source(spec):
     if [(r[0], r[1], r[2]) for r in _tabla_src(spec, "| Operación | Paso |")] != [(o[0], str(o[1]), o[2]) for o in MS.ORDEN_INSERCION]: out["K55"].append(("orden de inserción distinto del modelo",))
     if [r[0] for r in _tabla_src(spec, "| Tabla | Unicidad |")] != [tb for tb, us in MS.UNICAS_SOURCE.items() for _ in us]: out["K55"].append(("unicidades de destino distintas del modelo",))
     fk = [r[0] for r in _tabla_src(spec, "| ID | Mutación | Verificador |")]
-    if fk != [f[0] for f in MS.FK_DESC]: out["K55"].append(("mutaciones FK01 a FK15 distintas del modelo", fk[:3]))
+    if fk != [f[0] for f in MS.FK_DESC]: out["K55"].append(("mutaciones FK distintas del modelo", fk[:3]))
     H = " ".join(r[0] for r in _tabla_src(spec, "| ID | Caso |"))
     faltan = [x for x in IDS_V13 + ["K47-A%02d" % i for i in ()] if x not in H]
     faltan += [x for x in ["P%02d" % i for i in range(21, 27)] + ["ADV%d" % i for i in range(11, 17)] if x not in H]
@@ -731,6 +738,129 @@ REQ_H2V7 = ["sustitución total de redacción", "sustitución de una condición"
             "editor que realizó la sustitución", "resolución sin evidencia", "actor no elegible", "resolución duplicada", "versión distinta", "modificar el registro histórico", "atribución de brief heredada",
             "atribución de promoción heredada", "atribución de copy heredada", "atribución de asset reutilizado"]
 
+
+def _rango(tok):
+    """Expande «X-01 a X-24» o un identificador suelto."""
+    m = re.match(r"^([A-Z0-9]+(?:-[A-Z]*)?)-?(\d+) a (?:[A-Z0-9]+(?:-[A-Z]*)?)-?(\d+)$", tok.strip())
+    return tok.strip(), m
+
+def ids_de(txt):
+    """Identificadores citados en una celda: rangos «CHAIN-01 a CHAIN-24» y sueltos «K56-M03», «FK41»."""
+    out = []
+    for a, b in re.findall(r"((?:CHAIN|ADVC|ATTR|AT14|E14)-\d+|K56-M\d+|FK\d+) a ((?:CHAIN|ADVC|ATTR|AT14|E14)-\d+|K56-M\d+|FK\d+)", txt):
+        pa = re.match(r"([A-Z0-9]+(?:-M)?-?)(\d+)$", a); pb = re.match(r"([A-Z0-9]+(?:-M)?-?)(\d+)$", b)
+        w = len(pa.group(2)); out += ["%s%0*d" % (pa.group(1), w, i) for i in range(int(pa.group(2)), int(pb.group(2)) + 1)]
+    resto = re.sub(r"((?:CHAIN|ADVC|ATTR|AT14|E14)-\d+|K56-M\d+|FK\d+) a ((?:CHAIN|ADVC|ATTR|AT14|E14)-\d+|K56-M\d+|FK\d+)", "", txt)
+    out += re.findall(r"(?:CHAIN|ADVC|ATTR|AT14|E14)-\d+|K56-M\d+|FK\d+", resto)
+    return out
+
+_CACHE14 = {}
+def _ejecutadas14():
+    """Resultados reales de las baterías del modelo (se ejecutan, no se leen del documento). Se memorizan dentro de una misma ejecución de las comprobaciones porque no dependen del texto del documento; la comprobación K41 las vuelve a ejecutar."""
+    if "r" in _CACHE14: return _CACHE14["r"]
+    _CACHE14["r"] = _ejecutadas14_real(); return _CACHE14["r"]
+def _ejecutadas14_real():
+    ch = MS.correr_mutaciones_cadena(); ad = MS.correr_adversariales_cadena(); at = MS.correr_mutaciones_atribucion()
+    a14 = MS.pruebas_atomicidad14(); e14 = MS.pruebas_E14(); mm = MS.correr_mutaciones_modelo14()
+    return ch, ad, at, a14, e14, mm
+
+def verificar_k56():
+    """K56: ejecución de CHAIN, ADVC, ATTR, AT14, E14 y K56-M; identificadores continuos, estado inicial válido y cambio efectivo; independencia del auditor."""
+    prob = []
+    ch, ad, at, a14, e14, mm = _ejecutadas14()
+    for nom, lst, n, key, pref in (("CHAIN", ch, N_CHAIN, "det", "CHAIN-%02d"), ("ADVC", ad, N_CHAIN, "ok", "ADVC-%02d"), ("ATTR", at, N_ATTR, "det", "ATTR-%02d"), ("AT14", a14, N_AT14, "ok", "AT14-%02d"), ("E14", e14, N_E14, "ok", "E14-%02d"), ("K56-M", mm, N_K56M, "det", "K56-M%02d")):
+        if [x["id"] for x in lst] != [pref % i for i in range(1, n + 1)]: prob.append((nom, "identificadores no continuos o cantidad distinta de %d" % n, [x["id"] for x in lst][:3]))
+        mal = [x["id"] for x in lst if not x[key]]
+        if mal: prob.append((nom, "no aprobadas o no detectadas", mal[:6]))
+    for x in ch:
+        if not (x["valido"] and x["cambio"] and x["err"] is None and x["rechaza"] and x["atomico"] and x["ident"] and x["bloq"]): prob.append((x["id"], "estado inicial inválido, sin cambio efectivo, no atómica o sin bloqueo de E"))
+    for x in ad:
+        if not (x["motor_acepta"] and x["auditor"] and x["E_bloqueado"] and x["impacto_falla"] and x["no_publica"]): prob.append((x["id"], "el motor forzado no acepta o el sistema no bloquea"))
+    if MS._compartidas(): prob.append(("el auditor usa funciones del motor", MS._compartidas()[:3]))
+    return prob, (ch, ad, at, a14, e14, mm)
+
+def _spec_tabla(spec, enc, sec="4.4.16"):
+    return tablas(seccion(spec, sec) or "", enc)
+
+def verificar_rs14(spec, src):
+    """Auditoría de 20 puntos por relación RS (H-06). Cada punto se calcula sobre el documento y el modelo; devuelve (problemas, matriz)."""
+    ents = parse_entidades(spec); hist = parse_historicas(spec); con = parse_contrato(spec); cat = dict(hist); cat.update(ents)
+    filas = [r for r in con if r["fk"] and r["agregada"]]; inv = _tabla_src(spec, "| Columna de origen | Destino |"); ciclos = _ciclos_declarados(spec)
+    exe = {x["id"] for x in MS.correr_mutaciones_assets()} | {x["id"] for x in MS.correr_mutaciones_rechazo()} | {"CHAIN-%02d" % i for i in range(1, N_CHAIN + 1)}
+    fkdesc = [d for _i, d, _v in MS.FK_DESC]; ordenes = _orden_insercion(spec)
+    lim = (seccion(spec, "4.4.16") or "") + (seccion(spec, "4.4.15") or "")
+    mat = {}; prob = []
+    for rs in MS.RELACIONES_SOURCE:
+        loc = tuple(rs["locales"]); ref = tuple(rs["ref"]); o, d = rs["origen"], rs["destino"]
+        cand = [r for r in filas if r["origen"] == o and r["fk"][1] == d and set(r["fk"][0]) == set(loc)]; r0 = cand[0] if cand else None
+        co = cat.get(o, {}).get("cols", {}); cd = cat.get(d, {}).get("cols", {})
+        claves = set(cat.get(d, {}).get("uniq", [])) | ({cat[d]["pk"]} if cat.get(d, {}).get("pk") else set())
+        cols_sin_fk = [c for c in loc if not any(r2 for r2 in filas if r2["origen"] == o and c in r2["fk"][0])]
+        ex = lambda t, c: c in cat.get(t, {}).get("cols", {}) or bool(re.search(r"^\| %s \| %s " % (re.escape(t), re.escape(c)), spec, re.M)) or bool(re.search(r"^\| %s \| unique\(.*\b%s\b" % (re.escape(t), re.escape(c)), spec, re.M)) or any(c in u for u in cat.get(t, {}).get("uniq", []))
+        p = [o in cat, d in cat, all(ex(o, c) for c in loc), all(ex(d, c) for c in ref), len(loc) == len(ref),
+             loc[0] == "organization_id" and ref[0] == "organization_id", bool(r0) and dict(zip(r0["fk"][0], r0["fk"][2])) == rs["pares"],
+             all((_tipo(cat, o, a) or "") == (_tipo(cat, d, b) or "") or not _tipo(cat, o, a) or not _tipo(cat, d, b) for a, b in zip(loc, ref)), ref in claves,
+             bool(r0) and ("ON DELETE %s" % rs["accion"]) in r0["txt"], bool(r0) and "ON UPDATE" not in r0["txt"], bool(r0) and (("DEFERRABLE INITIALLY DEFERRED" in r0["txt"]) == (rs["momento"] != "inmediata")),
+             bool(r0), any(rs["id"] in (r2[2] or "") for r2 in inv), (rs["momento"] == "inmediata") or bool(ciclos), not ordenes,
+             not cols_sin_fk, any(rs["id"] in dsc for dsc in fkdesc), bool(re.findall(r"(?:K47-A|CHAIN-)\d\d", rs.get("prueba", ""))) and all(q in exe for q in re.findall(r"(?:K47-A|CHAIN-)\d\d", rs.get("prueba", ""))),
+             "no se ejecutó" in lim.lower() or "no es validación" in lim.lower() or "no ejecutó sql" in lim.lower()]
+        assert len(p) == 20
+        mat[rs["id"]] = p
+        for i, v in enumerate(p):
+            if not v: prob.append((rs["id"], "punto %d no cumplido: %s" % (i + 1, MS.RS_PUNTOS_V14[i])))
+    return prob, mat
+
+def verificar_k57(spec, C):
+    """K57 (H-09): comparación estructural entre reglas, implementación del modelo, pruebas ejecutadas y el documento."""
+    prob = []; ch, ad, at, a14, e14, mm = _ejecutadas14()
+    ejec = {x["id"] for L in (ch, ad, at, a14, e14, mm) for x in L} | {f[0] for f in MS.FK_DESC}
+    tz = _spec_tabla(spec, "| Regla | Implementación |")
+    if [r[0] for r in tz] != [x[0] for x in MS.TRAZA_V14]: prob.append(("trazabilidad: reglas distintas del modelo", [r[0] for r in tz]))
+    citados = set()
+    for r, x in zip(tz, MS.TRAZA_V14):
+        if r[1:] != list(x[1:]) and [c.strip() for c in r[1:]] != [c.strip() for c in x[1:]]: prob.append((x[0], "la fila del documento difiere de la del modelo"))
+        for fn in re.findall(r"`([^`]+)`", r[1]):
+            obj = MS
+            for parte in fn.split("."):
+                obj = getattr(obj, parte, None)
+                if obj is None: break
+            if obj is None: prob.append((x[0], "implementación inexistente en el modelo", fn))
+        ids = ids_de(r[2]); citados |= set(ids)
+        for i in ids:
+            if i not in ejec: prob.append((x[0], "prueba citada inexistente", i))
+        if x[0] not in C.reglas: prob.append((x[0], "regla inexistente en el expediente"))
+    sin = sorted(i for i in ejec if i not in citados and not i.startswith("FK"))
+    if sin: prob.append(("pruebas del conjunto ejecutado no citadas por ninguna regla", sin[:6]))
+    aud = _spec_tabla(spec, "| ID | Defecto o riesgo |")
+    if [r[0] for r in aud] != [x[0] for x in MS.AUDITORIA_V14]: prob.append(("matriz de auditoría distinta del modelo", [r[0] for r in aud][:3]))
+    for r, x in zip(aud, MS.AUDITORIA_V14):
+        if len(r) != 9 or not all(c.strip() for c in r): prob.append((x[0], "fila de auditoría con campos vacíos")); continue
+        for i in ids_de(r[6] + " " + r[7] + " " + r[8]):
+            if i not in ejec: prob.append((x[0], "prueba citada inexistente", i))
+        if r[:2] != list(x[:2]) or r[3] != x[3]: prob.append((x[0], "fila distinta del modelo"))
+    pasos = _spec_tabla(spec, "| Paso | Validación |")
+    if [r[0] for r in pasos] != [str(i) for i in range(1, 15)]: prob.append(("el orden de validación no tiene 14 pasos consecutivos", [r[0] for r in pasos]))
+    for nom, enc, lst in (("CHAIN", "| ID | Mutación de la cadena |", ch), ("ADVC", "| ID | Prueba adversarial de la cadena |", ad), ("ATTR", "| ID | Mutación de atribuciones |", at), ("AT14", "| ID | Operación |", a14), ("E14", "| ID | Prueba de E |", e14), ("K56-M", "| ID | Mutación del código |", mm)):
+        t = _spec_tabla(spec, enc)
+        if [r[0] for r in t] != [x["id"] for x in lst]: prob.append((nom, "tabla del documento distinta del conjunto ejecutado", [r[0] for r in t][:3]))
+    _p, mat = verificar_rs14(spec, None)
+    tm = {r[0]: r[1:] for r in _spec_tabla(spec, "| Relación | P01 |")}
+    for k, v in mat.items():
+        if tm.get(k) != ["sí" if x else "NO" for x in v]: prob.append((k, "la matriz de 20 puntos del documento difiere de la calculada"))
+    if set(tm) != set(mat): prob.append(("matriz de 20 puntos con relaciones distintas", sorted(set(tm) ^ set(mat))))
+    cif = (seccion(spec, "4.4.16") or "")
+    for etq, n_ in (("CHAIN", len(ch)), ("ADVC", len(ad)), ("ATTR", len(at)), ("AT14", len(a14)), ("E14", len(e14)), ("K56-M", len(mm))):
+        if ("%s: %d" % (etq, n_)) not in cif: prob.append(("cifra ejecutada de %s ausente o distinta en el documento" % etq, n_))
+    # E del motor frente al auditor en los fixtures
+    for nm, fx in (("fx14", lambda: MS._fx14(MS.Motor)[0]), ("fxE", lambda: MS._fx_E(MS.Motor)[0])):
+        try:
+            m = fx(); vid = "cc" if nm == "fx14" else None
+            if nm == "fx14":
+                m.registrar_asset("a4", "cc", "B", reused_from="a3")
+                if MS.auditar_E(MS.snapshot(m), m.calcular_E(vid), vid): prob.append(("el auditor discrepa del motor en %s" % nm,))
+        except Exception as ex: prob.append(("fixture %s no ejecutable" % nm, str(ex)[:60]))
+    return prob
+
 def checks_v7(textos, C, A, info, v33=None):
     spec = C.spec
     p44, nrel = verificar_estructura(spec)
@@ -738,7 +868,7 @@ def checks_v7(textos, C, A, info, v33=None):
     chk("K44", "Integridad estructural de %d relaciones: longitud, orden exacto de columnas, organization_id, PK o UNIQUE de destino con las mismas columnas, tipos compatibles, contrato igual a los bloques, sin relaciones rotas ni circulares salvo los ciclos declarados en la matriz de 4.4.15 con su orden de inserción" % nrel, not p44 and not src["K44"], (p44[:3], src["K44"][:2]), "IG5-80, IE-09", "ESPECIFICACION 4.4.4 y 4.4.9")
     p45 = verificar_semantica(spec)
     m45 = verificar_k45_modelo(spec)
-    chk("K45", "Integridad semántica sobre un modelo relacional con identidad propia (organizaciones, miembros, piezas, versiones de brief, snapshots, versiones de copy, assets, eventos, atribuciones, herencia y reutilización): 15 controles C01 a C15 evaluados sobre las relaciones reales, matriz de correspondencias de 4.4.10 (S1 a S12) contrastada con los nombres físicos, 3 casos positivos sin falsos positivos, 27 mutaciones detectadas cada una por su código y, para las relaciones source_* RS-01 a RS-07, los pares exactos origen-destino (asset lógico, versión exacta, evento de carga, uploader y atribución), la prueba negativa de cada excepción y la ausencia de identidad por número de versión", not p45 and not m45 and not src["K45"], (p45[:2], m45[:2], src["K45"][:2]), "IG5-81 a IG5-84, IG5-96, IS-16, IE-09, IE-12", "ESPECIFICACION 4.4.4, 4.4.9 y 4.4.10")
+    chk("K45", "Integridad semántica sobre un modelo relacional con identidad propia (organizaciones, miembros, piezas, versiones de brief, snapshots, versiones de copy, assets, eventos, atribuciones, herencia y reutilización): 15 controles C01 a C15 evaluados sobre las relaciones reales, matriz de correspondencias de 4.4.10 (S1 a S12) contrastada con los nombres físicos, 3 casos positivos sin falsos positivos, 27 mutaciones detectadas cada una por su código y, para las relaciones source_* RS-01 a RS-08, los pares exactos origen-destino (asset lógico, versión exacta, evento de carga, uploader y atribución), la prueba negativa de cada excepción y la ausencia de identidad por número de versión", not p45 and not m45 and not src["K45"], (p45[:2], m45[:2], src["K45"][:2]), "IG5-81 a IG5-84, IG5-96, IS-16, IE-09, IE-12", "ESPECIFICACION 4.4.4, 4.4.9 y 4.4.10")
     reglas = {r: v[0][1] for r, v in C.reglas_cov.items()}
     p46 = verificar_resolucion(spec, reglas)
     m46 = verificar_k46_modelo(spec)
@@ -787,9 +917,15 @@ def checks_v7(textos, C, A, info, v33=None):
     cnt13 = {g: sum(1 for v in C.pruebas.values() if v[0][1].startswith(g)) for g in g13}
     sin13 = [r for r in ("IG5-102", "IG5-103", "IE-12") if r not in C.reglas or not info["cub"].get(r)]
     s4415 = seccion(spec, "4.4.15") or ""
-    falta415 = [x for x in (IDS_V13 + ["P%02d" % i for i in range(N_POS_V10 + N_POS_V11 + N_POS_V12 + 1, N_POS_ART + 1)] + ["ADV%d" % i for i in range(N_ADV_V12 + 1, N_ADV + 1)] + ["FK%02d" % i for i in range(1, N_FK + 1)] + ["RS-%02d" % i for i in range(1, 8)] + ["source_asset_id", "source_asset_version_id", "source_upload_event_id", "source_uploader_id", "source_attribution_id", "source_root_asset_version_id", "source_attribution_relation", "DEFERRABLE INITIALLY DEFERRED", "FK compuesta directa", "Triggers diferidos", "Validación transaccional complementaria", "Orden de inserción controlado", "Claves únicas compuestas"]) if x not in s4415]
+    falta415 = [x for x in (IDS_V13 + ["P%02d" % i for i in range(N_POS_V10 + N_POS_V11 + N_POS_V12 + 1, N_POS_ART + 1)] + ["ADV%d" % i for i in range(N_ADV_V12 + 1, N_ADV + 1)] + ["FK%02d" % i for i in range(1, N_FK + 1)] + ["RS-%02d" % i for i in range(1, 9)] + ["source_asset_id", "source_asset_version_id", "source_upload_event_id", "source_uploader_id", "source_attribution_id", "source_root_asset_version_id", "source_attribution_relation", "DEFERRABLE INITIALLY DEFERRED", "FK compuesta directa", "Triggers diferidos", "Validación transaccional complementaria", "Orden de inserción controlado", "Claves únicas compuestas"]) if x not in s4415]
     m55b = [x for x in src["K55"]]
-    chk("K55", "Cobertura v13: IG5-102, IG5-103 e IE-12 con escenarios (validación previa del origen %d, integridad referencial source_* %d); sección 4.4.15 con el inventario de columnas source_*, las relaciones RS-01 a RS-07, las seis soluciones evaluadas, la matriz de ciclos, el orden de inserción, las excepciones individuales, las mutaciones A54 a A65, los casos P21 a P26, las pruebas ADV11 a ADV16 y las mutaciones FK01 a FK15; las matrices del documento coinciden con el modelo y con las pruebas, y el verificador no contiene exclusiones generales de columnas source_*" % (cnt13["H-01 v13 validación previa del origen"], cnt13["H-02 v13 integridad referencial source_*"]), not sin13 and all(cnt13[g] >= n for g, n in g13.items()) and not falta415 and not m55b, (sin13, cnt13, falta415[:5], m55b[:3]), "IG5-102, IG5-103, IE-12", "ESPECIFICACION 4.4.15")
+    chk("K55", "Cobertura v13: IG5-102, IG5-103 e IE-12 con escenarios (validación previa del origen %d, integridad referencial source_* %d); sección 4.4.15 con el inventario de columnas source_*, las relaciones RS-01 a RS-08, las seis soluciones evaluadas, la matriz de ciclos, el orden de inserción, las excepciones individuales, las mutaciones A54 a A65, los casos P21 a P26, las pruebas ADV11 a ADV16 y las mutaciones FK01 a FK15; las matrices del documento coinciden con el modelo y con las pruebas, y el verificador no contiene exclusiones generales de columnas source_*" % (cnt13["H-01 v13 validación previa del origen"], cnt13["H-02 v13 integridad referencial source_*"]), not sin13 and all(cnt13[g] >= n for g, n in g13.items()) and not falta415 and not m55b, (sin13, cnt13, falta415[:5], m55b[:3]), "IG5-102, IG5-103, IE-12", "ESPECIFICACION 4.4.15")
+    pk56, _res56 = verificar_k56()
+    s4416 = seccion(spec, "4.4.16") or ""
+    sin14 = [r for r in ("IG5-104", "IG5-105", "IG5-106", "IG5-107", "IG5-108", "IG5-109", "IG5-110") if r not in C.reglas or not info["cub"].get(r)]
+    chk("K56", "Cobertura v14: validación vínculo por vínculo de la cadena (CHAIN %d/%d), motor forzado frente al auditor independiente (ADVC %d/%d), conservación de atribuciones y resoluciones (ATTR %d/%d), atomicidad de las operaciones (AT14 %d/%d), E y elegibilidad del evaluador (E14 %d/%d) y %d mutaciones del propio código (K56-M); el auditor no comparte funciones con el motor; reglas IG5-104 a IG5-110 con escenarios" % ((sum(1 for x in _res56[0] if x["det"]), N_CHAIN, sum(1 for x in _res56[1] if x["ok"]), N_CHAIN, sum(1 for x in _res56[2] if x["det"]), N_ATTR, sum(1 for x in _res56[3] if x["ok"]), N_AT14, sum(1 for x in _res56[4] if x["ok"]), N_E14, sum(1 for x in _res56[5] if x["det"]))), not pk56 and not sin14 and bool(s4416), (pk56, sin14), "IG5-104 a IG5-109", "ESPECIFICACION 4.4.16")
+    pk57 = verificar_k57(spec, C)
+    chk("K57", "Comparación estructural v14: cada regla IG5-104 a IG5-110 se traza a su implementación existente en el modelo, a pruebas existentes del conjunto ejecutado y a su verificador; cada prueba del conjunto ejecutado se cita; la matriz de auditoría (%d defectos), el orden de 14 pasos, las tablas de pruebas y la auditoría de 20 puntos por relación (RS-01 a RS-08) coinciden con lo calculado por el modelo y el verificador" % len(MS.AUDITORIA_V14), not pk57 and not verificar_rs14(spec, None)[0], (pk57, verificar_rs14(spec, None)[0]), "IG5-110, IG5-109", "ESPECIFICACION 4.4.16")
     chk("K55", "Cobertura v12: IG5-101 e IE-12 con escenarios (identidad de origen %d), sección 4.4.14 con I27 e I28, las 16 mutaciones A33 a A48, los casos positivos P15 a P20 y las 5 pruebas adversariales nuevas; el modelo contiene los campos explícitos de identidad del origen en cada evento de reutilización, el auditor no usa funciones del motor (inspección del código), la reutilización inválida no deja registros parciales, se conservan las pruebas de la v11 y no hay skip ni xfail" % cnt12["H-02 v12 identidad de origen"], not sin12 and all(cnt12[g] >= n for g, n in g12.items()) and not falta414 and not m55, (sin12, cnt12, falta414[:5], m55[:3]), "IG5-101, IE-12", "ESPECIFICACION 4.4.14")
     # K49 reglas y escenarios obligatorios de H-02 v7
     h7 = [v[0] for k, v in C.pruebas.items() if v[0][1].startswith("H-02 v7 atribución")]
@@ -829,7 +965,9 @@ def _cargar_modelo():
 MS = _cargar_modelo()
 N_K45, N_K46, N_K47, N_ESC = 27, 12, 36, 12
 N_RES, N_ART, N_POS_ART, N_GUARDA, N_ADV, N_ATOM = 12, 53, 26, 9, 16, 20
-N_RECH, N_FK, N_ADV_V12, N_ATOM_V12 = 12, 15, 10, 8
+N_RECH, N_FK, N_ADV_V12, N_ATOM_V12 = 12, 41, 10, 8
+N_CHAIN, N_ATTR, N_AT14, N_E14, N_K56M, N_K57D = 24, 12, 11, 6, 8, 8
+CTL_K56 = ('CHAIN', 'ATTR', 'K56-M')
 IDS_V13 = ["K47-A%02d" % i for i in range(54, 66)]
 N_ART_V10, N_ART_V11, N_ART_V12, N_POS_V10, N_POS_V11, N_POS_V12, N_POS_V13, N_ADV_V11 = 16, 21, 16, 7, 7, 6, 6, 5
 IDS_V11 = ["K47-A%02d" % i for i in list(range(17, 33)) + list(range(49, 54))]
@@ -1093,6 +1231,12 @@ def ejecutar_mutaciones_modelo(textos, dir_hist):
         nuevo = int(m["id"][-2:]) > N_ART_V10; reg_ = "IG5-101" if m["id"] in IDS_V12 else "IG5-100" if nuevo else "IG5-99"
         out.append(dict(id=m["id"], ctl="K47", regla="%s (%s)" % (reg_, m["esp"]), inicial="válido: escenario de arte ejecutado sobre el motor, 0 violaciones del auditor", mut=m["mut"],
                         esp="violación %s con la condición «%s»%s" % (m["esp"], m["kw"], "; procedencia incompleta y E no completo" if nuevo else ""), obs=m["obs"] + ("; E bloqueado" if m.get("bloq") else ""), det=m["det"], cambio=m["cambio"], valido=m["valido"]))
+    for m in MS.correr_mutaciones_cadena():
+        out.append(dict(id=m["id"], ctl="K56", regla="IG5-104 (CHAIN)", inicial="válido: cadena de tres niveles aceptada, cero violaciones del auditor y E completo", mut=m["mut"], esp="%s; sin registros parciales, estado previo idéntico y E bloqueado" % m["esp"], obs=m["obs"] + ("; E bloqueado" if m.get("bloq") else ""), det=m["det"], cambio=m["cambio"], valido=m["valido"]))
+    for m in MS.correr_mutaciones_atribucion():
+        out.append(dict(id=m["id"], ctl="K56", regla="IG5-107 (%s)" % m["esp"], inicial="válido: escenario con resoluciones selladas y atribuciones conservadas, cero violaciones", mut=m["mut"], esp="violación %s" % m["esp"], obs=m["obs"], det=m["det"], cambio=True, valido=True))
+    for m in MS.correr_mutaciones_modelo14():
+        out.append(dict(id=m["id"], ctl="K56", regla="IG5-110 (código del modelo)", inicial="válido: las baterías CHAIN, ADVC, ATTR, AT14 y E14 aprueban", mut=m["mut"], esp="al menos una batería falla", obs="detectada por %d pruebas: %s" % (m["n_detectores"], ", ".join(m["detectada_por"][:4])), det=m["det"], cambio=True, valido=True))
     for m in MS.correr_mutaciones_rechazo():
         out.append(dict(id=m["id"], ctl="K47", regla="IG5-102 (%s)" % m["esp"], inicial="válido: fixture de reutilización exacta, 0 violaciones del auditor y E completo", mut=m["mut"], esp="%s; sin registros parciales, estado previo idéntico, E nulo, sin evaluación de impacto, aprobación ni publicación" % m["esp"], obs=m["obs"] + ("; E nulo en la pieza y la versión de destino" if m.get("bloq") else ""), det=m["det"] and m.get("atomico") is True and m.get("ident") is True and m.get("bloq") is True, cambio=m["cambio"], valido=m["valido"]))
     return out
@@ -1185,6 +1329,57 @@ _FKM = [
  ("FK14", "Excepción de K32 sin el verificador K45 que la justifica", "K32", "La excepción source_asset_version (entero) pierde la referencia a K45", _fila("| source_asset_version (entero del modelo en memoria) |", "| K45 |", "| — |")),
  ("FK15", "Excepción de K45 con una prueba negativa inexistente", "K45", "La prueba negativa de la excepción referencia K47-A99", _fila("| source_asset_version (entero del modelo en memoria) |", "K47-A34 (mismo número de versión) y K47-A42", "K47-A99 (mismo número de versión) y K47-A98")),
 ]
+_C_CC = "| creative_assets → creative_assets (columna agregada) |"
+_C_CE = "| contribution_events → contribution_events (columna agregada) |"
+_C_CVP = "| contribution_events → copy_version_provenance (columna agregada) |"
+_C_AE = "| creative_assets → contribution_events (columna agregada) |"
+_RS2 = "(organization_id, source_upload_event_id, source_root_asset_version_id, source_uploader_id) → contribution_events(organization_id, id, creative_asset_id, contributor_id)"
+_RS3 = "(organization_id, source_attribution_id, source_upload_event_id, source_uploader_id, source_root_asset_version_id, source_attribution_relation) → copy_version_provenance(organization_id, id, contribution_event_id, contributor_id, origin_asset_id, relation)"
+_RS5 = "(organization_id, reused_from_asset_id, root_asset_version_id) → creative_assets(organization_id, id, root_asset_version_id)"
+_RS6f = "(organization_id, upload_event_id, id, uploader_id, piece_id, copy_version_id) → contribution_events(organization_id, id, creative_asset_id, contributor_id, asset_piece_id, asset_copy_version_id)"
+_RS7 = "(organization_id, reuse_event_id, reused_from_asset_id, piece_id, copy_version_id) → contribution_events(organization_id, id, source_asset_version_id, copy_version_piece_id, copy_version_id)"
+_RS8 = "(organization_id, source_root_asset_version_id, source_upload_event_id) → creative_assets(organization_id, id, upload_event_id)"
+_EXC = "| source_asset_version (entero del modelo en memoria) |"
+_FKM += [
+ ("FK16", "RS-05 eliminada", "K32", "Se retira del contrato la FK compuesta RS-05 (reused_from_asset_id y raíz)", _quitar_fila_con(_C_CC, "(organization_id, reused_from_asset_id, root_asset_version_id)")),
+ ("FK17", "RS-06 eliminada", "K32", "Se retira del contrato la FK diferida RS-06", _quitar_fila_con(_C_AE, "(organization_id, upload_event_id, id, uploader_id, piece_id, copy_version_id)")),
+ ("FK18", "RS-07 eliminada", "K32", "Se retira del contrato la FK RS-07 del evento de reutilización", _quitar_fila_con(_C_AE, "(organization_id, reuse_event_id, reused_from_asset_id, piece_id, copy_version_id)")),
+ ("FK19", "RS-08 eliminada", "K32", "Se retira del contrato la FK RS-08 (evento de carga de origen = upload_event_id de la raíz)", _quitar_fila_con(_C1, "(organization_id, source_root_asset_version_id, source_upload_event_id)")),
+ ("FK20", "RS-02 sin source_uploader_id", "K32", "RS-02 pierde source_uploader_id y contributor_id", _fila_con(_C_CE, _RS2, _RS2, "(organization_id, source_upload_event_id, source_root_asset_version_id) → contribution_events(organization_id, id, creative_asset_id)")),
+ ("FK21", "RS-03 sin source_attribution_relation", "K32", "RS-03 pierde source_attribution_relation y relation", _fila_con(_C_CVP, _RS3, _RS3, "(organization_id, source_attribution_id, source_upload_event_id, source_uploader_id, source_root_asset_version_id) → copy_version_provenance(organization_id, id, contribution_event_id, contributor_id, origin_asset_id)")),
+ ("FK22", "RS-03 sin source_root_asset_version_id", "K32", "RS-03 pierde source_root_asset_version_id y origin_asset_id", _fila_con(_C_CVP, _RS3, _RS3, "(organization_id, source_attribution_id, source_upload_event_id, source_uploader_id, source_attribution_relation) → copy_version_provenance(organization_id, id, contribution_event_id, contributor_id, relation)")),
+ ("FK23", "RS-08 con columnas de destino en otro orden", "K44", "En RS-08 se invierten id y upload_event_id en el destino", _fila_con(_C1, _RS8, "creative_assets(organization_id, id, upload_event_id)", "creative_assets(organization_id, upload_event_id, id)")),
+ ("FK24", "Destino de RS-05 sin su clave única", "K44", "Se elimina de creative_assets la clave única (organization_id, id, root_asset_version_id)", _fila("| creative_assets | organization_id uuid", "unique(organization_id, id, root_asset_version_id)", "")),
+ ("FK25", "Destino de RS-08 sin su clave única", "K44", "Se elimina de creative_assets la clave única (organization_id, id, upload_event_id)", _fila("| creative_assets | organization_id uuid", "unique(organization_id, id, upload_event_id)", "")),
+ ("FK26", "RS-02 sin organization_id", "K44", "RS-02 pierde organization_id en origen y destino", _fila_con(_C_CE, _RS2, _RS2, "(source_upload_event_id, source_root_asset_version_id, source_uploader_id, organization_id) → contribution_events(id, creative_asset_id, contributor_id, organization_id)")),
+ ("FK27", "RS-07 sin la pieza", "K32", "RS-07 pierde piece_id y copy_version_piece_id", _fila_con(_C_AE, _RS7, _RS7, "(organization_id, reuse_event_id, reused_from_asset_id, copy_version_id) → contribution_events(organization_id, id, source_asset_version_id, copy_version_id)")),
+ ("FK28", "RS-06 sin la versión de copy", "K32", "RS-06 pierde copy_version_id y asset_copy_version_id", _fila_con(_C_AE, _RS6f, _RS6f, "(organization_id, upload_event_id, id, uploader_id, piece_id) → contribution_events(organization_id, id, creative_asset_id, contributor_id, asset_piece_id)")),
+ ("FK29", "Asset sustituido en RS-05", "K32", "RS-05 usa lineage_parent_asset_id en lugar de reused_from_asset_id", _fila_con(_C_CC, _RS5, "(organization_id, reused_from_asset_id, root_asset_version_id)", "(organization_id, lineage_parent_asset_id, root_asset_version_id)")),
+ ("FK30", "Versión sustituida en RS-07", "K32", "RS-07 usa previous_asset_id en lugar de reused_from_asset_id", _fila_con(_C_AE, _RS7, "(organization_id, reuse_event_id, reused_from_asset_id, piece_id, copy_version_id) →", "(organization_id, reuse_event_id, previous_asset_id, piece_id, copy_version_id) →")),
+ ("FK31", "Evento sustituido en RS-06", "K32", "RS-06 usa reuse_event_id en lugar de upload_event_id", _fila_con(_C_AE, _RS6f, "(organization_id, upload_event_id, id, uploader_id, piece_id, copy_version_id) →", "(organization_id, reuse_event_id, id, uploader_id, piece_id, copy_version_id) →")),
+ ("FK32", "Uploader sustituido en RS-02", "K45", "RS-02 intercambia source_upload_event_id y source_uploader_id", _fila_con(_C_CE, _RS2, "(organization_id, source_upload_event_id, source_root_asset_version_id, source_uploader_id) →", "(organization_id, source_uploader_id, source_root_asset_version_id, source_upload_event_id) →")),
+ ("FK33", "Atribución sustituida en RS-03", "K45", "RS-03 intercambia source_attribution_id y source_uploader_id", _fila_con(_C_CVP, _RS3, "(organization_id, source_attribution_id, source_upload_event_id, source_uploader_id,", "(organization_id, source_uploader_id, source_upload_event_id, source_attribution_id,")),
+ ("FK34", "Relación de origen cruzada en RS-03", "K32", "RS-03 apunta a brief_field_attributions", _fila_con(_C_CVP, _RS3, "→ copy_version_provenance(", "→ brief_field_attributions(")),
+ ("FK35", "Borrado indebido en RS-02", "K32", "RS-02 pasa de ON DELETE RESTRICT a ON DELETE CASCADE", _fila_con(_C_CE, _RS2, "ON DELETE RESTRICT", "ON DELETE CASCADE")),
+ ("FK36", "Actualización indebida en RS-01", "K32", "RS-01 agrega ON UPDATE CASCADE", _fila_con(_C1, _RS1, "ON DELETE RESTRICT", "ON DELETE RESTRICT ON UPDATE CASCADE")),
+ ("FK37", "Ciclo de inserción", "K44", "En la reutilización, el paso 2 referencia un registro del paso 2", _ed("RS-05 → origen (preexistente); RS-07 → paso 1", "RS-05 → origen (preexistente); RS-07 → paso 2")),
+ ("FK38", "FK diferida mal aplicada", "K32", "RS-05 pasa a DEFERRABLE INITIALLY DEFERRED sin ciclo de filas", _fila_con(_C_CC, _RS5, "ON DELETE RESTRICT", "ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED")),
+ ("FK39", "Excepción sin mecanismo alternativo", "K32", "La excepción pierde el mecanismo alternativo", _fila(_EXC, "no se almacena: el número es creative_assets.asset_version de la fila identificada por RS-01 y nunca sustituye a la identidad", " ")),
+ ("FK40", "Excepción sin prueba negativa", "K45", "La excepción pierde la prueba negativa", _fila(_EXC, "K47-A34 (mismo número de versión) y K47-A42 (intercambio con igual número)", "ninguna")),
+ ("FK41", "Restricción única propia eliminada", "K32", "Se elimina unique(organization_id, reuse_event_id) de creative_assets", _fila("| creative_assets | organization_id uuid", "unique(organization_id, reuse_event_id)", "")),
+]
+
+_K57M = [
+ ("K57-D01", "Trazabilidad con una función inexistente", "K57", "La regla IG5-104 cita `Motor.reconstruir_cadena_inexistente`", _ed("`Motor.reconstruir_cadena_procedencia`", "`Motor.reconstruir_cadena_inexistente`")),
+ ("K57-D02", "Trazabilidad con una prueba inexistente", "K57", "La regla IG5-104 cita CHAIN-25", _ed("| CHAIN-01 a CHAIN-24 | K56 |", "| CHAIN-01 a CHAIN-25 | K56 |")),
+ ("K57-D03", "Matriz de auditoría con una celda vacía", "K57", "D-05 pierde su verificación independiente", _fila("| D-05 |", "auditor independiente (I15) |", " |")),
+ ("K57-D04", "Orden de validación sin el paso 14", "K57", "Se elimina el paso 14 del orden de validación", _quitar_fila_con("| 14 |", "Verificación final del estado")),
+ ("K57-D05", "Cifra ejecutada distinta en el documento", "K57", "CHAIN: 24 pasa a CHAIN: 23", _ed("CHAIN: 24", "CHAIN: 23")),
+ ("K57-D06", "Auditoría de 20 puntos con un punto fallido ocultado", "K57", "La matriz del documento muestra NO donde el cálculo da sí", _fila("| RS-08 | sí", "| sí |", "| NO |")),
+ ("K57-D07", "Relación con una prueba positiva inexistente", "K55", "RS-08 cita CHAIN-99", _fila("| RS-08 |", "CHAIN-04", "CHAIN-99")),
+ ("K57-D08", "Matriz de auditoría sin el defecto D-12", "K57", "Se elimina la fila D-12", _quitar_fila_con("| D-12 |", "FK16 a FK41")),
+]
+
 def _tipo_rel(t):
     s = t[SPEC]; a = s.index("#### `contribution_events`"); b = s.index("\n#### ", a + 5); seg = s[a:b]
     k = re.search(r"^\| source_attribution_relation \| text \|", seg, re.M); assert k
@@ -1217,6 +1412,7 @@ MUT = [
  ("M-21", "Dependencia posterior en el orden de creación", "K16", "La subfase 2.1 depende de promotion_snapshots (4.x)", lambda t: _dep_post(t)),
 ]
 MUT += _FKM
+MUT += _K57M
 def _dep_post(t):
     s = t[SPEC]; t = dict(t)
     t[SPEC] = re.sub(r"(\| \d+ \| 2\.1 \| tabla \(estructura\) \| brief_versions \| )[^|]*\|", r"\1promotion_snapshots |", s, count=1); return t
@@ -1258,7 +1454,7 @@ def informe(dir_, usar_mut=True, v33=None):
     chk("K40", "La matriz define %d controles con ID estable único, regla, sección, evidencia, procedimiento, resultado, estado y nivel; ninguno es OK sin comprobaciones aprobadas" % len(ctr0), len(ctr0) == 28 and len({c[0] for c in ctr0}) == 28 and all(all(x for x in c) for c in ctr0), "", "IE-06, IE-07", "AUDITORIA 3")
     base = [dict(r) for r in RES]
     guard = list(RES)
-    RES.clear(); C2, A2, i2 = ejecutar(textos, dir_hist); checks_adicionales(textos, C2, A2, i2); checks_v7(textos, C2, A2, i2); check_v33(v33)
+    RES.clear(); _CACHE14.clear(); C2, A2, i2 = ejecutar(textos, dir_hist); checks_adicionales(textos, C2, A2, i2); checks_v7(textos, C2, A2, i2); check_v33(v33)
     chk("K40", "La matriz define %d controles con ID estable único, regla, sección, evidencia, procedimiento, resultado, estado y nivel; ninguno es OK sin comprobaciones aprobadas" % len(ctr0), len(ctr0) == 28 and len({c[0] for c in ctr0}) == 28 and all(all(x for x in c) for c in ctr0), "", "IE-06, IE-07", "AUDITORIA 3")
     repro = [(r["id"], r["ok"]) for r in RES] == [(r["id"], r["ok"]) for r in base]
     chk("K41", "Reproducibilidad: dos ejecuciones sobre los mismos archivos producen los mismos resultados individuales", repro, "", "IE-08", "AUDITORIA 3")
@@ -1293,7 +1489,12 @@ def criterios_v12(byid, muts):
     for etq, ids, minimo in (("K47 identidad exacta de assets de la v11 (A17 a A32 y A49 a A53)", IDS_V11, 16), ("K47 identidad exacta del asset de origen de la v12 (A33 a A48)", IDS_V12, 16)):
         d, t = sel_ids(ids); out.append((etq, "al menos %d mutaciones, todas detectadas, con procedencia incompleta y E no completo" % minimo, "%d/%d detectadas: %s" % (d, t, "CUMPLE" if d == t == len(ids) >= minimo and all(m.get("bloq") is not False for m in muts if m["id"] in ids) else "NO CUMPLE")))
     d13, t13 = sel_ids(IDS_V13); out.append(("K47 validación previa del origen de la v13 (A54 a A65)", "las 12 mutaciones detectadas: rechazo por ReutilizacionInvalida con la relación identificada, sin registros parciales, estado previo idéntico, procedencia no completa, E nulo y sin evaluación de impacto, aprobación ni publicación", "%d/%d detectadas: %s" % (d13, t13, "CUMPLE" if d13 == t13 == N_RECH and all(m.get("bloq") is not False for m in muts if m["id"] in IDS_V13) else "NO CUMPLE")))
-    dfk, tfk = sel("FK", 1, N_FK); out.append(("Mutaciones estructurales FK01 a FK15", "las 15 mutaciones de K32, K44, K45 y K55 detectadas por su verificador, sin exclusiones generales de columnas source_*", "%d/%d detectadas: %s" % (dfk, tfk, "CUMPLE" if dfk == tfk == N_FK else "NO CUMPLE")))
+    dfk, tfk = sel("FK", 1, N_FK); out.append(("Mutaciones estructurales FK01 a FK%02d" % N_FK, "las %d mutaciones de K32, K44, K45 y K55 detectadas por su verificador, sin exclusiones generales de columnas source_*" % N_FK, "%d/%d detectadas: %s" % (dfk, tfk, "CUMPLE" if dfk == tfk == N_FK else "NO CUMPLE")))
+    for etq, pref, tot, cond in (("K56 cadena completa (CHAIN-01 a CHAIN-24)", "CHAIN-", N_CHAIN, "las 24 mutaciones de eslabones detectadas con el eslabón identificado, sin registros parciales y con E bloqueado"), ("K56 atribuciones y resoluciones (ATTR-01 a ATTR-12)", "ATTR-", N_ATTR, "las 12 mutaciones detectadas por el auditor independiente"),
+                                 ("K56 mutaciones del código del modelo (K56-M01 a K56-M08)", "K56-M", N_K56M, "cada defensa nueva degradada es detectada por al menos una prueba"), ("K57 mutaciones documentales de trazabilidad (K57-D01 a K57-D08)", "K57-D", N_K57D, "las mutaciones del documento detectadas por K55 o K57")):
+        d, t = sel(pref); out.append((etq, cond, "%d/%d detectadas: %s" % (d, t, "CUMPLE" if d == t == tot else "NO CUMPLE")))
+    _ch, _ad, _at, _a14, _e14, _mm = _ejecutadas14()
+    out.append(("K56 baterías ejecutadas", "ADVC 24/24 (el motor forzado acepta y el auditor detecta), AT14 11/11, E14 6/6 y auditor sin funciones del motor", "ADVC %d/%d; AT14 %d/%d; E14 %d/%d; %s: %s" % (sum(1 for x in _ad if x["ok"]), N_CHAIN, sum(1 for x in _a14 if x["ok"]), N_AT14, sum(1 for x in _e14 if x["ok"]), N_E14, "auditor", "CUMPLE" if not MS._compartidas() and all(x["ok"] for x in _ad + _a14 + _e14) and len(_ad) == N_CHAIN and len(_a14) == N_AT14 and len(_e14) == N_E14 else "NO CUMPLE")))
     esc = MS.correr_escenarios(); ea = [e for e in esc if e["id"] in "ABCDEFGHIJKL"]
     out.append(("Escenarios estructurales K47", "los 12 escenarios A a L aprobados sobre datos estructurados", "%d/12 aprobados; U, S, X, R y RS: %s" % (sum(1 for e in ea if e["ok"]), "aprobados" if all(e["ok"] for e in esc if e["id"] in ("U", "S", "X", "R", "RS")) else "NO aprobados")))
     pa_ = MS.correr_positivos_arte(); gu_ = MS.pruebas_guarda()
@@ -1371,7 +1572,7 @@ def bloque_markdown(ctr, textos, muts):
     L.append("\n**Auditoría final (14 verificaciones).**\n")
     L.append("| # | Verificación | Comprobaciones | Resultado |\n|---|---|---|---|")
     for n_, nom, ids in AUDITORIA_V7: L.append("| %d | %s | %s | %s |" % (n_, nom, ", ".join(ids), _est(ids, byid)))
-    L.append("\n**Criterios binarios de aceptación de la v13 (resultado calculado).**\n")
+    L.append("\n**Criterios binarios de aceptación de la v14 (resultado calculado).**\n")
     L.append("| Criterio | Condición | Resultado |\n|---|---|---|")
     for c_, cond, res_ in criterios_v12(byid, muts): L.append("| %s | %s | %s |" % (c_, cond, res_))
     return "\n".join(L)
