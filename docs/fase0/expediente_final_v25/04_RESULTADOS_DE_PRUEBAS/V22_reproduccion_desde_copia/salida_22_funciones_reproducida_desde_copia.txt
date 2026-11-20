@@ -1,0 +1,368 @@
+pruebas_guarda | 01 | esperado=True | obtenido=True | PASS | asignar un campo de una fila
+pruebas_guarda | 02 | esperado=True | obtenido=True | PASS | eliminar un campo de una fila
+pruebas_guarda | 03 | esperado=True | obtenido=True | PASS | actualizar una fila
+pruebas_guarda | 04 | esperado=True | obtenido=True | PASS | reemplazar una fila con el mismo ID
+pruebas_guarda | 05 | esperado=True | obtenido=True | PASS | eliminar una resolución
+pruebas_guarda | 06 | esperado=True | obtenido=True | PASS | vaciar el registro
+pruebas_guarda | 07 | esperado=True | obtenido=True | PASS | agregar con un ID existente
+pruebas_guarda | 08 | esperado=True | obtenido=True | PASS | modificar la evidencia histórica anidada
+pruebas_guarda | 09 | esperado=True | obtenido=True | PASS | volver a aplicar una resolución con el mismo ID
+pruebas_atomicidad | 01 | esperado=True | obtenido=True | PASS | el asset de origen no existe
+pruebas_atomicidad | 02 | esperado=True | obtenido=True | PASS | el origen no tiene evento de carga
+pruebas_atomicidad | 03 | esperado=True | obtenido=True | PASS | el uploader original no tiene membresía activa
+pruebas_atomicidad | 04 | esperado=True | obtenido=True | PASS | no existe la atribución directa del uploader original
+pruebas_atomicidad | 05 | esperado=True | obtenido=True | PASS | el origen pertenece a otra organización
+pruebas_atomicidad | 06 | esperado=True | obtenido=True | PASS | la pieza del origen no coincide con su evento
+pruebas_atomicidad | 07 | esperado=True | obtenido=True | PASS | el reutilizador no es miembro activo
+pruebas_atomicidad | 08 | esperado=True | obtenido=True | PASS | el identificador del asset reutilizado ya existe
+pruebas_atomicidad | 09 | esperado=True | obtenido=True | PASS | A54: el evento original de carga pertenece a otro asset de la misma organización y pieza
+pruebas_atomicidad | 10 | esperado=True | obtenido=True | PASS | A55: el evento original de carga pertenece a otro asset con el mismo número de versión
+pruebas_atomicidad | 11 | esperado=True | obtenido=True | PASS | A56: el evento original de carga es el de otra versión del mismo asset raíz
+pruebas_atomicidad | 12 | esperado=True | obtenido=True | PASS | A57: la atribución directa del uploader pertenece a otro evento de carga del mismo asset
+pruebas_atomicidad | 13 | esperado=True | obtenido=True | PASS | A58: la atribución directa pertenece a otro asset de la misma organización
+pruebas_atomicidad | 14 | esperado=True | obtenido=True | PASS | A59: la atribución directa pertenece a otro uploader
+pruebas_atomicidad | 15 | esperado=True | obtenido=True | PASS | A60: el actor del evento de carga no coincide con el uploader declarado
+pruebas_atomicidad | 16 | esperado=True | obtenido=True | PASS | A61: el evento de carga es correcto pero está asociado a otra versión de copy
+pruebas_atomicidad | 17 | esperado=True | obtenido=True | PASS | A62: el evento de carga es correcto pero está asociado a otra pieza
+pruebas_atomicidad | 18 | esperado=True | obtenido=True | PASS | A63: el uploader original no tiene membresía activa
+pruebas_atomicidad | 19 | esperado=True | obtenido=True | PASS | A64: evento de carga y uploader correctos pero la atribución directa no existe
+pruebas_atomicidad | 20 | esperado=True | obtenido=True | PASS | A65: la referencia al evento de carga se intercambia con la de otro asset después de construir la cadena
+correr_mutaciones_rechazo | K47-A54 | esperado=True | obtenido=True | PASS | el evento original de carga pertenece a otro asset de la misma organización y pi
+correr_mutaciones_rechazo | K47-A55 | esperado=True | obtenido=True | PASS | el evento original de carga pertenece a otro asset con el mismo número de versió
+correr_mutaciones_rechazo | K47-A56 | esperado=True | obtenido=True | PASS | el evento original de carga es el de otra versión del mismo asset raíz
+correr_mutaciones_rechazo | K47-A57 | esperado=True | obtenido=True | PASS | la atribución directa del uploader pertenece a otro evento de carga del mismo as
+correr_mutaciones_rechazo | K47-A58 | esperado=True | obtenido=True | PASS | la atribución directa pertenece a otro asset de la misma organización
+correr_mutaciones_rechazo | K47-A59 | esperado=True | obtenido=True | PASS | la atribución directa pertenece a otro uploader
+correr_mutaciones_rechazo | K47-A60 | esperado=True | obtenido=True | PASS | el actor del evento de carga no coincide con el uploader declarado
+correr_mutaciones_rechazo | K47-A61 | esperado=True | obtenido=True | PASS | el evento de carga es correcto pero está asociado a otra versión de copy
+correr_mutaciones_rechazo | K47-A62 | esperado=True | obtenido=True | PASS | el evento de carga es correcto pero está asociado a otra pieza
+correr_mutaciones_rechazo | K47-A63 | esperado=True | obtenido=True | PASS | el uploader original no tiene membresía activa
+correr_mutaciones_rechazo | K47-A64 | esperado=True | obtenido=True | PASS | evento de carga y uploader correctos pero la atribución directa no existe
+correr_mutaciones_rechazo | K47-A65 | esperado=True | obtenido=True | PASS | la referencia al evento de carga se intercambia con la de otro asset después de 
+correr_adversariales | ADV1 | esperado=True | obtenido=True | PASS | uploader de otra organización
+correr_adversariales | ADV2 | esperado=True | obtenido=True | PASS | evento de carga de otra pieza
+correr_adversariales | ADV3 | esperado=True | obtenido=True | PASS | evento de reutilización de otro actor
+correr_adversariales | ADV4 | esperado=True | obtenido=True | PASS | atribución heredada sin antecesor
+correr_adversariales | ADV5 | esperado=True | obtenido=True | PASS | uploader con membresía inactiva
+correr_adversariales | ADV6 | esperado=True | obtenido=True | PASS | asset diferente con el mismo número de versión
+correr_adversariales | ADV7 | esperado=True | obtenido=True | PASS | evento de carga diferente del mismo uploader
+correr_adversariales | ADV8 | esperado=True | obtenido=True | PASS | versión de asset diferente del mismo origen
+correr_adversariales | ADV9 | esperado=True | obtenido=True | PASS | asset de otra pieza con el mismo número de versión
+correr_adversariales | ADV10 | esperado=True | obtenido=True | PASS | asset de otra organización con identificadores de versión coincidentes
+correr_adversariales | ADV11 | esperado=True | obtenido=True | PASS | evento de carga de otro asset de la misma organización y pieza (A54)
+correr_adversariales | ADV12 | esperado=True | obtenido=True | PASS | evento de carga de otro asset con el mismo número de versión (A55)
+correr_adversariales | ADV13 | esperado=True | obtenido=True | PASS | atribución directa de otro evento de carga del mismo asset (A57)
+correr_adversariales | ADV14 | esperado=True | obtenido=True | PASS | atribución directa de otro asset de la misma organización (A58)
+correr_adversariales | ADV15 | esperado=True | obtenido=True | PASS | actor del evento de carga distinto del uploader declarado (A60)
+correr_adversariales | ADV16 | esperado=True | obtenido=True | PASS | referencia al evento de carga intercambiada con otro asset (A65)
+correr_escenarios | A | esperado=True | obtenido=True | PASS | conservación por sustitución
+correr_escenarios | B | esperado=True | obtenido=True | PASS | conservación por eliminación
+correr_escenarios | C | esperado=True | obtenido=True | PASS | varias atribuciones de una persona
+correr_escenarios | D | esperado=True | obtenido=True | PASS | varias fuentes
+correr_escenarios | E | esperado=True | obtenido=True | PASS | resolución rechazada
+correr_escenarios | F | esperado=True | obtenido=True | PASS | resolución inválida por evidencia de otra versión
+correr_escenarios | G | esperado=True | obtenido=True | PASS | herencia
+correr_escenarios | H | esperado=True | obtenido=True | PASS | cadena incompleta
+correr_escenarios | I | esperado=True | obtenido=True | PASS | clasificación modificada
+correr_escenarios | J | esperado=True | obtenido=True | PASS | resolución y contribución independiente
+correr_escenarios | K | esperado=True | obtenido=True | PASS | fuentes paralelas
+correr_escenarios | L | esperado=True | obtenido=True | PASS | sin resolutor elegible
+correr_escenarios | U | esperado=True | obtenido=True | PASS | uniformidad entre copy, brief y promoción
+correr_escenarios | S | esperado=True | obtenido=True | PASS | independencia de la similitud textual
+correr_escenarios | X | esperado=True | obtenido=True | PASS | resolutor no independiente rechazado
+correr_escenarios | R | esperado=True | obtenido=True | PASS | cada regla R1 a R9 impide resolver
+correr_escenarios | RS | esperado=True | obtenido=True | PASS | resoluciones inmutables y cadena de reconsideración
+correr_mutaciones_k47 | K47-M01 | esperado=True | obtenido=True | PASS | sustituir_campo retira automáticamente la atribución anterior
+correr_mutaciones_k47 | K47-M02 | esperado=True | obtenido=True | PASS | eliminar_campo retira automáticamente la atribución anterior
+correr_mutaciones_k47 | K47-M03 | esperado=True | obtenido=True | PASS | modificar_campo pierde una atribución previa
+correr_mutaciones_k47 | K47-M04 | esperado=True | obtenido=True | PASS | introducir_campo no incorpora al actor
+correr_mutaciones_k47 | K47-M05 | esperado=True | obtenido=True | PASS | el cálculo de E excluye a la persona afectada por una resolución rechazada
+correr_mutaciones_k47 | K47-M06 | esperado=True | obtenido=True | PASS | la resolución aceptada retira otra atribución distinta
+correr_mutaciones_k47 | K47-M07 | esperado=True | obtenido=True | PASS | la resolución aceptada altera una versión histórica
+correr_mutaciones_k47 | K47-M08 | esperado=True | obtenido=True | PASS | crear_version omite una atribución heredada
+correr_mutaciones_k47 | K47-M09 | esperado=True | obtenido=True | PASS | una cadena de copy incompleta se presenta como completa
+correr_mutaciones_k47 | K47-M10 | esperado=True | obtenido=True | PASS | una resolución válida elimina de E a quien conserva otra atribución activa
+correr_mutaciones_k47 | K47-M11 | esperado=True | obtenido=True | PASS | la sustitución difiere entre copy y brief
+correr_mutaciones_k47 | K47-M12 | esperado=True | obtenido=True | PASS | la eliminación difiere entre brief y promoción
+correr_mutaciones_k47 | K47-M13 | esperado=True | obtenido=True | PASS | la similitud textual determina el descarte
+correr_mutaciones_k47 | K47-M14 | esperado=True | obtenido=True | PASS | cambiar la clasificación retira atribuciones sin resolución
+correr_mutaciones_k47 | K47-M15 | esperado=True | obtenido=True | PASS | resolución válida retira a quien conserva otra atribución activa en otro campo
+correr_mutaciones_k47 | K47-M16 | esperado=True | obtenido=True | PASS | resolución válida retira a quien conserva una contribución activa en otra fuente
+correr_mutaciones_k47 | K47-M17 | esperado=True | obtenido=True | PASS | resolver una atribución retira todas las atribuciones de la persona
+correr_mutaciones_k47 | K47-M18 | esperado=True | obtenido=True | PASS | una resolución rechazada cambia el estado de una atribución
+correr_mutaciones_k47 | K47-M19 | esperado=True | obtenido=True | PASS | una resolución con evidencia de otra versión modifica E
+correr_mutaciones_k47 | K47-M20 | esperado=True | obtenido=True | PASS | crear_version omite una atribución heredada de segunda generación
+correr_mutaciones_k47 | K47-M21 | esperado=True | obtenido=True | PASS | una atribución histórica desaparece de la evidencia
+correr_mutaciones_k47 | K47-M22 | esperado=True | obtenido=True | PASS | la cadena de brief está incompleta pero E aparece como completo
+correr_mutaciones_k47 | K47-M23 | esperado=True | obtenido=True | PASS | la cadena de promoción está incompleta pero E aparece como completo
+correr_mutaciones_k47 | K47-M24 | esperado=True | obtenido=True | PASS | la resolución retira un campo distinto del que declara
+correr_mutaciones_k47 | K47-M25 | esperado=True | obtenido=True | PASS | quien contribuye a dos fuentes sale de E al resolver solo una
+correr_mutaciones_k47 | K47-M26 | esperado=True | obtenido=True | PASS | la resolución válida reescribe un registro anterior en lugar de agregar uno nuev
+correr_mutaciones_k47 | K47-M27 | esperado=True | obtenido=True | PASS | se acepta una resolución cuyo resolutor incumple la independencia (R1 a R9 no se
+correr_mutaciones_k47 | K47-M28 | esperado=True | obtenido=True | PASS | el motor no evalúa la regla R1 del resolutor (membresía activa)
+correr_mutaciones_k47 | K47-M29 | esperado=True | obtenido=True | PASS | el motor no evalúa la regla R2 del resolutor (piece.review)
+correr_mutaciones_k47 | K47-M30 | esperado=True | obtenido=True | PASS | el motor no evalúa la regla R3 del resolutor (afectado)
+correr_mutaciones_k47 | K47-M31 | esperado=True | obtenido=True | PASS | el motor no evalúa la regla R4 del resolutor (solicitante)
+correr_mutaciones_k47 | K47-M32 | esperado=True | obtenido=True | PASS | el motor no evalúa la regla R5 del resolutor (actor del cambio)
+correr_mutaciones_k47 | K47-M33 | esperado=True | obtenido=True | PASS | el motor no evalúa la regla R6 del resolutor (contribuyente directo de la cadena
+correr_mutaciones_k47 | K47-M34 | esperado=True | obtenido=True | PASS | el motor no evalúa la regla R7 del resolutor (contribuyente heredado activo)
+correr_mutaciones_k47 | K47-M35 | esperado=True | obtenido=True | PASS | el motor no evalúa la regla R8 del resolutor (contribuyente de otra fuente de la
+correr_mutaciones_k47 | K47-M36 | esperado=True | obtenido=True | PASS | el motor no evalúa la regla R9 del resolutor (beneficiario)
+correr_mutaciones_resoluciones | K47-R01 | esperado=True | obtenido=True | PASS | modificar el resultado de una resolución existente
+correr_mutaciones_resoluciones | K47-R02 | esperado=True | obtenido=True | PASS | modificar la evidencia de una resolución existente
+correr_mutaciones_resoluciones | K47-R03 | esperado=True | obtenido=True | PASS | modificar el resolutor de una resolución existente
+correr_mutaciones_resoluciones | K47-R04 | esperado=True | obtenido=True | PASS | modificar el solicitante de una resolución existente
+correr_mutaciones_resoluciones | K47-R05 | esperado=True | obtenido=True | PASS | cambiar la atribución afectada por una resolución
+correr_mutaciones_resoluciones | K47-R06 | esperado=True | obtenido=True | PASS | cambiar la versión afectada por una resolución
+correr_mutaciones_resoluciones | K47-R07 | esperado=True | obtenido=True | PASS | eliminar una resolución histórica
+correr_mutaciones_resoluciones | K47-R08 | esperado=True | obtenido=True | PASS | reemplazar una resolución usando el mismo ID
+correr_mutaciones_resoluciones | K47-R09 | esperado=True | obtenido=True | PASS | convertir una resolución rechazada en aceptada
+correr_mutaciones_resoluciones | K47-R10 | esperado=True | obtenido=True | PASS | reutilizar una resolución aceptada para otra atribución
+correr_mutaciones_resoluciones | K47-R11 | esperado=True | obtenido=True | PASS | alterar la cadena de reconsideraciones
+correr_mutaciones_resoluciones | K47-R12 | esperado=True | obtenido=True | PASS | reescribir una resolución anterior para simular una decisión posterior
+correr_mutaciones_assets | K47-A01 | esperado=True | obtenido=True | PASS | una versión usa un asset sin uploader
+correr_mutaciones_assets | K47-A02 | esperado=True | obtenido=True | PASS | una versión usa un asset sin evento de carga
+correr_mutaciones_assets | K47-A03 | esperado=True | obtenido=True | PASS | el asset pertenece a otra organización
+correr_mutaciones_assets | K47-A04 | esperado=True | obtenido=True | PASS | el asset pertenece a otra pieza sin relación válida
+correr_mutaciones_assets | K47-A05 | esperado=True | obtenido=True | PASS | la reutilización apunta a otra versión de copy
+correr_mutaciones_assets | K47-A06 | esperado=True | obtenido=True | PASS | el reutilizador sustituye al uploader original
+correr_mutaciones_assets | K47-A07 | esperado=True | obtenido=True | PASS | asset reutilizado sin evento de reutilización
+correr_mutaciones_assets | K47-A08 | esperado=True | obtenido=True | PASS | asset heredado sin referencia al origen
+correr_mutaciones_assets | K47-A09 | esperado=True | obtenido=True | PASS | la cadena de assets contiene un ciclo
+correr_mutaciones_assets | K47-A10 | esperado=True | obtenido=True | PASS | el asset de origen no existe
+correr_mutaciones_assets | K47-A11 | esperado=True | obtenido=True | PASS | un asset modificado pierde la atribución anterior
+correr_mutaciones_assets | K47-A12 | esperado=True | obtenido=True | PASS | un asset sustituido elimina la atribución anterior automáticamente
+correr_mutaciones_assets | K47-A13 | esperado=True | obtenido=True | PASS | un asset eliminado borra su historial
+correr_mutaciones_assets | K47-A14 | esperado=True | obtenido=True | PASS | un arte incompleto permite declarar E completo
+correr_mutaciones_assets | K47-A15 | esperado=True | obtenido=True | PASS | el cálculo de E omite a los contribuyentes del arte
+correr_mutaciones_assets | K47-A16 | esperado=True | obtenido=True | PASS | la ausencia de registros de arte se acepta como no_aplica
+correr_mutaciones_assets | K47-A17 | esperado=True | obtenido=True | PASS | el uploader pertenece a otra organización
+correr_mutaciones_assets | K47-A18 | esperado=True | obtenido=True | PASS | el uploader tiene membresía inactiva
+correr_mutaciones_assets | K47-A19 | esperado=True | obtenido=True | PASS | el evento de carga pertenece a otra organización
+correr_mutaciones_assets | K47-A20 | esperado=True | obtenido=True | PASS | el evento de carga pertenece a otra pieza
+correr_mutaciones_assets | K47-A21 | esperado=True | obtenido=True | PASS | el evento de carga corresponde a otra versión del asset
+correr_mutaciones_assets | K47-A22 | esperado=True | obtenido=True | PASS | el actor del evento de carga no es el uploader
+correr_mutaciones_assets | K47-A23 | esperado=True | obtenido=True | PASS | la atribución directa corresponde a otra versión de copy
+correr_mutaciones_assets | K47-A24 | esperado=True | obtenido=True | PASS | la atribución directa corresponde a otra pieza
+correr_mutaciones_assets | K47-A25 | esperado=True | obtenido=True | PASS | la atribución directa corresponde a otra organización
+correr_mutaciones_assets | K47-A26 | esperado=True | obtenido=True | PASS | el evento de reutilización pertenece a otra organización
+correr_mutaciones_assets | K47-A27 | esperado=True | obtenido=True | PASS | el evento de reutilización pertenece a otra pieza
+correr_mutaciones_assets | K47-A28 | esperado=True | obtenido=True | PASS | el evento de reutilización identifica a otro actor
+correr_mutaciones_assets | K47-A29 | esperado=True | obtenido=True | PASS | el evento de reutilización referencia otra versión de asset
+correr_mutaciones_assets | K47-A30 | esperado=True | obtenido=True | PASS | la reutilización no referencia la versión exacta de copy
+correr_mutaciones_assets | K47-A31 | esperado=True | obtenido=True | PASS | la reutilización intenta reemplazar al uploader original
+correr_mutaciones_assets | K47-A32 | esperado=True | obtenido=True | PASS | la atribución heredada de asset carece de antecesor verificable
+correr_mutaciones_assets | K47-A49 | esperado=True | obtenido=True | PASS | el evento de carga corresponde a otra versión de copy
+correr_mutaciones_assets | K47-A50 | esperado=True | obtenido=True | PASS | el reutilizador tiene membresía inactiva
+correr_mutaciones_assets | K47-A51 | esperado=True | obtenido=True | PASS | dos reutilizaciones comparten el mismo evento
+correr_mutaciones_assets | K47-A52 | esperado=True | obtenido=True | PASS | el actor autenticado del evento de carga no es el uploader
+correr_mutaciones_assets | K47-A53 | esperado=True | obtenido=True | PASS | no_aplica oculta un asset registrado
+correr_mutaciones_assets | K47-A33 | esperado=True | obtenido=True | PASS | el evento referencia otro asset de origen de la misma organización
+correr_mutaciones_assets | K47-A34 | esperado=True | obtenido=True | PASS | el evento referencia otro asset con el mismo número de versión
+correr_mutaciones_assets | K47-A35 | esperado=True | obtenido=True | PASS | el evento referencia otra versión del mismo asset original
+correr_mutaciones_assets | K47-A36 | esperado=True | obtenido=True | PASS | el evento referencia un evento de carga de otro asset
+correr_mutaciones_assets | K47-A37 | esperado=True | obtenido=True | PASS | el evento referencia otro evento de carga del mismo asset, de otra versión
+correr_mutaciones_assets | K47-A38 | esperado=True | obtenido=True | PASS | el evento referencia otro uploader original
+correr_mutaciones_assets | K47-A39 | esperado=True | obtenido=True | PASS | el asset reutilizado apunta a un origen distinto del declarado por el evento
+correr_mutaciones_assets | K47-A40 | esperado=True | obtenido=True | PASS | el evento apunta al origen correcto pero a una versión incorrecta
+correr_mutaciones_assets | K47-A41 | esperado=True | obtenido=True | PASS | el evento apunta al asset correcto pero a otro evento que no es el de carga
+correr_mutaciones_assets | K47-A42 | esperado=True | obtenido=True | PASS | se intercambian dos assets con idéntico número de versión
+correr_mutaciones_assets | K47-A43 | esperado=True | obtenido=True | PASS | se intercambian dos eventos de carga de la misma organización y pieza
+correr_mutaciones_assets | K47-A44 | esperado=True | obtenido=True | PASS | el origen pertenece a otra pieza
+correr_mutaciones_assets | K47-A45 | esperado=True | obtenido=True | PASS | el origen pertenece a otra organización
+correr_mutaciones_assets | K47-A46 | esperado=True | obtenido=True | PASS | el evento de reutilización referencia otra versión de copy
+correr_mutaciones_assets | K47-A47 | esperado=True | obtenido=True | PASS | el actor autenticado no coincide con el reutilizador registrado
+correr_mutaciones_assets | K47-A48 | esperado=True | obtenido=True | PASS | la cadena de reutilización pierde el vínculo con el evento original de carga
+correr_positivos_arte | P01 | esperado=True | obtenido=True | PASS | asset nuevo con uploader y evento de carga correctos
+correr_positivos_arte | P02 | esperado=True | obtenido=True | PASS | asset reutilizado con uploader y reutilizador diferenciados
+correr_positivos_arte | P03 | esperado=True | obtenido=True | PASS | asset modificado con conservación de atribuciones
+correr_positivos_arte | P04 | esperado=True | obtenido=True | PASS | versión sin arte declarada no_aplica
+correr_positivos_arte | P05 | esperado=True | obtenido=True | PASS | asset sustituido con conservación provisional
+correr_positivos_arte | P06 | esperado=True | obtenido=True | PASS | asset eliminado con historial conservado
+correr_positivos_arte | P07 | esperado=True | obtenido=True | PASS | reutilización encadenada completa
+correr_positivos_arte | P08 | esperado=True | obtenido=True | PASS | uploader válido con organización, pieza, evento y versión exactos
+correr_positivos_arte | P09 | esperado=True | obtenido=True | PASS | uploader original y reutilizador diferentes, ambos atribuidos
+correr_positivos_arte | P10 | esperado=True | obtenido=True | PASS | mismo asset reutilizado en dos versiones de copy con eventos independientes
+correr_positivos_arte | P11 | esperado=True | obtenido=True | PASS | atribución heredada válida con antecesor verificable
+correr_positivos_arte | P12 | esperado=True | obtenido=True | PASS | uploader original conservado tras modificar el asset
+correr_positivos_arte | P13 | esperado=True | obtenido=True | PASS | cadena de reutilización válida de más de dos versiones
+correr_positivos_arte | P14 | esperado=True | obtenido=True | PASS | ausencia real de arte declarada no_aplica
+correr_positivos_arte | P15 | esperado=True | obtenido=True | PASS | reutilización válida con identidad exacta del origen
+correr_positivos_arte | P16 | esperado=True | obtenido=True | PASS | dos assets distintos con el mismo número de versión
+correr_positivos_arte | P17 | esperado=True | obtenido=True | PASS | dos reutilizaciones del mismo asset original en dos piezas
+correr_positivos_arte | P18 | esperado=True | obtenido=True | PASS | cadena de tres niveles con eventos propios y uploader original conservado
+correr_positivos_arte | P19 | esperado=True | obtenido=True | PASS | reutilización y modificación posterior del asset reutilizado
+correr_positivos_arte | P20 | esperado=True | obtenido=True | PASS | motor y auditor reconstruyen la misma cadena sin compartir funciones
+correr_positivos_arte | P21 | esperado=True | obtenido=True | PASS | reutilización válida con asset raíz, versión, evento de carga, uploader y atribu
+correr_positivos_arte | P22 | esperado=True | obtenido=True | PASS | dos assets de la misma organización y pieza con el mismo número de versión
+correr_positivos_arte | P23 | esperado=True | obtenido=True | PASS | dos eventos de carga válidos de assets distintos: intercambiarlos provoca rechaz
+correr_positivos_arte | P24 | esperado=True | obtenido=True | PASS | cadena de tres niveles con evento de carga y uploader de la raíz
+correr_positivos_arte | P25 | esperado=True | obtenido=True | PASS | reutilización válida con el auditor independiente coincidente
+correr_positivos_arte | P26 | esperado=True | obtenido=True | PASS | evento de carga y atribución válidos pero de otro asset: rechazo sin escritura
+correr_mutaciones_k45 | POS-01 | esperado=sin errores | obtenido=sin errores | PASS | base
+correr_mutaciones_k45 | POS-02 | esperado=sin errores | obtenido=sin errores | PASS | evento inherited_contributor sobre copy
+correr_mutaciones_k45 | POS-03 | esperado=sin errores | obtenido=sin errores | PASS | segunda reutilización del mismo asset (a1 → a2 → a3)
+correr_mutaciones_k45 | K45-M01 | esperado=True | obtenido=True | PASS | brief_editor con origen de promoción
+correr_mutaciones_k45 | K45-M02 | esperado=True | obtenido=True | PASS | promotion_editor con origen de brief
+correr_mutaciones_k45 | K45-M03 | esperado=True | obtenido=True | PASS | copy_editor con origen de asset
+correr_mutaciones_k45 | K45-M04 | esperado=True | obtenido=True | PASS | asset_uploader con origen de copy
+correr_mutaciones_k45 | K45-M05 | esperado=True | obtenido=True | PASS | actor del evento distinto del actor de la atribución
+correr_mutaciones_k45 | K45-M06 | esperado=True | obtenido=True | PASS | evento de otra organización
+correr_mutaciones_k45 | K45-M07 | esperado=True | obtenido=True | PASS | evento de otra pieza
+correr_mutaciones_k45 | K45-M08 | esperado=True | obtenido=True | PASS | versión de origen de la atribución distinta de la del evento
+correr_mutaciones_k45 | K45-M09 | esperado=True | obtenido=True | PASS | campo material inexistente en la versión
+correr_mutaciones_k45 | K45-M10 | esperado=True | obtenido=True | PASS | atribución de brief que referencia un evento de promoción
+correr_mutaciones_k45 | K45-M11 | esperado=True | obtenido=True | PASS | reutilizador registrado como uploader original
+correr_mutaciones_k45 | K45-M12 | esperado=True | obtenido=True | PASS | procedencia heredada sin versión de origen
+correr_mutaciones_k45 | K45-M13 | esperado=True | obtenido=True | PASS | evento cuya versión de origen no existe
+correr_mutaciones_k45 | K45-M14 | esperado=True | obtenido=True | PASS | combinación inherited_contributor con origen de asset no permitida
+correr_mutaciones_k45 | K45-M15 | esperado=True | obtenido=True | PASS | evento y atribución declaran P2 pero la versión física de copy pertenece a P1
+correr_mutaciones_k45 | K45-M16 | esperado=True | obtenido=True | PASS | evento de brief apunta a una versión de brief de otra pieza
+correr_mutaciones_k45 | K45-M17 | esperado=True | obtenido=True | PASS | atribución de promoción apunta a un snapshot de otra pieza
+correr_mutaciones_k45 | K45-M18 | esperado=True | obtenido=True | PASS | atribución de asset declara una pieza distinta a la del copy que usa el arte
+correr_mutaciones_k45 | K45-M19 | esperado=True | obtenido=True | PASS | asset reutilizado vinculado a una versión de copy distinta de la que declara la 
+correr_mutaciones_k45 | K45-M20 | esperado=True | obtenido=True | PASS | evento de asset uploader de otra organización aunque el asset reutilizado es vál
+correr_mutaciones_k45 | K45-M21 | esperado=True | obtenido=True | PASS | atribución heredada con origen válido pero relación de herencia hacia otra caden
+correr_mutaciones_k45 | K45-M22 | esperado=True | obtenido=True | PASS | cambia la versión física de origen del evento manteniendo ids aparentemente váli
+correr_mutaciones_k45 | K45-M23 | esperado=True | obtenido=True | PASS | origin_kind brief con la columna tipada de copy
+correr_mutaciones_k45 | K45-M24 | esperado=True | obtenido=True | PASS | copy_version_id apunta al identificador de un asset
+correr_mutaciones_k45 | K45-M25 | esperado=True | obtenido=True | PASS | el asset original lo cargó una persona distinta del actor del evento
+correr_mutaciones_k45 | K45-M26 | esperado=True | obtenido=True | PASS | versión de copy de P1 referencia una versión de brief de otra organización
+correr_mutaciones_k45 | K45-M27 | esperado=True | obtenido=True | PASS | la atribución de asset reutilizado usa un asset de la misma versión cuya cadena 
+correr_mutaciones_cadena | CHAIN-01 | esperado=True | obtenido=True | PASS | asset inmediato incorrecto, raíz correcta (el eslabón a3 apunta a a1 saltando a 
+correr_mutaciones_cadena | CHAIN-02 | esperado=True | obtenido=True | PASS | versión inmediata incorrecta, raíz correcta (el evento de a3 declara otra versió
+correr_mutaciones_cadena | CHAIN-03 | esperado=True | obtenido=True | PASS | evento propio de reutilización de otro eslabón (a3 usa el evento de a2)
+correr_mutaciones_cadena | CHAIN-04 | esperado=True | obtenido=True | PASS | evento original correcto en la raíz pero referencia intermedia incorrecta (a2 re
+correr_mutaciones_cadena | CHAIN-05 | esperado=True | obtenido=True | PASS | uploader correcto en la raíz y referencia intermedia a otra persona (a2)
+correr_mutaciones_cadena | CHAIN-06 | esperado=True | obtenido=True | PASS | atribución raíz correcta pero referencia intermedia a otra atribución (a2)
+correr_mutaciones_cadena | CHAIN-07 | esperado=True | obtenido=True | PASS | asset intermedio de otra organización (a2)
+correr_mutaciones_cadena | CHAIN-08 | esperado=True | obtenido=True | PASS | asset intermedio de otra pieza (a2)
+correr_mutaciones_cadena | CHAIN-09 | esperado=True | obtenido=True | PASS | versión de copy del asset intermedio incorrecta (a2)
+correr_mutaciones_cadena | CHAIN-10 | esperado=True | obtenido=True | PASS | actor autenticado incorrecto en el evento del eslabón intermedio (a2)
+correr_mutaciones_cadena | CHAIN-11 | esperado=True | obtenido=True | PASS | cadena con referencia circular (a2 apunta a a3)
+correr_mutaciones_cadena | CHAIN-12 | esperado=True | obtenido=True | PASS | cadena con dos raíces posibles (a2 con origen y versión previa)
+correr_mutaciones_cadena | CHAIN-13 | esperado=True | obtenido=True | PASS | referencia faltante en un eslabón intermedio (a2 sin origen)
+correr_mutaciones_cadena | CHAIN-14 | esperado=True | obtenido=True | PASS | referencia duplicada: la atribución directa del reutilizador de a2 está duplicad
+correr_mutaciones_cadena | CHAIN-15 | esperado=True | obtenido=True | PASS | datos de la raíz correctos y campos source_* intermedios intercambiados entre a2
+correr_mutaciones_cadena | CHAIN-16 | esperado=True | obtenido=True | PASS | asset modificado que pierde la raíz original (a1b sin versión anterior)
+correr_mutaciones_cadena | CHAIN-17 | esperado=True | obtenido=True | PASS | reutilización de una versión anterior en lugar de la exacta (a2 referencia la ve
+correr_mutaciones_cadena | CHAIN-18 | esperado=True | obtenido=True | PASS | evento de carga válido de otro asset con el mismo número de versión (a2 referenc
+correr_mutaciones_cadena | CHAIN-19 | esperado=True | obtenido=True | PASS | evento de reutilización válido de otro asset (a3 usa el de ay)
+correr_mutaciones_cadena | CHAIN-20 | esperado=True | obtenido=True | PASS | cadena de tres niveles con corrupción solo en el nivel intermedio (el evento de 
+correr_mutaciones_cadena | CHAIN-21 | esperado=True | obtenido=True | PASS | eslabón modificado intermedio con el evento de carga de otro asset (a1b usa el d
+correr_mutaciones_cadena | CHAIN-22 | esperado=True | obtenido=True | PASS | eslabón modificado intermedio con otro editor que el del evento (a1b declara al 
+correr_mutaciones_cadena | CHAIN-23 | esperado=True | obtenido=True | PASS | eslabón modificado intermedio con número de versión que no sigue al anterior (a1
+correr_mutaciones_cadena | CHAIN-24 | esperado=True | obtenido=True | PASS | eslabón modificado intermedio con la atribución directa del editor duplicada (a1
+correr_adversariales_cadena | ADVC-01 | esperado=True | obtenido=True | PASS | asset inmediato incorrecto, raíz correcta (el eslabón a3 apunta a a1 saltando a 
+correr_adversariales_cadena | ADVC-02 | esperado=True | obtenido=True | PASS | versión inmediata incorrecta, raíz correcta (el evento de a3 declara otra versió
+correr_adversariales_cadena | ADVC-03 | esperado=True | obtenido=True | PASS | evento propio de reutilización de otro eslabón (a3 usa el evento de a2)
+correr_adversariales_cadena | ADVC-04 | esperado=True | obtenido=True | PASS | evento original correcto en la raíz pero referencia intermedia incorrecta (a2 re
+correr_adversariales_cadena | ADVC-05 | esperado=True | obtenido=True | PASS | uploader correcto en la raíz y referencia intermedia a otra persona (a2)
+correr_adversariales_cadena | ADVC-06 | esperado=True | obtenido=True | PASS | atribución raíz correcta pero referencia intermedia a otra atribución (a2)
+correr_adversariales_cadena | ADVC-07 | esperado=True | obtenido=True | PASS | asset intermedio de otra organización (a2)
+correr_adversariales_cadena | ADVC-08 | esperado=True | obtenido=True | PASS | asset intermedio de otra pieza (a2)
+correr_adversariales_cadena | ADVC-09 | esperado=True | obtenido=True | PASS | versión de copy del asset intermedio incorrecta (a2)
+correr_adversariales_cadena | ADVC-10 | esperado=True | obtenido=True | PASS | actor autenticado incorrecto en el evento del eslabón intermedio (a2)
+correr_adversariales_cadena | ADVC-11 | esperado=True | obtenido=True | PASS | cadena con referencia circular (a2 apunta a a3)
+correr_adversariales_cadena | ADVC-12 | esperado=True | obtenido=True | PASS | cadena con dos raíces posibles (a2 con origen y versión previa)
+correr_adversariales_cadena | ADVC-13 | esperado=True | obtenido=True | PASS | referencia faltante en un eslabón intermedio (a2 sin origen)
+correr_adversariales_cadena | ADVC-14 | esperado=True | obtenido=True | PASS | referencia duplicada: la atribución directa del reutilizador de a2 está duplicad
+correr_adversariales_cadena | ADVC-15 | esperado=True | obtenido=True | PASS | datos de la raíz correctos y campos source_* intermedios intercambiados entre a2
+correr_adversariales_cadena | ADVC-16 | esperado=True | obtenido=True | PASS | asset modificado que pierde la raíz original (a1b sin versión anterior)
+correr_adversariales_cadena | ADVC-17 | esperado=True | obtenido=True | PASS | reutilización de una versión anterior en lugar de la exacta (a2 referencia la ve
+correr_adversariales_cadena | ADVC-18 | esperado=True | obtenido=True | PASS | evento de carga válido de otro asset con el mismo número de versión (a2 referenc
+correr_adversariales_cadena | ADVC-19 | esperado=True | obtenido=True | PASS | evento de reutilización válido de otro asset (a3 usa el de ay)
+correr_adversariales_cadena | ADVC-20 | esperado=True | obtenido=True | PASS | cadena de tres niveles con corrupción solo en el nivel intermedio (el evento de 
+correr_adversariales_cadena | ADVC-21 | esperado=True | obtenido=True | PASS | eslabón modificado intermedio con el evento de carga de otro asset (a1b usa el d
+correr_adversariales_cadena | ADVC-22 | esperado=True | obtenido=True | PASS | eslabón modificado intermedio con otro editor que el del evento (a1b declara al 
+correr_adversariales_cadena | ADVC-23 | esperado=True | obtenido=True | PASS | eslabón modificado intermedio con número de versión que no sigue al anterior (a1
+correr_adversariales_cadena | ADVC-24 | esperado=True | obtenido=True | PASS | eslabón modificado intermedio con la atribución directa del editor duplicada (a1
+correr_mutaciones_atribucion | ATTR-01 | esperado=True | obtenido=True | PASS | resolución modificada después de su creación
+correr_mutaciones_atribucion | ATTR-02 | esperado=True | obtenido=True | PASS | resolución eliminada
+correr_mutaciones_atribucion | ATTR-03 | esperado=True | obtenido=True | PASS | resolución duplicada para la misma atribución
+correr_mutaciones_atribucion | ATTR-04 | esperado=True | obtenido=True | PASS | resolutor que fue el editor que sustituyó
+correr_mutaciones_atribucion | ATTR-05 | esperado=True | obtenido=True | PASS | resolutor que fue el solicitante
+correr_mutaciones_atribucion | ATTR-06 | esperado=True | obtenido=True | PASS | resolutor que heredó la contribución evaluada
+correr_mutaciones_atribucion | ATTR-07 | esperado=True | obtenido=True | PASS | evidencia ausente
+correr_mutaciones_atribucion | ATTR-08 | esperado=True | obtenido=True | PASS | evidencia de otro campo
+correr_mutaciones_atribucion | ATTR-09 | esperado=True | obtenido=True | PASS | evidencia de otra versión
+correr_mutaciones_atribucion | ATTR-10 | esperado=True | obtenido=True | PASS | reconsideración que modifica el registro anterior
+correr_mutaciones_atribucion | ATTR-11 | esperado=True | obtenido=True | PASS | atribución histórica reactivada sin resolución
+correr_mutaciones_atribucion | ATTR-12 | esperado=True | obtenido=True | PASS | atribución activa eliminada por cero segmentos idénticos
+pruebas_atomicidad14 | AT14-01 | esperado=True | obtenido=True | PASS | registrar carga de asset
+pruebas_atomicidad14 | AT14-02 | esperado=True | obtenido=True | PASS | registrar reutilización
+pruebas_atomicidad14 | AT14-03 | esperado=True | obtenido=True | PASS | registrar modificación de asset
+pruebas_atomicidad14 | AT14-04 | esperado=True | obtenido=True | PASS | registrar atribución
+pruebas_atomicidad14 | AT14-05 | esperado=True | obtenido=True | PASS | heredar atribuciones
+pruebas_atomicidad14 | AT14-06 | esperado=True | obtenido=True | PASS | resolver descarte
+pruebas_atomicidad14 | AT14-07 | esperado=True | obtenido=True | PASS | reconsiderar una resolución
+pruebas_atomicidad14 | AT14-08 | esperado=True | obtenido=True | PASS | construir evaluación de impacto
+pruebas_atomicidad14 | AT14-09 | esperado=True | obtenido=True | PASS | confirmar independencia
+pruebas_atomicidad14 | AT14-10 | esperado=True | obtenido=True | PASS | registrar intento de publicación
+pruebas_atomicidad14 | AT14-11 | esperado=True | obtenido=True | PASS | verificación final de la transacción (segunda línea de defensa)
+pruebas_E14 | E14-01 | esperado=True | obtenido=True | PASS | E reconstruido con todos los contribuyentes verificables
+pruebas_E14 | E14-02 | esperado=True | obtenido=True | PASS | falta la atribución heredada del uploader original: procedencia incompleta
+pruebas_E14 | E14-03 | esperado=True | obtenido=True | PASS | falta la evidencia del brief: procedencia incompleta
+pruebas_E14 | E14-04 | esperado=True | obtenido=True | PASS | elegibilidad del evaluador por código E1 a E5
+pruebas_E14 | E14-05 | esperado=True | obtenido=True | PASS | evaluador inactivo y fallo cerrado con procedencia incompleta
+pruebas_E14 | E14-06 | esperado=True | obtenido=True | PASS | independencia de las resoluciones aplicables
+correr_mutaciones_av | AV-01 | esperado=True | obtenido=True | PASS | asset_version del evento propio del último eslabón (a3) cambia a una versión ine
+correr_mutaciones_av | AV-02 | esperado=True | obtenido=True | PASS | asset_version del evento propio de un eslabón intermedio (a2) cambia a una versi
+correr_mutaciones_av | AV-03 | esperado=True | obtenido=True | PASS | asset_version de a3 usa un número de versión existente pero perteneciente a otro
+correr_mutaciones_av | AV-04 | esperado=True | obtenido=True | PASS | el evento propio de la modificación intermedia a1b usa la versión anterior del m
+correr_mutaciones_av | AV-05 | esperado=True | obtenido=True | PASS | asset_version intercambiado entre dos eventos válidos (la modificación a1b y la 
+correr_mutaciones_av | AV-06 | esperado=True | obtenido=True | PASS | asset_version de a5 guarda la versión del origen (2) en lugar de la del destino 
+correr_mutaciones_av | AV-07 | esperado=True | obtenido=True | PASS | asset_version del evento propio de una modificación intermedia (a1b) cambia a ot
+correr_mutaciones_av | AV-08 | esperado=True | obtenido=True | PASS | asset_version de a3 se altera después de construir la cadena (a4 ya registrada)
+correr_mutaciones_cf | CF-01 | esperado=True | obtenido=True | PASS | el campo del evento propio del último eslabón (a3) cambia de arte a otro campo (
+correr_mutaciones_cf | CF-02 | esperado=True | obtenido=True | PASS | el campo del evento propio de un eslabón intermedio (a2) cambia de arte a otro c
+correr_mutaciones_cf | CF-03 | esperado=True | obtenido=True | PASS | se elimina el campo del evento propio de un eslabón intermedio (a2)
+correr_mutaciones_cf | CF-04 | esperado=True | obtenido=True | PASS | el campo del evento propio del último eslabón (a3) es nulo
+correr_mutaciones_cf | CF-05 | esperado=True | obtenido=True | PASS | el evento propio de la modificación a1b declara un campo permitido pero distinto
+correr_mutaciones_cf | CF-06 | esperado=True | obtenido=True | PASS | el campo se intercambia entre dos eventos válidos (la reutilización de a2 y la i
+correr_mutaciones_cf | CF-07 | esperado=True | obtenido=True | PASS | el campo de a3 se modifica después de construir la cadena (a4 ya registrada)
+correr_mutaciones_cf | CF-08 | esperado=True | obtenido=True | PASS | todos los identificadores de a5 son correctos y solo cambia el campo (headline)
+correr_mutaciones_ac | AC-01 | esperado=True | obtenido=True | PASS | asset_version incorrecto y campo correcto en a2
+correr_mutaciones_ac | AC-02 | esperado=True | obtenido=True | PASS | asset_version correcto y campo incorrecto en a3
+correr_mutaciones_ac | AC-03 | esperado=True | obtenido=True | PASS | asset_version y campo incorrectos en a3
+correr_mutaciones_ac | AC-04 | esperado=True | obtenido=True | PASS | asset_version y campo incorrectos a la vez en el eslabón intermedio a5, con la r
+correr_mutaciones_ac | AC-05 | esperado=True | obtenido=True | PASS | asset_version y campo incorrectos en el último eslabón a6, con todos los anterio
+correr_mutaciones_ac | AC-06 | esperado=True | obtenido=True | PASS | a2 y a2c (misma pieza P2, ambos en la versión 1) con las referencias de asset y 
+correr_positivos15 | AP-01 | esperado=True | obtenido=True | PASS | cadena válida de dos niveles de reutilización
+correr_positivos15 | AP-02 | esperado=True | obtenido=True | PASS | cadena válida de tres niveles de reutilización
+correr_positivos15 | AP-03 | esperado=True | obtenido=True | PASS | cadena válida con dos assets de igual número de versión y la identidad exacta co
+correr_positivos15 | AP-04 | esperado=True | obtenido=True | PASS | reutilización válida después de una modificación del asset
+correr_positivos15 | AP-05 | esperado=True | obtenido=True | PASS | uploader original distinto del reutilizador
+correr_positivos15 | AP-06 | esperado=True | obtenido=True | PASS | cadena válida con la atribución directa exacta
+correr_positivos15 | AP-07 | esperado=True | obtenido=True | PASS | cadena válida con todos los eventos propios vinculados al campo arte
+correr_positivos15 | AP-08 | esperado=True | obtenido=True | PASS | el motor y el auditor independiente coinciden en una cadena íntegra
+correr_adversariales15 | ADV15-01 | esperado=True | obtenido=True | PASS | asset_version incorrecto en el eslabón intermedio (a2)
+correr_adversariales15 | ADV15-02 | esperado=True | obtenido=True | PASS | asset_version incorrecto en el último eslabón (a3)
+correr_adversariales15 | ADV15-03 | esperado=True | obtenido=True | PASS | campo incorrecto en el eslabón intermedio (a2)
+correr_adversariales15 | ADV15-04 | esperado=True | obtenido=True | PASS | campo incorrecto en el último eslabón (a3)
+correr_adversariales15 | ADV15-05 | esperado=True | obtenido=True | PASS | asset_version y campo incorrectos a la vez en el último eslabón (a3)
+correr_adversariales15 | ADV15-06 | esperado=True | obtenido=True | PASS | evento de reutilización de otro asset con el mismo número de versión (a3 usa el 
+correr_adversariales15 | ADV15-07 | esperado=True | obtenido=True | PASS | evento propio de la modificación intermedia con referencias incompatibles (el ev
+correr_adversariales15 | ADV15-08 | esperado=True | obtenido=True | PASS | corrupción posterior a la construcción de la cadena (a4 registrada; después a3 c
+pruebas_atomicidad15 | AT15-01 | esperado=True | obtenido=True | PASS | antes de validar la raíz
+pruebas_atomicidad15 | AT15-02 | esperado=True | obtenido=True | PASS | durante la validación de un eslabón intermedio
+pruebas_atomicidad15 | AT15-03 | esperado=True | obtenido=True | PASS | durante la validación de asset_version
+pruebas_atomicidad15 | AT15-04 | esperado=True | obtenido=True | PASS | durante la validación de campo
+pruebas_atomicidad15 | AT15-05 | esperado=True | obtenido=True | PASS | durante la validación de la atribución
+pruebas_atomicidad15 | AT15-06 | esperado=True | obtenido=True | PASS | durante la validación del actor
+pruebas_atomicidad15 | AT15-07 | esperado=True | obtenido=True | PASS | antes de escribir
+pruebas_atomicidad15 | AT15-08 | esperado=True | obtenido=True | PASS | durante el proceso de registro (con escritura parcial)
+correr_mutaciones_modelo14 | K56-M01 | esperado=True | obtenido=True | PASS | la validación de cada eslabón reutilizado pasa a ser un no-op (solo se mira la r
+correr_mutaciones_modelo14 | K56-M02 | esperado=True | obtenido=True | PASS | la reconstrucción ignora la ambigüedad origen/versión anterior
+correr_mutaciones_modelo14 | K56-M03 | esperado=True | obtenido=True | PASS | la verificación final de la transacción deja de ejecutarse
+correr_mutaciones_modelo14 | K56-M04 | esperado=True | obtenido=True | PASS | el auditor independiente de cadena no devuelve hallazgos
+correr_mutaciones_modelo14 | K56-M05 | esperado=True | obtenido=True | PASS | el auditor de resoluciones filtra la reactivación de atribuciones históricas
+correr_mutaciones_modelo14 | K56-M06 | esperado=True | obtenido=True | PASS | la elegibilidad del evaluador ignora su pertenencia a E (E4)
+correr_mutaciones_modelo14 | K56-M07 | esperado=True | obtenido=True | PASS | registrar_asset se ejecuta sin la transacción (sin restauración ante fallo)
+correr_mutaciones_modelo14 | K56-M08 | esperado=True | obtenido=True | PASS | la validación de una versión modificada pasa a ser un no-op
+correr_mutaciones_modelo14 | K56-M09 | esperado=True | obtenido=True | PASS | la validación de asset_version del evento propio pasa a ser un no-op (v14: solo 
+correr_mutaciones_modelo14 | K56-M10 | esperado=True | obtenido=True | PASS | la validación del campo del evento propio pasa a ser un no-op (v14: no se compro
+correr_mutaciones_modelo14 | K56-M11 | esperado=True | obtenido=True | PASS | el auditor independiente de cadena deja de comparar asset_version y campo
+correr_mutaciones_modelo14 | K56-M12 | esperado=True | obtenido=True | PASS | la reconstrucción de la cadena no entrega el detalle estructurado de cada incons
+TOTAL funciones=22 casos=366 fallos=0
+CASOS_POR_FUNCION pruebas_guarda=9 pruebas_atomicidad=20 correr_mutaciones_rechazo=12 correr_adversariales=16 correr_escenarios=17 correr_mutaciones_k47=36 correr_mutaciones_resoluciones=12 correr_mutaciones_assets=53 correr_positivos_arte=26 correr_mutaciones_k45=30 correr_mutaciones_cadena=24 correr_adversariales_cadena=24 correr_mutaciones_atribucion=12 pruebas_atomicidad14=11 pruebas_E14=6 correr_mutaciones_av=8 correr_mutaciones_cf=8 correr_mutaciones_ac=6 correr_positivos15=8 correr_adversariales15=8 pruebas_atomicidad15=8 correr_mutaciones_modelo14=12
