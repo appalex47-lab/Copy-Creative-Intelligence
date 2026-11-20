@@ -7,6 +7,8 @@ description: Roadmap y trazabilidad de la revisión v15 de G-1, G-5 y G-10; orde
 
 Sustituye a la v14 (conservada en `historico/`). Complementa la Adenda v9 (no aceptada) sin reemplazarla ni alterar versiones históricas. **Ninguna subfase cambia de estado**; el diseño no se ha implementado ni validado técnicamente y Fase 1 no está autorizada.
 
+La corrección documental V16 (commit `6a1af2424ef39e0960b8f7e09d4e19ec52e6f046`) solo cambió la línea 15 de este documento, de v5 a v15, para identificar la versión vigente del diseño complementario; no es una revisión del diseño. La referencia a la v5 de la sección 4 es histórica y se conserva.
+
 ## 0. Estado por nivel (H-03)
 
 | Nivel | Estado | Alcance |

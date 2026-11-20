@@ -5,7 +5,7 @@ description: Informe de la revisión v15 de G-1, G-5 y G-10 (integridad del even
 
 # INFORME — INTEGRIDAD DEL EVENTO PROPIO EN CADA ESLABÓN (revisión v15)
 
-Sustituye al informe v14 (conservado en `historico/`). Diseño documental con pruebas de modelo en memoria: no se ejecutó SQL, código de producto, Supabase ni PostgreSQL. La «v15» de este documento es la revisión del diseño complementario; no es la Adenda v9 del propietario (PO-05).
+Sustituye al informe v14 (conservado en `historico/`). Diseño documental con pruebas de modelo en memoria: no se ejecutó SQL, código de producto, Supabase ni PostgreSQL. La «v15» de este documento es la revisión del diseño complementario; no es la Adenda v9 del propietario (PO-05). La corrección documental V16 (commit `6a1af2424ef39e0960b8f7e09d4e19ec52e6f046`) solo alinea la identificación de la versión vigente en el roadmap; no es una revisión del diseño y no modifica este informe: el diseño técnico complementario vigente sigue siendo la v15 (ver `REGISTRO_HISTORICO_VERSIONES.md`, nota de trazabilidad V16).
 
 ## A. Dictamen ejecutivo
 

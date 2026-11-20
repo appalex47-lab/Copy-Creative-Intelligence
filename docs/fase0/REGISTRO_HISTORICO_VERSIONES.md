@@ -789,3 +789,22 @@ Permite comprobar que los históricos no se alteraron; el verificador lo recalcu
 
 
 Los SHA-256 de los cinco documentos activos y el commit publicado se informan en el mensaje final (un documento no puede contener su propio hash).
+
+
+## Nota de trazabilidad: corrección documental V16 (posterior a la v15)
+
+V16 es una corrección documental de referencias de versión; no es una revisión del diseño técnico complementario. La versión vigente del diseño sigue siendo la v15, y V16 es la corrección documental posterior a ella. Esta nota se añade después de la publicación de V16 y no modifica el commit V16.
+
+| Concepto | Detalle |
+|---|---|
+| Identificador | V16 (corrección documental; no es la Adenda v9 del propietario) |
+| Commit V16 | `6a1af2424ef39e0960b8f7e09d4e19ec52e6f046` |
+| Commit padre (v15) | `ad34f1a50c6b90f9fc880a2172141c7de6b8838a` |
+| Fecha | 2026-11-19 |
+| Mensaje del commit | `docs(fase0): align active roadmap version references v16` |
+| Archivos modificados por V16 | Solo `docs/fase0/ROADMAP_Y_TRAZABILIDAD_G1_G5_G10.md` (1 inserción, 1 eliminación) |
+| Motivo | La línea 15 identificaba el diseño técnico complementario como v5 en lugar de la versión vigente v15 |
+| Diferencias respecto de la v15 | Línea 15 del roadmap: `(G-1, G-5, G-10, v5)` pasa a `(G-1, G-5, G-10, v15)`. La referencia histórica a la v5 de la línea 157 se conserva. Sin cambios en el motor, el verificador, las pruebas, los históricos ni las cifras |
+| Verificación realizada sobre el commit V16 | Verificador integral documental y estructural en dos corridas limpias e independientes sobre `git archive` del commit: 59 comprobaciones aprobadas, 28 controles OK, 300 mutaciones detectadas, 0 fallos, 0 omitidas; salida idéntica byte a byte. Resultado de modelo en memoria y de comprobaciones documentales |
+| Limitaciones pendientes | Sin pruebas en PostgreSQL, Supabase, RLS, concurrencia ni integración externa; ningún documento activo mencionaba V16 hasta esta nota |
+| Estado de aceptación | V15 y V16 no están aceptadas por el propietario. G-1, G-5 y G-10 continúan pendientes de aceptación formal. Fase 1 NO INICIADA / NO AUTORIZADA |

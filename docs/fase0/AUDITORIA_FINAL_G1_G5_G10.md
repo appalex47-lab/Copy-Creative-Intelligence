@@ -5,6 +5,8 @@ description: Auditoría final de la revisión v15 de G-1, G-5 y G-10 (matriz de 
 
 # AUDITORÍA FINAL — G-1, G-5 Y G-10 (revisión v15)
 
+Distinción de versiones: el diseño técnico complementario vigente es la v15; la corrección documental V16 (commit `6a1af2424ef39e0960b8f7e09d4e19ec52e6f046`, padre `ad34f1a50c6b90f9fc880a2172141c7de6b8838a`) solo cambió la línea 15 del roadmap (de v5 a v15) y no es una revisión del diseño ni de las pruebas. Esta auditoría describe el diseño v15; no se reejecuta ni se redefine por V16.
+
 Los escenarios de diseño (T-xx) no están ejecutados. Se ejecutan pruebas de modelo en memoria (K45, K46, K47) y comprobaciones documentales; ninguna es una prueba en PostgreSQL ni Supabase y el diseño no está validado técnicamente.
 
 ## 0. Estado y niveles de evidencia
