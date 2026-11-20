@@ -1,0 +1,32 @@
+pruebas_guarda-01 | esperado=True | obtenido=True | PASS | asignar un campo de una fila
+pruebas_guarda-02 | esperado=True | obtenido=True | PASS | eliminar un campo de una fila
+pruebas_guarda-03 | esperado=True | obtenido=True | PASS | actualizar una fila
+pruebas_guarda-04 | esperado=True | obtenido=True | PASS | reemplazar una fila con el mismo ID
+pruebas_guarda-05 | esperado=True | obtenido=True | PASS | eliminar una resolución
+pruebas_guarda-06 | esperado=True | obtenido=True | PASS | vaciar el registro
+pruebas_guarda-07 | esperado=True | obtenido=True | PASS | agregar con un ID existente
+pruebas_guarda-08 | esperado=True | obtenido=True | PASS | modificar la evidencia histórica anidada
+pruebas_guarda-09 | esperado=True | obtenido=True | PASS | volver a aplicar una resolución con el mismo ID
+pruebas_guarda: 9 casos
+pruebas_atomicidad-01 | esperado=True | obtenido=True | PASS | el asset de origen no existe
+pruebas_atomicidad-02 | esperado=True | obtenido=True | PASS | el origen no tiene evento de carga
+pruebas_atomicidad-03 | esperado=True | obtenido=True | PASS | el uploader original no tiene membresía activa
+pruebas_atomicidad-04 | esperado=True | obtenido=True | PASS | no existe la atribución directa del uploader original
+pruebas_atomicidad-05 | esperado=True | obtenido=True | PASS | el origen pertenece a otra organización
+pruebas_atomicidad-06 | esperado=True | obtenido=True | PASS | la pieza del origen no coincide con su evento
+pruebas_atomicidad-07 | esperado=True | obtenido=True | PASS | el reutilizador no es miembro activo
+pruebas_atomicidad-08 | esperado=True | obtenido=True | PASS | el identificador del asset reutilizado ya existe
+pruebas_atomicidad-09 | esperado=True | obtenido=True | PASS | A54: el evento original de carga pertenece a otro asset de la misma organización y pieza
+pruebas_atomicidad-10 | esperado=True | obtenido=True | PASS | A55: el evento original de carga pertenece a otro asset con el mismo número de versión
+pruebas_atomicidad-11 | esperado=True | obtenido=True | PASS | A56: el evento original de carga es el de otra versión del mismo asset raíz
+pruebas_atomicidad-12 | esperado=True | obtenido=True | PASS | A57: la atribución directa del uploader pertenece a otro evento de carga del mismo asset
+pruebas_atomicidad-13 | esperado=True | obtenido=True | PASS | A58: la atribución directa pertenece a otro asset de la misma organización
+pruebas_atomicidad-14 | esperado=True | obtenido=True | PASS | A59: la atribución directa pertenece a otro uploader
+pruebas_atomicidad-15 | esperado=True | obtenido=True | PASS | A60: el actor del evento de carga no coincide con el uploader declarado
+pruebas_atomicidad-16 | esperado=True | obtenido=True | PASS | A61: el evento de carga es correcto pero está asociado a otra versión de copy
+pruebas_atomicidad-17 | esperado=True | obtenido=True | PASS | A62: el evento de carga es correcto pero está asociado a otra pieza
+pruebas_atomicidad-18 | esperado=True | obtenido=True | PASS | A63: el uploader original no tiene membresía activa
+pruebas_atomicidad-19 | esperado=True | obtenido=True | PASS | A64: evento de carga y uploader correctos pero la atribución directa no existe
+pruebas_atomicidad-20 | esperado=True | obtenido=True | PASS | A65: la referencia al evento de carga se intercambia con la de otro asset después de construir la cadena
+pruebas_atomicidad: 20 casos
+TOTAL 29 casos, 29 PASS, 0 FAIL

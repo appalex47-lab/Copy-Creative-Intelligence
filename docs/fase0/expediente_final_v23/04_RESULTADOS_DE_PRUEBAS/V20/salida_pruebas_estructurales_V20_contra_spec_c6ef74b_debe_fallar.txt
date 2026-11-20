@@ -1,0 +1,7 @@
+tablas con bloque: 13 | columnas sin FK ni excepción: [('impact_evaluations', 'master_basis_creative_asset_id'), ('impact_evaluations', 'master_changed_creative_asset_id'), ('brief_field_attributions', 'brief_id'), ('promotion_field_attributions', 'promotion_line_id'), ('publication_attempts', 'target_creative_asset_id'), ('publication_attempts', 'master_declared_copy_version_id'), ('publication_attempts', 'master_current_copy_version_id')]
+FAIL | E1 toda columna *_id/source_* de las tablas nuevas tiene FK o excepción justificada
+FAIL | N impact_evaluations.master_basis_creative_asset_id: al quitar su FK la prueba lo detecta
+FAIL | N publication_attempts.master_current_copy_version_id: al quitar su FK la prueba lo detecta
+FAIL | N brief_field_attributions.brief_id: al quitar su FK la prueba lo detecta
+TOTAL pruebas=4 fallos=4
+EXIT=1

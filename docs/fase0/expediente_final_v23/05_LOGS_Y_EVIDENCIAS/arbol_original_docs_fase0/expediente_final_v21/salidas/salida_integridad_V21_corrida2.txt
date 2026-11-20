@@ -1,0 +1,10 @@
+PASS | sin entradas duplicadas (150 entradas)
+PASS | original externo v3.3 con SHA-256 b5dccdc7…c1da
+PASS | no hay rutas inexistentes
+PASS | el manifiesto cubre exactamente los archivos relevantes (ni faltan ni sobran)
+PASS | no incluye al propio manifiesto, la salida de integridad ni temporales
+PASS | método 1 (hashlib): 0 discrepancias []
+PASS | método 2 (sha256sum -c): rc=0 
+PASS | archivos de historico/ idénticos a los del commit V20 (52 comprobados)
+PASS | el manifiesto es regenerable: la reconstrucción coincide byte a byte
+RESUMEN INTEGRIDAD V21: TODO PASS

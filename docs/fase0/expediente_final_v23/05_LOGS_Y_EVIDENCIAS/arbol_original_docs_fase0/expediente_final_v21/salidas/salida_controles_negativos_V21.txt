@@ -1,0 +1,27 @@
+N00 | SIN defecto (línea base): ninguna prueba que no dependa de la verificación de integridad debe fallar | espera que falle (ninguna) | fallan=[] | DETECTADA
+N01 | una regla C pasa a B en la matriz | espera que falle V21-A02 | fallan=['V21-A02'] | DETECTADA
+N02 | el inventario recupera la distribución antigua (3 B, 5 E) | espera que falle V21-E02 | fallan=['V21-E02'] | DETECTADA
+N03 | la línea de definición de una regla se desplaza +1 | espera que falle V21-F01 | fallan=['V21-F01'] | DETECTADA
+N04 | la línea de un escenario se desplaza | espera que falle V21-F02 | fallan=['V21-F02'] | DETECTADA
+N05 | se elimina un par de la trazabilidad | espera que falle V21-A07 | fallan=['V21-A07'] | DETECTADA
+N06 | se duplica un caso del registro de las 22 funciones | espera que falle V21-B01 | fallan=['V21-B01', 'V21-B04', 'V21-B06'] | DETECTADA
+N07 | un caso del registro pasa a FAIL | espera que falle V21-B01 | fallan=['V21-B01'] | DETECTADA
+N08 | se altera una línea de la tercera corrida de las 22 funciones | espera que falle V21-B03 | fallan=['V21-B03'] | DETECTADA
+N09 | una prueba PostgreSQL pasa a FAIL en la corrida 3 | espera que falle V21-C01 | fallan=['V21-C01', 'V21-C03'] | DETECTADA
+N10 | se elimina una mutación de mutaciones.sh | espera que falle V21-C02 | fallan=['V21-C02'] | DETECTADA
+N11 | el informe V21 declara aceptado el diseño | espera que falle V21-E05 | fallan=['V21-E05'] | DETECTADA
+N12 | se modifica un byte del motor | espera que falle V21-G05 | fallan=['V21-G04', 'V21-G05'] | DETECTADA
+N13 | se añade un archivo fuera de docs/fase0 | espera que falle V21-G04 | fallan=['V21-G04'] | DETECTADA
+N14 | se altera un archivo histórico | espera que falle V21-G07 | fallan=['V21-G04', 'V21-G07'] | DETECTADA
+N15 | se reescribe la línea 126 (PO-05) del registro | espera que falle V21-E07 | fallan=['V21-E07'] | DETECTADA
+N16 | una decisión abierta pasa a APROBADA | espera que falle V21-E06 | fallan=['V21-E06'] | DETECTADA
+N17 | aparece un archivo sin entrada en el índice de vigencia | espera que falle V21-G01 | fallan=['V21-F06', 'V21-G01'] | DETECTADA
+N18 | una referencia a un archivo inexistente en un documento vigente | espera que falle V21-F05 | fallan=['V21-F05'] | DETECTADA
+N19 | un entregable V21 con versión equivocada | espera que falle V21-F06 | fallan=['V21-F06'] | DETECTADA
+N20 | un documento sustituido pierde su aviso | espera que falle V21-G02 | fallan=['V21-F05', 'V21-G02'] | DETECTADA
+N21 | main se mueve en el repositorio | espera que falle V21-G08 | fallan=['V21-G08'] | DETECTADA
+N22 | se modifica una línea de diseño de la especificación | espera que falle V21-E08 | fallan=['V21-E08'] | DETECTADA
+N23 | la ancla de una cita de línea deja de coincidir | espera que falle V21-F04 | fallan=['V21-F04'] | DETECTADA
+N24 | se recorta la tabla de 14 tablas nuevas en la especificación (línea 38) | espera que falle V21-A09 | fallan=['V21-A09', 'V21-E08'] | DETECTADA
+N25 | el bloque de estado de un documento activo vuelve a decir «sin commit» | espera que falle V21-E03 | fallan=['V21-E03', 'V21-E04'] | DETECTADA
+TOTAL controles negativos=26 DETECTADOS=26
