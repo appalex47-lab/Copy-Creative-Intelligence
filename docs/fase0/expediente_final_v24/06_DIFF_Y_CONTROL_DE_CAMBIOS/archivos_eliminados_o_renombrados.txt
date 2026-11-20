@@ -1,0 +1,3 @@
+Eliminados: 
+Renombrados: 
+(vacío = ninguno; fuente: git diff --name-status --find-renames ac84133b776cc73c0cb3416e51e2767039bb5132)

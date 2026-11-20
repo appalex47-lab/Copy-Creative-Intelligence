@@ -1,0 +1,15 @@
+Tabla,Origen (revisión),Subfase de creación,Definición,Enumeraciones donde figura (ESPEC),Enumeración completa en otro doc,Menciones AUDITORIA,Menciones ROADMAP,Nombre en modelo_estructural.py,Nombre en verificador,Duplicados,Resultado
+piece_classification_events,v4,1.x (v4),"ESPEC 174, 3549, 3634",ESPEC 38,INFORME [173],5,7,no (solo diseño documental),no,ninguno,nombre exacto confirmado
+piece_reviewer_assignments,v4,1.x (v4),"ESPEC 388, 3550, 3635",ESPEC 38,INFORME [173],7,8,no (solo diseño documental),no,ninguno,nombre exacto confirmado
+impact_evaluations,v4,1.x (v4),"ESPEC 432, 3548, 3636",ESPEC 38,INFORME [173],6,9,no (solo diseño documental),no,ninguno,nombre exacto confirmado
+publication_attempts,v4,1.x (v4),"ESPEC 134, 2795, 3547",ESPEC 38,INFORME [173],5,8,no (solo diseño documental),no,ninguno,nombre exacto confirmado
+channel_formats,v4,1.x (v4),"sin tabla/encabezado propio (se define por FK e IG1-22/26/30; ESPEC l.131, 269)",ESPEC 38,INFORME [173],6,8,no (solo diseño documental),no,ninguno,nombre exacto confirmado
+brief_versions,v5,2.1,"ESPEC 626, 3626","ESPEC 38, 624, 3620",INFORME [173],13,12,sí,sí,ninguno,nombre exacto confirmado
+promotion_snapshots,v5,4.x,"ESPEC 786, 3627","ESPEC 38, 624, 3620",INFORME [173],12,11,sí,sí,ninguno,nombre exacto confirmado
+contribution_events,v5,2.1,"ESPEC 151, 152, 153","ESPEC 38, 624, 3620",INFORME [173],33,36,sí,sí,mención repetida en l.624 (segunda frase sobre columnas de origen); no es doble enumeración,nombre exacto confirmado
+copy_version_provenance,v5,2.3,"ESPEC 161, 1026, 1981","ESPEC 38, 624, 3620",INFORME [173],14,15,sí,sí,mención repetida en l.624 (segunda frase sobre columnas de origen); no es doble enumeración,nombre exacto confirmado
+brief_field_changes,v6,2.1,"ESPEC 685, 3628","ESPEC 624, 3620",INFORME [173],8,9,no (solo diseño documental),sí,ninguno,nombre exacto confirmado
+brief_field_attributions,v6,2.1,"ESPEC 737, 3629","ESPEC 624, 3620",INFORME [173],11,10,sí,sí,ninguno,nombre exacto confirmado
+promotion_field_changes,v6,4.x,"ESPEC 844, 3630","ESPEC 624, 3620",INFORME [173],7,9,no (solo diseño documental),sí,ninguno,nombre exacto confirmado
+promotion_field_attributions,v6,4.x,"ESPEC 896, 3631","ESPEC 624, 3620",INFORME [173],8,10,sí,sí,ninguno,nombre exacto confirmado
+attribution_discard_resolutions,v7,5.3,ESPEC 1089,"ESPEC 38, 624, 3620",INFORME [173],3,5,no (solo diseño documental),sí,ninguno,nombre exacto confirmado

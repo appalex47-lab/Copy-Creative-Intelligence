@@ -1,0 +1,9 @@
+cierre del auditor independiente: _E, _activos, _arte_personas, _auditar_resoluciones, _cad, _completa_campos, _estado, _exactas, _hall_arte, _hall_arte_exactas, _hall_cadena, _hall_identidad, _lin, _sello_ind, _v_sin_arte_nuevo, auditar, auditar_E, cadena_identidad_independiente, validar_resolucion_independiente
+PASS | S1 el auditor no invoca ningún método de la clase Motor (cierre transitivo: ninguno)
+PASS | S2 el auditor no instancia Motor
+PASS | D1 adversariales (48 casos, motor forzado) dan el mismo resultado con TODOS los métodos del motor rotos durante el auditor
+PASS | D3 el auditor se invocó realmente durante la prueba (invocaciones = 913 > 0)
+PASS | D2 el auditor no llamó al motor ni una vez (llamadas al stub = 0)
+PASS | C1 control negativo: llamar a un método del motor roto lanza excepción (la prueba sí detectaría dependencia)
+TOTAL pruebas=6 fallos=0
+EXIT=0

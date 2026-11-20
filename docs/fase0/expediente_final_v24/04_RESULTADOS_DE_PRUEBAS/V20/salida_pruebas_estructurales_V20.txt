@@ -1,0 +1,7 @@
+tablas con bloque: 13 | columnas sin FK ni excepción: []
+PASS | E1 toda columna *_id/source_* de las tablas nuevas tiene FK o excepción justificada
+PASS | N impact_evaluations.master_basis_creative_asset_id: al quitar su FK la prueba lo detecta
+PASS | N publication_attempts.master_current_copy_version_id: al quitar su FK la prueba lo detecta
+PASS | N brief_field_attributions.brief_id: al quitar su FK la prueba lo detecta
+TOTAL pruebas=4 fallos=0
+EXIT=0

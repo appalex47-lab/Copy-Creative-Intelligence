@@ -1,0 +1,90 @@
+# REPORTE DE VALIDACIÓN INTEGRAL V21
+
+**Versión:** V21 · **Fecha:** 2026-11-20 · **Fuente:** salidas archivadas en `salidas/` (`RESULTADOS_BATERIA_V21.tsv`, `salida_bateria_V21_corrida1.txt` y `salida_bateria_V21_corrida2.txt`, `salida_verificador_V21_corrida1.txt` y `salida_verificador_V21_corrida2.txt`, `salida_controles_negativos_V21.txt`, `salida_integridad_V21_corrida1.txt` y `salida_integridad_V21_corrida2.txt`, terceras corridas de las 22 funciones y PostgreSQL) · **Estado de verificación:** cada resultado procede de una ejecución real; una prueba no ejecutada se declara BLOCKED y nunca PASS. Este reporte lo genera `scripts/v21_generar_reporte.py` desde esas salidas.
+
+V21 declara el expediente **técnicamente listo para revisión** únicamente si todos los criterios del apartado 3 pasan; no equivale a aceptación del propietario, a validación de infraestructura real ni a autorización de Fase 1.
+
+## 1. Resumen
+| Verificación | Resultado | Evidencia |
+|---|---|---|
+| Batería de cierre V21 (estructural, semántica, referencias, conteos, vigencia, ausencia de cambios funcionales) | 46 pruebas: PASS 46, FAIL 0, BLOCKED 0 | `salidas/RESULTADOS_BATERIA_V21.tsv`; dos corridas `salida_bateria_V21_corrida1.txt` y `salida_bateria_V21_corrida2.txt` |
+| Regresión documental completa, corrida 1 (copia limpia, `env -i`, `python3 -I`) | RESUMEN: 59 comprobaciones, 59 aprueban, 0 fallan, 0 pendientes; 28 controles (28 OK, 0 NO OK, 0 PENDIENTE); 300 mutaciones (300 detectadas); duración 1303 s; hash sin duración `ef6d5d94cbe341c0…` | `salidas/salida_verificador_V21_corrida1.txt` |
+| Regresión documental completa, corrida 2 (copia limpia, `env -i`, `python3 -I`) | RESUMEN: 59 comprobaciones, 59 aprueban, 0 fallan, 0 pendientes; 28 controles (28 OK, 0 NO OK, 0 PENDIENTE); 300 mutaciones (300 detectadas); duración 1291 s; hash sin duración `ef6d5d94cbe341c0…` | `salidas/salida_verificador_V21_corrida2.txt` |
+| Comparación independiente de las dos corridas del verificador | **idénticas** | hashes de líneas sin duración |
+| Controles negativos de la batería (defecto inyectado en copia → la prueba debe fallar) | 26 de 26 detectados | `salidas/salida_controles_negativos_V21.txt` |
+| Integridad SHA-256 (manifiesto V21: hashlib + `sha256sum -c` + estructura + regenerable) | RESUMEN INTEGRIDAD V21: TODO PASS / RESUMEN INTEGRIDAD V21: TODO PASS | `salidas/salida_integridad_V21_corrida1.txt` y `salidas/salida_integridad_V21_corrida2.txt` (fuera del manifiesto por construcción) |
+
+## 2. Resultado de cada prueba de la batería
+| Identificador | Objetivo | Entrada | Resultado esperado | Resultado obtenido | PASS/FAIL/BLOCKED | Evidencia | Observaciones |
+|---|---|---|---|---|---|---|---|
+| V21-A01 | 231 reglas: conteo, unicidad y coincidencia con la especificación | MATRIZ_FINAL_231 vs especificación | 231/231/231 y conjuntos iguales | matriz=231 únicos=231 spec=231 dif=[] | **PASS** | MATRIZ_FINAL_231_REGLAS; ESPECIFICACION (filas de tabla) | universo de reglas = filas de definición de la especificación |
+| V21-A02 | Clasificación 231 reglas: matriz = derivación independiente = A1 B8 C69 D153 E0 | columnas Subclase_V19/Estado_implementacion + salidas PE | A1 B8 C69 D153 E0 sin discrepancias | matriz={'A': 1, 'B': 8, 'C': 69, 'D': 153} derivada={'A': 1, 'B': 8, 'C': 69, 'D': 153} discrepantes=[] | **PASS** | clase derivada de subclase + estado + PE PASS (independiente de la columna final) | E=0 |
+| V21-A03 | Las 5 reglas reclasificadas E→B y ninguna afirma implementación en el producto | 5 reglas + Estado_implementacion | 5 reglas; 0 afirmaciones de implementación | E→B=['IG1-05', 'IG1-06', 'IG1-10', 'IG1-21', 'IG5-36']; reglas que afirman 'implementado' en el producto=[] | **PASS** | MATRIZ_FINAL_231 | ninguna reclasificación afirma implementación en el producto |
+| V21-A04 | Cada regla conserva definición, escenarios, estado, base e intervención | 231 filas | 0 campos vacíos | reglas con campo vacío=[] | **PASS** | MATRIZ_FINAL_231 | definición, evidencia(estado), clasificación, escenarios, intervención y base presentes |
+| V21-A05 | 780 escenarios: conteo, unicidad y coincidencia con la especificación | MATRIZ_FINAL_780 vs especificación | 780/780/780 | matriz=780 únicos=780 spec=780 dif=[] | **PASS** | MATRIZ_FINAL_780 vs especificación |  |
+| V21-A06 | Distribución de veredictos de los 780 escenarios | columna Veredicto_V20 | 258 ejecución + 510 lectura + 12 parcial | {'DEMUESTRA (lectura)': 328, 'PARCIAL / NO DEMUESTRA TODO': 12, 'DEMUESTRA (lectura V20)': 176, 'DEMUESTRA CON OBSERVACIÓN': 6, 'DEMOSTRADO POR EJECUCIÓN EN MODELO (lectura de equivalencia … | **PASS** | MATRIZ_FINAL_780 | 258 por ejecución en modelo; 510 por lectura (6 con observación); 12 parciales |
+| V21-A07 | Trazabilidad reglas↔escenarios: 1592 pares, bidireccional, sin huérfanos ni omisiones | 3 CSV | 1592 únicos; 0 huérfanos/omisiones | pares=1592 únicos=1592 huérfanos(r/s)=0/0 fuera=0 no-bidireccional=0 omitidos=0 N_escenarios_mal=0 | **PASS** | MATRIZ_TRAZABILIDAD vs matrices de reglas y escenarios | trazabilidad bidireccional completa |
+| V21-A08 | N_escenarios_con_ejecucion de cada regla coincide con la matriz de escenarios | 2 CSV | 0 inconsistencias | escenarios con prueba/verificación=313; reglas con N_escenarios_con_ejecucion inconsistente=[] | **PASS** | MATRIZ_FINAL_231 vs MATRIZ_FINAL_780 | N_escenarios_con_ejecucion de cada regla = escenarios citados con ejecución |
+| V21-A09 | 41 tablas = 27 base (v3.3) + 14 nuevas (spec) | spec línea 38 + v3.3 | 14 nuevas; 27 base; 41 | explícitas=10 + 4 de cambio/atribución=14 únicas; sin encabezado de definición=[]; v3.3 declara 27 tablas=27; spec '22 de 27'=True; total=41 | **PASS** | ESPECIFICACION línea 38 y encabezados #### de tabla; v3.3 original (solo lectura) | 41 = 27 base + 14 nuevas |
+| V21-A10 | Matriz de referencias de versión H/A/I/U: 1148 (V16) + 32 (suplemento V20), valores válidos | 2 CSV | 1148 + 32; clases en {H,A,I,U} | V16: filas=1148 {'A': 125, 'H': 1022, 'U': 1}; suplemento V20: filas=32 {'A': 32} | **PASS** | MATRIZ_REFERENCIAS_V16.csv + SUPLEMENTO | referencias H/A/I/U (documentos de versión) |
+| V21-B01 | 366 casos individuales únicos de 22 funciones, todos PASS | REGISTRO_CASOS | 366/366/22/366 | filas=366 claves únicas=366 funciones=22 PASS=366 | **PASS** | REGISTRO_CASOS_22_FUNCIONES_V20.csv | reconciliación 363/366: 363 + 3 positivos K45 |
+| V21-B02 | Cada caso del registro coincide con su línea en la salida original | 366 casos | 0 discrepancias | casos del registro sin correspondencia con la línea de la salida original=[] | **PASS** | REGISTRO vs salida_22_funciones_V20_corrida1.txt | cada caso apunta a su línea real |
+| V21-B03 | Reproducibilidad: 3 corridas de las 22 funciones idénticas (la 3.ª ejecutada en V21) | 3 salidas | hash idéntico; TOTAL 366 fallos 0 | hashes={'V20-1': 'f683969f6b8e', 'V20-2': 'f683969f6b8e', 'V21-3': 'f683969f6b8e'}; ['TOTAL funciones=22 casos=366 fallos=0'] | **PASS** | 3 salidas (2 de V20 + 1 de V21 ejecutada hoy) | tercera corrida real, no copiada |
+| V21-B04 | Recuento independiente por función de la salida cruda = declarado = registro | salida corrida 3 | 366; 0 FAIL; por función igual | casos contados=366; declarado=366; FAIL=0; por función igual a registro=True | **PASS** | salida corrida 3 recontada línea a línea | los conteos individuales suman |
+| V21-B05 | Independencia auditor/motor 6/6; positivos y negativos diferenciados | salida de independencia + registro | FAIL=0; 3 positivos K45 | independencia: PASS=6 FAIL=0; positivos K45=3; esperado={'True': 363, 'sin errores': 3} | **PASS** | salida_independencia_auditor_V20.txt | negativos = mutación detectada (esperado True); positivos K45 esperan 'sin errores'; errores esperados distinguidos de fallos (FA… |
+| V21-B06 | Consistencia Markdown↔CSV de la matriz de pruebas de las 22 funciones | md + csv | 22 funciones, 366 | filas md=22 suma=366 diferencias vs registro=[] | **PASS** | MATRIZ_PRUEBAS_22_FUNCIONES (md) vs REGISTRO (csv) | consistencia Markdown↔CSV |
+| V21-C01 | PostgreSQL: 63 pruebas declaradas = ejecutadas = PASS en 3 corridas | 02_pruebas.sql + salidas | 63/63/63 | declaradas=63 únicas=63; ejecutadas={'V20-1': 63, 'V20-2': 63, 'V21-3': 63}; PASS={'V20-1': 63, 'V20-2': 63, 'V21-3': 63} | **PASS** | 02_pruebas.sql vs 3 salidas | pruebas declaradas = ejecutadas; 3 corridas, la 3.ª ejecutada en V21 |
+| V21-C02 | PostgreSQL: 14 mutaciones declaradas = detectadas (2 corridas) | mutaciones.sh + salidas | 14/14 y 14/14 | mutaciones declaradas=14; pruebas inexistentes=[]; detectadas=[14, 14]; no detectadas/no aplicadas=[0, 0] | **PASS** | mutaciones.sh + 2 salidas (V20 y V21) | 14/14 detectadas, sin mutaciones no aplicadas |
+| V21-C03 | PostgreSQL: resultados idénticos en las 3 corridas | 3 salidas normalizadas | hash idéntico | 5a90b8e1b594 5a90b8e1b594 5a90b8e1b594 | **PASS** | líneas de resultado normalizadas | la corrida 3 incluye ruido de cliente psql (no del resultado); se compara el resultado |
+| V21-C04 | Limitación PostgreSQL temporal documentada | README + PLAN + INFORME V21 | presente | limitación documentada en README/PLAN/INFORME V21=True | **PASS** | README PE, PLAN, INFORME_FINAL_V21 | PostgreSQL temporal ≠ esquema físico aprobado ni Supabase |
+| V21-D01 | Verificador completo: 59 comprobaciones, 28 controles, 300 mutaciones en 4 corridas | RESUMEN de salidas | 59/59, 28/28, 300/300 | {'V20_final_corrida1.txt': True, 'V20_final_corrida2.txt': True, 'cador_V21_corrida1.txt': True, 'cador_V21_corrida2.txt': True} | **PASS** | RESUMEN de 4 corridas (2 V20 + 2 V21) | 59/59 comprobaciones, 28/28 controles, 300/300 mutaciones |
+| V21-D02 | Verificador: dos corridas V21 idénticas; 59 comprobaciones identificadas (58 K + K55-V12) | salidas V21 | idénticas; 58 K numeradas + K55-V12 | corrida1==corrida2 (sin duración)=True; líneas K numeradas APRUEBA=58 (únicas 58) + K55-V12=1; sin usar en la numeración K01..K59=['43'] | **PASS** | 2 corridas completas V21 en copias limpias | 59 comprobaciones = 58 K numeradas (K43 no se usa) + K55-V12 (identificador del control duplicado K55 de v12, documentado en la e… |
+| V21-E01 | Ningún documento vigente presenta la distribución antigua (B3/E5) o 363 casos como vigente | docs vigentes | 0 apariciones | apariciones de cifras antiguas presentadas como vigentes=[] | **PASS** | docs vigentes (19 archivos) | las menciones históricas o de corrección están contextualizadas |
+| V21-E02 | Documentos ejecutivos de clases declaran A1 B8 C69 D153 E0 | 3 documentos | presente en los 3 | documentos que declaran la distribución vigente 'A 1, B 8, C 69, D 153, E 0' (V20 y corregido V21) sin ella=[] | **PASS** | 3 documentos ejecutivos de clases | la distribución coincide con la matriz (V21-A02) |
+| V21-E03 | Bloque de estado V21 completo y sin afirmaciones obsoletas de publicación | 5 documentos activos | 5/5 | documentos activos con bloque de estado V21 incompleto/obsoleto=[] | **PASS** | 5 documentos activos | estado de Fase 1, SHA de base y main presentes; sin 'sin commit' |
+| V21-E04 | Bloque de estado idéntico en los 4 documentos de diseño | 4 documentos | 1 variante | bloques idénticos en los 4 documentos de diseño=True | **PASS** | 4 documentos | uniformidad |
+| V21-E05 | Ausencia de declaraciones falsas de aceptación (G-1/G-5/G-10, Adenda v9, PO-05, Fase 1) | docs vigentes | 0 | afirmaciones de aceptación sin negación/condición=[] | **PASS** | docs vigentes | ninguna declaración de aceptación falsa |
+| V21-E06 | Decisiones abiertas completas, coherentes entre registro V21 e inventario, ninguna cerrada | 2 documentos | 0 faltantes; 0 cerradas | faltan en registro V21=[]; faltan en inventario=[]; decisiones marcadas cerradas=[] | **PASS** | REGISTRO_DECISIONES_ABIERTAS_V21 + INVENTARIO | ninguna decisión inventada ni marcada aprobada |
+| V21-E07 | PO-05 (fila del addendum) y la historia del registro sin alteración | REGISTRO_HISTORICO_VERSIONES.md | idéntico en sus primeras 812 líneas | fila de PO-05='/ PO-05 / Aceptación del addendum / Aceptación formal del ad'; primeras 812 líneas idénticas a V20=True | **PASS** | REGISTRO vs commit V20 | PO-05 y la historia del registro intactos |
+| V21-E08 | El diseño (especificación) no cambia en V21 salvo el bloque de estado | especificación | idéntica | especificación idéntica a V20 antes del bloque de estado=True (primeras 5050 líneas) | **PASS** | especificación vs commit V20 | el diseño no se modificó en V21 |
+| V21-F01 | Linea_definicion de las 231 reglas apunta a su definición real | 231 filas | 0 incorrectas | reglas con línea de definición incorrecta=0 [] | **PASS** | Linea_definicion vs especificación vigente | línea y texto |
+| V21-F02 | Linea_ESPEC de los 780 escenarios apunta a su fila real | 780 filas | 0 incorrectas | escenarios con línea incorrecta=0 [] | **PASS** | Linea_ESPEC vs especificación vigente | línea y nombre |
+| V21-F03 | Las 90 citas de narrativa 'l.N' contienen la regla citada | 231 filas | 0 incorrectas | citas de narrativa=90; que no contienen la regla=[] | **PASS** | Dependencias_y_relaciones | 90 citas válidas |
+| V21-F04 | Citas numéricas de línea en documentos vigentes verificadas por ancla de texto | ANCLAS_LINEAS_V21.csv | 0 inválidas | citas de línea de documentos con ancla inválida o sin ancla=[] de 26 | **PASS** | ANCLAS_LINEAS_V21.csv | cada cita numérica de línea de un documento vigente tiene ancla de texto verificada |
+| V21-F05 | Referencias internas a archivos existentes (docs vigentes) | tokens `archivo.ext` | 0 rotas | referencias a archivos que no existen=[] | **PASS** | backticks en 15 documentos vigentes | referencias internas y enlaces a evidencias |
+| V21-F06 | Fechas y versiones de los entregables V21 | md V21 | todos V21 / 2026-11-20 | entregables V21 sin 'Versión: V21' y fecha 2026-11-20=[] | **PASS** | docs md en expediente_final_v21 | fechas y versiones |
+| V21-G01 | Índice de vigencia cubre todo el árbol sin fantasmas ni duplicados | docs/fase0 | 0 faltantes; 0 fantasmas | archivos sin entrada=[]; entradas fantasma=[]; duplicadas=[]; filas=91 | **PASS** | INDICE_VIGENCIA vs árbol real | todo archivo identificado una sola vez |
+| V21-G02 | Todo md sustituido o histórico lleva aviso (o figura como vigente/evidencia en el índice) | md de V20 y V16 | 0 sin aviso | md históricos/sustituidos sin aviso ni declaración vigente en el índice=[] | **PASS** | avisos en md de V20 y evidencia_v16 | ningún sustituido parece vigente |
+| V21-G04 | Sin cambios fuera de docs/fase0 ni en herramientas/ o historico/ respecto de V20 | git | 0 | fuera de docs/fase0=[]; en herramientas/ o historico/=[] | **PASS** | git diff --name-only ac84133 + no rastreados | sin cambios funcionales, del motor ni de históricos |
+| V21-G05 | Motor (22 funciones) y verificador con SHA-256 protegido sin cambio | 2 archivos | iguales a los de V20 | modelo=cc87236a19b9 verificador=1acec85dc5e7 | **PASS** | SHA-256 de motor y verificador | 22 funciones y verificador sin modificar |
+| V21-G06 | v3.3 original con su SHA-256 | archivo externo | b5dccdc7…c1da | b5dccdc73a8103966ab1e1b1e84b2e7ead68cd736fba666ec71d0e790d51c1da | **PASS** | SHA-256 del original v3.3 | documento aceptado v3.3 y su historia intactos |
+| V21-G07 | historico/ sin modificaciones | git | 0 | históricos modificados=[]; archivos en historico/=52 | **PASS** | git diff sobre historico/ | hashes históricos sin alterar |
+| V21-G08 | main intacta (local y remota), rama autorizada, sin merges | git | 6a1af24; sin merges | main local=6a1af24 remoto=6a1af24 rama=audit/fase0-v19-review merges nuevos='' | **PASS** | git rev-parse / ls-remote | main intacta, sin merges |
+| V21-G09 | V20 (ac84133) es ancestro de HEAD | git | True | HEAD=ac84133; V20 es ancestro=True | **PASS** | git | V21 se construye sobre V20 |
+| V21-G10 | Formato de entregables V21: UTF-8 sin BOM, LF, salto final | expediente_final_v21 | 0 | archivos V21 con BOM/CR/sin salto final=[] | **PASS** | formato UTF-8 sin BOM, LF | codificación y formato |
+| V21-G11 | Salidas de ejecución originales de V16–V20 intactas | 6 salidas representativas | 0 alteradas | salidas originales alteradas=[] | **PASS** | salidas crudas vs commit V20 | la evidencia original no se altera retrospectivamente |
+
+## 3. Criterios de aceptación V21
+| Criterio | Resultado requerido | Pruebas que lo respaldan | Resultado |
+|---|---|---|---|
+| Clasificaciones | 100% conciliadas | A02, A03, A04, E01, E02 | **APROBADO** |
+| Conteos | 100% trazables | A01, A05, A06, A07, A08, A09, A10, B01, B02, B03, B04, B06, C01, C02, C03 | **APROBADO** |
+| Referencias | Sin referencias rotas | F01, F02, F03, F04, F05, F06 | **APROBADO** |
+| Decisiones | Sin decisiones inventadas | E06, E07, E08 | **APROBADO** |
+| Estados | Sin contradicciones | E03, E04, E05 | **APROBADO** |
+| Evidencias | Trazabilidad verificable | A07, B02, B03, C03, G11 | **APROBADO** |
+| PostgreSQL | Limitación correctamente documentada | C04 | **APROBADO** |
+| Integridad | SHA-256 verificado | verificación de integridad ×2 | **APROBADO** |
+| Documentos históricos | Identificados | G01, G02 | **APROBADO** |
+| Regresión documental | Sin fallos | D01, D02, B05 | **APROBADO** |
+| Cambios funcionales | Ninguno | G04, G05, G06, G07 | **APROBADO** |
+| main | Intacta | G08, G09 | **APROBADO** |
+
+**Dictamen computado: todos los criterios V21 aprobados.**
+
+## 4. Qué no se ejecutó y por qué (limitaciones externas reales)
+- Pruebas contra un esquema físico real, RLS, privilegios, concurrencia real, Supabase/Storage y CCI-DEV/CCI-PROD: no existe esquema físico ni están autorizados; no se conectó ningún proyecto.
+- Trigger de elegibilidad R1–R9 en PostgreSQL: requiere las 12 tablas que el fixture no incluye.
+- HV-02 (PO-05 «v3» frente a Adenda v9): NO VERIFICABLE sin confirmación del propietario.
+
+El PostgreSQL temporal **no equivale** al esquema físico aprobado de CCI ni a una validación de Supabase.

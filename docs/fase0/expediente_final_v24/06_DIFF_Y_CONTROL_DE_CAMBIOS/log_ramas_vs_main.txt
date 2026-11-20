@@ -1,0 +1,8 @@
+ac84133 docs(fase0): complete integral G1 G5 G10 audit and evidence reconciliation v20
+c6ef74b docs(fase0): publish accumulated V16-V19 audit for independent review
+
+-- ls-remote --
+6a1af2424ef39e0960b8f7e09d4e19ec52e6f046	HEAD
+ac84133b776cc73c0cb3416e51e2767039bb5132	refs/heads/audit/fase0-v19-review
+1134c3d42ccef604117ed566e045fb885dfe267e	refs/heads/docs/g1-g5-g10-v2
+6a1af2424ef39e0960b8f7e09d4e19ec52e6f046	refs/heads/main
