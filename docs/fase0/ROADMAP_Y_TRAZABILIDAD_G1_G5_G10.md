@@ -307,3 +307,19 @@ Situación: **Fase 0** (subfases 0.1–0.7) aceptada y cerrada como línea base 
 | 9.8 | Preparación de despliegue | Hosting, dominio, respaldos, exportación | Plan | Plan aceptado | P-09, P-10 | Plan gratuito sin respaldos | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | P-09 política definitiva; P-10 hosting definitivo con cabeceras de seguridad; T-09 exportación. |
 | 9.9 | Auditoría de aceptación | Revisión final | Informe | Criterios de la fase | 9.1–9.8 | — | NO INICIADA, NO AUTORIZADA (v3.3: PENDIENTE) | Nivel 1: diseño sin ejecutar (L-01). Restricción P-09: solo datos DEMO. | Ninguna decisión específica de esta matriz; ver dependencias. |
 
+
+
+## Nota de estado V20 (2026-11-19) — bloque uniforme en los cinco documentos activos
+
+Esta nota no modifica ni reemplaza lo anterior; distingue seis estados que no deben confundirse.
+
+| Estado | Situación |
+|---|---|
+| Histórico | Fase 0 v3.3 conservada como línea base documental (SHA-256 b5dccdc7…c1da, sin cambio); el diseño complementario vigente es la revisión v15; las notas V16 a V19 son trabajo de auditoría documental. |
+| Publicación | Rama `audit/fase0-v19-review`, commit `c6ef74be4db185ac3e4fd36810f24619e6f51fcf` (V16–V19, padre `6a1af2424ef39e0960b8f7e09d4e19ec52e6f046`). `main` permanece en V16 (`6a1af24`). El trabajo V20 (`expediente_final_v16_v19/`) está solo en el árbol local, sin commit. Sin pull request ni merge. |
+| Auditoría | Cierre integral V16–V20 (segunda pasada V20 con prompt de reconciliación) documentado en `expediente_final_v16_v19/` (231 reglas, 780 escenarios, 22 funciones / 366 casos, matriz C01–C30). Solo documental y en modelo en memoria. |
+| Aceptación del propietario | Ni V15–V20, ni la Adenda v9 (PO-05), ni G-1, G-5 y G-10 están aceptados; todo sigue pendiente del propietario. |
+| Integración | No integrado con la vista previa privada. |
+| Producción | Sin despliegue, sin Supabase, sin migraciones ni esquema físico; solo un fixture SQL de prueba ejecutado en un PostgreSQL temporal aislado (`expediente_final_v16_v19/PE_POSTGRESQL_V20/`); Fase 1 NO INICIADA / NO AUTORIZADA. |
+
+Limitaciones vigentes: 153 reglas condicionadas por diseño no aceptado (G-1, G-5, G-10); las 5 reglas antes con evidencia insuficiente (IG1-05, IG1-06, IG1-10, IG1-21, IG5-36) pasaron a B: PE-01 a PE-05 se ejecutaron en un PostgreSQL 16 temporal con un fixture derivado del diseño (63/63 PASS), sin esquema físico aprobado ni Supabase; 12 escenarios parciales; sin validación contra un esquema físico real, RLS, concurrencia ni Supabase; HV-02 (PO-05 «v3» frente a Adenda v9) no verificable sin confirmación del propietario; decisiones reservadas abiertas (RP-01, G-9, P-01 a P-05, P-10, OD-13, DEP-RET-01, DG-09, DG-12, DG-16, DG-18, DG-19, DG-20).

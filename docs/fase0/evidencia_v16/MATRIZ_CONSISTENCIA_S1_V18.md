@@ -25,3 +25,7 @@ Trabajo documental local posterior a V16; no publicado. Detalle por tabla en `MA
 **27 + 14 = 41:** 22 reutilizables sin cambio (22 nombres contados en l.3620) + 5 con cambio (creative_pieces, copy_versions, channel_rules, creative_assets, approvals) = 27; 14 nuevas (5+4+4+1); total 41 (l.3620). Consistente.
 
 **Representaciones contrastadas (14 tablas):** l.38 (corregida en V18), l.624, l.3620, l.1270, l.4905, INFORME l.173, AUDITORIA l.127, ROADMAP l.133, modelo en memoria (6 de 14 por nombre) y verificador. Discrepancias abiertas: solo la fila 1270. El modelo no se modificó. **El modelo de tablas NO se declara resuelto:** quedan channel_formats sin columnas formales y la fila 1270 sin decidir.
+
+## Nota V20 (2026-11-19) sobre el estado de publicación
+
+Las expresiones «local», «no publicado» y «sin commit» de las secciones anteriores describen el estado en la fecha de cada sección (histórico, no se borra). Desde entonces V16–V19 se publicó en la rama `audit/fase0-v19-review` (commit `c6ef74be4db185ac3e4fd36810f24619e6f51fcf`); `main` sigue en V16. El trabajo V20 está en el árbol local sin commit. Estado vigente y cierre: `../expediente_final_v16_v19/`.

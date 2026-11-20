@@ -59,7 +59,7 @@ Los criterios aprobados en local no se cumplen en el commit remoto. V16 no se de
 | C11 | NO APROBADO | HV-02 abierta; S1 y S1b corregidos | NO APROBADO (HV-02) | Ninguna |
 | C12 | NO APROBADO | Coherente (tras S1, S1b y nota V16) | APROBADO SOLO EN LOCAL | Ninguna |
 | C25 | Definición intacta | La misión autoriza ediciones locales | NO APLICA a trabajo con ediciones | Ninguna |
-| Pruebas (22 funciones) | — | 363/363 PASS en memoria | Individual en modelo; no es integración real | Ninguna |
+| Pruebas (22 funciones) | — | 366/366 PASS en memoria | Individual en modelo; no es integración real | Ninguna |
 | Validaciones externas (PostgreSQL, RLS, concurrencia, Storage, Edge) | — | No ejecutadas | NO VERIFICABLE | Ninguna |
 
 V16 no se declara aceptado integralmente.
@@ -75,3 +75,7 @@ V16 no se declara aceptado integralmente.
 | C25 | Definición intacta | Edición local autorizada | NO APLICA | Ninguna |
 | Modelo de tablas | — | 14 tablas y 27+14=41 confirmados; 2 puntos abiertos | NO RESUELTO | Ninguna |
 | Validaciones externas | — | Sin ejecutar | NO VERIFICABLE | Ninguna |
+
+## Nota V20 (2026-11-19) sobre el estado de publicación
+
+Las expresiones «local», «no publicado» y «sin commit» de las secciones anteriores describen el estado en la fecha de cada sección (histórico, no se borra). Desde entonces V16–V19 se publicó en la rama `audit/fase0-v19-review` (commit `c6ef74be4db185ac3e4fd36810f24619e6f51fcf`); `main` sigue en V16. El trabajo V20 está en el árbol local sin commit. Estado vigente y cierre: `../expediente_final_v16_v19/`.

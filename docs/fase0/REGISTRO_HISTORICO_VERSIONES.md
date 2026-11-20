@@ -808,3 +808,29 @@ V16 es una corrección documental de referencias de versión; no es una revisió
 | Verificación realizada sobre el commit V16 | Verificador integral documental y estructural en dos corridas limpias e independientes sobre `git archive` del commit: 59 comprobaciones aprobadas, 28 controles OK, 300 mutaciones detectadas, 0 fallos, 0 omitidas; salida idéntica byte a byte. Resultado de modelo en memoria y de comprobaciones documentales |
 | Limitaciones pendientes | Sin pruebas en PostgreSQL, Supabase, RLS, concurrencia ni integración externa; ningún documento activo mencionaba V16 hasta esta nota |
 | Estado de aceptación | V15 y V16 no están aceptadas por el propietario. G-1, G-5 y G-10 continúan pendientes de aceptación formal. Fase 1 NO INICIADA / NO AUTORIZADA |
+
+
+## Nota de estado V20 (2026-11-19) — bloque uniforme en los cinco documentos activos
+
+Esta nota no modifica ni reemplaza lo anterior; distingue seis estados que no deben confundirse.
+
+| Estado | Situación |
+|---|---|
+| Histórico | Fase 0 v3.3 conservada como línea base documental (SHA-256 b5dccdc7…c1da, sin cambio); el diseño complementario vigente es la revisión v15; las notas V16 a V19 son trabajo de auditoría documental. |
+| Publicación | Rama `audit/fase0-v19-review`, commit `c6ef74be4db185ac3e4fd36810f24619e6f51fcf` (V16–V19, padre `6a1af2424ef39e0960b8f7e09d4e19ec52e6f046`). `main` permanece en V16 (`6a1af24`). El trabajo V20 (`expediente_final_v16_v19/`) está solo en el árbol local, sin commit. Sin pull request ni merge. |
+| Auditoría | Cierre integral V16–V20 (segunda pasada V20 con prompt de reconciliación) documentado en `expediente_final_v16_v19/` (231 reglas, 780 escenarios, 22 funciones / 366 casos, matriz C01–C30). Solo documental y en modelo en memoria. |
+| Aceptación del propietario | Ni V15–V20, ni la Adenda v9 (PO-05), ni G-1, G-5 y G-10 están aceptados; todo sigue pendiente del propietario. |
+| Integración | No integrado con la vista previa privada. |
+| Producción | Sin despliegue, sin Supabase, sin migraciones ni esquema físico; solo un fixture SQL de prueba ejecutado en un PostgreSQL temporal aislado (`expediente_final_v16_v19/PE_POSTGRESQL_V20/`); Fase 1 NO INICIADA / NO AUTORIZADA. |
+
+Limitaciones vigentes: 153 reglas condicionadas por diseño no aceptado (G-1, G-5, G-10); las 5 reglas antes con evidencia insuficiente (IG1-05, IG1-06, IG1-10, IG1-21, IG5-36) pasaron a B: PE-01 a PE-05 se ejecutaron en un PostgreSQL 16 temporal con un fixture derivado del diseño (63/63 PASS), sin esquema físico aprobado ni Supabase; 12 escenarios parciales; sin validación contra un esquema físico real, RLS, concurrencia ni Supabase; HV-02 (PO-05 «v3» frente a Adenda v9) no verificable sin confirmación del propietario; decisiones reservadas abiertas (RP-01, G-9, P-01 a P-05, P-10, OD-13, DEP-RET-01, DG-09, DG-12, DG-16, DG-18, DG-19, DG-20).
+
+### Entrada V20 (2026-11-20) — reconciliación integral; no es una versión de diseño ni una aceptación
+
+| Campo | Contenido |
+|---|---|
+| Naturaleza | Auditoría y reconciliación de evidencia del expediente G-1, G-5 y G-10 (identificador V20 = resultado de esta revisión únicamente). La revisión del diseño complementario vigente sigue siendo la v15; la línea base documental sigue siendo la v3.3. |
+| Corregido en documentos | (1) Conteo de casos de las 22 funciones: 366 (363 + 3 positivos de K45), no 363. (2) Fila 1270: `attribution_discard_resolutions`. (3) `channel_formats`: definición formal derivada. (4) Siete columnas sin FK (`impact_evaluations` ×2, `publication_attempts` ×3, `brief_field_attributions.brief_id`, `promotion_field_attributions.promotion_line_id`): FK compuestas añadidas, dos filas añadidas al contrato 4.4.9 y dos aristas al diagrama. (5) Formato: CSV a LF sin BOM; sin espacios finales. |
+| Pruebas nuevas | `evidencia_v16/instrumentar_22_funciones_v20.py`, `independencia_auditor_v20.py`, `pruebas_estructurales_v20.py`; `expediente_final_v16_v19/PE_POSTGRESQL_V20/` (63 pruebas y 14 mutaciones en un PostgreSQL 16 temporal). |
+| Sin cambios | Motor, verificador, `historico/`, v3.3 (SHA-256 `b5dccdc7…c1da`), 17 claves físicas, cinco roles, 13 transiciones T-02, 76 subfases, 27 tablas base, PO-05 y las demás decisiones pendientes. |
+| Estado de aceptación | Ninguna versión ni la Adenda v9 está aceptada por el propietario; sin validación contra un esquema físico real, RLS, concurrencia ni Supabase; Fase 1 NO INICIADA / NO AUTORIZADA. |

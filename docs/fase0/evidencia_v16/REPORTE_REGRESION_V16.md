@@ -16,7 +16,7 @@ Estado: local, sin commit. Base: HEAD `6a1af2424ef39e0960b8f7e09d4e19ec52e6f046`
 
 Comparación: `cmp` byte a byte → idénticas. Salidas íntegras: `salida_verificador_corrida1.txt` y `salida_verificador_corrida2.txt` (57 053 bytes cada una).
 
-Comando exacto (cada corrida, en un directorio propio copiado del árbol local): 
+Comando exacto (cada corrida, en un directorio propio copiado del árbol local):
 `env -i PATH=/usr/bin:/bin LC_ALL=C.UTF-8 PYTHONHASHSEED=0 PYTHONDONTWRITEBYTECODE=1 python3 -I herramientas/verificar_expediente.py --dir . --v33 /home/claude/fase0_v3_3_integral.md`
 Entorno: Python 3.13.18, Linux, solo biblioteca estándar, ambas corridas en paralelo.
 
@@ -51,11 +51,15 @@ Verificador (`--v33` con el original v3.3) sobre el árbol local, dos corridas c
 
 ## Actualización V18 (tras S1b, ESPEC línea 38)
 - Cambio estructural de texto: una frase en la especificación (S1b); SHA-256 de la especificación local: 0e0beb78bb2923c1… (prefijo). Por tratarse de un cambio en la especificación se repitieron **las dos corridas completas** del verificador (`--v33` con el original v3.3): 59/59 comprobaciones, 28/28 controles, 300/300 mutaciones, 0 fallas, 0 pendientes; SHA-256 de la salida en ambas: 2c79bb683b9e171abe77f9f02e4e16a3b07e8da5b69a9b648ad2eca7d3160d08 (igual que V16 y V17). Salidas: `salida_verificador_V18_corrida1.txt` y `_corrida2.txt`.
-- Pruebas afectadas por el cambio: ninguna del modelo (el modelo y el verificador no cambiaron). Se ejecutaron, además, las 22 funciones con resultado individual (363 casos, 0 fallos, dos salidas idénticas, SHA-256 2b856198…f2f4).
+- Pruebas afectadas por el cambio: ninguna del modelo (el modelo y el verificador no cambiaron). Se ejecutaron, además, las 22 funciones con resultado individual (366 casos, 0 fallos, dos salidas idénticas, SHA-256 2b856198…f2f4).
 - No se repitieron pruebas con evidencia válida cuyo alcance no cambió. No hay `__pycache__` en el repositorio. Sin commit, merge ni push; sin Supabase ni despliegues.
 
 ## Actualización V19
 - Elementos protegidos modificados en V19: ninguno (la especificación mantiene el SHA-256 0e0beb78bb2923c1… de V18; motor, verificador e históricos intactos). Por eso bastó **una** corrida completa del verificador integral (`--v33` con el original v3.3): 59/59 comprobaciones, 28/28 controles, 300/300 mutaciones, 0 fallas, 0 pendientes; SHA-256 de la salida 2c79bb683b9e171abe77f9f02e4e16a3b07e8da5b69a9b648ad2eca7d3160d08, idéntico a V16, V17 y V18. Salida: `salida_verificador_V19_corrida1.txt`.
-- Pruebas afectadas: ninguna; no se repitieron las 22 funciones (363 casos, V18).
+- Pruebas afectadas: ninguna; no se repitieron las 22 funciones (366 casos, V18).
 - Pruebas nuevas ejecutadas: ninguna (PE-01..PE-05 solo diseñadas; requieren PostgreSQL).
 - No se redujeron controles ni se alteraron pruebas. Sin `__pycache__`. Sin commit, merge ni push.
+
+## Nota V20 (2026-11-19) sobre el estado de publicación
+
+Las expresiones «local», «no publicado» y «sin commit» de las secciones anteriores describen el estado en la fecha de cada sección (histórico, no se borra). Desde entonces V16–V19 se publicó en la rama `audit/fase0-v19-review` (commit `c6ef74be4db185ac3e4fd36810f24619e6f51fcf`); `main` sigue en V16. El trabajo V20 está en el árbol local sin commit. Estado vigente y cierre: `../expediente_final_v16_v19/`.

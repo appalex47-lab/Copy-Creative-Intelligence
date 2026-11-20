@@ -1,0 +1,3 @@
+# Politica de formato V20: las salidas crudas de herramientas se conservan byte a byte (su SHA-256 es evidencia citada);
+# los espacios finales que contienen son artefactos de la herramienta, no se normalizan.
+salida_*.txt whitespace=-trailing-space

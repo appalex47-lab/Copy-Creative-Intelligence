@@ -29,3 +29,7 @@ Cambios locales adicionales (no publicados, posteriores a V16): corrección S1b 
 
 ## Actualización V19
 Sin nuevas modificaciones de los cinco documentos activos respecto de V18 (ni de motor, verificador ni históricos). Nuevo en `evidencia_v16/`: `MATRIZ_ESCENARIOS_V19.csv`; reescrita `MATRIZ_SEMANTICA_REGLAS_V17.csv` (columnas V19). Referencia de HV-02: archivos ADDENDUM en `/home/claude/` fuera del repositorio (huellas verificadas contra el manifiesto). HEAD publicado: 6a1af2424ef39e0960b8f7e09d4e19ec52e6f046; sin commits nuevos.
+
+## Nota V20 (2026-11-19) sobre el estado de publicación
+
+Las expresiones «local», «no publicado» y «sin commit» de las secciones anteriores describen el estado en la fecha de cada sección (histórico, no se borra). Desde entonces V16–V19 se publicó en la rama `audit/fase0-v19-review` (commit `c6ef74be4db185ac3e4fd36810f24619e6f51fcf`); `main` sigue en V16. El trabajo V20 está en el árbol local sin commit. Estado vigente y cierre: `../expediente_final_v16_v19/`.

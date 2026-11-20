@@ -50,7 +50,7 @@ Clases: A (derivada de decisión citada) 39; B (cita explícita de un elemento d
 
 **S1:** ver MATRIZ_CONSISTENCIA_S1_V18.md. Nuevo hallazgo S1b (línea 38, 13 de 14 tablas) corregido solo en local. Observaciones no corregidas: channel_formats sin tabla de columnas propia; fila «Fuentes físicas» (l.1270) sin attribution_discard_resolutions.
 
-**Pruebas:** ver INVENTARIO_22_FUNCIONES_V18.md (22 funciones, 363 casos individuales, 0 fallos).
+**Pruebas:** ver INVENTARIO_22_FUNCIONES_V18.md (22 funciones, 366 casos individuales, 0 fallos).
 
 | ID | Estado final V18 |
 |---|---|
@@ -122,3 +122,7 @@ Escenarios que no demuestran todo lo que se les asocia (12): T-06 (no demuestra 
 | 12 escenarios con demostración débil/parcial | Abiertos |
 | 179 escenarios sin lectura semántica | **No verificable** (no leídos) |
 | C08 | **NO APROBADO** |
+
+## Nota V20 (2026-11-19) sobre el estado de publicación
+
+Las expresiones «local», «no publicado» y «sin commit» de las secciones anteriores describen el estado en la fecha de cada sección (histórico, no se borra). Desde entonces V16–V19 se publicó en la rama `audit/fase0-v19-review` (commit `c6ef74be4db185ac3e4fd36810f24619e6f51fcf`); `main` sigue en V16. El trabajo V20 está en el árbol local sin commit. Estado vigente y cierre: `../expediente_final_v16_v19/`.

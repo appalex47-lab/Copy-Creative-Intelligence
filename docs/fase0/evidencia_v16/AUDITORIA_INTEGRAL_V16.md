@@ -33,7 +33,7 @@ Observado: contenido de archivos y git. Ejecutado: verificador, baterías en mem
 
 - **C08:** NO APROBADO. Matriz semántica de 231 reglas con clases A–E (A 39, B 14, C 173, D 0, E 5). 5 reglas con evidencia de escenario insuficiente (IG1-05, IG1-06, IG1-10, IG1-21, IG5-36); lectura de escenarios limitada a los dos primeros por regla. No se detectó ninguna contradicción (D = 0) entre especificación, escenarios y cobertura (bidireccional, 0 discrepancias). 154 de 231 reglas no tienen implementación (diseño documentado) y 77 citan su ID en el modelo o el verificador.
 - **HV-02:** abierta. df5e227 no contiene el documento fuente; ningún ADDENDUM existe en la historia. PO-05 intacto.
-- **Pruebas:** 22 funciones, 363 casos individuales PASS en el modelo en memoria (dos corridas idénticas). No son pruebas contra base real.
+- **Pruebas:** 22 funciones, 366 casos individuales PASS en el modelo en memoria (dos corridas idénticas). No son pruebas contra base real.
 - **S1/S1b:** corregidas solo en local; matriz en MATRIZ_CONSISTENCIA_S1_V18.md.
 - **Estado de publicación:** nada publicado desde V16 (HEAD 6a1af24).
 
@@ -44,3 +44,7 @@ Observado: contenido de archivos y git. Ejecutado: verificador, baterías en mem
 - HV-02: fuente localizada y verificada por huella; la frase es literal desde v3 hasta v9; sin decisión del propietario no se cambia PO-05.
 - Regresión: ver REPORTE_REGRESION_V16.md.
 - Lo aprobado se limita al árbol local (C12) y a la evidencia en memoria; nada está publicado.
+
+## Nota V20 (2026-11-19) sobre el estado de publicación
+
+Las expresiones «local», «no publicado» y «sin commit» de las secciones anteriores describen el estado en la fecha de cada sección (histórico, no se borra). Desde entonces V16–V19 se publicó en la rama `audit/fase0-v19-review` (commit `c6ef74be4db185ac3e4fd36810f24619e6f51fcf`); `main` sigue en V16. El trabajo V20 está en el árbol local sin commit. Estado vigente y cierre: `../expediente_final_v16_v19/`.
