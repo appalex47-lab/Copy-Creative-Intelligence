@@ -1,0 +1,12 @@
+# Verificación remota posterior al push del commit del expediente V26 (2026-11-21T00:09:31Z); repositorio appalex47-lab/Copy-Creative-Intelligence; rama audit/fase0-v26-review
+PV01 rama V26: ls-remote=2366ee1f4f57b0389bc7baac55e57d3290c6fe69 REST=2366ee1f4f57b0389bc7baac55e57d3290c6fe69 esperado=2366ee1f4f57b0389bc7baac55e57d3290c6fe69
+PV02 padre del commit del expediente V26: c3adaf97588ce3b8fef075a44aff6336f4e8c266 (esperado c3adaf97588ce3b8fef075a44aff6336f4e8c266); nº de padres=1
+PV03 árbol remoto = árbol local: SI (1230 blobs; truncado=false); archivos bajo docs/fase0/expediente_final_v26/ en GitHub=313
+PV04 manifiesto remoto idéntico al local: SI; entradas=312; existen en el árbol remoto: 312; sha256 del manifiesto remoto=1516112bcaae3a1b86dd533d54e0a77087e11d4be8c7e90c6c74dc2fe1d7da20
+PV05 archivos descargados de GitHub y comparados con el manifiesto V26: 312 OK, 0 discrepancias
+PV06 diferencia de árboles remotos HEAD V25 -> commit V26 (la API de commits de GitHub limita a 300 archivos por commit y este commit tiene 313 files changed, 118160 insertions(+); por eso se compara por árboles): añadidos=313; eliminados o modificados=0; añadidos fuera de docs/fase0/expediente_final_v26/=0
+PV07 SHA remotos: main=6a1af2424ef39e0960b8f7e09d4e19ec52e6f046 V20=ac84133b776cc73c0cb3416e51e2767039bb5132 V23=8674114c69881ff1ebda3c5db1f89f2a4d6d31c6 V24=b88bde038e331ba67899632ca4e09eebf2cde82d V25=c3adaf97588ce3b8fef075a44aff6336f4e8c266
+PV08 PRs (todos los estados)=0; V26 respecto a V25: ahead ahead_by=1 behind_by=0; V26 respecto a main: ahead ahead_by=9 behind_by=0
+PV09 funcional/infra: rutas añadidas por V26 en docs/fase0/(herramientas|historico)/ o fuera de docs/fase0/=0 + 0; árbol de herramientas V26 vs V25: 82c39ae9 vs 82c39ae9
+PV10 archivos clave accesibles (bytes): LEEME_V26.md=5330 INFORME_AUDITORIA_FINAL_V26.md=14972 INFORME_CONCILIACION_CONTROLES_V26.md=5464 MATRIZ_CONTROLES_V26.csv=46886 MATRIZ_CAMBIOS_V25_V26.md=5849 REPORTE_VALIDACION_V26.md=6535 REPORTE_VERIFICACION_REMOTA_V26.md=7272 MANIFIESTO_SHA256_V26.txt=51078 
+PV11 matriz y ejecuciones remotas recontadas: controles=94 ejecuciones=238 PASS=85 FAIL=0 BLOCKED=0 NOT VERIFIED=5 PARTIAL=4; ejecuciones PASS=236 FAIL=1 PARTIAL=1; tabla del LEEME remoto coincide=True
