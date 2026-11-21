@@ -226,7 +226,7 @@ def K():
     v26 = {r["ID"]: r for r in csv.DictReader(open(os.path.join(ROOT, "docs/fase0/expediente_final_v26/MATRIZ_CONTROLES_V26.csv"), encoding="utf-8"))}
     desc = {"L04": "equivalencia del PostgreSQL temporal con el esquema físico aprobado (no existe esquema físico aprobado)", "L05": "validación física en CCI-DEV", "L06": "RLS, privilegios y concurrencia reales en CCI-DEV", "L07": "trigger de elegibilidad R1–R9 en entorno físico", "L08": "HV-02/PO-05: confirmación del propietario sobre la Adenda v9 (el documento no existe en el repositorio)"}
     for lid in ("L04", "L05", "L06", "L07", "L08"):
-        if v26[lid]["Estado"].strip().upper().startswith("NO VERIFICADO") or "NO VERIF" in v26[lid]["Estado"].upper(): BLOQ.append({"id": "EXT-04-" + lid, "dependencia": desc[lid], "detalle": "MATRIZ_CONTROLES_V26.csv fila %s: %s" % (lid, v26[lid]["Estado"])})
+        if v26[lid]["Estado"].strip().upper() in ("NOT VERIFIED", "NO VERIFICADO", "NOT TESTED", "NO VERIFICABLE") or "NOT VERIF" in v26[lid]["Estado"].upper() or "NO VERIF" in v26[lid]["Estado"].upper(): BLOQ.append({"id": "EXT-04-" + lid, "dependencia": desc[lid], "detalle": "MATRIZ_CONTROLES_V26.csv fila %s: %s" % (lid, v26[lid]["Estado"])})
     for b in BLOQ: PASOS.append({"etapa": "K", "id": "dependencia_externa_" + b["id"], "comando": "compuerta de dependencias externas", "rc": 0, "estado": "BLOCKED", "detalle": b["dependencia"]}); log("[K] %s BLOCKED: %s" % (b["id"], b["dependencia"]))
     for x in PASOS:
         if x["estado"] == "NOT_TESTED": log("[K] %s NOT_TESTED: %s" % (x["id"], x["detalle"]))
