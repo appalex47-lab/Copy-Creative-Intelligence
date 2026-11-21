@@ -22,15 +22,15 @@ create or replace function pg_temp.clase(p_sqlstate text, p_msg text) returns te
 create or replace function pg_temp.ejecuta(p_sql text, p_rol text, p_uid uuid, p_post text default null, p_deshacer boolean default true, out o_clase text, out o_sqlstate text, out o_msg text, out o_post text) language plpgsql as $f$
 begin
   begin
-    if p_rol is not null then execute format('set local role %I', p_rol); end if;
-    if p_uid is not null then perform set_config('request.jwt.claims', json_build_object('sub', p_uid, 'role', coalesce(p_rol,'authenticated'))::text, true); end if;
+    if p_rol is not null then execute pg_catalog.format('set local role %I', p_rol); end if;
+    if p_uid is not null then perform pg_catalog.set_config('request.jwt.claims', pg_catalog.json_build_object('sub', p_uid, 'role', coalesce(p_rol,'authenticated'))::text, true); end if;
     execute p_sql;
     o_clase := 'OK'; o_sqlstate := null; o_msg := null;
     if p_post is not null then execute p_post into o_post; end if;
     if p_deshacer then raise exception 'deshacer' using errcode = 'CC999'; end if;
   exception
     when sqlstate 'CC999' then null;   -- centinela propio: el resultado ya está guardado en o_*
-    when others then o_sqlstate := sqlstate; o_msg := left(sqlerrm, 200); o_clase := pg_temp.clase(sqlstate, sqlerrm);
+    when others then o_sqlstate := sqlstate; o_msg := pg_catalog.left(sqlerrm, 200); o_clase := pg_temp.clase(sqlstate, sqlerrm);
   end;
   begin reset role; exception when others then null; end;   -- reset role no debe enmascarar el resultado
 end $f$;
@@ -48,7 +48,7 @@ create or replace function pg_temp.veredicto(p_tipo text, p_clase text, p_sqlsta
         when p_clase in ('PERMISOS','FUNCION_INEXISTENTE','ESTRUCTURA','SINTAXIS') then 'BLOCKED'   -- fallo técnico: JAMÁS es PASS
         when p_clase = 'DOMINIO_CANDIDATO' then case
             when coalesce(p_esperado,'') = '' then 'PARTIAL'              -- rechazo observado pero la especificación no define el contrato: no se puede atribuir a la regla
-            when p_sqlstate = split_part(p_esperado, ':', 1) and (position(':' in p_esperado) = 0 or starts_with(coalesce(p_msg,''), substr(p_esperado, position(':' in p_esperado) + 1))) then 'PASS'   -- SQLSTATE EXACTO; el prefijo de mensaje solo se exige si el contrato lo declara
+            when p_sqlstate = pg_catalog.split_part(p_esperado, ':', 1) and (position(':' in p_esperado) = 0 or pg_catalog.starts_with(coalesce(p_msg,''), pg_catalog.substr(p_esperado, position(':' in p_esperado) + 1))) then 'PASS'   -- SQLSTATE EXACTO; el prefijo de mensaje solo se exige si el contrato lo declara
             else 'FAIL' end
         else 'FAIL' end
     else 'NOT VERIFIED' end $f$;

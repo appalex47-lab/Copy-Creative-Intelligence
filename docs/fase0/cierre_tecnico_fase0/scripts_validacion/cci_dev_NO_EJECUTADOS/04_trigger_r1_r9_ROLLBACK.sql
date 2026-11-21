@@ -20,7 +20,7 @@
 \set ON_ERROR_STOP on
 -- Guarda de destino compartida (H-03): identidad efectiva del servidor + allowlist/denylist literales; ver 00_guarda_destino.sql (falla de forma segura).
 \ir 00_guarda_destino.sql
-do $v$ begin if coalesce(pg_catalog.current_setting('cci.guarda_ok', true),'') <> '1' then raise exception 'NO EJECUTADO [G-GUARDA-NO-EJECUTADA] la guarda 00_guarda_destino.sql no se ejecutó completa'; end if; end $v$;
+do $v$ begin if pg_catalog.to_regclass('pg_temp.cci_guarda_ok') is null then raise exception 'NO EJECUTADO [G-GUARDA-NO-EJECUTADA] la guarda 00_guarda_destino.sql no se ejecutó completa'; end if; end $v$;
 \if :{?fn_regproc}
 \else
   \set fn_regproc 'public.resolve_attribution_discard(uuid,text,text)'
@@ -83,54 +83,54 @@ do $v$ begin if coalesce(pg_catalog.current_setting('cci.guarda_ok', true),'') <
 \endif
 -- Biblioteca del arnés (objetos pg_temp; sin datos de negocio)
 \ir 04_lib_clasificador.sql
-select set_config('cci.org', :'org', false), set_config('cci.attr', :'attr', false), set_config('cci.fn_regproc', :'fn_regproc', false), set_config('cci.fn_call', :'fn_call', false),
-       set_config('cci.reason', :'reason', false), set_config('cci.evidence', :'evidence', false), set_config('cci.exec_role', :'exec_role', false),
-       set_config('cci.r_ok', :'r_ok', false), set_config('cci.r_nomember', :'r_nomember', false), set_config('cci.affected', :'affected', false),
-       set_config('cci.requester', :'requester', false), set_config('cci.change_actor', :'change_actor', false) \gset
-select case when to_regclass('public.attribution_discard_resolutions') is null then -1 else (xpath('/row/c/text()', query_to_xml('select count(*) as c from public.attribution_discard_resolutions', false, true, '')))[1]::text::bigint end as pre_count \gset
+select pg_catalog.set_config('cci.org', :'org', false), pg_catalog.set_config('cci.attr', :'attr', false), pg_catalog.set_config('cci.fn_regproc', :'fn_regproc', false), pg_catalog.set_config('cci.fn_call', :'fn_call', false),
+       pg_catalog.set_config('cci.reason', :'reason', false), pg_catalog.set_config('cci.evidence', :'evidence', false), pg_catalog.set_config('cci.exec_role', :'exec_role', false),
+       pg_catalog.set_config('cci.r_ok', :'r_ok', false), pg_catalog.set_config('cci.r_nomember', :'r_nomember', false), pg_catalog.set_config('cci.affected', :'affected', false),
+       pg_catalog.set_config('cci.requester', :'requester', false), pg_catalog.set_config('cci.change_actor', :'change_actor', false) \gset
+select case when pg_catalog.to_regclass('public.attribution_discard_resolutions') is null then -1 else (pg_catalog.xpath('/row/c/text()', pg_catalog.query_to_xml('select count(*) as c from public.attribution_discard_resolutions', false, true, '')))[1]::text::bigint end as pre_count \gset
 create temp table pre(id text, descripcion text, estado text, detalle text);
 -- ====== PRECONDICIONES (autocommit; sólo lectura de catálogos y de datos de prueba) ======
 do $$ declare fn oid; falt text; v_n int; v_def text;
 begin
-  insert into pre values ('PRE-01','versión PostgreSQL >= 13 (gen_random_uuid en el núcleo; capacidades usadas por el diseño)', case when current_setting('server_version_num')::int >= 130000 then 'OK' else 'BLOCKED' end, current_setting('server_version'));
-  fn := to_regprocedure(current_setting('cci.fn_regproc'));
-  insert into pre values ('PRE-02','la función existe con la firma exacta esperada', case when fn is not null then 'OK' else 'BLOCKED' end, current_setting('cci.fn_regproc') || case when fn is null then ' NO EXISTE' else '' end);
+  insert into pre values ('PRE-01','versión PostgreSQL >= 13 (gen_random_uuid en el núcleo; capacidades usadas por el diseño)', case when pg_catalog.current_setting('server_version_num')::int >= 130000 then 'OK' else 'BLOCKED' end, pg_catalog.current_setting('server_version'));
+  fn := pg_catalog.to_regprocedure(pg_catalog.current_setting('cci.fn_regproc'));
+  insert into pre values ('PRE-02','la función existe con la firma exacta esperada', case when fn is not null then 'OK' else 'BLOCKED' end, pg_catalog.current_setting('cci.fn_regproc') || case when fn is null then ' NO EXISTE' else '' end);
   if fn is not null then
-    insert into pre select 'PRE-03','propietario/seguridad de la función (diseño: records_owner; INFORMATIVO)','INFO', 'owner='||pg_get_userbyid(p.proowner)||' security_definer='||p.prosecdef||' config='||coalesce(p.proconfig::text,'(ninguna)') from pg_proc p where p.oid = fn;
+    insert into pre select 'PRE-03','propietario/seguridad de la función (diseño: records_owner; INFORMATIVO)','INFO', 'owner='||pg_catalog.pg_get_userbyid(p.proowner)||' security_definer='||p.prosecdef||' config='||coalesce(p.proconfig::text,'(ninguna)') from pg_proc p where p.oid = fn;
   end if;
-  select string_agg(t, ',') into falt from unnest(array['attribution_discard_resolutions','memberships','brief_field_attributions','promotion_field_attributions','copy_version_provenance','contribution_events','role_permissions','membership_permission_grants']) t where to_regclass('public.'||t) is null;
+  select pg_catalog.string_agg(t, ',') into falt from pg_catalog.unnest(array['attribution_discard_resolutions','memberships','brief_field_attributions','promotion_field_attributions','copy_version_provenance','contribution_events','role_permissions','membership_permission_grants']) t where pg_catalog.to_regclass('public.'||t) is null;
   insert into pre values ('PRE-04','tablas requeridas existen', case when falt is null then 'OK' else 'BLOCKED' end, coalesce('faltan: '||falt,'todas presentes'));
-  select string_agg(c, ',') into falt from unnest(array['id','organization_id','source_kind','brief_attribution_id','promotion_attribution_id','copy_provenance_id','field_key','affected_contributor_id','requested_by','resolved_by','reason','evidence','trigger_event_id','change_actor_id','evidence_attribution_id','evidence_version_id','outcome','previous_resolution_id','record_seal','resolved_at','created_by','created_at']) c
+  select pg_catalog.string_agg(c, ',') into falt from pg_catalog.unnest(array['id','organization_id','source_kind','brief_attribution_id','promotion_attribution_id','copy_provenance_id','field_key','affected_contributor_id','requested_by','resolved_by','reason','evidence','trigger_event_id','change_actor_id','evidence_attribution_id','evidence_version_id','outcome','previous_resolution_id','record_seal','resolved_at','created_by','created_at']) c
     where not exists (select 1 from information_schema.columns where table_schema='public' and table_name='attribution_discard_resolutions' and column_name = c);
   insert into pre values ('PRE-05','columnas de attribution_discard_resolutions (especificación línea 1118+)', case when falt is null then 'OK' else 'BLOCKED' end, coalesce('faltan: '||falt,'todas presentes'));
-  select count(*) filter (where pg_get_constraintdef(oid) ~ 'resolved_by\s*<>\s*affected_contributor_id'), count(*) filter (where pg_get_constraintdef(oid) ~ 'resolved_by\s*<>\s*requested_by') into v_n, falt
-    from pg_constraint where conrelid = to_regclass('public.attribution_discard_resolutions') and contype = 'c';
+  select pg_catalog.count(*) filter (where pg_catalog.pg_get_constraintdef(oid) ~ 'resolved_by\s*<>\s*affected_contributor_id'), pg_catalog.count(*) filter (where pg_catalog.pg_get_constraintdef(oid) ~ 'resolved_by\s*<>\s*requested_by') into v_n, falt
+    from pg_constraint where conrelid = pg_catalog.to_regclass('public.attribution_discard_resolutions') and contype = 'c';
   insert into pre values ('PRE-06','CHECK resolved_by<>affected_contributor_id y resolved_by<>requested_by (R3/R4 reforzadas por tabla)', case when v_n >= 1 and falt::int >= 1 then 'OK' else 'BLOCKED' end, 'afectado='||v_n||' solicitante='||falt);
-  select count(*) into v_n from pg_trigger where tgrelid = to_regclass('public.attribution_discard_resolutions') and not tgisinternal and (tgtype & 2) = 2 and (tgtype & 4) = 4;
+  select pg_catalog.count(*) into v_n from pg_trigger where tgrelid = pg_catalog.to_regclass('public.attribution_discard_resolutions') and not tgisinternal and (tgtype & 2) = 2 and (tgtype & 4) = 4;
   insert into pre values ('PRE-07','trigger BEFORE INSERT en attribution_discard_resolutions (sello y created_by)', case when v_n >= 1 then 'OK' else 'BLOCKED' end, 'triggers='||v_n);
-  insert into pre values ('PRE-08','el usuario actual puede asumir exec_role y exec_role tiene EXECUTE sobre la función', case when fn is not null and pg_has_role(current_user, current_setting('cci.exec_role'), 'MEMBER') and has_function_privilege(current_setting('cci.exec_role'), fn, 'EXECUTE') then 'OK' else 'BLOCKED' end,
-    'exec_role='||current_setting('cci.exec_role'));
+  insert into pre values ('PRE-08','el usuario actual puede asumir exec_role y exec_role tiene EXECUTE sobre la función', case when fn is not null and pg_catalog.pg_has_role(current_user, pg_catalog.current_setting('cci.exec_role'), 'MEMBER') and pg_catalog.has_function_privilege(pg_catalog.current_setting('cci.exec_role'), fn, 'EXECUTE') then 'OK' else 'BLOCKED' end,
+    'exec_role='||pg_catalog.current_setting('cci.exec_role'));
 exception when others then
-  insert into pre values ('PRE-ERR','error al evaluar precondiciones','BLOCKED', sqlstate||':'||left(sqlerrm,120));
+  insert into pre values ('PRE-ERR','error al evaluar precondiciones','BLOCKED', sqlstate||':'||pg_catalog.left(sqlerrm,120));
 end $$;
 -- Datos de prueba (sólo si las tablas existen)
 do $$ declare ok_att boolean := false; v_n int; v_aff uuid; v_mem_ok boolean; v_mem_no boolean; v_acc int;
 begin
-  if to_regclass('public.brief_field_attributions') is null or to_regclass('public.memberships') is null or to_regclass('public.attribution_discard_resolutions') is null then
+  if pg_catalog.to_regclass('public.brief_field_attributions') is null or pg_catalog.to_regclass('public.memberships') is null or pg_catalog.to_regclass('public.attribution_discard_resolutions') is null then
     insert into pre values ('PRE-09','datos de prueba verificables','BLOCKED','tablas ausentes: no se pueden verificar los datos de prueba'); return; end if;
-  execute 'select count(*), min(contributor_id::text)::uuid from public.brief_field_attributions where organization_id = $1 and id = $2' into v_n, v_aff using current_setting('cci.org')::uuid, current_setting('cci.attr')::uuid;
+  execute 'select count(*), min(contributor_id::text)::uuid from public.brief_field_attributions where organization_id = $1 and id = $2' into v_n, v_aff using pg_catalog.current_setting('cci.org')::uuid, pg_catalog.current_setting('cci.attr')::uuid;
   insert into pre values ('PRE-09a','la atribución attr existe en la organización (fuente brief; otras fuentes: ajustar)', case when v_n = 1 then 'OK' else 'BLOCKED' end, 'filas='||v_n);
-  insert into pre values ('PRE-09b','affected coincide con el contribuyente de attr', case when v_aff = current_setting('cci.affected')::uuid then 'OK' else 'BLOCKED' end, 'contribuyente='||coalesce(v_aff::text,'NULL'));
-  execute 'select exists(select 1 from public.memberships where organization_id=$1 and user_id=$2), exists(select 1 from public.memberships where organization_id=$1 and user_id=$3)' into v_mem_ok, v_mem_no using current_setting('cci.org')::uuid, current_setting('cci.r_ok')::uuid, current_setting('cci.r_nomember')::uuid;
+  insert into pre values ('PRE-09b','affected coincide con el contribuyente de attr', case when v_aff = pg_catalog.current_setting('cci.affected')::uuid then 'OK' else 'BLOCKED' end, 'contribuyente='||coalesce(v_aff::text,'NULL'));
+  execute 'select exists(select 1 from public.memberships where organization_id=$1 and user_id=$2), exists(select 1 from public.memberships where organization_id=$1 and user_id=$3)' into v_mem_ok, v_mem_no using pg_catalog.current_setting('cci.org')::uuid, pg_catalog.current_setting('cci.r_ok')::uuid, pg_catalog.current_setting('cci.r_nomember')::uuid;
   insert into pre values ('PRE-09c','r_ok es miembro y r_nomember NO es miembro de la organización', case when v_mem_ok and not v_mem_no then 'OK' else 'BLOCKED' end, 'r_ok_miembro='||v_mem_ok||' r_nomember_miembro='||v_mem_no);
-  insert into pre values ('PRE-09d','r_ok distinto de affected, requester y change_actor', case when current_setting('cci.r_ok') not in (current_setting('cci.affected'), current_setting('cci.requester'), current_setting('cci.change_actor')) then 'OK' else 'BLOCKED' end, '');
-  select count(*) into v_acc from public.attribution_discard_resolutions where organization_id = current_setting('cci.org')::uuid and outcome = 'aceptada' and (brief_attribution_id = current_setting('cci.attr')::uuid or promotion_attribution_id = current_setting('cci.attr')::uuid or copy_provenance_id = current_setting('cci.attr')::uuid);
+  insert into pre values ('PRE-09d','r_ok distinto de affected, requester y change_actor', case when pg_catalog.current_setting('cci.r_ok') not in (pg_catalog.current_setting('cci.affected'), pg_catalog.current_setting('cci.requester'), pg_catalog.current_setting('cci.change_actor')) then 'OK' else 'BLOCKED' end, '');
+  select pg_catalog.count(*) into v_acc from public.attribution_discard_resolutions where organization_id = pg_catalog.current_setting('cci.org')::uuid and outcome = 'aceptada' and (brief_attribution_id = pg_catalog.current_setting('cci.attr')::uuid or promotion_attribution_id = pg_catalog.current_setting('cci.attr')::uuid or copy_provenance_id = pg_catalog.current_setting('cci.attr')::uuid);
   insert into pre values ('PRE-09e','no existe ya una resolución aceptada para attr (evita falsos rechazos por índice único)', case when v_acc = 0 then 'OK' else 'BLOCKED' end, 'aceptadas='||v_acc);
   insert into pre values ('PRE-09f','requester/change_actor/r_noreview/r_direct/r_inherited/r_othersrc/r_benef: coherencia con R2,R4–R9 NO verificable genéricamente (la especificación no lista las entradas de solicitud/evento)','INFO','declarado por el propietario');
 exception when others then
-  insert into pre values ('PRE-09-ERR','error al evaluar datos de prueba','BLOCKED', sqlstate||':'||left(sqlerrm,120));
+  insert into pre values ('PRE-09-ERR','error al evaluar datos de prueba','BLOCKED', sqlstate||':'||pg_catalog.left(sqlerrm,120));
 end $$;
-insert into pre values ('PRE-10','contrato de error declarado (code_*): sin contrato el rechazo es PARTIAL, nunca PASS', 'INFO', 'declarados: ' || (select count(*) from (values (:'code_r1'),(:'code_r2'),(:'code_r3'),(:'code_r4'),(:'code_r5'),(:'code_r6'),(:'code_r7'),(:'code_r8'),(:'code_r9'),(:'code_rev')) v(c) where c <> '') || ' de 10');
+insert into pre values ('PRE-10','contrato de error declarado (code_*): sin contrato el rechazo es PARTIAL, nunca PASS', 'INFO', 'declarados: ' || (select pg_catalog.count(*) from (values (:'code_r1'),(:'code_r2'),(:'code_r3'),(:'code_r4'),(:'code_r5'),(:'code_r6'),(:'code_r7'),(:'code_r8'),(:'code_r9'),(:'code_rev')) v(c) where c <> '') || ' de 10');
 select exists(select 1 from pre where estado = 'BLOCKED') as pre_bloqueado \gset
 select * from pre order by id;
 create temp table r_res(id text, regla text, tipo text, esperado text, clase text, sqlstate text, msg text, post text, veredicto text, nota text);
@@ -151,8 +151,8 @@ create temp table r_res(id text, regla text, tipo text, esperado text, clase tex
   -- Control positivo PRIMERO: demuestra que la función existe, se ejecuta y registra la resolución cuando se cumplen R1–R9. Se revierte.
   insert into r_res(id, regla, tipo, esperado, clase, sqlstate, msg, post, veredicto)
   select 'R-POS','control positivo: todas las reglas se cumplen','POS','éxito', c.o_clase, c.o_sqlstate, c.o_msg, c.o_post, pg_temp.veredicto('POS', c.o_clase, c.o_sqlstate, c.o_msg, '', true)
-  from pg_temp.ejecuta(format(current_setting('cci.fn_call'), current_setting('cci.attr'), current_setting('cci.reason'), current_setting('cci.evidence')), current_setting('cci.exec_role'), :'r_ok'::uuid,
-       format('select (count(*) = 1)::text from public.attribution_discard_resolutions where organization_id = %L and resolved_by = %L and (brief_attribution_id = %L or promotion_attribution_id = %L or copy_provenance_id = %L)', :'org', :'r_ok', :'attr', :'attr', :'attr'), true) c;
+  from pg_temp.ejecuta(pg_catalog.format(pg_catalog.current_setting('cci.fn_call'), pg_catalog.current_setting('cci.attr'), pg_catalog.current_setting('cci.reason'), pg_catalog.current_setting('cci.evidence')), pg_catalog.current_setting('cci.exec_role'), :'r_ok'::uuid,
+       pg_catalog.format('select (count(*) = 1)::text from public.attribution_discard_resolutions where organization_id = %L and resolved_by = %L and (brief_attribution_id = %L or promotion_attribution_id = %L or copy_provenance_id = %L)', :'org', :'r_ok', :'attr', :'attr', :'attr'), true) c;
   update r_res set veredicto = 'FAIL', nota = 'la función retornó sin error pero no registró exactamente una resolución del resolutor' where id = 'R-POS' and clase = 'OK' and post is distinct from 'true';
   -- Casos negativos: se ejecutan siempre DESPUÉS del control positivo y cada uno se revierte.
   insert into r_res(id, regla, tipo, esperado, clase, sqlstate, msg, veredicto)
@@ -163,14 +163,14 @@ create temp table r_res(id text, regla text, tipo text, esperado text, clase tex
     ('R5-neg','R5 no actor del cambio', :'code_r5', :'change_actor'::uuid, :'evidence'), ('R6-neg','R6 no directo en cadena', :'code_r6', :'r_direct'::uuid, :'evidence'),
     ('R7-neg','R7 no heredado activo', :'code_r7', :'r_inherited'::uuid, :'evidence'), ('R8-neg','R8 no excluido por otra fuente', :'code_r8', :'r_othersrc'::uuid, :'evidence'),
     ('R9-neg','R9 no beneficiario', :'code_r9', :'r_benef'::uuid, :'evidence'), ('R-ev1','evidencia vacía (fail-closed)', :'code_rev', :'r_ok'::uuid, '')) v(id, regla, esperado, uid, ev)
-  cross join lateral pg_temp.ejecuta(format(current_setting('cci.fn_call'), current_setting('cci.attr'), current_setting('cci.reason'), v.ev), current_setting('cci.exec_role'), v.uid, null, true) c;
+  cross join lateral pg_temp.ejecuta(pg_catalog.format(pg_catalog.current_setting('cci.fn_call'), pg_catalog.current_setting('cci.attr'), pg_catalog.current_setting('cci.reason'), v.ev), pg_catalog.current_setting('cci.exec_role'), v.uid, null, true) c;
   -- Si el control positivo no es PASS, ningún rechazo puede atribuirse a una regla: BLOCKED.
   update r_res set veredicto = 'BLOCKED', nota = 'control positivo no PASS: el rechazo no es atribuible a la regla' where tipo = 'NEG' and not exists (select 1 from r_res p where p.id = 'R-POS' and p.veredicto = 'PASS');
   update r_res set nota = 'rechazo observado; contrato de error NO definido por la especificación (BRECHA-R1R9-01): no se puede confirmar que la causa sea la regla' where tipo = 'NEG' and veredicto = 'PARTIAL';
-  select id, regla, tipo, esperado, clase, sqlstate, left(msg,60) as msg, veredicto, nota from r_res order by id;
-  select veredicto, count(*) from r_res group by 1 order by 1;
+  select id, regla, tipo, esperado, clase, sqlstate, pg_catalog.left(msg,60) as msg, veredicto, nota from r_res order by id;
+  select veredicto, pg_catalog.count(*) from r_res group by 1 order by 1;
   rollback;
 \endif
 -- Sin residuos: el recuento posterior al ROLLBACK debe ser igual al anterior
-select case when to_regclass('public.attribution_discard_resolutions') is null then -1 else (xpath('/row/c/text()', query_to_xml('select count(*) as c from public.attribution_discard_resolutions', false, true, '')))[1]::text::bigint end as post_count \gset
+select case when pg_catalog.to_regclass('public.attribution_discard_resolutions') is null then -1 else (pg_catalog.xpath('/row/c/text()', pg_catalog.query_to_xml('select count(*) as c from public.attribution_discard_resolutions', false, true, '')))[1]::text::bigint end as post_count \gset
 select case when :pre_count = -1 then 'NO APLICA (tabla inexistente: nada que comprobar)' when :pre_count = :post_count then 'PASS: sin residuos (filas antes = después = '||:post_count||')' else 'FAIL: RESIDUOS (antes '||:pre_count||', después '||:post_count||')' end as residuos;

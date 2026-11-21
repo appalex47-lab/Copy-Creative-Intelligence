@@ -14,7 +14,7 @@
 --   G-PROD-RECHAZADO        el clúster está en prod_deny: se rechaza AUNQUE el operador declare DEV
 --   G-DESTINO-DESCONOCIDO   (modo DEV) 'system_identifier|base' no está en dev_allow
 --   G-LOCAL-NO-SOCKET / G-LOCAL-BASE / G-LOCAL-ROLES-PLATAFORMA  (modo local) exige socket Unix, base ^cci_ y ausencia de roles supabase_*
---   G-GUARDA-NO-EJECUTADA   (la emite cada script, no este archivo) tras \ir este archivo no dejó el marcador cci.guarda_ok='1': guarda vacía, truncada o neutralizada
+--   G-GUARDA-NO-EJECUTADA   (la emite cada script, no este archivo) tras \ir este archivo no dejó la tabla temporal pg_temp.cci_guarda_ok: guarda vacía, truncada o neutralizada
 -- ====================================================================================================
 do $guarda$
 declare
@@ -23,7 +23,6 @@ declare
   prod_deny text[] := array[]::text[];  -- @@PROD_DENY@@  (vacío: el propietario añade el 'system_identifier' de CCI-PROD)
   sysid text; dbn text := pg_catalog.current_database(); ident text; plat int; fp text; err text;
 begin
-  perform pg_catalog.set_config('cci.guarda_ok','',false);   -- marcador de sesión (AUD-G1): se limpia al inicio y sólo se fija en '1' si TODAS las reglas pasan
   perform pg_catalog.set_config('search_path','pg_catalog, pg_temp',true);   -- anti-suplantación: ningún objeto del operador (p. ej. public.pg_control_system) puede sustituir a los del catálogo
   if a = '' or e = '' then raise exception 'NO EJECUTADO [G-CONFIG-INCOMPLETA]: falta cci.validacion_autorizada y/o cci.entorno'; end if;
   if not ((a = 'SI-CCI-DEV' and e = 'CCI-DEV') or (a = 'SI-LOCAL-TEMPORAL' and e = 'LOCAL-TEMPORAL')) then raise exception 'NO EJECUTADO [G-CONFIG-INVALIDA]: par de variables no reconocido'; end if;
@@ -40,6 +39,6 @@ begin
     if dbn !~ '^cci_' then raise exception 'NO EJECUTADO [G-LOCAL-BASE]: el modo local exige base ^cci_ (huella %)', fp; end if;
     if plat > 0 then raise exception 'NO EJECUTADO [G-LOCAL-ROLES-PLATAFORMA]: la base tiene roles de plataforma supabase_* (huella %); no es un clúster local temporal', fp; end if;
   end if;
-  perform pg_catalog.set_config('cci.guarda_ok','1',false);
+  create temp table if not exists pg_temp.cci_guarda_ok (ok boolean);   -- marcador de sesión (AUD-G1/AUD-FINAL-02): tabla TEMPORAL que sólo existe si esta guarda llegó a su última línea; no puede preinstalarse por PGOPTIONS ni por variables. El search_path blindado de arriba es LOCAL a este bloque (no persiste; ver MATRIZ_PERSISTENCIA_SEARCH_PATH)
   raise notice 'GUARDA OK modo=% huella=%', a, fp;
 end $guarda$;

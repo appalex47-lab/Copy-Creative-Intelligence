@@ -130,8 +130,9 @@ chk("cifras de los documentos narrativos coinciden con cifras_definitivas.json (
 V26 = "439777c9ea7db464fe49299adfeb2112abfd285c"; g = lambda *a: subprocess.run(["git", "-C", c] + list(a), capture_output=True, text=True)
 if g("rev-parse", "--git-dir").returncode == 0 and g("cat-file", "-e", V26 + "^{commit}").returncode == 0:
     top = g("rev-parse", "--show-toplevel").stdout.strip(); pref = os.path.relpath(c, top).replace(os.sep, "/")
-    ch = [l for l in g("diff", "--name-status", V26, "--", top).stdout.splitlines() if l]; fuera = [l for l in ch if not l.split("\t")[-1].startswith(pref + "/")]; mod = [l for l in ch if l[0] in "MDRT" and l.split("\t")[-1].startswith(pref + "/") is False]
-    nuevos = [l for l in subprocess.run(["git", "-C", top, "ls-files", "--others", "--exclude-standard"], capture_output=True, text=True).stdout.splitlines() if not l.startswith(pref + "/")]
+    ch = [l for l in g("diff", "--name-status", V26, "--", top).stdout.splitlines() if l]; EXTRA = ("docs/fase0/publicacion_remediaciones_h01_h02_h03/",)   # expediente de publicación de la remediación (autorizado; fuera del manifiesto del dossier)
+    fuera = [l for l in ch if not l.split("\t")[-1].startswith((pref + "/",) + EXTRA)]; mod = [l for l in ch if l[0] in "MDRT" and l.split("\t")[-1].startswith(pref + "/") is False]
+    nuevos = [l for l in subprocess.run(["git", "-C", top, "ls-files", "--others", "--exclude-standard"], capture_output=True, text=True).stdout.splitlines() if not l.startswith((pref + "/",) + EXTRA)]
     chk("alcance: contra V26 no hay archivos modificados/eliminados/añadidos fuera de %s (tracked: %d, sin seguimiento: %d)" % (pref, len(fuera), len(nuevos)), not fuera and not nuevos, str(fuera[:3] + nuevos[:3]))
     chk("alcance: herramientas protegidas (modelo_estructural.py, verificar_expediente.py) idénticas a V26", g("diff", "--quiet", V26, "--", "docs/fase0/herramientas/modelo_estructural.py", "docs/fase0/herramientas/verificar_expediente.py").returncode == 0)
 else:

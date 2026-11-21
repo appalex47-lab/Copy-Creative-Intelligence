@@ -8,7 +8,7 @@
 \set ON_ERROR_STOP on
 -- Guarda de destino compartida (H-03): identidad efectiva del servidor + allowlist/denylist literales; ver 00_guarda_destino.sql (falla de forma segura).
 \ir 00_guarda_destino.sql
-do $v$ begin if coalesce(pg_catalog.current_setting('cci.guarda_ok', true),'') <> '1' then raise exception 'NO EJECUTADO [G-GUARDA-NO-EJECUTADA] la guarda 00_guarda_destino.sql no se ejecutó completa'; end if; end $v$;
+do $v$ begin if pg_catalog.to_regclass('pg_temp.cci_guarda_ok') is null then raise exception 'NO EJECUTADO [G-GUARDA-NO-EJECUTADA] la guarda 00_guarda_destino.sql no se ejecutó completa'; end if; end $v$;
 begin read only;
 -- PRIV-01 políticas RLS
 select schemaname, tablename, policyname, permissive, roles, cmd, qual, with_check from pg_policies where schemaname='public' order by 2,3;
@@ -17,11 +17,11 @@ select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace whe
 -- PRIV-03 grants por rol y tabla
 select grantee, table_name, privilege_type, is_grantable from information_schema.role_table_grants where table_schema='public' and grantee in ('anon','authenticated','service_role','PUBLIC') order by 2,1,3;
 -- PRIV-04 privilegios efectivos de cada rol de aplicación sobre cada tabla (matriz S/I/U/D/T)
-select c.relname as tabla, r.rolname, has_table_privilege(r.oid,c.oid,'SELECT') s, has_table_privilege(r.oid,c.oid,'INSERT') i, has_table_privilege(r.oid,c.oid,'UPDATE') u, has_table_privilege(r.oid,c.oid,'DELETE') d, has_table_privilege(r.oid,c.oid,'TRUNCATE') t from pg_class c join pg_namespace n on n.oid=c.relnamespace cross join pg_roles r where n.nspname='public' and c.relkind='r' and r.rolname in ('anon','authenticated','service_role') order by 1,2;
+select c.relname as tabla, r.rolname, pg_catalog.has_table_privilege(r.oid,c.oid,'SELECT') s, pg_catalog.has_table_privilege(r.oid,c.oid,'INSERT') i, pg_catalog.has_table_privilege(r.oid,c.oid,'UPDATE') u, pg_catalog.has_table_privilege(r.oid,c.oid,'DELETE') d, pg_catalog.has_table_privilege(r.oid,c.oid,'TRUNCATE') t from pg_class c join pg_namespace n on n.oid=c.relnamespace cross join pg_roles r where n.nspname='public' and c.relkind='r' and r.rolname in ('anon','authenticated','service_role') order by 1,2;
 -- PRIV-05 privilegios EXECUTE sobre funciones públicas
-select p.proname, r.rolname, has_function_privilege(r.oid,p.oid,'EXECUTE') as puede_ejecutar from pg_proc p cross join pg_roles r where p.pronamespace='public'::regnamespace and r.rolname in ('anon','authenticated','service_role') order by 1,2;
+select p.proname, r.rolname, pg_catalog.has_function_privilege(r.oid,p.oid,'EXECUTE') as puede_ejecutar from pg_proc p cross join pg_roles r where p.pronamespace='public'::regnamespace and r.rolname in ('anon','authenticated','service_role') order by 1,2;
 -- PRIV-06 pertenencia a roles y atributos peligrosos
 select rolname, rolsuper, rolbypassrls, rolcanlogin, rolinherit from pg_roles where rolname in ('anon','authenticated','service_role','authenticator','postgres','cci_records_owner') order by 1;
 -- PRIV-07 privilegios por defecto (ALTER DEFAULT PRIVILEGES)
-select pg_get_userbyid(defaclrole) as rol, defaclnamespace::regnamespace, defaclobjtype, defaclacl from pg_default_acl order by 1;
+select pg_catalog.pg_get_userbyid(defaclrole) as rol, defaclnamespace::regnamespace, defaclobjtype, defaclacl from pg_default_acl order by 1;
 rollback;
