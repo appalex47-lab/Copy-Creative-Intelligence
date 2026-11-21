@@ -1,0 +1,150 @@
+{
+ "archivos_en_arbol": 156,
+ "duplicados": 0,
+ "enlaces_simbolicos": [],
+ "evidencia_archivos": [
+  "evidencia_verificacion/LEEME_EVIDENCIA.md",
+  "evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaA.txt",
+  "evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaB.txt",
+  "evidencia_verificacion/historico_commit_6a041cb/LEEME_EVIDENCIA.md",
+  "evidencia_verificacion/historico_commit_6a041cb/viaA_C_content.txt",
+  "evidencia_verificacion/historico_commit_6a041cb/viaA_detalle_C_content.txt",
+  "evidencia_verificacion/historico_commit_6a041cb/viaB_C_content.txt",
+  "evidencia_verificacion/historico_commit_6a041cb/viaB_detalle_C_content.txt",
+  "evidencia_verificacion/linea_base_inspeccion.txt",
+  "evidencia_verificacion/linea_base_ronda_final.txt",
+  "evidencia_verificacion/viaA_C_content.txt",
+  "evidencia_verificacion/viaA_C_evid.txt",
+  "evidencia_verificacion/viaA_detalle_C_content.txt",
+  "evidencia_verificacion/viaA_detalle_C_evid.txt",
+  "evidencia_verificacion/viaB_C_content.txt",
+  "evidencia_verificacion/viaB_C_evid.txt",
+  "evidencia_verificacion/viaB_detalle_C_content.txt",
+  "evidencia_verificacion/viaB_detalle_C_evid.txt"
+ ],
+ "excluidos": [
+  "MANIFIESTO_SHA256_CIERRE.txt",
+  "evidencia_verificacion/LEEME_EVIDENCIA.md",
+  "evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaA.txt",
+  "evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaB.txt",
+  "evidencia_verificacion/historico_commit_6a041cb/LEEME_EVIDENCIA.md",
+  "evidencia_verificacion/historico_commit_6a041cb/viaA_C_content.txt",
+  "evidencia_verificacion/historico_commit_6a041cb/viaA_detalle_C_content.txt",
+  "evidencia_verificacion/historico_commit_6a041cb/viaB_C_content.txt",
+  "evidencia_verificacion/historico_commit_6a041cb/viaB_detalle_C_content.txt",
+  "evidencia_verificacion/linea_base_inspeccion.txt",
+  "evidencia_verificacion/linea_base_ronda_final.txt",
+  "evidencia_verificacion/viaA_C_content.txt",
+  "evidencia_verificacion/viaA_C_evid.txt",
+  "evidencia_verificacion/viaA_detalle_C_content.txt",
+  "evidencia_verificacion/viaA_detalle_C_evid.txt",
+  "evidencia_verificacion/viaB_C_content.txt",
+  "evidencia_verificacion/viaB_C_evid.txt",
+  "evidencia_verificacion/viaB_detalle_C_content.txt",
+  "evidencia_verificacion/viaB_detalle_C_evid.txt"
+ ],
+ "excluidos_fuera_de_politica": [],
+ "extras_sin_listar": [],
+ "faltantes_en_arbol": [],
+ "hash_incorrecto": [],
+ "hash_verificados": 137,
+ "lineas_mal_formadas": 0,
+ "manifiesto_CR": false,
+ "manifiesto_entradas": 137,
+ "orden_bytewise": true,
+ "pyc_pycache": [],
+ "rutas_inseguras": [],
+ "sha1_citados": {
+  "182b83293f0a207d29d7ca06c3284ad2a672298d": {
+   "en": [
+    "evidencia_verificacion/linea_base_inspeccion.txt"
+   ],
+   "tipo_git": "commit"
+  },
+  "2366ee1f4f57b0389bc7baac55e57d3290c6fe69": {
+   "en": [
+    "evidencia_verificacion/linea_base_inspeccion.txt"
+   ],
+   "tipo_git": "commit"
+  },
+  "439777c9ea7db464fe49299adfeb2112abfd285c": {
+   "en": [
+    "INFORME_PUBLICACION_GITHUB.md",
+    "LEEME_CIERRE_TECNICO.md",
+    "evidencia_verificacion/linea_base_inspeccion.txt",
+    "evidencia_verificacion/linea_base_ronda_final.txt"
+   ],
+   "tipo_git": "commit"
+  },
+  "490db220c0fbcb5e05534f996cd766433e9e5f77": {
+   "en": [
+    "evidencia_verificacion/linea_base_inspeccion.txt"
+   ],
+   "tipo_git": "commit"
+  },
+  "51ebb72263b49fe0e84eee137ef68c74c27372e1": {
+   "en": [
+    "evidencia_verificacion/linea_base_inspeccion.txt",
+    "evidencia_verificacion/linea_base_ronda_final.txt"
+   ],
+   "tipo_git": "commit"
+  },
+  "5b008485706bde3e9cf8407e71c0652cfd0497a5": {
+   "en": [
+    "INFORME_PRUEBAS_FINALES.md",
+    "INFORME_RECONCILIACION_INTEGRAL.md",
+    "RESOLUCION_OBSERVACIONES_FINALES.md"
+   ],
+   "tipo_git": "commit"
+  },
+  "6a041cb9ca7cbd4bcc41a9eed43c9e51a1c2716f": {
+   "en": [
+    "evidencia_verificacion/historico_commit_6a041cb/LEEME_EVIDENCIA.md",
+    "evidencia_verificacion/historico_commit_6a041cb/viaA_C_content.txt",
+    "evidencia_verificacion/historico_commit_6a041cb/viaA_detalle_C_content.txt",
+    "evidencia_verificacion/historico_commit_6a041cb/viaB_C_content.txt"
+   ],
+   "tipo_git": "commit"
+  },
+  "6a1af2424ef39e0960b8f7e09d4e19ec52e6f046": {
+   "en": [
+    "INFORME_PUBLICACION_GITHUB.md",
+    "LEEME_CIERRE_TECNICO.md",
+    "evidencia_verificacion/linea_base_inspeccion.txt",
+    "evidencia_verificacion/linea_base_ronda_final.txt"
+   ],
+   "tipo_git": "commit"
+  },
+  "942a7f66bfd2cb2b2a240c9a79069dc88934c6b8": {
+   "en": [
+    "evidencia_verificacion/LEEME_EVIDENCIA.md",
+    "evidencia_verificacion/viaA_C_content.txt",
+    "evidencia_verificacion/viaA_C_evid.txt",
+    "evidencia_verificacion/viaA_detalle_C_content.txt"
+   ],
+   "tipo_git": "commit"
+  },
+  "bdd4a6d78a68ede6e6f68391e4c2eebbcc34503a": {
+   "en": [
+    "evidencia_verificacion/linea_base_ronda_final.txt"
+   ],
+   "tipo_git": "commit"
+  },
+  "d0840871d9abf13c97cb58053d2001aaea876051": {
+   "en": [
+    "evidencia_verificacion/viaA_C_evid.txt",
+    "evidencia_verificacion/viaA_detalle_C_evid.txt",
+    "evidencia_verificacion/viaB_C_evid.txt",
+    "evidencia_verificacion/viaB_detalle_C_evid.txt"
+   ],
+   "tipo_git": "commit"
+  },
+  "e6caebf61947d94ac8867ecd62f6ebe079fe64ef": {
+   "en": [
+    "LEEME_CIERRE_TECNICO.md",
+    "evidencia_verificacion/linea_base_inspeccion.txt"
+   ],
+   "tipo_git": "commit"
+  }
+ }
+}

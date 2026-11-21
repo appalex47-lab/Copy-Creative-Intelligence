@@ -1,0 +1,15 @@
+inicio_bateria_utc=2026-11-21T16:49:16Z
+inicio_bateria_local=2026-11-21T10:49:16-0600
+zona_horaria_entorno_TZ=America/Mexico_City (CST -0600)
+epoch_inicio=1795279756
+reloj_sistema=hora obtenida con date(1) del entorno; sin verificación contra fuente NTP externa (no acreditable aquí)
+anfitrion_so=Linux 6.18.44-fc-v726
+python=Python 3.13.18
+postgres=PostgreSQL 16.15 (Ubuntu 16.15-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit
+base_local=clúster temporal en socket Unix (no Supabase)
+commit_base_git=5b008485706bde3e9cf8407e71c0652cfd0497a5
+arbol_con_cambios_sin_commit=29 archivos (fuera de resultados/); la batería se ejecuta sobre el árbol de trabajo
+digest_entradas_sha256=434312db0280d49f72f5f1b60ae78f067443dd13b566463b5e64b10a4fd62728
+roles_stand_in_presentes=3
+fin_bateria_utc=2026-11-21T16:50:53Z
+fin_bateria_local=2026-11-21T10:50:53-0600

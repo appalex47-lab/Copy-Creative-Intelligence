@@ -1,0 +1,31 @@
+PASS | mismos pasos en el mismo orden (22) | 
+PASS | paso v20_pe: estado/resumen/rc/esperado idénticos (TOTAL pruebas=63 PASS=63 FAIL=0) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso v20_mutaciones: estado/resumen/rc/esperado idénticos (TOTAL mutaciones=14 DETECTADAS=14) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso extension_local: estado/resumen/rc/esperado idénticos (TOTAL pruebas=80 PASS=80 FAIL=0) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso concurrencia_local: estado/resumen/rc/esperado idénticos (CC-02 | IG1-14 numeración de versión única bajo ) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso dg19: estado/resumen/rc/esperado idénticos (DG-19 PK natural: TOTAL pruebas=63 PASS=63 FAIL=) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso hash_encadenado: estado/resumen/rc/esperado idénticos (TOTAL=16 PASS=16 FAIL=0) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso estatica_T47_T124: estado/resumen/rc/esperado idénticos (TOTAL=12 PASS=10 FAIL=0 SIN_DATOS=2) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso k47_por_escenario: estado/resumen/rc/esperado idénticos (TOTAL mutaciones mapeadas=25 DETECTADAS=25 todas) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso t409_individual: estado/resumen/rc/esperado idénticos (TOTAL variantes=26 DETECTADAS=26 escenarios=14 () y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso t409_repro_2a_corrida: estado/resumen/rc/esperado idénticos (TOTAL variantes=26 DETECTADAS=26 escenarios=14 () y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso t409_repro_comparacion: estado/resumen/rc/esperado idénticos (IDENTICO_BYTE_A_BYTE) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso t409_correspondencia: estado/resumen/rc/esperado idénticos (14 12 con coincidencia; 0 no establecidas) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso funciones_22: estado/resumen/rc/esperado idénticos (TOTAL funciones=22 casos_reportados=366 fallos=0) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso exc_modelo14: estado/resumen/rc/esperado idénticos (TOTAL entradas EXC en las 12 mutaciones=0) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso catalogo_except: estado/resumen/rc/esperado idénticos (EQUIVALENCIA_RAMAS_MUERTAS=True) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso arnes_r1r9: estado/resumen/rc/esperado idénticos ( TOTAL pruebas_arnes=28 PASS=28 FAIL=0) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso smoke_6_scripts: estado/resumen/rc/esperado idénticos (SMOKE_RC=0) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso aserciones_smoke: estado/resumen/rc/esperado idénticos (TOTAL=12 PASS=12 FAIL=0) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso guarda_destino: estado/resumen/rc/esperado idénticos (TOTAL=109 PASS=109 FAIL=0) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso escaner_sql: estado/resumen/rc/esperado idénticos (TOTAL=137 FAIL=0) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso escaner_texto: estado/resumen/rc/esperado idénticos (TOTAL=731 FAIL=0) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | paso escaner_autoprueba: estado/resumen/rc/esperado idénticos (TOTAL=37 FAIL=0) y salida idéntica tras normalizar marcas de tiempo/rutas/socket/identificadores (idéntica) | 
+PASS | resultado guarda_destino.txt idéntico en ambos clústeres (SHA-256 bruto distinto; tras normalizar igual) | 
+PASS | resultado aserciones_smoke.txt idéntico en ambos clústeres (SHA-256 bruto igual) | 
+PASS | resultado reconciliacion_integral.txt idéntico en ambos clústeres (SHA-256 bruto igual) | 
+PASS | resultado controles_negativos_manifiesto.txt idéntico en ambos clústeres (SHA-256 bruto igual) | 
+PASS | resultado controles_consistencia_informe.txt idéntico en ambos clústeres (SHA-256 bruto igual) | 
+PASS | resultado escaner_seguridad_sql.txt idéntico en ambos clústeres (SHA-256 bruto igual) | 
+PASS | resultado escaner_seguridad_autoprueba.txt idéntico en ambos clústeres (SHA-256 bruto igual) | 
+TOTAL=30 PASS=30 FAIL=0

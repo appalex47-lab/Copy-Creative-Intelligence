@@ -1,0 +1,7 @@
+# Registro de limitaciones (estado al publicar)
+**Resuelto:** H-01 (roles explícitos, 22/22 en 2 clústeres limpios); H-02 (fuente única, 58/58, verificador con controles negativos); H-03 técnico en local (guarda fail-closed, 109/109); AUD-G1/AUD-G3 (guarda vacía/truncada/stdin) corregidos y probados.
+**Parcialmente resuelto:** H-03 operativo — protección fail-closed con listas **vacías**: rechaza todo destino hasta que el propietario registre identificadores reales. LR-22 sigue PARCIALMENTE_RESUELTA.
+**Pendiente de validación física (requiere un proyecto Supabase real y autorizado):** disponibilidad y permisos de `pg_control_system()` para el rol de conexión (no verificado, sin documentación concluyente); reenvío de PGOPTIONS por Supavisor/PgBouncer; project ref desde el servidor; `system_identifier` de CCI-DEV y de CCI-PROD (no inventados; sin conexión a ninguno); comportamiento de los 6 scripts en Supabase.
+**Pendiente de decisión del usuario:** 21 decisiones con recomendación técnica (todas REQUIERE_APROBACION_DEL_PROPIETARIO, incluida DG-20 sin marcar aprobada); Adenda v9 y OD-13 (texto no aportado, no se infiere); fijar el SHA-256 de la guarda (AUD-G2); si CCI-DEV es clon de PROD; autorización de CCI-DEV; aceptación de Fase 0 y Fase 1 (no declaradas).
+**Límites de diseño conocidos:** `system_identifier` identifica el clúster, no el proyecto (AG-18); el marcador no protege contra edición dolosa de los scripts. 5 controles NO VERIFICADO y 4 PARCIAL heredados de V26.
+**Reproducibilidad:** las baterías deben ejecutarse en serie.

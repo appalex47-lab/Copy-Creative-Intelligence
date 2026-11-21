@@ -1,0 +1,110 @@
+PASS | GD-00 | precondición: identidad efectiva legible (system_identifier numérico) | esperado: dígitos | obtenido: huella md5=387d121f
+PASS | GD-01 | DEV autorizado (allowlist 'sysid|base') PERMITIDO — 01 | esperado: GUARDA OK modo=SI-CCI-DEV y rc=0 | obtenido: rc=0 guarda_ok=True
+PASS | GD-01 | DEV autorizado (allowlist 'sysid|base') PERMITIDO — 02 | esperado: GUARDA OK modo=SI-CCI-DEV y rc=0 | obtenido: rc=0 guarda_ok=True
+PASS | GD-01 | DEV autorizado (allowlist 'sysid|base') PERMITIDO — 03 | esperado: GUARDA OK modo=SI-CCI-DEV | obtenido: rc=3 guarda_ok=True
+PASS | GD-01 | DEV autorizado (allowlist 'sysid|base') PERMITIDO — 04 | esperado: GUARDA OK modo=SI-CCI-DEV | obtenido: rc=3 guarda_ok=True
+PASS | GD-01 | DEV autorizado (allowlist 'sysid|base') PERMITIDO — 05A | esperado: GUARDA OK modo=SI-CCI-DEV | obtenido: rc=0 guarda_ok=True
+PASS | GD-01 | DEV autorizado (allowlist 'sysid|base') PERMITIDO — 05B | esperado: GUARDA OK modo=SI-CCI-DEV | obtenido: rc=0 guarda_ok=True
+PASS | GD-02 | PROD en denylist + allowlist + variables DEV — 01 | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-02 | PROD en denylist + allowlist + variables DEV — 02 | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-02 | PROD en denylist + allowlist + variables DEV — 03 | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-02 | PROD en denylist + allowlist + variables DEV — 04 | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-02 | PROD en denylist + allowlist + variables DEV — 05A | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-02 | PROD en denylist + allowlist + variables DEV — 05B | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-02b | PROD en denylist con variables LOCAL — 01 | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-03a | allowlist vacía versionada (estado real del repositorio) + DEV declarado — 01 | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-03a | allowlist vacía versionada (estado real del repositorio) + DEV declarado — 02 | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-03a | allowlist vacía versionada (estado real del repositorio) + DEV declarado — 03 | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-03a | allowlist vacía versionada (estado real del repositorio) + DEV declarado — 04 | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-03a | allowlist vacía versionada (estado real del repositorio) + DEV declarado — 05A | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-03a | allowlist vacía versionada (estado real del repositorio) + DEV declarado — 05B | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-03b | clúster conocido pero base no listada — 01 | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-03b | clúster conocido pero base no listada — 02 | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-03b | clúster conocido pero base no listada — 03 | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-03b | clúster conocido pero base no listada — 04 | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-03b | clúster conocido pero base no listada — 05A | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-03b | clúster conocido pero base no listada — 05B | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-03c | base con el mismo nombre en OTRO clúster (otro system_identifier) — 01 | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-03c | base con el mismo nombre en OTRO clúster (otro system_identifier) — 02 | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-03c | base con el mismo nombre en OTRO clúster (otro system_identifier) — 03 | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-03c | base con el mismo nombre en OTRO clúster (otro system_identifier) — 04 | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-03c | base con el mismo nombre en OTRO clúster (otro system_identifier) — 05A | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-03c | base con el mismo nombre en OTRO clúster (otro system_identifier) — 05B | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-04 | variables DEV contra base PROD simulada — 01 | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-04 | variables DEV contra base PROD simulada — 02 | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-04 | variables DEV contra base PROD simulada — 03 | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-04 | variables DEV contra base PROD simulada — 04 | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-04 | variables DEV contra base PROD simulada — 05A | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-04 | variables DEV contra base PROD simulada — 05B | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-05 | identidad no verificable (rol sin EXECUTE en pg_control_system) — 01 | esperado: rechazo [G-IDENTIDAD-NO-VERIFICABLE], rc!=0, sin datos | obtenido: rc=3 [G-IDENTIDAD-NO-VERIFICABLE]
+PASS | GD-05 | identidad no verificable (rol sin EXECUTE en pg_control_system) — 02 | esperado: rechazo [G-IDENTIDAD-NO-VERIFICABLE], rc!=0, sin datos | obtenido: rc=3 [G-IDENTIDAD-NO-VERIFICABLE]
+PASS | GD-05 | identidad no verificable (rol sin EXECUTE en pg_control_system) — 03 | esperado: rechazo [G-IDENTIDAD-NO-VERIFICABLE], rc!=0, sin datos | obtenido: rc=3 [G-IDENTIDAD-NO-VERIFICABLE]
+PASS | GD-05 | identidad no verificable (rol sin EXECUTE en pg_control_system) — 04 | esperado: rechazo [G-IDENTIDAD-NO-VERIFICABLE], rc!=0, sin datos | obtenido: rc=3 [G-IDENTIDAD-NO-VERIFICABLE]
+PASS | GD-05 | identidad no verificable (rol sin EXECUTE en pg_control_system) — 05A | esperado: rechazo [G-IDENTIDAD-NO-VERIFICABLE], rc!=0, sin datos | obtenido: rc=3 [G-IDENTIDAD-NO-VERIFICABLE]
+PASS | GD-05 | identidad no verificable (rol sin EXECUTE en pg_control_system) — 05B | esperado: rechazo [G-IDENTIDAD-NO-VERIFICABLE], rc!=0, sin datos | obtenido: rc=3 [G-IDENTIDAD-NO-VERIFICABLE]
+PASS | GD-05b | identidad no verificable en modo local — 01 | esperado: rechazo [G-IDENTIDAD-NO-VERIFICABLE], rc!=0, sin datos | obtenido: rc=3 [G-IDENTIDAD-NO-VERIFICABLE]
+PASS | GD-06a | sin ninguna variable — 01 | esperado: rechazo [G-CONFIG-INCOMPLETA], rc!=0, sin datos | obtenido: rc=3 [G-CONFIG-INCOMPLETA]
+PASS | GD-06a | sin ninguna variable — 02 | esperado: rechazo [G-CONFIG-INCOMPLETA], rc!=0, sin datos | obtenido: rc=3 [G-CONFIG-INCOMPLETA]
+PASS | GD-06a | sin ninguna variable — 03 | esperado: rechazo [G-CONFIG-INCOMPLETA], rc!=0, sin datos | obtenido: rc=3 [G-CONFIG-INCOMPLETA]
+PASS | GD-06a | sin ninguna variable — 04 | esperado: rechazo [G-CONFIG-INCOMPLETA], rc!=0, sin datos | obtenido: rc=3 [G-CONFIG-INCOMPLETA]
+PASS | GD-06a | sin ninguna variable — 05A | esperado: rechazo [G-CONFIG-INCOMPLETA], rc!=0, sin datos | obtenido: rc=3 [G-CONFIG-INCOMPLETA]
+PASS | GD-06a | sin ninguna variable — 05B | esperado: rechazo [G-CONFIG-INCOMPLETA], rc!=0, sin datos | obtenido: rc=3 [G-CONFIG-INCOMPLETA]
+PASS | GD-06b | solo cci.validacion_autorizada — 01 | esperado: rechazo [G-CONFIG-INCOMPLETA], rc!=0, sin datos | obtenido: rc=3 [G-CONFIG-INCOMPLETA]
+PASS | GD-06c | solo cci.entorno — 01 | esperado: rechazo [G-CONFIG-INCOMPLETA], rc!=0, sin datos | obtenido: rc=3 [G-CONFIG-INCOMPLETA]
+PASS | GD-06d | par inválido (SI-CCI-DEV + LOCAL-TEMPORAL) — 01 | esperado: rechazo [G-CONFIG-INVALIDA], rc!=0, sin datos | obtenido: rc=3 [G-CONFIG-INVALIDA]
+PASS | GD-06e | valor desconocido (PROD) en cci.entorno — 01 | esperado: rechazo [G-CONFIG-INVALIDA], rc!=0, sin datos | obtenido: rc=3 [G-CONFIG-INVALIDA]
+PASS | GD-07a | operador intenta inyectar allowlist por PGOPTIONS (cci.dev_allow) con el archivo versionado — 01 | esperado: rechazo [G-DESTINO-DESCONOCIDO], rc!=0, sin datos | obtenido: rc=3 [G-DESTINO-DESCONOCIDO]
+PASS | GD-07b | operador intenta vaciar la denylist por PGOPTIONS (cci.prod_deny=) — 01 | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-07c | identidad simulada: función public.pg_control_system() suplantada con search_path=public,pg_catalog — 01 | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-07c | identidad simulada: función public.pg_control_system() suplantada con search_path=public,pg_catalog — 02 | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-07c | identidad simulada: función public.pg_control_system() suplantada con search_path=public,pg_catalog — 03 | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-07c | identidad simulada: función public.pg_control_system() suplantada con search_path=public,pg_catalog — 04 | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-07c | identidad simulada: función public.pg_control_system() suplantada con search_path=public,pg_catalog — 05A | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-07c | identidad simulada: función public.pg_control_system() suplantada con search_path=public,pg_catalog — 05B | esperado: rechazo [G-PROD-RECHAZADO], rc!=0, sin datos | obtenido: rc=3 [G-PROD-RECHAZADO]
+PASS | GD-07d | identidad simulada: rol de plataforma supabase_admin presente en modo local — 01 | esperado: rechazo [G-LOCAL-ROLES-PLATAFORMA], rc!=0, sin datos | obtenido: rc=3 [G-LOCAL-ROLES-PLATAFORMA]
+PASS | GD-07d | identidad simulada: rol de plataforma supabase_admin presente en modo local — 02 | esperado: rechazo [G-LOCAL-ROLES-PLATAFORMA], rc!=0, sin datos | obtenido: rc=3 [G-LOCAL-ROLES-PLATAFORMA]
+PASS | GD-07d | identidad simulada: rol de plataforma supabase_admin presente en modo local — 03 | esperado: rechazo [G-LOCAL-ROLES-PLATAFORMA], rc!=0, sin datos | obtenido: rc=3 [G-LOCAL-ROLES-PLATAFORMA]
+PASS | GD-07d | identidad simulada: rol de plataforma supabase_admin presente en modo local — 04 | esperado: rechazo [G-LOCAL-ROLES-PLATAFORMA], rc!=0, sin datos | obtenido: rc=3 [G-LOCAL-ROLES-PLATAFORMA]
+PASS | GD-07d | identidad simulada: rol de plataforma supabase_admin presente en modo local — 05A | esperado: rechazo [G-LOCAL-ROLES-PLATAFORMA], rc!=0, sin datos | obtenido: rc=3 [G-LOCAL-ROLES-PLATAFORMA]
+PASS | GD-07d | identidad simulada: rol de plataforma supabase_admin presente en modo local — 05B | esperado: rechazo [G-LOCAL-ROLES-PLATAFORMA], rc!=0, sin datos | obtenido: rc=3 [G-LOCAL-ROLES-PLATAFORMA]
+PASS | GD-07e | modo local contra base no cci_ (postgres) — 01 | esperado: rechazo [G-LOCAL-BASE], rc!=0, sin datos | obtenido: rc=3 [G-LOCAL-BASE]
+PASS | GD-07e | modo local contra base no cci_ (postgres) — 02 | esperado: rechazo [G-LOCAL-BASE], rc!=0, sin datos | obtenido: rc=3 [G-LOCAL-BASE]
+PASS | GD-07e | modo local contra base no cci_ (postgres) — 03 | esperado: rechazo [G-LOCAL-BASE], rc!=0, sin datos | obtenido: rc=3 [G-LOCAL-BASE]
+PASS | GD-07e | modo local contra base no cci_ (postgres) — 04 | esperado: rechazo [G-LOCAL-BASE], rc!=0, sin datos | obtenido: rc=3 [G-LOCAL-BASE]
+PASS | GD-07e | modo local contra base no cci_ (postgres) — 05A | esperado: rechazo [G-LOCAL-BASE], rc!=0, sin datos | obtenido: rc=3 [G-LOCAL-BASE]
+PASS | GD-07e | modo local contra base no cci_ (postgres) — 05B | esperado: rechazo [G-LOCAL-BASE], rc!=0, sin datos | obtenido: rc=3 [G-LOCAL-BASE]
+PASS | GD-08 | archivo de guarda ausente: el script aborta sin ejecutar datos — 01 | esperado: rc!=0 y sin datos | obtenido: rc=3
+PASS | GD-08 | archivo de guarda ausente: el script aborta sin ejecutar datos — 02 | esperado: rc!=0 y sin datos | obtenido: rc=3
+PASS | GD-08 | archivo de guarda ausente: el script aborta sin ejecutar datos — 03 | esperado: rc!=0 y sin datos | obtenido: rc=3
+PASS | GD-08 | archivo de guarda ausente: el script aborta sin ejecutar datos — 04 | esperado: rc!=0 y sin datos | obtenido: rc=3
+PASS | GD-08 | archivo de guarda ausente: el script aborta sin ejecutar datos — 05A | esperado: rc!=0 y sin datos | obtenido: rc=3
+PASS | GD-08 | archivo de guarda ausente: el script aborta sin ejecutar datos — 05B | esperado: rc!=0 y sin datos | obtenido: rc=3
+PASS | GD-13 | guarda vacía (0 bytes) con variables DEV/LOCAL: el script rechaza [G-GUARDA-NO-EJECUTADA] — 01 | esperado: rechazo [G-GUARDA-NO-EJECUTADA], rc!=0, sin datos | obtenido: rc=3 [G-GUARDA-NO-EJECUTADA]
+PASS | GD-13 | guarda vacía (0 bytes) con variables DEV/LOCAL: el script rechaza [G-GUARDA-NO-EJECUTADA] — 02 | esperado: rechazo [G-GUARDA-NO-EJECUTADA], rc!=0, sin datos | obtenido: rc=3 [G-GUARDA-NO-EJECUTADA]
+PASS | GD-13 | guarda vacía (0 bytes) con variables DEV/LOCAL: el script rechaza [G-GUARDA-NO-EJECUTADA] — 03 | esperado: rechazo [G-GUARDA-NO-EJECUTADA], rc!=0, sin datos | obtenido: rc=3 [G-GUARDA-NO-EJECUTADA]
+PASS | GD-13 | guarda vacía (0 bytes) con variables DEV/LOCAL: el script rechaza [G-GUARDA-NO-EJECUTADA] — 04 | esperado: rechazo [G-GUARDA-NO-EJECUTADA], rc!=0, sin datos | obtenido: rc=3 [G-GUARDA-NO-EJECUTADA]
+PASS | GD-13 | guarda vacía (0 bytes) con variables DEV/LOCAL: el script rechaza [G-GUARDA-NO-EJECUTADA] — 05A | esperado: rechazo [G-GUARDA-NO-EJECUTADA], rc!=0, sin datos | obtenido: rc=3 [G-GUARDA-NO-EJECUTADA]
+PASS | GD-13 | guarda vacía (0 bytes) con variables DEV/LOCAL: el script rechaza [G-GUARDA-NO-EJECUTADA] — 05B | esperado: rechazo [G-GUARDA-NO-EJECUTADA], rc!=0, sin datos | obtenido: rc=3 [G-GUARDA-NO-EJECUTADA]
+PASS | GD-13 | guarda sólo comentario con variables DEV/LOCAL: el script rechaza [G-GUARDA-NO-EJECUTADA] — 01 | esperado: rechazo [G-GUARDA-NO-EJECUTADA], rc!=0, sin datos | obtenido: rc=3 [G-GUARDA-NO-EJECUTADA]
+PASS | GD-13 | guarda sólo comentario con variables DEV/LOCAL: el script rechaza [G-GUARDA-NO-EJECUTADA] — 02 | esperado: rechazo [G-GUARDA-NO-EJECUTADA], rc!=0, sin datos | obtenido: rc=3 [G-GUARDA-NO-EJECUTADA]
+PASS | GD-13 | guarda sólo comentario con variables DEV/LOCAL: el script rechaza [G-GUARDA-NO-EJECUTADA] — 03 | esperado: rechazo [G-GUARDA-NO-EJECUTADA], rc!=0, sin datos | obtenido: rc=3 [G-GUARDA-NO-EJECUTADA]
+PASS | GD-13 | guarda sólo comentario con variables DEV/LOCAL: el script rechaza [G-GUARDA-NO-EJECUTADA] — 04 | esperado: rechazo [G-GUARDA-NO-EJECUTADA], rc!=0, sin datos | obtenido: rc=3 [G-GUARDA-NO-EJECUTADA]
+PASS | GD-13 | guarda sólo comentario con variables DEV/LOCAL: el script rechaza [G-GUARDA-NO-EJECUTADA] — 05A | esperado: rechazo [G-GUARDA-NO-EJECUTADA], rc!=0, sin datos | obtenido: rc=3 [G-GUARDA-NO-EJECUTADA]
+PASS | GD-13 | guarda sólo comentario con variables DEV/LOCAL: el script rechaza [G-GUARDA-NO-EJECUTADA] — 05B | esperado: rechazo [G-GUARDA-NO-EJECUTADA], rc!=0, sin datos | obtenido: rc=3 [G-GUARDA-NO-EJECUTADA]
+PASS | GD-13 | guarda truncada antes del DO con variables DEV/LOCAL: el script rechaza [G-GUARDA-NO-EJECUTADA] — 01 | esperado: rechazo [G-GUARDA-NO-EJECUTADA], rc!=0, sin datos | obtenido: rc=3 [G-GUARDA-NO-EJECUTADA]
+PASS | GD-13 | guarda truncada antes del DO con variables DEV/LOCAL: el script rechaza [G-GUARDA-NO-EJECUTADA] — 02 | esperado: rechazo [G-GUARDA-NO-EJECUTADA], rc!=0, sin datos | obtenido: rc=3 [G-GUARDA-NO-EJECUTADA]
+PASS | GD-13 | guarda truncada antes del DO con variables DEV/LOCAL: el script rechaza [G-GUARDA-NO-EJECUTADA] — 03 | esperado: rechazo [G-GUARDA-NO-EJECUTADA], rc!=0, sin datos | obtenido: rc=3 [G-GUARDA-NO-EJECUTADA]
+PASS | GD-13 | guarda truncada antes del DO con variables DEV/LOCAL: el script rechaza [G-GUARDA-NO-EJECUTADA] — 04 | esperado: rechazo [G-GUARDA-NO-EJECUTADA], rc!=0, sin datos | obtenido: rc=3 [G-GUARDA-NO-EJECUTADA]
+PASS | GD-13 | guarda truncada antes del DO con variables DEV/LOCAL: el script rechaza [G-GUARDA-NO-EJECUTADA] — 05A | esperado: rechazo [G-GUARDA-NO-EJECUTADA], rc!=0, sin datos | obtenido: rc=3 [G-GUARDA-NO-EJECUTADA]
+PASS | GD-13 | guarda truncada antes del DO con variables DEV/LOCAL: el script rechaza [G-GUARDA-NO-EJECUTADA] — 05B | esperado: rechazo [G-GUARDA-NO-EJECUTADA], rc!=0, sin datos | obtenido: rc=3 [G-GUARDA-NO-EJECUTADA]
+PASS | GD-14 | stdin con guarda homónima vacía en el cwd: sin datos y sin GUARDA OK — 01 | esperado: rc!=0 y sin datos | obtenido: rc=3
+PASS | GD-14 | stdin con guarda homónima vacía en el cwd: sin datos y sin GUARDA OK — 02 | esperado: rc!=0 y sin datos | obtenido: rc=3
+PASS | GD-14 | stdin con guarda homónima vacía en el cwd: sin datos y sin GUARDA OK — 03 | esperado: rc!=0 y sin datos | obtenido: rc=3
+PASS | GD-14 | stdin con guarda homónima vacía en el cwd: sin datos y sin GUARDA OK — 04 | esperado: rc!=0 y sin datos | obtenido: rc=3
+PASS | GD-14 | stdin con guarda homónima vacía en el cwd: sin datos y sin GUARDA OK — 05A | esperado: rc!=0 y sin datos | obtenido: rc=3
+PASS | GD-14 | stdin con guarda homónima vacía en el cwd: sin datos y sin GUARDA OK — 05B | esperado: rc!=0 y sin datos | obtenido: rc=3
+PASS | GD-09 | modo local temporal legítimo (socket, base cci_, sin roles de plataforma) PERMITIDO | esperado: rc=0 y GUARDA OK | obtenido: rc=0
+PASS | GD-11 | control: guarda SIN anti-suplantación es burlada por función suplantada (la prueba GD-07c detecta esa debilidad) | esperado: guarda débil ACEPTA el destino PROD | obtenido: rc=0
+PASS | GD-12 | control: la guarda ANTERIOR (solo variables declaradas) acepta DEV sobre un clúster que está en la denylist (vulnerabilidad H-03 original) | esperado: guarda anterior ACEPTA (vulnerable) | obtenido: rc=0
+PASS | GD-10 | listas versionadas vacías (no se inventan identificadores de CCI-DEV/CCI-PROD) | esperado: ambas vacías, sin números largos | obtenido: ok
+TOTAL=109 PASS=109 FAIL=0
