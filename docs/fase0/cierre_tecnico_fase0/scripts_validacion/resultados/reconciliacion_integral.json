@@ -3,135 +3,7 @@
   {
    "comprobacion": "CSV bien formado MATRIZ_12_ESCENARIOS_PARCIALES.csv",
    "detalle": "12 filas x 19 cols",
-   "estado": "PASS",
-   "evidencia": [],
-   "id": 1
-  },
-  {
-   "comprobacion": "CSV bien formado MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv",
-   "detalle": "33 filas x 10 cols",
-   "estado": "PASS",
-   "evidencia": [],
-   "id": 2
-  },
-  {
-   "comprobacion": "CSV bien formado MATRIZ_LIMITACIONES_RESIDUALES.csv",
-   "detalle": "27 filas x 13 cols",
-   "estado": "PASS",
-   "evidencia": [],
-   "id": 3
-  },
-  {
-   "comprobacion": "CSV bien formado MATRIZ_TRAZABILIDAD_MAESTRA.csv",
-   "detalle": "54 filas x 21 cols",
-   "estado": "PASS",
-   "evidencia": [],
-   "id": 4
-  },
-  {
-   "comprobacion": "CSV bien formado REGISTRO_DECISIONES_RECOMENDADAS.csv",
-   "detalle": "21 filas x 24 cols",
-   "estado": "PASS",
-   "evidencia": [],
-   "id": 5
-  },
-  {
-   "comprobacion": "CSV bien formado 22_funciones_conciliacion.csv",
-   "detalle": "23 filas x 4 cols",
-   "estado": "PASS",
-   "evidencia": [],
-   "id": 6
-  },
-  {
-   "comprobacion": "CSV bien formado catalogo_except_exception.csv",
-   "detalle": "23 filas x 4 cols",
-   "estado": "PASS",
-   "evidencia": [],
-   "id": 7
-  },
-  {
-   "comprobacion": "CSV bien formado k47_por_escenario.csv",
-   "detalle": "25 filas x 7 cols",
-   "estado": "PASS",
-   "evidencia": [],
-   "id": 8
-  },
-  {
-   "comprobacion": "CSV bien formado t409_t422_correspondencia.csv",
-   "detalle": "14 filas x 12 cols",
-   "estado": "PASS",
-   "evidencia": [],
-   "id": 9
-  },
-  {
-   "comprobacion": "CSV bien formado t409_t422_individual.csv",
-   "detalle": "26 filas x 8 cols",
-   "estado": "PASS",
-   "evidencia": [],
-   "id": 10
-  },
-  {
-   "comprobacion": "decisiones: las 20 pendientes exigidas están en el registro",
-   "detalle": "faltan=[]",
-   "estado": "PASS",
-   "evidencia": [
-    {
-     "ruta": "REGISTRO_DECISIONES_RECOMENDADAS.csv",
-     "sha256": "f94ae7d26d41fff08c2d329764d22f7c0b90a2f54ac7ad75391c37d12a3f989c"
-    }
-   ],
-   "id": 11
-  },
-  {
-   "comprobacion": "decisiones: sin ids duplicados; total 21 (20 + HV-02)",
-   "detalle": "21",
-   "estado": "PASS",
-   "evidencia": [],
-   "id": 12
-  },
-  {
-   "comprobacion": "decisiones: columnas de consecuencias y estado actual completas",
-   "detalle": "",
-   "estado": "PASS",
-   "evidencia": [],
-   "id": 13
-  },
-  {
-   "comprobacion": "decisiones: todas REQUIERE_APROBACION_DEL_PROPIETARIO (ninguna aprobada)",
-   "detalle": "",
-   "estado": "PASS",
-   "evidencia": [],
-   "id": 14
-  },
-  {
-   "comprobacion": "limitaciones: 27 ids únicos (LR-28 fusionada en LR-05)",
-   "detalle": "27",
-   "estado": "PASS",
-   "evidencia": [
-    {
-     "ruta": "MATRIZ_LIMITACIONES_RESIDUALES.csv",
-     "sha256": "039b28717e1b5fa28219b4880b476c36ed13c2cb0aa0f36dce2012b16a1a83fc"
-    }
-   ],
-   "id": 15
-  },
-  {
-   "comprobacion": "limitaciones: vigencia declarada en todas (18 VIGENTE, 5 RESUELTA, 4 PARCIALMENTE_RESUELTA)",
-   "detalle": "{'VIGENTE': 18, 'RESUELTA': 5, 'PARCIALMENTE_RESUELTA': 4}",
-   "estado": "PASS",
-   "evidencia": [],
-   "id": 16
-  },
-  {
-   "comprobacion": "limitaciones: acción concreta y dependencia en todas",
-   "detalle": "",
-   "estado": "PASS",
-   "evidencia": [],
-   "id": 17
-  },
-  {
-   "comprobacion": "12 escenarios: 5 PASS_PROTOTYPE, 1 PASS_STATIC, 6 PARTIAL",
-   "detalle": "{'PASS_PROTOTYPE': 5, 'PARTIAL': 6, 'PASS_STATIC': 1}",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -139,30 +11,18 @@
      "sha256": "cb1e8cd98cf43bd7609942f8ddaaff6ef7e0c4f639ec72a486b298a978e02ea3"
     }
    ],
-   "id": 18
-  },
-  {
-   "comprobacion": "12 escenarios: aceptación física PENDIENTE en todos",
-   "detalle": "",
-   "estado": "PASS",
-   "evidencia": [],
-   "id": 19
-  },
-  {
-   "comprobacion": "22 funciones: 22 filas, 366 casos, 0 fallos",
-   "detalle": "",
-   "estado": "PASS",
-   "evidencia": [
-    {
-     "ruta": "scripts_validacion/resultados/22_funciones_conciliacion.csv",
-     "sha256": "3a5c3296a50e0a141dbe4733324167303f2436e35d2238046a6cebe70839019c"
-    }
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "MATRIZ_12_ESCENARIOS_PARCIALES.csv"
    ],
-   "id": 20
+   "id": 1,
+   "id_unico": "RC-001",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
-   "comprobacion": "matriz función-regla cubre las 22 funciones",
-   "detalle": "22",
+   "comprobacion": "CSV bien formado MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv",
+   "detalle": "33 filas x 10 cols",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -170,23 +30,37 @@
      "sha256": "937768defe8928625dfbdd2f25bbf5eb73b1a49ff41f28ce7bf10468fa25613d"
     }
    ],
-   "id": 21
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv"
+   ],
+   "id": 2,
+   "id_unico": "RC-002",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
-   "comprobacion": "T-409..T-422: 26 variantes DETECTADA, 14 escenarios",
-   "detalle": "",
+   "comprobacion": "CSV bien formado MATRIZ_LIMITACIONES_RESIDUALES.csv",
+   "detalle": "27 filas x 13 cols",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
-     "ruta": "scripts_validacion/resultados/t409_t422_individual.csv",
-     "sha256": "108e0d7b2f12a3ff7c346d6d81982f63f00b79ab982d80d09ceaea6899642b28"
+     "ruta": "MATRIZ_LIMITACIONES_RESIDUALES.csv",
+     "sha256": "039b28717e1b5fa28219b4880b476c36ed13c2cb0aa0f36dce2012b16a1a83fc"
     }
    ],
-   "id": 22
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "MATRIZ_LIMITACIONES_RESIDUALES.csv"
+   ],
+   "id": 3,
+   "id_unico": "RC-003",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
-   "comprobacion": "trazabilidad: 54 filas con referencia verificable y relación declarada",
-   "detalle": "",
+   "comprobacion": "CSV bien formado MATRIZ_TRAZABILIDAD_MAESTRA.csv",
+   "detalle": "54 filas x 21 cols",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -194,18 +68,398 @@
      "sha256": "bf838417d1961e939fc4209aa8872b2f7d1a7fde1c4672e12eba0592f3fd2588"
     }
    ],
-   "id": 23
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "MATRIZ_TRAZABILIDAD_MAESTRA.csv"
+   ],
+   "id": 4,
+   "id_unico": "RC-004",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "CSV bien formado REGISTRO_DECISIONES_RECOMENDADAS.csv",
+   "detalle": "21 filas x 24 cols",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "REGISTRO_DECISIONES_RECOMENDADAS.csv",
+     "sha256": "f94ae7d26d41fff08c2d329764d22f7c0b90a2f54ac7ad75391c37d12a3f989c"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "REGISTRO_DECISIONES_RECOMENDADAS.csv"
+   ],
+   "id": 5,
+   "id_unico": "RC-005",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "CSV bien formado 22_funciones_conciliacion.csv",
+   "detalle": "23 filas x 4 cols",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/22_funciones_conciliacion.csv",
+     "sha256": "3a5c3296a50e0a141dbe4733324167303f2436e35d2238046a6cebe70839019c"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 6,
+   "id_unico": "RC-006",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "CSV bien formado catalogo_except_exception.csv",
+   "detalle": "23 filas x 4 cols",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/catalogo_except_exception.csv",
+     "sha256": "4676d57a15dbd5afff9335232d2d36c0391ef356ac5238a8bda56683bb67cc02"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 7,
+   "id_unico": "RC-007",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "CSV bien formado k47_por_escenario.csv",
+   "detalle": "25 filas x 7 cols",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/k47_por_escenario.csv",
+     "sha256": "3d15a811623d3066d7bdf99281536eee78c99d0055987424b7361e60e7282ee6"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 8,
+   "id_unico": "RC-008",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "CSV bien formado t409_t422_correspondencia.csv",
+   "detalle": "14 filas x 12 cols",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/t409_t422_correspondencia.csv",
+     "sha256": "b31056815d4cce2cde2108417ef36864615a74dbeda52d1ed614aeee64c41012"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 9,
+   "id_unico": "RC-009",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "CSV bien formado t409_t422_individual.csv",
+   "detalle": "26 filas x 8 cols",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/t409_t422_individual.csv",
+     "sha256": "108e0d7b2f12a3ff7c346d6d81982f63f00b79ab982d80d09ceaea6899642b28"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 10,
+   "id_unico": "RC-010",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "decisiones: las 20 pendientes exigidas están en el registro",
+   "detalle": "faltan=[]",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "REGISTRO_DECISIONES_RECOMENDADAS.csv",
+     "sha256": "f94ae7d26d41fff08c2d329764d22f7c0b90a2f54ac7ad75391c37d12a3f989c"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "REGISTRO_DECISIONES_RECOMENDADAS.csv"
+   ],
+   "id": 11,
+   "id_unico": "RC-011",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "decisiones: sin ids duplicados; total 21 (20 + HV-02)",
+   "detalle": "21",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "REGISTRO_DECISIONES_RECOMENDADAS.csv",
+     "sha256": "f94ae7d26d41fff08c2d329764d22f7c0b90a2f54ac7ad75391c37d12a3f989c"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "REGISTRO_DECISIONES_RECOMENDADAS.csv"
+   ],
+   "id": 12,
+   "id_unico": "RC-012",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "decisiones: columnas de consecuencias y estado actual completas",
+   "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "REGISTRO_DECISIONES_RECOMENDADAS.csv",
+     "sha256": "f94ae7d26d41fff08c2d329764d22f7c0b90a2f54ac7ad75391c37d12a3f989c"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "REGISTRO_DECISIONES_RECOMENDADAS.csv"
+   ],
+   "id": 13,
+   "id_unico": "RC-013",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "decisiones: todas REQUIERE_APROBACION_DEL_PROPIETARIO (ninguna aprobada)",
+   "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "REGISTRO_DECISIONES_RECOMENDADAS.csv",
+     "sha256": "f94ae7d26d41fff08c2d329764d22f7c0b90a2f54ac7ad75391c37d12a3f989c"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "REGISTRO_DECISIONES_RECOMENDADAS.csv"
+   ],
+   "id": 14,
+   "id_unico": "RC-014",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "limitaciones: 27 ids únicos (LR-28 fusionada en LR-05)",
+   "detalle": "27",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_LIMITACIONES_RESIDUALES.csv",
+     "sha256": "039b28717e1b5fa28219b4880b476c36ed13c2cb0aa0f36dce2012b16a1a83fc"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "MATRIZ_LIMITACIONES_RESIDUALES.csv"
+   ],
+   "id": 15,
+   "id_unico": "RC-015",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "limitaciones: vigencia declarada en todas (18 VIGENTE, 5 RESUELTA, 4 PARCIALMENTE_RESUELTA)",
+   "detalle": "{'VIGENTE': 18, 'RESUELTA': 5, 'PARCIALMENTE_RESUELTA': 4}",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_LIMITACIONES_RESIDUALES.csv",
+     "sha256": "039b28717e1b5fa28219b4880b476c36ed13c2cb0aa0f36dce2012b16a1a83fc"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "MATRIZ_LIMITACIONES_RESIDUALES.csv"
+   ],
+   "id": 16,
+   "id_unico": "RC-016",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "limitaciones: acción concreta y dependencia en todas",
+   "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_LIMITACIONES_RESIDUALES.csv",
+     "sha256": "039b28717e1b5fa28219b4880b476c36ed13c2cb0aa0f36dce2012b16a1a83fc"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "MATRIZ_LIMITACIONES_RESIDUALES.csv"
+   ],
+   "id": 17,
+   "id_unico": "RC-017",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "12 escenarios: 5 PASS_PROTOTYPE, 1 PASS_STATIC, 6 PARTIAL",
+   "detalle": "{'PASS_PROTOTYPE': 5, 'PARTIAL': 6, 'PASS_STATIC': 1}",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_12_ESCENARIOS_PARCIALES.csv",
+     "sha256": "cb1e8cd98cf43bd7609942f8ddaaff6ef7e0c4f639ec72a486b298a978e02ea3"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "MATRIZ_12_ESCENARIOS_PARCIALES.csv"
+   ],
+   "id": 18,
+   "id_unico": "RC-018",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "12 escenarios: aceptación física PENDIENTE en todos",
+   "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_12_ESCENARIOS_PARCIALES.csv",
+     "sha256": "cb1e8cd98cf43bd7609942f8ddaaff6ef7e0c4f639ec72a486b298a978e02ea3"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "MATRIZ_12_ESCENARIOS_PARCIALES.csv"
+   ],
+   "id": 19,
+   "id_unico": "RC-019",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "22 funciones: 22 filas, 366 casos, 0 fallos",
+   "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/22_funciones_conciliacion.csv",
+     "sha256": "3a5c3296a50e0a141dbe4733324167303f2436e35d2238046a6cebe70839019c"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 20,
+   "id_unico": "RC-020",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "matriz función-regla cubre las 22 funciones",
+   "detalle": "22",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv",
+     "sha256": "937768defe8928625dfbdd2f25bbf5eb73b1a49ff41f28ce7bf10468fa25613d"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv"
+   ],
+   "id": 21,
+   "id_unico": "RC-021",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "T-409..T-422: 26 variantes DETECTADA, 14 escenarios",
+   "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/t409_t422_individual.csv",
+     "sha256": "108e0d7b2f12a3ff7c346d6d81982f63f00b79ab982d80d09ceaea6899642b28"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 22,
+   "id_unico": "RC-022",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "trazabilidad: 54 filas con referencia verificable y relación declarada",
+   "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_TRAZABILIDAD_MAESTRA.csv",
+     "sha256": "bf838417d1961e939fc4209aa8872b2f7d1a7fde1c4672e12eba0592f3fd2588"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "MATRIZ_TRAZABILIDAD_MAESTRA.csv"
+   ],
+   "id": 23,
+   "id_unico": "RC-023",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "trazabilidad: niveles de evidencia en vocabulario permitido en cada relación",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
-   "evidencia": [],
-   "id": 24
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_TRAZABILIDAD_MAESTRA.csv",
+     "sha256": "bf838417d1961e939fc4209aa8872b2f7d1a7fde1c4672e12eba0592f3fd2588"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "MATRIZ_TRAZABILIDAD_MAESTRA.csv"
+   ],
+   "id": 24,
+   "id_unico": "RC-024",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "V20 63/63",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -213,11 +467,18 @@
      "sha256": "cdf6aeb213bc8667e5773bae99fd2abd84a37b975e29bc9e98e31cc1430d73e3"
     }
    ],
-   "id": 25
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 25,
+   "id_unico": "RC-025",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "V20 mutaciones 14/14",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -225,11 +486,18 @@
      "sha256": "5ff31240b365e382685ae7b723673c23d195b4ad42fa461d77709c0eac8d45b9"
     }
    ],
-   "id": 26
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 26,
+   "id_unico": "RC-026",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "extensión 80/80",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -237,11 +505,18 @@
      "sha256": "54f6941ea7d3da97255a605187f64d4338870cf7ec3000f09f3ccb3580e56e96"
     }
    ],
-   "id": 27
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 27,
+   "id_unico": "RC-027",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "DG-19 63/63",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -249,11 +524,18 @@
      "sha256": "02cd7664a3971b2dbc9f4c055fce6a95a9295ac4d3af08419d88dd9bb3dfa370"
     }
    ],
-   "id": 28
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 28,
+   "id_unico": "RC-028",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "hash 16/16",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -261,11 +543,18 @@
      "sha256": "ce96f96482d220adedcc4f7e66f47cc4b9c5979ae87c2b17391bacd95e239b94"
     }
    ],
-   "id": 29
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 29,
+   "id_unico": "RC-029",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "arnés 28/28 (total=aprobadas, 0 FAIL; esperado fijado en la batería)",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -273,11 +562,18 @@
      "sha256": "200fa4e5808fcc542736744f2e363f8c1c3311112554f035393ac9d8e087e9a0"
     }
    ],
-   "id": 30
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 30,
+   "id_unico": "RC-030",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "escáner sql 0 FAIL",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -285,11 +581,18 @@
      "sha256": "150d5149499f032b1d3a07b2365feb830093a922050c6ebc9f1485c8e17e7e10"
     }
    ],
-   "id": 31
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 31,
+   "id_unico": "RC-031",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "escáner texto 0 FAIL",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -297,11 +600,18 @@
      "sha256": "92e0cfa7e3164555cc988c9ff374553cafb81077c0976b6f53cee5b4eeac7283"
     }
    ],
-   "id": 32
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 32,
+   "id_unico": "RC-032",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "escáner texto repetido sobre el árbol final: 0 FAIL",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -309,11 +619,18 @@
      "sha256": "392fdf3fe9b8813e7cf85e0e126947da809d092a0f087cf134ba4ef0d0cbffd0"
     }
    ],
-   "id": 33
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 33,
+   "id_unico": "RC-033",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "escáner autoprueba: 39 muestras, 0 FAIL",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -321,11 +638,18 @@
      "sha256": "82bbe1813958a909a62edf438bb4effdbfd778f5a5d8a5fc128309326a883f74"
     }
    ],
-   "id": 34
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 34,
+   "id_unico": "RC-034",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "04 local = NO VERIFICABLE",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -333,11 +657,18 @@
      "sha256": "27cdd597aa9111e3590bc833b7a4307d3889ae985dd6781bd1e5bb2f31a0c6d0"
     }
    ],
-   "id": 35
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 35,
+   "id_unico": "RC-035",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "concurrencia CC-01/CC-02 PASS",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -345,11 +676,18 @@
      "sha256": "4327e90f9653d3ce60d3eadbc3690c7aee7378f4ab1c8a3fc838d3c0323c3fee"
     }
    ],
-   "id": 36
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 36,
+   "id_unico": "RC-036",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "DICTAMEN_PREPARACION_FASE0.md: cifras 63/63, 14/14, 80/80, 366, 354, 28/28 presentes",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -357,11 +695,18 @@
      "sha256": "c19c09606c574fa41b670112050f99eaf881de489c9463773afc9d251fc14230"
     }
    ],
-   "id": 37
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "DICTAMEN_PREPARACION_FASE0.md"
+   ],
+   "id": 37,
+   "id_unico": "RC-037",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "INFORME_CIERRE_TECNICO_FASE0.md: cifras 63/63, 14/14, 80/80, 366, 354, 28/28 presentes",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -369,11 +714,18 @@
      "sha256": "f753d8d6c5c85b75377f2363125a8f64743efa4e12280ddadaa203fe446609ae"
     }
    ],
-   "id": 38
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "INFORME_CIERRE_TECNICO_FASE0.md"
+   ],
+   "id": 38,
+   "id_unico": "RC-038",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "LEEME no afirma «sin commit» como estado actual",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -381,11 +733,18 @@
      "sha256": "62dbf24a49e169f8d06cd69e016dd9a032003236df60a2d7f395115c2b08bfb6"
     }
    ],
-   "id": 39
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "LEEME_CIERRE_TECNICO.md"
+   ],
+   "id": 39,
+   "id_unico": "RC-039",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "ningún documento declara aceptada Fase 0 ni autorizada Fase 1",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -426,7 +785,7 @@
     },
     {
      "ruta": "INFORME_RECONCILIACION_INTEGRAL.md",
-     "sha256": "4359f98e588d9f6694347a959a06b74d1033fd0870486ac1b1857a91301ccae5"
+     "sha256": "5641ada1c7e1c703736cbfb1fbc5d46e410d217924aaa97bcd5e9fd3f8a0db71"
     },
     {
      "ruta": "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
@@ -473,11 +832,38 @@
      "sha256": "a8c0f65a8d77604b04c93817f0b251e2b71c595286dfe295e948895b19c8d491"
     }
    ],
-   "id": 40
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "DICTAMEN_PREPARACION_FASE0.md",
+    "EXPEDIENTE_T409_T422.md",
+    "INFORME_AUDITORIA_FECHAS_HORAS.md",
+    "INFORME_CIERRE_TECNICO_FASE0.md",
+    "INFORME_CIFRAS_DEFINITIVAS.md",
+    "INFORME_DECISIONES_ARQUITECTONICAS.md",
+    "INFORME_HASHES_MANIFIESTO.md",
+    "INFORME_PRUEBAS_FINALES.md",
+    "INFORME_PUBLICACION_GITHUB.md",
+    "INFORME_RECONCILIACION_INTEGRAL.md",
+    "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
+    "INFORME_SEGURIDAD_SCRIPTS.md",
+    "LEEME_CIERRE_TECNICO.md",
+    "MATRIZ_MODELO_LOGICO_FISICO.md",
+    "PLAN_VALIDACION_CCI_DEV.md",
+    "PLAN_VALIDACION_TRIGGER_R1_R9.md",
+    "PROPUESTA_CONTRATO_ERRORES_R1_R9.md",
+    "PROPUESTA_GUARDA_DEV_PROD.md",
+    "PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md",
+    "RESOLUCION_OBSERVACIONES_FINALES.md",
+    "REVISION_22_FUNCIONES.md"
+   ],
+   "id": 40,
+   "id_unico": "RC-040",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "ningún documento marca decisión como APROBADA",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -518,7 +904,7 @@
     },
     {
      "ruta": "INFORME_RECONCILIACION_INTEGRAL.md",
-     "sha256": "4359f98e588d9f6694347a959a06b74d1033fd0870486ac1b1857a91301ccae5"
+     "sha256": "5641ada1c7e1c703736cbfb1fbc5d46e410d217924aaa97bcd5e9fd3f8a0db71"
     },
     {
      "ruta": "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
@@ -565,11 +951,38 @@
      "sha256": "a8c0f65a8d77604b04c93817f0b251e2b71c595286dfe295e948895b19c8d491"
     }
    ],
-   "id": 41
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "DICTAMEN_PREPARACION_FASE0.md",
+    "EXPEDIENTE_T409_T422.md",
+    "INFORME_AUDITORIA_FECHAS_HORAS.md",
+    "INFORME_CIERRE_TECNICO_FASE0.md",
+    "INFORME_CIFRAS_DEFINITIVAS.md",
+    "INFORME_DECISIONES_ARQUITECTONICAS.md",
+    "INFORME_HASHES_MANIFIESTO.md",
+    "INFORME_PRUEBAS_FINALES.md",
+    "INFORME_PUBLICACION_GITHUB.md",
+    "INFORME_RECONCILIACION_INTEGRAL.md",
+    "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
+    "INFORME_SEGURIDAD_SCRIPTS.md",
+    "LEEME_CIERRE_TECNICO.md",
+    "MATRIZ_MODELO_LOGICO_FISICO.md",
+    "PLAN_VALIDACION_CCI_DEV.md",
+    "PLAN_VALIDACION_TRIGGER_R1_R9.md",
+    "PROPUESTA_CONTRATO_ERRORES_R1_R9.md",
+    "PROPUESTA_GUARDA_DEV_PROD.md",
+    "PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md",
+    "RESOLUCION_OBSERVACIONES_FINALES.md",
+    "REVISION_22_FUNCIONES.md"
+   ],
+   "id": 41,
+   "id_unico": "RC-041",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "batería: 22 pasos (= pasos declarados en ct_bateria_final.sh), todos rc=0 Y estado=OK (rc=0 solo no basta: se exige el contenido esperado)",
    "detalle": "[]",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -577,18 +990,125 @@
      "sha256": "d4f3ff0dee6ab1772233d5ce4216fad91250c077007211970d82e9e68c6d0b85"
     }
    ],
-   "id": 42
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 42,
+   "id_unico": "RC-042",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "batería: cada salida existe y su SHA-256 coincide con el índice",
    "detalle": "[]",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
-   "evidencia": [],
-   "id": 43
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
+     "sha256": "d4f3ff0dee6ab1772233d5ce4216fad91250c077007211970d82e9e68c6d0b85"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/base_V20_pe_utf8.txt",
+     "sha256": "cdf6aeb213bc8667e5773bae99fd2abd84a37b975e29bc9e98e31cc1430d73e3"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/base_V20_mutaciones_utf8.txt",
+     "sha256": "5ff31240b365e382685ae7b723673c23d195b4ad42fa461d77709c0eac8d45b9"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/ext_utf8.txt",
+     "sha256": "54f6941ea7d3da97255a605187f64d4338870cf7ec3000f09f3ccb3580e56e96"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/concurrencia_local_utf8.txt",
+     "sha256": "4327e90f9653d3ce60d3eadbc3690c7aee7378f4ab1c8a3fc838d3c0323c3fee"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/dg19_pk_experimento.txt",
+     "sha256": "02cd7664a3971b2dbc9f4c055fce6a95a9295ac4d3af08419d88dd9bb3dfa370"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/hash_cadena_referencia.txt",
+     "sha256": "ce96f96482d220adedcc4f7e66f47cc4b9c5979ae87c2b17391bacd95e239b94"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/revision_estatica_T47_T124.txt",
+     "sha256": "8bf91cd4b2ecd73ced0275200cbb6e28ce1175270242ff0d4429e6c3720ea8e3"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/k47_por_escenario.txt",
+     "sha256": "f3a8022065d55224b4d3314e30daea68c30152b27b677ffc86c68dc2d2044fb9"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/t409_t422_individual.txt",
+     "sha256": "683734df7fcdfb185856560cfbc0daeda02f9805937dc33b6bb1287d14c76ac5"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/t409_repro.txt",
+     "sha256": "683734df7fcdfb185856560cfbc0daeda02f9805937dc33b6bb1287d14c76ac5"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/t409_repro_cmp.txt",
+     "sha256": "50a86dd8d80492b268533140585c6b8a2528bc85708333fd17537f2e52280b93"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/t409_correspondencia.txt",
+     "sha256": "3f0b1e881fff2375fb0ffcd07851b50b4dd3f4768611bff9d84fe1318970d25c"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/22_stdout.txt",
+     "sha256": "cac467d3949f25111bcc1ece7c1361e6a8b26e8ca4521c60369565cd94e7ddf8"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/exc_en_mutaciones_modelo14.txt",
+     "sha256": "b663615ec6bdc47097982fff1fb91b439d8b0601334aa66ae7a0859141c333c7"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/catalogo_except_y_ramas_muertas.txt",
+     "sha256": "25406127f826d5bed58c3b08d437389e666ace2e557932ced4a0e6d8c8117d5d"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/arnes_r1r9_autoprueba_local.txt",
+     "sha256": "200fa4e5808fcc542736744f2e363f8c1c3311112554f035393ac9d8e087e9a0"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/smoke_stdout.txt",
+     "sha256": "5921312c7ca13104c5284161efdbba846a9c166eac7c57ed5261ae28dba76115"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/aserciones_smoke.txt",
+     "sha256": "a252d3e43aec2195e57434b489105b308951ca788f62282677a3996e68fa2080"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/guarda_destino.txt",
+     "sha256": "f78e96446180ea9919213fe670c7e6fa23b1d3fa9d34eda6dc110910afeefd78"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/escaner_sql_stdout.txt",
+     "sha256": "196fc1c5910578d97542ac1ad8e4c1f1d18dcba0a81f07572623aa09653a4c96"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/escaner_texto_stdout.txt",
+     "sha256": "472bce2748223d7abba871a99c6e92685e55097f3b03d79b0666707fd6256ede"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/escaner_autoprueba_stdout.txt",
+     "sha256": "91f0a0ce5610de9404786788c2676f57aa68e3afdcba333cd5e696c6ae32fd53"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 43,
+   "id_unico": "RC-043",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "smoke de los 6 scripts: aserciones de contenido 12/12, 0 FAIL (guardas, precondición de roles, 03 defectuoso/corregido, 04 NO VERIFICABLE, 05 BLOCKED)",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -596,11 +1116,18 @@
      "sha256": "a252d3e43aec2195e57434b489105b308951ca788f62282677a3996e68fa2080"
     }
    ],
-   "id": 44
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 44,
+   "id_unico": "RC-044",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "guarda DEV/PROD (H-03): 187/187 pruebas, 0 FAIL; cubre los 6 scripts, PROD, destino desconocido, identidad no verificable, configuración incompleta y manipulada",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -608,11 +1135,18 @@
      "sha256": "f78e96446180ea9919213fe670c7e6fa23b1d3fa9d34eda6dc110910afeefd78"
     }
    ],
-   "id": 45
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 45,
+   "id_unico": "RC-045",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "guarda DEV/PROD: los 6 scripts invocan preflight+verificador de marcador (guarda compartida) y las listas versionadas siguen vacías (no se inventan identificadores)",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -644,11 +1178,18 @@
      "sha256": "10f7a93f359a340c5451310bb6b7c1474ad4b86950ed6fa3d0f438e789f8829a"
     }
    ],
-   "id": 46
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 46,
+   "id_unico": "RC-046",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "T-409: 2ª corrida idéntica byte a byte",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -656,11 +1197,18 @@
      "sha256": "50a86dd8d80492b268533140585c6b8a2528bc85708333fd17537f2e52280b93"
     }
    ],
-   "id": 47
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 47,
+   "id_unico": "RC-047",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "T-409..T-422: correspondencia con nivel de evidencia explícito (14 escenarios)",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -668,11 +1216,18 @@
      "sha256": "b31056815d4cce2cde2108417ef36864615a74dbeda52d1ed614aeee64c41012"
     }
    ],
-   "id": 48
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 48,
+   "id_unico": "RC-048",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "manifiesto: controles negativos 36/36, 0 FAIL",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -680,11 +1235,18 @@
      "sha256": "5b3c9dd17fe4228261bed2e31a0910fef6f4dae2e0361885084cc691ee6d0fc7"
     }
    ],
-   "id": 49
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 49,
+   "id_unico": "RC-049",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "búsqueda global sin FAIL",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -692,18 +1254,37 @@
      "sha256": "3c958efe717fe7ba9f3317518b55408d100826b91824626fabc5434c1c543a29"
     }
    ],
-   "id": 50
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 50,
+   "id_unico": "RC-050",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "herramientas antiguas eliminadas",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
-   "evidencia": [],
-   "id": 51
+   "evidencia": [
+    {
+     "ruta": "virtual:listado:scripts_validacion",
+     "sha256": "1944c4bba1b9e3ca38589e989622389f9343ea77772494bbb81b14f4021c94c8"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "virtual:listado:scripts_validacion"
+   ],
+   "id": 51,
+   "id_unico": "RC-051",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "cifras definitivas: generadas, batería 22/22 OK, decisiones aprobadas = 0, PASS_PHYSICAL = 0",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -711,30 +1292,56 @@
      "sha256": "df18e6b7a128c5802c5936ce06ca351597672391c8e468ec786b9bd996f9e16b"
     }
    ],
-   "id": 52
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 52,
+   "id_unico": "RC-052",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "cifras: limitaciones 27 = vigentes+parciales+resueltas; decisiones 21; escenarios 12; fixtures 354 de 366 evaluaciones",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
-   "evidencia": [],
-   "id": 53
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/cifras_definitivas.json",
+     "sha256": "df18e6b7a128c5802c5936ce06ca351597672391c8e468ec786b9bd996f9e16b"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 53,
+   "id_unico": "RC-053",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "manifiesto: nº de entradas (154) = cifra generada y = archivos sujetos a verificación",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "MANIFIESTO_SHA256_CIERRE.txt",
-     "sha256": "e57953e4d16703f3a72770f6751c0733b5d264d75f4c1fa665be178029162bb6"
+     "sha256": "6c0f05dc5fb31ea96ebee82e63e4e959b7921d74833c8a8019880dfad1fc7055"
     }
    ],
-   "id": 54
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "MANIFIESTO_SHA256_CIERRE.txt"
+   ],
+   "id": 54,
+   "id_unico": "RC-054",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "cifras de los documentos narrativos coinciden con cifras_definitivas.json (limitaciones, decisiones, arnés, fixtures, evaluaciones)",
    "detalle": "[]",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -762,25 +1369,61 @@
      "sha256": "f302e4f8fa7e6983adb60552ba7d7af6760b0d29bad4207100131ba02f1b0abb"
     }
    ],
-   "id": 55
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "DICTAMEN_PREPARACION_FASE0.md",
+    "INFORME_CIERRE_TECNICO_FASE0.md",
+    "INFORME_HASHES_MANIFIESTO.md",
+    "INFORME_PRUEBAS_FINALES.md",
+    "INFORME_PUBLICACION_GITHUB.md",
+    "LEEME_CIERRE_TECNICO.md"
+   ],
+   "id": 55,
+   "id_unico": "RC-055",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "alcance: contra V26 no hay archivos modificados/eliminados/añadidos fuera de docs/fase0/cierre_tecnico_fase0 (tracked: 0, sin seguimiento: 0)",
    "detalle": "[]",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
-   "evidencia": [],
-   "id": 56
+   "evidencia": [
+    {
+     "ruta": "virtual:git-diff-name-status:439777c9ea7db464fe49299adfeb2112abfd285c",
+     "sha256": "916f3665be090591263810d2292cabec09b577263e118ad47a82a62db7bc76a3"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "virtual:git-diff-name-status:439777c9ea7db464fe49299adfeb2112abfd285c"
+   ],
+   "id": 56,
+   "id_unico": "RC-056",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "alcance: herramientas protegidas (modelo_estructural.py, verificar_expediente.py) idénticas a V26",
    "detalle": "",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
-   "evidencia": [],
-   "id": 57
+   "evidencia": [
+    {
+     "ruta": "virtual:git-diff-herramientas:439777c9ea7db464fe49299adfeb2112abfd285c",
+     "sha256": "bf0b1ba56881d89ea3300a8c58e1a2654ce1919a92630ab7db43c1a4f4a8d73d"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "virtual:git-diff-herramientas:439777c9ea7db464fe49299adfeb2112abfd285c"
+   ],
+   "id": 57,
+   "id_unico": "RC-057",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
    "comprobacion": "referencias a archivos (171) y enlaces relativos resuelven; las citas históricas están etiquetadas",
    "detalle": "[]",
+   "ejecucion_id": "manual-20261121T202423Z",
    "estado": "PASS",
    "evidencia": [
     {
@@ -821,7 +1464,7 @@
     },
     {
      "ruta": "INFORME_RECONCILIACION_INTEGRAL.md",
-     "sha256": "4359f98e588d9f6694347a959a06b74d1033fd0870486ac1b1857a91301ccae5"
+     "sha256": "5641ada1c7e1c703736cbfb1fbc5d46e410d217924aaa97bcd5e9fd3f8a0db71"
     },
     {
      "ruta": "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
@@ -868,15 +1511,42 @@
      "sha256": "a8c0f65a8d77604b04c93817f0b251e2b71c595286dfe295e948895b19c8d491"
     }
    ],
-   "id": 58
+   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fuente": [
+    "DICTAMEN_PREPARACION_FASE0.md",
+    "EXPEDIENTE_T409_T422.md",
+    "INFORME_AUDITORIA_FECHAS_HORAS.md",
+    "INFORME_CIERRE_TECNICO_FASE0.md",
+    "INFORME_CIFRAS_DEFINITIVAS.md",
+    "INFORME_DECISIONES_ARQUITECTONICAS.md",
+    "INFORME_HASHES_MANIFIESTO.md",
+    "INFORME_PRUEBAS_FINALES.md",
+    "INFORME_PUBLICACION_GITHUB.md",
+    "INFORME_RECONCILIACION_INTEGRAL.md",
+    "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
+    "INFORME_SEGURIDAD_SCRIPTS.md",
+    "LEEME_CIERRE_TECNICO.md",
+    "MATRIZ_MODELO_LOGICO_FISICO.md",
+    "PLAN_VALIDACION_CCI_DEV.md",
+    "PLAN_VALIDACION_TRIGGER_R1_R9.md",
+    "PROPUESTA_CONTRATO_ERRORES_R1_R9.md",
+    "PROPUESTA_GUARDA_DEV_PROD.md",
+    "PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md",
+    "RESOLUCION_OBSERVACIONES_FINALES.md",
+    "REVISION_22_FUNCIONES.md"
+   ],
+   "id": 58,
+   "id_unico": "RC-058",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   }
  ],
  "fail": 0,
  "meta": {
-  "commit_base_git": "e0b1d8165d7584edd7fd03c2fa3c54fcce9d87e0",
+  "commit_base_git": "07f227af0657e4642f14138d06de41b0e6352350",
+  "ejecucion_id": "manual-20261121T202423Z",
   "fuente_unica": "este JSON; el TXT y el MD se generan de él en la misma ejecución",
-  "generado_local": "2026-11-21T13:15:26-0600",
-  "generado_utc": "2026-11-21T19:15:26Z",
+  "generado_local": "2026-11-21T14:24:23-0600",
+  "generado_utc": "2026-11-21T20:24:23Z",
   "zona_local": "CST"
  },
  "pass": 58,

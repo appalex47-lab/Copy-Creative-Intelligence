@@ -19,10 +19,21 @@ def verificar(c):
     if mt != ["**TOTAL=%d PASS=%d FAIL=%d**" % (J["total"], J["pass"], J["fail"])]: fallos.append("MD: línea TOTAL difiere del JSON: %s" % mt)
     filas = [l for l in M if re.match(r"\| \d+ \| (PASS|FAIL) \|", l)]
     if [re.match(r"\| (\d+) \| (PASS|FAIL) \|", l).groups() for l in filas] != [(str(x["id"]), x["estado"]) for x in J["comprobaciones"]]: fallos.append("MD: filas (id, estado) difieren del JSON")
+    ids = [x.get("id_unico") for x in J["comprobaciones"]]
+    if len(ids) != len(set(ids)) or None in ids: fallos.append("IDs únicos duplicados o ausentes")
+    if sorted(x["id"] for x in J["comprobaciones"]) != list(range(1, len(J["comprobaciones"]) + 1)): fallos.append("filas faltantes o numeración no continua")
+    esperado = os.environ.get("CCI_RUN_ID")
+    for x in J["comprobaciones"]:
+        if x["estado"] == "PASS" and not x["evidencia"]: fallos.append("PASS con evidencia vacía: %s" % x.get("id_unico"))
+        for k in ("fuente", "metodo", "ejecucion_id", "fecha_ejecucion_utc"):
+            if not x.get(k): fallos.append("campo obligatorio vacío %s en %s" % (k, x.get("id_unico")))
+        if esperado and x.get("ejecucion_id") != esperado: fallos.append("resultado heredado: %s pertenece a otra ejecución (%s != %s)" % (x.get("id_unico"), x.get("ejecucion_id"), esperado))
+        if x["estado"] == "FAIL" and J["fail"] == 0: fallos.append("estado contradictorio: FAIL con fail=0")
     regen = ("INFORME_RECONCILIACION_INTEGRAL.md", "reconciliacion_integral", "MANIFIESTO_SHA256_CIERRE.txt")
     for x in J["comprobaciones"]:
         for e in x["evidencia"]:
             p = os.path.join(c, e["ruta"])
+            if e["ruta"].startswith("virtual:"): continue
             if any(k in e["ruta"] for k in regen): continue
             if not os.path.exists(p): fallos.append("evidencia ausente: %s (comprobación %d)" % (e["ruta"], x["id"]))
             elif hashlib.sha256(open(p, "rb").read()).hexdigest() != e["sha256"]: fallos.append("evidencia modificada tras la reconciliación: %s (comprobación %d)" % (e["ruta"], x["id"]))
@@ -50,10 +61,26 @@ caso("TXT: línea TOTAL alterada", lambda d: sub(R(d) % "txt", "TOTAL=%d " % J0[
 caso("JSON: una comprobación pasa a FAIL", lambda d: sub(R(d) % "json", '"estado": "PASS"', '"estado": "FAIL"'), True)
 caso("MD: estado de una fila alterado", lambda d: sub(M(d), "| 1 | PASS |", "| 1 | FAIL |"), True)
 caso("evidencia: archivo citado modificado", lambda d: open(os.path.join(d, "MATRIZ_LIMITACIONES_RESIDUALES.csv"), "a", encoding="utf-8").write("x\n"), True)
+def vacia(d):
+    p = R(d) % "json"; J = json.load(open(p, encoding="utf-8")); J["comprobaciones"][3]["evidencia"] = []; json.dump(J, open(p, "w", encoding="utf-8"))
+def dup(d):
+    p = R(d) % "json"; J = json.load(open(p, encoding="utf-8")); J["comprobaciones"][4]["id_unico"] = J["comprobaciones"][3]["id_unico"]; json.dump(J, open(p, "w", encoding="utf-8"))
+def hashmal(d):
+    p = R(d) % "json"; J = json.load(open(p, encoding="utf-8"))
+    for x in J["comprobaciones"]:
+        for e in x["evidencia"]:
+            if not e["ruta"].startswith("virtual:") and "reconciliacion" not in e["ruta"] and "MANIFIESTO" not in e["ruta"]: e["sha256"] = "0" * 64; json.dump(J, open(p, "w", encoding="utf-8")); return
+def fila(d):
+    p = R(d) % "json"; J = json.load(open(p, encoding="utf-8")); del J["comprobaciones"][7]; json.dump(J, open(p, "w", encoding="utf-8"))
 def borra(d):
     for x in J0["comprobaciones"]:
         for e in x["evidencia"]:
             if "MATRIZ_TRAZABILIDAD_MAESTRA" in e["ruta"]: os.remove(os.path.join(d, e["ruta"])); return
 caso("evidencia: archivo citado eliminado", borra, True)
+caso("evidencia vacía en una comprobación PASS", vacia, True)
+caso("ID único duplicado", dup, True)
+caso("hash incorrecto en la evidencia", hashmal, True)
+caso("fila faltante", fila, True)
+os.environ["CCI_RUN_ID"] = "otra-ejecucion"; caso("resultado heredado (otra ejecución)", lambda d: None, True); os.environ.pop("CCI_RUN_ID")
 n = sum(r[0] == "FAIL" for r in res); L = ["%s | %s" % r for r in res] + ["TOTAL=%d FAIL=%d" % (len(res), n)]
 open(salida, "w", encoding="utf-8").write("\n".join(L) + "\n"); print("\n".join(L)); sys.exit(1 if n else 0)
