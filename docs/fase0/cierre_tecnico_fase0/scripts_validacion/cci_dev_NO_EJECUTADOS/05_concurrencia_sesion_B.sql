@@ -8,12 +8,9 @@
 --   inefectiva) o BLOCKED (error técnico). La prueba de que B recibe 23P01 si A hiciera COMMIT queda como variante manual NO automatizada (NOT VERIFIED).
 -- ====================================================================================================
 \set ON_ERROR_STOP on
--- Guarda (idéntica en los 6 scripts)
-do $$ declare a text := coalesce(current_setting('cci.validacion_autorizada', true),''); e text := coalesce(current_setting('cci.entorno', true),'');
-begin
-  if a = 'SI-CCI-DEV' and e = 'CCI-DEV' then null;
-  elsif a = 'SI-LOCAL-TEMPORAL' and e = 'LOCAL-TEMPORAL' and current_database() ~ '^cci_' and inet_server_addr() is null then null;
-  else raise exception 'NO EJECUTADO: requiere autorizacion expresa del propietario y proyecto CCI-DEV (cci.validacion_autorizada + cci.entorno), o ejecucion local temporal por socket Unix'; end if; end $$;
+-- Guarda de destino compartida (H-03): ver 00_guarda_destino.sql
+\ir 00_guarda_destino.sql
+do $v$ begin if coalesce(pg_catalog.current_setting('cci.guarda_ok', true),'') <> '1' then raise exception 'NO EJECUTADO [G-GUARDA-NO-EJECUTADA] la guarda 00_guarda_destino.sql no se ejecutó completa'; end if; end $v$;
 \ir 04_lib_clasificador.sql
 select to_regclass('public.piece_reviewer_assignments') is not null as tabla_ok \gset
 \if :tabla_ok

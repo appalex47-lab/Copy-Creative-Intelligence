@@ -51,16 +51,18 @@ lv = {"DEMOSTRADA","INFERIDA","NO ESTABLECIDA","PENDIENTE DE VALIDACIÓN FÍSICA
 chk("trazabilidad: niveles de evidencia en vocabulario permitido en cada relación", all(r[k] in lv or r[k].split(" ")[0] in {x.split(" ")[0] for x in lv} for r in tr for k in r if k.startswith("Nivel_")))
 # resultados
 def has(f, pat): return re.search(pat, txt(os.path.join(R, f)))
+def tpf(f, rx=r"^TOTAL(?:[^=\n]*)=(\d+) PASS=(\d+) FAIL=(\d+)"):   # (total, pass, fail) leído del propio resultado; las etiquetas se componen con estos valores, nunca a mano
+    m = re.search(rx, txt(os.path.join(R, f)), re.M); return tuple(int(x) for x in m.groups()) if m else (0, 0, -1)
 chk("V20 63/63", has("base_V20_pe_utf8.txt", r"TOTAL pruebas=63 PASS=63 FAIL=0"))
 chk("V20 mutaciones 14/14", has("base_V20_mutaciones_utf8.txt", r"DETECTADAS=14"))
 chk("extensión 80/80", has("ext_utf8.txt", r"TOTAL pruebas=80 PASS=80 FAIL=0"))
 chk("DG-19 63/63", has("dg19_pk_experimento.txt", r"PASS=63 FAIL=0"))
 chk("hash 16/16", has("hash_cadena_referencia.txt", r"TOTAL=16 PASS=16 FAIL=0"))
-chk("arnés 28/28", has("arnes_r1r9_autoprueba_local.txt", r"PASS=28 FAIL=0"))
+_a = tpf("arnes_r1r9_autoprueba_local.txt", r"TOTAL pruebas_arnes=(\d+) PASS=(\d+) FAIL=(\d+)"); chk("arnés %d/%d (total=aprobadas, 0 FAIL; esperado fijado en la batería)" % (_a[1], _a[0]), _a[0] == _a[1] > 0 and _a[2] == 0 and has("arnes_r1r9_autoprueba_local.txt", r"PASS=28 FAIL=0"))
 chk("escáner sql 0 FAIL", has("escaner_seguridad_sql.txt", r"TOTAL=\d+ FAIL=0"))
 chk("escáner texto 0 FAIL", has("escaner_seguridad_texto.txt", r"TOTAL=\d+ FAIL=0"))
 chk("escáner texto repetido sobre el árbol final: 0 FAIL", has("escaner_seguridad_texto_final.txt", r"TOTAL=\d+ FAIL=0"))
-chk("escáner autoprueba 26/26", has("escaner_seguridad_autoprueba.txt", r"26/26|PASS=26|TOTAL=26"))
+_e = re.search(r"TOTAL=(\d+) FAIL=(\d+)", txt(os.path.join(R, "escaner_seguridad_autoprueba.txt"))); chk("escáner autoprueba: %s muestras, %s FAIL" % _e.groups(), _e.group(2) == "0" and int(_e.group(1)) >= 37)
 chk("04 local = NO VERIFICABLE", has("04_r1r9_local_bloqueado.txt", r"NO VERIFICABLE EN ENTORNO F"))
 chk("concurrencia CC-01/CC-02 PASS", len(re.findall(r"\| PASS", txt(os.path.join(R, "concurrencia_local_utf8.txt")))) >= 2)
 # coherencia de cifras en documentos
@@ -69,7 +71,8 @@ evd = lambda *ns: [_reg(os.path.join(c, n)) for n in ns]
 evall = lambda: evd(*sorted(docs))
 for nombre in ("DICTAMEN_PREPARACION_FASE0.md", "INFORME_CIERRE_TECNICO_FASE0.md"):
     d = docs[nombre]; evd(nombre)
-    chk(nombre + ": cifras 63/63, 14/14, 80/80, 366, 354, 26, 21/21 presentes", all(x in d for x in ("63/63", "14/14", "80/80", "366", "354", "28/28")) or nombre.startswith("DICT") and all(x in d for x in ("63/63", "14/14", "80/80", "366", "354", "28/28")))
+    _req = ("63/63", "14/14", "80/80", "366", "354", "28/28")   # cifras exigidas en el texto; la etiqueta se compone con esta misma lista
+    chk(nombre + ": cifras " + ", ".join(_req) + " presentes", all(x in d for x in _req))
 evd("LEEME_CIERRE_TECNICO.md")
 chk("LEEME no afirma «sin commit» como estado actual", "sin commit, push ni merge" not in docs["LEEME_CIERRE_TECNICO.md"] or "histórico" in docs["LEEME_CIERRE_TECNICO.md"].lower())
 evall()
@@ -80,7 +83,8 @@ chk("ningún documento marca decisión como APROBADA", not any(re.search(r"Estad
 # batería final: índice completo, rc=0, salidas existentes y hashes coincidentes
 import hashlib
 B = os.path.join(R, "bateria_final"); idx = rd(os.path.join(B, "INDICE_BATERIA.csv"))
-chk("batería: 21 pasos, todos rc=0 Y estado=OK (rc=0 solo no basta: se exige el contenido esperado)", len(idx) == 21 and all(r["rc"] == "0" and r["estado"] == "OK" and r["esperado"] for r in idx), str([r["paso"] for r in idx if r["estado"] != "OK"]))
+_decl = re.findall(r"^paso\s+(\w+)\s", open(os.path.join(c, "scripts_validacion", "ct_bateria_final.sh"), encoding="utf-8").read(), re.M)   # pasos declarados en el propio script de la batería
+chk("batería: %d pasos (= pasos declarados en ct_bateria_final.sh), todos rc=0 Y estado=OK (rc=0 solo no basta: se exige el contenido esperado)" % len(idx), len(idx) == len(_decl) and [r["paso"] for r in idx] == _decl and all(r["rc"] == "0" and r["estado"] == "OK" and r["esperado"] for r in idx), str([r["paso"] for r in idx if r["estado"] != "OK"]))
 bad = []
 for r in idx:
     p = r["salida"]; p = p if os.path.exists(p) else os.path.join(c, p.split("cierre_tecnico_fase0/", 1)[-1])
@@ -89,7 +93,13 @@ chk("batería: cada salida existe y su SHA-256 coincide con el índice", not bad
 # smoke de los seis scripts
 sm = lambda f: txt(os.path.join(R, f))
 asm = sm("aserciones_smoke.txt")
-chk("smoke de los 6 scripts: aserciones de contenido 11/11, 0 FAIL (guardas, 03 defectuoso/corregido, 04 NO VERIFICABLE, 05 BLOCKED)", "TOTAL=11 PASS=11 FAIL=0" in asm)
+_s = tpf("aserciones_smoke.txt"); _nl = len(re.findall(r"^(PASS|FAIL) \|", asm, re.M))
+chk("smoke de los 6 scripts: aserciones de contenido %d/%d, %d FAIL (guardas, precondición de roles, 03 defectuoso/corregido, 04 NO VERIFICABLE, 05 BLOCKED)" % (_s[1], _s[0], _s[2]), _s[0] == _s[1] == _nl > 0 and _s[2] == 0 and "precondición: roles anon/authenticated/service_role presentes" in asm)
+_g = tpf("guarda_destino.txt"); _gt = txt(os.path.join(R, "guarda_destino.txt"))
+chk("guarda DEV/PROD (H-03): %d/%d pruebas, %d FAIL; cubre los 6 scripts, PROD, destino desconocido, identidad no verificable, configuración incompleta y manipulada" % (_g[1], _g[0], _g[2]),
+    _g[0] == _g[1] > 0 and _g[2] == 0 and all(("| %s |" % k) in _gt for k in ("GD-01", "GD-02", "GD-03a", "GD-04", "GD-05", "GD-06a", "GD-07c", "GD-07d", "GD-08", "GD-11", "GD-12")) and len(re.findall(r"^PASS \| GD-02 ", _gt, re.M)) == 6)
+_gl = open(os.path.join(c, "scripts_validacion", "cci_dev_NO_EJECUTADOS", "00_guarda_destino.sql"), encoding="utf-8").read(); _reg(os.path.join(c, "scripts_validacion", "cci_dev_NO_EJECUTADOS", "00_guarda_destino.sql"))
+chk("guarda DEV/PROD: los 6 scripts incluyen la guarda compartida y las listas versionadas siguen vacías (no se inventan identificadores)", all(re.search(r"^\\ir 00_guarda_destino\.sql$", _reg(os.path.join(c, "scripts_validacion", "cci_dev_NO_EJECUTADOS", n + ".sql")).decode(), re.M) for n in ("01_inventario_esquema_SOLO_LECTURA", "02_rls_privilegios_SOLO_LECTURA", "03_pruebas_rls_ROLLBACK", "04_trigger_r1_r9_ROLLBACK", "05_concurrencia_sesion_A", "05_concurrencia_sesion_B")) and "array[]::text[];  -- @@DEV_ALLOW@@" in _gl and "array[]::text[];  -- @@PROD_DENY@@" in _gl)
 # T-409 reproducibilidad y correspondencia
 chk("T-409: 2ª corrida idéntica byte a byte", "IDENTICO_BYTE_A_BYTE" in txt(os.path.join(B, "t409_repro_cmp.txt")))
 tc = rd(os.path.join(R, "t409_t422_correspondencia.csv"))
@@ -103,7 +113,7 @@ chk("herramientas antiguas eliminadas", not os.path.exists(os.path.join(c, "scri
 
 # cifras definitivas (fuente única generada) frente a las cifras escritas en los documentos narrativos
 CF = {x["cifra"]: x["valor"] for x in json.loads(txt(os.path.join(R, "cifras_definitivas.json")))["cifras"]}
-chk("cifras definitivas: generadas, batería 21/21 OK, decisiones aprobadas = 0, PASS_PHYSICAL = 0", CF["pasos_bateria"] == 21 == CF["pasos_bateria_OK"] and CF["decisiones_aprobadas"] == 0 and CF["escenarios_PASS_PHYSICAL"] == 0)
+chk("cifras definitivas: generadas, batería %d/%d OK, decisiones aprobadas = %d, PASS_PHYSICAL = %d" % (CF["pasos_bateria_OK"], CF["pasos_bateria"], CF["decisiones_aprobadas"], CF["escenarios_PASS_PHYSICAL"]), CF["pasos_bateria"] == len(idx) == CF["pasos_bateria_OK"] and CF["decisiones_aprobadas"] == 0 and CF["escenarios_PASS_PHYSICAL"] == 0)
 chk("cifras: limitaciones %d = vigentes+parciales+resueltas; decisiones %d; escenarios %d; fixtures %d de %d evaluaciones" % (CF["limitaciones_total"], CF["decisiones_total"], CF["escenarios_parciales_total"], CF["fixtures_distintos_22_funciones"], CF["evaluaciones_22_funciones"]),
     CF["limitaciones_total"] == CF["limitaciones_VIGENTE"] + CF["limitaciones_PARCIALMENTE_RESUELTA"] + CF["limitaciones_RESUELTA"] and CF["fixtures_distintos_22_funciones"] == 354 and CF["evaluaciones_22_funciones"] == 366 and CF["bloques_except_Exception"] == CF["except_SEGURO"] + CF["except_RIESGO_TECNICO"])
 chk("manifiesto: nº de entradas (%d) = cifra generada y = archivos sujetos a verificación" % CF["manifiesto_entradas"], len(txt(os.path.join(c, "MANIFIESTO_SHA256_CIERRE.txt")).splitlines()) == CF["manifiesto_entradas"])

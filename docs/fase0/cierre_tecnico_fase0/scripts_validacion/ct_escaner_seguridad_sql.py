@@ -14,13 +14,24 @@ def sinlit(code):
 def escanear_sql(base, raw):
     lib = base.startswith("04_lib"); code = strip(raw); low = code.lower(); nol = sinlit(code).lower(); R = []
     def c(n, ok, d=""): R.append((n, bool(ok), d))
-    if not lib:
-        c("guarda SI-CCI-DEV", "SI-CCI-DEV" in raw and "cci.validacion_autorizada" in raw)
-        c("guarda LOCAL-TEMPORAL (socket, db ^cci_)", "SI-LOCAL-TEMPORAL" in raw and "inet_server_addr" in raw and "^cci_" in raw)
+    if base.startswith("00_guarda"):   # archivo de guarda compartido (H-03): se exige identidad efectiva, listas literales, rechazo de PROD y fallo seguro
+        cs = set(re.findall(r"current_setting\('([^']+)'", raw))
+        c("guarda: identidad efectiva del servidor (pg_control_system)", "pg_control_system" in raw)
+        c("guarda: allowlist DEV y denylist PROD literales", "dev_allow" in raw and "prod_deny" in raw)
+        c("guarda: allowlist/denylist no se leen de variables de sesión (solo cci.validacion_autorizada y cci.entorno)", cs <= {"cci.validacion_autorizada", "cci.entorno"} and len(cs) == 2)
+        c("guarda: rechaza PROD aunque se declare DEV", "G-PROD-RECHAZADO" in raw and "= any(prod_deny)" in raw)
+        c("guarda: rechaza destino desconocido y falla cerrada si la identidad no es verificable", "G-DESTINO-DESCONOCIDO" in raw and "G-IDENTIDAD-NO-VERIFICABLE" in raw)
+        c("guarda: configuración incompleta o inválida rechazada", "G-CONFIG-INCOMPLETA" in raw and "G-CONFIG-INVALIDA" in raw)
+        c("guarda: modo local exige socket Unix, base ^cci_ y ausencia de roles de plataforma", "inet_server_addr" in raw and "^cci_" in raw and "supabase_admin" in raw)
+        c("guarda: anti-suplantación (search_path fijo a pg_catalog)", "set_config('search_path','pg_catalog" in raw)
+        c("guarda: mensajes sin secretos (solo huella md5 truncada)", "md5(sysid)" in raw and not re.search(r"raise (exception|notice)[^;]*,\s*sysid\b", code, flags=re.I))
+    elif not lib:
+        inc = re.search(r"^\s*\\ir\s+00_guarda_destino\.sql\s*$", code, re.M)   # índices sobre el código sin comentarios (mismo espacio que low)
         pos = [i for i in (low.find("insert into"), low.find("update "), low.find("pg_sleep"), low.find("delete from")) if i >= 0]
-        g = low.find("cci.validacion_autorizada")
-        c("guarda antes de cualquier SQL de datos", g >= 0 and (not pos or g < min(pos)))
+        c("guarda de destino incluida (\\ir 00_guarda_destino.sql)", inc)
+        c("guarda antes de cualquier SQL de datos", inc and (not pos or inc.start() < min(pos)))
         c("\\set ON_ERROR_STOP on", "\\set on_error_stop on" in raw.lower())
+        c("\\set ON_ERROR_STOP on antes de la guarda (si falta el archivo de guarda el script aborta)", inc and 0 <= low.find("\\set on_error_stop on") < inc.start())
     c("sin COMMIT", not re.search(r"(^|;)\s*commit\s*(;|$)", low, re.M))
     c("sin DDL/DCL peligroso (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA)", not re.search(r"(?<![\w_])(drop\s+(table|schema|database|role|function|trigger|policy)|truncate|alter\s+(table|role|system|database)|grant\s|revoke\s|create\s+(role|extension|database|schema))", nol))
     c("escrituras solo con ROLLBACK", (not re.search(r"\b(insert\s+into|update\s+\w|delete\s+from)", nol)) or "rollback" in low)
@@ -82,7 +93,7 @@ def imprimir(res, out):
 def autoprueba(out):
     # cada muestra debe disparar EXACTAMENTE la comprobación indicada (y el control limpio ninguna)
     J = "ey" + "J"; AT = "@"
-    G = "do $$ begin if current_setting('cci.validacion_autorizada', true) = 'SI-CCI-DEV' or ('SI-LOCAL-TEMPORAL' = 'x' and inet_server_addr() is null and current_database() ~ '^cci_') then null; end if; end $$;\n"
+    G = "\\ir 00_guarda_destino.sql\n"
     base = "\\set ON_ERROR_STOP on\n" + G
     muestras = {
      "limpia": (base + "begin read only;\nselect 1;\nrollback;\n", None),
@@ -102,7 +113,8 @@ def autoprueba(out):
      "EXECUTE concatenado": (base + "do $$ begin execute 'select ' || 1; end $$;\nrollback;\n", "SQL dinámico: sin EXECUTE"),
      "WHEN OTHERS silencioso": (base + "do $$ begin perform 1; exception when others then null; end $$;\nrollback;\n", "WHEN OTHERS solo clasifica"),
      "WHEN OTHERS => PASS": (base + "do $$ begin perform 1; exception when others then insert into r values ('PASS'); end $$;\nrollback;\n", "WHEN OTHERS nunca"),
-     "sin guarda": ("\\set ON_ERROR_STOP on\nbegin read only;\nselect 1;\nrollback;\n", "guarda SI-CCI-DEV"),
+     "sin guarda": ("\\set ON_ERROR_STOP on\nbegin read only;\nselect 1;\nrollback;\n", "guarda de destino incluida"),
+     "guarda con SQL antes": ("\\set ON_ERROR_STOP on\ninsert into t values (1);\n" + G + "rollback;\n", "guarda antes de cualquier SQL"),
      "sin ON_ERROR_STOP": (G + "begin read only;\nselect 1;\nrollback;\n", "\\set ON_ERROR_STOP on"),
     }
     L = []; fails = 0
@@ -110,6 +122,20 @@ def autoprueba(out):
         R = escanear_sql("99_muestra.sql", sql); fallos = [n for n, ok, d in R if not ok]
         ok = (not fallos) if esperado is None else any(f.startswith(esperado) for f in fallos)
         fails += (not ok); L.append("%s | SQL | %s | esperado=%s fallos_detectados=%d" % ("PASS" if ok else "FAIL", nom, esperado or "ninguno", len(fallos)))
+    GOOD = ("do $guarda$ declare a text := coalesce(current_setting('cci.validacion_autorizada', true),''); e text := coalesce(current_setting('cci.entorno', true),''); dev_allow text[] := array[]::text[]; prod_deny text[] := array[]::text[]; sysid text; fp text;\n"
+            "begin perform pg_catalog.set_config('search_path','pg_catalog, pg_temp',true); if a = '' then raise exception 'NO EJECUTADO [G-CONFIG-INCOMPLETA]'; end if; raise exception 'NO EJECUTADO [G-CONFIG-INVALIDA]';\n"
+            "begin select system_identifier::text into sysid from pg_catalog.pg_control_system(); exception when others then sysid := null; fp := sqlstate; end; if sysid is null then raise exception 'NO EJECUTADO [G-IDENTIDAD-NO-VERIFICABLE]'; end if;\n"
+            "fp := left(md5(sysid), 8); if sysid = any(prod_deny) then raise exception 'NO EJECUTADO [G-PROD-RECHAZADO] %', fp; end if; if not (sysid = any(dev_allow)) then raise exception 'NO EJECUTADO [G-DESTINO-DESCONOCIDO]'; end if;\n"
+            "if inet_server_addr() is not null or current_database() !~ '^cci_' or exists (select 1 from pg_catalog.pg_roles where rolname = 'supabase_admin') then raise exception 'x'; end if; end $guarda$;\n")
+    mg = {"limpia": (GOOD, None), "sin identidad efectiva": (GOOD.replace("pg_control_system", "otra_fuente"), "guarda: identidad efectiva"), "sin denylist": (GOOD.replace("prod_deny", "x_deny"), "guarda: allowlist DEV y denylist"),
+          "allowlist desde variable de sesión": (GOOD.replace("sysid is null", "sysid is null or current_setting('cci.dev_allow', true) <> ''") + "select current_setting('cci.dev_allow', true);\n", "guarda: allowlist/denylist no se leen"),
+          "sin rechazo de PROD": (GOOD.replace("G-PROD-RECHAZADO", "G-X"), "guarda: rechaza PROD"), "sin fallo cerrado": (GOOD.replace("G-IDENTIDAD-NO-VERIFICABLE", "G-X"), "guarda: rechaza destino desconocido"),
+          "sin validar configuración": (GOOD.replace("G-CONFIG-INVALIDA", "G-X"), "guarda: configuración incompleta"), "sin controles locales": (GOOD.replace("supabase_admin", "otro"), "guarda: modo local"),
+          "sin anti-suplantación": (GOOD.replace("set_config('search_path','pg_catalog", "set_config('otra','pg_catalog"), "guarda: anti-suplantación"), "mensaje con identificador completo": (GOOD.replace("%', fp;", "%', sysid;"), "guarda: mensajes sin secretos")}
+    for nom, (sql, esperado) in mg.items():
+        R = escanear_sql("00_guarda_destino.sql", sql); fallos = [n for n, ok, d in R if not ok]
+        ok = (not fallos) if esperado is None else any(f.startswith(esperado) for f in fallos)
+        fails += (not ok); L.append("%s | GUARDA | %s | esperado=%s fallos_detectados=%d%s" % ("PASS" if ok else "FAIL", nom, esperado or "ninguno", len(fallos), (" (" + ",".join(fallos[:2]) + ")") if (esperado is None and fallos) else ""))
     textos = {"limpio": (b"nada sensible\n", None), "JWT": (("token " + J + "hbGciOiJIUzI1NiIsInR5cCI6.abcdefghijk1234\n").encode(), "sin JWT"), "URI con credenciales": (("postgresql:" + "//usr:pass" + AT + "host/db\n").encode(), "sin cadenas"),
               "correo": (("contacto juan" + AT + "empresa.com\n").encode(), "sin correos"), "teléfono": (("llamar 55" + " 1234" + " 5678\n").encode(), "sin teléfonos"), "project ref": (("abcdefghijklmnopqrst" + ".supabase" + ".co\n").encode(), "sin refs")}
     for nom, (b, esperado) in textos.items():

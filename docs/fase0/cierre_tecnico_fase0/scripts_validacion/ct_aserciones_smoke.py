@@ -7,6 +7,7 @@ t = lambda f: open(os.path.join(R, f), encoding="utf-8").read()
 def a(n, ok): res.append(("PASS" if ok else "FAIL", n))
 g = t("smoke_guardas.txt"); a("guardas: los 6 scripts abortan sin autorización (6 líneas 'abortado: SI')", len(re.findall(r"^GUARDA 0[1-5]_\w+ sin autorizacion -> abortado: SI", g, re.M)) == 6)
 a("guarda: base 'postgres' (no cci_) en modo local aborta", "base 'postgres' (no cci_) con modo local -> abortado: SI" in g)
+a("precondición: roles anon/authenticated/service_role presentes (ENTORNO.txt) — sin ellos el inventario 02 no es comparable", "roles_stand_in_presentes=3" in open(os.path.join(R, "bateria_final", "ENTORNO.txt"), encoding="utf-8").read())
 c = t("smoke_codigos.txt"); a("códigos de salida de las 6 ejecuciones = 0 (necesario, no suficiente)", all(("%s rc=0" % k) in c for k in ("01", "02", "03-defectuosa", "03-corregida", "04", "05")))
 for f in ("smoke_01_inventario.txt", "smoke_02_rls_inventario.txt"):
     s = t(f); a("%s: salida no vacía (>100 líneas) y sin ERROR" % f, len(s.splitlines()) > 100 and not re.search(r"(?i)\berror\b", s))

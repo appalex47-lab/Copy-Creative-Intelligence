@@ -18,12 +18,9 @@
 --   code_r1..code_r9, code_rev = contrato de error esperado 'SQLSTATE[:prefijo del mensaje]'. POR DEFECTO VACÍOS: la especificación NO define SQLSTATE ni código de dominio
 --                 para R1–R9 (BRECHA BRECHA-R1R9-01). Con el contrato vacío, un rechazo observado sólo puede ser PARTIAL, nunca PASS.
 \set ON_ERROR_STOP on
--- Guarda (idéntica en los 6 scripts). Nota: ninguna guarda puede probar que la base sea CCI-DEV y no CCI-PROD; la identificación del proyecto la hace el propietario.
-do $$ declare a text := coalesce(current_setting('cci.validacion_autorizada', true),''); e text := coalesce(current_setting('cci.entorno', true),'');
-begin
-  if a = 'SI-CCI-DEV' and e = 'CCI-DEV' then null;
-  elsif a = 'SI-LOCAL-TEMPORAL' and e = 'LOCAL-TEMPORAL' and current_database() ~ '^cci_' and inet_server_addr() is null then null;
-  else raise exception 'NO EJECUTADO: requiere autorizacion expresa del propietario y proyecto CCI-DEV (cci.validacion_autorizada + cci.entorno), o ejecucion local temporal por socket Unix'; end if; end $$;
+-- Guarda de destino compartida (H-03): identidad efectiva del servidor + allowlist/denylist literales; ver 00_guarda_destino.sql (falla de forma segura).
+\ir 00_guarda_destino.sql
+do $v$ begin if coalesce(pg_catalog.current_setting('cci.guarda_ok', true),'') <> '1' then raise exception 'NO EJECUTADO [G-GUARDA-NO-EJECUTADA] la guarda 00_guarda_destino.sql no se ejecutó completa'; end if; end $v$;
 \if :{?fn_regproc}
 \else
   \set fn_regproc 'public.resolve_attribution_discard(uuid,text,text)'

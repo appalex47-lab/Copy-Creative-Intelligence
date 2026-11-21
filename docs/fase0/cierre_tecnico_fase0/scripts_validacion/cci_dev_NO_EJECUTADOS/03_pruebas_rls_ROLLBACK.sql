@@ -7,12 +7,9 @@
 -- Variables (psql -v): org_a, org_b, uid_a (miembro de org_a), uid_b (miembro de org_b), uid_x (sin membresía). Datos de PRUEBA preexistentes (no se crean aquí).
 -- ====================================================================================================
 \set ON_ERROR_STOP on
--- Guarda (idéntica en los 6 scripts)
-do $$ declare a text := coalesce(current_setting('cci.validacion_autorizada', true),''); e text := coalesce(current_setting('cci.entorno', true),'');
-begin
-  if a = 'SI-CCI-DEV' and e = 'CCI-DEV' then null;
-  elsif a = 'SI-LOCAL-TEMPORAL' and e = 'LOCAL-TEMPORAL' and current_database() ~ '^cci_' and inet_server_addr() is null then null;
-  else raise exception 'NO EJECUTADO: requiere autorizacion expresa del propietario y proyecto CCI-DEV (cci.validacion_autorizada + cci.entorno), o ejecucion local temporal por socket Unix'; end if; end $$;
+-- Guarda de destino compartida (H-03): ver 00_guarda_destino.sql
+\ir 00_guarda_destino.sql
+do $v$ begin if coalesce(pg_catalog.current_setting('cci.guarda_ok', true),'') <> '1' then raise exception 'NO EJECUTADO [G-GUARDA-NO-EJECUTADA] la guarda 00_guarda_destino.sql no se ejecutó completa'; end if; end $v$;
 \ir 04_lib_clasificador.sql
 select set_config('cci.org_a', :'org_a', false), set_config('cci.org_b', :'org_b', false), set_config('cci.uid_a', :'uid_a', false), set_config('cci.uid_x', :'uid_x', false) \gset
 create temp table pre(id text, descripcion text, estado text, detalle text);

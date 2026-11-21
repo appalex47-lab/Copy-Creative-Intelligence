@@ -6,12 +6,9 @@
 -- Tipo: SOLO LECTURA (catálogos del sistema). Transacción READ ONLY; no crea, modifica ni borra nada. Es un INVENTARIO: no emite PASS/FAIL; sus salidas se comparan con el diseño (INV-01..INV-10).
 -- ====================================================================================================
 \set ON_ERROR_STOP on
--- Guarda (idéntica en los 6 scripts). Nota: ninguna guarda puede probar que la base sea CCI-DEV y no CCI-PROD; la identificación del proyecto la hace el propietario.
-do $$ declare a text := coalesce(current_setting('cci.validacion_autorizada', true),''); e text := coalesce(current_setting('cci.entorno', true),'');
-begin
-  if a = 'SI-CCI-DEV' and e = 'CCI-DEV' then null;
-  elsif a = 'SI-LOCAL-TEMPORAL' and e = 'LOCAL-TEMPORAL' and current_database() ~ '^cci_' and inet_server_addr() is null then null;
-  else raise exception 'NO EJECUTADO: requiere autorizacion expresa del propietario y proyecto CCI-DEV (cci.validacion_autorizada + cci.entorno), o ejecucion local temporal por socket Unix'; end if; end $$;
+-- Guarda de destino compartida (H-03): identidad efectiva del servidor + allowlist/denylist literales; ver 00_guarda_destino.sql (falla de forma segura).
+\ir 00_guarda_destino.sql
+do $v$ begin if coalesce(pg_catalog.current_setting('cci.guarda_ok', true),'') <> '1' then raise exception 'NO EJECUTADO [G-GUARDA-NO-EJECUTADA] la guarda 00_guarda_destino.sql no se ejecutó completa'; end if; end $v$;
 begin read only;
 -- INV-01 tablas del esquema public
 select c.relname as tabla, c.relkind, c.relrowsecurity as rls_activa, c.relforcerowsecurity as rls_forzada from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind in ('r','p') order by 1;
