@@ -1,4 +1,4 @@
-psql:/tmp/cci.XVvSSu/g.sql:65: NOTICE:  GUARDA OK modo=SI-LOCAL-TEMPORAL huella=9cebeb7c
+psql:/tmp/cci.tz7dH0/g.sql:82: NOTICE:  GUARDA OK modo=SI-LOCAL-TEMPORAL huella=c6b00387
 DO
 CREATE TABLE
 INSERT 0 1
@@ -13,7 +13,7 @@ SET
 SELECT 1
  espera_s | o_clase | o_sqlstate | veredicto_propio | pid_b | a_pid_observado 
 ----------+---------+------------+------------------+-------+-----------------
-     3.51 | OK      |            | ESPERO           | 15456 | 15443
+     3.50 | OK      |            | ESPERO           | 24603 | 24591
 (1 row)
 
 ROLLBACK

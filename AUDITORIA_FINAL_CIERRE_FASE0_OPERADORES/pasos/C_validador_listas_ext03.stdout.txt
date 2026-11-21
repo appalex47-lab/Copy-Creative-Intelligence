@@ -1,0 +1,35 @@
+PASS EXT03-01 listas válidas (valores ficticios de prueba) -> OK dev_allow=1 prod_deny=1
+PASS EXT03-02 ambas listas vacías cuando se exige no vacías -> RECHAZADO [L-DEV-VACIA] dev_allow vacía: el propietario debe aportar a
+PASS EXT03-03 prod_deny vacía cuando se exige -> RECHAZADO [L-PROD-VACIA] prod_deny vacía: el propietario debe aportar 
+PASS EXT03-04 dev_allow vacía con prod_deny llena -> RECHAZADO [L-DEV-VACIA] dev_allow vacía: el propietario debe aportar a
+PASS EXT03-05 listas vacías sin exigir no-vacías: formato válido (informativo) -> OK dev_allow=0 prod_deny=0
+PASS EXT03-06 dev_allow sin separador '|' -> RECHAZADO [L-DEV-FORMATO] '7710738743337034195'
+PASS EXT03-07 dev_allow con dos '|' -> RECHAZADO [L-DEV-FORMATO] '1|a|b'
+PASS EXT03-08 system_identifier no numérico -> RECHAZADO [L-DEV-SYSID] 'abc|cci_dev'
+PASS EXT03-09 system_identifier con ceros a la izquierda -> RECHAZADO [L-DEV-SYSID] '0123|cci_dev'
+PASS EXT03-10 system_identifier fuera de uint64 -> RECHAZADO [L-DEV-SYSID] '18446744073709551616|cci_dev'
+PASS EXT03-11 identificador de relleno (todos los dígitos iguales) -> RECHAZADO [L-DEV-SYSID-MARCADOR] identificador de relleno: 1111111111|
+PASS EXT03-12 base con inyección SQL (comilla) -> RECHAZADO [L-DEV-BASE] "12345|x'); drop table t;--"
+PASS EXT03-13 base vacía -> RECHAZADO [L-DEV-BASE] '12345|'
+PASS EXT03-14 base marcador 'TBD' -> RECHAZADO [L-DEV-BASE-MARCADOR] 12345|TBD
+PASS EXT03-15 entrada duplicada en dev_allow -> RECHAZADO [L-DEV-DUPLICADA] 12345|a
+PASS EXT03-16 entrada duplicada en prod_deny -> RECHAZADO [L-PROD-DUPLICADA] 67890
+PASS EXT03-17 mismo clúster en DEV y en prod_deny (solapamiento) -> RECHAZADO [L-SOLAPAMIENTO] un clúster no puede estar a la vez en CCI-D
+PASS EXT03-18 prod_deny con formato 'id|base' -> RECHAZADO [L-PROD-FORMATO] '67890|b'
+PASS EXT03-19 entrada que no es cadena (número) -> RECHAZADO [L-DEV-FORMATO] 12345
+PASS EXT03-20 claves extra en el archivo -> RECHAZADO [L-ESQUEMA] claves exactas: schema, dev_allow, prod_deny
+PASS EXT03-21 schema incorrecto -> RECHAZADO [L-ESQUEMA] claves exactas: schema, dev_allow, prod_deny
+PASS EXT03-22 JSON con clave duplicada -> RECHAZADO [L-CLAVE-DUPLICADA] dev_allow
+PASS EXT03-23 JSON inválido -> RECHAZADO [L-JSON] JSONDecodeError('Expecting property name enclosed i
+PASS EXT03-24 archivo ausente -> RECHAZADO [L-ARCHIVO-AUSENTE] /tmp/lst.acwo2stz/no_existe.json
+PASS EXT03-25 listas no son arreglos -> RECHAZADO [L-TIPO] las listas deben ser arreglos
+PASS EXT03-26 demasiadas entradas (65) -> RECHAZADO [L-DEMASIADAS] máximo 64 entradas
+PASS EXT03-27 guarda REAL actual (listas vacías) con exigencia de no vacías: debe RECHAZAR (EXT-03 sigue bloqueado) -> RECHAZADO [L-DEV-VACIA] dev_allow vacía: el propietario debe aportar a
+PASS EXT03-28 guarda real: estructura reconocida (vacía sin exigencia) -> OK dev_allow=0 prod_deny=0
+PASS EXT03-29 guarda con la línea de allowlist eliminada -> RECHAZADO [L-GUARDA-ESTRUCTURA] no se encontró exactamente una línea d
+PASS EXT03-30 guarda con literal no estático (concatenación) -> RECHAZADO [L-GUARDA-LITERAL] contenido no literal en DEV_ALLOW
+PASS EXT03-31 guarda con listas válidas inyectadas (control positivo) -> OK dev_allow=1 prod_deny=1
+PASS EXT03-32 guarda con solapamiento inyectado -> RECHAZADO [L-SOLAPAMIENTO] un clúster no puede estar a la vez en CCI-D
+PASS EXT03-33
+PASS EXT03-34
+TOTAL=34 PASS=34 FAIL=0

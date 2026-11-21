@@ -1,0 +1,8 @@
+PASS EXT02-01 sin CCI_EXT02_CONFIRMA_DEV la sonda se niega a conectar
+PASS EXT02-02 sin --local ni proyecto esperado se niega
+PASS EXT02-03 host que no contiene la referencia del proyecto esperado: se niega (antes de conectar)
+PASS EXT02-04 host con 'prod': se niega
+PASS EXT02-05 contra clúster local: todos los checks PASS y etiquetado SIMULADO_LOCAL (no es evidencia de Supabase)
+PASS EXT02-06 destino inalcanzable: nunca PASS
+PASS EXT02-07 la sonda no deja objetos tras ejecutarse
+TOTAL=7 PASS=7 FAIL=0

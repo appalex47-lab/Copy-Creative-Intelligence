@@ -1,0 +1,41 @@
+PASS | A-01 | VULN secuestra=[] | NEW ejecutados=0 rechazos=['G-OPERADOR-AJENO-EN-SEARCH-PATH'] | operadores con la MISMA firma que los de pg_catalog creados en public
+PASS | B-01 | VULN secuestra=['01', '02', '04'] | NEW ejecutados=0 rechazos=['G-OPERADOR-AJENO-EN-SEARCH-PATH'] | = (oid, regnamespace) y variantes con tipos reg* en public
+PASS | B-02 | VULN secuestra=['01', '02', '03'] | NEW ejecutados=0 rechazos=['G-OPERADOR-AJENO-EN-SEARCH-PATH'] | BARRIDO: 8 operadores × 16×16 tipos en public (2048 firmas por base)
+PASS | C-01 | VULN secuestra=['04'] | NEW ejecutados=0 rechazos=['G-OPERADOR-AJENO-EN-SEARCH-PATH'] | operadores cuyas firmas sólo coinciden tras conversiones implícitas de los opera
+PASS | D-01 | VULN secuestra=[] | NEW ejecutados=0 rechazos=['G-OPERADOR-AJENO-EN-SEARCH-PATH'] | tipo compuesto y dominio en public con operadores propios + casts implícitos de 
+PASS | E-01 | VULN secuestra=['01', '02'] | NEW ejecutados=0 rechazos=['G-OPERADOR-AJENO-EN-SEARCH-PATH'] | = (oid, regnamespace) que ejecuta una función auxiliar con efecto lateral y devu
+PASS | K-01 | VULN secuestra=['01', '02'] | NEW ejecutados=0 rechazos=['G-OPERADOR-AJENO-EN-SEARCH-PATH'] | extensión HOSTIL cci_evilext instalada en public con = (oid,regnamespace): el or
+PASS | K-02 | guarda_ok=[True, True, True, True, True, True]
+PASS | J-01/NEW | resuelto=pg_catalog(objeto fijado: sin pg_depend) sp=pg_catalog, public, pg_temp rechazo=
+PASS | J-02/VULN | resuelto=public.=(oid,regnamespace) sp=pg_catalog, public, pg_temp rechazo=
+PASS | J-02/NEW | resuelto= sp= rechazo=G-OPERADOR-AJENO-EN-SEARCH-PATH
+PASS | F-01/VULN | resuelto=public.=(oid,regnamespace) sp=pg_catalog, public, pg_temp rechazo=
+PASS | F-01/NEW | resuelto=public.=(oid,regnamespace) sp=pg_catalog, public, pg_temp rechazo=
+PASS | G-01/VULN | resuelto=pg_catalog(objeto fijado: sin pg_depend) sp=pg_catalog, public, pg_temp rechazo=
+PASS | G-01/NEW | resuelto=pg_catalog(objeto fijado: sin pg_depend) sp=pg_catalog, public, pg_temp rechazo=
+PASS | H-01/NOPIN | resuelto=evil.=(oid,regnamespace) sp=evil,pg_catalog,public rechazo=
+PASS | H-01/VULN | resuelto= sp= rechazo=G-SEARCH-PATH-NO-SEGURO
+PASS | H-01/NEW | resuelto= sp= rechazo=G-SEARCH-PATH-NO-SEGURO
+PASS | H-02/NOPIN | resuelto=evil.=(oid,regnamespace) sp=evil, pg_catalog, public rechazo=
+PASS | H-02/NEW | resuelto= sp= rechazo=G-SEARCH-PATH-NO-SEGURO
+PASS | H-03/NOPIN | resuelto=evil.=(oid,regnamespace) sp=evil, pg_catalog, public rechazo=
+PASS | H-03/NEW | resuelto= sp= rechazo=G-SEARCH-PATH-NO-SEGURO
+PASS | H-04/NEW | resuelto=evil.=(oid,regnamespace) sp=evil, public rechazo=
+PASS | H-04b/NEW | resuelto=evil.=(oid,regnamespace) sp=evil, public rechazo=
+PASS | H-05 | sin hallazgos
+PASS | P-00 | NEW=GUARDA OK | VULN acepta=True | línea base: operador legítimo (miembro de cci_operador, sin CREATE en 
+PASS | P-01 | NEW=G-OPERADOR-CREATE-EN-PUBLIC | VULN acepta=True | CREATE en public por concesión directa
+PASS | P-02 | NEW=G-OPERADOR-CREATE-EN-PUBLIC | VULN acepta=True | CREATE en public concedido a PUBLIC (efectivo para todos los roles)
+PASS | P-03 | NEW=G-OPERADOR-CREATE-EN-PUBLIC | VULN acepta=True | CREATE en public HEREDADO por pertenencia (INHERIT) a un grupo
+PASS | P-04 | NEW=G-PUBLIC-CREATE-AJENO | VULN acepta=True | grupo con CREATE en public con el operador NOINHERIT (podría recuperar
+PASS | P-05 | NEW=G-OPERADOR-MEMBRESIA-PRIVILEGIADA | VULN acepta=True | operador NOINHERIT miembro de un rol SUPERUSER (recupera todo con SET 
+PASS | P-06 | NEW=G-OPERADOR-MEMBRESIA-PRIVILEGIADA | VULN acepta=True | miembro (heredando) de un rol CREATEROLE: efectivo e indirecto
+PASS | P-07 | NEW=G-OPERADOR-CREATE-EN-BASE | VULN acepta=True | CREATE sobre la BASE (permite crear esquemas auxiliares, p. ej. uno co
+PASS | P-08 | NEW=G-OPERADOR-CREATE-EN-PUBLIC | VULN acepta=True | operador PROPIETARIO del esquema public (CREATE implícito por propieda
+PASS | P-09 | NEW=G-PUBLIC-CREATE-AJENO | VULN acepta=True | OTRO rol (no el operador) con CREATE en public puede plantar operadore
+PASS | P-10 | NEW=GUARDA OK | VULN acepta=True | ALTER DEFAULT PRIVILEGES sobre tablas/funciones de public NO confiere 
+PASS | P-11 | creó=True VULN resolvió=public.=(oid,regnamespace) NEW=G-OPERADOR-CREATE-EN-PUBLIC
+PASS | P-12 | permission denied
+PASS | P-13
+EQUIVALENCIA VULN==404f5adc: True
+TOTAL=39 PASS=39 FAIL=0

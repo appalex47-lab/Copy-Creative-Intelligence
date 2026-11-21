@@ -3,7 +3,7 @@
   "id": "AG-00",
   "objetivo": "los clones físicos son reales: mismo system_identifier que su origen y contenido de la BD copiado (incluido el token guardado en ella)",
   "esperado": "sysid(clon)=sysid(origen) y token presente en el clon",
-  "observado": "dev=7710757365314499301 clon_dev=7710757365314499301 prod=7710757369334715143 clon_prod=7710757369334715143 token_en_clon=True",
+  "observado": "dev=7710769857702626976 clon_dev=7710769857702626976 prod=7710769860943419074 clon_prod=7710769860943419074 token_en_clon=True",
   "estado": "PASS",
   "nota": ""
  },
@@ -83,7 +83,7 @@
   "id": "AG-10",
   "objetivo": "identidad ausente (directorio vacío)",
   "esperado": "I-AUSENTE",
-  "observado": "rc=3 RECHAZADO [I-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T223416Z-67eb098f/ag18/id_vacio/token.j",
+  "observado": "rc=3 RECHAZADO [I-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T232214Z-422150a8/ag18/id_vacio/token.j",
   "estado": "PASS",
   "nota": ""
  },
@@ -115,7 +115,7 @@
   "id": "AG-14",
   "objetivo": "clave pública ausente",
   "esperado": "I-CLAVE-AUSENTE",
-  "observado": "rc=3 RECHAZADO [I-CLAVE-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T223416Z-67eb098f/ag18/no.pub",
+  "observado": "rc=3 RECHAZADO [I-CLAVE-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T232214Z-422150a8/ag18/no.pub",
   "estado": "PASS",
   "nota": ""
  },
@@ -155,7 +155,7 @@
   "id": "AG-19",
   "objetivo": "política sin firma",
   "esperado": "I-POLITICA-AUSENTE",
-  "observado": "rc=3 RECHAZADO [I-POLITICA-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T223416Z-67eb098f/ag18/id_psig",
+  "observado": "rc=3 RECHAZADO [I-POLITICA-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T232214Z-422150a8/ag18/id_psig",
   "estado": "PASS",
   "nota": ""
  },
@@ -315,7 +315,7 @@
   "id": "AG-39",
   "objetivo": "token.json como enlace simbólico",
   "esperado": "I-AUSENTE",
-  "observado": "rc=3 RECHAZADO [I-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T223416Z-67eb098f/ag18/id_lnk/token.jso",
+  "observado": "rc=3 RECHAZADO [I-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T232214Z-422150a8/ag18/id_lnk/token.jso",
   "estado": "PASS",
   "nota": ""
  },

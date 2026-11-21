@@ -7,7 +7,7 @@
   "esperado": "distintos",
   "observado": "distintos",
   "estado": "PASS",
-  "justificacion": "huella md5 DEV=9cebeb7c PROD=17d1d4de",
+  "justificacion": "huella md5 DEV=c6b00387 PROD=dd0cb103",
   "evidencia": ""
  },
  {

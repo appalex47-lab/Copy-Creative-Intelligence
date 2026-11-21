@@ -1,12 +1,12 @@
 {
  "instalacion_evil_funciones": {
   "cci_ap_shim": {
-   "funciones_ok": 74,
+   "funciones_ok": 86,
    "fallidas": 0,
    "sin_homonimo": []
   },
   "cci_ap_conc": {
-   "funciones_ok": 74,
+   "funciones_ok": 86,
    "fallidas": 0,
    "sin_homonimo": []
   }
@@ -21,12 +21,12 @@
  },
  "instalacion_public": {
   "cci_ap_shim": {
-   "funciones_ok": 74,
+   "funciones_ok": 86,
    "fallidas": 0,
    "operadores": 9
   },
   "cci_ap_conc": {
-   "funciones_ok": 74,
+   "funciones_ok": 86,
    "fallidas": 0,
    "operadores": 9
   }
@@ -820,72 +820,72 @@
    "escenario": "homónimos de funciones y operadores creados en 'public' (permitido por el chequeo); search_path por defecto",
    "arbol": "corregido",
    "script": "01_inventario_esquema_SOLO_LECTURA",
-   "rc": 0,
-   "guarda_ok": true,
-   "rechazo": "",
+   "rc": 3,
+   "guarda_ok": false,
+   "rechazo": "G-OPERADOR-AJENO-EN-SEARCH-PATH",
    "hijack_funcion": false,
    "hijack_operador": false,
-   "salida_error": ""
+   "salida_error": "ERROR:  NO EJECUTADO [G-OPERADOR-AJENO-EN-SEARCH-PATH]: existen 8 operador(es) definidos en publ"
   },
   {
    "id": "SPD4-02",
    "escenario": "homónimos de funciones y operadores creados en 'public' (permitido por el chequeo); search_path por defecto",
    "arbol": "corregido",
    "script": "02_rls_privilegios_SOLO_LECTURA",
-   "rc": 0,
-   "guarda_ok": true,
-   "rechazo": "",
+   "rc": 3,
+   "guarda_ok": false,
+   "rechazo": "G-OPERADOR-AJENO-EN-SEARCH-PATH",
    "hijack_funcion": false,
    "hijack_operador": false,
-   "salida_error": ""
+   "salida_error": "ERROR:  NO EJECUTADO [G-OPERADOR-AJENO-EN-SEARCH-PATH]: existen 8 operador(es) definidos en publ"
   },
   {
    "id": "SPD4-03",
    "escenario": "homónimos de funciones y operadores creados en 'public' (permitido por el chequeo); search_path por defecto",
    "arbol": "corregido",
    "script": "03_pruebas_rls_ROLLBACK",
-   "rc": 0,
-   "guarda_ok": true,
-   "rechazo": "",
+   "rc": 3,
+   "guarda_ok": false,
+   "rechazo": "G-OPERADOR-AJENO-EN-SEARCH-PATH",
    "hijack_funcion": false,
    "hijack_operador": false,
-   "salida_error": ""
+   "salida_error": "ERROR:  NO EJECUTADO [G-OPERADOR-AJENO-EN-SEARCH-PATH]: existen 8 operador(es) definidos en publ"
   },
   {
    "id": "SPD4-04",
    "escenario": "homónimos de funciones y operadores creados en 'public' (permitido por el chequeo); search_path por defecto",
    "arbol": "corregido",
    "script": "04_trigger_r1_r9_ROLLBACK",
-   "rc": 0,
-   "guarda_ok": true,
-   "rechazo": "",
+   "rc": 3,
+   "guarda_ok": false,
+   "rechazo": "G-OPERADOR-AJENO-EN-SEARCH-PATH",
    "hijack_funcion": false,
    "hijack_operador": false,
-   "salida_error": ""
+   "salida_error": "ERROR:  NO EJECUTADO [G-OPERADOR-AJENO-EN-SEARCH-PATH]: existen 8 operador(es) definidos en publ"
   },
   {
    "id": "SPD4-05A",
    "escenario": "homónimos de funciones y operadores creados en 'public' (permitido por el chequeo); search_path por defecto",
    "arbol": "corregido",
    "script": "05_concurrencia_sesion_A",
-   "rc": 0,
-   "guarda_ok": true,
-   "rechazo": "",
+   "rc": 3,
+   "guarda_ok": false,
+   "rechazo": "G-OPERADOR-AJENO-EN-SEARCH-PATH",
    "hijack_funcion": false,
    "hijack_operador": false,
-   "salida_error": ""
+   "salida_error": "ERROR:  NO EJECUTADO [G-OPERADOR-AJENO-EN-SEARCH-PATH]: existen 8 operador(es) definidos en publ"
   },
   {
    "id": "SPD4-05B",
    "escenario": "homónimos de funciones y operadores creados en 'public' (permitido por el chequeo); search_path por defecto",
    "arbol": "corregido",
    "script": "05_concurrencia_sesion_B",
-   "rc": 0,
-   "guarda_ok": true,
-   "rechazo": "",
+   "rc": 3,
+   "guarda_ok": false,
+   "rechazo": "G-OPERADOR-AJENO-EN-SEARCH-PATH",
    "hijack_funcion": false,
    "hijack_operador": false,
-   "salida_error": ""
+   "salida_error": "ERROR:  NO EJECUTADO [G-OPERADOR-AJENO-EN-SEARCH-PATH]: existen 8 operador(es) definidos en publ"
   },
   {
    "id": "SPD5-e0b1d81-01",
@@ -1042,7 +1042,9 @@
   "current_setting",
   "format",
   "gen_random_uuid",
+  "has_database_privilege",
   "has_function_privilege",
+  "has_schema_privilege",
   "has_table_privilege",
   "inet_server_addr",
   "json_build_object",

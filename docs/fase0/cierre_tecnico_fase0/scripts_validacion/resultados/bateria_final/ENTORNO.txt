@@ -1,9 +1,9 @@
-ejecucion_id=CCI-RUN-20261121T223416Z-67eb098f
-inicio_utc=2026-11-21T22:34:18Z
-HEAD=cd8689b55e2f7c06b2756596d0f449bb2c2ce5b6
-clusteres={"dev": {"sysid": "7710756749892870120", "port": 34233}, "prod": {"sysid": "7710756753390919690", "port": 48841}}
+ejecucion_id=CCI-RUN-20261121T232214Z-422150a8
+inicio_utc=2026-11-21T23:22:16Z
+HEAD=2c516414ebc3271b166a2ebc1d1079618002883e
+clusteres={"dev": {"sysid": "7710769110742166155", "port": 38359}, "prod": {"sysid": "7710769113574951597", "port": 40561}}
 zona=CST
 roles_stand_in_presentes=3
 roles_stand_in_presentes=3
-fin_utc=2026-11-21T22:39:35Z
-ejecucion_id=CCI-RUN-20261121T223416Z-67eb098f
+fin_utc=2026-11-21T23:27:47Z
+ejecucion_id=CCI-RUN-20261121T232214Z-422150a8

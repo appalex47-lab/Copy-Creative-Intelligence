@@ -1,0 +1,156 @@
+[
+ {
+  "id": "ID-00",
+  "riesgo": "medio",
+  "precondicion": "dos clústeres reales distintos",
+  "ataque": "comparar system_identifier",
+  "esperado": "distintos",
+  "observado": "distintos",
+  "estado": "PASS",
+  "justificacion": "huella md5 DEV=c6b00387 PROD=dd0cb103",
+  "evidencia": ""
+ },
+ {
+  "id": "ID-01",
+  "riesgo": "control",
+  "precondicion": "DEV registrado en allowlist; PROD en denylist",
+  "ataque": "script 01 contra DEV",
+  "esperado": "GUARDA OK",
+  "observado": "rc=0 GUARDA OK",
+  "estado": "PASS",
+  "justificacion": "",
+  "evidencia": ""
+ },
+ {
+  "id": "ID-02",
+  "riesgo": "alto",
+  "precondicion": "mismas listas; variables DEV declaradas contra el clúster PROD",
+  "ataque": "script 01 contra PROD declarando DEV",
+  "esperado": "[G-PROD-RECHAZADO]",
+  "observado": "rc=3 G-PROD-RECHAZADO",
+  "estado": "PASS",
+  "justificacion": "",
+  "evidencia": ""
+ },
+ {
+  "id": "ID-03",
+  "riesgo": "alto",
+  "precondicion": "PROD NO está en la denylist (omisión del propietario), allowlist sólo con DEV; base homónima cci_gdev",
+  "ataque": "script 01 contra PROD con base del mismo nombre",
+  "esperado": "[G-DESTINO-DESCONOCIDO] (identidad por system_identifier+base)",
+  "observado": "rc=3 G-DESTINO-DESCONOCIDO",
+  "estado": "PASS",
+  "justificacion": "la allowlist por sí sola ya rechaza cualquier otro clúster",
+  "evidencia": ""
+ },
+ {
+  "id": "ID-04",
+  "riesgo": "alto",
+  "precondicion": "clon físico (pg_basebackup) de DEV arrancado en otro socket/puerto",
+  "ataque": "leer system_identifier del clon",
+  "esperado": "IGUAL al de DEV (la identidad técnica se hereda)",
+  "observado": "igual",
+  "estado": "PASS",
+  "justificacion": "comprueba la premisa de AG-18: un clon físico NO cambia system_identifier",
+  "evidencia": ""
+ },
+ {
+  "id": "ID-05",
+  "riesgo": "alto (estructural)",
+  "precondicion": "el clon físico de DEV se usa como si fuera DEV; allowlist = DEV",
+  "ataque": "ejecutar el script 01 contra el CLON con variables DEV (AG-18)",
+  "esperado": "el clon es indistinguible: la guarda lo ACEPTA (no es una aprobación; límite estructural)",
+  "observado": "rc=0 GUARDA OK (aceptado)",
+  "estado": "PARTIAL",
+  "justificacion": "LIMITACIÓN ESTRUCTURAL AG-18: system_identifier+base no distinguen un clon físico/restauración de su origen",
+  "evidencia": ""
+ },
+ {
+  "id": "ID-06",
+  "riesgo": "medio",
+  "precondicion": "DEV clonado de PROD: el propietario pone el sysid compartido en la denylist",
+  "ataque": "ejecutar contra el 'DEV' y contra el clon",
+  "esperado": "ambos RECHAZADOS (falla cerrada) pero se bloquea también el DEV legítimo",
+  "observado": "DEV: G-PROD-RECHAZADO; clon: G-PROD-RECHAZADO",
+  "estado": "PARTIAL",
+  "justificacion": "seguro pero inservible: sin una identidad externa no se pueden distinguir",
+  "evidencia": ""
+ },
+ {
+  "id": "ID-07",
+  "riesgo": "control",
+  "precondicion": "CCI_DESTINOS_APROBADOS = socket de DEV (externo) pero SIN registro de auditoría ni identidad firmada (denegación por defecto; la cadena completa positiva se prueba en ct_pruebas_ext01_y_e2e_dev.py E2E-01)",
+  "ataque": "ejecutor verificado contra DEV sin auditoría",
+  "esperado": "[V-AUDITORIA-NO-CONFIGURADA]",
+  "observado": "rc=3 V-AUDITORIA-NO-CONFIGURADA",
+  "estado": "PASS",
+  "justificacion": "",
+  "evidencia": ""
+ },
+ {
+  "id": "ID-08",
+  "riesgo": "alto",
+  "precondicion": "mismo clon físico indistinguible por system_identifier",
+  "ataque": "ejecutor verificado contra el CLON con la lista externa que sólo aprueba el endpoint de DEV",
+  "esperado": "[V-DESTINO-NO-APROBADO]",
+  "observado": "rc=3 V-DESTINO-NO-APROBADO",
+  "estado": "PASS",
+  "justificacion": "la identidad EXTERNA (endpoint aprobado por el propietario) sí distingue el clon, con límites: alias DNS/poolers y restauraciones en el mismo endpoint (ver ID-09)",
+  "evidencia": ""
+ },
+ {
+  "id": "ID-09",
+  "riesgo": "alto (estructural)",
+  "precondicion": "sin CCI_DESTINOS_APROBADOS (modo DEV): el ejecutor lo exige",
+  "ataque": "ejecutor contra el clon sin lista externa",
+  "esperado": "[V-DESTINO-NO-CONFIGURADO]",
+  "observado": "rc=3 V-DESTINO-NO-CONFIGURADO",
+  "estado": "PASS",
+  "justificacion": "si el propietario no configura la lista externa, el modo DEV no opera por el ejecutor",
+  "evidencia": ""
+ },
+ {
+  "id": "ID-10",
+  "riesgo": "alto (estructural)",
+  "precondicion": "el propietario aprueba por error el endpoint del clon",
+  "ataque": "ejecutor contra el clon con endpoint aprobado",
+  "esperado": "pasa (error de configuración del propietario: no es defensa)",
+  "observado": "rc=3 V-AUDITORIA-NO-CONFIGURADA",
+  "estado": "PARTIAL",
+  "justificacion": "la protección es tan buena como la lista externa; una restauración sobre el MISMO endpoint no se distingue",
+  "evidencia": ""
+ },
+ {
+  "id": "ID-11",
+  "riesgo": "medio",
+  "precondicion": "clon LÓGICO de DEV restaurado en el clúster PROD",
+  "ataque": "script 01 contra el clúster PROD con el contenido de DEV",
+  "esperado": "[G-DESTINO-DESCONOCIDO] (otro system_identifier)",
+  "observado": "rc=3 G-DESTINO-DESCONOCIDO",
+  "estado": "PASS",
+  "justificacion": "un clon lógico no hereda system_identifier",
+  "evidencia": ""
+ },
+ {
+  "id": "ID-12",
+  "riesgo": "alto",
+  "precondicion": "PGOPTIONS intenta declarar identidad y allowlist ajenas",
+  "ataque": "inyectar cci.system_identifier y cci.dev_allow",
+  "esperado": "ignoradas: [G-DESTINO-DESCONOCIDO]",
+  "observado": "rc=3 G-DESTINO-DESCONOCIDO",
+  "estado": "PASS",
+  "justificacion": "",
+  "evidencia": ""
+ },
+ {
+  "id": "ID-13",
+  "riesgo": "alto",
+  "precondicion": "proyecto Supabase real CCI-DEV/CCI-PROD",
+  "ataque": "system_identifier/pg_control_system() y project ref desde SQL en Supabase",
+  "esperado": "NOT TESTED",
+  "observado": "NOT TESTED",
+  "estado": "NOT TESTED",
+  "justificacion": "requiere CCI-DEV con autorización; el project ref no es consultable desde SQL según la documentación consultada (sin confirmar)",
+  "evidencia": ""
+ }
+]

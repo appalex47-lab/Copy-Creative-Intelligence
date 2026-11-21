@@ -51,7 +51,7 @@ PASS | búsqueda global sin FAIL |
 PASS | herramientas antiguas eliminadas | 
 PASS | cifras definitivas: generadas, batería 22/22 OK, decisiones aprobadas = 0, PASS_PHYSICAL = 0 | 
 PASS | cifras: limitaciones 27 = vigentes+parciales+resueltas; decisiones 21; escenarios 12; fixtures 354 de 366 evaluaciones | 
-PASS | manifiesto: nº de entradas (171) = cifra generada y = archivos sujetos a verificación | 
+PASS | manifiesto: nº de entradas (173) = cifra generada y = archivos sujetos a verificación | 
 PASS | cifras de los documentos narrativos coinciden con cifras_definitivas.json (limitaciones, decisiones, arnés, fixtures, evaluaciones) | []
 PASS | alcance: contra V26 no hay archivos modificados/eliminados/añadidos fuera de docs/fase0/cierre_tecnico_fase0 (tracked: 0, sin seguimiento: 0) | []
 PASS | alcance: herramientas protegidas (modelo_estructural.py, verificar_expediente.py) idénticas a V26 | 

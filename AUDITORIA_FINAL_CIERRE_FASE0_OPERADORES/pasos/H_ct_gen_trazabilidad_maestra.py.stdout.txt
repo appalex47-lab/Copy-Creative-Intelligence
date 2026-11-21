@@ -1,0 +1,1 @@
+filas 54 regla-función 33 decisiones 21 duplicadas 0 reglas con texto 38 decisión DEMOSTRADA 0 INFERIDA 0
