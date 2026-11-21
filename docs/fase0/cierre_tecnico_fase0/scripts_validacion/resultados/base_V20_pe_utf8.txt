@@ -1,3 +1,4 @@
+NOTICE:  database "cci_v20_test" does not exist, skipping
  t 
 ---
  

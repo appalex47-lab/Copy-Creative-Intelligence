@@ -1,0 +1,1 @@
+cluster listo: socket=/tmp/CCI-RUN-20261121T203846Z-5a7fb25c/dev/sock puerto=60123 sysid=7710726986217910838

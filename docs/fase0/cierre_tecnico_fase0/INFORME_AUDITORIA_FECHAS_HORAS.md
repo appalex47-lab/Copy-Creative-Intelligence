@@ -5,63 +5,57 @@ Generado por `scripts_validacion/ct_gen_auditoria_fechas.py`; cada marca procede
 ## Reloj y zona horaria del entorno (leídos al generar este informe)
 | Magnitud | Valor |
 |---|---|
-| UTC (`date -u`) | 2026-11-21T19:15:20Z |
-| Local (`date`) | 2026-11-21T13:15:20-0600 (CST) |
-| Variable TZ | America/Mexico_City |
-| Diferencia local−UTC | -0600 |
+| UTC (`date -u`) | 2026-11-21T20:43:59Z |
+| Local (`date`) | 2026-11-21T20:43:59+0000 (UTC) |
+| Variable TZ | (sin definir) |
+| Diferencia local−UTC | +0000 |
 
 **Criterio:** la zona local del entorno es la del usuario (America/Mexico_City, UTC−06:00 en noviembre). Las marcas con sufijo `Z` están en UTC; las de git y las columnas `*_local` llevan el desfase explícito. Una hora UTC y una hora local de la misma ejecución difieren en 6 h (p. ej. 02:36Z = 20:36 local): comparar sin convertir produce una discrepancia aparente de 6 h.
 
 ## Batería final: inicio, fin y zona de cada paso (datos del entorno)
 | Paso | Inicio UTC | Fin UTC | Inicio local | Fin local | Zona |
 |---|---|---|---|---|---|
-| v20_pe | 2026-11-21T18:47:42Z | 2026-11-21T18:47:42Z | 2026-11-21T12:47:42-0600 | 2026-11-21T12:47:42-0600 | CST |
-| v20_mutaciones | 2026-11-21T18:47:42Z | 2026-11-21T18:47:45Z | 2026-11-21T12:47:42-0600 | 2026-11-21T12:47:45-0600 | CST |
-| extension_local | 2026-11-21T18:47:45Z | 2026-11-21T18:47:45Z | 2026-11-21T12:47:45-0600 | 2026-11-21T12:47:45-0600 | CST |
-| concurrencia_local | 2026-11-21T18:47:45Z | 2026-11-21T18:47:52Z | 2026-11-21T12:47:45-0600 | 2026-11-21T12:47:52-0600 | CST |
-| dg19 | 2026-11-21T18:47:52Z | 2026-11-21T18:47:52Z | 2026-11-21T12:47:52-0600 | 2026-11-21T12:47:52-0600 | CST |
-| hash_encadenado | 2026-11-21T18:47:52Z | 2026-11-21T18:47:52Z | 2026-11-21T12:47:52-0600 | 2026-11-21T12:47:52-0600 | CST |
-| estatica_T47_T124 | 2026-11-21T18:47:52Z | 2026-11-21T18:47:52Z | 2026-11-21T12:47:52-0600 | 2026-11-21T12:47:52-0600 | CST |
-| k47_por_escenario | 2026-11-21T18:47:52Z | 2026-11-21T18:47:52Z | 2026-11-21T12:47:52-0600 | 2026-11-21T12:47:52-0600 | CST |
-| t409_individual | 2026-11-21T18:47:52Z | 2026-11-21T18:47:52Z | 2026-11-21T12:47:52-0600 | 2026-11-21T12:47:52-0600 | CST |
-| t409_repro_2a_corrida | 2026-11-21T18:47:52Z | 2026-11-21T18:47:53Z | 2026-11-21T12:47:52-0600 | 2026-11-21T12:47:53-0600 | CST |
-| t409_repro_comparacion | 2026-11-21T18:47:53Z | 2026-11-21T18:47:53Z | 2026-11-21T12:47:53-0600 | 2026-11-21T12:47:53-0600 | CST |
-| t409_correspondencia | 2026-11-21T18:47:53Z | 2026-11-21T18:47:53Z | 2026-11-21T12:47:53-0600 | 2026-11-21T12:47:53-0600 | CST |
-| funciones_22 | 2026-11-21T18:47:53Z | 2026-11-21T18:48:35Z | 2026-11-21T12:47:53-0600 | 2026-11-21T12:48:35-0600 | CST |
-| exc_modelo14 | 2026-11-21T18:48:35Z | 2026-11-21T18:49:11Z | 2026-11-21T12:48:35-0600 | 2026-11-21T12:49:11-0600 | CST |
-| catalogo_except | 2026-11-21T18:49:11Z | 2026-11-21T18:49:12Z | 2026-11-21T12:49:11-0600 | 2026-11-21T12:49:12-0600 | CST |
-| arnes_r1r9 | 2026-11-21T18:49:12Z | 2026-11-21T18:49:12Z | 2026-11-21T12:49:12-0600 | 2026-11-21T12:49:12-0600 | CST |
-| smoke_6_scripts | 2026-11-21T18:49:13Z | 2026-11-21T18:49:18Z | 2026-11-21T12:49:13-0600 | 2026-11-21T12:49:18-0600 | CST |
-| aserciones_smoke | 2026-11-21T18:49:18Z | 2026-11-21T18:49:19Z | 2026-11-21T12:49:18-0600 | 2026-11-21T12:49:19-0600 | CST |
-| guarda_destino | 2026-11-21T18:49:19Z | 2026-11-21T18:49:26Z | 2026-11-21T12:49:19-0600 | 2026-11-21T12:49:26-0600 | CST |
-| escaner_sql | 2026-11-21T18:49:26Z | 2026-11-21T18:49:26Z | 2026-11-21T12:49:26-0600 | 2026-11-21T12:49:26-0600 | CST |
-| escaner_texto | 2026-11-21T18:49:26Z | 2026-11-21T18:49:27Z | 2026-11-21T12:49:26-0600 | 2026-11-21T12:49:27-0600 | CST |
-| escaner_autoprueba | 2026-11-21T18:49:27Z | 2026-11-21T18:49:27Z | 2026-11-21T12:49:27-0600 | 2026-11-21T12:49:27-0600 | CST |
+| v20_pe | 2026-11-21T20:40:57Z | 2026-11-21T20:40:57Z | 2026-11-21T20:40:57+0000 | 2026-11-21T20:40:57+0000 | UTC |
+| v20_mutaciones | 2026-11-21T20:40:57Z | 2026-11-21T20:40:59Z | 2026-11-21T20:40:57+0000 | 2026-11-21T20:40:59+0000 | UTC |
+| extension_local | 2026-11-21T20:40:59Z | 2026-11-21T20:40:59Z | 2026-11-21T20:40:59+0000 | 2026-11-21T20:40:59+0000 | UTC |
+| concurrencia_local | 2026-11-21T20:42:23Z | 2026-11-21T20:42:29Z | 2026-11-21T20:42:23+0000 | 2026-11-21T20:42:29+0000 | UTC |
+| dg19 | 2026-11-21T20:40:59Z | 2026-11-21T20:41:00Z | 2026-11-21T20:40:59+0000 | 2026-11-21T20:41:00+0000 | UTC |
+| hash_encadenado | 2026-11-21T20:41:00Z | 2026-11-21T20:41:00Z | 2026-11-21T20:41:00+0000 | 2026-11-21T20:41:00+0000 | UTC |
+| estatica_T47_T124 | 2026-11-21T20:41:05Z | 2026-11-21T20:41:06Z | 2026-11-21T20:41:05+0000 | 2026-11-21T20:41:06+0000 | UTC |
+| k47_por_escenario | 2026-11-21T20:41:06Z | 2026-11-21T20:41:06Z | 2026-11-21T20:41:06+0000 | 2026-11-21T20:41:06+0000 | UTC |
+| t409_individual | 2026-11-21T20:41:06Z | 2026-11-21T20:41:06Z | 2026-11-21T20:41:06+0000 | 2026-11-21T20:41:06+0000 | UTC |
+| t409_repro_2a_corrida | 2026-11-21T20:41:06Z | 2026-11-21T20:41:06Z | 2026-11-21T20:41:06+0000 | 2026-11-21T20:41:06+0000 | UTC |
+| t409_repro_comparacion | 2026-11-21T20:41:06Z | 2026-11-21T20:41:06Z | 2026-11-21T20:41:06+0000 | 2026-11-21T20:41:06+0000 | UTC |
+| t409_correspondencia | 2026-11-21T20:41:06Z | 2026-11-21T20:41:06Z | 2026-11-21T20:41:06+0000 | 2026-11-21T20:41:06+0000 | UTC |
+| funciones_22 | 2026-11-21T20:41:06Z | 2026-11-21T20:41:47Z | 2026-11-21T20:41:06+0000 | 2026-11-21T20:41:47+0000 | UTC |
+| exc_modelo14 | 2026-11-21T20:41:47Z | 2026-11-21T20:42:21Z | 2026-11-21T20:41:47+0000 | 2026-11-21T20:42:21+0000 | UTC |
+| catalogo_except | 2026-11-21T20:42:21Z | 2026-11-21T20:42:23Z | 2026-11-21T20:42:21+0000 | 2026-11-21T20:42:23+0000 | UTC |
+| arnes_r1r9 | 2026-11-21T20:42:23Z | 2026-11-21T20:42:23Z | 2026-11-21T20:42:23+0000 | 2026-11-21T20:42:23+0000 | UTC |
+| smoke_6_scripts | 2026-11-21T20:41:00Z | 2026-11-21T20:41:05Z | 2026-11-21T20:41:00+0000 | 2026-11-21T20:41:05+0000 | UTC |
+| aserciones_smoke | 2026-11-21T20:41:05Z | 2026-11-21T20:41:05Z | 2026-11-21T20:41:05+0000 | 2026-11-21T20:41:05+0000 | UTC |
+| guarda_destino | 2026-11-21T20:38:49Z | 2026-11-21T20:38:53Z | 2026-11-21T20:38:49+0000 | 2026-11-21T20:38:53+0000 | UTC |
+| escaner_sql | 2026-11-21T20:38:48Z | 2026-11-21T20:38:48Z | 2026-11-21T20:38:48+0000 | 2026-11-21T20:38:48+0000 | UTC |
+| escaner_texto | 2026-11-21T20:38:48Z | 2026-11-21T20:38:49Z | 2026-11-21T20:38:48+0000 | 2026-11-21T20:38:49+0000 | UTC |
+| escaner_autoprueba | 2026-11-21T20:38:48Z | 2026-11-21T20:38:48Z | 2026-11-21T20:38:48+0000 | 2026-11-21T20:38:48+0000 | UTC |
 
-Batería completa: inicio 2026-11-21T18:47:42Z UTC / 2026-11-21T12:47:42-0600 local; fin 2026-11-21T18:49:27Z UTC / 2026-11-21T12:49:27-0600 local. Fuente: `scripts_validacion/resultados/bateria_final/ENTORNO.txt` e `INDICE_BATERIA.csv` (generados por `ct_bateria_final.sh` con `date`, sin edición manual; las salidas anteriores se borran antes de ejecutar, por lo que ningún resultado es de una corrida previa; cada salida tiene su SHA-256 en el índice).
+Batería completa: inicio None UTC / None local; fin None UTC / None local. Fuente: `scripts_validacion/resultados/bateria_final/ENTORNO.txt` e `INDICE_BATERIA.csv` (generados por `ct_bateria_final.sh` con `date`, sin edición manual; las salidas anteriores se borran antes de ejecutar, por lo que ningún resultado es de una corrida previa; cada salida tiene su SHA-256 en el índice).
 
 ## Commits de la rama (marcas de git y de GitHub)
 | Commit | Fecha de commit (git, con desfase) | Fecha de commit en UTC | Fecha de la API de GitHub |
 |---|---|---|---|
-| `e0b1d8165d75` | 2026-11-21T12:20:06-06:00 | 2026-11-21T18:20:06Z | 2026-11-21T18:20:06Z |
-| `f43616fd29a7` | 2026-11-21T12:19:49-06:00 | 2026-11-21T18:19:49Z | 2026-11-21T18:19:49Z |
-| `602f8648341f` | 2026-11-21T12:19:49-06:00 | 2026-11-21T18:19:49Z | 2026-11-21T18:19:49Z |
-| `4fe08d6ea8da` | 2026-11-21T12:19:49-06:00 | 2026-11-21T18:19:49Z | 2026-11-21T18:19:49Z |
-| `d365a162e548` | 2026-11-21T11:02:28-06:00 | 2026-11-21T17:02:28Z | 2026-11-21T17:02:28Z |
-| `df70dc5d1cc6` | 2026-11-21T11:02:28-06:00 | 2026-11-21T17:02:28Z | 2026-11-21T17:02:28Z |
-| `b7442baf6058` | 2026-11-21T11:02:28-06:00 | 2026-11-21T17:02:28Z | 2026-11-21T17:02:28Z |
-| `5b008485706b` | 2026-11-20T23:10:44-06:00 | 2026-11-21T05:10:44Z | 2026-11-21T05:10:44Z |
+| `eb0ac4a7a5b1` | 2026-11-21T14:38:46-06:00 | 2026-11-21T20:38:46Z | (no disponible) |
+| `e1ce57d2d162` | 2026-11-21T14:33:10-06:00 | 2026-11-21T20:33:10Z | (no disponible) |
+| `6fc72e9eea6e` | 2026-11-21T14:32:50-06:00 | 2026-11-21T20:32:50Z | (no disponible) |
+| `a7c1d45b7e90` | 2026-11-21T14:26:53-06:00 | 2026-11-21T20:26:53Z | (no disponible) |
+| `07f227af0657` | 2026-11-21T13:33:00-06:00 | 2026-11-21T19:33:00Z | (no disponible) |
+| `20cc0c1bafb4` | 2026-11-21T13:15:45-06:00 | 2026-11-21T19:15:45Z | (no disponible) |
+| `4a08a4b6a2e2` | 2026-11-21T13:15:41-06:00 | 2026-11-21T19:15:41Z | (no disponible) |
+| `d98db60e9a75` | 2026-11-21T13:15:41-06:00 | 2026-11-21T19:15:41Z | (no disponible) |
 
 La fecha de un commit la escribe el reloj de quien lo crea (aquí, el reloj del entorno); la API de GitHub devuelve ese mismo campo, **no** una hora de recepción. Sirve para comprobar que git y GitHub coinciden, no como prueba externa de la hora.
 
-## Contraste del reloj con el servidor de GitHub (cabecera HTTP `Date`)
-| Magnitud | Valor |
-|---|---|
-| `Date` de api.github.com | Sat, 21 Nov 2026 19:15:26 GMT |
-| Reloj del entorno (punto medio de la consulta) | Sat, 21 Nov 2026 19:15:25 GMT |
-| Diferencia entorno − servidor | -0.1 s (resolución de 1 s; la consulta duró 0.5 s) |
-
-Esta lectura contrasta el reloj del entorno con un reloj externo en el instante de la consulta; no acredita las horas de ejecuciones anteriores, solo que el reloj no estaba desviado en este momento.
+## Contraste del reloj con el servidor de GitHub
+No se obtuvo la cabecera `Date` (no acreditado).
 
 ## Hora de recepción de los push según GitHub (eventos del repositorio, hora del servidor)
 | Evento (UTC, servidor GitHub) | Rama | HEAD empujado |

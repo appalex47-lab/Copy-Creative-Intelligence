@@ -1,0 +1,11 @@
+# Informe final Fase 0 — operación fail-fast
+- Ejecución: `CCI-RUN-20261121T203846Z-5a7fb25c` · inicio 2026-11-21T20:38:46Z · duración 313.7 s · HEAD `eb0ac4a7a5b11791b1be50bf4a1949bbff17797b` · rama `audit/fase0-cierre-fail-fast`.
+- Estado final: **FASE0_BLOCKED**, código de salida **2**.
+- Pasos obligatorios ejecutados: 59 · PASS 54 · FAIL 0 · BLOCKED 5 · etapas pendientes 0.
+- Etapas: {'A': 'PASSED', 'B': 'PASSED', 'C': 'PASSED', 'D': 'PASSED', 'E': 'PASSED', 'F': 'PASSED', 'G': 'PASSED', 'H': 'PASSED', 'I': 'PASSED', 'J': 'PASSED', 'K': 'BLOCKED'}.
+- Clústeres (independientes: system_identifier, directorio y puerto distintos; creados nuevos y vacíos en esta ejecución): {'dev': {'port': 60123, 'sysid': '7710726986217910838'}, 'prod': {'port': 52317, 'sysid': '7710726989079605848'}}.
+- Pruebas individuales (CSV `MATRIZ_FINAL_DE_PRUEBAS.csv`, 385 filas): {'PASS': 333, 'BLOCKED': 5, 'PARTIAL': 13, 'FAIL': 33, 'NOT': 1}.
+- Defectos corregidos en esta operación: (1) la reconciliación H-02 aceptaba PASS con evidencia vacía → ahora FAIL, con ID único/fuente/método/ejecución/fecha/SHA-256; (2) el verificador no detectaba evidencia vacía, IDs duplicados, filas faltantes ni resultados heredados → 5 controles negativos nuevos; (3) tres sistemas independientes de ejecución (batería, suites, cierre) → un orquestador único fail-fast; (4) la batería no permitía fail-fast por pasos → modo CCI_PASO_SOLO; (5) la reconciliación esperaba la guarda antigua → actualizada. Las correcciones H-03 del cierre definitivo (marcador por ejecución, preflight con hash aprobado, search_path, envoltorio) se re-ejecutaron íntegras.
+- El marcador `cci.guarda_ok` por GUC mencionado en el encargo ya no existe: fue sustituido en el cierre definitivo (marcador por ejecución con id aleatorio en variable de psql, tabla temporal aleatoria, consumo único); sus casos (A–O, PGOPTIONS/SET/parámetros de conexión preinstalados, guarda vacía/truncada/inexistente/homónima/parcial, search_path, clúster incorrecto, sesión previa) siguen en la suite adversarial.
+- Dependencias externas BLOQUEADAS: ID-13, EXT-03, EXT-01, EXT-04, EXT-02 — ver LIMITACIONES_RESIDUALES.md.
+- **No se publica rama de cierre** (la regla exige PASSED y el estado es BLOCKED). No hay aceptación formal.

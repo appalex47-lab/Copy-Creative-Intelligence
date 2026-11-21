@@ -1,0 +1,10 @@
+00_guarda_destino.sql: OK
+00_preflight_guarda.sql: OK
+00_verificar_marcador.sql: OK
+01_inventario_esquema_SOLO_LECTURA.sql: OK
+02_rls_privilegios_SOLO_LECTURA.sql: OK
+03_pruebas_rls_ROLLBACK.sql: OK
+04_lib_clasificador.sql: OK
+04_trigger_r1_r9_ROLLBACK.sql: OK
+05_concurrencia_sesion_A.sql: OK
+05_concurrencia_sesion_B.sql: OK

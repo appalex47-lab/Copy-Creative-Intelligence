@@ -1,0 +1,432 @@
+=== ETAPA A: Integridad del repositorio ===
+variables heredadas detectadas (se ignoran; los pasos usan entorno limpio): []
+[A] arbol_git_limpio                   PASS 
+----- stdout -----
+ARBOL_LIMPIO
+eb0ac4a7a5b11791b1be50bf4a1949bbff17797b
+
+----- stderr -----
+
+[A] sha256sums_guarda_y_scripts        PASS 
+----- stdout -----
+00_guarda_destino.sql: OK
+00_preflight_guarda.sql: OK
+00_verificar_marcador.sql: OK
+01_inventario_esquema_SOLO_LECTURA.sql: OK
+02_rls_privilegios_SOLO_LECTURA.sql: OK
+03_pruebas_rls_ROLLBACK.sql: OK
+04_lib_clasificador.sql: OK
+04_trigger_r1_r9_ROLLBACK.sql: OK
+05_concurrencia_sesion_A.sql: OK
+05_concurrencia_sesion_B.sql: OK
+
+----- stderr -----
+
+[A] ramas_protegidas_intactas          PASS 
+----- stdout -----
+5b008485706bde3e9cf8407e71c0652cfd0497a5	refs/heads/audit/cierre-tecnico-fase0
+e0b1d8165d7584edd7fd03c2fa3c54fcce9d87e0	refs/heads/audit/fase0-auditoria-final-publicacion
+20cc0c1bafb425044dece2a6fe85eb629e092fc8	refs/heads/audit/fase0-cierre-definitivo
+d365a162e54809f3b8de9c77f5902a8ea131a97f	refs/heads/audit/fase0-remediaciones-h01-h02-h03
+439777c9ea7db464fe49299adfeb2112abfd285c	refs/heads/audit/fase0-v26-review
+6a1af2424ef39e0960b8f7e09d4e19ec52e6f046	refs/heads/main
+
+----- stderr -----
+
+[A] cluster_nuevo_dev                  PASS 
+----- stdout -----
+cluster listo: socket=/tmp/CCI-RUN-20261121T203846Z-5a7fb25c/dev/sock puerto=60123 sysid=7710726986217910838
+
+----- stderr -----
+
+[A] cluster_nuevo_prod                 PASS 
+----- stdout -----
+cluster listo: socket=/tmp/CCI-RUN-20261121T203846Z-5a7fb25c/prod/sock puerto=52317 sysid=7710726989079605848
+
+----- stderr -----
+
+[A] clusteres independientes y vacios: PASS
+=== ETAPA B: Validación estática ===
+[B] bat_escaner_sql                    PASS 
+----- stdout -----
+
+----- stderr -----
+
+[B] bat_escaner_autoprueba             PASS 
+----- stdout -----
+
+----- stderr -----
+
+[B] bat_escaner_texto                  PASS 
+----- stdout -----
+
+----- stderr -----
+
+=== ETAPA C: Seguridad de la guarda ===
+[C] bat___precondicion_roles           PASS 
+----- stdout -----
+
+----- stderr -----
+
+[C] bat_guarda_destino                 PASS 
+----- stdout -----
+
+----- stderr -----
+
+[C] adversarial_marcador_y_ejecutor    PASS 
+----- stdout -----
+TOTAL=166 {'PASS': 142, 'PARTIAL': 6, 'FAIL': 18}
+
+----- stderr -----
+
+[C] search_path_hijack                 PASS 
+----- stdout -----
+estatico sin calificar: {'anterior:e0b1d81': 17, 'anterior:d365a16': 161}
+instalacion {'cci_ap_shim': {'funciones_ok': 73, 'fallidas': 0, 'sin_homonimo': []}, 'cci_ap_conc': {'funciones_ok': 73, 'fallidas': 0, 'sin_homonimo': []}} {'cci_ap_shim': {'operadores': 9}, 'cci_ap_conc': {'operadores': 9}} {'cci_ap_shim': {'funciones_ok': 73, 'fallidas': 0, 'operadores': 9}, 'cci_ap_conc': {'funciones_ok': 73, 'fallidas': 0, 'operadores': 9}}
+SPD1 corregido funcion_hijack=0 operador_hijack=0 rechazos=6 guarda_ok=0 de 6
+SPD2 corregido-sin-chequeo funcion_hijack=0 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
+SPD3-d365a16 anterior:d365a16 funcion_hijack=5 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
+SPD3-e0b1d81 anterior:e0b1d81 funcion_hijack=0 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
+SPD4 corregido funcion_hijack=0 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
+SPD5-d365a16 anterior:d365a16 funcion_hijack=0 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
+SPD5-e0b1d81 anterior:e0b1d81 funcion_hijack=0 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
+SPD6 corregido funcion_hijack=0 operador_hijack=0 rechazos=6 guarda_ok=0 de 6
+SPD7 corregido-sin-chequeo funcion_hijack=0 operador_hijack=4 rechazos=0 guarda_ok=6 de 6
+SPD8-d365a16 anterior:d365a16 funcion_hijack=0 operador_hijack=6 rechazos=0 guarda_ok=6 de 6
+SPD8-e0b1d81 anterior:e0b1d81 funcion_hijack=0 operador_hijack=4 rechazos=0 guarda_ok=6 de 6
+
+----- stderr -----
+
+[C] identidad_dev_prod_ag18            PASS 
+----- stdout -----
+TOTAL=14 {'PASS': 10, 'PARTIAL': 3, 'NOT TESTED': 1}
+PASS ID-00 distintos
+PASS ID-01 rc=0 GUARDA OK
+PASS ID-02 rc=3 G-PROD-RECHAZADO
+PASS ID-03 rc=3 G-DESTINO-DESCONOCIDO
+PASS ID-04 igual
+PARTIAL ID-05 rc=0 GUARDA OK (aceptado)
+PARTIAL ID-06 DEV: G-PROD-RECHAZADO; clon: G-PROD-RECHAZADO
+PASS ID-07 rc=0 GUARDA OK
+PASS ID-08 rc=3 V-DESTINO-NO-APROBADO
+PASS ID-09 rc=3 V-DESTINO-NO-CONFIGURADO
+PARTIAL ID-10 rc=0 GUARDA OK
+PASS ID-11 rc=3 G-DESTINO-DESCONOCIDO
+PASS ID-12 rc=3 G-DESTINO-DESCONOCIDO
+NOT TESTED ID-13 NOT TESTED
+
+----- stderr -----
+
+=== ETAPA D: Pruebas PostgreSQL aisladas ===
+[D] bat_v20_pe                         PASS 
+----- stdout -----
+
+----- stderr -----
+
+[D] bat_v20_mutaciones                 PASS 
+----- stdout -----
+
+----- stderr -----
+
+[D] bat_extension_local                PASS 
+----- stdout -----
+
+----- stderr -----
+
+[D] bat_dg19                           PASS 
+----- stdout -----
+
+----- stderr -----
+
+[D] bat_hash_encadenado                PASS 
+----- stdout -----
+
+----- stderr -----
+
+=== ETAPA E: RLS y privilegios ===
+[E] bat___precondicion_roles           PASS 
+----- stdout -----
+
+----- stderr -----
+
+[E] bat_smoke_6_scripts                PASS 
+----- stdout -----
+
+----- stderr -----
+
+[E] bat_aserciones_smoke               PASS 
+----- stdout -----
+
+----- stderr -----
+
+=== ETAPA F: Triggers y funciones ===
+[F] bat_estatica_T47_T124              PASS 
+----- stdout -----
+
+----- stderr -----
+
+[F] bat_k47_por_escenario              PASS 
+----- stdout -----
+
+----- stderr -----
+
+[F] bat_t409_individual                PASS 
+----- stdout -----
+
+----- stderr -----
+
+[F] bat_t409_repro_2a_corrida          PASS 
+----- stdout -----
+
+----- stderr -----
+
+[F] bat_t409_repro_comparacion         PASS 
+----- stdout -----
+
+----- stderr -----
+
+[F] bat_t409_correspondencia           PASS 
+----- stdout -----
+
+----- stderr -----
+
+[F] bat_funciones_22                   PASS 
+----- stdout -----
+
+----- stderr -----
+
+[F] bat_exc_modelo14                   PASS 
+----- stdout -----
+
+----- stderr -----
+
+[F] bat_catalogo_except                PASS 
+----- stdout -----
+
+----- stderr -----
+
+[F] bat_arnes_r1r9                     PASS 
+----- stdout -----
+
+----- stderr -----
+
+=== ETAPA G: Concurrencia ===
+[G] bat_concurrencia_local             PASS 
+----- stdout -----
+
+----- stderr -----
+
+[G] permutaciones_orden                PASS 
+----- stdout -----
+{"permutaciones_01_04": 24, "todas_salidas_iguales": {"01": true, "02": true, "03": true, "04": true}, "sin_cambios_persistentes": true, "05_A_primero_vs_B_primero_iguales": {"05A": true, "05B": true}}
+
+----- stderr -----
+
+=== ETAPA H: Reconciliación integral ===
+[H] ct_gen_limitaciones.py             PASS 
+----- stdout -----
+27 Counter({'VIGENTE': 18, 'RESUELTA': 5, 'PARCIALMENTE_RESUELTA': 4})
+
+----- stderr -----
+
+[H] ct_gen_trazabilidad_maestra.py     PASS 
+----- stdout -----
+filas 54 regla-función 33 decisiones 21 duplicadas 0 reglas con texto 38 decisión DEMOSTRADA 0 INFERIDA 0
+
+----- stderr -----
+
+[H] ct_gen_informe_pruebas.py          PASS 
+----- stdout -----
+ok 22
+
+----- stderr -----
+
+[H] ct_gen_cifras.py_pasada1           PASS 
+----- stdout -----
+cifras: 42
+
+----- stderr -----
+
+[H] ct_manifiesto.py_pasada1           PASS 
+----- stdout -----
+generado: 153 entradas
+
+----- stderr -----
+
+[H] ct_controles_negativos_manifiesto.py_pasada1 PASS 
+----- stdout -----
+manifiesto | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | ruta con .. en el manifiesto | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto se lista a sí mismo | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto se lista a sí mismo | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto desordenado | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto desordenado | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto con CRLF | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto con CRLF | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto sin LF final | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto sin LF final | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | enlace simbólico en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | enlace simbólico en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | __pycache__ en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | __pycache__ en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | contenidos intercambiados entre dos archivos | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | contenidos intercambiados entre dos archivos | esperado=RECHAZA obtenido_rc=1
+PASS | generador determinista (dos generaciones idénticas byte a byte)
+PASS | el manifiesto regenerado coincide con el del dossier (informativo)
+PASS | --base: commit posterior que solo toca evidencia_verificacion/ (ACEPTA)
+PASS | --base: commit posterior que cambia otro archivo (RECHAZA)
+TOTAL=36 FAIL=0
+
+
+----- stderr -----
+
+[H] ct_gen_resolucion_observaciones.py_pasada1 PASS 
+----- stdout -----
+ok refs=0
+
+----- stderr -----
+
+[H] ct_gen_auditoria_fechas.py_pasada1 PASS 
+----- stdout -----
+ok
+
+----- stderr -----
+
+[H] ct_gen_cifras.py_pasada2           PASS 
+----- stdout -----
+cifras: 42
+
+----- stderr -----
+
+[H] ct_manifiesto.py_pasada2           PASS 
+----- stdout -----
+generado: 153 entradas
+
+----- stderr -----
+
+[H] ct_controles_negativos_manifiesto.py_pasada2 PASS 
+----- stdout -----
+manifiesto | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | ruta con .. en el manifiesto | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto se lista a sí mismo | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto se lista a sí mismo | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto desordenado | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto desordenado | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto con CRLF | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto con CRLF | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto sin LF final | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto sin LF final | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | enlace simbólico en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | enlace simbólico en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | __pycache__ en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | __pycache__ en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | contenidos intercambiados entre dos archivos | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | contenidos intercambiados entre dos archivos | esperado=RECHAZA obtenido_rc=1
+PASS | generador determinista (dos generaciones idénticas byte a byte)
+PASS | el manifiesto regenerado coincide con el del dossier (informativo)
+PASS | --base: commit posterior que solo toca evidencia_verificacion/ (ACEPTA)
+PASS | --base: commit posterior que cambia otro archivo (RECHAZA)
+TOTAL=36 FAIL=0
+
+
+----- stderr -----
+
+[H] ct_gen_resolucion_observaciones.py_pasada2 PASS 
+----- stdout -----
+ok refs=0
+
+----- stderr -----
+
+[H] ct_gen_auditoria_fechas.py_pasada2 PASS 
+----- stdout -----
+ok
+
+----- stderr -----
+
+[H] busqueda_global                    PASS 
+----- stdout -----
+BÚSQUEDA GLOBAL (excluye resultados/, evidencia_verificacion/ y los scripts que contienen los patrones como definición)
+PASS | marcadores TODO/FIXME de código: 0 | []
+PASS | «INCONSISTENTE»: 0 apariciones | 
+PASS | «NO CONCILIADO»: 0 apariciones | 
+PASS | «REFERENCIA ROTA»: 0 apariciones | 
+PASS | «HASH INCORRECTO»: 0 apariciones | 
+PASS | «ARCHIVO FALTANTE»: 0 apariciones | 
+PASS | «ARCHIVO EXTRA»: 0 apariciones | 
+PASS | «EVIDENCIA AUSENTE»: 0 apariciones | 
+PASS | «ESTADO CONTRADICTORIO»: 0 apariciones | 
+PASS | «FALSO FAIL»: 0 apariciones | 
+INFO | «PENDIENTE»: 185 apariciones en 15 archivos (descripciones de limitaciones/estados/pruebas negativas, con justificación en las matrices)
+INFO | «NO VERIFICADO»: 4 apariciones en 4 archivos (descripciones de limitaciones/estados/pruebas negativas, con justificación en las matrices)
+INFO | «FALSO PASS»: 0 apariciones en 0 archivos (descripciones de limitaciones/estados/pruebas negativas, con justificación en las matrices)
+INFO | clasificadas 2 líneas: ERROR (contexto técnico/histórico/contrato)
+INFO | clasificadas 72 líneas: FAIL (vocabulario de estados / 0 FAIL / control negativo / histórico)
+PASS | FAIL/ERROR en documentos: todas las apariciones tienen contexto legítimo (0 sin justificar) | 
+PASS | sin referencias obsoletas fuera de contexto histórico | 
+TOTAL_FAIL=0
+
+----- stderr -----
+
+[H] reconciliacion_integral            PASS 
+----- stdout -----
+TOTAL=58 PASS=58 FAIL=0
+
+----- stderr -----
+
+=== ETAPA I: Consistencia documental ===
+[I] consistencia_informe               PASS 
+----- stdout -----
+CONSISTENCIA total=58 pass=58 fail=0 | incoherencias=0
+
+----- stderr -----
+
+[I] controles_negativos_consistencia   PASS 
+----- stdout -----
+PASS | coherente: sin manipulación (sin incoherencias)
+PASS | MD: FAIL=0 → FAIL=1 (la contradicción detectada en la revisión) (detecta: MD: línea TOTAL difiere del JSON: ['**TOTAL=58 PASS=58 FAIL=)
+PASS | TXT: línea TOTAL alterada (detecta: TXT: línea TOTAL difiere del JSON: ['TOTAL=59 PASS=58 FAIL=0)
+PASS | JSON: una comprobación pasa a FAIL (detecta: JSON: fail no coincide con los estados)
+PASS | MD: estado de una fila alterado (detecta: MD: filas (id, estado) difieren del JSON)
+PASS | evidencia: archivo citado modificado (detecta: evidencia modificada tras la reconciliación: MATRIZ_LIMITACI)
+PASS | evidencia: archivo citado eliminado (detecta: evidencia ausente: MATRIZ_TRAZABILIDAD_MAESTRA.csv (comproba)
+PASS | evidencia vacía en una comprobación PASS (detecta: PASS con evidencia vacía: RC-004)
+PASS | ID único duplicado (detecta: IDs únicos duplicados o ausentes)
+PASS | hash incorrecto en la evidencia (detecta: evidencia modificada tras la reconciliación: MATRIZ_12_ESCEN)
+PASS | fila faltante (detecta: JSON: total != pass+fail o != nº de comprobaciones)
+PASS | resultado heredado (otra ejecución) (detecta: resultado heredado: RC-001 pertenece a otra ejecución (CCI-R)
+TOTAL=12 FAIL=0
+
+----- stderr -----
+
+=== ETAPA J: Integridad de manifiestos ===
+[J] manifiesto_regenerado              PASS 
+----- stdout -----
+generado: 153 entradas
+
+----- stderr -----
+
+[J] manifiesto_verificado              PASS 
+----- stdout -----
+VIA=A (directorio/clon) DIR=/tmp/aud2/work/docs/fase0/cierre_tecnico_fase0 HEAD=n/d
+PASS | sin enlaces simbólicos, no regulares ni artefactos de Python | 
+PASS | manifiesto ordenado de forma determinista (orden bytewise de rutas) | 
+PASS | sin rutas duplicadas | 153
+PASS | sin rutas absolutas, relativas inseguras ni con caracteres de control | []
+PASS | el manifiesto no se lista a sí mismo ni lista la evidencia posterior | 
+PASS | el manifiesto está en el árbol | 
+PASS | ninguna entrada del manifiesto falta en el árbol | []
+PASS | ningún archivo del árbol queda sin entrada (salvo manifiesto y evidencia_verificacion/) | []
+PASS | SHA-256 recalculado sobre los bytes reales coincide en 153/153 entradas | []
+PASS | entradas (153) = archivos sujetos a verificación (153) | 
+TOTAL_ENTRADAS=153 ARCHIVOS_EN_ARBOL=172 EXCLUIDOS_DECLARADOS=19 FAIL=0
+RESULTADO=OK
+
+----- stderr -----
+
+=== ETAPA K: Verificación final ===
+[K] resultados de esta ejecución e integridad de archivos críticos: PASS
+[K] ID-13 BLOCKED: validación real en Supabase (no autorizada ni disponible)
+[K] EXT-03 BLOCKED: listas de destinos DEV/PROD autorizados (@@DEV_ALLOW@@, @@PROD_DENY@@) vacías: el propietario debe aportar identificadores reales; no se inventan
+[K] EXT-01 BLOCKED: custodio externo del hash aprobado (SHA256SUMS_CCI.txt / guarda) no definido; sin él la verificación de integridad no es protección operativa
+[K] EXT-04 BLOCKED: 5 controles V26 NO VERIFICADO (L04–L08) requieren CCI-DEV o verificación del propietario
+[K] EXT-02 BLOCKED: compatibilidad con Supabase: TEMP, pg_control_system(), PGOPTIONS por pooler y project ref sólo verificables en un proyecto real (no autorizado)

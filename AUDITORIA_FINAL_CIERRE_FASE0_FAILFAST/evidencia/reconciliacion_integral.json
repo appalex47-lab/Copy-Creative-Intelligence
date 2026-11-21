@@ -1,0 +1,1554 @@
+{
+ "comprobaciones": [
+  {
+   "comprobacion": "CSV bien formado MATRIZ_12_ESCENARIOS_PARCIALES.csv",
+   "detalle": "12 filas x 19 cols",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_12_ESCENARIOS_PARCIALES.csv",
+     "sha256": "cb1e8cd98cf43bd7609942f8ddaaff6ef7e0c4f639ec72a486b298a978e02ea3"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "MATRIZ_12_ESCENARIOS_PARCIALES.csv"
+   ],
+   "id": 1,
+   "id_unico": "RC-001",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "CSV bien formado MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv",
+   "detalle": "33 filas x 10 cols",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv",
+     "sha256": "937768defe8928625dfbdd2f25bbf5eb73b1a49ff41f28ce7bf10468fa25613d"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv"
+   ],
+   "id": 2,
+   "id_unico": "RC-002",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "CSV bien formado MATRIZ_LIMITACIONES_RESIDUALES.csv",
+   "detalle": "27 filas x 13 cols",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_LIMITACIONES_RESIDUALES.csv",
+     "sha256": "039b28717e1b5fa28219b4880b476c36ed13c2cb0aa0f36dce2012b16a1a83fc"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "MATRIZ_LIMITACIONES_RESIDUALES.csv"
+   ],
+   "id": 3,
+   "id_unico": "RC-003",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "CSV bien formado MATRIZ_TRAZABILIDAD_MAESTRA.csv",
+   "detalle": "54 filas x 21 cols",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_TRAZABILIDAD_MAESTRA.csv",
+     "sha256": "bf838417d1961e939fc4209aa8872b2f7d1a7fde1c4672e12eba0592f3fd2588"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "MATRIZ_TRAZABILIDAD_MAESTRA.csv"
+   ],
+   "id": 4,
+   "id_unico": "RC-004",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "CSV bien formado REGISTRO_DECISIONES_RECOMENDADAS.csv",
+   "detalle": "21 filas x 24 cols",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "REGISTRO_DECISIONES_RECOMENDADAS.csv",
+     "sha256": "f94ae7d26d41fff08c2d329764d22f7c0b90a2f54ac7ad75391c37d12a3f989c"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "REGISTRO_DECISIONES_RECOMENDADAS.csv"
+   ],
+   "id": 5,
+   "id_unico": "RC-005",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "CSV bien formado 22_funciones_conciliacion.csv",
+   "detalle": "23 filas x 4 cols",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/22_funciones_conciliacion.csv",
+     "sha256": "3a5c3296a50e0a141dbe4733324167303f2436e35d2238046a6cebe70839019c"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 6,
+   "id_unico": "RC-006",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "CSV bien formado catalogo_except_exception.csv",
+   "detalle": "23 filas x 4 cols",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/catalogo_except_exception.csv",
+     "sha256": "4676d57a15dbd5afff9335232d2d36c0391ef356ac5238a8bda56683bb67cc02"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 7,
+   "id_unico": "RC-007",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "CSV bien formado k47_por_escenario.csv",
+   "detalle": "25 filas x 7 cols",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/k47_por_escenario.csv",
+     "sha256": "3d15a811623d3066d7bdf99281536eee78c99d0055987424b7361e60e7282ee6"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 8,
+   "id_unico": "RC-008",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "CSV bien formado t409_t422_correspondencia.csv",
+   "detalle": "14 filas x 12 cols",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/t409_t422_correspondencia.csv",
+     "sha256": "b31056815d4cce2cde2108417ef36864615a74dbeda52d1ed614aeee64c41012"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 9,
+   "id_unico": "RC-009",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "CSV bien formado t409_t422_individual.csv",
+   "detalle": "26 filas x 8 cols",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/t409_t422_individual.csv",
+     "sha256": "108e0d7b2f12a3ff7c346d6d81982f63f00b79ab982d80d09ceaea6899642b28"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 10,
+   "id_unico": "RC-010",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "decisiones: las 20 pendientes exigidas están en el registro",
+   "detalle": "faltan=[]",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "REGISTRO_DECISIONES_RECOMENDADAS.csv",
+     "sha256": "f94ae7d26d41fff08c2d329764d22f7c0b90a2f54ac7ad75391c37d12a3f989c"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "REGISTRO_DECISIONES_RECOMENDADAS.csv"
+   ],
+   "id": 11,
+   "id_unico": "RC-011",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "decisiones: sin ids duplicados; total 21 (20 + HV-02)",
+   "detalle": "21",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "REGISTRO_DECISIONES_RECOMENDADAS.csv",
+     "sha256": "f94ae7d26d41fff08c2d329764d22f7c0b90a2f54ac7ad75391c37d12a3f989c"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "REGISTRO_DECISIONES_RECOMENDADAS.csv"
+   ],
+   "id": 12,
+   "id_unico": "RC-012",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "decisiones: columnas de consecuencias y estado actual completas",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "REGISTRO_DECISIONES_RECOMENDADAS.csv",
+     "sha256": "f94ae7d26d41fff08c2d329764d22f7c0b90a2f54ac7ad75391c37d12a3f989c"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "REGISTRO_DECISIONES_RECOMENDADAS.csv"
+   ],
+   "id": 13,
+   "id_unico": "RC-013",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "decisiones: todas REQUIERE_APROBACION_DEL_PROPIETARIO (ninguna aprobada)",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "REGISTRO_DECISIONES_RECOMENDADAS.csv",
+     "sha256": "f94ae7d26d41fff08c2d329764d22f7c0b90a2f54ac7ad75391c37d12a3f989c"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "REGISTRO_DECISIONES_RECOMENDADAS.csv"
+   ],
+   "id": 14,
+   "id_unico": "RC-014",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "limitaciones: 27 ids únicos (LR-28 fusionada en LR-05)",
+   "detalle": "27",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_LIMITACIONES_RESIDUALES.csv",
+     "sha256": "039b28717e1b5fa28219b4880b476c36ed13c2cb0aa0f36dce2012b16a1a83fc"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "MATRIZ_LIMITACIONES_RESIDUALES.csv"
+   ],
+   "id": 15,
+   "id_unico": "RC-015",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "limitaciones: vigencia declarada en todas (18 VIGENTE, 5 RESUELTA, 4 PARCIALMENTE_RESUELTA)",
+   "detalle": "{'VIGENTE': 18, 'RESUELTA': 5, 'PARCIALMENTE_RESUELTA': 4}",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_LIMITACIONES_RESIDUALES.csv",
+     "sha256": "039b28717e1b5fa28219b4880b476c36ed13c2cb0aa0f36dce2012b16a1a83fc"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "MATRIZ_LIMITACIONES_RESIDUALES.csv"
+   ],
+   "id": 16,
+   "id_unico": "RC-016",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "limitaciones: acción concreta y dependencia en todas",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_LIMITACIONES_RESIDUALES.csv",
+     "sha256": "039b28717e1b5fa28219b4880b476c36ed13c2cb0aa0f36dce2012b16a1a83fc"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "MATRIZ_LIMITACIONES_RESIDUALES.csv"
+   ],
+   "id": 17,
+   "id_unico": "RC-017",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "12 escenarios: 5 PASS_PROTOTYPE, 1 PASS_STATIC, 6 PARTIAL",
+   "detalle": "{'PASS_PROTOTYPE': 5, 'PARTIAL': 6, 'PASS_STATIC': 1}",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_12_ESCENARIOS_PARCIALES.csv",
+     "sha256": "cb1e8cd98cf43bd7609942f8ddaaff6ef7e0c4f639ec72a486b298a978e02ea3"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "MATRIZ_12_ESCENARIOS_PARCIALES.csv"
+   ],
+   "id": 18,
+   "id_unico": "RC-018",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "12 escenarios: aceptación física PENDIENTE en todos",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_12_ESCENARIOS_PARCIALES.csv",
+     "sha256": "cb1e8cd98cf43bd7609942f8ddaaff6ef7e0c4f639ec72a486b298a978e02ea3"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "MATRIZ_12_ESCENARIOS_PARCIALES.csv"
+   ],
+   "id": 19,
+   "id_unico": "RC-019",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "22 funciones: 22 filas, 366 casos, 0 fallos",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/22_funciones_conciliacion.csv",
+     "sha256": "3a5c3296a50e0a141dbe4733324167303f2436e35d2238046a6cebe70839019c"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 20,
+   "id_unico": "RC-020",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "matriz función-regla cubre las 22 funciones",
+   "detalle": "22",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv",
+     "sha256": "937768defe8928625dfbdd2f25bbf5eb73b1a49ff41f28ce7bf10468fa25613d"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv"
+   ],
+   "id": 21,
+   "id_unico": "RC-021",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "T-409..T-422: 26 variantes DETECTADA, 14 escenarios",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/t409_t422_individual.csv",
+     "sha256": "108e0d7b2f12a3ff7c346d6d81982f63f00b79ab982d80d09ceaea6899642b28"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 22,
+   "id_unico": "RC-022",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "trazabilidad: 54 filas con referencia verificable y relación declarada",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_TRAZABILIDAD_MAESTRA.csv",
+     "sha256": "bf838417d1961e939fc4209aa8872b2f7d1a7fde1c4672e12eba0592f3fd2588"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "MATRIZ_TRAZABILIDAD_MAESTRA.csv"
+   ],
+   "id": 23,
+   "id_unico": "RC-023",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "trazabilidad: niveles de evidencia en vocabulario permitido en cada relación",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MATRIZ_TRAZABILIDAD_MAESTRA.csv",
+     "sha256": "bf838417d1961e939fc4209aa8872b2f7d1a7fde1c4672e12eba0592f3fd2588"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "MATRIZ_TRAZABILIDAD_MAESTRA.csv"
+   ],
+   "id": 24,
+   "id_unico": "RC-024",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "V20 63/63",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/base_V20_pe_utf8.txt",
+     "sha256": "60164c83494e1a9f8e67c7e7e402cf11126e3b7effd98dc32d62113defa18f1c"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 25,
+   "id_unico": "RC-025",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "V20 mutaciones 14/14",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/base_V20_mutaciones_utf8.txt",
+     "sha256": "5ff31240b365e382685ae7b723673c23d195b4ad42fa461d77709c0eac8d45b9"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 26,
+   "id_unico": "RC-026",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "extensión 80/80",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/ext_utf8.txt",
+     "sha256": "502f15ca3e28d04352094fe362075120c0c0d21d2d126fec0367b66324624220"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 27,
+   "id_unico": "RC-027",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "DG-19 63/63",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/dg19_pk_experimento.txt",
+     "sha256": "02cd7664a3971b2dbc9f4c055fce6a95a9295ac4d3af08419d88dd9bb3dfa370"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 28,
+   "id_unico": "RC-028",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "hash 16/16",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/hash_cadena_referencia.txt",
+     "sha256": "ce96f96482d220adedcc4f7e66f47cc4b9c5979ae87c2b17391bacd95e239b94"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 29,
+   "id_unico": "RC-029",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "arnés 28/28 (total=aprobadas, 0 FAIL; esperado fijado en la batería)",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/arnes_r1r9_autoprueba_local.txt",
+     "sha256": "e764615afde62e804ee79577e012ea5a1c494656df1871a998c43275073b954f"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 30,
+   "id_unico": "RC-030",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "escáner sql 0 FAIL",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/escaner_seguridad_sql.txt",
+     "sha256": "150d5149499f032b1d3a07b2365feb830093a922050c6ebc9f1485c8e17e7e10"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 31,
+   "id_unico": "RC-031",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "escáner texto 0 FAIL",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/escaner_seguridad_texto.txt",
+     "sha256": "58284cd0814c0931adfdc1c1e3be69b205a191ecce45b5ab7c5838b46ed32035"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 32,
+   "id_unico": "RC-032",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "escáner texto repetido sobre el árbol final: 0 FAIL",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/escaner_seguridad_texto_final.txt",
+     "sha256": "392fdf3fe9b8813e7cf85e0e126947da809d092a0f087cf134ba4ef0d0cbffd0"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 33,
+   "id_unico": "RC-033",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "escáner autoprueba: 39 muestras, 0 FAIL",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/escaner_seguridad_autoprueba.txt",
+     "sha256": "82bbe1813958a909a62edf438bb4effdbfd778f5a5d8a5fc128309326a883f74"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 34,
+   "id_unico": "RC-034",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "04 local = NO VERIFICABLE",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/04_r1r9_local_bloqueado.txt",
+     "sha256": "9d891399d151cd20ebf5de021b17c5bf2cf55c30de52925bd410fb9c89a6b3ef"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 35,
+   "id_unico": "RC-035",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "concurrencia CC-01/CC-02 PASS",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/concurrencia_local_utf8.txt",
+     "sha256": "96eef996d87a93fad7a1ea2d2fce78593ad9a949c871302748915a317900bfdf"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 36,
+   "id_unico": "RC-036",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "DICTAMEN_PREPARACION_FASE0.md: cifras 63/63, 14/14, 80/80, 366, 354, 28/28 presentes",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "DICTAMEN_PREPARACION_FASE0.md",
+     "sha256": "c19c09606c574fa41b670112050f99eaf881de489c9463773afc9d251fc14230"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "DICTAMEN_PREPARACION_FASE0.md"
+   ],
+   "id": 37,
+   "id_unico": "RC-037",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "INFORME_CIERRE_TECNICO_FASE0.md: cifras 63/63, 14/14, 80/80, 366, 354, 28/28 presentes",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "INFORME_CIERRE_TECNICO_FASE0.md",
+     "sha256": "f753d8d6c5c85b75377f2363125a8f64743efa4e12280ddadaa203fe446609ae"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "INFORME_CIERRE_TECNICO_FASE0.md"
+   ],
+   "id": 38,
+   "id_unico": "RC-038",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "LEEME no afirma «sin commit» como estado actual",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "LEEME_CIERRE_TECNICO.md",
+     "sha256": "96c2b0ab30978fa52954f8ba99e6f536e77f93446474170751b0d6cd154b4f4b"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "LEEME_CIERRE_TECNICO.md"
+   ],
+   "id": 39,
+   "id_unico": "RC-039",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "ningún documento declara aceptada Fase 0 ni autorizada Fase 1",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "DICTAMEN_PREPARACION_FASE0.md",
+     "sha256": "c19c09606c574fa41b670112050f99eaf881de489c9463773afc9d251fc14230"
+    },
+    {
+     "ruta": "EXPEDIENTE_T409_T422.md",
+     "sha256": "67a94d7569d008fa19d020115d345a38f123e50eddaa3373c1eb4f48e446c775"
+    },
+    {
+     "ruta": "INFORME_AUDITORIA_FECHAS_HORAS.md",
+     "sha256": "7939331e474e474525324c3642b1446d02e65bcacd747bfbee5031049a945a3f"
+    },
+    {
+     "ruta": "INFORME_CIERRE_TECNICO_FASE0.md",
+     "sha256": "f753d8d6c5c85b75377f2363125a8f64743efa4e12280ddadaa203fe446609ae"
+    },
+    {
+     "ruta": "INFORME_CIFRAS_DEFINITIVAS.md",
+     "sha256": "30e6a00da6abfe1fac7704b4d5019551f24dc4957bb82dace368d88f03c81d5b"
+    },
+    {
+     "ruta": "INFORME_DECISIONES_ARQUITECTONICAS.md",
+     "sha256": "e822d92fbf2a634c46c8210184780a2cf65541b9e9caaa16b4115969b292d133"
+    },
+    {
+     "ruta": "INFORME_HASHES_MANIFIESTO.md",
+     "sha256": "6109471bce018b1b4399b198e8c7cf55c6d906d98071056ac8f4a9a729179fe8"
+    },
+    {
+     "ruta": "INFORME_PRUEBAS_FINALES.md",
+     "sha256": "2db287a190ea7455efea66119ef96d74aaff2659fea8e04669bd64a061ec8aa4"
+    },
+    {
+     "ruta": "INFORME_PUBLICACION_GITHUB.md",
+     "sha256": "d0f83dd1ffbf141dd902fb4493509fa9fb9bf99d25fc8a82bc741a37c662c731"
+    },
+    {
+     "ruta": "INFORME_RECONCILIACION_INTEGRAL.md",
+     "sha256": "252caab2bfc92c8d5b55c3b1e9c4f12a0b0de8532ffcca6e4b7371c3a180a509"
+    },
+    {
+     "ruta": "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
+     "sha256": "a8bd91cc3503f2c88567be9858d2aa4a69697bfef7bcd4799d608f6b94791f43"
+    },
+    {
+     "ruta": "INFORME_SEGURIDAD_SCRIPTS.md",
+     "sha256": "8e6705fef39e80ece61b3f2967f3104665bc735651086c3be9271db8ec3070dd"
+    },
+    {
+     "ruta": "LEEME_CIERRE_TECNICO.md",
+     "sha256": "96c2b0ab30978fa52954f8ba99e6f536e77f93446474170751b0d6cd154b4f4b"
+    },
+    {
+     "ruta": "MATRIZ_MODELO_LOGICO_FISICO.md",
+     "sha256": "0091288b671781ba07ae9ce20f8894231cefd9f20c7a56844799dd4ffb9f97a9"
+    },
+    {
+     "ruta": "PLAN_VALIDACION_CCI_DEV.md",
+     "sha256": "05f8b2e36438c700c88c79a0927b0fb785b35045146d52bb87de1035fa449974"
+    },
+    {
+     "ruta": "PLAN_VALIDACION_TRIGGER_R1_R9.md",
+     "sha256": "941d7373958653b8842900d2b86095462f947d005f7d878da3650f7c5c78f2bb"
+    },
+    {
+     "ruta": "PROPUESTA_CONTRATO_ERRORES_R1_R9.md",
+     "sha256": "6d7e206052de01cd8e96dc120e8c213a8102c5868bff7b5438285e8bdb9d9456"
+    },
+    {
+     "ruta": "PROPUESTA_GUARDA_DEV_PROD.md",
+     "sha256": "da1b9aa20eefe15339457fff27128a647f6fe8f07947069cfa8b656022ca6557"
+    },
+    {
+     "ruta": "PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md",
+     "sha256": "f43df89239c4909f842841db5b57fc92890f6a27d4e1db4a67c0a7ff3189b104"
+    },
+    {
+     "ruta": "RESOLUCION_OBSERVACIONES_FINALES.md",
+     "sha256": "dfb5ab9cf15e654da698f2e394c03825abfe15f147e83fde1caa1c0901302e9c"
+    },
+    {
+     "ruta": "REVISION_22_FUNCIONES.md",
+     "sha256": "a8c0f65a8d77604b04c93817f0b251e2b71c595286dfe295e948895b19c8d491"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "DICTAMEN_PREPARACION_FASE0.md",
+    "EXPEDIENTE_T409_T422.md",
+    "INFORME_AUDITORIA_FECHAS_HORAS.md",
+    "INFORME_CIERRE_TECNICO_FASE0.md",
+    "INFORME_CIFRAS_DEFINITIVAS.md",
+    "INFORME_DECISIONES_ARQUITECTONICAS.md",
+    "INFORME_HASHES_MANIFIESTO.md",
+    "INFORME_PRUEBAS_FINALES.md",
+    "INFORME_PUBLICACION_GITHUB.md",
+    "INFORME_RECONCILIACION_INTEGRAL.md",
+    "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
+    "INFORME_SEGURIDAD_SCRIPTS.md",
+    "LEEME_CIERRE_TECNICO.md",
+    "MATRIZ_MODELO_LOGICO_FISICO.md",
+    "PLAN_VALIDACION_CCI_DEV.md",
+    "PLAN_VALIDACION_TRIGGER_R1_R9.md",
+    "PROPUESTA_CONTRATO_ERRORES_R1_R9.md",
+    "PROPUESTA_GUARDA_DEV_PROD.md",
+    "PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md",
+    "RESOLUCION_OBSERVACIONES_FINALES.md",
+    "REVISION_22_FUNCIONES.md"
+   ],
+   "id": 40,
+   "id_unico": "RC-040",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "ningún documento marca decisión como APROBADA",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "DICTAMEN_PREPARACION_FASE0.md",
+     "sha256": "c19c09606c574fa41b670112050f99eaf881de489c9463773afc9d251fc14230"
+    },
+    {
+     "ruta": "EXPEDIENTE_T409_T422.md",
+     "sha256": "67a94d7569d008fa19d020115d345a38f123e50eddaa3373c1eb4f48e446c775"
+    },
+    {
+     "ruta": "INFORME_AUDITORIA_FECHAS_HORAS.md",
+     "sha256": "7939331e474e474525324c3642b1446d02e65bcacd747bfbee5031049a945a3f"
+    },
+    {
+     "ruta": "INFORME_CIERRE_TECNICO_FASE0.md",
+     "sha256": "f753d8d6c5c85b75377f2363125a8f64743efa4e12280ddadaa203fe446609ae"
+    },
+    {
+     "ruta": "INFORME_CIFRAS_DEFINITIVAS.md",
+     "sha256": "30e6a00da6abfe1fac7704b4d5019551f24dc4957bb82dace368d88f03c81d5b"
+    },
+    {
+     "ruta": "INFORME_DECISIONES_ARQUITECTONICAS.md",
+     "sha256": "e822d92fbf2a634c46c8210184780a2cf65541b9e9caaa16b4115969b292d133"
+    },
+    {
+     "ruta": "INFORME_HASHES_MANIFIESTO.md",
+     "sha256": "6109471bce018b1b4399b198e8c7cf55c6d906d98071056ac8f4a9a729179fe8"
+    },
+    {
+     "ruta": "INFORME_PRUEBAS_FINALES.md",
+     "sha256": "2db287a190ea7455efea66119ef96d74aaff2659fea8e04669bd64a061ec8aa4"
+    },
+    {
+     "ruta": "INFORME_PUBLICACION_GITHUB.md",
+     "sha256": "d0f83dd1ffbf141dd902fb4493509fa9fb9bf99d25fc8a82bc741a37c662c731"
+    },
+    {
+     "ruta": "INFORME_RECONCILIACION_INTEGRAL.md",
+     "sha256": "252caab2bfc92c8d5b55c3b1e9c4f12a0b0de8532ffcca6e4b7371c3a180a509"
+    },
+    {
+     "ruta": "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
+     "sha256": "a8bd91cc3503f2c88567be9858d2aa4a69697bfef7bcd4799d608f6b94791f43"
+    },
+    {
+     "ruta": "INFORME_SEGURIDAD_SCRIPTS.md",
+     "sha256": "8e6705fef39e80ece61b3f2967f3104665bc735651086c3be9271db8ec3070dd"
+    },
+    {
+     "ruta": "LEEME_CIERRE_TECNICO.md",
+     "sha256": "96c2b0ab30978fa52954f8ba99e6f536e77f93446474170751b0d6cd154b4f4b"
+    },
+    {
+     "ruta": "MATRIZ_MODELO_LOGICO_FISICO.md",
+     "sha256": "0091288b671781ba07ae9ce20f8894231cefd9f20c7a56844799dd4ffb9f97a9"
+    },
+    {
+     "ruta": "PLAN_VALIDACION_CCI_DEV.md",
+     "sha256": "05f8b2e36438c700c88c79a0927b0fb785b35045146d52bb87de1035fa449974"
+    },
+    {
+     "ruta": "PLAN_VALIDACION_TRIGGER_R1_R9.md",
+     "sha256": "941d7373958653b8842900d2b86095462f947d005f7d878da3650f7c5c78f2bb"
+    },
+    {
+     "ruta": "PROPUESTA_CONTRATO_ERRORES_R1_R9.md",
+     "sha256": "6d7e206052de01cd8e96dc120e8c213a8102c5868bff7b5438285e8bdb9d9456"
+    },
+    {
+     "ruta": "PROPUESTA_GUARDA_DEV_PROD.md",
+     "sha256": "da1b9aa20eefe15339457fff27128a647f6fe8f07947069cfa8b656022ca6557"
+    },
+    {
+     "ruta": "PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md",
+     "sha256": "f43df89239c4909f842841db5b57fc92890f6a27d4e1db4a67c0a7ff3189b104"
+    },
+    {
+     "ruta": "RESOLUCION_OBSERVACIONES_FINALES.md",
+     "sha256": "dfb5ab9cf15e654da698f2e394c03825abfe15f147e83fde1caa1c0901302e9c"
+    },
+    {
+     "ruta": "REVISION_22_FUNCIONES.md",
+     "sha256": "a8c0f65a8d77604b04c93817f0b251e2b71c595286dfe295e948895b19c8d491"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "DICTAMEN_PREPARACION_FASE0.md",
+    "EXPEDIENTE_T409_T422.md",
+    "INFORME_AUDITORIA_FECHAS_HORAS.md",
+    "INFORME_CIERRE_TECNICO_FASE0.md",
+    "INFORME_CIFRAS_DEFINITIVAS.md",
+    "INFORME_DECISIONES_ARQUITECTONICAS.md",
+    "INFORME_HASHES_MANIFIESTO.md",
+    "INFORME_PRUEBAS_FINALES.md",
+    "INFORME_PUBLICACION_GITHUB.md",
+    "INFORME_RECONCILIACION_INTEGRAL.md",
+    "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
+    "INFORME_SEGURIDAD_SCRIPTS.md",
+    "LEEME_CIERRE_TECNICO.md",
+    "MATRIZ_MODELO_LOGICO_FISICO.md",
+    "PLAN_VALIDACION_CCI_DEV.md",
+    "PLAN_VALIDACION_TRIGGER_R1_R9.md",
+    "PROPUESTA_CONTRATO_ERRORES_R1_R9.md",
+    "PROPUESTA_GUARDA_DEV_PROD.md",
+    "PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md",
+    "RESOLUCION_OBSERVACIONES_FINALES.md",
+    "REVISION_22_FUNCIONES.md"
+   ],
+   "id": 41,
+   "id_unico": "RC-041",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "batería: 22 pasos (= pasos declarados en ct_bateria_final.sh), todos rc=0 Y estado=OK (rc=0 solo no basta: se exige el contenido esperado)",
+   "detalle": "[]",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
+     "sha256": "faa9581777f57833df4e31b3f0e01258b0dca3d8ddc2af3e7edad881f8b4e63c"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 42,
+   "id_unico": "RC-042",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "batería: cada salida existe y su SHA-256 coincide con el índice",
+   "detalle": "[]",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
+     "sha256": "faa9581777f57833df4e31b3f0e01258b0dca3d8ddc2af3e7edad881f8b4e63c"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/base_V20_pe_utf8.txt",
+     "sha256": "60164c83494e1a9f8e67c7e7e402cf11126e3b7effd98dc32d62113defa18f1c"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/base_V20_mutaciones_utf8.txt",
+     "sha256": "5ff31240b365e382685ae7b723673c23d195b4ad42fa461d77709c0eac8d45b9"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/ext_utf8.txt",
+     "sha256": "502f15ca3e28d04352094fe362075120c0c0d21d2d126fec0367b66324624220"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/concurrencia_local_utf8.txt",
+     "sha256": "96eef996d87a93fad7a1ea2d2fce78593ad9a949c871302748915a317900bfdf"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/dg19_pk_experimento.txt",
+     "sha256": "02cd7664a3971b2dbc9f4c055fce6a95a9295ac4d3af08419d88dd9bb3dfa370"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/hash_cadena_referencia.txt",
+     "sha256": "ce96f96482d220adedcc4f7e66f47cc4b9c5979ae87c2b17391bacd95e239b94"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/revision_estatica_T47_T124.txt",
+     "sha256": "8bf91cd4b2ecd73ced0275200cbb6e28ce1175270242ff0d4429e6c3720ea8e3"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/k47_por_escenario.txt",
+     "sha256": "f3a8022065d55224b4d3314e30daea68c30152b27b677ffc86c68dc2d2044fb9"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/t409_t422_individual.txt",
+     "sha256": "683734df7fcdfb185856560cfbc0daeda02f9805937dc33b6bb1287d14c76ac5"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/t409_repro.txt",
+     "sha256": "683734df7fcdfb185856560cfbc0daeda02f9805937dc33b6bb1287d14c76ac5"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/t409_repro_cmp.txt",
+     "sha256": "50a86dd8d80492b268533140585c6b8a2528bc85708333fd17537f2e52280b93"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/t409_correspondencia.txt",
+     "sha256": "3f0b1e881fff2375fb0ffcd07851b50b4dd3f4768611bff9d84fe1318970d25c"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/22_stdout.txt",
+     "sha256": "cac467d3949f25111bcc1ece7c1361e6a8b26e8ca4521c60369565cd94e7ddf8"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/exc_en_mutaciones_modelo14.txt",
+     "sha256": "b663615ec6bdc47097982fff1fb91b439d8b0601334aa66ae7a0859141c333c7"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/catalogo_except_y_ramas_muertas.txt",
+     "sha256": "25406127f826d5bed58c3b08d437389e666ace2e557932ced4a0e6d8c8117d5d"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/arnes_r1r9_autoprueba_local.txt",
+     "sha256": "e764615afde62e804ee79577e012ea5a1c494656df1871a998c43275073b954f"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/smoke_stdout.txt",
+     "sha256": "abb0027dd97d0224013fbc0c9cfdc60d1623760bb1546c0a7a4751b5b99065ce"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/aserciones_smoke.txt",
+     "sha256": "a252d3e43aec2195e57434b489105b308951ca788f62282677a3996e68fa2080"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/guarda_destino.txt",
+     "sha256": "f3e24fe1e707ceafe732630794e58a621c66bc24a28f9a8fb9993e8c899a8705"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/escaner_sql_stdout.txt",
+     "sha256": "196fc1c5910578d97542ac1ad8e4c1f1d18dcba0a81f07572623aa09653a4c96"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/escaner_texto_stdout.txt",
+     "sha256": "4da7b748f1b60407775d4b56d54fb83ea2eacc9c820947d23b54cf2c369560e2"
+    },
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/escaner_autoprueba_stdout.txt",
+     "sha256": "91f0a0ce5610de9404786788c2676f57aa68e3afdcba333cd5e696c6ae32fd53"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 43,
+   "id_unico": "RC-043",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "smoke de los 6 scripts: aserciones de contenido 12/12, 0 FAIL (guardas, precondición de roles, 03 defectuoso/corregido, 04 NO VERIFICABLE, 05 BLOCKED)",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/aserciones_smoke.txt",
+     "sha256": "a252d3e43aec2195e57434b489105b308951ca788f62282677a3996e68fa2080"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 44,
+   "id_unico": "RC-044",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "guarda DEV/PROD (H-03): 187/187 pruebas, 0 FAIL; cubre los 6 scripts, PROD, destino desconocido, identidad no verificable, configuración incompleta y manipulada",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/guarda_destino.txt",
+     "sha256": "f3e24fe1e707ceafe732630794e58a621c66bc24a28f9a8fb9993e8c899a8705"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 45,
+   "id_unico": "RC-045",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "guarda DEV/PROD: los 6 scripts invocan preflight+verificador de marcador (guarda compartida) y las listas versionadas siguen vacías (no se inventan identificadores)",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/00_guarda_destino.sql",
+     "sha256": "8baba67b25862b59cec6fed978e47c318861b90252fe54786b541c8faae45d3b"
+    },
+    {
+     "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/01_inventario_esquema_SOLO_LECTURA.sql",
+     "sha256": "2c04e5eba28de65cd17e73780cd99662507b0c85ca3d5a108e91589e32c2b1c6"
+    },
+    {
+     "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/02_rls_privilegios_SOLO_LECTURA.sql",
+     "sha256": "d3ff9dfeb5036c1d200d5d463f27a38dc6ae4498a87b006a9106f04b096b7aaf"
+    },
+    {
+     "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/03_pruebas_rls_ROLLBACK.sql",
+     "sha256": "065e698ce5fcacc89e109d68219e2fb58eb9943e078f7cf59f32b95352d37073"
+    },
+    {
+     "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/04_trigger_r1_r9_ROLLBACK.sql",
+     "sha256": "955efe7f05dbe946ec9b70ac7e4932762d73fa23588fcf47ab8b9ba872d59ccf"
+    },
+    {
+     "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_A.sql",
+     "sha256": "a18fcd80d5ac9d21e676d2f0803c62d84d4051c87359bc752093433f5471e1ce"
+    },
+    {
+     "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_B.sql",
+     "sha256": "10f7a93f359a340c5451310bb6b7c1474ad4b86950ed6fa3d0f438e789f8829a"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 46,
+   "id_unico": "RC-046",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "T-409: 2ª corrida idéntica byte a byte",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/bateria_final/t409_repro_cmp.txt",
+     "sha256": "50a86dd8d80492b268533140585c6b8a2528bc85708333fd17537f2e52280b93"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 47,
+   "id_unico": "RC-047",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "T-409..T-422: correspondencia con nivel de evidencia explícito (14 escenarios)",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/t409_t422_correspondencia.csv",
+     "sha256": "b31056815d4cce2cde2108417ef36864615a74dbeda52d1ed614aeee64c41012"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 48,
+   "id_unico": "RC-048",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "manifiesto: controles negativos 36/36, 0 FAIL",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/controles_negativos_manifiesto.txt",
+     "sha256": "5b3c9dd17fe4228261bed2e31a0910fef6f4dae2e0361885084cc691ee6d0fc7"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 49,
+   "id_unico": "RC-049",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "búsqueda global sin FAIL",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/busqueda_global.txt",
+     "sha256": "acefb3b0c85d7e633031d8d62e7255aeb93dee274123595715eeb5a87dfb28bf"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 50,
+   "id_unico": "RC-050",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "herramientas antiguas eliminadas",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "virtual:listado:scripts_validacion",
+     "sha256": "bf1fb71956c85a33971a6e780d4b668dfb1940360f4a802406565448d56e9541"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "virtual:listado:scripts_validacion"
+   ],
+   "id": 51,
+   "id_unico": "RC-051",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "cifras definitivas: generadas, batería 22/22 OK, decisiones aprobadas = 0, PASS_PHYSICAL = 0",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/cifras_definitivas.json",
+     "sha256": "7b9c3d75ddd7791100b00d2fd479b88f8c56a0d93c742fc101c5294a354c67e5"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 52,
+   "id_unico": "RC-052",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "cifras: limitaciones 27 = vigentes+parciales+resueltas; decisiones 21; escenarios 12; fixtures 354 de 366 evaluaciones",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/cifras_definitivas.json",
+     "sha256": "7b9c3d75ddd7791100b00d2fd479b88f8c56a0d93c742fc101c5294a354c67e5"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "scripts_validacion"
+   ],
+   "id": 53,
+   "id_unico": "RC-053",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "manifiesto: nº de entradas (153) = cifra generada y = archivos sujetos a verificación",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "MANIFIESTO_SHA256_CIERRE.txt",
+     "sha256": "d86ff7f18048bf41476aad5348888108a596ff04da992ce305519598234ce13c"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "MANIFIESTO_SHA256_CIERRE.txt"
+   ],
+   "id": 54,
+   "id_unico": "RC-054",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "cifras de los documentos narrativos coinciden con cifras_definitivas.json (limitaciones, decisiones, arnés, fixtures, evaluaciones)",
+   "detalle": "[]",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "LEEME_CIERRE_TECNICO.md",
+     "sha256": "96c2b0ab30978fa52954f8ba99e6f536e77f93446474170751b0d6cd154b4f4b"
+    },
+    {
+     "ruta": "DICTAMEN_PREPARACION_FASE0.md",
+     "sha256": "c19c09606c574fa41b670112050f99eaf881de489c9463773afc9d251fc14230"
+    },
+    {
+     "ruta": "INFORME_CIERRE_TECNICO_FASE0.md",
+     "sha256": "f753d8d6c5c85b75377f2363125a8f64743efa4e12280ddadaa203fe446609ae"
+    },
+    {
+     "ruta": "INFORME_PUBLICACION_GITHUB.md",
+     "sha256": "d0f83dd1ffbf141dd902fb4493509fa9fb9bf99d25fc8a82bc741a37c662c731"
+    },
+    {
+     "ruta": "INFORME_HASHES_MANIFIESTO.md",
+     "sha256": "6109471bce018b1b4399b198e8c7cf55c6d906d98071056ac8f4a9a729179fe8"
+    },
+    {
+     "ruta": "INFORME_PRUEBAS_FINALES.md",
+     "sha256": "2db287a190ea7455efea66119ef96d74aaff2659fea8e04669bd64a061ec8aa4"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "DICTAMEN_PREPARACION_FASE0.md",
+    "INFORME_CIERRE_TECNICO_FASE0.md",
+    "INFORME_HASHES_MANIFIESTO.md",
+    "INFORME_PRUEBAS_FINALES.md",
+    "INFORME_PUBLICACION_GITHUB.md",
+    "LEEME_CIERRE_TECNICO.md"
+   ],
+   "id": 55,
+   "id_unico": "RC-055",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "alcance: contra V26 no hay archivos modificados/eliminados/añadidos fuera de docs/fase0/cierre_tecnico_fase0 (tracked: 0, sin seguimiento: 0)",
+   "detalle": "[]",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "virtual:git-diff-name-status:439777c9ea7db464fe49299adfeb2112abfd285c",
+     "sha256": "74c0319f4f46c6b694cfb2c6a6dbccff6b94914be62413635becf63116ced886"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "virtual:git-diff-name-status:439777c9ea7db464fe49299adfeb2112abfd285c"
+   ],
+   "id": 56,
+   "id_unico": "RC-056",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "alcance: herramientas protegidas (modelo_estructural.py, verificar_expediente.py) idénticas a V26",
+   "detalle": "",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "virtual:git-diff-herramientas:439777c9ea7db464fe49299adfeb2112abfd285c",
+     "sha256": "bf0b1ba56881d89ea3300a8c58e1a2654ce1919a92630ab7db43c1a4f4a8d73d"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "virtual:git-diff-herramientas:439777c9ea7db464fe49299adfeb2112abfd285c"
+   ],
+   "id": 57,
+   "id_unico": "RC-057",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  },
+  {
+   "comprobacion": "referencias a archivos (171) y enlaces relativos resuelven; las citas históricas están etiquetadas",
+   "detalle": "[]",
+   "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "DICTAMEN_PREPARACION_FASE0.md",
+     "sha256": "c19c09606c574fa41b670112050f99eaf881de489c9463773afc9d251fc14230"
+    },
+    {
+     "ruta": "EXPEDIENTE_T409_T422.md",
+     "sha256": "67a94d7569d008fa19d020115d345a38f123e50eddaa3373c1eb4f48e446c775"
+    },
+    {
+     "ruta": "INFORME_AUDITORIA_FECHAS_HORAS.md",
+     "sha256": "7939331e474e474525324c3642b1446d02e65bcacd747bfbee5031049a945a3f"
+    },
+    {
+     "ruta": "INFORME_CIERRE_TECNICO_FASE0.md",
+     "sha256": "f753d8d6c5c85b75377f2363125a8f64743efa4e12280ddadaa203fe446609ae"
+    },
+    {
+     "ruta": "INFORME_CIFRAS_DEFINITIVAS.md",
+     "sha256": "30e6a00da6abfe1fac7704b4d5019551f24dc4957bb82dace368d88f03c81d5b"
+    },
+    {
+     "ruta": "INFORME_DECISIONES_ARQUITECTONICAS.md",
+     "sha256": "e822d92fbf2a634c46c8210184780a2cf65541b9e9caaa16b4115969b292d133"
+    },
+    {
+     "ruta": "INFORME_HASHES_MANIFIESTO.md",
+     "sha256": "6109471bce018b1b4399b198e8c7cf55c6d906d98071056ac8f4a9a729179fe8"
+    },
+    {
+     "ruta": "INFORME_PRUEBAS_FINALES.md",
+     "sha256": "2db287a190ea7455efea66119ef96d74aaff2659fea8e04669bd64a061ec8aa4"
+    },
+    {
+     "ruta": "INFORME_PUBLICACION_GITHUB.md",
+     "sha256": "d0f83dd1ffbf141dd902fb4493509fa9fb9bf99d25fc8a82bc741a37c662c731"
+    },
+    {
+     "ruta": "INFORME_RECONCILIACION_INTEGRAL.md",
+     "sha256": "252caab2bfc92c8d5b55c3b1e9c4f12a0b0de8532ffcca6e4b7371c3a180a509"
+    },
+    {
+     "ruta": "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
+     "sha256": "a8bd91cc3503f2c88567be9858d2aa4a69697bfef7bcd4799d608f6b94791f43"
+    },
+    {
+     "ruta": "INFORME_SEGURIDAD_SCRIPTS.md",
+     "sha256": "8e6705fef39e80ece61b3f2967f3104665bc735651086c3be9271db8ec3070dd"
+    },
+    {
+     "ruta": "LEEME_CIERRE_TECNICO.md",
+     "sha256": "96c2b0ab30978fa52954f8ba99e6f536e77f93446474170751b0d6cd154b4f4b"
+    },
+    {
+     "ruta": "MATRIZ_MODELO_LOGICO_FISICO.md",
+     "sha256": "0091288b671781ba07ae9ce20f8894231cefd9f20c7a56844799dd4ffb9f97a9"
+    },
+    {
+     "ruta": "PLAN_VALIDACION_CCI_DEV.md",
+     "sha256": "05f8b2e36438c700c88c79a0927b0fb785b35045146d52bb87de1035fa449974"
+    },
+    {
+     "ruta": "PLAN_VALIDACION_TRIGGER_R1_R9.md",
+     "sha256": "941d7373958653b8842900d2b86095462f947d005f7d878da3650f7c5c78f2bb"
+    },
+    {
+     "ruta": "PROPUESTA_CONTRATO_ERRORES_R1_R9.md",
+     "sha256": "6d7e206052de01cd8e96dc120e8c213a8102c5868bff7b5438285e8bdb9d9456"
+    },
+    {
+     "ruta": "PROPUESTA_GUARDA_DEV_PROD.md",
+     "sha256": "da1b9aa20eefe15339457fff27128a647f6fe8f07947069cfa8b656022ca6557"
+    },
+    {
+     "ruta": "PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md",
+     "sha256": "f43df89239c4909f842841db5b57fc92890f6a27d4e1db4a67c0a7ff3189b104"
+    },
+    {
+     "ruta": "RESOLUCION_OBSERVACIONES_FINALES.md",
+     "sha256": "dfb5ab9cf15e654da698f2e394c03825abfe15f147e83fde1caa1c0901302e9c"
+    },
+    {
+     "ruta": "REVISION_22_FUNCIONES.md",
+     "sha256": "a8c0f65a8d77604b04c93817f0b251e2b71c595286dfe295e948895b19c8d491"
+    }
+   ],
+   "fecha_ejecucion_utc": "2026-11-21T20:44:00Z",
+   "fuente": [
+    "DICTAMEN_PREPARACION_FASE0.md",
+    "EXPEDIENTE_T409_T422.md",
+    "INFORME_AUDITORIA_FECHAS_HORAS.md",
+    "INFORME_CIERRE_TECNICO_FASE0.md",
+    "INFORME_CIFRAS_DEFINITIVAS.md",
+    "INFORME_DECISIONES_ARQUITECTONICAS.md",
+    "INFORME_HASHES_MANIFIESTO.md",
+    "INFORME_PRUEBAS_FINALES.md",
+    "INFORME_PUBLICACION_GITHUB.md",
+    "INFORME_RECONCILIACION_INTEGRAL.md",
+    "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
+    "INFORME_SEGURIDAD_SCRIPTS.md",
+    "LEEME_CIERRE_TECNICO.md",
+    "MATRIZ_MODELO_LOGICO_FISICO.md",
+    "PLAN_VALIDACION_CCI_DEV.md",
+    "PLAN_VALIDACION_TRIGGER_R1_R9.md",
+    "PROPUESTA_CONTRATO_ERRORES_R1_R9.md",
+    "PROPUESTA_GUARDA_DEV_PROD.md",
+    "PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md",
+    "RESOLUCION_OBSERVACIONES_FINALES.md",
+    "REVISION_22_FUNCIONES.md"
+   ],
+   "id": 58,
+   "id_unico": "RC-058",
+   "metodo": "comparación de valores leídos de la fuente con el valor esperado"
+  }
+ ],
+ "fail": 0,
+ "meta": {
+  "commit_base_git": "eb0ac4a7a5b11791b1be50bf4a1949bbff17797b",
+  "ejecucion_id": "CCI-RUN-20261121T203846Z-5a7fb25c",
+  "fuente_unica": "este JSON; el TXT y el MD se generan de él en la misma ejecución",
+  "generado_local": "2026-11-21T20:44:00+0000",
+  "generado_utc": "2026-11-21T20:44:00Z",
+  "zona_local": "UTC"
+ },
+ "pass": 58,
+ "total": 58
+}

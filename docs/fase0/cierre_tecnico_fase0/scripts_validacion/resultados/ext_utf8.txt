@@ -1,3 +1,4 @@
+NOTICE:  database "cci_ct_ext" does not exist, skipping
 EX-T03a | IG1-08 | 23503 | 23503:insert or update on table "copy_versions" violates foreign key constra | PASS
 EX-T03b | IG1-08 | 23503 | 23503:insert or update on table "copy_versions" violates foreign key constra | PASS
 EX-T03c | IG1-05 | 23503 | 23503:insert or update on table "copy_versions" violates foreign key constra | PASS
