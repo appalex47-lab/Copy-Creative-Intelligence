@@ -1,0 +1,7 @@
+PASS | sin rutas duplicadas en el manifiesto | 94
+PASS | sin rutas absolutas o inseguras | 
+PASS | el manifiesto no se lista a sí mismo | 
+PASS | sin archivos faltantes | []
+PASS | sin archivos extra no declarados | []
+PASS | SHA-256 recalculado coincide en los 94 archivos | []
+TOTAL_ENTRADAS=94 FAIL=0

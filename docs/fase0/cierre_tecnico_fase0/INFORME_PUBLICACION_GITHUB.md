@@ -1,5 +1,28 @@
 # INFORME DE PUBLICACIÓN EN GITHUB
 
-*(Borrador previo al push; los resultados definitivos se añaden tras publicar y verificar.)*
+Repositorio: `appalex47-lab/Copy-Creative-Intelligence` · Rama: `audit/cierre-tecnico-fase0` (https://github.com/appalex47-lab/Copy-Creative-Intelligence/tree/audit/cierre-tecnico-fase0).
+Publicación exclusivamente para revisión independiente: no implica aprobación, aceptación, fusión ni autorización de la siguiente fase. Sin PR ni merge. Sin `force push`.
 
-Repositorio `appalex47-lab/Copy-Creative-Intelligence`; rama `audit/cierre-tecnico-fase0`; primera publicación `e6caebf61947d94ac8867ecd62f6ebe079fe64ef` (padre V26 `439777c9ea7db464fe49299adfeb2112abfd285c`). `main` = `6a1af2424ef39e0960b8f7e09d4e19ec52e6f046` (no se modifica). Sin PR ni merge. Publicación solo para revisión independiente: no implica aprobación, aceptación, fusión ni autorización de la siguiente fase.
+## Commits
+| Commit | SHA | Contenido |
+|---|---|---|
+| Primera publicación | `e6caebf61947d94ac8867ecd62f6ebe079fe64ef` (padre V26 `439777c9ea7db464fe49299adfeb2112abfd285c`) | expediente inicial (52 archivos) |
+| Corrección final consolidada | `182b83293f0a207d29d7ca06c3284ad2a672298d` (padre `e6caebf…`) | 44 archivos añadidos, 25 modificados, 0 eliminados respecto de e6caebf |
+| Este informe | commit posterior en la misma rama (un archivo, `INFORME_PUBLICACION_GITHUB.md`; el SHA no puede constar en su propio contenido: ver `git log`) | resultados de la verificación |
+
+## Verificación remota del commit 182b832 (independiente)
+| Vía | Método | Resultado |
+|---|---|---|
+| A | clon fresco desde GitHub; `ct_verificar_publicacion.py dir` y `sha256sum -c` | 94/94 SHA-256 coinciden; sin faltantes, extra, duplicados, rutas absolutas ni inseguras |
+| B | API de GitHub (`git/trees` + `git/blobs`), sin usar la copia local ni el clon | 94/94 coinciden; mismas comprobaciones |
+
+Salidas íntegras: `scripts_validacion/resultados/verificacion_remota_viaA.txt` y `…_viaB.txt`. El manifiesto (94 entradas) no se lista a sí mismo ni lista este informe (exclusiones declaradas).
+
+## Integridad de otras ramas y alcance
+- `main` = `6a1af2424ef39e0960b8f7e09d4e19ec52e6f046` (sin cambios).
+- `audit/fase0-v26-review` = `439777c9ea7db464fe49299adfeb2112abfd285c` (sin cambios).
+- Diferencia entre V26 y la rama del cierre: solo archivos añadidos bajo `docs/fase0/cierre_tecnico_fase0/` (0 rutas fuera del dossier; 0 archivos de V26 modificados).
+- CCI-DEV y CCI-PROD: no se tocaron; no se ejecutó ningún script contra Supabase.
+
+## Limitaciones de esta verificación
+El SHA-256 prueba identidad de archivos, no corrección de contenido. La verificación de `main`/V26 es por SHA de referencia remota.
