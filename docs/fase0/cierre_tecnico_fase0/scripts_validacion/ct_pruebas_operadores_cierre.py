@@ -47,7 +47,7 @@ DBS = ("cci_opc_shim", "cci_opc_conc")
 CN = [0]
 def limpia():
     for db in DBS + (DB_DEV,):
-        sh(["-q", "-f", scr("set search_path = pg_catalog;\nselect 'drop function ' || p.oid::regprocedure || ' cascade' from pg_proc p where p.pronamespace::oid operator(pg_catalog.=) 'public'::regnamespace::oid and p.proname like 'hf%' \\gexec\ndrop type if exists public.ct cascade;\ndrop domain if exists public.dt cascade;\ndrop schema if exists evil cascade;\ndrop table if exists public.hf_efecto;")], db=db)
+        sh(["-q", "-f", scr("set search_path = pg_catalog;\nselect 'drop function ' || p.oid::regprocedure || ' cascade' from pg_proc p where p.pronamespace::oid operator(pg_catalog.=) 'public'::regnamespace::oid and p.proname like 'hf%' \\gexec\ndrop extension if exists cci_evilext cascade;\ndrop extension if exists btree_gist cascade;\ndrop type if exists public.ct cascade;\ndrop domain if exists public.dt cascade;\ndrop schema if exists evil cascade;\ndrop table if exists public.hf_efecto;")], db=db)
     for sc in ("alter role cci_test reset search_path", "alter database cci_opc_shim reset search_path", "alter role cci_test in database cci_opc_shim reset search_path"): q(sc)
 def op(db, o, l, r, ret=None, esq="public", cuerpo=None):
     """planta un operador hostil; devuelve la firma. cuerpo=None: lanza HIJACK-OP."""
@@ -133,6 +133,27 @@ def aux():
         f, c = op(db, "=", "oid", "regnamespace", cuerpo=cu); rc, o = sh(["-q", "-v", "ON_ERROR_STOP=1", "-c", f + "; " + c], db=db)
         if rc: print("ERROR aux", o[-300:]); raise SystemExit(2)
 ataque("E-01", "E función auxiliar", "= (oid, regnamespace) que ejecuta una función auxiliar con efecto lateral y devuelve el resultado CORRECTO (el script no falla: ataque silencioso)", aux, True, firmas="=(oid,regnamespace) → set_config + notice, devuelve el valor real", tipos="oid/regnamespace")
+# ================= K: operadores empaquetados como EXTENSIÓN (legítima y hostil)
+SHARE = subprocess.run(["pg_config", "--sharedir"], capture_output=True, text=True).stdout.strip() + "/extension"
+def ext_hostil():
+    open(SHARE + "/cci_evilext.control", "w").write("comment = 'extension hostil de prueba'\ndefault_version = '1.0'\nrelocatable = false\nschema = public\n")
+    open(SHARE + "/cci_evilext--1.0.sql", "w").write("create function public.hfx1(oid, regnamespace) returns boolean language plpgsql as $b$ begin raise exception 'HIJACK-OP ext = oid regnamespace'; end $b$;\ncreate operator public.= (leftarg = oid, rightarg = regnamespace, function = public.hfx1);\n")
+    for db in DBS:
+        rc, o = sh(["-q", "-v", "ON_ERROR_STOP=1", "-c", "create extension cci_evilext"], db=db)
+        if rc: print("ERROR ext", o[-200:]); raise SystemExit(2)
+try:
+    ataque("K-01", "K operador empaquetado como extensión", "extensión HOSTIL cci_evilext instalada en public con = (oid,regnamespace): el origen 'extensión' no lo hace confiable cuando el símbolo es estándar", ext_hostil, True, firmas="=(oid,regnamespace) dentro de la extensión cci_evilext", tipos="oid/regnamespace")
+finally:
+    for f in ("cci_evilext.control", "cci_evilext--1.0.sql"):
+        try: os.remove(SHARE + "/" + f)
+        except OSError: pass
+# K-02: extensión LEGÍTIMA (btree_gist, la usan las exclusiones de CCI): debe seguir aceptada y los 6 scripts deben conservar su comportamiento
+limpia()
+for db in DBS: q("create extension if not exists btree_gist", db)
+nl = barre("K-02", "K extensión legítima", "NEW", T_NEW, LOC, "btree_gist instalada en public (operadores de distancia <-> de la extensión): NO debe rechazarse (sin regresión)", "extensión legítima instalada", "public (extensión)", "<->(...) de btree_gist", "varios")
+okk = all(r["guarda_ok"] and not r["ejecutado"] and not r["rechazado"] for r in nl)
+CASOS.append({"id": "K-02", "categoria": "K extensión legítima", "descripcion": "btree_gist (necesaria para las exclusiones de CCI) instalada en public: la guarda la acepta y los 6 scripts conservan su comportamiento", "control_positivo_VULN_scripts_secuestrados": [], "esperado_en_VULN": "informativo", "control_positivo_ok": True, "NEW_ataques_ejecutados": 0, "NEW_rechazos": sorted({r["rechazado"] for r in nl if r["rechazado"]}), "estado": "PASS" if okk else "FAIL", "nota": "guarda_ok=%s" % [r["guarda_ok"] for r in nl]})
+print("%s | K-02 | guarda_ok=%s" % ("PASS" if okk else "FAIL", [r["guarda_ok"] for r in nl])); limpia()
 # ================= F: antes/después de fijar el search_path; G: objetos temporales; H: SET/SET LOCAL/PGOPTIONS/configuración heredada; J: resolución real
 def probe(tree, cuerpo, opts=LOC, db="cci_opc_shim", nombre="01_probe"):
     d = os.path.join(TMP, "pr_" + os.path.basename(tree)); shutil.rmtree(d, ignore_errors=True); shutil.copytree(tree, d)

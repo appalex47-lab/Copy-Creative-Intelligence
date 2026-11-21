@@ -151,7 +151,7 @@ def C():
         eq = J["equivalencia_VULN_con_guarda_404f5adc"].get("identica") is True
         cp = [c for c in J["casos_barrido"] if c["id"] in ("B-01", "B-02", "E-01")]
         return (eq and all(c["control_positivo_VULN_scripts_secuestrados"] for c in cp), "equivalencia=%s controles_positivos=%s" % (eq, [(c["id"], c["control_positivo_VULN_scripts_secuestrados"]) for c in cp]))
-    paso("C", "operadores_y_privilegios_efectivos", PY + [os.path.join(SV, "ct_pruebas_operadores_cierre.py"), sock, port, os.path.join(CD, "operadores_privilegios_cierre.json")], rx=r"^TOTAL=37 PASS=37 FAIL=0$", chequeo=opc)
+    paso("C", "operadores_y_privilegios_efectivos", PY + [os.path.join(SV, "ct_pruebas_operadores_cierre.py"), sock, port, os.path.join(CD, "operadores_privilegios_cierre.json")], rx=r"^TOTAL=39 PASS=39 FAIL=0$", chequeo=opc)
     pb = puertos_libres(4); wd = os.path.join(tempfile.gettempdir(), RUN, "ag18")
     paso("C", "identidad_firmada_ag18_clones", PY + [os.path.join(SV, "ct_pruebas_identidad_firmada.py"), wd, str(pb), os.path.join(CD, "identidad_firmada_ag18.json")], rx=r"^TOTAL=42 PASS=42 FAIL=0$")
     pb = puertos_libres(4); wd = os.path.join(tempfile.gettempdir(), RUN, "ext01")
