@@ -2,6 +2,7 @@
 # Uso: ct_smoke_scripts_cci_dev_local.sh <socket> <puerto> [directorio_salida]. PostgreSQL TEMPORAL LOCAL. Ejecuta los 6 scripts de cci_dev_NO_EJECUTADOS SOLO como smoke local
 # (modo SI-LOCAL-TEMPORAL), contra bases locales cci_*; esto NO es validación de CCI-DEV ni de Supabase. Verifica guardas, sintaxis y que los resultados defectuosos den FAIL/BLOCKED.
 set -u; export PGHOST="$1" PGPORT="$2" PGUSER=cci_test; D="$(cd "$(dirname "$0")" && pwd)"; O="${3:-$D/resultados}"; S="$D/cci_dev_NO_EJECUTADOS"; mkdir -p "$O"
+export CCI_DIR="$S" CCI_GUARDA_SHA256_APROBADO="$(sha256sum "$S/00_guarda_destino.sql" | cut -d' ' -f1)"   # raíz de confianza simulada: en producción lo aporta el propietario fuera del repo
 L="-c cci.validacion_autorizada=SI-LOCAL-TEMPORAL -c cci.entorno=LOCAL-TEMPORAL"; U=00000000-0000-0000-0000-0000000000
 run() { PGOPTIONS="$L" psql -v ON_ERROR_STOP=1 -P pager=off "$@" 2>&1; }
 # 0) guarda: sin autorización cada script debe abortar con NO EJECUTADO
