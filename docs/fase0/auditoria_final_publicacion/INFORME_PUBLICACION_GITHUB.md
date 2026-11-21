@@ -1,0 +1,142 @@
+# Informe de publicación en GitHub — auditoría final independiente CCI Fase 0
+
+**Estado:** PUBLICACIÓN COMPLETADA PARA REVISIÓN INDEPENDIENTE. Esta publicación **no** supone aceptación de Fase 0 ni autorización de Fase 1. No se creó PR ni merge; no hubo conexión a Supabase/CCI-DEV/CCI-PROD.
+
+1. HEAD auditado original: `d365a162e54809f3b8de9c77f5902a8ea131a97f` (rama `audit/fase0-remediaciones-h01-h02-h03`, intacta).
+2. HEAD de publicación: el del último commit de la rama (ver GitHub; este informe se añade en un commit posterior, listado abajo como pendiente de su propio SHA).
+3. Origen: `audit/fase0-remediaciones-h01-h02-h03` @ d365a16 → destino: `audit/fase0-auditoria-final-publicacion`.
+4. Commits publicados:
+   - `4fe08d6ea8dafe2f4dc8d9ae850152e69e7cdbaa` fix(fase0): corregir vulnerabilidades H01 H02 H03
+   - `602f8648341f29207d4573839fdce2a3be6815dc` test(fase0): publicar regresiones, resultados y documentos regenerados
+   - `f43616fd29a7fc1b187bf12e5d013a4be26b3e1a` docs(fase0): publicar expediente final de auditoria
+   - (commit final) docs(fase0): registrar publicación verificable en GitHub — contiene este informe.
+5. Archivos respecto a d365a16 (sin contar este informe): A 59; M 46; R100 19;  (R = renombrados al histórico; ningún archivo eliminado sin conservar).
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0.zip
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/AUDITORIA_CONSISTENCIA_H02.md
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/AUDITORIA_REPRODUCIBILIDAD_H01.md
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/AUDITORIA_TECNICA_GUARDA_H03.md
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/DICTAMEN_FINAL_INDEPENDIENTE.md
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/DIFF_CORRECCIONES_LOCALES.patch
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/INSTRUCCIONES_REPRODUCCION.md
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/LIMITACIONES_PENDIENTES.md
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/MANIFIESTO_SHA256.txt
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/MATRIZ_COMPATIBILIDAD_SUPABASE.md
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/MATRIZ_IDENTIDAD_DEV_PROD.md
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/MATRIZ_INTEGRIDAD_GUARDA.md
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/MATRIZ_PERSISTENCIA_SEARCH_PATH.md
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/MATRIZ_SEIS_SCRIPTS.md
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/REGISTRO_CORRECCIONES.md
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/REGISTRO_HALLAZGOS.md
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/RESULTADOS_PRUEBAS_COMPLETOS.md
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/ENTORNO_cluster1.txt
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/ENTORNO_cluster2.txt
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/INDICE_BATERIA_cluster1.csv
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/INDICE_BATERIA_cluster2.csv
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/PARCHE_COMPLETO_con_resultados_regenerados.patch
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/bateria_rama_publicada_stdout.txt
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/comparacion_clusteres.txt
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/guarda_destino_109_rama_publicada_reproduccion.txt
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/guarda_destino_139_arbol_corregido.txt
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/guarda_y_envoltorio_corregidos/00_guarda_destino.sql
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/guarda_y_envoltorio_corregidos/ct_pruebas_guarda_destino.py
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/guarda_y_envoltorio_corregidos/ejecutar_script_verificado.sh
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/herramientas/aud2_matrices.py
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/evidencia/aud_cierre_final.sh	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/herramientas/aud_cierre_final.sh
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/herramientas/aud_comparar_clusteres.py
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/evidencia/aud_consistencia.py	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/herramientas/aud_consistencia.py
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/evidencia/aud_huecos_guarda.py	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/herramientas/aud_huecos_guarda.py
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/evidencia/aud_integridad.py	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/herramientas/aud_integridad.py
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/herramientas/hijack.py
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/evidencia/nuevo_cluster.sh	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/herramientas/nuevo_cluster.sh
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/herramientas/persist.py
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/hijack_POST_correccion.txt
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/hijack_PRE_rama_publicada.txt
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/integridad_independiente_clon1.json
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/integridad_independiente_clon2.json
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/matrices_CORR_arbol_corregido.json
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/matrices_PUB_rama_publicada_d365a16.json
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/persistencia_tras_rechazo_CORR.json
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/precondicion_roles_cluster1.txt
+   - A	AUDITORIA_FINAL_INDEPENDIENTE_FASE0/evidencia/precondicion_roles_cluster2.txt
+   - M	docs/fase0/cierre_tecnico_fase0/INFORME_AUDITORIA_FECHAS_HORAS.md
+   - M	docs/fase0/cierre_tecnico_fase0/INFORME_CIFRAS_DEFINITIVAS.md
+   - M	docs/fase0/cierre_tecnico_fase0/INFORME_PRUEBAS_FINALES.md
+   - M	docs/fase0/cierre_tecnico_fase0/INFORME_RECONCILIACION_INTEGRAL.md
+   - M	docs/fase0/cierre_tecnico_fase0/LEEME_CIERRE_TECNICO.md
+   - M	docs/fase0/cierre_tecnico_fase0/MANIFIESTO_SHA256_CIERRE.txt
+   - M	docs/fase0/cierre_tecnico_fase0/PROPUESTA_GUARDA_DEV_PROD.md
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/cci_dev_NO_EJECUTADOS/00_guarda_destino.sql
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/cci_dev_NO_EJECUTADOS/01_inventario_esquema_SOLO_LECTURA.sql
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/cci_dev_NO_EJECUTADOS/02_rls_privilegios_SOLO_LECTURA.sql
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/cci_dev_NO_EJECUTADOS/03_pruebas_rls_ROLLBACK.sql
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/cci_dev_NO_EJECUTADOS/04_lib_clasificador.sql
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/cci_dev_NO_EJECUTADOS/04_trigger_r1_r9_ROLLBACK.sql
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_A.sql
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_B.sql
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/ct_bateria_final.sh
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/ct_pruebas_guarda_destino.py
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/ct_reconciliacion_integral.py
+   - A	docs/fase0/cierre_tecnico_fase0/scripts_validacion/ejecutar_script_verificado.sh
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/04_r1r9_local_bloqueado.txt
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/bateria_final/ENTORNO.txt
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/bateria_final/escaner_texto_stdout.txt
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/bateria_final/precondicion_roles.txt
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/cifras_definitivas.json
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/concurrencia_local_utf8.txt
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/escaner_seguridad_texto.txt
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/guarda_destino.txt
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/reconciliacion_integral.json
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/reconciliacion_integral.txt
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/smoke_01_inventario.txt
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/smoke_02_rls_inventario.txt
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/smoke_03_rls_shim_corregida.txt
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/smoke_03_rls_shim_defectuosa.txt
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/smoke_05_sesion_A.txt
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/smoke_05_sesion_B.txt
+   - M	docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/smoke_05_sin_tabla.txt
+   - M	docs/fase0/publicacion_remediaciones_h01_h02_h03/AUDITORIA_INDEPENDIENTE_GUARDA_DEV_PROD.md
+   - M	docs/fase0/publicacion_remediaciones_h01_h02_h03/CONFIGURACION_REQUERIDA_CCI_DEV.md
+   - M	docs/fase0/publicacion_remediaciones_h01_h02_h03/DICTAMEN_H03.md
+   - M	docs/fase0/publicacion_remediaciones_h01_h02_h03/INFORME_CONSOLIDADO_H01_H02_H03.md
+   - M	docs/fase0/publicacion_remediaciones_h01_h02_h03/INVENTARIO_PRUEBAS.md
+   - M	docs/fase0/publicacion_remediaciones_h01_h02_h03/LIMITACIONES_NO_RESUELTAS.md
+   - M	docs/fase0/publicacion_remediaciones_h01_h02_h03/MANIFIESTO_PUBLICACION_SHA256.txt
+   - M	docs/fase0/publicacion_remediaciones_h01_h02_h03/MATRIZ_COMPATIBILIDAD_SUPABASE.md
+   - M	docs/fase0/publicacion_remediaciones_h01_h02_h03/MATRIZ_PRUEBAS_SEGURIDAD_GUARDA.md
+   - M	docs/fase0/publicacion_remediaciones_h01_h02_h03/REPRODUCIR_PRUEBAS.md
+   - A	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/AUDITORIA_INDEPENDIENTE_GUARDA_DEV_PROD.md
+   - A	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/CONFIGURACION_REQUERIDA_CCI_DEV.md
+   - A	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/DICTAMEN_H03.md
+   - A	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/INFORME_CONSOLIDADO_H01_H02_H03.md
+   - A	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/INVENTARIO_PRUEBAS.md
+   - A	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/LEEME_HISTORICO.md
+   - A	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/LIMITACIONES_NO_RESUELTAS.md
+   - A	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/MANIFIESTO_PUBLICACION_SHA256.txt
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/MATRIZ_ARCHIVOS_MODIFICADOS_Y_NUEVOS.csv	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/MATRIZ_ARCHIVOS_MODIFICADOS_Y_NUEVOS.csv
+   - A	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/MATRIZ_COMPATIBILIDAD_SUPABASE.md
+   - A	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/MATRIZ_PRUEBAS_SEGURIDAD_GUARDA.md
+   - A	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/REPRODUCIR_PRUEBAS.md
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/evidencia/ENTORNO_cluster1_pgM.txt	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/evidencia/ENTORNO_cluster1_pgM.txt
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/evidencia/ENTORNO_cluster2_pgN.txt	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/evidencia/ENTORNO_cluster2_pgN.txt
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/evidencia/INDICE_BATERIA_cluster1_pgM.csv	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/evidencia/INDICE_BATERIA_cluster1_pgM.csv
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/evidencia/INDICE_BATERIA_cluster2_pgN.csv	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/evidencia/INDICE_BATERIA_cluster2_pgN.csv
+   - A	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/evidencia/aud_cierre_final.sh
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/evidencia/aud_comparar_clusteres.py	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/evidencia/aud_comparar_clusteres.py
+   - A	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/evidencia/aud_consistencia.py
+   - A	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/evidencia/aud_huecos_guarda.py
+   - A	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/evidencia/aud_integridad.py
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/evidencia/aud_secuencia_posbateria.sh	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/evidencia/aud_secuencia_posbateria.sh
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/evidencia/comparacion_clusteres.txt	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/evidencia/comparacion_clusteres.txt
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/evidencia/guarda_destino_109_cluster_aux.txt	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/evidencia/guarda_destino_109_cluster_aux.txt
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/evidencia/huecos_AG_post_correccion.json	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/evidencia/huecos_AG_post_correccion.json
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/evidencia/huecos_AG_post_correccion.txt	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/evidencia/huecos_AG_post_correccion.txt
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/evidencia/huecos_AG_pre_correccion_historico.json	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/evidencia/huecos_AG_pre_correccion_historico.json
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/evidencia/integridad_independiente_gc.json	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/evidencia/integridad_independiente_gc.json
+   - R100	docs/fase0/publicacion_remediaciones_h01_h02_h03/evidencia/integridad_independiente_gd.json	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/evidencia/integridad_independiente_gd.json
+   - A	docs/fase0/publicacion_remediaciones_h01_h02_h03/historico_pre_auditoria_final/evidencia/nuevo_cluster.sh
+6. SHA-256: ZIP `AUDITORIA_FINAL_INDEPENDIENTE_FASE0.zip` = `79e8905a5ee8713dd53f5be426c0f2f17f6bd93b9e6cd71ec1a166096797f70c`; `MANIFIESTO_SHA256.txt` = `bc7a5f0b67f417bd8961c609e9a1199f72ad29381cd6d263d7364312110e0232` (manifiesto: 45 entradas del expediente, 0 incorrectas).
+7. Guarda `00_guarda_destino.sql`: original (d365a16) `07c6673cc7f6cd4beebcb261eeea6e3ab1c4dbc99fe7dc8021b707607016e5a9`; corregida `b30a39d9d6dac4974913bf7140a619d1991b599a0c0d12af504f9af0906eb1ec`.
+8. Resultados publicados (PostgreSQL 16 local; ninguno sobre Supabase): H-01 22/22 en cada uno de dos clústeres; comparación entre clústeres 30/30; guarda 139/139; matrices 228 casos por árbol (corregido 202 PASS / 26 PARTIAL / 0 FAIL; rama original 196 PASS / 26 PARTIAL / 6 FAIL); hijack 6/6 en árbol corregido; reconciliación 58/58; consistencia 58/58; manifiesto de cierre 138 entradas sin hashes incorrectos. Detalle: `AUDITORIA_FINAL_INDEPENDIENTE_FASE0/RESULTADOS_PRUEBAS_COMPLETOS.md`.
+9. Limitaciones abiertas: ver `AUDITORIA_FINAL_INDEPENDIENTE_FASE0/LIMITACIONES_PENDIENTES.md` (guarda sustituible sin hash externo, clon DEV/PROD indistinguible, stdin no soportado, batería no paralelizable, compatibilidad Supabase NO VERIFICADA, 21 decisiones/Adenda v9/OD-13 pendientes).
+10. Esta publicación no supone aceptación de Fase 0 ni autorización de Fase 1.
