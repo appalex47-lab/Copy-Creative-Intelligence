@@ -51,7 +51,7 @@ def verificar(idir, pubkey, pub_sha, entorno, endpoint, base, sysid, ahora=None)
     ents = pol["entornos"]
     if set(ents) - {"CCI-DEV", "CCI-PROD"}: raise Rechazo("I-FORMATO", "entorno desconocido en la política")
     dev_p = set((ents.get("CCI-DEV") or {}).get("proyectos_autorizados") or []); prod_p = set((ents.get("CCI-PROD") or {}).get("proyectos_autorizados") or [])
-    if dev_p & prod_p: raise Rechazo("I-POLITICA-INCONSISTENTE", "un proyecto figura a la vez en DEV y PROD")
+    if dev_p & prod_p: raise Rechazo("I-POLITICA-CONTRADICTORIA", "un proyecto figura a la vez en DEV y PROD")
     # 2) token de identidad (firmado)
     if not _firma_ok(tb, ts, pubkey): raise Rechazo("I-FIRMA-INVALIDA")
     tk = _json(tb)

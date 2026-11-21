@@ -1,0 +1,54 @@
+psql:/tmp/cci.hxi4LH/g.sql:65: NOTICE:  GUARDA OK modo=SI-LOCAL-TEMPORAL huella=168b40ec
+DO
+CREATE TABLE
+INSERT 0 1
+DO
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE TABLE
+SELECT 6
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+DO
+   id   |                               descripcion                                | estado |           detalle           
+--------+--------------------------------------------------------------------------+--------+-----------------------------
+ PRE-01 | roles anon y authenticated existen                                       | OK     | 
+ PRE-02 | el usuario actual puede asumir authenticated y anon                      | OK     | current_user=cci_test
+ PRE-03 | hay tablas con organization_id (conjunto evaluado)                       | OK     | tablas=6
+ PRE-04 | existen filas de org_b y de org_a (sin ellas RLS-01/02/04 serían vacuas) | OK     | filas_org_a=6 filas_org_b=5
+(4 rows)
+
+CREATE TABLE
+BEGIN
+SET
+SET
+INSERT 0 6
+INSERT 0 6
+INSERT 0 6
+INSERT 0 6
+INSERT 0 5
+INSERT 0 1
+=== DETALLE POR TABLA ===
+   id   |  tabla  | clase | sqlstate |  veredicto   |                        msg                         
+--------+---------+-------+----------+--------------+----------------------------------------------------
+ RLS-06 | (todas) |       |          | NOT VERIFIED | no implementado genéricamente: requiere datos por 
+(1 row)
+
+=== RESUMEN POR PRUEBA ===
+   id    | casos | pass | fail | blocked | nv |  resultado   
+---------+-------+------+------+---------+----+--------------
+ RLS-01  |     6 |    6 |    0 |       0 |  0 | PASS
+ RLS-02  |     6 |    6 |    0 |       0 |  0 | PASS
+ RLS-03  |     6 |    6 |    0 |       0 |  0 | PASS
+ RLS-04  |     6 |    6 |    0 |       0 |  0 | PASS
+ RLS-05a |     1 |    1 |    0 |       0 |  0 | PASS
+ RLS-05b |     1 |    1 |    0 |       0 |  0 | PASS
+ RLS-05c |     1 |    1 |    0 |       0 |  0 | PASS
+ RLS-05d |     1 |    1 |    0 |       0 |  0 | PASS
+ RLS-05e |     1 |    1 |    0 |       0 |  0 | PASS
+ RLS-06  |     1 |    0 |    0 |       0 |  1 | NOT VERIFIED
+(10 rows)
+
+ROLLBACK

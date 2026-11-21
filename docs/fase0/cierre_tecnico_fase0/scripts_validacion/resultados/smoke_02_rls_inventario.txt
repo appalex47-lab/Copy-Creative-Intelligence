@@ -1,0 +1,844 @@
+psql:/tmp/cci.29mvXu/g.sql:65: NOTICE:  GUARDA OK modo=SI-LOCAL-TEMPORAL huella=168b40ec
+DO
+CREATE TABLE
+INSERT 0 1
+DO
+BEGIN
+ schemaname | tablename | policyname | permissive | roles | cmd | qual | with_check 
+------------+-----------+------------+------------+-------+-----+------+------------
+(0 rows)
+
+             relname             
+---------------------------------
+ adaptation_art_refs_x
+ approval_citations_x
+ approvals
+ approvals_dg20_x
+ approvals_indep_x
+ approvals_legacy_x
+ assets_x
+ attribution_discard_resolutions
+ brief_field_attributions
+ channel_formats
+ channel_rules
+ cit_dg20_x
+ contribution_events
+ copy_versions
+ creative_pieces
+ impact_evaluations
+ impact_evaluations_x
+ justificaciones2_x
+ justificaciones_x
+ memberships
+ organizations
+ piece_reviewer_assignments_x
+ pieces_dg18_x
+ resultados
+ version_authors_x
+(25 rows)
+
+ grantee | table_name | privilege_type | is_grantable 
+---------+------------+----------------+--------------
+(0 rows)
+
+              tabla              |    rolname    | s | i | u | d | t 
+---------------------------------+---------------+---+---+---+---+---
+ adaptation_art_refs_x           | anon          | f | f | f | f | f
+ adaptation_art_refs_x           | authenticated | f | f | f | f | f
+ adaptation_art_refs_x           | service_role  | f | f | f | f | f
+ approval_citations_x            | anon          | f | f | f | f | f
+ approval_citations_x            | authenticated | f | f | f | f | f
+ approval_citations_x            | service_role  | f | f | f | f | f
+ approvals                       | anon          | f | f | f | f | f
+ approvals                       | authenticated | f | f | f | f | f
+ approvals                       | service_role  | f | f | f | f | f
+ approvals_dg20_x                | anon          | f | f | f | f | f
+ approvals_dg20_x                | authenticated | f | f | f | f | f
+ approvals_dg20_x                | service_role  | f | f | f | f | f
+ approvals_indep_x               | anon          | f | f | f | f | f
+ approvals_indep_x               | authenticated | f | f | f | f | f
+ approvals_indep_x               | service_role  | f | f | f | f | f
+ approvals_legacy_x              | anon          | f | f | f | f | f
+ approvals_legacy_x              | authenticated | f | f | f | f | f
+ approvals_legacy_x              | service_role  | f | f | f | f | f
+ assets_x                        | anon          | f | f | f | f | f
+ assets_x                        | authenticated | f | f | f | f | f
+ assets_x                        | service_role  | f | f | f | f | f
+ attribution_discard_resolutions | anon          | f | f | f | f | f
+ attribution_discard_resolutions | authenticated | f | f | f | f | f
+ attribution_discard_resolutions | service_role  | f | f | f | f | f
+ brief_field_attributions        | anon          | f | f | f | f | f
+ brief_field_attributions        | authenticated | f | f | f | f | f
+ brief_field_attributions        | service_role  | f | f | f | f | f
+ channel_formats                 | anon          | f | f | f | f | f
+ channel_formats                 | authenticated | f | f | f | f | f
+ channel_formats                 | service_role  | f | f | f | f | f
+ channel_rules                   | anon          | f | f | f | f | f
+ channel_rules                   | authenticated | f | f | f | f | f
+ channel_rules                   | service_role  | f | f | f | f | f
+ cit_dg20_x                      | anon          | f | f | f | f | f
+ cit_dg20_x                      | authenticated | f | f | f | f | f
+ cit_dg20_x                      | service_role  | f | f | f | f | f
+ contribution_events             | anon          | f | f | f | f | f
+ contribution_events             | authenticated | f | f | f | f | f
+ contribution_events             | service_role  | f | f | f | f | f
+ copy_versions                   | anon          | f | f | f | f | f
+ copy_versions                   | authenticated | f | f | f | f | f
+ copy_versions                   | service_role  | f | f | f | f | f
+ creative_pieces                 | anon          | f | f | f | f | f
+ creative_pieces                 | authenticated | f | f | f | f | f
+ creative_pieces                 | service_role  | f | f | f | f | f
+ impact_evaluations              | anon          | f | f | f | f | f
+ impact_evaluations              | authenticated | f | f | f | f | f
+ impact_evaluations              | service_role  | f | f | f | f | f
+ impact_evaluations_x            | anon          | f | f | f | f | f
+ impact_evaluations_x            | authenticated | f | f | f | f | f
+ impact_evaluations_x            | service_role  | f | f | f | f | f
+ justificaciones2_x              | anon          | f | f | f | f | f
+ justificaciones2_x              | authenticated | f | f | f | f | f
+ justificaciones2_x              | service_role  | f | f | f | f | f
+ justificaciones_x               | anon          | f | f | f | f | f
+ justificaciones_x               | authenticated | f | f | f | f | f
+ justificaciones_x               | service_role  | f | f | f | f | f
+ memberships                     | anon          | f | f | f | f | f
+ memberships                     | authenticated | f | f | f | f | f
+ memberships                     | service_role  | f | f | f | f | f
+ organizations                   | anon          | f | f | f | f | f
+ organizations                   | authenticated | f | f | f | f | f
+ organizations                   | service_role  | f | f | f | f | f
+ piece_reviewer_assignments_x    | anon          | f | f | f | f | f
+ piece_reviewer_assignments_x    | authenticated | f | f | f | f | f
+ piece_reviewer_assignments_x    | service_role  | f | f | f | f | f
+ pieces_dg18_x                   | anon          | f | f | f | f | f
+ pieces_dg18_x                   | authenticated | f | f | f | f | f
+ pieces_dg18_x                   | service_role  | f | f | f | f | f
+ resultados                      | anon          | f | f | f | f | f
+ resultados                      | authenticated | f | f | f | f | f
+ resultados                      | service_role  | f | f | f | f | f
+ version_authors_x               | anon          | f | f | f | f | f
+ version_authors_x               | authenticated | f | f | f | f | f
+ version_authors_x               | service_role  | f | f | f | f | f
+(75 rows)
+
+         proname          |    rolname    | puede_ejecutar 
+--------------------------+---------------+----------------
+ armor                    | anon          | t
+ armor                    | anon          | t
+ armor                    | authenticated | t
+ armor                    | authenticated | t
+ armor                    | service_role  | t
+ armor                    | service_role  | t
+ cash_dist                | anon          | t
+ cash_dist                | authenticated | t
+ cash_dist                | service_role  | t
+ contributors_x           | anon          | t
+ contributors_x           | authenticated | t
+ contributors_x           | service_role  | t
+ crypt                    | anon          | t
+ crypt                    | authenticated | t
+ crypt                    | service_role  | t
+ date_dist                | anon          | t
+ date_dist                | authenticated | t
+ date_dist                | service_role  | t
+ dearmor                  | anon          | t
+ dearmor                  | authenticated | t
+ dearmor                  | service_role  | t
+ decrypt                  | anon          | t
+ decrypt                  | authenticated | t
+ decrypt                  | service_role  | t
+ decrypt_iv               | anon          | t
+ decrypt_iv               | authenticated | t
+ decrypt_iv               | service_role  | t
+ digest                   | anon          | t
+ digest                   | anon          | t
+ digest                   | authenticated | t
+ digest                   | authenticated | t
+ digest                   | service_role  | t
+ digest                   | service_role  | t
+ encrypt                  | anon          | t
+ encrypt                  | authenticated | t
+ encrypt                  | service_role  | t
+ encrypt_iv               | anon          | t
+ encrypt_iv               | authenticated | t
+ encrypt_iv               | service_role  | t
+ float4_dist              | anon          | t
+ float4_dist              | authenticated | t
+ float4_dist              | service_role  | t
+ float8_dist              | anon          | t
+ float8_dist              | authenticated | t
+ float8_dist              | service_role  | t
+ gbt_bit_compress         | anon          | t
+ gbt_bit_compress         | authenticated | t
+ gbt_bit_compress         | service_role  | t
+ gbt_bit_consistent       | anon          | t
+ gbt_bit_consistent       | authenticated | t
+ gbt_bit_consistent       | service_role  | t
+ gbt_bit_penalty          | anon          | t
+ gbt_bit_penalty          | authenticated | t
+ gbt_bit_penalty          | service_role  | t
+ gbt_bit_picksplit        | anon          | t
+ gbt_bit_picksplit        | authenticated | t
+ gbt_bit_picksplit        | service_role  | t
+ gbt_bit_same             | anon          | t
+ gbt_bit_same             | authenticated | t
+ gbt_bit_same             | service_role  | t
+ gbt_bit_union            | anon          | t
+ gbt_bit_union            | authenticated | t
+ gbt_bit_union            | service_role  | t
+ gbt_bool_compress        | anon          | t
+ gbt_bool_compress        | authenticated | t
+ gbt_bool_compress        | service_role  | t
+ gbt_bool_consistent      | anon          | t
+ gbt_bool_consistent      | authenticated | t
+ gbt_bool_consistent      | service_role  | t
+ gbt_bool_fetch           | anon          | t
+ gbt_bool_fetch           | authenticated | t
+ gbt_bool_fetch           | service_role  | t
+ gbt_bool_penalty         | anon          | t
+ gbt_bool_penalty         | authenticated | t
+ gbt_bool_penalty         | service_role  | t
+ gbt_bool_picksplit       | anon          | t
+ gbt_bool_picksplit       | authenticated | t
+ gbt_bool_picksplit       | service_role  | t
+ gbt_bool_same            | anon          | t
+ gbt_bool_same            | authenticated | t
+ gbt_bool_same            | service_role  | t
+ gbt_bool_union           | anon          | t
+ gbt_bool_union           | authenticated | t
+ gbt_bool_union           | service_role  | t
+ gbt_bpchar_compress      | anon          | t
+ gbt_bpchar_compress      | authenticated | t
+ gbt_bpchar_compress      | service_role  | t
+ gbt_bpchar_consistent    | anon          | t
+ gbt_bpchar_consistent    | authenticated | t
+ gbt_bpchar_consistent    | service_role  | t
+ gbt_bytea_compress       | anon          | t
+ gbt_bytea_compress       | authenticated | t
+ gbt_bytea_compress       | service_role  | t
+ gbt_bytea_consistent     | anon          | t
+ gbt_bytea_consistent     | authenticated | t
+ gbt_bytea_consistent     | service_role  | t
+ gbt_bytea_penalty        | anon          | t
+ gbt_bytea_penalty        | authenticated | t
+ gbt_bytea_penalty        | service_role  | t
+ gbt_bytea_picksplit      | anon          | t
+ gbt_bytea_picksplit      | authenticated | t
+ gbt_bytea_picksplit      | service_role  | t
+ gbt_bytea_same           | anon          | t
+ gbt_bytea_same           | authenticated | t
+ gbt_bytea_same           | service_role  | t
+ gbt_bytea_union          | anon          | t
+ gbt_bytea_union          | authenticated | t
+ gbt_bytea_union          | service_role  | t
+ gbt_cash_compress        | anon          | t
+ gbt_cash_compress        | authenticated | t
+ gbt_cash_compress        | service_role  | t
+ gbt_cash_consistent      | anon          | t
+ gbt_cash_consistent      | authenticated | t
+ gbt_cash_consistent      | service_role  | t
+ gbt_cash_distance        | anon          | t
+ gbt_cash_distance        | authenticated | t
+ gbt_cash_distance        | service_role  | t
+ gbt_cash_fetch           | anon          | t
+ gbt_cash_fetch           | authenticated | t
+ gbt_cash_fetch           | service_role  | t
+ gbt_cash_penalty         | anon          | t
+ gbt_cash_penalty         | authenticated | t
+ gbt_cash_penalty         | service_role  | t
+ gbt_cash_picksplit       | anon          | t
+ gbt_cash_picksplit       | authenticated | t
+ gbt_cash_picksplit       | service_role  | t
+ gbt_cash_same            | anon          | t
+ gbt_cash_same            | authenticated | t
+ gbt_cash_same            | service_role  | t
+ gbt_cash_union           | anon          | t
+ gbt_cash_union           | authenticated | t
+ gbt_cash_union           | service_role  | t
+ gbt_date_compress        | anon          | t
+ gbt_date_compress        | authenticated | t
+ gbt_date_compress        | service_role  | t
+ gbt_date_consistent      | anon          | t
+ gbt_date_consistent      | authenticated | t
+ gbt_date_consistent      | service_role  | t
+ gbt_date_distance        | anon          | t
+ gbt_date_distance        | authenticated | t
+ gbt_date_distance        | service_role  | t
+ gbt_date_fetch           | anon          | t
+ gbt_date_fetch           | authenticated | t
+ gbt_date_fetch           | service_role  | t
+ gbt_date_penalty         | anon          | t
+ gbt_date_penalty         | authenticated | t
+ gbt_date_penalty         | service_role  | t
+ gbt_date_picksplit       | anon          | t
+ gbt_date_picksplit       | authenticated | t
+ gbt_date_picksplit       | service_role  | t
+ gbt_date_same            | anon          | t
+ gbt_date_same            | authenticated | t
+ gbt_date_same            | service_role  | t
+ gbt_date_union           | anon          | t
+ gbt_date_union           | authenticated | t
+ gbt_date_union           | service_role  | t
+ gbt_decompress           | anon          | t
+ gbt_decompress           | authenticated | t
+ gbt_decompress           | service_role  | t
+ gbt_enum_compress        | anon          | t
+ gbt_enum_compress        | authenticated | t
+ gbt_enum_compress        | service_role  | t
+ gbt_enum_consistent      | anon          | t
+ gbt_enum_consistent      | authenticated | t
+ gbt_enum_consistent      | service_role  | t
+ gbt_enum_fetch           | anon          | t
+ gbt_enum_fetch           | authenticated | t
+ gbt_enum_fetch           | service_role  | t
+ gbt_enum_penalty         | anon          | t
+ gbt_enum_penalty         | authenticated | t
+ gbt_enum_penalty         | service_role  | t
+ gbt_enum_picksplit       | anon          | t
+ gbt_enum_picksplit       | authenticated | t
+ gbt_enum_picksplit       | service_role  | t
+ gbt_enum_same            | anon          | t
+ gbt_enum_same            | authenticated | t
+ gbt_enum_same            | service_role  | t
+ gbt_enum_union           | anon          | t
+ gbt_enum_union           | authenticated | t
+ gbt_enum_union           | service_role  | t
+ gbt_float4_compress      | anon          | t
+ gbt_float4_compress      | authenticated | t
+ gbt_float4_compress      | service_role  | t
+ gbt_float4_consistent    | anon          | t
+ gbt_float4_consistent    | authenticated | t
+ gbt_float4_consistent    | service_role  | t
+ gbt_float4_distance      | anon          | t
+ gbt_float4_distance      | authenticated | t
+ gbt_float4_distance      | service_role  | t
+ gbt_float4_fetch         | anon          | t
+ gbt_float4_fetch         | authenticated | t
+ gbt_float4_fetch         | service_role  | t
+ gbt_float4_penalty       | anon          | t
+ gbt_float4_penalty       | authenticated | t
+ gbt_float4_penalty       | service_role  | t
+ gbt_float4_picksplit     | anon          | t
+ gbt_float4_picksplit     | authenticated | t
+ gbt_float4_picksplit     | service_role  | t
+ gbt_float4_same          | anon          | t
+ gbt_float4_same          | authenticated | t
+ gbt_float4_same          | service_role  | t
+ gbt_float4_union         | anon          | t
+ gbt_float4_union         | authenticated | t
+ gbt_float4_union         | service_role  | t
+ gbt_float8_compress      | anon          | t
+ gbt_float8_compress      | authenticated | t
+ gbt_float8_compress      | service_role  | t
+ gbt_float8_consistent    | anon          | t
+ gbt_float8_consistent    | authenticated | t
+ gbt_float8_consistent    | service_role  | t
+ gbt_float8_distance      | anon          | t
+ gbt_float8_distance      | authenticated | t
+ gbt_float8_distance      | service_role  | t
+ gbt_float8_fetch         | anon          | t
+ gbt_float8_fetch         | authenticated | t
+ gbt_float8_fetch         | service_role  | t
+ gbt_float8_penalty       | anon          | t
+ gbt_float8_penalty       | authenticated | t
+ gbt_float8_penalty       | service_role  | t
+ gbt_float8_picksplit     | anon          | t
+ gbt_float8_picksplit     | authenticated | t
+ gbt_float8_picksplit     | service_role  | t
+ gbt_float8_same          | anon          | t
+ gbt_float8_same          | authenticated | t
+ gbt_float8_same          | service_role  | t
+ gbt_float8_union         | anon          | t
+ gbt_float8_union         | authenticated | t
+ gbt_float8_union         | service_role  | t
+ gbt_inet_compress        | anon          | t
+ gbt_inet_compress        | authenticated | t
+ gbt_inet_compress        | service_role  | t
+ gbt_inet_consistent      | anon          | t
+ gbt_inet_consistent      | authenticated | t
+ gbt_inet_consistent      | service_role  | t
+ gbt_inet_penalty         | anon          | t
+ gbt_inet_penalty         | authenticated | t
+ gbt_inet_penalty         | service_role  | t
+ gbt_inet_picksplit       | anon          | t
+ gbt_inet_picksplit       | authenticated | t
+ gbt_inet_picksplit       | service_role  | t
+ gbt_inet_same            | anon          | t
+ gbt_inet_same            | authenticated | t
+ gbt_inet_same            | service_role  | t
+ gbt_inet_union           | anon          | t
+ gbt_inet_union           | authenticated | t
+ gbt_inet_union           | service_role  | t
+ gbt_int2_compress        | anon          | t
+ gbt_int2_compress        | authenticated | t
+ gbt_int2_compress        | service_role  | t
+ gbt_int2_consistent      | anon          | t
+ gbt_int2_consistent      | authenticated | t
+ gbt_int2_consistent      | service_role  | t
+ gbt_int2_distance        | anon          | t
+ gbt_int2_distance        | authenticated | t
+ gbt_int2_distance        | service_role  | t
+ gbt_int2_fetch           | anon          | t
+ gbt_int2_fetch           | authenticated | t
+ gbt_int2_fetch           | service_role  | t
+ gbt_int2_penalty         | anon          | t
+ gbt_int2_penalty         | authenticated | t
+ gbt_int2_penalty         | service_role  | t
+ gbt_int2_picksplit       | anon          | t
+ gbt_int2_picksplit       | authenticated | t
+ gbt_int2_picksplit       | service_role  | t
+ gbt_int2_same            | anon          | t
+ gbt_int2_same            | authenticated | t
+ gbt_int2_same            | service_role  | t
+ gbt_int2_union           | anon          | t
+ gbt_int2_union           | authenticated | t
+ gbt_int2_union           | service_role  | t
+ gbt_int4_compress        | anon          | t
+ gbt_int4_compress        | authenticated | t
+ gbt_int4_compress        | service_role  | t
+ gbt_int4_consistent      | anon          | t
+ gbt_int4_consistent      | authenticated | t
+ gbt_int4_consistent      | service_role  | t
+ gbt_int4_distance        | anon          | t
+ gbt_int4_distance        | authenticated | t
+ gbt_int4_distance        | service_role  | t
+ gbt_int4_fetch           | anon          | t
+ gbt_int4_fetch           | authenticated | t
+ gbt_int4_fetch           | service_role  | t
+ gbt_int4_penalty         | anon          | t
+ gbt_int4_penalty         | authenticated | t
+ gbt_int4_penalty         | service_role  | t
+ gbt_int4_picksplit       | anon          | t
+ gbt_int4_picksplit       | authenticated | t
+ gbt_int4_picksplit       | service_role  | t
+ gbt_int4_same            | anon          | t
+ gbt_int4_same            | authenticated | t
+ gbt_int4_same            | service_role  | t
+ gbt_int4_union           | anon          | t
+ gbt_int4_union           | authenticated | t
+ gbt_int4_union           | service_role  | t
+ gbt_int8_compress        | anon          | t
+ gbt_int8_compress        | authenticated | t
+ gbt_int8_compress        | service_role  | t
+ gbt_int8_consistent      | anon          | t
+ gbt_int8_consistent      | authenticated | t
+ gbt_int8_consistent      | service_role  | t
+ gbt_int8_distance        | anon          | t
+ gbt_int8_distance        | authenticated | t
+ gbt_int8_distance        | service_role  | t
+ gbt_int8_fetch           | anon          | t
+ gbt_int8_fetch           | authenticated | t
+ gbt_int8_fetch           | service_role  | t
+ gbt_int8_penalty         | anon          | t
+ gbt_int8_penalty         | authenticated | t
+ gbt_int8_penalty         | service_role  | t
+ gbt_int8_picksplit       | anon          | t
+ gbt_int8_picksplit       | authenticated | t
+ gbt_int8_picksplit       | service_role  | t
+ gbt_int8_same            | anon          | t
+ gbt_int8_same            | authenticated | t
+ gbt_int8_same            | service_role  | t
+ gbt_int8_union           | anon          | t
+ gbt_int8_union           | authenticated | t
+ gbt_int8_union           | service_role  | t
+ gbt_intv_compress        | anon          | t
+ gbt_intv_compress        | authenticated | t
+ gbt_intv_compress        | service_role  | t
+ gbt_intv_consistent      | anon          | t
+ gbt_intv_consistent      | authenticated | t
+ gbt_intv_consistent      | service_role  | t
+ gbt_intv_decompress      | anon          | t
+ gbt_intv_decompress      | authenticated | t
+ gbt_intv_decompress      | service_role  | t
+ gbt_intv_distance        | anon          | t
+ gbt_intv_distance        | authenticated | t
+ gbt_intv_distance        | service_role  | t
+ gbt_intv_fetch           | anon          | t
+ gbt_intv_fetch           | authenticated | t
+ gbt_intv_fetch           | service_role  | t
+ gbt_intv_penalty         | anon          | t
+ gbt_intv_penalty         | authenticated | t
+ gbt_intv_penalty         | service_role  | t
+ gbt_intv_picksplit       | anon          | t
+ gbt_intv_picksplit       | authenticated | t
+ gbt_intv_picksplit       | service_role  | t
+ gbt_intv_same            | anon          | t
+ gbt_intv_same            | authenticated | t
+ gbt_intv_same            | service_role  | t
+ gbt_intv_union           | anon          | t
+ gbt_intv_union           | authenticated | t
+ gbt_intv_union           | service_role  | t
+ gbt_macad8_compress      | anon          | t
+ gbt_macad8_compress      | authenticated | t
+ gbt_macad8_compress      | service_role  | t
+ gbt_macad8_consistent    | anon          | t
+ gbt_macad8_consistent    | authenticated | t
+ gbt_macad8_consistent    | service_role  | t
+ gbt_macad8_fetch         | anon          | t
+ gbt_macad8_fetch         | authenticated | t
+ gbt_macad8_fetch         | service_role  | t
+ gbt_macad8_penalty       | anon          | t
+ gbt_macad8_penalty       | authenticated | t
+ gbt_macad8_penalty       | service_role  | t
+ gbt_macad8_picksplit     | anon          | t
+ gbt_macad8_picksplit     | authenticated | t
+ gbt_macad8_picksplit     | service_role  | t
+ gbt_macad8_same          | anon          | t
+ gbt_macad8_same          | authenticated | t
+ gbt_macad8_same          | service_role  | t
+ gbt_macad8_union         | anon          | t
+ gbt_macad8_union         | authenticated | t
+ gbt_macad8_union         | service_role  | t
+ gbt_macad_compress       | anon          | t
+ gbt_macad_compress       | authenticated | t
+ gbt_macad_compress       | service_role  | t
+ gbt_macad_consistent     | anon          | t
+ gbt_macad_consistent     | authenticated | t
+ gbt_macad_consistent     | service_role  | t
+ gbt_macad_fetch          | anon          | t
+ gbt_macad_fetch          | authenticated | t
+ gbt_macad_fetch          | service_role  | t
+ gbt_macad_penalty        | anon          | t
+ gbt_macad_penalty        | authenticated | t
+ gbt_macad_penalty        | service_role  | t
+ gbt_macad_picksplit      | anon          | t
+ gbt_macad_picksplit      | authenticated | t
+ gbt_macad_picksplit      | service_role  | t
+ gbt_macad_same           | anon          | t
+ gbt_macad_same           | authenticated | t
+ gbt_macad_same           | service_role  | t
+ gbt_macad_union          | anon          | t
+ gbt_macad_union          | authenticated | t
+ gbt_macad_union          | service_role  | t
+ gbt_numeric_compress     | anon          | t
+ gbt_numeric_compress     | authenticated | t
+ gbt_numeric_compress     | service_role  | t
+ gbt_numeric_consistent   | anon          | t
+ gbt_numeric_consistent   | authenticated | t
+ gbt_numeric_consistent   | service_role  | t
+ gbt_numeric_penalty      | anon          | t
+ gbt_numeric_penalty      | authenticated | t
+ gbt_numeric_penalty      | service_role  | t
+ gbt_numeric_picksplit    | anon          | t
+ gbt_numeric_picksplit    | authenticated | t
+ gbt_numeric_picksplit    | service_role  | t
+ gbt_numeric_same         | anon          | t
+ gbt_numeric_same         | authenticated | t
+ gbt_numeric_same         | service_role  | t
+ gbt_numeric_union        | anon          | t
+ gbt_numeric_union        | authenticated | t
+ gbt_numeric_union        | service_role  | t
+ gbt_oid_compress         | anon          | t
+ gbt_oid_compress         | authenticated | t
+ gbt_oid_compress         | service_role  | t
+ gbt_oid_consistent       | anon          | t
+ gbt_oid_consistent       | authenticated | t
+ gbt_oid_consistent       | service_role  | t
+ gbt_oid_distance         | anon          | t
+ gbt_oid_distance         | authenticated | t
+ gbt_oid_distance         | service_role  | t
+ gbt_oid_fetch            | anon          | t
+ gbt_oid_fetch            | authenticated | t
+ gbt_oid_fetch            | service_role  | t
+ gbt_oid_penalty          | anon          | t
+ gbt_oid_penalty          | authenticated | t
+ gbt_oid_penalty          | service_role  | t
+ gbt_oid_picksplit        | anon          | t
+ gbt_oid_picksplit        | authenticated | t
+ gbt_oid_picksplit        | service_role  | t
+ gbt_oid_same             | anon          | t
+ gbt_oid_same             | authenticated | t
+ gbt_oid_same             | service_role  | t
+ gbt_oid_union            | anon          | t
+ gbt_oid_union            | authenticated | t
+ gbt_oid_union            | service_role  | t
+ gbt_text_compress        | anon          | t
+ gbt_text_compress        | authenticated | t
+ gbt_text_compress        | service_role  | t
+ gbt_text_consistent      | anon          | t
+ gbt_text_consistent      | authenticated | t
+ gbt_text_consistent      | service_role  | t
+ gbt_text_penalty         | anon          | t
+ gbt_text_penalty         | authenticated | t
+ gbt_text_penalty         | service_role  | t
+ gbt_text_picksplit       | anon          | t
+ gbt_text_picksplit       | authenticated | t
+ gbt_text_picksplit       | service_role  | t
+ gbt_text_same            | anon          | t
+ gbt_text_same            | authenticated | t
+ gbt_text_same            | service_role  | t
+ gbt_text_union           | anon          | t
+ gbt_text_union           | authenticated | t
+ gbt_text_union           | service_role  | t
+ gbt_time_compress        | anon          | t
+ gbt_time_compress        | authenticated | t
+ gbt_time_compress        | service_role  | t
+ gbt_time_consistent      | anon          | t
+ gbt_time_consistent      | authenticated | t
+ gbt_time_consistent      | service_role  | t
+ gbt_time_distance        | anon          | t
+ gbt_time_distance        | authenticated | t
+ gbt_time_distance        | service_role  | t
+ gbt_time_fetch           | anon          | t
+ gbt_time_fetch           | authenticated | t
+ gbt_time_fetch           | service_role  | t
+ gbt_time_penalty         | anon          | t
+ gbt_time_penalty         | authenticated | t
+ gbt_time_penalty         | service_role  | t
+ gbt_time_picksplit       | anon          | t
+ gbt_time_picksplit       | authenticated | t
+ gbt_time_picksplit       | service_role  | t
+ gbt_time_same            | anon          | t
+ gbt_time_same            | authenticated | t
+ gbt_time_same            | service_role  | t
+ gbt_time_union           | anon          | t
+ gbt_time_union           | authenticated | t
+ gbt_time_union           | service_role  | t
+ gbt_timetz_compress      | anon          | t
+ gbt_timetz_compress      | authenticated | t
+ gbt_timetz_compress      | service_role  | t
+ gbt_timetz_consistent    | anon          | t
+ gbt_timetz_consistent    | authenticated | t
+ gbt_timetz_consistent    | service_role  | t
+ gbt_ts_compress          | anon          | t
+ gbt_ts_compress          | authenticated | t
+ gbt_ts_compress          | service_role  | t
+ gbt_ts_consistent        | anon          | t
+ gbt_ts_consistent        | authenticated | t
+ gbt_ts_consistent        | service_role  | t
+ gbt_ts_distance          | anon          | t
+ gbt_ts_distance          | authenticated | t
+ gbt_ts_distance          | service_role  | t
+ gbt_ts_fetch             | anon          | t
+ gbt_ts_fetch             | authenticated | t
+ gbt_ts_fetch             | service_role  | t
+ gbt_ts_penalty           | anon          | t
+ gbt_ts_penalty           | authenticated | t
+ gbt_ts_penalty           | service_role  | t
+ gbt_ts_picksplit         | anon          | t
+ gbt_ts_picksplit         | authenticated | t
+ gbt_ts_picksplit         | service_role  | t
+ gbt_ts_same              | anon          | t
+ gbt_ts_same              | authenticated | t
+ gbt_ts_same              | service_role  | t
+ gbt_ts_union             | anon          | t
+ gbt_ts_union             | authenticated | t
+ gbt_ts_union             | service_role  | t
+ gbt_tstz_compress        | anon          | t
+ gbt_tstz_compress        | authenticated | t
+ gbt_tstz_compress        | service_role  | t
+ gbt_tstz_consistent      | anon          | t
+ gbt_tstz_consistent      | authenticated | t
+ gbt_tstz_consistent      | service_role  | t
+ gbt_tstz_distance        | anon          | t
+ gbt_tstz_distance        | authenticated | t
+ gbt_tstz_distance        | service_role  | t
+ gbt_uuid_compress        | anon          | t
+ gbt_uuid_compress        | authenticated | t
+ gbt_uuid_compress        | service_role  | t
+ gbt_uuid_consistent      | anon          | t
+ gbt_uuid_consistent      | authenticated | t
+ gbt_uuid_consistent      | service_role  | t
+ gbt_uuid_fetch           | anon          | t
+ gbt_uuid_fetch           | authenticated | t
+ gbt_uuid_fetch           | service_role  | t
+ gbt_uuid_penalty         | anon          | t
+ gbt_uuid_penalty         | authenticated | t
+ gbt_uuid_penalty         | service_role  | t
+ gbt_uuid_picksplit       | anon          | t
+ gbt_uuid_picksplit       | authenticated | t
+ gbt_uuid_picksplit       | service_role  | t
+ gbt_uuid_same            | anon          | t
+ gbt_uuid_same            | authenticated | t
+ gbt_uuid_same            | service_role  | t
+ gbt_uuid_union           | anon          | t
+ gbt_uuid_union           | authenticated | t
+ gbt_uuid_union           | service_role  | t
+ gbt_var_decompress       | anon          | t
+ gbt_var_decompress       | authenticated | t
+ gbt_var_decompress       | service_role  | t
+ gbt_var_fetch            | anon          | t
+ gbt_var_fetch            | authenticated | t
+ gbt_var_fetch            | service_role  | t
+ gbtreekey16_in           | anon          | t
+ gbtreekey16_in           | authenticated | t
+ gbtreekey16_in           | service_role  | t
+ gbtreekey16_out          | anon          | t
+ gbtreekey16_out          | authenticated | t
+ gbtreekey16_out          | service_role  | t
+ gbtreekey2_in            | anon          | t
+ gbtreekey2_in            | authenticated | t
+ gbtreekey2_in            | service_role  | t
+ gbtreekey2_out           | anon          | t
+ gbtreekey2_out           | authenticated | t
+ gbtreekey2_out           | service_role  | t
+ gbtreekey32_in           | anon          | t
+ gbtreekey32_in           | authenticated | t
+ gbtreekey32_in           | service_role  | t
+ gbtreekey32_out          | anon          | t
+ gbtreekey32_out          | authenticated | t
+ gbtreekey32_out          | service_role  | t
+ gbtreekey4_in            | anon          | t
+ gbtreekey4_in            | authenticated | t
+ gbtreekey4_in            | service_role  | t
+ gbtreekey4_out           | anon          | t
+ gbtreekey4_out           | authenticated | t
+ gbtreekey4_out           | service_role  | t
+ gbtreekey8_in            | anon          | t
+ gbtreekey8_in            | authenticated | t
+ gbtreekey8_in            | service_role  | t
+ gbtreekey8_out           | anon          | t
+ gbtreekey8_out           | authenticated | t
+ gbtreekey8_out           | service_role  | t
+ gbtreekey_var_in         | anon          | t
+ gbtreekey_var_in         | authenticated | t
+ gbtreekey_var_in         | service_role  | t
+ gbtreekey_var_out        | anon          | t
+ gbtreekey_var_out        | authenticated | t
+ gbtreekey_var_out        | service_role  | t
+ gen_random_bytes         | anon          | t
+ gen_random_bytes         | authenticated | t
+ gen_random_bytes         | service_role  | t
+ gen_random_uuid          | anon          | t
+ gen_random_uuid          | authenticated | t
+ gen_random_uuid          | service_role  | t
+ gen_salt                 | anon          | t
+ gen_salt                 | anon          | t
+ gen_salt                 | authenticated | t
+ gen_salt                 | authenticated | t
+ gen_salt                 | service_role  | t
+ gen_salt                 | service_role  | t
+ hmac                     | anon          | t
+ hmac                     | anon          | t
+ hmac                     | authenticated | t
+ hmac                     | authenticated | t
+ hmac                     | service_role  | t
+ hmac                     | service_role  | t
+ int2_dist                | anon          | t
+ int2_dist                | authenticated | t
+ int2_dist                | service_role  | t
+ int4_dist                | anon          | t
+ int4_dist                | authenticated | t
+ int4_dist                | service_role  | t
+ int8_dist                | anon          | t
+ int8_dist                | authenticated | t
+ int8_dist                | service_role  | t
+ interval_dist            | anon          | t
+ interval_dist            | authenticated | t
+ interval_dist            | service_role  | t
+ longitud_significativa_x | anon          | t
+ longitud_significativa_x | authenticated | t
+ longitud_significativa_x | service_role  | t
+ oid_dist                 | anon          | t
+ oid_dist                 | authenticated | t
+ oid_dist                 | service_role  | t
+ pgp_armor_headers        | anon          | t
+ pgp_armor_headers        | authenticated | t
+ pgp_armor_headers        | service_role  | t
+ pgp_key_id               | anon          | t
+ pgp_key_id               | authenticated | t
+ pgp_key_id               | service_role  | t
+ pgp_pub_decrypt          | anon          | t
+ pgp_pub_decrypt          | anon          | t
+ pgp_pub_decrypt          | anon          | t
+ pgp_pub_decrypt          | authenticated | t
+ pgp_pub_decrypt          | authenticated | t
+ pgp_pub_decrypt          | authenticated | t
+ pgp_pub_decrypt          | service_role  | t
+ pgp_pub_decrypt          | service_role  | t
+ pgp_pub_decrypt          | service_role  | t
+ pgp_pub_decrypt_bytea    | anon          | t
+ pgp_pub_decrypt_bytea    | anon          | t
+ pgp_pub_decrypt_bytea    | anon          | t
+ pgp_pub_decrypt_bytea    | authenticated | t
+ pgp_pub_decrypt_bytea    | authenticated | t
+ pgp_pub_decrypt_bytea    | authenticated | t
+ pgp_pub_decrypt_bytea    | service_role  | t
+ pgp_pub_decrypt_bytea    | service_role  | t
+ pgp_pub_decrypt_bytea    | service_role  | t
+ pgp_pub_encrypt          | anon          | t
+ pgp_pub_encrypt          | anon          | t
+ pgp_pub_encrypt          | authenticated | t
+ pgp_pub_encrypt          | authenticated | t
+ pgp_pub_encrypt          | service_role  | t
+ pgp_pub_encrypt          | service_role  | t
+ pgp_pub_encrypt_bytea    | anon          | t
+ pgp_pub_encrypt_bytea    | anon          | t
+ pgp_pub_encrypt_bytea    | authenticated | t
+ pgp_pub_encrypt_bytea    | authenticated | t
+ pgp_pub_encrypt_bytea    | service_role  | t
+ pgp_pub_encrypt_bytea    | service_role  | t
+ pgp_sym_decrypt          | anon          | t
+ pgp_sym_decrypt          | anon          | t
+ pgp_sym_decrypt          | authenticated | t
+ pgp_sym_decrypt          | authenticated | t
+ pgp_sym_decrypt          | service_role  | t
+ pgp_sym_decrypt          | service_role  | t
+ pgp_sym_decrypt_bytea    | anon          | t
+ pgp_sym_decrypt_bytea    | anon          | t
+ pgp_sym_decrypt_bytea    | authenticated | t
+ pgp_sym_decrypt_bytea    | authenticated | t
+ pgp_sym_decrypt_bytea    | service_role  | t
+ pgp_sym_decrypt_bytea    | service_role  | t
+ pgp_sym_encrypt          | anon          | t
+ pgp_sym_encrypt          | anon          | t
+ pgp_sym_encrypt          | authenticated | t
+ pgp_sym_encrypt          | authenticated | t
+ pgp_sym_encrypt          | service_role  | t
+ pgp_sym_encrypt          | service_role  | t
+ pgp_sym_encrypt_bytea    | anon          | t
+ pgp_sym_encrypt_bytea    | anon          | t
+ pgp_sym_encrypt_bytea    | authenticated | t
+ pgp_sym_encrypt_bytea    | authenticated | t
+ pgp_sym_encrypt_bytea    | service_role  | t
+ pgp_sym_encrypt_bytea    | service_role  | t
+ t                        | anon          | t
+ t                        | authenticated | t
+ t                        | service_role  | t
+ texto_no_vacio_x         | anon          | t
+ texto_no_vacio_x         | authenticated | t
+ texto_no_vacio_x         | service_role  | t
+ time_dist                | anon          | t
+ time_dist                | authenticated | t
+ time_dist                | service_role  | t
+ trg_adr_ins              | anon          | t
+ trg_adr_ins              | authenticated | t
+ trg_adr_ins              | service_role  | t
+ trg_approval_indep_x     | anon          | t
+ trg_approval_indep_x     | authenticated | t
+ trg_approval_indep_x     | service_role  | t
+ trg_formato_inmutable    | anon          | t
+ trg_formato_inmutable    | authenticated | t
+ trg_formato_inmutable    | service_role  | t
+ trg_inmutable            | anon          | t
+ trg_inmutable            | authenticated | t
+ trg_inmutable            | service_role  | t
+ trg_master_inmutable     | anon          | t
+ trg_master_inmutable     | authenticated | t
+ trg_master_inmutable     | service_role  | t
+ trg_pra_x                | anon          | t
+ trg_pra_x                | authenticated | t
+ trg_pra_x                | service_role  | t
+ trg_replaces_inmutable_x | anon          | t
+ trg_replaces_inmutable_x | authenticated | t
+ trg_replaces_inmutable_x | service_role  | t
+ ts_dist                  | anon          | t
+ ts_dist                  | authenticated | t
+ ts_dist                  | service_role  | t
+ tstz_dist                | anon          | t
+ tstz_dist                | authenticated | t
+ tstz_dist                | service_role  | t
+(705 rows)
+
+    rolname    | rolsuper | rolbypassrls | rolcanlogin | rolinherit 
+---------------+----------+--------------+-------------+------------
+ anon          | f        | f            | f           | t
+ authenticated | f        | f            | f           | t
+ postgres      | t        | t            | t           | t
+ service_role  | f        | f            | f           | t
+(4 rows)
+
+ rol | defaclnamespace | defaclobjtype | defaclacl 
+-----+-----------------+---------------+-----------
+(0 rows)
+
+ROLLBACK

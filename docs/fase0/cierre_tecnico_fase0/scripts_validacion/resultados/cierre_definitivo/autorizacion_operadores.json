@@ -1,0 +1,160 @@
+[
+ {
+  "id": "AO-01",
+  "objetivo": "roles de la matriz no configurados (cci_operador no existe)",
+  "esperado": "NO EJECUTADO [G-OPERADOR-ROLES-NO-CONFIGURADOS], sin canario y sin efectos persistentes",
+  "observado": "rc=3 ['NO EJECUTADO [G-OPERADOR-ROLES-NO-CONFIGURADOS]'] canario=False efectos=False",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-02",
+  "objetivo": "operador autorizado (miembro de cci_operador, sin privilegios elevados)",
+  "esperado": "GUARDA OK y cuerpo ejecutado",
+  "observado": "rc=0 guarda_ok=True canario=True",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-03",
+  "objetivo": "registro de quién ejecutó (RAISE LOG con rol y pid)",
+  "esperado": "CCI-AUDITORIA operador=t_op_ok pid=<n>",
+  "observado": [
+   "CCI-AUDITORIA operador=t_op_ok pid=2500"
+  ],
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-04",
+  "objetivo": "rol desconocido: existe pero no es miembro de cci_operador",
+  "esperado": "NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO], sin canario y sin efectos persistentes",
+  "observado": "rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=False efectos=False",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-05",
+  "objetivo": "superusuario (cci_test) no puede operar: privilegios mínimos",
+  "esperado": "NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO], sin canario y sin efectos persistentes",
+  "observado": "rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canario=False efectos=False",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-06-createrole",
+  "objetivo": "operador con CREATEROLE",
+  "esperado": "NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO], sin canario y sin efectos persistentes",
+  "observado": "rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canario=False efectos=False",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-06-createdb",
+  "objetivo": "operador con CREATEDB",
+  "esperado": "NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO], sin canario y sin efectos persistentes",
+  "observado": "rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canario=False efectos=False",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-06-bypassrls",
+  "objetivo": "operador con BYPASSRLS",
+  "esperado": "NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO], sin canario y sin efectos persistentes",
+  "observado": "rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canario=False efectos=False",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-06-replication",
+  "objetivo": "operador con REPLICATION",
+  "esperado": "NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO], sin canario y sin efectos persistentes",
+  "observado": "rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canario=False efectos=False",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-07",
+  "objetivo": "separación de funciones: operador + custodio",
+  "esperado": "NO EJECUTADO [G-SEPARACION-FUNCIONES], sin canario y sin efectos persistentes",
+  "observado": "rc=3 ['NO EJECUTADO [G-SEPARACION-FUNCIONES]'] canario=False efectos=False",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-08",
+  "objetivo": "separación de funciones: operador + administrador",
+  "esperado": "NO EJECUTADO [G-SEPARACION-FUNCIONES], sin canario y sin efectos persistentes",
+  "observado": "rc=3 ['NO EJECUTADO [G-SEPARACION-FUNCIONES]'] canario=False efectos=False",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-09",
+  "objetivo": "separación de funciones por membresía INDIRECTA (cadena de roles)",
+  "esperado": "NO EJECUTADO [G-SEPARACION-FUNCIONES], sin canario y sin efectos persistentes",
+  "observado": "rc=3 ['NO EJECUTADO [G-SEPARACION-FUNCIONES]'] canario=False efectos=False",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-10",
+  "objetivo": "separación de funciones aunque el rol sea NOINHERIT (membresía sin herencia)",
+  "esperado": "NO EJECUTADO [G-SEPARACION-FUNCIONES], sin canario y sin efectos persistentes",
+  "observado": "rc=3 ['NO EJECUTADO [G-SEPARACION-FUNCIONES]'] canario=False efectos=False",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-11",
+  "objetivo": "escalamiento por SET ROLE a cci_operador",
+  "esperado": "NO EJECUTADO [G-ROL-CAMBIADO], sin canario",
+  "observado": [
+   "NO EJECUTADO [G-ROL-CAMBIADO]"
+  ],
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-12",
+  "objetivo": "no autorizado con search_path hostil (evil antes de pg_catalog)",
+  "esperado": "NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO], sin canario y sin efectos persistentes",
+  "observado": "rc=3 ['NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]'] canario=False efectos=False",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-13",
+  "objetivo": "no autorizado con search_path hostil y SIN el chequeo de search_path (sólo la calificación pg_catalog protege)",
+  "esperado": "NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO], sin canario y sin efectos persistentes",
+  "observado": "rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=False efectos=False",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-14",
+  "objetivo": "no autorizado con GUC cci.* adicionales preinstaladas por PGOPTIONS (cci.operador_autorizado, cci.script_declarado)",
+  "esperado": "NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO], sin canario y sin efectos persistentes",
+  "observado": "rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=False efectos=False",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-15",
+  "objetivo": "no autorizado con parámetros de sesión (row_security=off, default_transaction_read_only=off)",
+  "esperado": "NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO], sin canario y sin efectos persistentes",
+  "observado": "rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=False efectos=False",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-15b",
+  "objetivo": "no autorizado intenta session_replication_role=replica: el servidor lo rechaza antes de la guarda (no superusuario)",
+  "esperado": "conexión rechazada por PostgreSQL, sin canario",
+  "observado": "rc=2 canario=False True",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-16",
+  "objetivo": "no autorizado con aplicación declarada cci_05A (impostor de identidad de prueba)",
+  "esperado": "NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO], sin canario y sin efectos persistentes",
+  "observado": "rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=False efectos=False",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-17",
+  "objetivo": "operador autorizado que re-declara su propio session_authorization (sin cambio de rol)",
+  "esperado": "GUARDA OK",
+  "observado": "rc=0",
+  "estado": "PASS"
+ },
+ {
+  "id": "AO-18",
+  "objetivo": "sin efectos persistentes en toda la suite (roles/membresías/objetos públicos sólo los creados por la fixture)",
+  "esperado": "estado estable",
+  "observado": "4|18|0",
+  "estado": "PASS"
+ }
+]

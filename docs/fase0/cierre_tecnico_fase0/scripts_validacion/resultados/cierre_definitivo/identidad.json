@@ -7,7 +7,7 @@
   "esperado": "distintos",
   "observado": "distintos",
   "estado": "PASS",
-  "justificacion": "huella md5 DEV=bb2b22db PROD=0f9251b6",
+  "justificacion": "huella md5 DEV=168b40ec PROD=dab2093f",
   "evidencia": ""
  },
  {
@@ -16,8 +16,8 @@
   "precondicion": "DEV registrado en allowlist; PROD en denylist",
   "ataque": "script 01 contra DEV",
   "esperado": "GUARDA OK",
-  "observado": "rc=3 G-OPERADOR-PRIVILEGIO-EXCESIVO",
-  "estado": "FAIL",
+  "observado": "rc=0 GUARDA OK",
+  "estado": "PASS",
   "justificacion": "",
   "evidencia": ""
  },
@@ -60,8 +60,8 @@
   "precondicion": "el clon físico de DEV se usa como si fuera DEV; allowlist = DEV",
   "ataque": "ejecutar el script 01 contra el CLON con variables DEV (AG-18)",
   "esperado": "el clon es indistinguible: la guarda lo ACEPTA (no es una aprobación; límite estructural)",
-  "observado": "rc=3 G-OPERADOR-PRIVILEGIO-EXCESIVO",
-  "estado": "FAIL",
+  "observado": "rc=0 GUARDA OK (aceptado)",
+  "estado": "PARTIAL",
   "justificacion": "LIMITACIÓN ESTRUCTURAL AG-18: system_identifier+base no distinguen un clon físico/restauración de su origen",
   "evidencia": ""
  },
@@ -79,11 +79,11 @@
  {
   "id": "ID-07",
   "riesgo": "control",
-  "precondicion": "CCI_DESTINOS_APROBADOS = socket de DEV (externo)",
-  "ataque": "ejecutor verificado contra DEV",
-  "esperado": "ejecuta",
-  "observado": "rc=3 V-SUMS-CONJUNTO",
-  "estado": "FAIL",
+  "precondicion": "CCI_DESTINOS_APROBADOS = socket de DEV (externo) pero SIN registro de auditoría ni identidad firmada (denegación por defecto; la cadena completa positiva se prueba en ct_pruebas_ext01_y_e2e_dev.py E2E-01)",
+  "ataque": "ejecutor verificado contra DEV sin auditoría",
+  "esperado": "[V-AUDITORIA-NO-CONFIGURADA]",
+  "observado": "rc=3 V-AUDITORIA-NO-CONFIGURADA",
+  "estado": "PASS",
   "justificacion": "",
   "evidencia": ""
  },
@@ -93,8 +93,8 @@
   "precondicion": "mismo clon físico indistinguible por system_identifier",
   "ataque": "ejecutor verificado contra el CLON con la lista externa que sólo aprueba el endpoint de DEV",
   "esperado": "[V-DESTINO-NO-APROBADO]",
-  "observado": "rc=3 V-SUMS-CONJUNTO",
-  "estado": "FAIL",
+  "observado": "rc=3 V-DESTINO-NO-APROBADO",
+  "estado": "PASS",
   "justificacion": "la identidad EXTERNA (endpoint aprobado por el propietario) sí distingue el clon, con límites: alias DNS/poolers y restauraciones en el mismo endpoint (ver ID-09)",
   "evidencia": ""
  },
@@ -104,8 +104,8 @@
   "precondicion": "sin CCI_DESTINOS_APROBADOS (modo DEV): el ejecutor lo exige",
   "ataque": "ejecutor contra el clon sin lista externa",
   "esperado": "[V-DESTINO-NO-CONFIGURADO]",
-  "observado": "rc=3 V-SUMS-CONJUNTO",
-  "estado": "FAIL",
+  "observado": "rc=3 V-DESTINO-NO-CONFIGURADO",
+  "estado": "PASS",
   "justificacion": "si el propietario no configura la lista externa, el modo DEV no opera por el ejecutor",
   "evidencia": ""
  },
@@ -115,7 +115,7 @@
   "precondicion": "el propietario aprueba por error el endpoint del clon",
   "ataque": "ejecutor contra el clon con endpoint aprobado",
   "esperado": "pasa (error de configuración del propietario: no es defensa)",
-  "observado": "rc=3 V-SUMS-CONJUNTO",
+  "observado": "rc=3 V-AUDITORIA-NO-CONFIGURADA",
   "estado": "PARTIAL",
   "justificacion": "la protección es tan buena como la lista externa; una restauración sobre el MISMO endpoint no se distingue",
   "evidencia": ""

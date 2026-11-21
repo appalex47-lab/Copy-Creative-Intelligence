@@ -1,0 +1,5 @@
+TOTAL funciones=22 casos_reportados=366 fallos=0
+CASOS_POR_FUNCION pruebas_guarda=9 pruebas_atomicidad=20 correr_mutaciones_rechazo=12 correr_adversariales=16 correr_escenarios=17 correr_mutaciones_k47=36 correr_mutaciones_resoluciones=12 correr_mutaciones_assets=53 correr_positivos_arte=26 correr_mutaciones_k45=30 correr_mutaciones_cadena=24 correr_adversariales_cadena=24 correr_mutaciones_atribucion=12 pruebas_atomicidad14=11 pruebas_E14=6 correr_mutaciones_av=8 correr_mutaciones_cf=8 correr_mutaciones_ac=6 correr_positivos15=8 correr_adversariales15=8 pruebas_atomicidad15=8 correr_mutaciones_modelo14=12
+Identificadores repetidos entre funciones: 0
+pruebas_atomicidad: 20 casos; correr_mutaciones_rechazo: 12 casos; casos de pruebas_atomicidad cuyo texto coincide con una mutación de rechazo: 1
+La función pruebas_atomicidad llama a correr_mutaciones_rechazo: True

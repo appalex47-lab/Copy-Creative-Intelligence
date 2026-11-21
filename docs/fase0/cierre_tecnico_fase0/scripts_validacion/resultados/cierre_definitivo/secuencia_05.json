@@ -1,0 +1,122 @@
+[
+ {
+  "id": "05-P1",
+  "objetivo": "A y B reales + observador independiente",
+  "esperado": "PASS",
+  "observado": "PASS",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "05-P2",
+  "objetivo": "B no emite PASS propio (veredicto_propio ESPERO, no PASS)",
+  "esperado": "sin la palabra PASS en la salida de B",
+  "observado": true,
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "05-N1",
+  "objetivo": "salida de A eliminada",
+  "esperado": "FAIL 05-A-SALIDA-AUSENTE",
+  "observado": "05-A-SALIDA-AUSENTE",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "05-N2",
+  "objetivo": "salida de B eliminada",
+  "esperado": "FAIL 05-B-SALIDA-AUSENTE",
+  "observado": "05-B-SALIDA-AUSENTE",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "05-N3",
+  "objetivo": "veredicto de B alterado (ESPERO→NO_ESPERO)",
+  "esperado": "FAIL",
+  "observado": "05-B-NO-ESPERO (NO_ESPERO)",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "05-N4",
+  "objetivo": "pid de B falsificado",
+  "esperado": "FAIL (sin evidencia del observador)",
+  "observado": "05-SIN-EVIDENCIA-INDEPENDIENTE (el observador no vio a B bloqueada)",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "05-N5",
+  "objetivo": "salidas de A y B intercambiadas",
+  "esperado": "FAIL",
+  "observado": "05-A-SALIDA-AUSENTE",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "05-N6",
+  "objetivo": "observador ausente (sin evidencia independiente)",
+  "esperado": "FAIL 05-SIN-EVIDENCIA-INDEPENDIENTE",
+  "observado": "05-SIN-EVIDENCIA-INDEPENDIENTE",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "05-N7",
+  "objetivo": "el bloqueador observado no es A",
+  "esperado": "FAIL 05-BLOQUEO-POR-OTRA-SESION",
+  "observado": "05-BLOQUEO-POR-OTRA-SESION (el bloqueador observado no es A)",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "05-P3",
+  "objetivo": "segunda corrida independiente",
+  "esperado": "PASS",
+  "observado": "PASS",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "05-N8",
+  "objetivo": "evidencia de OTRA corrida (resultado heredado)",
+  "esperado": "FAIL",
+  "observado": "05-SIN-EVIDENCIA-INDEPENDIENTE (el observador no vio a B bloqueada)",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "05-N9",
+  "objetivo": "B sin A: BLOCKED y sin inserción",
+  "esperado": "BLOCKED [05-A-NO-PRESENTE], 0 filas",
+  "observado": true,
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "05-N10",
+  "objetivo": "impostor 'cci_05A' sin xid",
+  "esperado": "B BLOQUEADA",
+  "observado": true,
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "05-N11",
+  "objetivo": "impostor 'cci_05A' con xid pero sin conflicto",
+  "esperado": "B no espera y el veredicto es FAIL",
+  "observado": "05-B-NO-ESPERO (NO_ESPERO) | B:NO_ESPERO",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "05-N12",
+  "objetivo": "sin residuos tras todas las corridas",
+  "esperado": "0 filas",
+  "observado": "0",
+  "estado": "PASS",
+  "nota": ""
+ }
+]

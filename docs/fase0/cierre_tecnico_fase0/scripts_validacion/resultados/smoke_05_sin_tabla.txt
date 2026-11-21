@@ -1,0 +1,10 @@
+05 sin tabla (BLOCKED esperado):
+psql:/tmp/cci.VBqdJ4/g.sql:65: NOTICE:  GUARDA OK modo=SI-LOCAL-TEMPORAL huella=168b40ec
+DO
+CREATE TABLE
+INSERT 0 1
+DO
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+BLOCKED: public.piece_reviewer_assignments no existe; prueba NO VERIFICABLE EN ENTORNO FÍSICO

@@ -1,0 +1,19 @@
+psql:/tmp/cci.GeyQ9D/g.sql:65: NOTICE:  GUARDA OK modo=SI-LOCAL-TEMPORAL huella=168b40ec
+DO
+CREATE TABLE
+INSERT 0 1
+DO
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+BEGIN
+SET
+SET
+SET
+SELECT 1
+ espera_s | o_clase | o_sqlstate | veredicto_propio | pid_b | a_pid_observado 
+----------+---------+------------+------------------+-------+-----------------
+     3.50 | OK      |            | ESPERO           | 4917  | 4905
+(1 row)
+
+ROLLBACK

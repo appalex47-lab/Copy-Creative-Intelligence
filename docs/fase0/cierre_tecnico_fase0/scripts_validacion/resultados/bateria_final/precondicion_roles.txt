@@ -1,2 +1,4 @@
 ANTES de la precondicion: roles_no_sistema=postgres(super=true,login=true)
 DESPUES de la precondicion: roles_no_sistema=anon(super=false,login=false),authenticated(super=false,login=false),postgres(super=true,login=true),service_role(super=false,login=false)
+ANTES de la precondicion: roles_no_sistema=anon(super=false,login=false),authenticated(super=false,login=false),postgres(super=true,login=true),service_role(super=false,login=false),t_id_op(super=false,login=true)
+DESPUES de la precondicion: roles_no_sistema=anon(super=false,login=false),authenticated(super=false,login=false),postgres(super=true,login=true),service_role(super=false,login=false),t_id_op(super=false,login=true)

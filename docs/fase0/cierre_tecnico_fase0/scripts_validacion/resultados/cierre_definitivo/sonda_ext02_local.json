@@ -1,0 +1,44 @@
+[
+ {
+  "id": "EXT02-01",
+  "objetivo": "sin CCI_EXT02_CONFIRMA_DEV la sonda se niega a conectar",
+  "observado": "{\"veredicto\": \"RECHAZADO\", \"codigo\": \"X-SIN-CONFIRMACION\", \"detalle\": \"exporte CCI_EXT02_CONFIRMA_DEV=SI-ES-CCI-DEV s\\u00f3lo si las credenc",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT02-02",
+  "objetivo": "sin --local ni proyecto esperado se niega",
+  "observado": "{\"veredicto\": \"RECHAZADO\", \"codigo\": \"X-PROYECTO-NO-COINCIDE\", \"detalle\": \"--proyecto-esperado debe ser la referencia del proyecto CCI-DEV y",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT02-03",
+  "objetivo": "host que no contiene la referencia del proyecto esperado: se niega (antes de conectar)",
+  "observado": "{\"veredicto\": \"RECHAZADO\", \"codigo\": \"X-PROYECTO-NO-COINCIDE\", \"detalle\": \"--proyecto-esperado debe ser la referencia del proyecto CCI-DEV y",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT02-04",
+  "objetivo": "host con 'prod': se niega",
+  "observado": "{\"veredicto\": \"RECHAZADO\", \"codigo\": \"X-PARECE-PROD\", \"detalle\": \"el host o la base contienen 'prod'\"}\n",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT02-05",
+  "objetivo": "contra clúster local: todos los checks PASS y etiquetado SIMULADO_LOCAL (no es evidencia de Supabase)",
+  "observado": "{\n \"veredicto\": \"PASS\",\n \"modo\": \"SIMULADO_LOCAL\",\n \"checks\": [\n  {\n   \"id\": \"E1a\",\n   \"descripcion\": \"conexión, versión, usuario, base\",\n  ",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT02-06",
+  "objetivo": "destino inalcanzable: nunca PASS",
+  "observado": "{\n \"veredicto\": \"BLOQUEADO_O_FALLO\",\n \"modo\": \"SIMULADO_LOCAL\",\n \"checks\": [\n  {\n   \"id\": \"E1a\",\n   \"descripcion\": \"conexión, versión, usuar",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT02-07",
+  "objetivo": "la sonda no deja objetos tras ejecutarse",
+  "observado": "relname cci_sonda=0",
+  "estado": "PASS"
+ }
+]

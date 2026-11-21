@@ -1,0 +1,14 @@
+BASE: baterías=123 fallos=0 EXC=0
+K56-M01 | fallos_localizados=39 | EXC=0 | detección_solo_por_EXC=False
+K56-M02 | fallos_localizados=3 | EXC=0 | detección_solo_por_EXC=False
+K56-M03 | fallos_localizados=1 | EXC=0 | detección_solo_por_EXC=False
+K56-M04 | fallos_localizados=33 | EXC=0 | detección_solo_por_EXC=False
+K56-M05 | fallos_localizados=1 | EXC=0 | detección_solo_por_EXC=False
+K56-M06 | fallos_localizados=2 | EXC=0 | detección_solo_por_EXC=False
+K56-M07 | fallos_localizados=4 | EXC=0 | detección_solo_por_EXC=False
+K56-M08 | fallos_localizados=7 | EXC=0 | detección_solo_por_EXC=False
+K56-M09 | fallos_localizados=13 | EXC=0 | detección_solo_por_EXC=False
+K56-M10 | fallos_localizados=12 | EXC=0 | detección_solo_por_EXC=False
+K56-M11 | fallos_localizados=9 | EXC=0 | detección_solo_por_EXC=False
+K56-M12 | fallos_localizados=22 | EXC=0 | detección_solo_por_EXC=False
+TOTAL entradas EXC en las 12 mutaciones=0
