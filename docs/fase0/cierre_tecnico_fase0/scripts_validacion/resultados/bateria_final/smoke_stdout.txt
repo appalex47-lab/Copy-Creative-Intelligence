@@ -1,3 +1,1 @@
-NOTICE:  database "cci_shim" does not exist, skipping
-NOTICE:  database "cci_conc_smoke" does not exist, skipping
 SMOKE_RC=0

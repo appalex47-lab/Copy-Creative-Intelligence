@@ -1,0 +1,2 @@
+{"permutaciones_01_04": 24, "todas_salidas_iguales": {"01": true, "02": true, "03": true, "04": true}, "sin_cambios_persistentes": true, "05_A_primero_vs_B_primero_iguales": {"05A": true, "05B": true}}
+rc=0

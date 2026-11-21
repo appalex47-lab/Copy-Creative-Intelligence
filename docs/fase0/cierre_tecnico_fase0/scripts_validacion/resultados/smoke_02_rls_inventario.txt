@@ -1,5 +1,7 @@
-psql:/tmp/aud2/work/docs/fase0/cierre_tecnico_fase0/scripts_validacion/cci_dev_NO_EJECUTADOS/00_guarda_destino.sql:44: NOTICE:  GUARDA OK modo=SI-LOCAL-TEMPORAL huella=84e8c0b1
+psql:/tmp/cci.IbvzVT/g.sql:54: NOTICE:  GUARDA OK modo=SI-LOCAL-TEMPORAL huella=67e8231f
 DO
+CREATE TABLE
+INSERT 0 1
 DO
 BEGIN
  schemaname | tablename | policyname | permissive | roles | cmd | qual | with_check 

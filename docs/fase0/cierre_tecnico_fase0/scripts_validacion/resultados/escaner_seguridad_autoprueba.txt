@@ -16,7 +16,9 @@ PASS | SQL | format %s | esperado=SQL dinámico: format() fallos_detectados=1
 PASS | SQL | EXECUTE concatenado | esperado=SQL dinámico: sin EXECUTE fallos_detectados=1
 PASS | SQL | WHEN OTHERS silencioso | esperado=WHEN OTHERS solo clasifica fallos_detectados=1
 PASS | SQL | WHEN OTHERS => PASS | esperado=WHEN OTHERS nunca fallos_detectados=2
-PASS | SQL | sin guarda | esperado=guarda de destino incluida fallos_detectados=3
+PASS | SQL | sin guarda | esperado=guarda de destino incluida fallos_detectados=4
+PASS | SQL | sin verificador del marcador | esperado=guarda de destino incluida fallos_detectados=3
+PASS | SQL | sin \set cci_script tras el preflight | esperado=script declara su identidad fallos_detectados=1
 PASS | SQL | guarda con SQL antes | esperado=guarda antes de cualquier SQL fallos_detectados=1
 PASS | SQL | sin ON_ERROR_STOP | esperado=\set ON_ERROR_STOP on fallos_detectados=2
 PASS | GUARDA | limpia | esperado=ninguno fallos_detectados=0
@@ -36,4 +38,4 @@ PASS | TEXTO | correo | esperado=sin correos
 PASS | TEXTO | teléfono | esperado=sin teléfonos
 PASS | TEXTO | project ref | esperado=sin refs
 PASS | ÁRBOL | enlace simbólico detectado
-TOTAL=37 FAIL=0
+TOTAL=39 FAIL=0

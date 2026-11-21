@@ -210,7 +210,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/base_V20_pe_utf8.txt",
-     "sha256": "60164c83494e1a9f8e67c7e7e402cf11126e3b7effd98dc32d62113defa18f1c"
+     "sha256": "cdf6aeb213bc8667e5773bae99fd2abd84a37b975e29bc9e98e31cc1430d73e3"
     }
    ],
    "id": 25
@@ -234,7 +234,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/ext_utf8.txt",
-     "sha256": "502f15ca3e28d04352094fe362075120c0c0d21d2d126fec0367b66324624220"
+     "sha256": "54f6941ea7d3da97255a605187f64d4338870cf7ec3000f09f3ccb3580e56e96"
     }
    ],
    "id": 27
@@ -270,7 +270,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/arnes_r1r9_autoprueba_local.txt",
-     "sha256": "e764615afde62e804ee79577e012ea5a1c494656df1871a998c43275073b954f"
+     "sha256": "200fa4e5808fcc542736744f2e363f8c1c3311112554f035393ac9d8e087e9a0"
     }
    ],
    "id": 30
@@ -282,7 +282,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/escaner_seguridad_sql.txt",
-     "sha256": "4e282cdb89d9b7282e0b07b8d20307552a9a2335568dfa00c2293c7e0fd18d53"
+     "sha256": "150d5149499f032b1d3a07b2365feb830093a922050c6ebc9f1485c8e17e7e10"
     }
    ],
    "id": 31
@@ -294,7 +294,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/escaner_seguridad_texto.txt",
-     "sha256": "dd5d9226a5e3125100aa4d9cb1705f8780bab589f2af90cee0fa1b7d3cb76305"
+     "sha256": "92e0cfa7e3164555cc988c9ff374553cafb81077c0976b6f53cee5b4eeac7283"
     }
    ],
    "id": 32
@@ -312,13 +312,13 @@
    "id": 33
   },
   {
-   "comprobacion": "escáner autoprueba: 37 muestras, 0 FAIL",
+   "comprobacion": "escáner autoprueba: 39 muestras, 0 FAIL",
    "detalle": "",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/escaner_seguridad_autoprueba.txt",
-     "sha256": "0227c2d0c4c4c0fd1affbef8d43724ea35e04489126a2091783b1ac26ebfc3f8"
+     "sha256": "82bbe1813958a909a62edf438bb4effdbfd778f5a5d8a5fc128309326a883f74"
     }
    ],
    "id": 34
@@ -330,7 +330,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/04_r1r9_local_bloqueado.txt",
-     "sha256": "44e14b7f8258ccb05cb7905d04bf84f3e19f02be93c73ca33fa5726fb73b5ea0"
+     "sha256": "27cdd597aa9111e3590bc833b7a4307d3889ae985dd6781bd1e5bb2f31a0c6d0"
     }
    ],
    "id": 35
@@ -342,7 +342,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/concurrencia_local_utf8.txt",
-     "sha256": "c730ca96bce2a89383937d55ccd248c5808d377f341ebb8fa2ab51a73f052c98"
+     "sha256": "4327e90f9653d3ce60d3eadbc3690c7aee7378f4ab1c8a3fc838d3c0323c3fee"
     }
    ],
    "id": 36
@@ -378,7 +378,7 @@
    "evidencia": [
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "32b49547f6578b9835c57f29b9d673a4a5489276688c496aae78cc8b2a856cae"
+     "sha256": "62dbf24a49e169f8d06cd69e016dd9a032003236df60a2d7f395115c2b08bfb6"
     }
    ],
    "id": 39
@@ -398,7 +398,7 @@
     },
     {
      "ruta": "INFORME_AUDITORIA_FECHAS_HORAS.md",
-     "sha256": "6eaa39d96b7bfe5b8dfa53fd286a8fbe105097ab1ee8c4ca45fed20e2110febc"
+     "sha256": "e89d38ac62d0a6f2780ab43809250476ccabfe815eac80932e8b1915fee78dda"
     },
     {
      "ruta": "INFORME_CIERRE_TECNICO_FASE0.md",
@@ -406,7 +406,7 @@
     },
     {
      "ruta": "INFORME_CIFRAS_DEFINITIVAS.md",
-     "sha256": "6780465994a07b10212762be374d828427a82009812e91afa9dde9bb4087c7fe"
+     "sha256": "a62173e103c4f79c5fa690da124a378224fdb85539f87d245cf0fb341b2015f5"
     },
     {
      "ruta": "INFORME_DECISIONES_ARQUITECTONICAS.md",
@@ -418,7 +418,7 @@
     },
     {
      "ruta": "INFORME_PRUEBAS_FINALES.md",
-     "sha256": "fe57719e8368a3fcb3251d8ce21c2bd3ff2dfbbe4dc9fb20d22306ac1b9858d9"
+     "sha256": "f302e4f8fa7e6983adb60552ba7d7af6760b0d29bad4207100131ba02f1b0abb"
     },
     {
      "ruta": "INFORME_PUBLICACION_GITHUB.md",
@@ -426,7 +426,7 @@
     },
     {
      "ruta": "INFORME_RECONCILIACION_INTEGRAL.md",
-     "sha256": "53f96b087c5c314a90789b9d13bae79357003c94bf380e450857d98dba3e29ed"
+     "sha256": "4359f98e588d9f6694347a959a06b74d1033fd0870486ac1b1857a91301ccae5"
     },
     {
      "ruta": "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
@@ -438,7 +438,7 @@
     },
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "32b49547f6578b9835c57f29b9d673a4a5489276688c496aae78cc8b2a856cae"
+     "sha256": "62dbf24a49e169f8d06cd69e016dd9a032003236df60a2d7f395115c2b08bfb6"
     },
     {
      "ruta": "MATRIZ_MODELO_LOGICO_FISICO.md",
@@ -490,7 +490,7 @@
     },
     {
      "ruta": "INFORME_AUDITORIA_FECHAS_HORAS.md",
-     "sha256": "6eaa39d96b7bfe5b8dfa53fd286a8fbe105097ab1ee8c4ca45fed20e2110febc"
+     "sha256": "e89d38ac62d0a6f2780ab43809250476ccabfe815eac80932e8b1915fee78dda"
     },
     {
      "ruta": "INFORME_CIERRE_TECNICO_FASE0.md",
@@ -498,7 +498,7 @@
     },
     {
      "ruta": "INFORME_CIFRAS_DEFINITIVAS.md",
-     "sha256": "6780465994a07b10212762be374d828427a82009812e91afa9dde9bb4087c7fe"
+     "sha256": "a62173e103c4f79c5fa690da124a378224fdb85539f87d245cf0fb341b2015f5"
     },
     {
      "ruta": "INFORME_DECISIONES_ARQUITECTONICAS.md",
@@ -510,7 +510,7 @@
     },
     {
      "ruta": "INFORME_PRUEBAS_FINALES.md",
-     "sha256": "fe57719e8368a3fcb3251d8ce21c2bd3ff2dfbbe4dc9fb20d22306ac1b9858d9"
+     "sha256": "f302e4f8fa7e6983adb60552ba7d7af6760b0d29bad4207100131ba02f1b0abb"
     },
     {
      "ruta": "INFORME_PUBLICACION_GITHUB.md",
@@ -518,7 +518,7 @@
     },
     {
      "ruta": "INFORME_RECONCILIACION_INTEGRAL.md",
-     "sha256": "53f96b087c5c314a90789b9d13bae79357003c94bf380e450857d98dba3e29ed"
+     "sha256": "4359f98e588d9f6694347a959a06b74d1033fd0870486ac1b1857a91301ccae5"
     },
     {
      "ruta": "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
@@ -530,7 +530,7 @@
     },
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "32b49547f6578b9835c57f29b9d673a4a5489276688c496aae78cc8b2a856cae"
+     "sha256": "62dbf24a49e169f8d06cd69e016dd9a032003236df60a2d7f395115c2b08bfb6"
     },
     {
      "ruta": "MATRIZ_MODELO_LOGICO_FISICO.md",
@@ -574,7 +574,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
-     "sha256": "cd8b88b0eb0d7dfec702596a788db481173a277560388c9c60e8606499c75905"
+     "sha256": "d4f3ff0dee6ab1772233d5ce4216fad91250c077007211970d82e9e68c6d0b85"
     }
    ],
    "id": 42
@@ -599,49 +599,49 @@
    "id": 44
   },
   {
-   "comprobacion": "guarda DEV/PROD (H-03): 139/139 pruebas, 0 FAIL; cubre los 6 scripts, PROD, destino desconocido, identidad no verificable, configuración incompleta y manipulada",
+   "comprobacion": "guarda DEV/PROD (H-03): 187/187 pruebas, 0 FAIL; cubre los 6 scripts, PROD, destino desconocido, identidad no verificable, configuración incompleta y manipulada",
    "detalle": "",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/guarda_destino.txt",
-     "sha256": "d25ff66bf0b3e1a99e3f0ec280294f0bc75708c9bef3e3c033a493bb9722a2ae"
+     "sha256": "f78e96446180ea9919213fe670c7e6fa23b1d3fa9d34eda6dc110910afeefd78"
     }
    ],
    "id": 45
   },
   {
-   "comprobacion": "guarda DEV/PROD: los 6 scripts incluyen la guarda compartida y las listas versionadas siguen vacías (no se inventan identificadores)",
+   "comprobacion": "guarda DEV/PROD: los 6 scripts invocan preflight+verificador de marcador (guarda compartida) y las listas versionadas siguen vacías (no se inventan identificadores)",
    "detalle": "",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/00_guarda_destino.sql",
-     "sha256": "b30a39d9d6dac4974913bf7140a619d1991b599a0c0d12af504f9af0906eb1ec"
+     "sha256": "8baba67b25862b59cec6fed978e47c318861b90252fe54786b541c8faae45d3b"
     },
     {
      "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/01_inventario_esquema_SOLO_LECTURA.sql",
-     "sha256": "f3a8f5fd89265f16b44085944497c63977d4d83a1e90026efd43321360377048"
+     "sha256": "2c04e5eba28de65cd17e73780cd99662507b0c85ca3d5a108e91589e32c2b1c6"
     },
     {
      "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/02_rls_privilegios_SOLO_LECTURA.sql",
-     "sha256": "551b61fab7e122b7956a17e32976dbf10446fadc0a03e33203f3b80ad781093c"
+     "sha256": "d3ff9dfeb5036c1d200d5d463f27a38dc6ae4498a87b006a9106f04b096b7aaf"
     },
     {
      "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/03_pruebas_rls_ROLLBACK.sql",
-     "sha256": "727242bde5827e3fae739d33d39ade5e3f900f32053bc2cd5aa837c561e3689f"
+     "sha256": "065e698ce5fcacc89e109d68219e2fb58eb9943e078f7cf59f32b95352d37073"
     },
     {
      "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/04_trigger_r1_r9_ROLLBACK.sql",
-     "sha256": "7b0304daa9f5c9538a497d8c82296f54bfd2cefa83012801457dc7b1ec8a262a"
+     "sha256": "955efe7f05dbe946ec9b70ac7e4932762d73fa23588fcf47ab8b9ba872d59ccf"
     },
     {
      "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_A.sql",
-     "sha256": "0882ec56992139ea99abbc9e65ae8c006c927d0a48b27aa06ea86566ec8a35bb"
+     "sha256": "a18fcd80d5ac9d21e676d2f0803c62d84d4051c87359bc752093433f5471e1ce"
     },
     {
      "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_B.sql",
-     "sha256": "2de25c95b0b5a24225d4fec759176fba328e2dde16728e0215e28ea1e62bdf5d"
+     "sha256": "10f7a93f359a340c5451310bb6b7c1474ad4b86950ed6fa3d0f438e789f8829a"
     }
    ],
    "id": 46
@@ -708,7 +708,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/cifras_definitivas.json",
-     "sha256": "bf05036a0d71f6b544c08e7eb23c9b4762431db8665f5b4a7588717343211edf"
+     "sha256": "df18e6b7a128c5802c5936ce06ca351597672391c8e468ec786b9bd996f9e16b"
     }
    ],
    "id": 52
@@ -721,13 +721,13 @@
    "id": 53
   },
   {
-   "comprobacion": "manifiesto: nº de entradas (138) = cifra generada y = archivos sujetos a verificación",
+   "comprobacion": "manifiesto: nº de entradas (154) = cifra generada y = archivos sujetos a verificación",
    "detalle": "",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "MANIFIESTO_SHA256_CIERRE.txt",
-     "sha256": "863099ce38848fe9b44b04873ae5c5fb4bc751ae75ab299aece5cb9ffb813f44"
+     "sha256": "e57953e4d16703f3a72770f6751c0733b5d264d75f4c1fa665be178029162bb6"
     }
    ],
    "id": 54
@@ -739,7 +739,7 @@
    "evidencia": [
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "32b49547f6578b9835c57f29b9d673a4a5489276688c496aae78cc8b2a856cae"
+     "sha256": "62dbf24a49e169f8d06cd69e016dd9a032003236df60a2d7f395115c2b08bfb6"
     },
     {
      "ruta": "DICTAMEN_PREPARACION_FASE0.md",
@@ -759,7 +759,7 @@
     },
     {
      "ruta": "INFORME_PRUEBAS_FINALES.md",
-     "sha256": "fe57719e8368a3fcb3251d8ce21c2bd3ff2dfbbe4dc9fb20d22306ac1b9858d9"
+     "sha256": "f302e4f8fa7e6983adb60552ba7d7af6760b0d29bad4207100131ba02f1b0abb"
     }
    ],
    "id": 55
@@ -793,7 +793,7 @@
     },
     {
      "ruta": "INFORME_AUDITORIA_FECHAS_HORAS.md",
-     "sha256": "6eaa39d96b7bfe5b8dfa53fd286a8fbe105097ab1ee8c4ca45fed20e2110febc"
+     "sha256": "e89d38ac62d0a6f2780ab43809250476ccabfe815eac80932e8b1915fee78dda"
     },
     {
      "ruta": "INFORME_CIERRE_TECNICO_FASE0.md",
@@ -801,7 +801,7 @@
     },
     {
      "ruta": "INFORME_CIFRAS_DEFINITIVAS.md",
-     "sha256": "6780465994a07b10212762be374d828427a82009812e91afa9dde9bb4087c7fe"
+     "sha256": "a62173e103c4f79c5fa690da124a378224fdb85539f87d245cf0fb341b2015f5"
     },
     {
      "ruta": "INFORME_DECISIONES_ARQUITECTONICAS.md",
@@ -813,7 +813,7 @@
     },
     {
      "ruta": "INFORME_PRUEBAS_FINALES.md",
-     "sha256": "fe57719e8368a3fcb3251d8ce21c2bd3ff2dfbbe4dc9fb20d22306ac1b9858d9"
+     "sha256": "f302e4f8fa7e6983adb60552ba7d7af6760b0d29bad4207100131ba02f1b0abb"
     },
     {
      "ruta": "INFORME_PUBLICACION_GITHUB.md",
@@ -821,7 +821,7 @@
     },
     {
      "ruta": "INFORME_RECONCILIACION_INTEGRAL.md",
-     "sha256": "53f96b087c5c314a90789b9d13bae79357003c94bf380e450857d98dba3e29ed"
+     "sha256": "4359f98e588d9f6694347a959a06b74d1033fd0870486ac1b1857a91301ccae5"
     },
     {
      "ruta": "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
@@ -833,7 +833,7 @@
     },
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "32b49547f6578b9835c57f29b9d673a4a5489276688c496aae78cc8b2a856cae"
+     "sha256": "62dbf24a49e169f8d06cd69e016dd9a032003236df60a2d7f395115c2b08bfb6"
     },
     {
      "ruta": "MATRIZ_MODELO_LOGICO_FISICO.md",
@@ -873,10 +873,10 @@
  ],
  "fail": 0,
  "meta": {
-  "commit_base_git": "d365a162e54809f3b8de9c77f5902a8ea131a97f",
+  "commit_base_git": "e0b1d8165d7584edd7fd03c2fa3c54fcce9d87e0",
   "fuente_unica": "este JSON; el TXT y el MD se generan de él en la misma ejecución",
-  "generado_local": "2026-11-21T12:09:39-0600",
-  "generado_utc": "2026-11-21T18:09:39Z",
+  "generado_local": "2026-11-21T13:15:26-0600",
+  "generado_utc": "2026-11-21T19:15:26Z",
   "zona_local": "CST"
  },
  "pass": 58,

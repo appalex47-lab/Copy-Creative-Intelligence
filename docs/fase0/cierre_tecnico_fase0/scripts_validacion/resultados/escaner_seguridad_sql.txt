@@ -20,8 +20,42 @@ PASS | 00_guarda_destino.sql | SQL dinámico: sin EXECUTE con concatenación '||
 PASS | 00_guarda_destino.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
 PASS | 00_guarda_destino.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
 PASS | 00_guarda_destino.sql | WHEN OTHERS nunca convierte el error en PASS | 
-PASS | 01_inventario_esquema_SOLO_LECTURA.sql | guarda de destino incluida (\ir 00_guarda_destino.sql) | 
+PASS | 00_preflight_guarda.sql | preflight: exige hash aprobado externo (CCI_GUARDA_SHA256_APROBADO) y CCI_DIR | 
+PASS | 00_preflight_guarda.sql | preflight: ejecuta la COPIA verificada (\i :cci_tmp/g.sql), no la ruta original | 
+PASS | 00_preflight_guarda.sql | preflight: falla cerrada [G-GUARDA-INTEGRIDAD] | 
+PASS | 00_preflight_guarda.sql | preflight: sin SQL con operadores/funciones resolubles antes de la guarda (sólo meta-comandos y DO de rechazo) | 
+PASS | 00_preflight_guarda.sql | sin COMMIT | 
+PASS | 00_preflight_guarda.sql | sin DDL/DCL peligroso (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA) | 
+PASS | 00_preflight_guarda.sql | escrituras solo con ROLLBACK | 
+PASS | 00_preflight_guarda.sql | sin metacomandos de conexión/shell (\c, \connect, \!, \copy, \o) | 
+PASS | 00_preflight_guarda.sql | sin refs de proyecto/URL/secretos/JWT | 
+PASS | 00_preflight_guarda.sql | sin objetos permanentes (create table/function/trigger/view/index fuera de pg_temp/temp) | 
+PASS | 00_preflight_guarda.sql | sin LOCK TABLE ni FOR UPDATE/SHARE (bloqueos de producción) | 
+PASS | 00_preflight_guarda.sql | pg_sleep acotado (<= 10 s) | 
+PASS | 00_preflight_guarda.sql | SQL dinámico: format() solo con %I/%L (sin %s sin comillas) | format(%s) en: 
+PASS | 00_preflight_guarda.sql | SQL dinámico: sin EXECUTE con concatenación '||' | 
+PASS | 00_preflight_guarda.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
+PASS | 00_preflight_guarda.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
+PASS | 00_preflight_guarda.sql | WHEN OTHERS nunca convierte el error en PASS | 
+PASS | 00_verificar_marcador.sql | verificador: identificador por ejecución (cci_run) y consumo de un solo uso | 
+PASS | 00_verificar_marcador.sql | verificador: ligado al script y a la sesión (script, pid) | 
+PASS | 00_verificar_marcador.sql | verificador: rechaza [G-GUARDA-NO-EJECUTADA] y borra cci_run | 
+PASS | 00_verificar_marcador.sql | sin COMMIT | 
+PASS | 00_verificar_marcador.sql | sin DDL/DCL peligroso (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA) | 
+PASS | 00_verificar_marcador.sql | escrituras solo con ROLLBACK | 
+PASS | 00_verificar_marcador.sql | sin metacomandos de conexión/shell (\c, \connect, \!, \copy, \o) | 
+PASS | 00_verificar_marcador.sql | sin refs de proyecto/URL/secretos/JWT | 
+PASS | 00_verificar_marcador.sql | sin objetos permanentes (create table/function/trigger/view/index fuera de pg_temp/temp) | 
+PASS | 00_verificar_marcador.sql | sin LOCK TABLE ni FOR UPDATE/SHARE (bloqueos de producción) | 
+PASS | 00_verificar_marcador.sql | pg_sleep acotado (<= 10 s) | 
+PASS | 00_verificar_marcador.sql | SQL dinámico: format() solo con %I/%L (sin %s sin comillas) | format(%s) en: 
+PASS | 00_verificar_marcador.sql | SQL dinámico: sin EXECUTE con concatenación '||' | 
+PASS | 00_verificar_marcador.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
+PASS | 00_verificar_marcador.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
+PASS | 00_verificar_marcador.sql | WHEN OTHERS nunca convierte el error en PASS | 
+PASS | 01_inventario_esquema_SOLO_LECTURA.sql | guarda de destino incluida (\ir 00_preflight_guarda.sql + \ir 00_verificar_marcador.sql) | 
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | guarda antes de cualquier SQL de datos | 
+PASS | 01_inventario_esquema_SOLO_LECTURA.sql | script declara su identidad (\set cci_script) antes del preflight y de nuevo antes del verificador | 
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | \set ON_ERROR_STOP on | 
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | \set ON_ERROR_STOP on antes de la guarda (si falta el archivo de guarda el script aborta) | 
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | sin COMMIT | 
@@ -37,8 +71,9 @@ PASS | 01_inventario_esquema_SOLO_LECTURA.sql | SQL dinámico: sin EXECUTE con c
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | WHEN OTHERS nunca convierte el error en PASS | 
-PASS | 02_rls_privilegios_SOLO_LECTURA.sql | guarda de destino incluida (\ir 00_guarda_destino.sql) | 
+PASS | 02_rls_privilegios_SOLO_LECTURA.sql | guarda de destino incluida (\ir 00_preflight_guarda.sql + \ir 00_verificar_marcador.sql) | 
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | guarda antes de cualquier SQL de datos | 
+PASS | 02_rls_privilegios_SOLO_LECTURA.sql | script declara su identidad (\set cci_script) antes del preflight y de nuevo antes del verificador | 
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | \set ON_ERROR_STOP on | 
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | \set ON_ERROR_STOP on antes de la guarda (si falta el archivo de guarda el script aborta) | 
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | sin COMMIT | 
@@ -54,8 +89,9 @@ PASS | 02_rls_privilegios_SOLO_LECTURA.sql | SQL dinámico: sin EXECUTE con conc
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | WHEN OTHERS nunca convierte el error en PASS | 
-PASS | 03_pruebas_rls_ROLLBACK.sql | guarda de destino incluida (\ir 00_guarda_destino.sql) | 
+PASS | 03_pruebas_rls_ROLLBACK.sql | guarda de destino incluida (\ir 00_preflight_guarda.sql + \ir 00_verificar_marcador.sql) | 
 PASS | 03_pruebas_rls_ROLLBACK.sql | guarda antes de cualquier SQL de datos | 
+PASS | 03_pruebas_rls_ROLLBACK.sql | script declara su identidad (\set cci_script) antes del preflight y de nuevo antes del verificador | 
 PASS | 03_pruebas_rls_ROLLBACK.sql | \set ON_ERROR_STOP on | 
 PASS | 03_pruebas_rls_ROLLBACK.sql | \set ON_ERROR_STOP on antes de la guarda (si falta el archivo de guarda el script aborta) | 
 PASS | 03_pruebas_rls_ROLLBACK.sql | sin COMMIT | 
@@ -84,8 +120,9 @@ PASS | 04_lib_clasificador.sql | SQL dinámico: sin EXECUTE con concatenación '
 PASS | 04_lib_clasificador.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
 PASS | 04_lib_clasificador.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
 PASS | 04_lib_clasificador.sql | WHEN OTHERS nunca convierte el error en PASS | 
-PASS | 04_trigger_r1_r9_ROLLBACK.sql | guarda de destino incluida (\ir 00_guarda_destino.sql) | 
+PASS | 04_trigger_r1_r9_ROLLBACK.sql | guarda de destino incluida (\ir 00_preflight_guarda.sql + \ir 00_verificar_marcador.sql) | 
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | guarda antes de cualquier SQL de datos | 
+PASS | 04_trigger_r1_r9_ROLLBACK.sql | script declara su identidad (\set cci_script) antes del preflight y de nuevo antes del verificador | 
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | \set ON_ERROR_STOP on | 
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | \set ON_ERROR_STOP on antes de la guarda (si falta el archivo de guarda el script aborta) | 
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | sin COMMIT | 
@@ -101,8 +138,9 @@ PASS | 04_trigger_r1_r9_ROLLBACK.sql | SQL dinámico: sin EXECUTE con concatenac
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | WHEN OTHERS nunca convierte el error en PASS | 
-PASS | 05_concurrencia_sesion_A.sql | guarda de destino incluida (\ir 00_guarda_destino.sql) | 
+PASS | 05_concurrencia_sesion_A.sql | guarda de destino incluida (\ir 00_preflight_guarda.sql + \ir 00_verificar_marcador.sql) | 
 PASS | 05_concurrencia_sesion_A.sql | guarda antes de cualquier SQL de datos | 
+PASS | 05_concurrencia_sesion_A.sql | script declara su identidad (\set cci_script) antes del preflight y de nuevo antes del verificador | 
 PASS | 05_concurrencia_sesion_A.sql | \set ON_ERROR_STOP on | 
 PASS | 05_concurrencia_sesion_A.sql | \set ON_ERROR_STOP on antes de la guarda (si falta el archivo de guarda el script aborta) | 
 PASS | 05_concurrencia_sesion_A.sql | sin COMMIT | 
@@ -118,8 +156,9 @@ PASS | 05_concurrencia_sesion_A.sql | SQL dinámico: sin EXECUTE con concatenaci
 PASS | 05_concurrencia_sesion_A.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
 PASS | 05_concurrencia_sesion_A.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
 PASS | 05_concurrencia_sesion_A.sql | WHEN OTHERS nunca convierte el error en PASS | 
-PASS | 05_concurrencia_sesion_B.sql | guarda de destino incluida (\ir 00_guarda_destino.sql) | 
+PASS | 05_concurrencia_sesion_B.sql | guarda de destino incluida (\ir 00_preflight_guarda.sql + \ir 00_verificar_marcador.sql) | 
 PASS | 05_concurrencia_sesion_B.sql | guarda antes de cualquier SQL de datos | 
+PASS | 05_concurrencia_sesion_B.sql | script declara su identidad (\set cci_script) antes del preflight y de nuevo antes del verificador | 
 PASS | 05_concurrencia_sesion_B.sql | \set ON_ERROR_STOP on | 
 PASS | 05_concurrencia_sesion_B.sql | \set ON_ERROR_STOP on antes de la guarda (si falta el archivo de guarda el script aborta) | 
 PASS | 05_concurrencia_sesion_B.sql | sin COMMIT | 
@@ -135,4 +174,4 @@ PASS | 05_concurrencia_sesion_B.sql | SQL dinámico: sin EXECUTE con concatenaci
 PASS | 05_concurrencia_sesion_B.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
 PASS | 05_concurrencia_sesion_B.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
 PASS | 05_concurrencia_sesion_B.sql | WHEN OTHERS nunca convierte el error en PASS | 
-TOTAL=137 FAIL=0
+TOTAL=176 FAIL=0
