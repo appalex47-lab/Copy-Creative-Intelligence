@@ -1,0 +1,50 @@
+[
+ {
+  "script": "01_inventario_esquema_SOLO_LECTURA",
+  "rc": 3,
+  "rechazo": true,
+  "huella_antes": "47efed635f371a92864b1526ab40d0bf",
+  "huella_despues": "47efed635f371a92864b1526ab40d0bf",
+  "sin_cambios": true
+ },
+ {
+  "script": "02_rls_privilegios_SOLO_LECTURA",
+  "rc": 3,
+  "rechazo": true,
+  "huella_antes": "47efed635f371a92864b1526ab40d0bf",
+  "huella_despues": "47efed635f371a92864b1526ab40d0bf",
+  "sin_cambios": true
+ },
+ {
+  "script": "03_pruebas_rls_ROLLBACK",
+  "rc": 3,
+  "rechazo": true,
+  "huella_antes": "47efed635f371a92864b1526ab40d0bf",
+  "huella_despues": "47efed635f371a92864b1526ab40d0bf",
+  "sin_cambios": true
+ },
+ {
+  "script": "04_trigger_r1_r9_ROLLBACK",
+  "rc": 3,
+  "rechazo": true,
+  "huella_antes": "47efed635f371a92864b1526ab40d0bf",
+  "huella_despues": "47efed635f371a92864b1526ab40d0bf",
+  "sin_cambios": true
+ },
+ {
+  "script": "05_concurrencia_sesion_A",
+  "rc": 3,
+  "rechazo": true,
+  "huella_antes": "47efed635f371a92864b1526ab40d0bf",
+  "huella_despues": "47efed635f371a92864b1526ab40d0bf",
+  "sin_cambios": true
+ },
+ {
+  "script": "05_concurrencia_sesion_B",
+  "rc": 3,
+  "rechazo": true,
+  "huella_antes": "47efed635f371a92864b1526ab40d0bf",
+  "huella_despues": "47efed635f371a92864b1526ab40d0bf",
+  "sin_cambios": true
+ }
+]

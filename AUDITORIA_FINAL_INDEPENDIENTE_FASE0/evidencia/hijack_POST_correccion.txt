@@ -1,0 +1,6 @@
+01_inventario_esquema_SOLO_LECTURA | guarda_ok=True | funcion_homonima_invocada=False | rc=0
+02_rls_privilegios_SOLO_LECTURA | guarda_ok=True | funcion_homonima_invocada=False | rc=0
+03_pruebas_rls_ROLLBACK | guarda_ok=True | funcion_homonima_invocada=False | rc=3
+04_trigger_r1_r9_ROLLBACK | guarda_ok=True | funcion_homonima_invocada=False | rc=3
+05_concurrencia_sesion_A | guarda_ok=True | funcion_homonima_invocada=False | rc=0
+05_concurrencia_sesion_B | guarda_ok=True | funcion_homonima_invocada=False | rc=0
