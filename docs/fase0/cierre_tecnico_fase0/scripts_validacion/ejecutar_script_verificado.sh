@@ -63,6 +63,7 @@ for a in "$@"; do case "$a" in -p*) [ "$a" = "-p" ] || DBP="${a#-p}";; -U*) [ "$
 if [[ "$PO" == *"cci.entorno=CCI-DEV"* ]]; then
   MODO=CCI-DEV
   [ -n "${CCI_AUDITORIA_LOG:-}" ] || rech V-AUDITORIA-NO-CONFIGURADA "modo CCI-DEV exige CCI_AUDITORIA_LOG (registro de quién ejecuta); sin registro no hay ejecución"
+  case "$CCI_AUDITORIA_LOG" in /*) ;; *) rech V-AUDITORIA-INVALIDA "CCI_AUDITORIA_LOG debe ser una ruta absoluta";; esac
   AK="${CCI_AUTORIDAD_PUBKEY:-}"; AH="${CCI_AUTORIDAD_PUBKEY_SHA256:-}"; ID="${CCI_IDENTIDAD_DIR:-}"
   [ -n "$ID" ] && [ -n "$AK" ] && [ -n "$AH" ] || rech V-IDENTIDAD-NO-CONFIGURADA "modo CCI-DEV exige CCI_IDENTIDAD_DIR, CCI_AUTORIDAD_PUBKEY y CCI_AUTORIDAD_PUBKEY_SHA256 (autoridad externa; no definida)"
   SYS="$("$PSQL" -X -qAt -v ON_ERROR_STOP=1 "$@" -c 'select system_identifier from pg_catalog.pg_control_system()' 2>/dev/null)" || rech V-IDENTIDAD-NO-VERIFICABLE "no se pudo leer system_identifier del destino"
@@ -71,7 +72,8 @@ if [[ "$PO" == *"cci.entorno=CCI-DEV"* ]]; then
   if [ $vrc -eq 3 ]; then cod="$(printf '%s' "$VR" | sed -n 's/^RECHAZADO \[\(I-[A-Z-]*\)\].*/\1/p')"; rech "V-IDENTIDAD-${cod#I-}" "$VR"; elif [ $vrc -ne 0 ]; then rech V-IDENTIDAD-ERROR-TECNICO "$VR"; fi
 fi
 SH="$(sha256sum < "$P/$NOM" | cut -d' ' -f1)"
-if [ -n "${CCI_AUDITORIA_LOG:-}" ]; then printf '%s INICIO run=%s modo=%s os_user=%s db_user=%s destino=%s:%s/%s script=%s sha256=%s sums=%s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$RUNID" "$MODO" "$(id -un)" "${DBU:-?}" "$HOST" "$DBP" "${DBN:-?}" "$NOM" "$SH" "$APROB" >> "$CCI_AUDITORIA_LOG" 2>/dev/null || rech V-AUDITORIA-NO-ESCRIBIBLE "no se pudo registrar la ejecución"; fi
+if [ -n "${CCI_AUDITORIA_LOG:-}" ]; then { [ ! -L "$CCI_AUDITORIA_LOG" ] && { [ ! -e "$CCI_AUDITORIA_LOG" ] || [ -f "$CCI_AUDITORIA_LOG" ]; }; } || rech V-AUDITORIA-INVALIDA "el registro debe ser un archivo regular (no enlace simbólico, dispositivo ni FIFO)"; fi
+if [ -n "${CCI_AUDITORIA_LOG:-}" ]; then printf '%s INICIO run=%s modo=%s os_user=%s db_user=%s destino=%s:%s/%s script=%s sha256=%s sums=%s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$RUNID" "$MODO" "$(id -un)" "${DBU:-?}" "$HOST" "$DBP" "${DBN:-?}" "$NOM" "$SH" "$APROB" >> "$CCI_AUDITORIA_LOG" 2>/dev/null || rech V-AUDITORIA-NO-ESCRIBIBLE "no se pudo registrar la ejecución"; grep -q "run=$RUNID " "$CCI_AUDITORIA_LOG" 2>/dev/null || rech V-AUDITORIA-NO-ESCRIBIBLE "la línea de inicio no quedó registrada"; fi
 CCI_DIR="$P" CCI_TMPDIR="$P" CCI_GUARDA_SHA256_APROBADO="$GH" "$PSQL" -X -v ON_ERROR_STOP=1 "$@" -f "$P/$NOM"; rc=$?
 [ -z "${CCI_AUDITORIA_LOG:-}" ] || printf '%s FIN run=%s rc=%s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$RUNID" "$rc" >> "$CCI_AUDITORIA_LOG" 2>/dev/null
 exit $rc

@@ -148,7 +148,7 @@ def C():
     pb = puertos_libres(4); wd = os.path.join(tempfile.gettempdir(), RUN, "ag18")
     paso("C", "identidad_firmada_ag18_clones", PY + [os.path.join(SV, "ct_pruebas_identidad_firmada.py"), wd, str(pb), os.path.join(CD, "identidad_firmada_ag18.json")], rx=r"^TOTAL=42 PASS=42 FAIL=0$")
     pb = puertos_libres(4); wd = os.path.join(tempfile.gettempdir(), RUN, "ext01")
-    paso("C", "aprobacion_firmada_y_cadena_dev", PY + [os.path.join(SV, "ct_pruebas_ext01_y_e2e_dev.py"), wd, str(pb), os.path.join(CD, "aprobacion_firmada_ext01_cadena_dev.json")], rx=r"^TOTAL=31 PASS=31 FAIL=0$")
+    paso("C", "aprobacion_firmada_y_cadena_dev", PY + [os.path.join(SV, "ct_pruebas_ext01_y_e2e_dev.py"), wd, str(pb), os.path.join(CD, "aprobacion_firmada_ext01_cadena_dev.json")], rx=r"^TOTAL=36 PASS=36 FAIL=0$")
     paso("C", "validador_listas_ext03", PY + [os.path.join(SV, "ct_pruebas_validador_listas.py"), os.path.join(CD, "validador_listas_ext03.json")], rx=r"^TOTAL=34 PASS=34 FAIL=0$")
     paso("C", "sonda_ext02_simulada_local", PY + [os.path.join(SV, "ct_pruebas_ext02_sonda.py"), sock, port, os.path.join(CD, "sonda_ext02_local.json")], rx=r"^TOTAL=7 PASS=7 FAIL=0$")
 def D():

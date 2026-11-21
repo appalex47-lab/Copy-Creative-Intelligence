@@ -101,6 +101,13 @@ CD = clon((DEV, SK), "clon_dev", PB + 2); CP = clon((PROD, PB + 1), "clon_prod",
 arrancar(CD, CD + "/sock", PB + 2, CD + "/log"); arrancar(CP, CP + "/sock", PB + 3, CP + "/log")
 caso("E2E-06", "CLON FÍSICO de PROD en otro endpoint, destino aprobado por error en la lista de hosts", "V-IDENTIDAD-ENDPOINT-DISTINTO", dev(sock=CP + "/sock", port=PB + 3, env=envdev(destinos=CP + "/sock")))
 caso("E2E-07", "CLON FÍSICO de DEV en otro endpoint (misma base, mismo system_identifier)", "V-IDENTIDAD-ENDPOINT-DISTINTO", dev(sock=CD + "/sock", port=PB + 2, env=envdev(destinos=CD + "/sock")))
+os.symlink(LOGA, W + "/log_enlace.log") if not os.path.exists(W + "/log_enlace.log") else None
+caso("E2E-10", "registro de auditoría = /dev/null (ejecución sin registro real)", "V-AUDITORIA-INVALIDA", dev(env=envdev(log="/dev/null")))
+caso("E2E-11", "registro de auditoría = enlace simbólico", "V-AUDITORIA-INVALIDA", dev(env=envdev(log=W + "/log_enlace.log")))
+caso("E2E-12", "registro de auditoría con ruta relativa", "V-AUDITORIA-INVALIDA", dev(env=envdev(log="auditoria_rel.log")))
+caso("E2E-13", "registro de auditoría en directorio inexistente (no escribible)", "V-AUDITORIA-NO-ESCRIBIBLE", dev(env=envdev(log=W + "/no_existe/dir/a.log")))
+os.mkfifo(W + "/log_fifo.log") if not os.path.exists(W + "/log_fifo.log") else None
+caso("E2E-14", "registro de auditoría = FIFO", "V-AUDITORIA-INVALIDA", dev(env=envdev(log=W + "/log_fifo.log")))
 parar(CD); parar(CP); parar(DEV)
 arrancar(CP, DEV + "/sock", SK, CP + "/log2")
 caso("E2E-08", "TOMA DEL ENDPOINT: el clon físico de PROD arranca en el socket y puerto exactos de DEV (mismo host, puerto y base)", "V-IDENTIDAD-SYSID-DISTINTO", dev(), "el system_identifier real (que el clon hereda de PROD) no coincide con el firmado para DEV")
