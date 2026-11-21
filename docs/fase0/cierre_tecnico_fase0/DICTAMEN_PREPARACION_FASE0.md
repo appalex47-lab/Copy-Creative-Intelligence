@@ -25,7 +25,7 @@ Ejecución de los scripts 01–05 con autorización; versión y extensiones de S
 G-1, G-5, G-10, DG-19, DG-20, DG-12, DG-16, DG-18, G-9, RP-01, P-01..P-05, P-10, PO-05, DG-09, DEP-RET-01, OD-13 (y HV-02). Ninguna está aprobada; el registro tiene 21 filas, todas `REQUIERE_APROBACION_DEL_PROPIETARIO`. Además: contrato de error de R1–R9 (BRECHA-R1R9-01).
 
 ## 5. No pudo verificarse
-Texto de la Adenda v9 y de OD-13 (fuera del expediente); que PO-05 apunte a la v9 (HV-02); valores reales de canales/formatos (DG-19); política de retención; responsables reales; infraestructura Supabase; que una guarda distinga DEV de PROD (LR-22).
+Texto de la Adenda v9 y de OD-13 (fuera del expediente); que PO-05 apunte a la v9 (HV-02); valores reales de canales/formatos (DG-19); política de retención; responsables reales; infraestructura Supabase; que la guarda de identidad efectiva funcione con el rol real de CCI-DEV y los identificadores reales de CCI-DEV/CCI-PROD (LR-22; la guarda está implementada y probada solo en local).
 
 ## 6. Qué impide la aceptación formal de Fase 0
 Decisiones sin aprobar; validación física pendiente; 5 controles NO VERIFICADO y 4 PARCIAL heredados de V26; dependencias externas (Adenda v9, OD-13, catálogo real). Ver `MATRIZ_LIMITACIONES_RESIDUALES.csv` (27 filas; la LR-28 se fusionó con la LR-05, ver `INFORME_CIFRAS_DEFINITIVAS.md`).

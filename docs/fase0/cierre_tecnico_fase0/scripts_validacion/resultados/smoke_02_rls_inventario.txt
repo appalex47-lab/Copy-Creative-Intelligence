@@ -1,3 +1,5 @@
+psql:/tmp/aud/gc/docs/fase0/cierre_tecnico_fase0/scripts_validacion/cci_dev_NO_EJECUTADOS/00_guarda_destino.sql:45: NOTICE:  GUARDA OK modo=SI-LOCAL-TEMPORAL huella=f5bcf661
+DO
 DO
 BEGIN
  schemaname | tablename | policyname | permissive | roles | cmd | qual | with_check 
@@ -829,8 +831,9 @@ BEGIN
 ---------------+----------+--------------+-------------+------------
  anon          | f        | f            | f           | t
  authenticated | f        | f            | f           | t
+ postgres      | t        | t            | t           | t
  service_role  | f        | f            | f           | t
-(3 rows)
+(4 rows)
 
  rol | defaclnamespace | defaclobjtype | defaclacl 
 -----+-----------------+---------------+-----------

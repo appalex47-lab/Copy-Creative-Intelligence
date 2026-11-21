@@ -110,7 +110,7 @@
    "evidencia": [
     {
      "ruta": "MATRIZ_LIMITACIONES_RESIDUALES.csv",
-     "sha256": "f32ba48eca31c17ed932631f6bc2613ee87fd8b8100f9d9d1d4a75de8d848c58"
+     "sha256": "039b28717e1b5fa28219b4880b476c36ed13c2cb0aa0f36dce2012b16a1a83fc"
     }
    ],
    "id": 15
@@ -210,7 +210,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/base_V20_pe_utf8.txt",
-     "sha256": "cdf6aeb213bc8667e5773bae99fd2abd84a37b975e29bc9e98e31cc1430d73e3"
+     "sha256": "60164c83494e1a9f8e67c7e7e402cf11126e3b7effd98dc32d62113defa18f1c"
     }
    ],
    "id": 25
@@ -234,7 +234,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/ext_utf8.txt",
-     "sha256": "54f6941ea7d3da97255a605187f64d4338870cf7ec3000f09f3ccb3580e56e96"
+     "sha256": "502f15ca3e28d04352094fe362075120c0c0d21d2d126fec0367b66324624220"
     }
    ],
    "id": 27
@@ -264,13 +264,13 @@
    "id": 29
   },
   {
-   "comprobacion": "arnés 28/28",
+   "comprobacion": "arnés 28/28 (total=aprobadas, 0 FAIL; esperado fijado en la batería)",
    "detalle": "",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/arnes_r1r9_autoprueba_local.txt",
-     "sha256": "200fa4e5808fcc542736744f2e363f8c1c3311112554f035393ac9d8e087e9a0"
+     "sha256": "e764615afde62e804ee79577e012ea5a1c494656df1871a998c43275073b954f"
     }
    ],
    "id": 30
@@ -282,7 +282,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/escaner_seguridad_sql.txt",
-     "sha256": "ca3578dba772c9baf5ed5e70d1920da145ad07cfbecd9c5cc9b42a3aa715378c"
+     "sha256": "4e282cdb89d9b7282e0b07b8d20307552a9a2335568dfa00c2293c7e0fd18d53"
     }
    ],
    "id": 31
@@ -294,7 +294,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/escaner_seguridad_texto.txt",
-     "sha256": "30ac7f9fae76f57c13794ccbac6d16a4c06246f189cf3c347bd0f10b736f1b46"
+     "sha256": "b1b5da2768228ef38965933f9ac53b3fddc7742fb52e5f0c4aab3a35aabc8de5"
     }
    ],
    "id": 32
@@ -306,19 +306,19 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/escaner_seguridad_texto_final.txt",
-     "sha256": "9eef7dd7947fc167b8bf4de25f52f35881a950949d4909d14094c40f0f4de79d"
+     "sha256": "392fdf3fe9b8813e7cf85e0e126947da809d092a0f087cf134ba4ef0d0cbffd0"
     }
    ],
    "id": 33
   },
   {
-   "comprobacion": "escáner autoprueba 26/26",
+   "comprobacion": "escáner autoprueba: 37 muestras, 0 FAIL",
    "detalle": "",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/escaner_seguridad_autoprueba.txt",
-     "sha256": "36c78c5cbbeceb79cf2c2f6680614416b2a496087acc31e3e67f290e50c2b2eb"
+     "sha256": "0227c2d0c4c4c0fd1affbef8d43724ea35e04489126a2091783b1ac26ebfc3f8"
     }
    ],
    "id": 34
@@ -330,7 +330,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/04_r1r9_local_bloqueado.txt",
-     "sha256": "a1943b5aded5137efafa1cd6f0cc582d2caff1db9a8dcdc6b5519c13eb4fab6b"
+     "sha256": "c829ac4eb93fb139734ae620c688298e7d66420044541531ed97bb86439a830e"
     }
    ],
    "id": 35
@@ -342,25 +342,25 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/concurrencia_local_utf8.txt",
-     "sha256": "907f6a36d5f727213efd797e03aa4a8f8df383c4b6eff6e1cc10d2318a35c353"
+     "sha256": "243908cad5e8b4810c95eba14e18e497e1ce2d2b87a261b5b5c0a0939f46a732"
     }
    ],
    "id": 36
   },
   {
-   "comprobacion": "DICTAMEN_PREPARACION_FASE0.md: cifras 63/63, 14/14, 80/80, 366, 354, 26, 21/21 presentes",
+   "comprobacion": "DICTAMEN_PREPARACION_FASE0.md: cifras 63/63, 14/14, 80/80, 366, 354, 28/28 presentes",
    "detalle": "",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "DICTAMEN_PREPARACION_FASE0.md",
-     "sha256": "6c2e8d9f6e80c940cb5636b5f6b65ef4320b5da3b7db1b17c9fd10923c638394"
+     "sha256": "c19c09606c574fa41b670112050f99eaf881de489c9463773afc9d251fc14230"
     }
    ],
    "id": 37
   },
   {
-   "comprobacion": "INFORME_CIERRE_TECNICO_FASE0.md: cifras 63/63, 14/14, 80/80, 366, 354, 26, 21/21 presentes",
+   "comprobacion": "INFORME_CIERRE_TECNICO_FASE0.md: cifras 63/63, 14/14, 80/80, 366, 354, 28/28 presentes",
    "detalle": "",
    "estado": "PASS",
    "evidencia": [
@@ -378,7 +378,7 @@
    "evidencia": [
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "7f72a0f5b10f8991af8f26361e578a9acd5d52834d269a028898d4d795c1b6c8"
+     "sha256": "418cc5066b413dd8381bad89bbf16ce190217a809663f10b1499935a28fcd1f9"
     }
    ],
    "id": 39
@@ -390,7 +390,7 @@
    "evidencia": [
     {
      "ruta": "DICTAMEN_PREPARACION_FASE0.md",
-     "sha256": "6c2e8d9f6e80c940cb5636b5f6b65ef4320b5da3b7db1b17c9fd10923c638394"
+     "sha256": "c19c09606c574fa41b670112050f99eaf881de489c9463773afc9d251fc14230"
     },
     {
      "ruta": "EXPEDIENTE_T409_T422.md",
@@ -398,7 +398,7 @@
     },
     {
      "ruta": "INFORME_AUDITORIA_FECHAS_HORAS.md",
-     "sha256": "b9be09575b8a3cfe1e0b2671f4e212b864fa1b1b07db633a2f704ee2f3645b27"
+     "sha256": "1fb70bfc7d94e7278632fa7220370e2152cb83fe53834f8f8d402ca98c70b6fc"
     },
     {
      "ruta": "INFORME_CIERRE_TECNICO_FASE0.md",
@@ -406,7 +406,7 @@
     },
     {
      "ruta": "INFORME_CIFRAS_DEFINITIVAS.md",
-     "sha256": "da63b2e8eaca3fc3d865eecf3fb4248f4a35700c06ddb4d894fa0092e169fa2a"
+     "sha256": "21d7d598788255292974ec19ee8e0dfbbe631221dd4f41e58e2606fadf0cda6c"
     },
     {
      "ruta": "INFORME_DECISIONES_ARQUITECTONICAS.md",
@@ -418,7 +418,7 @@
     },
     {
      "ruta": "INFORME_PRUEBAS_FINALES.md",
-     "sha256": "369c6671e7111efeececb86749a75c5703c683a30fd78adb3692596bdd8173ea"
+     "sha256": "82d09104a0532286becba89bea10b4735b1d40fc1d1dcdf95774798c45de7be8"
     },
     {
      "ruta": "INFORME_PUBLICACION_GITHUB.md",
@@ -426,19 +426,19 @@
     },
     {
      "ruta": "INFORME_RECONCILIACION_INTEGRAL.md",
-     "sha256": "96b66852d58bce3d9a236e2d103c8108d689717d20006457fa71b3714d662890"
+     "sha256": "0ec936d30ff2457d94a7c16a25b973a3aea22f8441e94648fe41b1aea7338bc8"
     },
     {
      "ruta": "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
-     "sha256": "50f433de881eb3e0f9d81e404ecdbafe7a036ba2ca672a8191556982a98eec80"
+     "sha256": "a8bd91cc3503f2c88567be9858d2aa4a69697bfef7bcd4799d608f6b94791f43"
     },
     {
      "ruta": "INFORME_SEGURIDAD_SCRIPTS.md",
-     "sha256": "efa07ac1ba359f7538627fa9d6d5abe8fc6d92566f268b3291a52972e1b312d0"
+     "sha256": "8e6705fef39e80ece61b3f2967f3104665bc735651086c3be9271db8ec3070dd"
     },
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "7f72a0f5b10f8991af8f26361e578a9acd5d52834d269a028898d4d795c1b6c8"
+     "sha256": "418cc5066b413dd8381bad89bbf16ce190217a809663f10b1499935a28fcd1f9"
     },
     {
      "ruta": "MATRIZ_MODELO_LOGICO_FISICO.md",
@@ -446,7 +446,7 @@
     },
     {
      "ruta": "PLAN_VALIDACION_CCI_DEV.md",
-     "sha256": "072a525b5215dfb203f3e65eee52600cfc517e916304f003bf5a104f4a063d08"
+     "sha256": "05f8b2e36438c700c88c79a0927b0fb785b35045146d52bb87de1035fa449974"
     },
     {
      "ruta": "PLAN_VALIDACION_TRIGGER_R1_R9.md",
@@ -458,15 +458,15 @@
     },
     {
      "ruta": "PROPUESTA_GUARDA_DEV_PROD.md",
-     "sha256": "7e2df57ba9ed23c5dacddc4f4449595c5f8a9783aae25ac90c44326fa3b75312"
+     "sha256": "761c18e7b9b6218df325c8bf52379c3b5e8f36cb28a20d1e2d59f6a507997a28"
     },
     {
      "ruta": "PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md",
-     "sha256": "c16fd5224df2e915bd44ba799290f47d80535dd9029bd722468bc4d7b5f3369d"
+     "sha256": "f43df89239c4909f842841db5b57fc92890f6a27d4e1db4a67c0a7ff3189b104"
     },
     {
      "ruta": "RESOLUCION_OBSERVACIONES_FINALES.md",
-     "sha256": "0ae001852c4cb6c0d11e5a8fd6c43ea5130e9b66bc0ab2449449f1822d267f61"
+     "sha256": "dfb5ab9cf15e654da698f2e394c03825abfe15f147e83fde1caa1c0901302e9c"
     },
     {
      "ruta": "REVISION_22_FUNCIONES.md",
@@ -482,7 +482,7 @@
    "evidencia": [
     {
      "ruta": "DICTAMEN_PREPARACION_FASE0.md",
-     "sha256": "6c2e8d9f6e80c940cb5636b5f6b65ef4320b5da3b7db1b17c9fd10923c638394"
+     "sha256": "c19c09606c574fa41b670112050f99eaf881de489c9463773afc9d251fc14230"
     },
     {
      "ruta": "EXPEDIENTE_T409_T422.md",
@@ -490,7 +490,7 @@
     },
     {
      "ruta": "INFORME_AUDITORIA_FECHAS_HORAS.md",
-     "sha256": "b9be09575b8a3cfe1e0b2671f4e212b864fa1b1b07db633a2f704ee2f3645b27"
+     "sha256": "1fb70bfc7d94e7278632fa7220370e2152cb83fe53834f8f8d402ca98c70b6fc"
     },
     {
      "ruta": "INFORME_CIERRE_TECNICO_FASE0.md",
@@ -498,7 +498,7 @@
     },
     {
      "ruta": "INFORME_CIFRAS_DEFINITIVAS.md",
-     "sha256": "da63b2e8eaca3fc3d865eecf3fb4248f4a35700c06ddb4d894fa0092e169fa2a"
+     "sha256": "21d7d598788255292974ec19ee8e0dfbbe631221dd4f41e58e2606fadf0cda6c"
     },
     {
      "ruta": "INFORME_DECISIONES_ARQUITECTONICAS.md",
@@ -510,7 +510,7 @@
     },
     {
      "ruta": "INFORME_PRUEBAS_FINALES.md",
-     "sha256": "369c6671e7111efeececb86749a75c5703c683a30fd78adb3692596bdd8173ea"
+     "sha256": "82d09104a0532286becba89bea10b4735b1d40fc1d1dcdf95774798c45de7be8"
     },
     {
      "ruta": "INFORME_PUBLICACION_GITHUB.md",
@@ -518,19 +518,19 @@
     },
     {
      "ruta": "INFORME_RECONCILIACION_INTEGRAL.md",
-     "sha256": "96b66852d58bce3d9a236e2d103c8108d689717d20006457fa71b3714d662890"
+     "sha256": "0ec936d30ff2457d94a7c16a25b973a3aea22f8441e94648fe41b1aea7338bc8"
     },
     {
      "ruta": "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
-     "sha256": "50f433de881eb3e0f9d81e404ecdbafe7a036ba2ca672a8191556982a98eec80"
+     "sha256": "a8bd91cc3503f2c88567be9858d2aa4a69697bfef7bcd4799d608f6b94791f43"
     },
     {
      "ruta": "INFORME_SEGURIDAD_SCRIPTS.md",
-     "sha256": "efa07ac1ba359f7538627fa9d6d5abe8fc6d92566f268b3291a52972e1b312d0"
+     "sha256": "8e6705fef39e80ece61b3f2967f3104665bc735651086c3be9271db8ec3070dd"
     },
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "7f72a0f5b10f8991af8f26361e578a9acd5d52834d269a028898d4d795c1b6c8"
+     "sha256": "418cc5066b413dd8381bad89bbf16ce190217a809663f10b1499935a28fcd1f9"
     },
     {
      "ruta": "MATRIZ_MODELO_LOGICO_FISICO.md",
@@ -538,7 +538,7 @@
     },
     {
      "ruta": "PLAN_VALIDACION_CCI_DEV.md",
-     "sha256": "072a525b5215dfb203f3e65eee52600cfc517e916304f003bf5a104f4a063d08"
+     "sha256": "05f8b2e36438c700c88c79a0927b0fb785b35045146d52bb87de1035fa449974"
     },
     {
      "ruta": "PLAN_VALIDACION_TRIGGER_R1_R9.md",
@@ -550,15 +550,15 @@
     },
     {
      "ruta": "PROPUESTA_GUARDA_DEV_PROD.md",
-     "sha256": "7e2df57ba9ed23c5dacddc4f4449595c5f8a9783aae25ac90c44326fa3b75312"
+     "sha256": "761c18e7b9b6218df325c8bf52379c3b5e8f36cb28a20d1e2d59f6a507997a28"
     },
     {
      "ruta": "PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md",
-     "sha256": "c16fd5224df2e915bd44ba799290f47d80535dd9029bd722468bc4d7b5f3369d"
+     "sha256": "f43df89239c4909f842841db5b57fc92890f6a27d4e1db4a67c0a7ff3189b104"
     },
     {
      "ruta": "RESOLUCION_OBSERVACIONES_FINALES.md",
-     "sha256": "0ae001852c4cb6c0d11e5a8fd6c43ea5130e9b66bc0ab2449449f1822d267f61"
+     "sha256": "dfb5ab9cf15e654da698f2e394c03825abfe15f147e83fde1caa1c0901302e9c"
     },
     {
      "ruta": "REVISION_22_FUNCIONES.md",
@@ -568,13 +568,13 @@
    "id": 41
   },
   {
-   "comprobacion": "batería: 21 pasos, todos rc=0 Y estado=OK (rc=0 solo no basta: se exige el contenido esperado)",
+   "comprobacion": "batería: 22 pasos (= pasos declarados en ct_bateria_final.sh), todos rc=0 Y estado=OK (rc=0 solo no basta: se exige el contenido esperado)",
    "detalle": "[]",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
-     "sha256": "cef35c08aa8e67ffe0db6eeb1fe65d55e9b1d302a9eedaf73dd241d936ff0084"
+     "sha256": "ec8fe8f3c0a835f759e998605c17e55478a28126104f2ae33935324afcff6255"
     }
    ],
    "id": 42
@@ -587,16 +587,64 @@
    "id": 43
   },
   {
-   "comprobacion": "smoke de los 6 scripts: aserciones de contenido 11/11, 0 FAIL (guardas, 03 defectuoso/corregido, 04 NO VERIFICABLE, 05 BLOCKED)",
+   "comprobacion": "smoke de los 6 scripts: aserciones de contenido 12/12, 0 FAIL (guardas, precondición de roles, 03 defectuoso/corregido, 04 NO VERIFICABLE, 05 BLOCKED)",
    "detalle": "",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/aserciones_smoke.txt",
-     "sha256": "339f81b06381abc6911bc720be44fc613d15a130f28adc749d17001dc8c8bd6e"
+     "sha256": "a252d3e43aec2195e57434b489105b308951ca788f62282677a3996e68fa2080"
     }
    ],
    "id": 44
+  },
+  {
+   "comprobacion": "guarda DEV/PROD (H-03): 109/109 pruebas, 0 FAIL; cubre los 6 scripts, PROD, destino desconocido, identidad no verificable, configuración incompleta y manipulada",
+   "detalle": "",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/resultados/guarda_destino.txt",
+     "sha256": "1e4fd9a84d99a37ce77bbade797d8b82adb87969da82b30c9a50beedca2a0d48"
+    }
+   ],
+   "id": 45
+  },
+  {
+   "comprobacion": "guarda DEV/PROD: los 6 scripts incluyen la guarda compartida y las listas versionadas siguen vacías (no se inventan identificadores)",
+   "detalle": "",
+   "estado": "PASS",
+   "evidencia": [
+    {
+     "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/00_guarda_destino.sql",
+     "sha256": "07c6673cc7f6cd4beebcb261eeea6e3ab1c4dbc99fe7dc8021b707607016e5a9"
+    },
+    {
+     "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/01_inventario_esquema_SOLO_LECTURA.sql",
+     "sha256": "ee0d03575821b04bea23a2dc535adb5d266fb5bc28d062778596f97cb3c8e4e4"
+    },
+    {
+     "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/02_rls_privilegios_SOLO_LECTURA.sql",
+     "sha256": "59eb5c931c2827d5739b65810a09924f2378950427d5d7929e8c0a249b5b2938"
+    },
+    {
+     "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/03_pruebas_rls_ROLLBACK.sql",
+     "sha256": "63c143980894832ca28cad696422f80ac9b7ea73579ccfef14f0fcb25146500f"
+    },
+    {
+     "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/04_trigger_r1_r9_ROLLBACK.sql",
+     "sha256": "58b015ee5163d999f8c4fc0348b69cbbd573b60ecde4ec08ea54d843caa15e5f"
+    },
+    {
+     "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_A.sql",
+     "sha256": "189f6224b10490fb870c830bcfce30c30464c295cd7b33bbd8f985c6107f854b"
+    },
+    {
+     "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_B.sql",
+     "sha256": "e54da9c17c5d8fb3531f7e576da93464e994e6c01524c82addf8e8b993f39297"
+    }
+   ],
+   "id": 46
   },
   {
    "comprobacion": "T-409: 2ª corrida idéntica byte a byte",
@@ -608,7 +656,7 @@
      "sha256": "50a86dd8d80492b268533140585c6b8a2528bc85708333fd17537f2e52280b93"
     }
    ],
-   "id": 45
+   "id": 47
   },
   {
    "comprobacion": "T-409..T-422: correspondencia con nivel de evidencia explícito (14 escenarios)",
@@ -620,7 +668,7 @@
      "sha256": "b31056815d4cce2cde2108417ef36864615a74dbeda52d1ed614aeee64c41012"
     }
    ],
-   "id": 46
+   "id": 48
   },
   {
    "comprobacion": "manifiesto: controles negativos 36/36, 0 FAIL",
@@ -632,7 +680,7 @@
      "sha256": "5b3c9dd17fe4228261bed2e31a0910fef6f4dae2e0361885084cc691ee6d0fc7"
     }
    ],
-   "id": 47
+   "id": 49
   },
   {
    "comprobacion": "búsqueda global sin FAIL",
@@ -641,48 +689,48 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/busqueda_global.txt",
-     "sha256": "cbde8ca164a399f851518551be8276120c299c3bc2bff08af41e0edb8ec0d3f0"
+     "sha256": "3c958efe717fe7ba9f3317518b55408d100826b91824626fabc5434c1c543a29"
     }
    ],
-   "id": 48
+   "id": 50
   },
   {
    "comprobacion": "herramientas antiguas eliminadas",
    "detalle": "",
    "estado": "PASS",
    "evidencia": [],
-   "id": 49
+   "id": 51
   },
   {
-   "comprobacion": "cifras definitivas: generadas, batería 21/21 OK, decisiones aprobadas = 0, PASS_PHYSICAL = 0",
+   "comprobacion": "cifras definitivas: generadas, batería 22/22 OK, decisiones aprobadas = 0, PASS_PHYSICAL = 0",
    "detalle": "",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/cifras_definitivas.json",
-     "sha256": "f1440f717e7280f048edf36583b7f64aa4f04dbe5d1fe079513fce1f8d5727d5"
+     "sha256": "c681c8a8f2fcd7c7c550c518439cd68755dbaa38da56eb904639f266e008603e"
     }
    ],
-   "id": 50
+   "id": 52
   },
   {
    "comprobacion": "cifras: limitaciones 27 = vigentes+parciales+resueltas; decisiones 21; escenarios 12; fixtures 354 de 366 evaluaciones",
    "detalle": "",
    "estado": "PASS",
    "evidencia": [],
-   "id": 51
+   "id": 53
   },
   {
-   "comprobacion": "manifiesto: nº de entradas (133) = cifra generada y = archivos sujetos a verificación",
+   "comprobacion": "manifiesto: nº de entradas (137) = cifra generada y = archivos sujetos a verificación",
    "detalle": "",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "MANIFIESTO_SHA256_CIERRE.txt",
-     "sha256": "386d5767679397559694617f65f6e11be0b1920eebf6076f9a4acc0a7c411c46"
+     "sha256": "e7cc5de39c3ef464582f3286f948fb3be8b7d1751276a9ec56cb2fe02b297892"
     }
    ],
-   "id": 52
+   "id": 54
   },
   {
    "comprobacion": "cifras de los documentos narrativos coinciden con cifras_definitivas.json (limitaciones, decisiones, arnés, fixtures, evaluaciones)",
@@ -691,11 +739,11 @@
    "evidencia": [
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "7f72a0f5b10f8991af8f26361e578a9acd5d52834d269a028898d4d795c1b6c8"
+     "sha256": "418cc5066b413dd8381bad89bbf16ce190217a809663f10b1499935a28fcd1f9"
     },
     {
      "ruta": "DICTAMEN_PREPARACION_FASE0.md",
-     "sha256": "6c2e8d9f6e80c940cb5636b5f6b65ef4320b5da3b7db1b17c9fd10923c638394"
+     "sha256": "c19c09606c574fa41b670112050f99eaf881de489c9463773afc9d251fc14230"
     },
     {
      "ruta": "INFORME_CIERRE_TECNICO_FASE0.md",
@@ -711,33 +759,33 @@
     },
     {
      "ruta": "INFORME_PRUEBAS_FINALES.md",
-     "sha256": "369c6671e7111efeececb86749a75c5703c683a30fd78adb3692596bdd8173ea"
+     "sha256": "82d09104a0532286becba89bea10b4735b1d40fc1d1dcdf95774798c45de7be8"
     }
    ],
-   "id": 53
+   "id": 55
   },
   {
    "comprobacion": "alcance: contra V26 no hay archivos modificados/eliminados/añadidos fuera de docs/fase0/cierre_tecnico_fase0 (tracked: 0, sin seguimiento: 0)",
    "detalle": "[]",
    "estado": "PASS",
    "evidencia": [],
-   "id": 54
+   "id": 56
   },
   {
    "comprobacion": "alcance: herramientas protegidas (modelo_estructural.py, verificar_expediente.py) idénticas a V26",
    "detalle": "",
    "estado": "PASS",
    "evidencia": [],
-   "id": 55
+   "id": 57
   },
   {
-   "comprobacion": "referencias a archivos (166) y enlaces relativos resuelven; las citas históricas están etiquetadas",
+   "comprobacion": "referencias a archivos (172) y enlaces relativos resuelven; las citas históricas están etiquetadas",
    "detalle": "[]",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "DICTAMEN_PREPARACION_FASE0.md",
-     "sha256": "6c2e8d9f6e80c940cb5636b5f6b65ef4320b5da3b7db1b17c9fd10923c638394"
+     "sha256": "c19c09606c574fa41b670112050f99eaf881de489c9463773afc9d251fc14230"
     },
     {
      "ruta": "EXPEDIENTE_T409_T422.md",
@@ -745,7 +793,7 @@
     },
     {
      "ruta": "INFORME_AUDITORIA_FECHAS_HORAS.md",
-     "sha256": "b9be09575b8a3cfe1e0b2671f4e212b864fa1b1b07db633a2f704ee2f3645b27"
+     "sha256": "1fb70bfc7d94e7278632fa7220370e2152cb83fe53834f8f8d402ca98c70b6fc"
     },
     {
      "ruta": "INFORME_CIERRE_TECNICO_FASE0.md",
@@ -753,7 +801,7 @@
     },
     {
      "ruta": "INFORME_CIFRAS_DEFINITIVAS.md",
-     "sha256": "da63b2e8eaca3fc3d865eecf3fb4248f4a35700c06ddb4d894fa0092e169fa2a"
+     "sha256": "21d7d598788255292974ec19ee8e0dfbbe631221dd4f41e58e2606fadf0cda6c"
     },
     {
      "ruta": "INFORME_DECISIONES_ARQUITECTONICAS.md",
@@ -765,7 +813,7 @@
     },
     {
      "ruta": "INFORME_PRUEBAS_FINALES.md",
-     "sha256": "369c6671e7111efeececb86749a75c5703c683a30fd78adb3692596bdd8173ea"
+     "sha256": "82d09104a0532286becba89bea10b4735b1d40fc1d1dcdf95774798c45de7be8"
     },
     {
      "ruta": "INFORME_PUBLICACION_GITHUB.md",
@@ -773,19 +821,19 @@
     },
     {
      "ruta": "INFORME_RECONCILIACION_INTEGRAL.md",
-     "sha256": "96b66852d58bce3d9a236e2d103c8108d689717d20006457fa71b3714d662890"
+     "sha256": "0ec936d30ff2457d94a7c16a25b973a3aea22f8441e94648fe41b1aea7338bc8"
     },
     {
      "ruta": "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
-     "sha256": "50f433de881eb3e0f9d81e404ecdbafe7a036ba2ca672a8191556982a98eec80"
+     "sha256": "a8bd91cc3503f2c88567be9858d2aa4a69697bfef7bcd4799d608f6b94791f43"
     },
     {
      "ruta": "INFORME_SEGURIDAD_SCRIPTS.md",
-     "sha256": "efa07ac1ba359f7538627fa9d6d5abe8fc6d92566f268b3291a52972e1b312d0"
+     "sha256": "8e6705fef39e80ece61b3f2967f3104665bc735651086c3be9271db8ec3070dd"
     },
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "7f72a0f5b10f8991af8f26361e578a9acd5d52834d269a028898d4d795c1b6c8"
+     "sha256": "418cc5066b413dd8381bad89bbf16ce190217a809663f10b1499935a28fcd1f9"
     },
     {
      "ruta": "MATRIZ_MODELO_LOGICO_FISICO.md",
@@ -793,7 +841,7 @@
     },
     {
      "ruta": "PLAN_VALIDACION_CCI_DEV.md",
-     "sha256": "072a525b5215dfb203f3e65eee52600cfc517e916304f003bf5a104f4a063d08"
+     "sha256": "05f8b2e36438c700c88c79a0927b0fb785b35045146d52bb87de1035fa449974"
     },
     {
      "ruta": "PLAN_VALIDACION_TRIGGER_R1_R9.md",
@@ -805,32 +853,32 @@
     },
     {
      "ruta": "PROPUESTA_GUARDA_DEV_PROD.md",
-     "sha256": "7e2df57ba9ed23c5dacddc4f4449595c5f8a9783aae25ac90c44326fa3b75312"
+     "sha256": "761c18e7b9b6218df325c8bf52379c3b5e8f36cb28a20d1e2d59f6a507997a28"
     },
     {
      "ruta": "PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md",
-     "sha256": "c16fd5224df2e915bd44ba799290f47d80535dd9029bd722468bc4d7b5f3369d"
+     "sha256": "f43df89239c4909f842841db5b57fc92890f6a27d4e1db4a67c0a7ff3189b104"
     },
     {
      "ruta": "RESOLUCION_OBSERVACIONES_FINALES.md",
-     "sha256": "0ae001852c4cb6c0d11e5a8fd6c43ea5130e9b66bc0ab2449449f1822d267f61"
+     "sha256": "dfb5ab9cf15e654da698f2e394c03825abfe15f147e83fde1caa1c0901302e9c"
     },
     {
      "ruta": "REVISION_22_FUNCIONES.md",
      "sha256": "a8c0f65a8d77604b04c93817f0b251e2b71c595286dfe295e948895b19c8d491"
     }
    ],
-   "id": 56
+   "id": 58
   }
  ],
  "fail": 0,
  "meta": {
-  "commit_base_git": "bdd4a6d78a68ede6e6f68391e4c2eebbcc34503a",
+  "commit_base_git": "5b008485706bde3e9cf8407e71c0652cfd0497a5",
   "fuente_unica": "este JSON; el TXT y el MD se generan de él en la misma ejecución",
-  "generado_local": "2026-11-20T23:07:13-0600",
-  "generado_utc": "2026-11-21T05:07:13Z",
+  "generado_local": "2026-11-21T10:59:44-0600",
+  "generado_utc": "2026-11-21T16:59:44Z",
   "zona_local": "CST"
  },
- "pass": 56,
- "total": 56
+ "pass": 58,
+ "total": 58
 }

@@ -1,3 +1,5 @@
+psql:/tmp/aud/gc/docs/fase0/cierre_tecnico_fase0/scripts_validacion/cci_dev_NO_EJECUTADOS/00_guarda_destino.sql:45: NOTICE:  GUARDA OK modo=SI-LOCAL-TEMPORAL huella=f5bcf661
+DO
 DO
 CREATE FUNCTION
 CREATE FUNCTION

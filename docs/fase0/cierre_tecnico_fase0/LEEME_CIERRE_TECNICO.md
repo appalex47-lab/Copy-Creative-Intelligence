@@ -20,8 +20,9 @@ _Generado por `ct_gen_cifras.py` desde `resultados/cifras_definitivas.json`; tod
 
 - PostgreSQL 16 temporal: V20 63 pruebas PASS y 14 mutaciones detectadas; extensión 80 PASS; DG-19 63 PASS; hash encadenado 16 PASS; concurrencia local CC-01/CC-02 (ver batería); arnés R1–R9 28 PASS (prueba el arnés, no R1–R9).
 - Modelo en memoria: K47 25 mapeadas detectadas; T-409..T-422 26 variantes detectadas; 22 funciones: 366 evaluaciones, 354 fixtures distintos; 23 bloques `except Exception` (19 SEGURO, 4 RIESGO_TECNICO).
-- Escáneres estáticos: SQL 115 comprobaciones (0 FAIL), texto 661 en la batería y 706 en el árbol final (0 FAIL), autoprueba 26 (0 FAIL).
-- Batería: 21 pasos, 21 con estado OK (rc=0 **y** contenido esperado). Manifiesto: 133 entradas.
+- Escáneres estáticos: SQL 137 comprobaciones (0 FAIL), texto 731 en la batería y 771 en el árbol final (0 FAIL), autoprueba 37 (0 FAIL).
+- Smoke de los 6 scripts: 12 aserciones de contenido (12 PASS). Guarda DEV/PROD (H-03): 109 pruebas (109 PASS, 0 FAIL) sobre los 6 scripts.
+- Batería: 22 pasos, 22 con estado OK (rc=0 **y** contenido esperado). Manifiesto: 137 entradas.
 - Limitaciones: 27 (vigentes 18, parcialmente resueltas 4, resueltas 5). Decisiones: 21 (aprobadas: 0). Escenarios parciales: 12 (PASS_PROTOTYPE 5, PASS_STATIC 1, PARTIAL 6). Trazabilidad: 54 filas.
 - Reconciliación integral y verificación A/B: `INFORME_RECONCILIACION_INTEGRAL.md`, `evidencia_verificacion/`.
 <!-- CIFRAS:FIN -->
@@ -36,7 +37,7 @@ Detalle: MATRIZ_12_ESCENARIOS_PARCIALES.csv, EXPEDIENTE_T409_T422.md, REVISION_2
 
 ## scripts_validacion/
 - Locales (solo clústeres PostgreSQL temporales; usar `python3 -I -B`): `local_ext/ejecutar_ext.sh <socket> <puerto>`; `ct_concurrencia_local.sh`, `ct_dg19_pk_experimento.sh <socket> <puerto>`; `ct_hash_cadena_referencia.py --pg <socket> <puerto>`; `ct_revision_estatica_T47_T124.py <docs/fase0>`; `ct_k47_por_escenario.py <herramientas> [csv]`; `ct_t409_t422_individual.py <docs/fase0> [csv]`; `ct_reejecucion_22_funciones.py <docs/fase0> [txt] [csv]`; `ct_arnes_r1r9_autoprueba.sh <socket> <puerto>`; `ct_smoke_scripts_cci_dev_local.sh <socket> <puerto>`; `ct_escaner_seguridad_sql.py <dir_sql>`; `ct_reconciliacion_integral.py <dir_cierre>`; `ct_manifiesto.py gen|dir|api` (manifiesto y verificación A/B); `ct_aserciones_smoke.py`; `ct_gen_cifras.py`; `ct_verificar_consistencia_informe.py`; `ct_gen_auditoria_fechas.py`; `ct_gen_resolucion_observaciones.py`; `ct_cierre_final.sh` (secuencia completa); `ct_controles_negativos_manifiesto.py`; `ct_busqueda_global.py`; `ct_bateria_final.sh` (batería completa); generadores `ct_gen_*.py`.
-- `cci_dev_NO_EJECUTADOS/`: seis scripts v2 para CCI-DEV. **NO EJECUTADOS — REQUIEREN AUTORIZACIÓN Y CCI-DEV.** Guarda `cci.validacion_autorizada='SI-CCI-DEV'` + `cci.entorno='CCI-DEV'` (la guarda no puede distinguir DEV de PROD: LR-22).
+- `cci_dev_NO_EJECUTADOS/`: seis scripts v2 para CCI-DEV. **NO EJECUTADOS — REQUIEREN AUTORIZACIÓN Y CCI-DEV.** Guarda compartida `00_guarda_destino.sql` (identidad efectiva + allowlist/denylist literales, vacías hasta que el propietario entregue los identificadores; falla cerrada: LR-22 parcialmente resuelta) además de `cci.validacion_autorizada` + `cci.entorno`.
 - `resultados/`: salidas de las corridas locales (UTF8 autoritativo; SQL_ASCII, contraste).
 
 ## Integridad

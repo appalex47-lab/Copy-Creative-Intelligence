@@ -11,7 +11,7 @@
 | Puerta | Condición |
 |---|---|
 | P0 | Existe el esquema físico en CCI-DEV (migraciones aplicadas por decisión previa del propietario). Si no: E2–E8 = BLOCKED. |
-| P1 | El propietario confirma por escrito el project ref de CCI-DEV y que es independiente de CCI-PROD y de RevNavigator. **Ninguna guarda de script puede probarlo** (LR-22). |
+| P1 | El propietario confirma por escrito el project ref de CCI-DEV y que es independiente de CCI-PROD y de RevNavigator. La guarda verifica la identidad efectiva, pero solo contra los identificadores que el propietario registre: **entregar `system_identifier` de CCI-DEV y CCI-PROD** (`select system_identifier from pg_catalog.pg_control_system();`) y aprobar el cambio de las listas en `00_guarda_destino.sql` (LR-22). Con las listas vacías todo script rechaza el destino. |
 | P2 | Lectura de catálogos (E2, E3). |
 | P3 | Escritura en transacción con ROLLBACK, con datos de prueba aislados (E4–E8). |
 | P4 | Credenciales entregadas por el propietario por canal seguro; Claude no las pide ni las busca. |
@@ -109,7 +109,7 @@ Pendiente del propietario: P0–P4; project ref de CCI-DEV; definición del cont
 
 ## 8. Criterios de interrupción (detener la ejecución y no continuar)
 
-(1) la guarda no coincide con el project ref confirmado (P1); (2) cualquier script informa una escritura persistente (recuento posterior ≠ anterior en 04); (3) aparece un error de conexión/bloqueo largo (`lock_timeout`) en tablas de producción; (4) un FAIL de fuga RLS (reportar y detener: no «arreglar» en el momento); (5) el entorno resulta ser CCI-PROD o un proyecto de RevNavigator; (6) falta la autorización escrita P0–P4. Tras interrumpir: `rollback`, cerrar sesiones, guardar la salida íntegra.
+(1) la guarda rechaza el destino o su huella no coincide con la registrada por el propietario (P1); (2) cualquier script informa una escritura persistente (recuento posterior ≠ anterior en 04); (3) aparece un error de conexión/bloqueo largo (`lock_timeout`) en tablas de producción; (4) un FAIL de fuga RLS (reportar y detener: no «arreglar» en el momento); (5) el entorno resulta ser CCI-PROD o un proyecto de RevNavigator; (6) falta la autorización escrita P0–P4. Tras interrumpir: `rollback`, cerrar sesiones, guardar la salida íntegra.
 
 ## 9. Procedimiento de limpieza
 

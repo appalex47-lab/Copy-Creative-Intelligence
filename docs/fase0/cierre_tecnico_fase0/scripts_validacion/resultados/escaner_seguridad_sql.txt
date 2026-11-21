@@ -1,7 +1,29 @@
-PASS | 01_inventario_esquema_SOLO_LECTURA.sql | guarda SI-CCI-DEV | 
-PASS | 01_inventario_esquema_SOLO_LECTURA.sql | guarda LOCAL-TEMPORAL (socket, db ^cci_) | 
+PASS | 00_guarda_destino.sql | guarda: identidad efectiva del servidor (pg_control_system) | 
+PASS | 00_guarda_destino.sql | guarda: allowlist DEV y denylist PROD literales | 
+PASS | 00_guarda_destino.sql | guarda: allowlist/denylist no se leen de variables de sesión (solo cci.validacion_autorizada y cci.entorno) | 
+PASS | 00_guarda_destino.sql | guarda: rechaza PROD aunque se declare DEV | 
+PASS | 00_guarda_destino.sql | guarda: rechaza destino desconocido y falla cerrada si la identidad no es verificable | 
+PASS | 00_guarda_destino.sql | guarda: configuración incompleta o inválida rechazada | 
+PASS | 00_guarda_destino.sql | guarda: modo local exige socket Unix, base ^cci_ y ausencia de roles de plataforma | 
+PASS | 00_guarda_destino.sql | guarda: anti-suplantación (search_path fijo a pg_catalog) | 
+PASS | 00_guarda_destino.sql | guarda: mensajes sin secretos (solo huella md5 truncada) | 
+PASS | 00_guarda_destino.sql | sin COMMIT | 
+PASS | 00_guarda_destino.sql | sin DDL/DCL peligroso (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA) | 
+PASS | 00_guarda_destino.sql | escrituras solo con ROLLBACK | 
+PASS | 00_guarda_destino.sql | sin metacomandos de conexión/shell (\c, \connect, \!, \copy, \o) | 
+PASS | 00_guarda_destino.sql | sin refs de proyecto/URL/secretos/JWT | 
+PASS | 00_guarda_destino.sql | sin objetos permanentes (create table/function/trigger/view/index fuera de pg_temp/temp) | 
+PASS | 00_guarda_destino.sql | sin LOCK TABLE ni FOR UPDATE/SHARE (bloqueos de producción) | 
+PASS | 00_guarda_destino.sql | pg_sleep acotado (<= 10 s) | 
+PASS | 00_guarda_destino.sql | SQL dinámico: format() solo con %I/%L (sin %s sin comillas) | format(%s) en: 
+PASS | 00_guarda_destino.sql | SQL dinámico: sin EXECUTE con concatenación '||' | 
+PASS | 00_guarda_destino.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
+PASS | 00_guarda_destino.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
+PASS | 00_guarda_destino.sql | WHEN OTHERS nunca convierte el error en PASS | 
+PASS | 01_inventario_esquema_SOLO_LECTURA.sql | guarda de destino incluida (\ir 00_guarda_destino.sql) | 
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | guarda antes de cualquier SQL de datos | 
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | \set ON_ERROR_STOP on | 
+PASS | 01_inventario_esquema_SOLO_LECTURA.sql | \set ON_ERROR_STOP on antes de la guarda (si falta el archivo de guarda el script aborta) | 
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | sin COMMIT | 
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | sin DDL/DCL peligroso (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA) | 
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | escrituras solo con ROLLBACK | 
@@ -15,10 +37,10 @@ PASS | 01_inventario_esquema_SOLO_LECTURA.sql | SQL dinámico: sin EXECUTE con c
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | WHEN OTHERS nunca convierte el error en PASS | 
-PASS | 02_rls_privilegios_SOLO_LECTURA.sql | guarda SI-CCI-DEV | 
-PASS | 02_rls_privilegios_SOLO_LECTURA.sql | guarda LOCAL-TEMPORAL (socket, db ^cci_) | 
+PASS | 02_rls_privilegios_SOLO_LECTURA.sql | guarda de destino incluida (\ir 00_guarda_destino.sql) | 
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | guarda antes de cualquier SQL de datos | 
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | \set ON_ERROR_STOP on | 
+PASS | 02_rls_privilegios_SOLO_LECTURA.sql | \set ON_ERROR_STOP on antes de la guarda (si falta el archivo de guarda el script aborta) | 
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | sin COMMIT | 
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | sin DDL/DCL peligroso (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA) | 
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | escrituras solo con ROLLBACK | 
@@ -32,10 +54,10 @@ PASS | 02_rls_privilegios_SOLO_LECTURA.sql | SQL dinámico: sin EXECUTE con conc
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | WHEN OTHERS nunca convierte el error en PASS | 
-PASS | 03_pruebas_rls_ROLLBACK.sql | guarda SI-CCI-DEV | 
-PASS | 03_pruebas_rls_ROLLBACK.sql | guarda LOCAL-TEMPORAL (socket, db ^cci_) | 
+PASS | 03_pruebas_rls_ROLLBACK.sql | guarda de destino incluida (\ir 00_guarda_destino.sql) | 
 PASS | 03_pruebas_rls_ROLLBACK.sql | guarda antes de cualquier SQL de datos | 
 PASS | 03_pruebas_rls_ROLLBACK.sql | \set ON_ERROR_STOP on | 
+PASS | 03_pruebas_rls_ROLLBACK.sql | \set ON_ERROR_STOP on antes de la guarda (si falta el archivo de guarda el script aborta) | 
 PASS | 03_pruebas_rls_ROLLBACK.sql | sin COMMIT | 
 PASS | 03_pruebas_rls_ROLLBACK.sql | sin DDL/DCL peligroso (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA) | 
 PASS | 03_pruebas_rls_ROLLBACK.sql | escrituras solo con ROLLBACK | 
@@ -62,10 +84,10 @@ PASS | 04_lib_clasificador.sql | SQL dinámico: sin EXECUTE con concatenación '
 PASS | 04_lib_clasificador.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
 PASS | 04_lib_clasificador.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
 PASS | 04_lib_clasificador.sql | WHEN OTHERS nunca convierte el error en PASS | 
-PASS | 04_trigger_r1_r9_ROLLBACK.sql | guarda SI-CCI-DEV | 
-PASS | 04_trigger_r1_r9_ROLLBACK.sql | guarda LOCAL-TEMPORAL (socket, db ^cci_) | 
+PASS | 04_trigger_r1_r9_ROLLBACK.sql | guarda de destino incluida (\ir 00_guarda_destino.sql) | 
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | guarda antes de cualquier SQL de datos | 
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | \set ON_ERROR_STOP on | 
+PASS | 04_trigger_r1_r9_ROLLBACK.sql | \set ON_ERROR_STOP on antes de la guarda (si falta el archivo de guarda el script aborta) | 
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | sin COMMIT | 
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | sin DDL/DCL peligroso (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA) | 
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | escrituras solo con ROLLBACK | 
@@ -79,10 +101,10 @@ PASS | 04_trigger_r1_r9_ROLLBACK.sql | SQL dinámico: sin EXECUTE con concatenac
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | WHEN OTHERS nunca convierte el error en PASS | 
-PASS | 05_concurrencia_sesion_A.sql | guarda SI-CCI-DEV | 
-PASS | 05_concurrencia_sesion_A.sql | guarda LOCAL-TEMPORAL (socket, db ^cci_) | 
+PASS | 05_concurrencia_sesion_A.sql | guarda de destino incluida (\ir 00_guarda_destino.sql) | 
 PASS | 05_concurrencia_sesion_A.sql | guarda antes de cualquier SQL de datos | 
 PASS | 05_concurrencia_sesion_A.sql | \set ON_ERROR_STOP on | 
+PASS | 05_concurrencia_sesion_A.sql | \set ON_ERROR_STOP on antes de la guarda (si falta el archivo de guarda el script aborta) | 
 PASS | 05_concurrencia_sesion_A.sql | sin COMMIT | 
 PASS | 05_concurrencia_sesion_A.sql | sin DDL/DCL peligroso (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA) | 
 PASS | 05_concurrencia_sesion_A.sql | escrituras solo con ROLLBACK | 
@@ -96,10 +118,10 @@ PASS | 05_concurrencia_sesion_A.sql | SQL dinámico: sin EXECUTE con concatenaci
 PASS | 05_concurrencia_sesion_A.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
 PASS | 05_concurrencia_sesion_A.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
 PASS | 05_concurrencia_sesion_A.sql | WHEN OTHERS nunca convierte el error en PASS | 
-PASS | 05_concurrencia_sesion_B.sql | guarda SI-CCI-DEV | 
-PASS | 05_concurrencia_sesion_B.sql | guarda LOCAL-TEMPORAL (socket, db ^cci_) | 
+PASS | 05_concurrencia_sesion_B.sql | guarda de destino incluida (\ir 00_guarda_destino.sql) | 
 PASS | 05_concurrencia_sesion_B.sql | guarda antes de cualquier SQL de datos | 
 PASS | 05_concurrencia_sesion_B.sql | \set ON_ERROR_STOP on | 
+PASS | 05_concurrencia_sesion_B.sql | \set ON_ERROR_STOP on antes de la guarda (si falta el archivo de guarda el script aborta) | 
 PASS | 05_concurrencia_sesion_B.sql | sin COMMIT | 
 PASS | 05_concurrencia_sesion_B.sql | sin DDL/DCL peligroso (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA) | 
 PASS | 05_concurrencia_sesion_B.sql | escrituras solo con ROLLBACK | 
@@ -113,4 +135,4 @@ PASS | 05_concurrencia_sesion_B.sql | SQL dinámico: sin EXECUTE con concatenaci
 PASS | 05_concurrencia_sesion_B.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
 PASS | 05_concurrencia_sesion_B.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
 PASS | 05_concurrencia_sesion_B.sql | WHEN OTHERS nunca convierte el error en PASS | 
-TOTAL=115 FAIL=0
+TOTAL=137 FAIL=0

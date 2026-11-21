@@ -233,6 +233,11 @@ PASS | scripts_validacion/ct_manifiesto.py | sin cadenas de conexión con creden
 PASS | scripts_validacion/ct_manifiesto.py | sin correos electrónicos (datos personales) | 
 PASS | scripts_validacion/ct_manifiesto.py | sin teléfonos | 
 PASS | scripts_validacion/ct_manifiesto.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_pruebas_guarda_destino.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_pruebas_guarda_destino.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_pruebas_guarda_destino.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_pruebas_guarda_destino.py | sin teléfonos | 
+PASS | scripts_validacion/ct_pruebas_guarda_destino.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | scripts_validacion/ct_gen_resolucion_observaciones.py | sin JWT/claves/tokens | 
 PASS | scripts_validacion/ct_gen_resolucion_observaciones.py | sin cadenas de conexión con credenciales | 
 PASS | scripts_validacion/ct_gen_resolucion_observaciones.py | sin correos electrónicos (datos personales) | 
@@ -373,6 +378,11 @@ PASS | scripts_validacion/resultados/catalogo_except_exception.csv | sin cadenas
 PASS | scripts_validacion/resultados/catalogo_except_exception.csv | sin correos electrónicos (datos personales) | 
 PASS | scripts_validacion/resultados/catalogo_except_exception.csv | sin teléfonos | 
 PASS | scripts_validacion/resultados/catalogo_except_exception.csv | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/guarda_destino.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/guarda_destino.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/guarda_destino.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/guarda_destino.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/guarda_destino.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | scripts_validacion/resultados/exc_en_mutaciones_modelo14.txt | sin JWT/claves/tokens | 
 PASS | scripts_validacion/resultados/exc_en_mutaciones_modelo14.txt | sin cadenas de conexión con credenciales | 
 PASS | scripts_validacion/resultados/exc_en_mutaciones_modelo14.txt | sin correos electrónicos (datos personales) | 
@@ -568,6 +578,11 @@ PASS | scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv | sin cade
 PASS | scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv | sin correos electrónicos (datos personales) | 
 PASS | scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv | sin teléfonos | 
 PASS | scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/bateria_final/precondicion_roles.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/bateria_final/precondicion_roles.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/bateria_final/precondicion_roles.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/bateria_final/precondicion_roles.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/bateria_final/precondicion_roles.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | scripts_validacion/resultados/bateria_final/smoke_stdout.txt | sin JWT/claves/tokens | 
 PASS | scripts_validacion/resultados/bateria_final/smoke_stdout.txt | sin cadenas de conexión con credenciales | 
 PASS | scripts_validacion/resultados/bateria_final/smoke_stdout.txt | sin correos electrónicos (datos personales) | 
@@ -603,6 +618,11 @@ PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/03_pruebas_rls_ROLLBACK.sql | si
 PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/03_pruebas_rls_ROLLBACK.sql | sin correos electrónicos (datos personales) | 
 PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/03_pruebas_rls_ROLLBACK.sql | sin teléfonos | 
 PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/03_pruebas_rls_ROLLBACK.sql | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/00_guarda_destino.sql | sin JWT/claves/tokens | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/00_guarda_destino.sql | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/00_guarda_destino.sql | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/00_guarda_destino.sql | sin teléfonos | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/00_guarda_destino.sql | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/04_trigger_r1_r9_ROLLBACK.sql | sin JWT/claves/tokens | 
 PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/04_trigger_r1_r9_ROLLBACK.sql | sin cadenas de conexión con credenciales | 
 PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/04_trigger_r1_r9_ROLLBACK.sql | sin correos electrónicos (datos personales) | 
@@ -628,11 +648,36 @@ PASS | evidencia_verificacion/viaB_detalle_C_content.txt | sin cadenas de conexi
 PASS | evidencia_verificacion/viaB_detalle_C_content.txt | sin correos electrónicos (datos personales) | 
 PASS | evidencia_verificacion/viaB_detalle_C_content.txt | sin teléfonos | 
 PASS | evidencia_verificacion/viaB_detalle_C_content.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | evidencia_verificacion/viaB_C_evid.txt | sin JWT/claves/tokens | 
+PASS | evidencia_verificacion/viaB_C_evid.txt | sin cadenas de conexión con credenciales | 
+PASS | evidencia_verificacion/viaB_C_evid.txt | sin correos electrónicos (datos personales) | 
+PASS | evidencia_verificacion/viaB_C_evid.txt | sin teléfonos | 
+PASS | evidencia_verificacion/viaB_C_evid.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | evidencia_verificacion/viaA_C_evid.txt | sin JWT/claves/tokens | 
+PASS | evidencia_verificacion/viaA_C_evid.txt | sin cadenas de conexión con credenciales | 
+PASS | evidencia_verificacion/viaA_C_evid.txt | sin correos electrónicos (datos personales) | 
+PASS | evidencia_verificacion/viaA_C_evid.txt | sin teléfonos | 
+PASS | evidencia_verificacion/viaA_C_evid.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | evidencia_verificacion/linea_base_ronda_final.txt | sin JWT/claves/tokens | 
+PASS | evidencia_verificacion/linea_base_ronda_final.txt | sin cadenas de conexión con credenciales | 
+PASS | evidencia_verificacion/linea_base_ronda_final.txt | sin correos electrónicos (datos personales) | 
+PASS | evidencia_verificacion/linea_base_ronda_final.txt | sin teléfonos | 
+PASS | evidencia_verificacion/linea_base_ronda_final.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | evidencia_verificacion/viaA_detalle_C_evid.txt | sin JWT/claves/tokens | 
+PASS | evidencia_verificacion/viaA_detalle_C_evid.txt | sin cadenas de conexión con credenciales | 
+PASS | evidencia_verificacion/viaA_detalle_C_evid.txt | sin correos electrónicos (datos personales) | 
+PASS | evidencia_verificacion/viaA_detalle_C_evid.txt | sin teléfonos | 
+PASS | evidencia_verificacion/viaA_detalle_C_evid.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | evidencia_verificacion/viaB_C_content.txt | sin JWT/claves/tokens | 
 PASS | evidencia_verificacion/viaB_C_content.txt | sin cadenas de conexión con credenciales | 
 PASS | evidencia_verificacion/viaB_C_content.txt | sin correos electrónicos (datos personales) | 
 PASS | evidencia_verificacion/viaB_C_content.txt | sin teléfonos | 
 PASS | evidencia_verificacion/viaB_C_content.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | evidencia_verificacion/viaB_detalle_C_evid.txt | sin JWT/claves/tokens | 
+PASS | evidencia_verificacion/viaB_detalle_C_evid.txt | sin cadenas de conexión con credenciales | 
+PASS | evidencia_verificacion/viaB_detalle_C_evid.txt | sin correos electrónicos (datos personales) | 
+PASS | evidencia_verificacion/viaB_detalle_C_evid.txt | sin teléfonos | 
+PASS | evidencia_verificacion/viaB_detalle_C_evid.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | evidencia_verificacion/viaA_detalle_C_content.txt | sin JWT/claves/tokens | 
 PASS | evidencia_verificacion/viaA_detalle_C_content.txt | sin cadenas de conexión con credenciales | 
 PASS | evidencia_verificacion/viaA_detalle_C_content.txt | sin correos electrónicos (datos personales) | 
@@ -648,6 +693,31 @@ PASS | evidencia_verificacion/viaA_C_content.txt | sin cadenas de conexión con 
 PASS | evidencia_verificacion/viaA_C_content.txt | sin correos electrónicos (datos personales) | 
 PASS | evidencia_verificacion/viaA_C_content.txt | sin teléfonos | 
 PASS | evidencia_verificacion/viaA_C_content.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/LEEME_EVIDENCIA.md | sin JWT/claves/tokens | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/LEEME_EVIDENCIA.md | sin cadenas de conexión con credenciales | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/LEEME_EVIDENCIA.md | sin correos electrónicos (datos personales) | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/LEEME_EVIDENCIA.md | sin teléfonos | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/LEEME_EVIDENCIA.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaB_detalle_C_content.txt | sin JWT/claves/tokens | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaB_detalle_C_content.txt | sin cadenas de conexión con credenciales | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaB_detalle_C_content.txt | sin correos electrónicos (datos personales) | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaB_detalle_C_content.txt | sin teléfonos | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaB_detalle_C_content.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaB_C_content.txt | sin JWT/claves/tokens | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaB_C_content.txt | sin cadenas de conexión con credenciales | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaB_C_content.txt | sin correos electrónicos (datos personales) | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaB_C_content.txt | sin teléfonos | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaB_C_content.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaA_detalle_C_content.txt | sin JWT/claves/tokens | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaA_detalle_C_content.txt | sin cadenas de conexión con credenciales | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaA_detalle_C_content.txt | sin correos electrónicos (datos personales) | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaA_detalle_C_content.txt | sin teléfonos | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaA_detalle_C_content.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaA_C_content.txt | sin JWT/claves/tokens | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaA_C_content.txt | sin cadenas de conexión con credenciales | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaA_C_content.txt | sin correos electrónicos (datos personales) | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaA_C_content.txt | sin teléfonos | 
+PASS | evidencia_verificacion/historico_commit_6a041cb/viaA_C_content.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaA.txt | sin JWT/claves/tokens | 
 PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaA.txt | sin cadenas de conexión con credenciales | 
 PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaA.txt | sin correos electrónicos (datos personales) | 
@@ -659,4 +729,4 @@ PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaB.
 PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaB.txt | sin teléfonos | 
 PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaB.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | (árbol) | sin enlaces simbólicos ni artefactos de Python | 
-TOTAL=661 FAIL=0
+TOTAL=731 FAIL=0

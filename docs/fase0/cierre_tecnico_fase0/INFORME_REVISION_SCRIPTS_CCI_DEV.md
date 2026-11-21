@@ -7,7 +7,7 @@
 | Atributo | 01 inventario | 02 RLS/privilegios (lectura) | 03 pruebas RLS | 04 R1–R9 (+lib) | 05 A / 05 B |
 |---|---|---|---|---|---|
 | Tipo | `begin read only` … `rollback`; solo catálogos | ídem | escritura en transacción con `rollback`; sub-bloques revertidos | ídem; cada caso en sub-bloque revertido por excepción centinela `CC999` | A inserta fila sin confirmar, espera 5 s, `rollback`; B intenta lo mismo y mide la espera |
-| Guarda | sí (idéntica) | sí | sí | sí | sí (ambas) |
+| Guarda | sí (compartida: `00_guarda_destino.sql`) | sí | sí | sí | sí (ambas) |
 | Precondiciones | ninguna de datos | ninguna de datos | PRE: tablas, columnas, filas de **ambas** organizaciones (no vacuidad) | PRE-01..10: versión ≥13, función y firma exacta, tablas, columnas, CHECK, trigger BEFORE INSERT, EXECUTE del rol, datos PRE-09a–f, contrato | existe `piece_reviewer_assignments` (si no `\quit`+BLOCKED) |
 | Dependencias | catálogos estándar | `pg_class`, `pg_policies`, `has_table_privilege` | tablas con `organization_id`, roles `anon/authenticated/service_role`, GUC `cci.org_a/b` | función `resolve_attribution_discard`, `brief_field_attributions`, `memberships`, `attribution_discard_resolutions`, roles | tabla + exclusión `valid_during` (`btree_gist`) |
 | Permisos | lectura de catálogos | ídem | rol con SET ROLE a los tres roles de prueba | rol con EXECUTE sobre la función (PRE-08) | rol con INSERT en la tabla |
@@ -17,7 +17,7 @@
 | Estados | inventario | inventario | PASS/FAIL/BLOCKED/NOT VERIFIED (RLS-06) | PASS/FAIL/BLOCKED/PARTIAL; global «NO VERIFICABLE EN ENTORNO FÍSICO» si hay BLOCKED | PASS/FAIL/PARTIAL/BLOCKED |
 | `WHEN OTHERS` | no | no | 1 (PRE-04 → BLOCKED con SQLSTATE; clasifica, no convierte en PASS) | lib: 1 (clasifica en `ejecuta`), 1 `reset role` (exención documentada), PRE y PRE-09 → BLOCKED | no |
 | SQL dinámico | no | no | `format(%I,%L)` | `execute … using` (parametrizado) y `format(%L)`; **`fn_call` es plantilla del operador** | `format(%L)` |
-| Riesgo de ejecución accidental en PROD | guarda declarativa (LR-22) | ídem | ídem + escribe en transacción | ídem | ídem; deja sesión abierta 5 s con fila sin confirmar |
+| Riesgo de ejecución accidental en PROD | guarda por identidad efectiva (allowlist vacía = rechaza todo hasta que el propietario registre CCI-DEV; LR-22) | ídem | ídem + escribe en transacción | ídem | ídem; deja sesión abierta 5 s con fila sin confirmar |
 | Falso PASS posible | no emite PASS | no emite PASS | RLS-01..04 PASS si no hay fuga **y** hay datos (no vacuo); sondas `where false` no ejecutan DML real | solo con función existente + SQLSTATE exacto del contrato; sin contrato → PARTIAL | PASS solo con espera ≥2 s |
 | Falso FAIL posible | no | datos de prueba mal sembrados → FAIL de fuga (mitigado por PRE-04) | rol de prueba sin SET ROLE → BLOCKED, no FAIL | datos que violan >1 regla o el índice único (PRE-09e) → mensaje/código de otra regla = FAIL; mitigación: PRE-09 y datos de una sola regla | **B lanzada >~4 s tras A**: no hay espera → FAIL aunque la restricción funcione (documentado en el procedimiento) |
 | Error técnico vs. rechazo de negocio | n/a | n/a | PERMISOS/ESTRUCTURA → BLOCKED | clase DOMINIO_CANDIDATO solo `P0001`/`23xxx`/`RJ%` y además contrato exacto | 23P01 = rechazo; otros = BLOCKED |
@@ -35,4 +35,4 @@ Función inexistente → BLOCKED (C01); firma incorrecta → BLOCKED (C02); tabl
 4. El escáner no analizaba el interior de bloques `$$…$$`/DO (donde está la lógica): corregido y probado con muestras.
 
 ## 4. Riesgos residuales (no eliminables en este alcance)
-Guarda declarativa (LR-22); `fn_call` es plantilla de confianza del operador; temporización de 05 (A/B); semántica real de RLS, `auth.uid()`, roles y privilegios de Supabase no probada; datos de prueba por regla (R2, R4–R9) no verificables genéricamente (PRE-09f).
+Guarda por identidad efectiva, sin identificadores reales registrados (LR-22); `fn_call` es plantilla de confianza del operador; temporización de 05 (A/B); semántica real de RLS, `auth.uid()`, roles y privilegios de Supabase no probada; datos de prueba por regla (R2, R4–R9) no verificables genéricamente (PRE-09f).

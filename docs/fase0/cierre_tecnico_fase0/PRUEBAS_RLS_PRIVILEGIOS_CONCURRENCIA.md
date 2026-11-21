@@ -1,6 +1,6 @@
 # PRUEBAS RLS, PRIVILEGIOS Y CONCURRENCIA — v2 (**NO EJECUTADAS EN CCI-DEV**)
 
-> Scripts v2 en `scripts_validacion/cci_dev_NO_EJECUTADOS/`. Guarda idéntica en los seis (`SI-CCI-DEV`+`CCI-DEV`, o modo local temporal por socket Unix con base `^cci_`). La guarda **no puede probar** que la base sea DEV y no PROD (LR-22).
+> Scripts v2 en `scripts_validacion/cci_dev_NO_EJECUTADOS/`. Guarda compartida en los seis (`00_guarda_destino.sql`): verifica la identidad efectiva del servidor contra allowlist DEV y denylist PROD literales (vacías hasta que el propietario entregue los identificadores; el modo CCI-DEV rechaza todo destino mientras tanto), o modo local temporal por socket Unix con base `^cci_` sin roles de plataforma (LR-22).
 
 ## 1. RLS / privilegios (`03_pruebas_rls_ROLLBACK.sql`)
 

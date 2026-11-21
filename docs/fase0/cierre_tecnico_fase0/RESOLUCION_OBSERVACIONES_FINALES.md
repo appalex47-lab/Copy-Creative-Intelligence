@@ -1,14 +1,14 @@
 # RESOLUCIÓN DE LAS OBSERVACIONES DE LA REVISIÓN INDEPENDIENTE (reconciliación 51/51 y cuatro referencias)
 
-Generado por `scripts_validacion/ct_gen_resolucion_observaciones.py` a partir del commit revisado `bdd4a6d78a68ede6e6f68391e4c2eebbcc34503a` (leído con git) y del árbol actual. Las columnas «existe» se calculan; no se copian de mensajes anteriores.
+Generado por `scripts_validacion/ct_gen_resolucion_observaciones.py` a partir del commit revisado `5b008485706bde3e9cf8407e71c0652cfd0497a5` (leído con git) y del árbol actual. Las columnas «existe» se calculan; no se copian de mensajes anteriores.
 
 ## 1. Contradicción en la reconciliación
 | Documento en el commit revisado (resultado HISTÓRICO, no vigente) | Totales |
 |---|---|
-| `INFORME_RECONCILIACION_INTEGRAL.md` (commit revisado) | TOTAL=51 FAIL=1 |
-| `scripts_validacion/resultados/reconciliacion_integral.txt` (commit revisado) | TOTAL=51 FAIL=0 |
+| `INFORME_RECONCILIACION_INTEGRAL.md` (commit revisado) | TOTAL=56 PASS=56 FAIL=0 |
+| `scripts_validacion/resultados/reconciliacion_integral.txt` (commit revisado) | TOTAL=56 PASS=56 FAIL=0 |
 
-**Comprobación fallida (recuperada del informe revisado):** `nombres de archivo citados existen en el dossier…`. Referencias que la hicieron fallar: 4.
+**Comprobación fallida (recuperada del informe revisado):** `nombres de archivo citados existen en el dossier…`. Referencias que la hicieron fallar: 0.
 
 **Causa exacta (defecto de orden de generación y de autorreferencia, no del contenido del expediente):** el Markdown se generó a partir de la salida de una ejecución previa de la reconciliación (con FAIL=1) y *después* se volvió a ejecutar la reconciliación, que reescribió solo el TXT (FAIL=0). Eran dos ejecuciones distintas con dos fuentes distintas. Además la comprobación de referencias leía el propio informe generado (que cita sus fallos y su propio TXT) y aceptaba un nombre por coincidencia de nombre base en cualquier carpeta (verificador débil).
 
@@ -17,10 +17,6 @@ Generado por `scripts_validacion/ct_gen_resolucion_observaciones.py` a partir de
 ## 2. Las cuatro referencias
 | # | Documento que la cita | Referencia | Existe en el commit revisado | Existe ahora | Mayúsculas/ruta exactas | Cita vigente en el documento (commit revisado) | Resolución |
 |---|---|---|---|---|---|---|---|
-| 1 | `INFORME_HASHES_MANIFIESTO.md` | `ct_gen_manifiesto.py` | no | no (retirado) | n/a (archivo retirado) | no (ya no aparece entre comillas de código) | Herramienta **retirada** deliberadamente (sustituida por `ct_manifiesto.py gen`). Cita histórica legítima; el documento la nombra ya sin formato de ruta como «generador y verificador v1», con la etiqueta de histórico. No se restaura el archivo: se conserva la trazabilidad en `resultados/historico_verificador_v1_control_negativo.txt` y en este informe. |
-| 2 | `INFORME_HASHES_MANIFIESTO.md` | `ct_verificar_publicacion.py` | no | no (retirado) | n/a (archivo retirado) | no (ya no aparece entre comillas de código) | Ídem: herramienta **retirada** y sustituida por `ct_manifiesto.py dir|api`; mención histórica etiquetada. |
-| 3 | `INFORME_PUBLICACION_GITHUB.md` | `evidencia_verificacion/linea_base_inspeccion.txt` | sí | sí | sí | sí | Referencia **adelantada**: la reconciliación se ejecutó antes de que el archivo existiera. El archivo existe (ver columnas) y la ruta es exacta; defecto de orden resuelto al ejecutar la reconciliación al final de la secuencia, tras copiar la línea base. |
-| 4 | `INFORME_RECONCILIACION_INTEGRAL.md` | `scripts_validacion/resultados/reconciliacion_integral.txt` | sí | sí | sí | sí | **Autorreferencia**: el informe generado cita su propio TXT, que la batería borra al empezar y que se escribe al terminar. El archivo existe y la ruta es exacta; ahora el informe generado se excluye de la comprobación de referencias (no es fuente de referencias) y TXT/JSON/MD se escriben en la misma ejecución. |
 
 Lectura: dos referencias eran citas históricas de herramientas retiradas (no son enlaces rotos) y dos eran referencias válidas pero evaluadas antes de existir o de forma autorreferente. Ninguna exigía restaurar archivos ni borrar trazabilidad histórica. El resultado del verificador de referencias corregido (ejecución completa desde cero) consta en `INFORME_RECONCILIACION_INTEGRAL.md` (comprobación «referencias a archivos…») y en `reconciliacion_integral.json`.
 
