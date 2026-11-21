@@ -14,7 +14,7 @@ for f in ("smoke_01_inventario.txt", "smoke_02_rls_inventario.txt"):
 d = t("smoke_03_rls_shim_defectuosa.txt"); a("03 defectuoso: detecta fuga (≥1 FAIL, FUGA)", len(re.findall(r"\| FAIL", d)) >= 1 and "FUGA" in d)
 k = t("smoke_03_rls_shim_corregida.txt"); a("03 corregido: 0 FAIL, ≥8 PASS y RLS-06 NOT VERIFIED", not re.search(r"\| FAIL", k) and len(re.findall(r"\| PASS", k)) >= 8 and "NOT VERIFIED" in k)
 q = t("04_r1r9_local_bloqueado.txt"); a("04: NO VERIFICABLE EN ENTORNO FÍSICO y sin residuos", "NO VERIFICABLE EN ENTORNO FÍSICO" in q and "PASS: sin residuos" in q)
-a("05 sesión A y B: ejecutadas con PASS", "PASS" in t("smoke_05_sesion_A.txt") or "OK" in t("smoke_05_sesion_A.txt")); a("05 sesión B: PASS", "PASS" in t("smoke_05_sesion_B.txt"))
+a("05 sesión A: SESION_A_LISTA con pid y xid", re.search(r"SESION_A_LISTA\s*\|\s*\d+\s*\|\s*\d+", t("smoke_05_sesion_A.txt")) is not None); a("05 sesión B: veredicto_propio ESPERO y NINGÚN PASS propio (el veredicto lo emite ct_verificar_05.py con observador independiente)", "ESPERO" in t("smoke_05_sesion_B.txt") and "PASS" not in t("smoke_05_sesion_B.txt"))
 a("05 sin tabla: BLOCKED (no PASS)", "BLOCKED" in t("smoke_05_sin_tabla.txt") and "PASS" not in t("smoke_05_sin_tabla.txt"))
 fail = sum(r[0] == "FAIL" for r in res); lines = ["%s | %s" % r for r in res] + ["TOTAL=%d PASS=%d FAIL=%d" % (len(res), len(res) - fail, fail)]
 print("\n".join(lines))

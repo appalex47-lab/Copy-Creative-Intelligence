@@ -9,6 +9,7 @@
 -- Cómo obtener el identificador (solo lectura, en cada proyecto): select system_identifier from pg_catalog.pg_control_system();
 -- Reglas (en este orden; la primera que falla aborta con 'NO EJECUTADO [CÓDIGO]'; el mensaje no incluye secretos, solo una huella md5 truncada):
 --   G-SEARCH-PATH-NO-SEGURO el search_path efectivo del llamador contiene esquemas distintos de pg_catalog/public/pg_temp/"$user", "$user" apunta a un esquema existente, o public/pg_temp preceden a pg_catalog
+--   G-ROL-CAMBIADO / G-OPERADOR-DESCONOCIDO / G-OPERADOR-PRIVILEGIO-EXCESIVO / G-OPERADOR-ROLES-NO-CONFIGURADOS / G-OPERADOR-NO-AUTORIZADO / G-SEPARACION-FUNCIONES  (modo DEV; autorización del operador, ver MATRIZ_AUTORIZACION_OPERADORES.md)
 --   G-CONFIG-INCOMPLETA     falta cci.validacion_autorizada o cci.entorno
 --   G-CONFIG-INVALIDA       el par declarado no es (SI-CCI-DEV,CCI-DEV) ni (SI-LOCAL-TEMPORAL,LOCAL-TEMPORAL)
 --   G-IDENTIDAD-NO-VERIFICABLE  no se pudo leer la identidad efectiva (p. ej. pg_control_system() sin permiso)
@@ -23,6 +24,7 @@ declare
   dev_allow text[] := array[]::text[];  -- @@DEV_ALLOW@@  (vacío: el propietario añade 'system_identifier|base' de CCI-DEV)
   prod_deny text[] := array[]::text[];  -- @@PROD_DENY@@  (vacío: el propietario añade el 'system_identifier' de CCI-PROD)
   sysid text; dbn text := pg_catalog.current_database(); ident text; plat int; fp text; err text;
+  so_super bool; so_crole bool; so_cdb bool; so_byp bool; so_repl bool;
   sp0 text := pg_catalog.current_setting('search_path'); ent text; n int := 0; ipc int := 0; ipub int := 0; ipt int := 0;   -- search_path EFECTIVO del llamador (ALTER ROLE/DATABASE, PGOPTIONS, SET) capturado ANTES de blindar el del bloque
 begin
   perform pg_catalog.set_config('search_path','pg_catalog, pg_temp',true);   -- anti-suplantación: ningún objeto del operador (p. ej. public.pg_control_system) puede sustituir a los del catálogo
@@ -45,6 +47,15 @@ begin
   if sysid = any(prod_deny) then raise exception 'NO EJECUTADO [G-PROD-RECHAZADO]: el clúster destino (huella %) está en la lista de PRODUCCIÓN; se rechaza aunque se declare DEV', fp; end if;
   if a = 'SI-CCI-DEV' then
     if not (ident = any(dev_allow)) then raise exception 'NO EJECUTADO [G-DESTINO-DESCONOCIDO]: el destino (huella %) no está en la allowlist de CCI-DEV autorizados', fp; end if;
+    -- AUTORIZACIÓN DEL OPERADOR (resolución final, AUD-RF-02): denegación por defecto. Se evalúa con session_user (no cambia con SET ROLE) y con funciones calificadas de pg_catalog; no usa GUC ni variables del cliente.
+    if session_user <> current_user then raise exception 'NO EJECUTADO [G-ROL-CAMBIADO]: el rol efectivo difiere del rol de la sesión (SET ROLE/SECURITY DEFINER); el operador debe ejecutar con su propio rol'; end if;
+    select r.rolsuper, r.rolcreaterole, r.rolcreatedb, r.rolbypassrls, r.rolreplication into so_super, so_crole, so_cdb, so_byp, so_repl from pg_catalog.pg_roles r where r.rolname = session_user;
+    if not found then raise exception 'NO EJECUTADO [G-OPERADOR-DESCONOCIDO]: el rol de la sesión no existe en pg_roles'; end if;
+    if so_super or so_crole or so_cdb or so_byp or so_repl then raise exception 'NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]: el operador no puede tener SUPERUSER, CREATEROLE, CREATEDB, BYPASSRLS ni REPLICATION (privilegios mínimos)'; end if;
+    if not exists (select 1 from pg_catalog.pg_roles where rolname = 'cci_operador') then raise exception 'NO EJECUTADO [G-OPERADOR-ROLES-NO-CONFIGURADOS]: no existe el rol cci_operador; el administrador debe crear la matriz de roles (PROCEDIMIENTO_ROLES_CCI_DEV.sql)'; end if;
+    if not pg_catalog.pg_has_role(session_user, 'cci_operador', 'member') then raise exception 'NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]: el rol de la sesión no es miembro de cci_operador'; end if;
+    if exists (select 1 from pg_catalog.pg_roles x where x.rolname in ('cci_custodio','cci_administrador') and pg_catalog.pg_has_role(session_user, x.oid, 'member')) then raise exception 'NO EJECUTADO [G-SEPARACION-FUNCIONES]: el operador no puede ser a la vez custodio o administrador'; end if;
+    raise log 'CCI-AUDITORIA operador=% pid=% script=% app=% destino_huella=%', session_user, pg_catalog.pg_backend_pid(), coalesce(pg_catalog.current_setting('cci.script_declarado', true), '?'), pg_catalog.current_setting('application_name'), fp;
   else
     if pg_catalog.inet_server_addr() is not null then raise exception 'NO EJECUTADO [G-LOCAL-NO-SOCKET]: el modo local exige socket Unix (huella %)', fp; end if;
     if dbn !~ '^cci_' then raise exception 'NO EJECUTADO [G-LOCAL-BASE]: el modo local exige base ^cci_ (huella %)', fp; end if;
