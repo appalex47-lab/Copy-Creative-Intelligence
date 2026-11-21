@@ -1,0 +1,13 @@
+VIA=A (directorio/clon) DIR=/tmp/vclone_a.9nM9/r/docs/fase0/cierre_tecnico_fase0 HEAD=6a041cb9ca7cbd4bcc41a9eed43c9e51a1c2716f
+PASS | sin enlaces simbólicos, no regulares ni artefactos de Python | 
+PASS | manifiesto ordenado de forma determinista (orden bytewise de rutas) | 
+PASS | sin rutas duplicadas | 119
+PASS | sin rutas absolutas, relativas inseguras ni con caracteres de control | []
+PASS | el manifiesto no se lista a sí mismo ni lista la evidencia posterior | 
+PASS | el manifiesto está en el árbol | 
+PASS | ninguna entrada del manifiesto falta en el árbol | []
+PASS | ningún archivo del árbol queda sin entrada (salvo manifiesto y evidencia_verificacion/) | []
+PASS | SHA-256 recalculado sobre los bytes reales coincide en 119/119 entradas | []
+PASS | entradas (119) = archivos sujetos a verificación (119) | 
+TOTAL_ENTRADAS=119 ARCHIVOS_EN_ARBOL=123 EXCLUIDOS_DECLARADOS=4 FAIL=0
+RESULTADO=OK
