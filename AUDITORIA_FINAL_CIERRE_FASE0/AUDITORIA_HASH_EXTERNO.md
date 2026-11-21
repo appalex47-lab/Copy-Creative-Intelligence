@@ -1,0 +1,3 @@
+# Auditoría del hash externo
+El hash aprobado (de `SHA256SUMS_CCI.txt` para el envoltorio; de la guarda para ejecución directa) debe obtenerse de una fuente que el atacante no controle (p. ej. firma/registro del propietario, CI aparte). Estado: **no existe custodio externo** → **configuración pendiente**, no protección operativa. Hash actual de SUMS: `59c1186992bff6cfc752da6d4e71412de6bc9a53a50c535a9b055142a02f83ab`; guarda: `8baba67b25862b59cec6fed978e47c318861b90252fe54786b541c8faae45d3b`.
+Si el hash se obtiene del mismo repositorio/directorio que los archivos, la verificación es circular y sólo detecta corrupción accidental. Decisión del propietario (ver DECISIONES_PENDIENTES.md).

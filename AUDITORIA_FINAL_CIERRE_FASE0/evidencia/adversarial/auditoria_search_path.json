@@ -1,0 +1,1078 @@
+{
+ "instalacion_evil_funciones": {
+  "cci_ap_shim": {
+   "funciones_ok": 73,
+   "fallidas": 0,
+   "sin_homonimo": []
+  },
+  "cci_ap_conc": {
+   "funciones_ok": 73,
+   "fallidas": 0,
+   "sin_homonimo": []
+  }
+ },
+ "instalacion_evil_operadores": {
+  "cci_ap_shim": {
+   "operadores": 9
+  },
+  "cci_ap_conc": {
+   "operadores": 9
+  }
+ },
+ "instalacion_public": {
+  "cci_ap_shim": {
+   "funciones_ok": 73,
+   "fallidas": 0,
+   "operadores": 9
+  },
+  "cci_ap_conc": {
+   "funciones_ok": 73,
+   "fallidas": 0,
+   "operadores": 9
+  }
+ },
+ "estatico": [
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "bool_and",
+   "ocurrencias": 1
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "clock_timestamp",
+   "ocurrencias": 3
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "count",
+   "ocurrencias": 27
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "current_setting",
+   "ocurrencias": 38
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "format",
+   "ocurrencias": 12
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "gen_random_uuid",
+   "ocurrencias": 2
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "has_function_privilege",
+   "ocurrencias": 2
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "has_table_privilege",
+   "ocurrencias": 6
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "inet_server_addr",
+   "ocurrencias": 1
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "json_build_object",
+   "ocurrencias": 1
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "left",
+   "ocurrencias": 7
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "md5",
+   "ocurrencias": 1
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "min",
+   "ocurrencias": 1
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "now",
+   "ocurrencias": 2
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "pg_get_constraintdef",
+   "ocurrencias": 3
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "pg_get_function_identity_arguments",
+   "ocurrencias": 1
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "pg_get_userbyid",
+   "ocurrencias": 3
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "pg_has_role",
+   "ocurrencias": 3
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "pg_sleep",
+   "ocurrencias": 1
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "query_to_xml",
+   "ocurrencias": 2
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "quote_ident",
+   "ocurrencias": 2
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "round",
+   "ocurrencias": 1
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "set_config",
+   "ocurrencias": 17
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "split_part",
+   "ocurrencias": 1
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "starts_with",
+   "ocurrencias": 1
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "string_agg",
+   "ocurrencias": 2
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "substr",
+   "ocurrencias": 1
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "to_regclass",
+   "ocurrencias": 11
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "to_regprocedure",
+   "ocurrencias": 1
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "tstzrange",
+   "ocurrencias": 2
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "unnest",
+   "ocurrencias": 2
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "version",
+   "ocurrencias": 1
+  },
+  {
+   "arbol": "anterior:d365a16",
+   "funcion": "xpath",
+   "ocurrencias": 2
+  },
+  {
+   "arbol": "anterior:e0b1d81",
+   "funcion": "count",
+   "ocurrencias": 7
+  },
+  {
+   "arbol": "anterior:e0b1d81",
+   "funcion": "gen_random_uuid",
+   "ocurrencias": 2
+  },
+  {
+   "arbol": "anterior:e0b1d81",
+   "funcion": "inet_server_addr",
+   "ocurrencias": 1
+  },
+  {
+   "arbol": "anterior:e0b1d81",
+   "funcion": "left",
+   "ocurrencias": 1
+  },
+  {
+   "arbol": "anterior:e0b1d81",
+   "funcion": "md5",
+   "ocurrencias": 1
+  },
+  {
+   "arbol": "anterior:e0b1d81",
+   "funcion": "min",
+   "ocurrencias": 1
+  },
+  {
+   "arbol": "anterior:e0b1d81",
+   "funcion": "now",
+   "ocurrencias": 2
+  },
+  {
+   "arbol": "anterior:e0b1d81",
+   "funcion": "tstzrange",
+   "ocurrencias": 2
+  }
+ ],
+ "dinamico": [
+  {
+   "id": "SPD1-01",
+   "escenario": "search_path hostil (evil primero) con homónimos de TODAS las funciones de pg_catalog usadas (73 funciones, todas las sobrecargas)",
+   "arbol": "corregido",
+   "script": "01_inventario_esquema_SOLO_LECTURA",
+   "rc": 3,
+   "guarda_ok": false,
+   "rechazo": "G-SEARCH-PATH-NO-SEGURO",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]: el search_path del llamador contiene un esquema "
+  },
+  {
+   "id": "SPD1-02",
+   "escenario": "search_path hostil (evil primero) con homónimos de TODAS las funciones de pg_catalog usadas (73 funciones, todas las sobrecargas)",
+   "arbol": "corregido",
+   "script": "02_rls_privilegios_SOLO_LECTURA",
+   "rc": 3,
+   "guarda_ok": false,
+   "rechazo": "G-SEARCH-PATH-NO-SEGURO",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]: el search_path del llamador contiene un esquema "
+  },
+  {
+   "id": "SPD1-03",
+   "escenario": "search_path hostil (evil primero) con homónimos de TODAS las funciones de pg_catalog usadas (73 funciones, todas las sobrecargas)",
+   "arbol": "corregido",
+   "script": "03_pruebas_rls_ROLLBACK",
+   "rc": 3,
+   "guarda_ok": false,
+   "rechazo": "G-SEARCH-PATH-NO-SEGURO",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]: el search_path del llamador contiene un esquema "
+  },
+  {
+   "id": "SPD1-04",
+   "escenario": "search_path hostil (evil primero) con homónimos de TODAS las funciones de pg_catalog usadas (73 funciones, todas las sobrecargas)",
+   "arbol": "corregido",
+   "script": "04_trigger_r1_r9_ROLLBACK",
+   "rc": 3,
+   "guarda_ok": false,
+   "rechazo": "G-SEARCH-PATH-NO-SEGURO",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]: el search_path del llamador contiene un esquema "
+  },
+  {
+   "id": "SPD1-05A",
+   "escenario": "search_path hostil (evil primero) con homónimos de TODAS las funciones de pg_catalog usadas (73 funciones, todas las sobrecargas)",
+   "arbol": "corregido",
+   "script": "05_concurrencia_sesion_A",
+   "rc": 3,
+   "guarda_ok": false,
+   "rechazo": "G-SEARCH-PATH-NO-SEGURO",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]: el search_path del llamador contiene un esquema "
+  },
+  {
+   "id": "SPD1-05B",
+   "escenario": "search_path hostil (evil primero) con homónimos de TODAS las funciones de pg_catalog usadas (73 funciones, todas las sobrecargas)",
+   "arbol": "corregido",
+   "script": "05_concurrencia_sesion_B",
+   "rc": 3,
+   "guarda_ok": false,
+   "rechazo": "G-SEARCH-PATH-NO-SEGURO",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]: el search_path del llamador contiene un esquema "
+  },
+  {
+   "id": "SPD2-01",
+   "escenario": "mismo ataque con el chequeo de search_path de la guarda ELIMINADO (aísla la calificación pg_catalog.)",
+   "arbol": "corregido-sin-chequeo",
+   "script": "01_inventario_esquema_SOLO_LECTURA",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD2-02",
+   "escenario": "mismo ataque con el chequeo de search_path de la guarda ELIMINADO (aísla la calificación pg_catalog.)",
+   "arbol": "corregido-sin-chequeo",
+   "script": "02_rls_privilegios_SOLO_LECTURA",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD2-03",
+   "escenario": "mismo ataque con el chequeo de search_path de la guarda ELIMINADO (aísla la calificación pg_catalog.)",
+   "arbol": "corregido-sin-chequeo",
+   "script": "03_pruebas_rls_ROLLBACK",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD2-04",
+   "escenario": "mismo ataque con el chequeo de search_path de la guarda ELIMINADO (aísla la calificación pg_catalog.)",
+   "arbol": "corregido-sin-chequeo",
+   "script": "04_trigger_r1_r9_ROLLBACK",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  operator does not exist: unknown ||- integer"
+  },
+  {
+   "id": "SPD2-05A",
+   "escenario": "mismo ataque con el chequeo de search_path de la guarda ELIMINADO (aísla la calificación pg_catalog.)",
+   "arbol": "corregido-sin-chequeo",
+   "script": "05_concurrencia_sesion_A",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD2-05B",
+   "escenario": "mismo ataque con el chequeo de search_path de la guarda ELIMINADO (aísla la calificación pg_catalog.)",
+   "arbol": "corregido-sin-chequeo",
+   "script": "05_concurrencia_sesion_B",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD3-e0b1d81-01",
+   "escenario": "mismo ataque (funciones) contra el árbol anterior e0b1d81",
+   "arbol": "anterior:e0b1d81",
+   "script": "01_inventario_esquema_SOLO_LECTURA",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD3-e0b1d81-02",
+   "escenario": "mismo ataque (funciones) contra el árbol anterior e0b1d81",
+   "arbol": "anterior:e0b1d81",
+   "script": "02_rls_privilegios_SOLO_LECTURA",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD3-e0b1d81-03",
+   "escenario": "mismo ataque (funciones) contra el árbol anterior e0b1d81",
+   "arbol": "anterior:e0b1d81",
+   "script": "03_pruebas_rls_ROLLBACK",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD3-e0b1d81-04",
+   "escenario": "mismo ataque (funciones) contra el árbol anterior e0b1d81",
+   "arbol": "anterior:e0b1d81",
+   "script": "04_trigger_r1_r9_ROLLBACK",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  operator does not exist: unknown ||- integer"
+  },
+  {
+   "id": "SPD3-e0b1d81-05A",
+   "escenario": "mismo ataque (funciones) contra el árbol anterior e0b1d81",
+   "arbol": "anterior:e0b1d81",
+   "script": "05_concurrencia_sesion_A",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD3-e0b1d81-05B",
+   "escenario": "mismo ataque (funciones) contra el árbol anterior e0b1d81",
+   "arbol": "anterior:e0b1d81",
+   "script": "05_concurrencia_sesion_B",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD3-d365a16-01",
+   "escenario": "mismo ataque (funciones) contra el árbol anterior d365a16",
+   "arbol": "anterior:d365a16",
+   "script": "01_inventario_esquema_SOLO_LECTURA",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": true,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  HIJACK-FN version"
+  },
+  {
+   "id": "SPD3-d365a16-02",
+   "escenario": "mismo ataque (funciones) contra el árbol anterior d365a16",
+   "arbol": "anterior:d365a16",
+   "script": "02_rls_privilegios_SOLO_LECTURA",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD3-d365a16-03",
+   "escenario": "mismo ataque (funciones) contra el árbol anterior d365a16",
+   "arbol": "anterior:d365a16",
+   "script": "03_pruebas_rls_ROLLBACK",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": true,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  HIJACK-FN set_config"
+  },
+  {
+   "id": "SPD3-d365a16-04",
+   "escenario": "mismo ataque (funciones) contra el árbol anterior d365a16",
+   "arbol": "anterior:d365a16",
+   "script": "04_trigger_r1_r9_ROLLBACK",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": true,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  HIJACK-FN set_config"
+  },
+  {
+   "id": "SPD3-d365a16-05A",
+   "escenario": "mismo ataque (funciones) contra el árbol anterior d365a16",
+   "arbol": "anterior:d365a16",
+   "script": "05_concurrencia_sesion_A",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": true,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  HIJACK-FN to_regclass"
+  },
+  {
+   "id": "SPD3-d365a16-05B",
+   "escenario": "mismo ataque (funciones) contra el árbol anterior d365a16",
+   "arbol": "anterior:d365a16",
+   "script": "05_concurrencia_sesion_B",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": true,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  HIJACK-FN to_regclass"
+  },
+  {
+   "id": "SPD6-01",
+   "escenario": "search_path hostil con homónimos de OPERADORES (||, =, <>, ~, !~ sobre text/name/oid/int)",
+   "arbol": "corregido",
+   "script": "01_inventario_esquema_SOLO_LECTURA",
+   "rc": 3,
+   "guarda_ok": false,
+   "rechazo": "G-SEARCH-PATH-NO-SEGURO",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]: el search_path del llamador contiene un esquema "
+  },
+  {
+   "id": "SPD6-02",
+   "escenario": "search_path hostil con homónimos de OPERADORES (||, =, <>, ~, !~ sobre text/name/oid/int)",
+   "arbol": "corregido",
+   "script": "02_rls_privilegios_SOLO_LECTURA",
+   "rc": 3,
+   "guarda_ok": false,
+   "rechazo": "G-SEARCH-PATH-NO-SEGURO",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]: el search_path del llamador contiene un esquema "
+  },
+  {
+   "id": "SPD6-03",
+   "escenario": "search_path hostil con homónimos de OPERADORES (||, =, <>, ~, !~ sobre text/name/oid/int)",
+   "arbol": "corregido",
+   "script": "03_pruebas_rls_ROLLBACK",
+   "rc": 3,
+   "guarda_ok": false,
+   "rechazo": "G-SEARCH-PATH-NO-SEGURO",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]: el search_path del llamador contiene un esquema "
+  },
+  {
+   "id": "SPD6-04",
+   "escenario": "search_path hostil con homónimos de OPERADORES (||, =, <>, ~, !~ sobre text/name/oid/int)",
+   "arbol": "corregido",
+   "script": "04_trigger_r1_r9_ROLLBACK",
+   "rc": 3,
+   "guarda_ok": false,
+   "rechazo": "G-SEARCH-PATH-NO-SEGURO",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]: el search_path del llamador contiene un esquema "
+  },
+  {
+   "id": "SPD6-05A",
+   "escenario": "search_path hostil con homónimos de OPERADORES (||, =, <>, ~, !~ sobre text/name/oid/int)",
+   "arbol": "corregido",
+   "script": "05_concurrencia_sesion_A",
+   "rc": 3,
+   "guarda_ok": false,
+   "rechazo": "G-SEARCH-PATH-NO-SEGURO",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]: el search_path del llamador contiene un esquema "
+  },
+  {
+   "id": "SPD6-05B",
+   "escenario": "search_path hostil con homónimos de OPERADORES (||, =, <>, ~, !~ sobre text/name/oid/int)",
+   "arbol": "corregido",
+   "script": "05_concurrencia_sesion_B",
+   "rc": 3,
+   "guarda_ok": false,
+   "rechazo": "G-SEARCH-PATH-NO-SEGURO",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]: el search_path del llamador contiene un esquema "
+  },
+  {
+   "id": "SPD7-01",
+   "escenario": "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados (límite: sólo los cubre el chequeo)",
+   "arbol": "corregido-sin-chequeo",
+   "script": "01_inventario_esquema_SOLO_LECTURA",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": true,
+   "salida_error": "ERROR:  HIJACK-OP ="
+  },
+  {
+   "id": "SPD7-02",
+   "escenario": "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados (límite: sólo los cubre el chequeo)",
+   "arbol": "corregido-sin-chequeo",
+   "script": "02_rls_privilegios_SOLO_LECTURA",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": true,
+   "salida_error": "ERROR:  HIJACK-OP ="
+  },
+  {
+   "id": "SPD7-03",
+   "escenario": "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados (límite: sólo los cubre el chequeo)",
+   "arbol": "corregido-sin-chequeo",
+   "script": "03_pruebas_rls_ROLLBACK",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": true,
+   "salida_error": "ERROR:  HIJACK-OP ="
+  },
+  {
+   "id": "SPD7-04",
+   "escenario": "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados (límite: sólo los cubre el chequeo)",
+   "arbol": "corregido-sin-chequeo",
+   "script": "04_trigger_r1_r9_ROLLBACK",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": true,
+   "salida_error": "ERROR:  HIJACK-OP ||"
+  },
+  {
+   "id": "SPD7-05A",
+   "escenario": "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados (límite: sólo los cubre el chequeo)",
+   "arbol": "corregido-sin-chequeo",
+   "script": "05_concurrencia_sesion_A",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD7-05B",
+   "escenario": "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados (límite: sólo los cubre el chequeo)",
+   "arbol": "corregido-sin-chequeo",
+   "script": "05_concurrencia_sesion_B",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD8-e0b1d81-01",
+   "escenario": "operadores hostiles contra el árbol anterior e0b1d81",
+   "arbol": "anterior:e0b1d81",
+   "script": "01_inventario_esquema_SOLO_LECTURA",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": true,
+   "salida_error": "ERROR:  HIJACK-OP ="
+  },
+  {
+   "id": "SPD8-e0b1d81-02",
+   "escenario": "operadores hostiles contra el árbol anterior e0b1d81",
+   "arbol": "anterior:e0b1d81",
+   "script": "02_rls_privilegios_SOLO_LECTURA",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": true,
+   "salida_error": "ERROR:  HIJACK-OP ="
+  },
+  {
+   "id": "SPD8-e0b1d81-03",
+   "escenario": "operadores hostiles contra el árbol anterior e0b1d81",
+   "arbol": "anterior:e0b1d81",
+   "script": "03_pruebas_rls_ROLLBACK",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": true,
+   "salida_error": "ERROR:  HIJACK-OP ="
+  },
+  {
+   "id": "SPD8-e0b1d81-04",
+   "escenario": "operadores hostiles contra el árbol anterior e0b1d81",
+   "arbol": "anterior:e0b1d81",
+   "script": "04_trigger_r1_r9_ROLLBACK",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": true,
+   "salida_error": "ERROR:  HIJACK-OP ||"
+  },
+  {
+   "id": "SPD8-e0b1d81-05A",
+   "escenario": "operadores hostiles contra el árbol anterior e0b1d81",
+   "arbol": "anterior:e0b1d81",
+   "script": "05_concurrencia_sesion_A",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD8-e0b1d81-05B",
+   "escenario": "operadores hostiles contra el árbol anterior e0b1d81",
+   "arbol": "anterior:e0b1d81",
+   "script": "05_concurrencia_sesion_B",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD8-d365a16-01",
+   "escenario": "operadores hostiles contra el árbol anterior d365a16",
+   "arbol": "anterior:d365a16",
+   "script": "01_inventario_esquema_SOLO_LECTURA",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": true,
+   "salida_error": "ERROR:  HIJACK-OP <>"
+  },
+  {
+   "id": "SPD8-d365a16-02",
+   "escenario": "operadores hostiles contra el árbol anterior d365a16",
+   "arbol": "anterior:d365a16",
+   "script": "02_rls_privilegios_SOLO_LECTURA",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": true,
+   "salida_error": "ERROR:  HIJACK-OP <>"
+  },
+  {
+   "id": "SPD8-d365a16-03",
+   "escenario": "operadores hostiles contra el árbol anterior d365a16",
+   "arbol": "anterior:d365a16",
+   "script": "03_pruebas_rls_ROLLBACK",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": true,
+   "salida_error": "ERROR:  HIJACK-OP <>"
+  },
+  {
+   "id": "SPD8-d365a16-04",
+   "escenario": "operadores hostiles contra el árbol anterior d365a16",
+   "arbol": "anterior:d365a16",
+   "script": "04_trigger_r1_r9_ROLLBACK",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": true,
+   "salida_error": "ERROR:  HIJACK-OP <>"
+  },
+  {
+   "id": "SPD8-d365a16-05A",
+   "escenario": "operadores hostiles contra el árbol anterior d365a16",
+   "arbol": "anterior:d365a16",
+   "script": "05_concurrencia_sesion_A",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": true,
+   "salida_error": "ERROR:  HIJACK-OP <>"
+  },
+  {
+   "id": "SPD8-d365a16-05B",
+   "escenario": "operadores hostiles contra el árbol anterior d365a16",
+   "arbol": "anterior:d365a16",
+   "script": "05_concurrencia_sesion_B",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": true,
+   "salida_error": "ERROR:  HIJACK-OP <>"
+  },
+  {
+   "id": "SPD4-01",
+   "escenario": "homónimos de funciones y operadores creados en 'public' (permitido por el chequeo); search_path por defecto",
+   "arbol": "corregido",
+   "script": "01_inventario_esquema_SOLO_LECTURA",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD4-02",
+   "escenario": "homónimos de funciones y operadores creados en 'public' (permitido por el chequeo); search_path por defecto",
+   "arbol": "corregido",
+   "script": "02_rls_privilegios_SOLO_LECTURA",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD4-03",
+   "escenario": "homónimos de funciones y operadores creados en 'public' (permitido por el chequeo); search_path por defecto",
+   "arbol": "corregido",
+   "script": "03_pruebas_rls_ROLLBACK",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD4-04",
+   "escenario": "homónimos de funciones y operadores creados en 'public' (permitido por el chequeo); search_path por defecto",
+   "arbol": "corregido",
+   "script": "04_trigger_r1_r9_ROLLBACK",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  operator does not exist: unknown ||- integer"
+  },
+  {
+   "id": "SPD4-05A",
+   "escenario": "homónimos de funciones y operadores creados en 'public' (permitido por el chequeo); search_path por defecto",
+   "arbol": "corregido",
+   "script": "05_concurrencia_sesion_A",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD4-05B",
+   "escenario": "homónimos de funciones y operadores creados en 'public' (permitido por el chequeo); search_path por defecto",
+   "arbol": "corregido",
+   "script": "05_concurrencia_sesion_B",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD5-e0b1d81-01",
+   "escenario": "ídem contra el árbol anterior e0b1d81 (homónimos en public)",
+   "arbol": "anterior:e0b1d81",
+   "script": "01_inventario_esquema_SOLO_LECTURA",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD5-e0b1d81-02",
+   "escenario": "ídem contra el árbol anterior e0b1d81 (homónimos en public)",
+   "arbol": "anterior:e0b1d81",
+   "script": "02_rls_privilegios_SOLO_LECTURA",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD5-e0b1d81-03",
+   "escenario": "ídem contra el árbol anterior e0b1d81 (homónimos en public)",
+   "arbol": "anterior:e0b1d81",
+   "script": "03_pruebas_rls_ROLLBACK",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD5-e0b1d81-04",
+   "escenario": "ídem contra el árbol anterior e0b1d81 (homónimos en public)",
+   "arbol": "anterior:e0b1d81",
+   "script": "04_trigger_r1_r9_ROLLBACK",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  operator does not exist: unknown ||- integer"
+  },
+  {
+   "id": "SPD5-e0b1d81-05A",
+   "escenario": "ídem contra el árbol anterior e0b1d81 (homónimos en public)",
+   "arbol": "anterior:e0b1d81",
+   "script": "05_concurrencia_sesion_A",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD5-e0b1d81-05B",
+   "escenario": "ídem contra el árbol anterior e0b1d81 (homónimos en public)",
+   "arbol": "anterior:e0b1d81",
+   "script": "05_concurrencia_sesion_B",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD5-d365a16-01",
+   "escenario": "ídem contra el árbol anterior d365a16 (homónimos en public)",
+   "arbol": "anterior:d365a16",
+   "script": "01_inventario_esquema_SOLO_LECTURA",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD5-d365a16-02",
+   "escenario": "ídem contra el árbol anterior d365a16 (homónimos en public)",
+   "arbol": "anterior:d365a16",
+   "script": "02_rls_privilegios_SOLO_LECTURA",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD5-d365a16-03",
+   "escenario": "ídem contra el árbol anterior d365a16 (homónimos en public)",
+   "arbol": "anterior:d365a16",
+   "script": "03_pruebas_rls_ROLLBACK",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD5-d365a16-04",
+   "escenario": "ídem contra el árbol anterior d365a16 (homónimos en public)",
+   "arbol": "anterior:d365a16",
+   "script": "04_trigger_r1_r9_ROLLBACK",
+   "rc": 3,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": "ERROR:  operator does not exist: unknown ||- integer"
+  },
+  {
+   "id": "SPD5-d365a16-05A",
+   "escenario": "ídem contra el árbol anterior d365a16 (homónimos en public)",
+   "arbol": "anterior:d365a16",
+   "script": "05_concurrencia_sesion_A",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  },
+  {
+   "id": "SPD5-d365a16-05B",
+   "escenario": "ídem contra el árbol anterior d365a16 (homónimos en public)",
+   "arbol": "anterior:d365a16",
+   "script": "05_concurrencia_sesion_B",
+   "rc": 0,
+   "guarda_ok": true,
+   "rechazo": "",
+   "hijack_funcion": false,
+   "hijack_operador": false,
+   "salida_error": ""
+  }
+ ],
+ "funciones_catalogo_usadas": [
+  "bool_and",
+  "btrim",
+  "clock_timestamp",
+  "concat",
+  "count",
+  "current_database",
+  "current_setting",
+  "format",
+  "gen_random_uuid",
+  "has_function_privilege",
+  "has_table_privilege",
+  "inet_server_addr",
+  "json_build_object",
+  "left",
+  "md5",
+  "min",
+  "now",
+  "pg_backend_pid",
+  "pg_control_system",
+  "pg_get_constraintdef",
+  "pg_get_function_identity_arguments",
+  "pg_get_userbyid",
+  "pg_has_role",
+  "pg_sleep",
+  "query_to_xml",
+  "quote_ident",
+  "replace",
+  "round",
+  "set_config",
+  "split_part",
+  "starts_with",
+  "string_agg",
+  "string_to_array",
+  "substr",
+  "text",
+  "to_regclass",
+  "to_regprocedure",
+  "tstzrange",
+  "unnest",
+  "version",
+  "xpath"
+ ]
+}

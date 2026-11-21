@@ -1,0 +1,6 @@
+# Auditoría de search_path y calificación `pg_catalog.`
+- Calificaciones `pg_catalog.` en el árbol final: 185 (e0b1d81: 144 reportadas previamente). Llamadas a funciones de catálogo sin calificar: **0** (d365a16: 161; e0b1d81: 17). `extract`/`position` son formas gramaticales especiales.
+- Alcance dinámico: homónimos de 73 funciones (todas las sobrecargas) y 9 operadores en esquema hostil; seis scripts; árboles final, final-sin-chequeo, e0b1d81, d365a16 (`evidencia/adversarial/auditoria_search_path.json`).
+- Resultados: árbol final con ruta hostil → 6/6 rechazados `G-SEARCH-PATH-NO-SEGURO`, 0 hijack. Sin el chequeo: funciones 0 hijack (calificación), **operadores 4/6 hijack** (residual: operadores no calificados; sólo los protege el chequeo). d365a16: hijack de funciones en 5/6 scripts (defecto reproducido). e0b1d81: funciones 0; operadores 4/6 sin chequeo.
+- La guarda rechaza search_path con esquemas no permitidos, `"$user"` con esquema homónimo, y public/pg_temp antes de pg_catalog. `memberships` del script 03 sigue funcionando (batería 22/22).
+- No se pudo crear homónimos de funciones variádicas `any` (format/concat) en plpgsql: aproximado/omitido (documentado en la herramienta).

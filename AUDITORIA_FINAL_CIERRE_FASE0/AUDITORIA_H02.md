@@ -1,0 +1,5 @@
+# Auditoría H-02 (consistencia documental)
+Reconciliación integral en repositorio git real contra V26: **58/58 PASS**; consistencia del informe 58/58; controles negativos 7/7; manifiesto 154 entradas, verificación OK.
+Reconciliación documental aplicada: `docs/fase0/ESTADO_DOCUMENTAL_VIGENTE.md` clasifica cada conjunto como vigente / histórico / superado / no reproducido / limitación pendiente. `publicacion_remediaciones_h01_h02_h03/`, `auditoria_final_publicacion/` y `AUDITORIA_FINAL_INDEPENDIENTE_FASE0/` quedan marcados SUPERADOS (LEEME_HISTORICO.md) sin borrarlos. Informes regenerados (pruebas finales, cifras, reconciliación, manifiesto). Las 21 decisiones no se tocan; no hay Adenda v9 ni OD-13.
+Límite: los documentos históricos conservan afirmaciones obsoletas (139 pruebas, marcador de tabla) bajo etiqueta de superado; V26 no modificado.
+**Veredicto H-02: APROBADO CON LIMITACIONES** (consistencia mecánica verificada; la lectura humana de cada documento histórico es del propietario).

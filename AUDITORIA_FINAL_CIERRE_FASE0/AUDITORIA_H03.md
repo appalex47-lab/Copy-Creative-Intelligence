@@ -1,0 +1,4 @@
+# Auditoría H-03 (guarda DEV/PROD, marcador y ejecución verificada)
+Guarda: TOTAL=187 PASS=187 FAIL=0. Adversarial: {('corregido', 'PASS'): 136, ('corregido', 'PARTIAL'): 6, ('publicado', 'FAIL'): 18, ('publicado', 'PASS'): 6} (los FAIL son del árbol publicado = defectos reproducidos). Detalle: AUDITORIA_MARCADOR/ENVOLTORIO/HASH_EXTERNO/SEARCH_PATH/IDENTIDAD.
+Defectos corregidos: marcador forjable (A/D/E1), ausencia de comprobación de integridad en ejecución directa, search_path hostil, 17 llamadas sin calificar, TOCTOU de guarda, identidad externa del destino.
+**Veredicto H-03: APROBADO CON LIMITACIONES** — la forja del marcador y el bypass por ejecución directa quedan rechazados; persisten limitaciones estructurales: guarda falsa + control del hash (E2/M), AG-18 (clon físico), stdin no soportado, operadores protegidos sólo por el chequeo de search_path, y **no existe custodio externo del hash** (sin él la verificación no es protección operativa).
