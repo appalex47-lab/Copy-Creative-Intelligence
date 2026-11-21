@@ -1,0 +1,6 @@
+cd /tmp/pub/wt26; R=repos/appalex47-lab/Copy-Creative-Intelligence; H=c3adaf97588ce3b8fef075a44aff6336f4e8c266
+echo "# Verificaciones remotas previas a la publicación de V26 ($(date -u +%FT%TZ))"
+echo "W01 la rama audit/fase0-v26-review NO existe en el remoto antes de publicar: ls-remote='$(git ls-remote origin refs/heads/audit/fase0-v26-review | cut -f1)' REST=$(gh api $R/git/ref/heads/audit/fase0-v26-review --jq .object.sha 2>&1 | head -c 60 | tr '\n' ' ')"
+echo "W02 referencias remotas: main=$(git ls-remote origin refs/heads/main | cut -f1) V20=$(git ls-remote origin refs/heads/audit/fase0-v19-review | cut -f1) V23=$(git ls-remote origin refs/heads/audit/fase0-v23-review | cut -f1) V24=$(git ls-remote origin refs/heads/audit/fase0-v24-review | cut -f1) V25=$(git ls-remote origin refs/heads/audit/fase0-v25-review | cut -f1)"
+gh api "$R/git/trees/$H?recursive=1" --jq '.tree[]|select(.type=="blob")|"\(.sha) \(.path)"' | sort > /tmp/pub/v26/w03_remoto.txt; git ls-tree -r $H | awk '{print $3" "$4}' | sort > /tmp/pub/v26/w03_local.txt
+echo "W03 árbol remoto del HEAD V25 $H = árbol local de la base de V26: $(cmp -s /tmp/pub/v26/w03_remoto.txt /tmp/pub/v26/w03_local.txt && echo SI || echo NO) ($(wc -l < /tmp/pub/v26/w03_remoto.txt) blobs; truncado=$(gh api "$R/git/trees/$H?recursive=1" --jq .truncated)); HEAD local de wt26=$(git rev-parse HEAD)"

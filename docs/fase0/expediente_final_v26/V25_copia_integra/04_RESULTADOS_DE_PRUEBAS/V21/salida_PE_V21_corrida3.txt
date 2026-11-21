@@ -1,0 +1,382 @@
+NOTICE:  database "cci_v20_test" does not exist, skipping
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+ t 
+---
+ 
+(1 row)
+
+PE-01a | IG1-05 | 23503 | 23503:insert or update on table "creative_pieces" violates foreign key const | PASS | adaptación de una maestra de OTRA organización
+PE-01b | IG1-05 | OK | OK | PASS | adaptación de una maestra de la MISMA organización (positivo)
+PE-01c | IG1-05/T-03 | 23503 | 23503:insert or update on table "copy_versions" violates foreign key constra | PASS | versión de A derivada de una versión INEXISTENTE
+PE-01d | IG1-05/T-03 | 23503 | 23503:insert or update on table "copy_versions" violates foreign key constra | PASS | versión de A derivada de una versión de OTRA pieza (B1 como si fuera de M)
+PE-01e | IG1-05 | OK | OK | PASS | versión de A derivada de una versión de la maestra (positivo)
+PE-02a | IG1-06 | P0001:MASTER_INMUTABLE | P0001:MASTER_INMUTABLE | PASS | reasignar master_piece_id de A a B
+PE-02b | IG1-06 | P0001:MASTER_INMUTABLE | P0001:MASTER_INMUTABLE | PASS | anular master_piece_id de A
+PE-02c | IG1-06/T-04 | OK | OK | PASS | M como adaptación de A (ciclo; la maestra no tenía master asignado)
+PE-02d | IG1-06 | 23514 | 23514:new row for relation "creative_pieces" violates check constraint "crea | PASS | autorreferencia: pieza SIN maestra asignada como maestra de sí misma (la X de la otra organización)
+PE-02e | IG1-06 | OK | OK | PASS | cambiar otra columna sin tocar master_piece_id (positivo)
+PE-03a | IG1-10 | P0001:INMUTABLE | P0001:INMUTABLE | PASS | UPDATE del vínculo versión→versión de A1
+PE-03b | IG1-10 | P0001:INMUTABLE | P0001:INMUTABLE | PASS | anular el vínculo de A1
+PE-03c | IG1-10 | P0001:INMUTABLE | P0001:INMUTABLE | PASS | DELETE de una versión
+PE-03d | IG1-10 | OK | OK | PASS | una versión nueva de A (versión 5) no altera A1 (positivo)
+PE-04a | IG1-21 | 23503 | 23503:insert or update on table "approvals" violates foreign key constraint  | PASS | aprobar la maestra (M1) y registrarla como aprobación de la ADAPTACIÓN A
+PE-04b | IG1-21 | 23503 | 23503:insert or update on table "approvals" violates foreign key constraint  | PASS | aprobar la adaptación (A1) y registrarla como aprobación de la MAESTRA M
+PE-04c | IG1-21 | OK | OK | PASS | aprobar la versión exacta de la maestra (positivo)
+PE-04d | IG1-21 | OK | OK | PASS | aprobar la versión exacta de la adaptación (positivo)
+PE-04e | IG1-21 | 23503 | 23503:insert or update on table "approvals" violates foreign key constraint  | PASS | aprobación con versión de otra organización
+PE-05a | IG5-36 | OK | OK | PASS | par evaluado válido de nueve columnas (positivo)
+PE-05b | IG5-36 | 23505 | 23505:duplicate key value violates unique constraint "impact_evaluations_org | PASS | duplicado exacto del par de nueve columnas
+PE-05c | IG5-36 | OK | OK | PASS | par con adaptation_asset_key distinto se identifica como par distinto (positivo)
+PE-05d | IG5-36 | OK | OK | PASS | par con master_basis_art distinto se identifica como par distinto (positivo)
+PE-05e | IG5-36 | OK | OK | PASS | par con master_changed_art distinto se identifica como par distinto (positivo)
+PE-05f | IG5-36 | 23503 | 23503:insert or update on table "impact_evaluations" violates foreign key co | PASS | sustituir la versión de la adaptación por la de OTRA pieza (B1)
+PE-05g | IG5-36 | 23503 | 23503:insert or update on table "impact_evaluations" violates foreign key co | PASS | master_basis de OTRA pieza como si fuera de la maestra
+PE-05h | IG5-36 | 23503 | 23503:insert or update on table "impact_evaluations" violates foreign key co | PASS | master_changed de otra organización
+PE-05i | IG5-36 | OK | OK | PASS | par con version de adaptación distinta pero existente (A v4, positivo)
+PG-CF-01 | IG1-22 | OK | OK | PASS | alta válida de un formato (positivo)
+PG-CF-02 | IG1-30 | OK | OK | PASS | el mismo formato en dos canales es dos filas (positivo)
+PG-CF-03 | unique | 23505 | 23505:duplicate key value violates unique constraint "channel_formats_organi | PASS | duplicado (organización, canal, formato)
+PG-CF-04 | IG1-22 | 23514 | 23514:new row for relation "channel_formats" violates check constraint "chan | PASS | formato vacío
+PG-CF-05 | IG1-22 | 23514 | 23514:new row for relation "channel_formats" violates check constraint "chan | PASS | formato con mayúsculas / sin normalizar
+PG-CF-06 | IG1-22 | 23514 | 23514:new row for relation "channel_formats" violates check constraint "chan | PASS | canal con espacios en los extremos
+PG-CF-07 | IG1-22 | 23514 | 23514:new row for relation "channel_formats" violates check constraint "chan | PASS | formato de 41 caracteres
+PG-CF-08 | FK canal | 23503 | 23503:insert or update on table "channel_formats" violates foreign key const | PASS | canal inexistente en channel_rules
+PG-CF-09 | FK canal | 23503 | 23503:insert or update on table "channel_formats" violates foreign key const | PASS | canal de OTRA organización
+PG-CF-10 | FK created_by | 23503 | 23503:insert or update on table "channel_formats" violates foreign key const | PASS | alta por quien no es miembro
+PG-CF-11 | IG1-26 | 23503 | 23503:insert or update on table "creative_pieces" violates foreign key const | PASS | pieza con formato fuera del catálogo
+PG-CF-12 | IG1-26 | P0001:SIN_DELETE | P0001:SIN_DELETE | PASS | borrar un formato en uso (RESTRICT / sin DELETE)
+PG-CF-13 | IG1-29 | P0001:CANAL_FORMATO_INMUTABLE | P0001:CANAL_FORMATO_INMUTABLE | PASS | modificar el formato de una fila
+PG-CF-14 | IG1-33 | P0001:RETIRO_CON_PIEZAS_ACTIVAS | P0001:RETIRO_CON_PIEZAS_ACTIVAS | PASS | baja de un formato con piezas en estado distinto de Publicado/Archivado
+PG-CF-15 | IG1-33 | OK | OK | PASS | baja de un formato sin piezas (positivo)
+PG-AD-01 | IG5-98 | OK | OK | PASS | resolución aceptada válida (positivo)
+PG-AD-02 | IG5-98 | OK | OK | PASS | reconsideración: fila NUEVA que cita a la rechazada y la acepta (positivo)
+PG-AD-03 | IG5-98 | P0001:PREVIA_INVALIDA | P0001:PREVIA_INVALIDA | PASS | reconsiderar una resolución ACEPTADA
+PG-AD-04 | IG5-98 | 23505 | 23505:duplicate key value violates unique constraint "u_adr_aceptada" | PASS | segunda resolución aceptada para la misma atribución
+PG-AD-05 | IG5-98 | P0001:INMUTABLE | P0001:INMUTABLE | PASS | UPDATE del resultado de una resolución
+PG-AD-06 | IG5-98 | P0001:INMUTABLE | P0001:INMUTABLE | PASS | DELETE de una resolución
+PG-AD-07 | IG5-98 | P0001:INMUTABLE | P0001:INMUTABLE | PASS | TRUNCATE de la tabla
+PG-AD-08 | IG5-95 | 23514 | 23514:new row for relation "attribution_discard_resolutions" violates check  | PASS | el resolutor es el contribuyente afectado
+PG-AD-09 | IG5-95 | 23514 | 23514:new row for relation "attribution_discard_resolutions" violates check  | PASS | el resolutor es quien solicita
+PG-AD-10 | IG5-95 | 23514 | 23514:new row for relation "attribution_discard_resolutions" violates check  | PASS | el resolutor es quien ejecutó el cambio
+PG-AD-11 | IG5-93 | 23514 | 23514:new row for relation "attribution_discard_resolutions" violates check  | PASS | evidencia vacía (resolución incompleta no excluye)
+PG-AD-12 | IG5-93 | 23514 | 23514:new row for relation "attribution_discard_resolutions" violates check  | PASS | motivo vacío
+PG-AD-13 | IG5-93 | P0001:EVIDENCIA_OTRA_VERSION | P0001:EVIDENCIA_OTRA_VERSION | PASS | evidencia de OTRA versión
+PG-AD-14 | IG5-93 | 23514 | 23514:new row for relation "attribution_discard_resolutions" violates check  | PASS | evidencia que cita otra atribución
+PG-AD-15 | IG5-98 | P0001:SELLO_INVALIDO | P0001:SELLO_INVALIDO | PASS | sello (SHA-256) que no coincide con el contenido
+PG-AD-16 | FK compuesta | 23503 | 23503:insert or update on table "attribution_discard_resolutions" violates f | PASS | campo distinto del de la atribución referenciada
+PG-AD-17 | FK compuesta | 23503 | 23503:insert or update on table "attribution_discard_resolutions" violates f | PASS | persona afectada distinta de la de la atribución
+PG-AD-18 | FK compuesta | 23503 | 23503:insert or update on table "attribution_discard_resolutions" violates f | PASS | evento motivador de otro actor
+PG-AD-19 | FK compuesta | 23503 | 23503:insert or update on table "attribution_discard_resolutions" violates f | PASS | resolutor que no es miembro de la organización
+PG-AD-20 | IG5-98 | P0001:PREVIA_INVALIDA | P0001:PREVIA_INVALIDA | PASS | autorreferencia previous_resolution_id = id (se rechaza por el trigger de resolución previa, que se evalúa antes que el CHECK)
+TOTAL pruebas=63 PASS=63 FAIL=0
+PostgreSQL 16.15 (Ubuntu 16.15-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit
+EXIT=0

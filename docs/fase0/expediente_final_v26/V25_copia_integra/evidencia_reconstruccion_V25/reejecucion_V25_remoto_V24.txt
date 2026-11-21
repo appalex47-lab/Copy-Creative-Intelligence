@@ -1,0 +1,9 @@
+# Re-ejecución V25 de las verificaciones remotas de V24 (2026-11-20T22:28:43Z)
+R01 rama v24 existe y apunta a b88bde038e331ba67899632ca4e09eebf2cde82d: PASS
+R02 commit expediente V24: padre=8674114c69881ff1ebda3c5db1f89f2a4d6d31c6 archivos=257 fuera_de_expediente_v24=0
+R03 árbol remoto de b88bde038e331ba67899632ca4e09eebf2cde82d = local: PASS (641 blobs; truncated=false)
+R04 descargados de GitHub y comparados con MANIFIESTO V24: 256 OK, 0 discrepancias, entradas=256
+R05 V23: rama=8674114c69881ff1ebda3c5db1f89f2a4d6d31c6 árbol expediente_v23 en V24=0824c738f14c313b5f25149016a4622fe85fdeef en V23=0824c738f14c313b5f25149016a4622fe85fdeef
+R06 V20=ac84133b776cc73c0cb3416e51e2767039bb5132 main=6a1af2424ef39e0960b8f7e09d4e19ec52e6f046
+R07 PRs=0
+R08 accesibles: 8692 5155 1508 2832 39287  bytes; reporte publicación: 4864

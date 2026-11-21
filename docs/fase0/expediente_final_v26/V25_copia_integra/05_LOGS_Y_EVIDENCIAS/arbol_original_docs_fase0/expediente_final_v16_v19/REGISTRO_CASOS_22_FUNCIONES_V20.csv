@@ -1,0 +1,367 @@
+n,funcion,id_caso,clave_unica,grupo,esperado,obtenido,resultado,descripcion,id_compartido_entre_funciones,descripcion_repetida,evidencia
+1,pruebas_guarda,01,pruebas_guarda:01,guarda,True,True,PASS,asignar un campo de una fila,sí,no,salida_22_funciones_V20_corrida1.txt línea 1
+2,pruebas_guarda,02,pruebas_guarda:02,guarda,True,True,PASS,eliminar un campo de una fila,sí,no,salida_22_funciones_V20_corrida1.txt línea 2
+3,pruebas_guarda,03,pruebas_guarda:03,guarda,True,True,PASS,actualizar una fila,sí,no,salida_22_funciones_V20_corrida1.txt línea 3
+4,pruebas_guarda,04,pruebas_guarda:04,guarda,True,True,PASS,reemplazar una fila con el mismo ID,sí,no,salida_22_funciones_V20_corrida1.txt línea 4
+5,pruebas_guarda,05,pruebas_guarda:05,guarda,True,True,PASS,eliminar una resolución,sí,no,salida_22_funciones_V20_corrida1.txt línea 5
+6,pruebas_guarda,06,pruebas_guarda:06,guarda,True,True,PASS,vaciar el registro,sí,no,salida_22_funciones_V20_corrida1.txt línea 6
+7,pruebas_guarda,07,pruebas_guarda:07,guarda,True,True,PASS,agregar con un ID existente,sí,no,salida_22_funciones_V20_corrida1.txt línea 7
+8,pruebas_guarda,08,pruebas_guarda:08,guarda,True,True,PASS,modificar la evidencia histórica anidada,sí,no,salida_22_funciones_V20_corrida1.txt línea 8
+9,pruebas_guarda,09,pruebas_guarda:09,guarda,True,True,PASS,volver a aplicar una resolución con el mismo ID,sí,no,salida_22_funciones_V20_corrida1.txt línea 9
+10,pruebas_atomicidad,01,pruebas_atomicidad:01,atomicidad,True,True,PASS,el asset de origen no existe,sí,sí,salida_22_funciones_V20_corrida1.txt línea 10
+11,pruebas_atomicidad,02,pruebas_atomicidad:02,atomicidad,True,True,PASS,el origen no tiene evento de carga,sí,no,salida_22_funciones_V20_corrida1.txt línea 11
+12,pruebas_atomicidad,03,pruebas_atomicidad:03,atomicidad,True,True,PASS,el uploader original no tiene membresía activa,sí,sí,salida_22_funciones_V20_corrida1.txt línea 12
+13,pruebas_atomicidad,04,pruebas_atomicidad:04,atomicidad,True,True,PASS,no existe la atribución directa del uploader original,sí,no,salida_22_funciones_V20_corrida1.txt línea 13
+14,pruebas_atomicidad,05,pruebas_atomicidad:05,atomicidad,True,True,PASS,el origen pertenece a otra organización,sí,sí,salida_22_funciones_V20_corrida1.txt línea 14
+15,pruebas_atomicidad,06,pruebas_atomicidad:06,atomicidad,True,True,PASS,la pieza del origen no coincide con su evento,sí,no,salida_22_funciones_V20_corrida1.txt línea 15
+16,pruebas_atomicidad,07,pruebas_atomicidad:07,atomicidad,True,True,PASS,el reutilizador no es miembro activo,sí,no,salida_22_funciones_V20_corrida1.txt línea 16
+17,pruebas_atomicidad,08,pruebas_atomicidad:08,atomicidad,True,True,PASS,el identificador del asset reutilizado ya existe,sí,no,salida_22_funciones_V20_corrida1.txt línea 17
+18,pruebas_atomicidad,09,pruebas_atomicidad:09,atomicidad,True,True,PASS,A54: el evento original de carga pertenece a otro asset de la misma organización y pieza,sí,no,salida_22_funciones_V20_corrida1.txt línea 18
+19,pruebas_atomicidad,10,pruebas_atomicidad:10,atomicidad,True,True,PASS,A55: el evento original de carga pertenece a otro asset con el mismo número de versión,no,no,salida_22_funciones_V20_corrida1.txt línea 19
+20,pruebas_atomicidad,11,pruebas_atomicidad:11,atomicidad,True,True,PASS,A56: el evento original de carga es el de otra versión del mismo asset raíz,no,no,salida_22_funciones_V20_corrida1.txt línea 20
+21,pruebas_atomicidad,12,pruebas_atomicidad:12,atomicidad,True,True,PASS,A57: la atribución directa del uploader pertenece a otro evento de carga del mismo asset,no,no,salida_22_funciones_V20_corrida1.txt línea 21
+22,pruebas_atomicidad,13,pruebas_atomicidad:13,atomicidad,True,True,PASS,A58: la atribución directa pertenece a otro asset de la misma organización,no,no,salida_22_funciones_V20_corrida1.txt línea 22
+23,pruebas_atomicidad,14,pruebas_atomicidad:14,atomicidad,True,True,PASS,A59: la atribución directa pertenece a otro uploader,no,no,salida_22_funciones_V20_corrida1.txt línea 23
+24,pruebas_atomicidad,15,pruebas_atomicidad:15,atomicidad,True,True,PASS,A60: el actor del evento de carga no coincide con el uploader declarado,no,no,salida_22_funciones_V20_corrida1.txt línea 24
+25,pruebas_atomicidad,16,pruebas_atomicidad:16,atomicidad,True,True,PASS,A61: el evento de carga es correcto pero está asociado a otra versión de copy,no,no,salida_22_funciones_V20_corrida1.txt línea 25
+26,pruebas_atomicidad,17,pruebas_atomicidad:17,atomicidad,True,True,PASS,A62: el evento de carga es correcto pero está asociado a otra pieza,no,no,salida_22_funciones_V20_corrida1.txt línea 26
+27,pruebas_atomicidad,18,pruebas_atomicidad:18,atomicidad,True,True,PASS,A63: el uploader original no tiene membresía activa,no,no,salida_22_funciones_V20_corrida1.txt línea 27
+28,pruebas_atomicidad,19,pruebas_atomicidad:19,atomicidad,True,True,PASS,A64: evento de carga y uploader correctos pero la atribución directa no existe,no,no,salida_22_funciones_V20_corrida1.txt línea 28
+29,pruebas_atomicidad,20,pruebas_atomicidad:20,atomicidad,True,True,PASS,A65: la referencia al evento de carga se intercambia con la de otro asset después de construir la cadena,no,no,salida_22_funciones_V20_corrida1.txt línea 29
+30,correr_mutaciones_rechazo,K47-A54,correr_mutaciones_rechazo:K47-A54,mutación,True,True,PASS,el evento original de carga pertenece a otro asset de la misma organización y pi,no,no,salida_22_funciones_V20_corrida1.txt línea 30
+31,correr_mutaciones_rechazo,K47-A55,correr_mutaciones_rechazo:K47-A55,mutación,True,True,PASS,el evento original de carga pertenece a otro asset con el mismo número de versió,no,no,salida_22_funciones_V20_corrida1.txt línea 31
+32,correr_mutaciones_rechazo,K47-A56,correr_mutaciones_rechazo:K47-A56,mutación,True,True,PASS,el evento original de carga es el de otra versión del mismo asset raíz,no,no,salida_22_funciones_V20_corrida1.txt línea 32
+33,correr_mutaciones_rechazo,K47-A57,correr_mutaciones_rechazo:K47-A57,mutación,True,True,PASS,la atribución directa del uploader pertenece a otro evento de carga del mismo as,no,no,salida_22_funciones_V20_corrida1.txt línea 33
+34,correr_mutaciones_rechazo,K47-A58,correr_mutaciones_rechazo:K47-A58,mutación,True,True,PASS,la atribución directa pertenece a otro asset de la misma organización,no,no,salida_22_funciones_V20_corrida1.txt línea 34
+35,correr_mutaciones_rechazo,K47-A59,correr_mutaciones_rechazo:K47-A59,mutación,True,True,PASS,la atribución directa pertenece a otro uploader,no,no,salida_22_funciones_V20_corrida1.txt línea 35
+36,correr_mutaciones_rechazo,K47-A60,correr_mutaciones_rechazo:K47-A60,mutación,True,True,PASS,el actor del evento de carga no coincide con el uploader declarado,no,no,salida_22_funciones_V20_corrida1.txt línea 36
+37,correr_mutaciones_rechazo,K47-A61,correr_mutaciones_rechazo:K47-A61,mutación,True,True,PASS,el evento de carga es correcto pero está asociado a otra versión de copy,no,no,salida_22_funciones_V20_corrida1.txt línea 37
+38,correr_mutaciones_rechazo,K47-A62,correr_mutaciones_rechazo:K47-A62,mutación,True,True,PASS,el evento de carga es correcto pero está asociado a otra pieza,no,no,salida_22_funciones_V20_corrida1.txt línea 38
+39,correr_mutaciones_rechazo,K47-A63,correr_mutaciones_rechazo:K47-A63,mutación,True,True,PASS,el uploader original no tiene membresía activa,no,sí,salida_22_funciones_V20_corrida1.txt línea 39
+40,correr_mutaciones_rechazo,K47-A64,correr_mutaciones_rechazo:K47-A64,mutación,True,True,PASS,evento de carga y uploader correctos pero la atribución directa no existe,no,no,salida_22_funciones_V20_corrida1.txt línea 40
+41,correr_mutaciones_rechazo,K47-A65,correr_mutaciones_rechazo:K47-A65,mutación,True,True,PASS,la referencia al evento de carga se intercambia con la de otro asset después de ,no,no,salida_22_funciones_V20_corrida1.txt línea 41
+42,correr_adversariales,ADV1,correr_adversariales:ADV1,adversarial,True,True,PASS,uploader de otra organización,no,no,salida_22_funciones_V20_corrida1.txt línea 42
+43,correr_adversariales,ADV2,correr_adversariales:ADV2,adversarial,True,True,PASS,evento de carga de otra pieza,no,no,salida_22_funciones_V20_corrida1.txt línea 43
+44,correr_adversariales,ADV3,correr_adversariales:ADV3,adversarial,True,True,PASS,evento de reutilización de otro actor,no,no,salida_22_funciones_V20_corrida1.txt línea 44
+45,correr_adversariales,ADV4,correr_adversariales:ADV4,adversarial,True,True,PASS,atribución heredada sin antecesor,no,no,salida_22_funciones_V20_corrida1.txt línea 45
+46,correr_adversariales,ADV5,correr_adversariales:ADV5,adversarial,True,True,PASS,uploader con membresía inactiva,no,no,salida_22_funciones_V20_corrida1.txt línea 46
+47,correr_adversariales,ADV6,correr_adversariales:ADV6,adversarial,True,True,PASS,asset diferente con el mismo número de versión,no,no,salida_22_funciones_V20_corrida1.txt línea 47
+48,correr_adversariales,ADV7,correr_adversariales:ADV7,adversarial,True,True,PASS,evento de carga diferente del mismo uploader,no,no,salida_22_funciones_V20_corrida1.txt línea 48
+49,correr_adversariales,ADV8,correr_adversariales:ADV8,adversarial,True,True,PASS,versión de asset diferente del mismo origen,no,no,salida_22_funciones_V20_corrida1.txt línea 49
+50,correr_adversariales,ADV9,correr_adversariales:ADV9,adversarial,True,True,PASS,asset de otra pieza con el mismo número de versión,no,no,salida_22_funciones_V20_corrida1.txt línea 50
+51,correr_adversariales,ADV10,correr_adversariales:ADV10,adversarial,True,True,PASS,asset de otra organización con identificadores de versión coincidentes,no,no,salida_22_funciones_V20_corrida1.txt línea 51
+52,correr_adversariales,ADV11,correr_adversariales:ADV11,adversarial,True,True,PASS,evento de carga de otro asset de la misma organización y pieza (A54),no,no,salida_22_funciones_V20_corrida1.txt línea 52
+53,correr_adversariales,ADV12,correr_adversariales:ADV12,adversarial,True,True,PASS,evento de carga de otro asset con el mismo número de versión (A55),no,no,salida_22_funciones_V20_corrida1.txt línea 53
+54,correr_adversariales,ADV13,correr_adversariales:ADV13,adversarial,True,True,PASS,atribución directa de otro evento de carga del mismo asset (A57),no,no,salida_22_funciones_V20_corrida1.txt línea 54
+55,correr_adversariales,ADV14,correr_adversariales:ADV14,adversarial,True,True,PASS,atribución directa de otro asset de la misma organización (A58),no,no,salida_22_funciones_V20_corrida1.txt línea 55
+56,correr_adversariales,ADV15,correr_adversariales:ADV15,adversarial,True,True,PASS,actor del evento de carga distinto del uploader declarado (A60),no,no,salida_22_funciones_V20_corrida1.txt línea 56
+57,correr_adversariales,ADV16,correr_adversariales:ADV16,adversarial,True,True,PASS,referencia al evento de carga intercambiada con otro asset (A65),no,no,salida_22_funciones_V20_corrida1.txt línea 57
+58,correr_escenarios,A,correr_escenarios:A,escenario,True,True,PASS,conservación por sustitución,no,no,salida_22_funciones_V20_corrida1.txt línea 58
+59,correr_escenarios,B,correr_escenarios:B,escenario,True,True,PASS,conservación por eliminación,no,no,salida_22_funciones_V20_corrida1.txt línea 59
+60,correr_escenarios,C,correr_escenarios:C,escenario,True,True,PASS,varias atribuciones de una persona,no,no,salida_22_funciones_V20_corrida1.txt línea 60
+61,correr_escenarios,D,correr_escenarios:D,escenario,True,True,PASS,varias fuentes,no,no,salida_22_funciones_V20_corrida1.txt línea 61
+62,correr_escenarios,E,correr_escenarios:E,escenario,True,True,PASS,resolución rechazada,no,no,salida_22_funciones_V20_corrida1.txt línea 62
+63,correr_escenarios,F,correr_escenarios:F,escenario,True,True,PASS,resolución inválida por evidencia de otra versión,no,no,salida_22_funciones_V20_corrida1.txt línea 63
+64,correr_escenarios,G,correr_escenarios:G,escenario,True,True,PASS,herencia,no,no,salida_22_funciones_V20_corrida1.txt línea 64
+65,correr_escenarios,H,correr_escenarios:H,escenario,True,True,PASS,cadena incompleta,no,no,salida_22_funciones_V20_corrida1.txt línea 65
+66,correr_escenarios,I,correr_escenarios:I,escenario,True,True,PASS,clasificación modificada,no,no,salida_22_funciones_V20_corrida1.txt línea 66
+67,correr_escenarios,J,correr_escenarios:J,escenario,True,True,PASS,resolución y contribución independiente,no,no,salida_22_funciones_V20_corrida1.txt línea 67
+68,correr_escenarios,K,correr_escenarios:K,escenario,True,True,PASS,fuentes paralelas,no,no,salida_22_funciones_V20_corrida1.txt línea 68
+69,correr_escenarios,L,correr_escenarios:L,escenario,True,True,PASS,sin resolutor elegible,no,no,salida_22_funciones_V20_corrida1.txt línea 69
+70,correr_escenarios,U,correr_escenarios:U,escenario,True,True,PASS,"uniformidad entre copy, brief y promoción",no,no,salida_22_funciones_V20_corrida1.txt línea 70
+71,correr_escenarios,S,correr_escenarios:S,escenario,True,True,PASS,independencia de la similitud textual,no,no,salida_22_funciones_V20_corrida1.txt línea 71
+72,correr_escenarios,X,correr_escenarios:X,escenario,True,True,PASS,resolutor no independiente rechazado,no,no,salida_22_funciones_V20_corrida1.txt línea 72
+73,correr_escenarios,R,correr_escenarios:R,escenario,True,True,PASS,cada regla R1 a R9 impide resolver,no,no,salida_22_funciones_V20_corrida1.txt línea 73
+74,correr_escenarios,RS,correr_escenarios:RS,escenario,True,True,PASS,resoluciones inmutables y cadena de reconsideración,no,no,salida_22_funciones_V20_corrida1.txt línea 74
+75,correr_mutaciones_k47,K47-M01,correr_mutaciones_k47:K47-M01,mutación,True,True,PASS,sustituir_campo retira automáticamente la atribución anterior,no,no,salida_22_funciones_V20_corrida1.txt línea 75
+76,correr_mutaciones_k47,K47-M02,correr_mutaciones_k47:K47-M02,mutación,True,True,PASS,eliminar_campo retira automáticamente la atribución anterior,no,no,salida_22_funciones_V20_corrida1.txt línea 76
+77,correr_mutaciones_k47,K47-M03,correr_mutaciones_k47:K47-M03,mutación,True,True,PASS,modificar_campo pierde una atribución previa,no,no,salida_22_funciones_V20_corrida1.txt línea 77
+78,correr_mutaciones_k47,K47-M04,correr_mutaciones_k47:K47-M04,mutación,True,True,PASS,introducir_campo no incorpora al actor,no,no,salida_22_funciones_V20_corrida1.txt línea 78
+79,correr_mutaciones_k47,K47-M05,correr_mutaciones_k47:K47-M05,mutación,True,True,PASS,el cálculo de E excluye a la persona afectada por una resolución rechazada,no,no,salida_22_funciones_V20_corrida1.txt línea 79
+80,correr_mutaciones_k47,K47-M06,correr_mutaciones_k47:K47-M06,mutación,True,True,PASS,la resolución aceptada retira otra atribución distinta,no,no,salida_22_funciones_V20_corrida1.txt línea 80
+81,correr_mutaciones_k47,K47-M07,correr_mutaciones_k47:K47-M07,mutación,True,True,PASS,la resolución aceptada altera una versión histórica,no,no,salida_22_funciones_V20_corrida1.txt línea 81
+82,correr_mutaciones_k47,K47-M08,correr_mutaciones_k47:K47-M08,mutación,True,True,PASS,crear_version omite una atribución heredada,no,no,salida_22_funciones_V20_corrida1.txt línea 82
+83,correr_mutaciones_k47,K47-M09,correr_mutaciones_k47:K47-M09,mutación,True,True,PASS,una cadena de copy incompleta se presenta como completa,no,no,salida_22_funciones_V20_corrida1.txt línea 83
+84,correr_mutaciones_k47,K47-M10,correr_mutaciones_k47:K47-M10,mutación,True,True,PASS,una resolución válida elimina de E a quien conserva otra atribución activa,no,no,salida_22_funciones_V20_corrida1.txt línea 84
+85,correr_mutaciones_k47,K47-M11,correr_mutaciones_k47:K47-M11,mutación,True,True,PASS,la sustitución difiere entre copy y brief,no,no,salida_22_funciones_V20_corrida1.txt línea 85
+86,correr_mutaciones_k47,K47-M12,correr_mutaciones_k47:K47-M12,mutación,True,True,PASS,la eliminación difiere entre brief y promoción,no,no,salida_22_funciones_V20_corrida1.txt línea 86
+87,correr_mutaciones_k47,K47-M13,correr_mutaciones_k47:K47-M13,mutación,True,True,PASS,la similitud textual determina el descarte,no,no,salida_22_funciones_V20_corrida1.txt línea 87
+88,correr_mutaciones_k47,K47-M14,correr_mutaciones_k47:K47-M14,mutación,True,True,PASS,cambiar la clasificación retira atribuciones sin resolución,no,no,salida_22_funciones_V20_corrida1.txt línea 88
+89,correr_mutaciones_k47,K47-M15,correr_mutaciones_k47:K47-M15,mutación,True,True,PASS,resolución válida retira a quien conserva otra atribución activa en otro campo,no,no,salida_22_funciones_V20_corrida1.txt línea 89
+90,correr_mutaciones_k47,K47-M16,correr_mutaciones_k47:K47-M16,mutación,True,True,PASS,resolución válida retira a quien conserva una contribución activa en otra fuente,no,no,salida_22_funciones_V20_corrida1.txt línea 90
+91,correr_mutaciones_k47,K47-M17,correr_mutaciones_k47:K47-M17,mutación,True,True,PASS,resolver una atribución retira todas las atribuciones de la persona,no,no,salida_22_funciones_V20_corrida1.txt línea 91
+92,correr_mutaciones_k47,K47-M18,correr_mutaciones_k47:K47-M18,mutación,True,True,PASS,una resolución rechazada cambia el estado de una atribución,no,no,salida_22_funciones_V20_corrida1.txt línea 92
+93,correr_mutaciones_k47,K47-M19,correr_mutaciones_k47:K47-M19,mutación,True,True,PASS,una resolución con evidencia de otra versión modifica E,no,no,salida_22_funciones_V20_corrida1.txt línea 93
+94,correr_mutaciones_k47,K47-M20,correr_mutaciones_k47:K47-M20,mutación,True,True,PASS,crear_version omite una atribución heredada de segunda generación,no,no,salida_22_funciones_V20_corrida1.txt línea 94
+95,correr_mutaciones_k47,K47-M21,correr_mutaciones_k47:K47-M21,mutación,True,True,PASS,una atribución histórica desaparece de la evidencia,no,no,salida_22_funciones_V20_corrida1.txt línea 95
+96,correr_mutaciones_k47,K47-M22,correr_mutaciones_k47:K47-M22,mutación,True,True,PASS,la cadena de brief está incompleta pero E aparece como completo,no,no,salida_22_funciones_V20_corrida1.txt línea 96
+97,correr_mutaciones_k47,K47-M23,correr_mutaciones_k47:K47-M23,mutación,True,True,PASS,la cadena de promoción está incompleta pero E aparece como completo,no,no,salida_22_funciones_V20_corrida1.txt línea 97
+98,correr_mutaciones_k47,K47-M24,correr_mutaciones_k47:K47-M24,mutación,True,True,PASS,la resolución retira un campo distinto del que declara,no,no,salida_22_funciones_V20_corrida1.txt línea 98
+99,correr_mutaciones_k47,K47-M25,correr_mutaciones_k47:K47-M25,mutación,True,True,PASS,quien contribuye a dos fuentes sale de E al resolver solo una,no,no,salida_22_funciones_V20_corrida1.txt línea 99
+100,correr_mutaciones_k47,K47-M26,correr_mutaciones_k47:K47-M26,mutación,True,True,PASS,la resolución válida reescribe un registro anterior en lugar de agregar uno nuev,no,no,salida_22_funciones_V20_corrida1.txt línea 100
+101,correr_mutaciones_k47,K47-M27,correr_mutaciones_k47:K47-M27,mutación,True,True,PASS,se acepta una resolución cuyo resolutor incumple la independencia (R1 a R9 no se,no,no,salida_22_funciones_V20_corrida1.txt línea 101
+102,correr_mutaciones_k47,K47-M28,correr_mutaciones_k47:K47-M28,mutación,True,True,PASS,el motor no evalúa la regla R1 del resolutor (membresía activa),no,no,salida_22_funciones_V20_corrida1.txt línea 102
+103,correr_mutaciones_k47,K47-M29,correr_mutaciones_k47:K47-M29,mutación,True,True,PASS,el motor no evalúa la regla R2 del resolutor (piece.review),no,no,salida_22_funciones_V20_corrida1.txt línea 103
+104,correr_mutaciones_k47,K47-M30,correr_mutaciones_k47:K47-M30,mutación,True,True,PASS,el motor no evalúa la regla R3 del resolutor (afectado),no,no,salida_22_funciones_V20_corrida1.txt línea 104
+105,correr_mutaciones_k47,K47-M31,correr_mutaciones_k47:K47-M31,mutación,True,True,PASS,el motor no evalúa la regla R4 del resolutor (solicitante),no,no,salida_22_funciones_V20_corrida1.txt línea 105
+106,correr_mutaciones_k47,K47-M32,correr_mutaciones_k47:K47-M32,mutación,True,True,PASS,el motor no evalúa la regla R5 del resolutor (actor del cambio),no,no,salida_22_funciones_V20_corrida1.txt línea 106
+107,correr_mutaciones_k47,K47-M33,correr_mutaciones_k47:K47-M33,mutación,True,True,PASS,el motor no evalúa la regla R6 del resolutor (contribuyente directo de la cadena,no,no,salida_22_funciones_V20_corrida1.txt línea 107
+108,correr_mutaciones_k47,K47-M34,correr_mutaciones_k47:K47-M34,mutación,True,True,PASS,el motor no evalúa la regla R7 del resolutor (contribuyente heredado activo),no,no,salida_22_funciones_V20_corrida1.txt línea 108
+109,correr_mutaciones_k47,K47-M35,correr_mutaciones_k47:K47-M35,mutación,True,True,PASS,el motor no evalúa la regla R8 del resolutor (contribuyente de otra fuente de la,no,no,salida_22_funciones_V20_corrida1.txt línea 109
+110,correr_mutaciones_k47,K47-M36,correr_mutaciones_k47:K47-M36,mutación,True,True,PASS,el motor no evalúa la regla R9 del resolutor (beneficiario),no,no,salida_22_funciones_V20_corrida1.txt línea 110
+111,correr_mutaciones_resoluciones,K47-R01,correr_mutaciones_resoluciones:K47-R01,mutación,True,True,PASS,modificar el resultado de una resolución existente,no,no,salida_22_funciones_V20_corrida1.txt línea 111
+112,correr_mutaciones_resoluciones,K47-R02,correr_mutaciones_resoluciones:K47-R02,mutación,True,True,PASS,modificar la evidencia de una resolución existente,no,no,salida_22_funciones_V20_corrida1.txt línea 112
+113,correr_mutaciones_resoluciones,K47-R03,correr_mutaciones_resoluciones:K47-R03,mutación,True,True,PASS,modificar el resolutor de una resolución existente,no,no,salida_22_funciones_V20_corrida1.txt línea 113
+114,correr_mutaciones_resoluciones,K47-R04,correr_mutaciones_resoluciones:K47-R04,mutación,True,True,PASS,modificar el solicitante de una resolución existente,no,no,salida_22_funciones_V20_corrida1.txt línea 114
+115,correr_mutaciones_resoluciones,K47-R05,correr_mutaciones_resoluciones:K47-R05,mutación,True,True,PASS,cambiar la atribución afectada por una resolución,no,no,salida_22_funciones_V20_corrida1.txt línea 115
+116,correr_mutaciones_resoluciones,K47-R06,correr_mutaciones_resoluciones:K47-R06,mutación,True,True,PASS,cambiar la versión afectada por una resolución,no,no,salida_22_funciones_V20_corrida1.txt línea 116
+117,correr_mutaciones_resoluciones,K47-R07,correr_mutaciones_resoluciones:K47-R07,mutación,True,True,PASS,eliminar una resolución histórica,no,no,salida_22_funciones_V20_corrida1.txt línea 117
+118,correr_mutaciones_resoluciones,K47-R08,correr_mutaciones_resoluciones:K47-R08,mutación,True,True,PASS,reemplazar una resolución usando el mismo ID,no,no,salida_22_funciones_V20_corrida1.txt línea 118
+119,correr_mutaciones_resoluciones,K47-R09,correr_mutaciones_resoluciones:K47-R09,mutación,True,True,PASS,convertir una resolución rechazada en aceptada,no,no,salida_22_funciones_V20_corrida1.txt línea 119
+120,correr_mutaciones_resoluciones,K47-R10,correr_mutaciones_resoluciones:K47-R10,mutación,True,True,PASS,reutilizar una resolución aceptada para otra atribución,no,no,salida_22_funciones_V20_corrida1.txt línea 120
+121,correr_mutaciones_resoluciones,K47-R11,correr_mutaciones_resoluciones:K47-R11,mutación,True,True,PASS,alterar la cadena de reconsideraciones,no,no,salida_22_funciones_V20_corrida1.txt línea 121
+122,correr_mutaciones_resoluciones,K47-R12,correr_mutaciones_resoluciones:K47-R12,mutación,True,True,PASS,reescribir una resolución anterior para simular una decisión posterior,no,no,salida_22_funciones_V20_corrida1.txt línea 122
+123,correr_mutaciones_assets,K47-A01,correr_mutaciones_assets:K47-A01,mutación,True,True,PASS,una versión usa un asset sin uploader,no,no,salida_22_funciones_V20_corrida1.txt línea 123
+124,correr_mutaciones_assets,K47-A02,correr_mutaciones_assets:K47-A02,mutación,True,True,PASS,una versión usa un asset sin evento de carga,no,no,salida_22_funciones_V20_corrida1.txt línea 124
+125,correr_mutaciones_assets,K47-A03,correr_mutaciones_assets:K47-A03,mutación,True,True,PASS,el asset pertenece a otra organización,no,no,salida_22_funciones_V20_corrida1.txt línea 125
+126,correr_mutaciones_assets,K47-A04,correr_mutaciones_assets:K47-A04,mutación,True,True,PASS,el asset pertenece a otra pieza sin relación válida,no,no,salida_22_funciones_V20_corrida1.txt línea 126
+127,correr_mutaciones_assets,K47-A05,correr_mutaciones_assets:K47-A05,mutación,True,True,PASS,la reutilización apunta a otra versión de copy,no,no,salida_22_funciones_V20_corrida1.txt línea 127
+128,correr_mutaciones_assets,K47-A06,correr_mutaciones_assets:K47-A06,mutación,True,True,PASS,el reutilizador sustituye al uploader original,no,no,salida_22_funciones_V20_corrida1.txt línea 128
+129,correr_mutaciones_assets,K47-A07,correr_mutaciones_assets:K47-A07,mutación,True,True,PASS,asset reutilizado sin evento de reutilización,no,no,salida_22_funciones_V20_corrida1.txt línea 129
+130,correr_mutaciones_assets,K47-A08,correr_mutaciones_assets:K47-A08,mutación,True,True,PASS,asset heredado sin referencia al origen,no,no,salida_22_funciones_V20_corrida1.txt línea 130
+131,correr_mutaciones_assets,K47-A09,correr_mutaciones_assets:K47-A09,mutación,True,True,PASS,la cadena de assets contiene un ciclo,no,no,salida_22_funciones_V20_corrida1.txt línea 131
+132,correr_mutaciones_assets,K47-A10,correr_mutaciones_assets:K47-A10,mutación,True,True,PASS,el asset de origen no existe,no,sí,salida_22_funciones_V20_corrida1.txt línea 132
+133,correr_mutaciones_assets,K47-A11,correr_mutaciones_assets:K47-A11,mutación,True,True,PASS,un asset modificado pierde la atribución anterior,no,no,salida_22_funciones_V20_corrida1.txt línea 133
+134,correr_mutaciones_assets,K47-A12,correr_mutaciones_assets:K47-A12,mutación,True,True,PASS,un asset sustituido elimina la atribución anterior automáticamente,no,no,salida_22_funciones_V20_corrida1.txt línea 134
+135,correr_mutaciones_assets,K47-A13,correr_mutaciones_assets:K47-A13,mutación,True,True,PASS,un asset eliminado borra su historial,no,no,salida_22_funciones_V20_corrida1.txt línea 135
+136,correr_mutaciones_assets,K47-A14,correr_mutaciones_assets:K47-A14,mutación,True,True,PASS,un arte incompleto permite declarar E completo,no,no,salida_22_funciones_V20_corrida1.txt línea 136
+137,correr_mutaciones_assets,K47-A15,correr_mutaciones_assets:K47-A15,mutación,True,True,PASS,el cálculo de E omite a los contribuyentes del arte,no,no,salida_22_funciones_V20_corrida1.txt línea 137
+138,correr_mutaciones_assets,K47-A16,correr_mutaciones_assets:K47-A16,mutación,True,True,PASS,la ausencia de registros de arte se acepta como no_aplica,no,no,salida_22_funciones_V20_corrida1.txt línea 138
+139,correr_mutaciones_assets,K47-A17,correr_mutaciones_assets:K47-A17,mutación,True,True,PASS,el uploader pertenece a otra organización,no,no,salida_22_funciones_V20_corrida1.txt línea 139
+140,correr_mutaciones_assets,K47-A18,correr_mutaciones_assets:K47-A18,mutación,True,True,PASS,el uploader tiene membresía inactiva,no,no,salida_22_funciones_V20_corrida1.txt línea 140
+141,correr_mutaciones_assets,K47-A19,correr_mutaciones_assets:K47-A19,mutación,True,True,PASS,el evento de carga pertenece a otra organización,no,no,salida_22_funciones_V20_corrida1.txt línea 141
+142,correr_mutaciones_assets,K47-A20,correr_mutaciones_assets:K47-A20,mutación,True,True,PASS,el evento de carga pertenece a otra pieza,no,no,salida_22_funciones_V20_corrida1.txt línea 142
+143,correr_mutaciones_assets,K47-A21,correr_mutaciones_assets:K47-A21,mutación,True,True,PASS,el evento de carga corresponde a otra versión del asset,no,no,salida_22_funciones_V20_corrida1.txt línea 143
+144,correr_mutaciones_assets,K47-A22,correr_mutaciones_assets:K47-A22,mutación,True,True,PASS,el actor del evento de carga no es el uploader,no,no,salida_22_funciones_V20_corrida1.txt línea 144
+145,correr_mutaciones_assets,K47-A23,correr_mutaciones_assets:K47-A23,mutación,True,True,PASS,la atribución directa corresponde a otra versión de copy,no,no,salida_22_funciones_V20_corrida1.txt línea 145
+146,correr_mutaciones_assets,K47-A24,correr_mutaciones_assets:K47-A24,mutación,True,True,PASS,la atribución directa corresponde a otra pieza,no,no,salida_22_funciones_V20_corrida1.txt línea 146
+147,correr_mutaciones_assets,K47-A25,correr_mutaciones_assets:K47-A25,mutación,True,True,PASS,la atribución directa corresponde a otra organización,no,no,salida_22_funciones_V20_corrida1.txt línea 147
+148,correr_mutaciones_assets,K47-A26,correr_mutaciones_assets:K47-A26,mutación,True,True,PASS,el evento de reutilización pertenece a otra organización,no,no,salida_22_funciones_V20_corrida1.txt línea 148
+149,correr_mutaciones_assets,K47-A27,correr_mutaciones_assets:K47-A27,mutación,True,True,PASS,el evento de reutilización pertenece a otra pieza,no,no,salida_22_funciones_V20_corrida1.txt línea 149
+150,correr_mutaciones_assets,K47-A28,correr_mutaciones_assets:K47-A28,mutación,True,True,PASS,el evento de reutilización identifica a otro actor,no,no,salida_22_funciones_V20_corrida1.txt línea 150
+151,correr_mutaciones_assets,K47-A29,correr_mutaciones_assets:K47-A29,mutación,True,True,PASS,el evento de reutilización referencia otra versión de asset,no,no,salida_22_funciones_V20_corrida1.txt línea 151
+152,correr_mutaciones_assets,K47-A30,correr_mutaciones_assets:K47-A30,mutación,True,True,PASS,la reutilización no referencia la versión exacta de copy,no,no,salida_22_funciones_V20_corrida1.txt línea 152
+153,correr_mutaciones_assets,K47-A31,correr_mutaciones_assets:K47-A31,mutación,True,True,PASS,la reutilización intenta reemplazar al uploader original,no,no,salida_22_funciones_V20_corrida1.txt línea 153
+154,correr_mutaciones_assets,K47-A32,correr_mutaciones_assets:K47-A32,mutación,True,True,PASS,la atribución heredada de asset carece de antecesor verificable,no,no,salida_22_funciones_V20_corrida1.txt línea 154
+155,correr_mutaciones_assets,K47-A49,correr_mutaciones_assets:K47-A49,mutación,True,True,PASS,el evento de carga corresponde a otra versión de copy,no,no,salida_22_funciones_V20_corrida1.txt línea 155
+156,correr_mutaciones_assets,K47-A50,correr_mutaciones_assets:K47-A50,mutación,True,True,PASS,el reutilizador tiene membresía inactiva,no,no,salida_22_funciones_V20_corrida1.txt línea 156
+157,correr_mutaciones_assets,K47-A51,correr_mutaciones_assets:K47-A51,mutación,True,True,PASS,dos reutilizaciones comparten el mismo evento,no,no,salida_22_funciones_V20_corrida1.txt línea 157
+158,correr_mutaciones_assets,K47-A52,correr_mutaciones_assets:K47-A52,mutación,True,True,PASS,el actor autenticado del evento de carga no es el uploader,no,no,salida_22_funciones_V20_corrida1.txt línea 158
+159,correr_mutaciones_assets,K47-A53,correr_mutaciones_assets:K47-A53,mutación,True,True,PASS,no_aplica oculta un asset registrado,no,no,salida_22_funciones_V20_corrida1.txt línea 159
+160,correr_mutaciones_assets,K47-A33,correr_mutaciones_assets:K47-A33,mutación,True,True,PASS,el evento referencia otro asset de origen de la misma organización,no,no,salida_22_funciones_V20_corrida1.txt línea 160
+161,correr_mutaciones_assets,K47-A34,correr_mutaciones_assets:K47-A34,mutación,True,True,PASS,el evento referencia otro asset con el mismo número de versión,no,no,salida_22_funciones_V20_corrida1.txt línea 161
+162,correr_mutaciones_assets,K47-A35,correr_mutaciones_assets:K47-A35,mutación,True,True,PASS,el evento referencia otra versión del mismo asset original,no,no,salida_22_funciones_V20_corrida1.txt línea 162
+163,correr_mutaciones_assets,K47-A36,correr_mutaciones_assets:K47-A36,mutación,True,True,PASS,el evento referencia un evento de carga de otro asset,no,no,salida_22_funciones_V20_corrida1.txt línea 163
+164,correr_mutaciones_assets,K47-A37,correr_mutaciones_assets:K47-A37,mutación,True,True,PASS,"el evento referencia otro evento de carga del mismo asset, de otra versión",no,no,salida_22_funciones_V20_corrida1.txt línea 164
+165,correr_mutaciones_assets,K47-A38,correr_mutaciones_assets:K47-A38,mutación,True,True,PASS,el evento referencia otro uploader original,no,no,salida_22_funciones_V20_corrida1.txt línea 165
+166,correr_mutaciones_assets,K47-A39,correr_mutaciones_assets:K47-A39,mutación,True,True,PASS,el asset reutilizado apunta a un origen distinto del declarado por el evento,no,no,salida_22_funciones_V20_corrida1.txt línea 166
+167,correr_mutaciones_assets,K47-A40,correr_mutaciones_assets:K47-A40,mutación,True,True,PASS,el evento apunta al origen correcto pero a una versión incorrecta,no,no,salida_22_funciones_V20_corrida1.txt línea 167
+168,correr_mutaciones_assets,K47-A41,correr_mutaciones_assets:K47-A41,mutación,True,True,PASS,el evento apunta al asset correcto pero a otro evento que no es el de carga,no,no,salida_22_funciones_V20_corrida1.txt línea 168
+169,correr_mutaciones_assets,K47-A42,correr_mutaciones_assets:K47-A42,mutación,True,True,PASS,se intercambian dos assets con idéntico número de versión,no,no,salida_22_funciones_V20_corrida1.txt línea 169
+170,correr_mutaciones_assets,K47-A43,correr_mutaciones_assets:K47-A43,mutación,True,True,PASS,se intercambian dos eventos de carga de la misma organización y pieza,no,no,salida_22_funciones_V20_corrida1.txt línea 170
+171,correr_mutaciones_assets,K47-A44,correr_mutaciones_assets:K47-A44,mutación,True,True,PASS,el origen pertenece a otra pieza,no,no,salida_22_funciones_V20_corrida1.txt línea 171
+172,correr_mutaciones_assets,K47-A45,correr_mutaciones_assets:K47-A45,mutación,True,True,PASS,el origen pertenece a otra organización,no,sí,salida_22_funciones_V20_corrida1.txt línea 172
+173,correr_mutaciones_assets,K47-A46,correr_mutaciones_assets:K47-A46,mutación,True,True,PASS,el evento de reutilización referencia otra versión de copy,no,no,salida_22_funciones_V20_corrida1.txt línea 173
+174,correr_mutaciones_assets,K47-A47,correr_mutaciones_assets:K47-A47,mutación,True,True,PASS,el actor autenticado no coincide con el reutilizador registrado,no,no,salida_22_funciones_V20_corrida1.txt línea 174
+175,correr_mutaciones_assets,K47-A48,correr_mutaciones_assets:K47-A48,mutación,True,True,PASS,la cadena de reutilización pierde el vínculo con el evento original de carga,no,no,salida_22_funciones_V20_corrida1.txt línea 175
+176,correr_positivos_arte,P01,correr_positivos_arte:P01,positivo,True,True,PASS,asset nuevo con uploader y evento de carga correctos,no,no,salida_22_funciones_V20_corrida1.txt línea 176
+177,correr_positivos_arte,P02,correr_positivos_arte:P02,positivo,True,True,PASS,asset reutilizado con uploader y reutilizador diferenciados,no,no,salida_22_funciones_V20_corrida1.txt línea 177
+178,correr_positivos_arte,P03,correr_positivos_arte:P03,positivo,True,True,PASS,asset modificado con conservación de atribuciones,no,no,salida_22_funciones_V20_corrida1.txt línea 178
+179,correr_positivos_arte,P04,correr_positivos_arte:P04,positivo,True,True,PASS,versión sin arte declarada no_aplica,no,no,salida_22_funciones_V20_corrida1.txt línea 179
+180,correr_positivos_arte,P05,correr_positivos_arte:P05,positivo,True,True,PASS,asset sustituido con conservación provisional,no,no,salida_22_funciones_V20_corrida1.txt línea 180
+181,correr_positivos_arte,P06,correr_positivos_arte:P06,positivo,True,True,PASS,asset eliminado con historial conservado,no,no,salida_22_funciones_V20_corrida1.txt línea 181
+182,correr_positivos_arte,P07,correr_positivos_arte:P07,positivo,True,True,PASS,reutilización encadenada completa,no,no,salida_22_funciones_V20_corrida1.txt línea 182
+183,correr_positivos_arte,P08,correr_positivos_arte:P08,positivo,True,True,PASS,"uploader válido con organización, pieza, evento y versión exactos",no,no,salida_22_funciones_V20_corrida1.txt línea 183
+184,correr_positivos_arte,P09,correr_positivos_arte:P09,positivo,True,True,PASS,"uploader original y reutilizador diferentes, ambos atribuidos",no,no,salida_22_funciones_V20_corrida1.txt línea 184
+185,correr_positivos_arte,P10,correr_positivos_arte:P10,positivo,True,True,PASS,mismo asset reutilizado en dos versiones de copy con eventos independientes,no,no,salida_22_funciones_V20_corrida1.txt línea 185
+186,correr_positivos_arte,P11,correr_positivos_arte:P11,positivo,True,True,PASS,atribución heredada válida con antecesor verificable,no,no,salida_22_funciones_V20_corrida1.txt línea 186
+187,correr_positivos_arte,P12,correr_positivos_arte:P12,positivo,True,True,PASS,uploader original conservado tras modificar el asset,no,no,salida_22_funciones_V20_corrida1.txt línea 187
+188,correr_positivos_arte,P13,correr_positivos_arte:P13,positivo,True,True,PASS,cadena de reutilización válida de más de dos versiones,no,no,salida_22_funciones_V20_corrida1.txt línea 188
+189,correr_positivos_arte,P14,correr_positivos_arte:P14,positivo,True,True,PASS,ausencia real de arte declarada no_aplica,no,no,salida_22_funciones_V20_corrida1.txt línea 189
+190,correr_positivos_arte,P15,correr_positivos_arte:P15,positivo,True,True,PASS,reutilización válida con identidad exacta del origen,no,no,salida_22_funciones_V20_corrida1.txt línea 190
+191,correr_positivos_arte,P16,correr_positivos_arte:P16,positivo,True,True,PASS,dos assets distintos con el mismo número de versión,no,no,salida_22_funciones_V20_corrida1.txt línea 191
+192,correr_positivos_arte,P17,correr_positivos_arte:P17,positivo,True,True,PASS,dos reutilizaciones del mismo asset original en dos piezas,no,no,salida_22_funciones_V20_corrida1.txt línea 192
+193,correr_positivos_arte,P18,correr_positivos_arte:P18,positivo,True,True,PASS,cadena de tres niveles con eventos propios y uploader original conservado,no,no,salida_22_funciones_V20_corrida1.txt línea 193
+194,correr_positivos_arte,P19,correr_positivos_arte:P19,positivo,True,True,PASS,reutilización y modificación posterior del asset reutilizado,no,no,salida_22_funciones_V20_corrida1.txt línea 194
+195,correr_positivos_arte,P20,correr_positivos_arte:P20,positivo,True,True,PASS,motor y auditor reconstruyen la misma cadena sin compartir funciones,no,no,salida_22_funciones_V20_corrida1.txt línea 195
+196,correr_positivos_arte,P21,correr_positivos_arte:P21,positivo,True,True,PASS,"reutilización válida con asset raíz, versión, evento de carga, uploader y atribu",no,no,salida_22_funciones_V20_corrida1.txt línea 196
+197,correr_positivos_arte,P22,correr_positivos_arte:P22,positivo,True,True,PASS,dos assets de la misma organización y pieza con el mismo número de versión,no,no,salida_22_funciones_V20_corrida1.txt línea 197
+198,correr_positivos_arte,P23,correr_positivos_arte:P23,positivo,True,True,PASS,dos eventos de carga válidos de assets distintos: intercambiarlos provoca rechaz,no,no,salida_22_funciones_V20_corrida1.txt línea 198
+199,correr_positivos_arte,P24,correr_positivos_arte:P24,positivo,True,True,PASS,cadena de tres niveles con evento de carga y uploader de la raíz,no,no,salida_22_funciones_V20_corrida1.txt línea 199
+200,correr_positivos_arte,P25,correr_positivos_arte:P25,positivo,True,True,PASS,reutilización válida con el auditor independiente coincidente,no,no,salida_22_funciones_V20_corrida1.txt línea 200
+201,correr_positivos_arte,P26,correr_positivos_arte:P26,positivo,True,True,PASS,evento de carga y atribución válidos pero de otro asset: rechazo sin escritura,no,no,salida_22_funciones_V20_corrida1.txt línea 201
+202,correr_mutaciones_k45,POS-01,correr_mutaciones_k45:POS-01,mutación,sin errores,sin errores,PASS,base,no,no,salida_22_funciones_V20_corrida1.txt línea 202
+203,correr_mutaciones_k45,POS-02,correr_mutaciones_k45:POS-02,mutación,sin errores,sin errores,PASS,evento inherited_contributor sobre copy,no,no,salida_22_funciones_V20_corrida1.txt línea 203
+204,correr_mutaciones_k45,POS-03,correr_mutaciones_k45:POS-03,mutación,sin errores,sin errores,PASS,segunda reutilización del mismo asset (a1 → a2 → a3),no,no,salida_22_funciones_V20_corrida1.txt línea 204
+205,correr_mutaciones_k45,K45-M01,correr_mutaciones_k45:K45-M01,mutación,True,True,PASS,brief_editor con origen de promoción,no,no,salida_22_funciones_V20_corrida1.txt línea 205
+206,correr_mutaciones_k45,K45-M02,correr_mutaciones_k45:K45-M02,mutación,True,True,PASS,promotion_editor con origen de brief,no,no,salida_22_funciones_V20_corrida1.txt línea 206
+207,correr_mutaciones_k45,K45-M03,correr_mutaciones_k45:K45-M03,mutación,True,True,PASS,copy_editor con origen de asset,no,no,salida_22_funciones_V20_corrida1.txt línea 207
+208,correr_mutaciones_k45,K45-M04,correr_mutaciones_k45:K45-M04,mutación,True,True,PASS,asset_uploader con origen de copy,no,no,salida_22_funciones_V20_corrida1.txt línea 208
+209,correr_mutaciones_k45,K45-M05,correr_mutaciones_k45:K45-M05,mutación,True,True,PASS,actor del evento distinto del actor de la atribución,no,no,salida_22_funciones_V20_corrida1.txt línea 209
+210,correr_mutaciones_k45,K45-M06,correr_mutaciones_k45:K45-M06,mutación,True,True,PASS,evento de otra organización,no,no,salida_22_funciones_V20_corrida1.txt línea 210
+211,correr_mutaciones_k45,K45-M07,correr_mutaciones_k45:K45-M07,mutación,True,True,PASS,evento de otra pieza,no,no,salida_22_funciones_V20_corrida1.txt línea 211
+212,correr_mutaciones_k45,K45-M08,correr_mutaciones_k45:K45-M08,mutación,True,True,PASS,versión de origen de la atribución distinta de la del evento,no,no,salida_22_funciones_V20_corrida1.txt línea 212
+213,correr_mutaciones_k45,K45-M09,correr_mutaciones_k45:K45-M09,mutación,True,True,PASS,campo material inexistente en la versión,no,no,salida_22_funciones_V20_corrida1.txt línea 213
+214,correr_mutaciones_k45,K45-M10,correr_mutaciones_k45:K45-M10,mutación,True,True,PASS,atribución de brief que referencia un evento de promoción,no,no,salida_22_funciones_V20_corrida1.txt línea 214
+215,correr_mutaciones_k45,K45-M11,correr_mutaciones_k45:K45-M11,mutación,True,True,PASS,reutilizador registrado como uploader original,no,no,salida_22_funciones_V20_corrida1.txt línea 215
+216,correr_mutaciones_k45,K45-M12,correr_mutaciones_k45:K45-M12,mutación,True,True,PASS,procedencia heredada sin versión de origen,no,no,salida_22_funciones_V20_corrida1.txt línea 216
+217,correr_mutaciones_k45,K45-M13,correr_mutaciones_k45:K45-M13,mutación,True,True,PASS,evento cuya versión de origen no existe,no,no,salida_22_funciones_V20_corrida1.txt línea 217
+218,correr_mutaciones_k45,K45-M14,correr_mutaciones_k45:K45-M14,mutación,True,True,PASS,combinación inherited_contributor con origen de asset no permitida,no,no,salida_22_funciones_V20_corrida1.txt línea 218
+219,correr_mutaciones_k45,K45-M15,correr_mutaciones_k45:K45-M15,mutación,True,True,PASS,evento y atribución declaran P2 pero la versión física de copy pertenece a P1,no,no,salida_22_funciones_V20_corrida1.txt línea 219
+220,correr_mutaciones_k45,K45-M16,correr_mutaciones_k45:K45-M16,mutación,True,True,PASS,evento de brief apunta a una versión de brief de otra pieza,no,no,salida_22_funciones_V20_corrida1.txt línea 220
+221,correr_mutaciones_k45,K45-M17,correr_mutaciones_k45:K45-M17,mutación,True,True,PASS,atribución de promoción apunta a un snapshot de otra pieza,no,no,salida_22_funciones_V20_corrida1.txt línea 221
+222,correr_mutaciones_k45,K45-M18,correr_mutaciones_k45:K45-M18,mutación,True,True,PASS,atribución de asset declara una pieza distinta a la del copy que usa el arte,no,no,salida_22_funciones_V20_corrida1.txt línea 222
+223,correr_mutaciones_k45,K45-M19,correr_mutaciones_k45:K45-M19,mutación,True,True,PASS,asset reutilizado vinculado a una versión de copy distinta de la que declara la ,no,no,salida_22_funciones_V20_corrida1.txt línea 223
+224,correr_mutaciones_k45,K45-M20,correr_mutaciones_k45:K45-M20,mutación,True,True,PASS,evento de asset uploader de otra organización aunque el asset reutilizado es vál,no,no,salida_22_funciones_V20_corrida1.txt línea 224
+225,correr_mutaciones_k45,K45-M21,correr_mutaciones_k45:K45-M21,mutación,True,True,PASS,atribución heredada con origen válido pero relación de herencia hacia otra caden,no,no,salida_22_funciones_V20_corrida1.txt línea 225
+226,correr_mutaciones_k45,K45-M22,correr_mutaciones_k45:K45-M22,mutación,True,True,PASS,cambia la versión física de origen del evento manteniendo ids aparentemente váli,no,no,salida_22_funciones_V20_corrida1.txt línea 226
+227,correr_mutaciones_k45,K45-M23,correr_mutaciones_k45:K45-M23,mutación,True,True,PASS,origin_kind brief con la columna tipada de copy,no,no,salida_22_funciones_V20_corrida1.txt línea 227
+228,correr_mutaciones_k45,K45-M24,correr_mutaciones_k45:K45-M24,mutación,True,True,PASS,copy_version_id apunta al identificador de un asset,no,no,salida_22_funciones_V20_corrida1.txt línea 228
+229,correr_mutaciones_k45,K45-M25,correr_mutaciones_k45:K45-M25,mutación,True,True,PASS,el asset original lo cargó una persona distinta del actor del evento,no,no,salida_22_funciones_V20_corrida1.txt línea 229
+230,correr_mutaciones_k45,K45-M26,correr_mutaciones_k45:K45-M26,mutación,True,True,PASS,versión de copy de P1 referencia una versión de brief de otra organización,no,no,salida_22_funciones_V20_corrida1.txt línea 230
+231,correr_mutaciones_k45,K45-M27,correr_mutaciones_k45:K45-M27,mutación,True,True,PASS,la atribución de asset reutilizado usa un asset de la misma versión cuya cadena ,no,no,salida_22_funciones_V20_corrida1.txt línea 231
+232,correr_mutaciones_cadena,CHAIN-01,correr_mutaciones_cadena:CHAIN-01,mutación,True,True,PASS,"asset inmediato incorrecto, raíz correcta (el eslabón a3 apunta a a1 saltando a ",no,sí,salida_22_funciones_V20_corrida1.txt línea 232
+233,correr_mutaciones_cadena,CHAIN-02,correr_mutaciones_cadena:CHAIN-02,mutación,True,True,PASS,"versión inmediata incorrecta, raíz correcta (el evento de a3 declara otra versió",no,sí,salida_22_funciones_V20_corrida1.txt línea 233
+234,correr_mutaciones_cadena,CHAIN-03,correr_mutaciones_cadena:CHAIN-03,mutación,True,True,PASS,evento propio de reutilización de otro eslabón (a3 usa el evento de a2),no,sí,salida_22_funciones_V20_corrida1.txt línea 234
+235,correr_mutaciones_cadena,CHAIN-04,correr_mutaciones_cadena:CHAIN-04,mutación,True,True,PASS,evento original correcto en la raíz pero referencia intermedia incorrecta (a2 re,no,sí,salida_22_funciones_V20_corrida1.txt línea 235
+236,correr_mutaciones_cadena,CHAIN-05,correr_mutaciones_cadena:CHAIN-05,mutación,True,True,PASS,uploader correcto en la raíz y referencia intermedia a otra persona (a2),no,sí,salida_22_funciones_V20_corrida1.txt línea 236
+237,correr_mutaciones_cadena,CHAIN-06,correr_mutaciones_cadena:CHAIN-06,mutación,True,True,PASS,atribución raíz correcta pero referencia intermedia a otra atribución (a2),no,sí,salida_22_funciones_V20_corrida1.txt línea 237
+238,correr_mutaciones_cadena,CHAIN-07,correr_mutaciones_cadena:CHAIN-07,mutación,True,True,PASS,asset intermedio de otra organización (a2),no,sí,salida_22_funciones_V20_corrida1.txt línea 238
+239,correr_mutaciones_cadena,CHAIN-08,correr_mutaciones_cadena:CHAIN-08,mutación,True,True,PASS,asset intermedio de otra pieza (a2),no,sí,salida_22_funciones_V20_corrida1.txt línea 239
+240,correr_mutaciones_cadena,CHAIN-09,correr_mutaciones_cadena:CHAIN-09,mutación,True,True,PASS,versión de copy del asset intermedio incorrecta (a2),no,sí,salida_22_funciones_V20_corrida1.txt línea 240
+241,correr_mutaciones_cadena,CHAIN-10,correr_mutaciones_cadena:CHAIN-10,mutación,True,True,PASS,actor autenticado incorrecto en el evento del eslabón intermedio (a2),no,sí,salida_22_funciones_V20_corrida1.txt línea 241
+242,correr_mutaciones_cadena,CHAIN-11,correr_mutaciones_cadena:CHAIN-11,mutación,True,True,PASS,cadena con referencia circular (a2 apunta a a3),no,sí,salida_22_funciones_V20_corrida1.txt línea 242
+243,correr_mutaciones_cadena,CHAIN-12,correr_mutaciones_cadena:CHAIN-12,mutación,True,True,PASS,cadena con dos raíces posibles (a2 con origen y versión previa),no,sí,salida_22_funciones_V20_corrida1.txt línea 243
+244,correr_mutaciones_cadena,CHAIN-13,correr_mutaciones_cadena:CHAIN-13,mutación,True,True,PASS,referencia faltante en un eslabón intermedio (a2 sin origen),no,sí,salida_22_funciones_V20_corrida1.txt línea 244
+245,correr_mutaciones_cadena,CHAIN-14,correr_mutaciones_cadena:CHAIN-14,mutación,True,True,PASS,referencia duplicada: la atribución directa del reutilizador de a2 está duplicad,no,sí,salida_22_funciones_V20_corrida1.txt línea 245
+246,correr_mutaciones_cadena,CHAIN-15,correr_mutaciones_cadena:CHAIN-15,mutación,True,True,PASS,datos de la raíz correctos y campos source_* intermedios intercambiados entre a2,no,sí,salida_22_funciones_V20_corrida1.txt línea 246
+247,correr_mutaciones_cadena,CHAIN-16,correr_mutaciones_cadena:CHAIN-16,mutación,True,True,PASS,asset modificado que pierde la raíz original (a1b sin versión anterior),no,sí,salida_22_funciones_V20_corrida1.txt línea 247
+248,correr_mutaciones_cadena,CHAIN-17,correr_mutaciones_cadena:CHAIN-17,mutación,True,True,PASS,reutilización de una versión anterior en lugar de la exacta (a2 referencia la ve,no,sí,salida_22_funciones_V20_corrida1.txt línea 248
+249,correr_mutaciones_cadena,CHAIN-18,correr_mutaciones_cadena:CHAIN-18,mutación,True,True,PASS,evento de carga válido de otro asset con el mismo número de versión (a2 referenc,no,sí,salida_22_funciones_V20_corrida1.txt línea 249
+250,correr_mutaciones_cadena,CHAIN-19,correr_mutaciones_cadena:CHAIN-19,mutación,True,True,PASS,evento de reutilización válido de otro asset (a3 usa el de ay),no,sí,salida_22_funciones_V20_corrida1.txt línea 250
+251,correr_mutaciones_cadena,CHAIN-20,correr_mutaciones_cadena:CHAIN-20,mutación,True,True,PASS,cadena de tres niveles con corrupción solo en el nivel intermedio (el evento de ,no,sí,salida_22_funciones_V20_corrida1.txt línea 251
+252,correr_mutaciones_cadena,CHAIN-21,correr_mutaciones_cadena:CHAIN-21,mutación,True,True,PASS,eslabón modificado intermedio con el evento de carga de otro asset (a1b usa el d,no,sí,salida_22_funciones_V20_corrida1.txt línea 252
+253,correr_mutaciones_cadena,CHAIN-22,correr_mutaciones_cadena:CHAIN-22,mutación,True,True,PASS,eslabón modificado intermedio con otro editor que el del evento (a1b declara al ,no,sí,salida_22_funciones_V20_corrida1.txt línea 253
+254,correr_mutaciones_cadena,CHAIN-23,correr_mutaciones_cadena:CHAIN-23,mutación,True,True,PASS,eslabón modificado intermedio con número de versión que no sigue al anterior (a1,no,sí,salida_22_funciones_V20_corrida1.txt línea 254
+255,correr_mutaciones_cadena,CHAIN-24,correr_mutaciones_cadena:CHAIN-24,mutación,True,True,PASS,eslabón modificado intermedio con la atribución directa del editor duplicada (a1,no,sí,salida_22_funciones_V20_corrida1.txt línea 255
+256,correr_adversariales_cadena,ADVC-01,correr_adversariales_cadena:ADVC-01,adversarial,True,True,PASS,"asset inmediato incorrecto, raíz correcta (el eslabón a3 apunta a a1 saltando a ",no,sí,salida_22_funciones_V20_corrida1.txt línea 256
+257,correr_adversariales_cadena,ADVC-02,correr_adversariales_cadena:ADVC-02,adversarial,True,True,PASS,"versión inmediata incorrecta, raíz correcta (el evento de a3 declara otra versió",no,sí,salida_22_funciones_V20_corrida1.txt línea 257
+258,correr_adversariales_cadena,ADVC-03,correr_adversariales_cadena:ADVC-03,adversarial,True,True,PASS,evento propio de reutilización de otro eslabón (a3 usa el evento de a2),no,sí,salida_22_funciones_V20_corrida1.txt línea 258
+259,correr_adversariales_cadena,ADVC-04,correr_adversariales_cadena:ADVC-04,adversarial,True,True,PASS,evento original correcto en la raíz pero referencia intermedia incorrecta (a2 re,no,sí,salida_22_funciones_V20_corrida1.txt línea 259
+260,correr_adversariales_cadena,ADVC-05,correr_adversariales_cadena:ADVC-05,adversarial,True,True,PASS,uploader correcto en la raíz y referencia intermedia a otra persona (a2),no,sí,salida_22_funciones_V20_corrida1.txt línea 260
+261,correr_adversariales_cadena,ADVC-06,correr_adversariales_cadena:ADVC-06,adversarial,True,True,PASS,atribución raíz correcta pero referencia intermedia a otra atribución (a2),no,sí,salida_22_funciones_V20_corrida1.txt línea 261
+262,correr_adversariales_cadena,ADVC-07,correr_adversariales_cadena:ADVC-07,adversarial,True,True,PASS,asset intermedio de otra organización (a2),no,sí,salida_22_funciones_V20_corrida1.txt línea 262
+263,correr_adversariales_cadena,ADVC-08,correr_adversariales_cadena:ADVC-08,adversarial,True,True,PASS,asset intermedio de otra pieza (a2),no,sí,salida_22_funciones_V20_corrida1.txt línea 263
+264,correr_adversariales_cadena,ADVC-09,correr_adversariales_cadena:ADVC-09,adversarial,True,True,PASS,versión de copy del asset intermedio incorrecta (a2),no,sí,salida_22_funciones_V20_corrida1.txt línea 264
+265,correr_adversariales_cadena,ADVC-10,correr_adversariales_cadena:ADVC-10,adversarial,True,True,PASS,actor autenticado incorrecto en el evento del eslabón intermedio (a2),no,sí,salida_22_funciones_V20_corrida1.txt línea 265
+266,correr_adversariales_cadena,ADVC-11,correr_adversariales_cadena:ADVC-11,adversarial,True,True,PASS,cadena con referencia circular (a2 apunta a a3),no,sí,salida_22_funciones_V20_corrida1.txt línea 266
+267,correr_adversariales_cadena,ADVC-12,correr_adversariales_cadena:ADVC-12,adversarial,True,True,PASS,cadena con dos raíces posibles (a2 con origen y versión previa),no,sí,salida_22_funciones_V20_corrida1.txt línea 267
+268,correr_adversariales_cadena,ADVC-13,correr_adversariales_cadena:ADVC-13,adversarial,True,True,PASS,referencia faltante en un eslabón intermedio (a2 sin origen),no,sí,salida_22_funciones_V20_corrida1.txt línea 268
+269,correr_adversariales_cadena,ADVC-14,correr_adversariales_cadena:ADVC-14,adversarial,True,True,PASS,referencia duplicada: la atribución directa del reutilizador de a2 está duplicad,no,sí,salida_22_funciones_V20_corrida1.txt línea 269
+270,correr_adversariales_cadena,ADVC-15,correr_adversariales_cadena:ADVC-15,adversarial,True,True,PASS,datos de la raíz correctos y campos source_* intermedios intercambiados entre a2,no,sí,salida_22_funciones_V20_corrida1.txt línea 270
+271,correr_adversariales_cadena,ADVC-16,correr_adversariales_cadena:ADVC-16,adversarial,True,True,PASS,asset modificado que pierde la raíz original (a1b sin versión anterior),no,sí,salida_22_funciones_V20_corrida1.txt línea 271
+272,correr_adversariales_cadena,ADVC-17,correr_adversariales_cadena:ADVC-17,adversarial,True,True,PASS,reutilización de una versión anterior en lugar de la exacta (a2 referencia la ve,no,sí,salida_22_funciones_V20_corrida1.txt línea 272
+273,correr_adversariales_cadena,ADVC-18,correr_adversariales_cadena:ADVC-18,adversarial,True,True,PASS,evento de carga válido de otro asset con el mismo número de versión (a2 referenc,no,sí,salida_22_funciones_V20_corrida1.txt línea 273
+274,correr_adversariales_cadena,ADVC-19,correr_adversariales_cadena:ADVC-19,adversarial,True,True,PASS,evento de reutilización válido de otro asset (a3 usa el de ay),no,sí,salida_22_funciones_V20_corrida1.txt línea 274
+275,correr_adversariales_cadena,ADVC-20,correr_adversariales_cadena:ADVC-20,adversarial,True,True,PASS,cadena de tres niveles con corrupción solo en el nivel intermedio (el evento de ,no,sí,salida_22_funciones_V20_corrida1.txt línea 275
+276,correr_adversariales_cadena,ADVC-21,correr_adversariales_cadena:ADVC-21,adversarial,True,True,PASS,eslabón modificado intermedio con el evento de carga de otro asset (a1b usa el d,no,sí,salida_22_funciones_V20_corrida1.txt línea 276
+277,correr_adversariales_cadena,ADVC-22,correr_adversariales_cadena:ADVC-22,adversarial,True,True,PASS,eslabón modificado intermedio con otro editor que el del evento (a1b declara al ,no,sí,salida_22_funciones_V20_corrida1.txt línea 277
+278,correr_adversariales_cadena,ADVC-23,correr_adversariales_cadena:ADVC-23,adversarial,True,True,PASS,eslabón modificado intermedio con número de versión que no sigue al anterior (a1,no,sí,salida_22_funciones_V20_corrida1.txt línea 278
+279,correr_adversariales_cadena,ADVC-24,correr_adversariales_cadena:ADVC-24,adversarial,True,True,PASS,eslabón modificado intermedio con la atribución directa del editor duplicada (a1,no,sí,salida_22_funciones_V20_corrida1.txt línea 279
+280,correr_mutaciones_atribucion,ATTR-01,correr_mutaciones_atribucion:ATTR-01,mutación,True,True,PASS,resolución modificada después de su creación,no,no,salida_22_funciones_V20_corrida1.txt línea 280
+281,correr_mutaciones_atribucion,ATTR-02,correr_mutaciones_atribucion:ATTR-02,mutación,True,True,PASS,resolución eliminada,no,no,salida_22_funciones_V20_corrida1.txt línea 281
+282,correr_mutaciones_atribucion,ATTR-03,correr_mutaciones_atribucion:ATTR-03,mutación,True,True,PASS,resolución duplicada para la misma atribución,no,no,salida_22_funciones_V20_corrida1.txt línea 282
+283,correr_mutaciones_atribucion,ATTR-04,correr_mutaciones_atribucion:ATTR-04,mutación,True,True,PASS,resolutor que fue el editor que sustituyó,no,no,salida_22_funciones_V20_corrida1.txt línea 283
+284,correr_mutaciones_atribucion,ATTR-05,correr_mutaciones_atribucion:ATTR-05,mutación,True,True,PASS,resolutor que fue el solicitante,no,no,salida_22_funciones_V20_corrida1.txt línea 284
+285,correr_mutaciones_atribucion,ATTR-06,correr_mutaciones_atribucion:ATTR-06,mutación,True,True,PASS,resolutor que heredó la contribución evaluada,no,no,salida_22_funciones_V20_corrida1.txt línea 285
+286,correr_mutaciones_atribucion,ATTR-07,correr_mutaciones_atribucion:ATTR-07,mutación,True,True,PASS,evidencia ausente,no,no,salida_22_funciones_V20_corrida1.txt línea 286
+287,correr_mutaciones_atribucion,ATTR-08,correr_mutaciones_atribucion:ATTR-08,mutación,True,True,PASS,evidencia de otro campo,no,no,salida_22_funciones_V20_corrida1.txt línea 287
+288,correr_mutaciones_atribucion,ATTR-09,correr_mutaciones_atribucion:ATTR-09,mutación,True,True,PASS,evidencia de otra versión,no,no,salida_22_funciones_V20_corrida1.txt línea 288
+289,correr_mutaciones_atribucion,ATTR-10,correr_mutaciones_atribucion:ATTR-10,mutación,True,True,PASS,reconsideración que modifica el registro anterior,no,no,salida_22_funciones_V20_corrida1.txt línea 289
+290,correr_mutaciones_atribucion,ATTR-11,correr_mutaciones_atribucion:ATTR-11,mutación,True,True,PASS,atribución histórica reactivada sin resolución,no,no,salida_22_funciones_V20_corrida1.txt línea 290
+291,correr_mutaciones_atribucion,ATTR-12,correr_mutaciones_atribucion:ATTR-12,mutación,True,True,PASS,atribución activa eliminada por cero segmentos idénticos,no,no,salida_22_funciones_V20_corrida1.txt línea 291
+292,pruebas_atomicidad14,AT14-01,pruebas_atomicidad14:AT14-01,atomicidad,True,True,PASS,registrar carga de asset,no,no,salida_22_funciones_V20_corrida1.txt línea 292
+293,pruebas_atomicidad14,AT14-02,pruebas_atomicidad14:AT14-02,atomicidad,True,True,PASS,registrar reutilización,no,no,salida_22_funciones_V20_corrida1.txt línea 293
+294,pruebas_atomicidad14,AT14-03,pruebas_atomicidad14:AT14-03,atomicidad,True,True,PASS,registrar modificación de asset,no,no,salida_22_funciones_V20_corrida1.txt línea 294
+295,pruebas_atomicidad14,AT14-04,pruebas_atomicidad14:AT14-04,atomicidad,True,True,PASS,registrar atribución,no,no,salida_22_funciones_V20_corrida1.txt línea 295
+296,pruebas_atomicidad14,AT14-05,pruebas_atomicidad14:AT14-05,atomicidad,True,True,PASS,heredar atribuciones,no,no,salida_22_funciones_V20_corrida1.txt línea 296
+297,pruebas_atomicidad14,AT14-06,pruebas_atomicidad14:AT14-06,atomicidad,True,True,PASS,resolver descarte,no,no,salida_22_funciones_V20_corrida1.txt línea 297
+298,pruebas_atomicidad14,AT14-07,pruebas_atomicidad14:AT14-07,atomicidad,True,True,PASS,reconsiderar una resolución,no,no,salida_22_funciones_V20_corrida1.txt línea 298
+299,pruebas_atomicidad14,AT14-08,pruebas_atomicidad14:AT14-08,atomicidad,True,True,PASS,construir evaluación de impacto,no,no,salida_22_funciones_V20_corrida1.txt línea 299
+300,pruebas_atomicidad14,AT14-09,pruebas_atomicidad14:AT14-09,atomicidad,True,True,PASS,confirmar independencia,no,no,salida_22_funciones_V20_corrida1.txt línea 300
+301,pruebas_atomicidad14,AT14-10,pruebas_atomicidad14:AT14-10,atomicidad,True,True,PASS,registrar intento de publicación,no,no,salida_22_funciones_V20_corrida1.txt línea 301
+302,pruebas_atomicidad14,AT14-11,pruebas_atomicidad14:AT14-11,atomicidad,True,True,PASS,verificación final de la transacción (segunda línea de defensa),no,no,salida_22_funciones_V20_corrida1.txt línea 302
+303,pruebas_E14,E14-01,pruebas_E14:E14-01,reconstrucción E,True,True,PASS,E reconstruido con todos los contribuyentes verificables,no,no,salida_22_funciones_V20_corrida1.txt línea 303
+304,pruebas_E14,E14-02,pruebas_E14:E14-02,reconstrucción E,True,True,PASS,falta la atribución heredada del uploader original: procedencia incompleta,no,no,salida_22_funciones_V20_corrida1.txt línea 304
+305,pruebas_E14,E14-03,pruebas_E14:E14-03,reconstrucción E,True,True,PASS,falta la evidencia del brief: procedencia incompleta,no,no,salida_22_funciones_V20_corrida1.txt línea 305
+306,pruebas_E14,E14-04,pruebas_E14:E14-04,reconstrucción E,True,True,PASS,elegibilidad del evaluador por código E1 a E5,no,no,salida_22_funciones_V20_corrida1.txt línea 306
+307,pruebas_E14,E14-05,pruebas_E14:E14-05,reconstrucción E,True,True,PASS,evaluador inactivo y fallo cerrado con procedencia incompleta,no,no,salida_22_funciones_V20_corrida1.txt línea 307
+308,pruebas_E14,E14-06,pruebas_E14:E14-06,reconstrucción E,True,True,PASS,independencia de las resoluciones aplicables,no,no,salida_22_funciones_V20_corrida1.txt línea 308
+309,correr_mutaciones_av,AV-01,correr_mutaciones_av:AV-01,mutación,True,True,PASS,asset_version del evento propio del último eslabón (a3) cambia a una versión ine,no,no,salida_22_funciones_V20_corrida1.txt línea 309
+310,correr_mutaciones_av,AV-02,correr_mutaciones_av:AV-02,mutación,True,True,PASS,asset_version del evento propio de un eslabón intermedio (a2) cambia a una versi,no,no,salida_22_funciones_V20_corrida1.txt línea 310
+311,correr_mutaciones_av,AV-03,correr_mutaciones_av:AV-03,mutación,True,True,PASS,asset_version de a3 usa un número de versión existente pero perteneciente a otro,no,no,salida_22_funciones_V20_corrida1.txt línea 311
+312,correr_mutaciones_av,AV-04,correr_mutaciones_av:AV-04,mutación,True,True,PASS,el evento propio de la modificación intermedia a1b usa la versión anterior del m,no,no,salida_22_funciones_V20_corrida1.txt línea 312
+313,correr_mutaciones_av,AV-05,correr_mutaciones_av:AV-05,mutación,True,True,PASS,asset_version intercambiado entre dos eventos válidos (la modificación a1b y la ,no,no,salida_22_funciones_V20_corrida1.txt línea 313
+314,correr_mutaciones_av,AV-06,correr_mutaciones_av:AV-06,mutación,True,True,PASS,asset_version de a5 guarda la versión del origen (2) en lugar de la del destino ,no,no,salida_22_funciones_V20_corrida1.txt línea 314
+315,correr_mutaciones_av,AV-07,correr_mutaciones_av:AV-07,mutación,True,True,PASS,asset_version del evento propio de una modificación intermedia (a1b) cambia a ot,no,no,salida_22_funciones_V20_corrida1.txt línea 315
+316,correr_mutaciones_av,AV-08,correr_mutaciones_av:AV-08,mutación,True,True,PASS,asset_version de a3 se altera después de construir la cadena (a4 ya registrada),no,no,salida_22_funciones_V20_corrida1.txt línea 316
+317,correr_mutaciones_cf,CF-01,correr_mutaciones_cf:CF-01,mutación,True,True,PASS,el campo del evento propio del último eslabón (a3) cambia de arte a otro campo (,no,no,salida_22_funciones_V20_corrida1.txt línea 317
+318,correr_mutaciones_cf,CF-02,correr_mutaciones_cf:CF-02,mutación,True,True,PASS,el campo del evento propio de un eslabón intermedio (a2) cambia de arte a otro c,no,no,salida_22_funciones_V20_corrida1.txt línea 318
+319,correr_mutaciones_cf,CF-03,correr_mutaciones_cf:CF-03,mutación,True,True,PASS,se elimina el campo del evento propio de un eslabón intermedio (a2),no,no,salida_22_funciones_V20_corrida1.txt línea 319
+320,correr_mutaciones_cf,CF-04,correr_mutaciones_cf:CF-04,mutación,True,True,PASS,el campo del evento propio del último eslabón (a3) es nulo,no,no,salida_22_funciones_V20_corrida1.txt línea 320
+321,correr_mutaciones_cf,CF-05,correr_mutaciones_cf:CF-05,mutación,True,True,PASS,el evento propio de la modificación a1b declara un campo permitido pero distinto,no,no,salida_22_funciones_V20_corrida1.txt línea 321
+322,correr_mutaciones_cf,CF-06,correr_mutaciones_cf:CF-06,mutación,True,True,PASS,el campo se intercambia entre dos eventos válidos (la reutilización de a2 y la i,no,no,salida_22_funciones_V20_corrida1.txt línea 322
+323,correr_mutaciones_cf,CF-07,correr_mutaciones_cf:CF-07,mutación,True,True,PASS,el campo de a3 se modifica después de construir la cadena (a4 ya registrada),no,no,salida_22_funciones_V20_corrida1.txt línea 323
+324,correr_mutaciones_cf,CF-08,correr_mutaciones_cf:CF-08,mutación,True,True,PASS,todos los identificadores de a5 son correctos y solo cambia el campo (headline),no,no,salida_22_funciones_V20_corrida1.txt línea 324
+325,correr_mutaciones_ac,AC-01,correr_mutaciones_ac:AC-01,mutación,True,True,PASS,asset_version incorrecto y campo correcto en a2,no,no,salida_22_funciones_V20_corrida1.txt línea 325
+326,correr_mutaciones_ac,AC-02,correr_mutaciones_ac:AC-02,mutación,True,True,PASS,asset_version correcto y campo incorrecto en a3,no,no,salida_22_funciones_V20_corrida1.txt línea 326
+327,correr_mutaciones_ac,AC-03,correr_mutaciones_ac:AC-03,mutación,True,True,PASS,asset_version y campo incorrectos en a3,no,no,salida_22_funciones_V20_corrida1.txt línea 327
+328,correr_mutaciones_ac,AC-04,correr_mutaciones_ac:AC-04,mutación,True,True,PASS,"asset_version y campo incorrectos a la vez en el eslabón intermedio a5, con la r",no,no,salida_22_funciones_V20_corrida1.txt línea 328
+329,correr_mutaciones_ac,AC-05,correr_mutaciones_ac:AC-05,mutación,True,True,PASS,"asset_version y campo incorrectos en el último eslabón a6, con todos los anterio",no,no,salida_22_funciones_V20_corrida1.txt línea 329
+330,correr_mutaciones_ac,AC-06,correr_mutaciones_ac:AC-06,mutación,True,True,PASS,"a2 y a2c (misma pieza P2, ambos en la versión 1) con las referencias de asset y ",no,no,salida_22_funciones_V20_corrida1.txt línea 330
+331,correr_positivos15,AP-01,correr_positivos15:AP-01,positivo,True,True,PASS,cadena válida de dos niveles de reutilización,no,no,salida_22_funciones_V20_corrida1.txt línea 331
+332,correr_positivos15,AP-02,correr_positivos15:AP-02,positivo,True,True,PASS,cadena válida de tres niveles de reutilización,no,no,salida_22_funciones_V20_corrida1.txt línea 332
+333,correr_positivos15,AP-03,correr_positivos15:AP-03,positivo,True,True,PASS,cadena válida con dos assets de igual número de versión y la identidad exacta co,no,no,salida_22_funciones_V20_corrida1.txt línea 333
+334,correr_positivos15,AP-04,correr_positivos15:AP-04,positivo,True,True,PASS,reutilización válida después de una modificación del asset,no,no,salida_22_funciones_V20_corrida1.txt línea 334
+335,correr_positivos15,AP-05,correr_positivos15:AP-05,positivo,True,True,PASS,uploader original distinto del reutilizador,no,no,salida_22_funciones_V20_corrida1.txt línea 335
+336,correr_positivos15,AP-06,correr_positivos15:AP-06,positivo,True,True,PASS,cadena válida con la atribución directa exacta,no,no,salida_22_funciones_V20_corrida1.txt línea 336
+337,correr_positivos15,AP-07,correr_positivos15:AP-07,positivo,True,True,PASS,cadena válida con todos los eventos propios vinculados al campo arte,no,no,salida_22_funciones_V20_corrida1.txt línea 337
+338,correr_positivos15,AP-08,correr_positivos15:AP-08,positivo,True,True,PASS,el motor y el auditor independiente coinciden en una cadena íntegra,no,no,salida_22_funciones_V20_corrida1.txt línea 338
+339,correr_adversariales15,ADV15-01,correr_adversariales15:ADV15-01,adversarial,True,True,PASS,asset_version incorrecto en el eslabón intermedio (a2),no,no,salida_22_funciones_V20_corrida1.txt línea 339
+340,correr_adversariales15,ADV15-02,correr_adversariales15:ADV15-02,adversarial,True,True,PASS,asset_version incorrecto en el último eslabón (a3),no,no,salida_22_funciones_V20_corrida1.txt línea 340
+341,correr_adversariales15,ADV15-03,correr_adversariales15:ADV15-03,adversarial,True,True,PASS,campo incorrecto en el eslabón intermedio (a2),no,no,salida_22_funciones_V20_corrida1.txt línea 341
+342,correr_adversariales15,ADV15-04,correr_adversariales15:ADV15-04,adversarial,True,True,PASS,campo incorrecto en el último eslabón (a3),no,no,salida_22_funciones_V20_corrida1.txt línea 342
+343,correr_adversariales15,ADV15-05,correr_adversariales15:ADV15-05,adversarial,True,True,PASS,asset_version y campo incorrectos a la vez en el último eslabón (a3),no,no,salida_22_funciones_V20_corrida1.txt línea 343
+344,correr_adversariales15,ADV15-06,correr_adversariales15:ADV15-06,adversarial,True,True,PASS,evento de reutilización de otro asset con el mismo número de versión (a3 usa el ,no,no,salida_22_funciones_V20_corrida1.txt línea 344
+345,correr_adversariales15,ADV15-07,correr_adversariales15:ADV15-07,adversarial,True,True,PASS,evento propio de la modificación intermedia con referencias incompatibles (el ev,no,no,salida_22_funciones_V20_corrida1.txt línea 345
+346,correr_adversariales15,ADV15-08,correr_adversariales15:ADV15-08,adversarial,True,True,PASS,corrupción posterior a la construcción de la cadena (a4 registrada; después a3 c,no,no,salida_22_funciones_V20_corrida1.txt línea 346
+347,pruebas_atomicidad15,AT15-01,pruebas_atomicidad15:AT15-01,atomicidad,True,True,PASS,antes de validar la raíz,no,no,salida_22_funciones_V20_corrida1.txt línea 347
+348,pruebas_atomicidad15,AT15-02,pruebas_atomicidad15:AT15-02,atomicidad,True,True,PASS,durante la validación de un eslabón intermedio,no,no,salida_22_funciones_V20_corrida1.txt línea 348
+349,pruebas_atomicidad15,AT15-03,pruebas_atomicidad15:AT15-03,atomicidad,True,True,PASS,durante la validación de asset_version,no,no,salida_22_funciones_V20_corrida1.txt línea 349
+350,pruebas_atomicidad15,AT15-04,pruebas_atomicidad15:AT15-04,atomicidad,True,True,PASS,durante la validación de campo,no,no,salida_22_funciones_V20_corrida1.txt línea 350
+351,pruebas_atomicidad15,AT15-05,pruebas_atomicidad15:AT15-05,atomicidad,True,True,PASS,durante la validación de la atribución,no,no,salida_22_funciones_V20_corrida1.txt línea 351
+352,pruebas_atomicidad15,AT15-06,pruebas_atomicidad15:AT15-06,atomicidad,True,True,PASS,durante la validación del actor,no,no,salida_22_funciones_V20_corrida1.txt línea 352
+353,pruebas_atomicidad15,AT15-07,pruebas_atomicidad15:AT15-07,atomicidad,True,True,PASS,antes de escribir,no,no,salida_22_funciones_V20_corrida1.txt línea 353
+354,pruebas_atomicidad15,AT15-08,pruebas_atomicidad15:AT15-08,atomicidad,True,True,PASS,durante el proceso de registro (con escritura parcial),no,no,salida_22_funciones_V20_corrida1.txt línea 354
+355,correr_mutaciones_modelo14,K56-M01,correr_mutaciones_modelo14:K56-M01,mutación,True,True,PASS,la validación de cada eslabón reutilizado pasa a ser un no-op (solo se mira la r,no,no,salida_22_funciones_V20_corrida1.txt línea 355
+356,correr_mutaciones_modelo14,K56-M02,correr_mutaciones_modelo14:K56-M02,mutación,True,True,PASS,la reconstrucción ignora la ambigüedad origen/versión anterior,no,no,salida_22_funciones_V20_corrida1.txt línea 356
+357,correr_mutaciones_modelo14,K56-M03,correr_mutaciones_modelo14:K56-M03,mutación,True,True,PASS,la verificación final de la transacción deja de ejecutarse,no,no,salida_22_funciones_V20_corrida1.txt línea 357
+358,correr_mutaciones_modelo14,K56-M04,correr_mutaciones_modelo14:K56-M04,mutación,True,True,PASS,el auditor independiente de cadena no devuelve hallazgos,no,no,salida_22_funciones_V20_corrida1.txt línea 358
+359,correr_mutaciones_modelo14,K56-M05,correr_mutaciones_modelo14:K56-M05,mutación,True,True,PASS,el auditor de resoluciones filtra la reactivación de atribuciones históricas,no,no,salida_22_funciones_V20_corrida1.txt línea 359
+360,correr_mutaciones_modelo14,K56-M06,correr_mutaciones_modelo14:K56-M06,mutación,True,True,PASS,la elegibilidad del evaluador ignora su pertenencia a E (E4),no,no,salida_22_funciones_V20_corrida1.txt línea 360
+361,correr_mutaciones_modelo14,K56-M07,correr_mutaciones_modelo14:K56-M07,mutación,True,True,PASS,registrar_asset se ejecuta sin la transacción (sin restauración ante fallo),no,no,salida_22_funciones_V20_corrida1.txt línea 361
+362,correr_mutaciones_modelo14,K56-M08,correr_mutaciones_modelo14:K56-M08,mutación,True,True,PASS,la validación de una versión modificada pasa a ser un no-op,no,no,salida_22_funciones_V20_corrida1.txt línea 362
+363,correr_mutaciones_modelo14,K56-M09,correr_mutaciones_modelo14:K56-M09,mutación,True,True,PASS,la validación de asset_version del evento propio pasa a ser un no-op (v14: solo ,no,no,salida_22_funciones_V20_corrida1.txt línea 363
+364,correr_mutaciones_modelo14,K56-M10,correr_mutaciones_modelo14:K56-M10,mutación,True,True,PASS,la validación del campo del evento propio pasa a ser un no-op (v14: no se compro,no,no,salida_22_funciones_V20_corrida1.txt línea 364
+365,correr_mutaciones_modelo14,K56-M11,correr_mutaciones_modelo14:K56-M11,mutación,True,True,PASS,el auditor independiente de cadena deja de comparar asset_version y campo,no,no,salida_22_funciones_V20_corrida1.txt línea 365
+366,correr_mutaciones_modelo14,K56-M12,correr_mutaciones_modelo14:K56-M12,mutación,True,True,PASS,la reconstrucción de la cadena no entrega el detalle estructurado de cada incons,no,no,salida_22_funciones_V20_corrida1.txt línea 366

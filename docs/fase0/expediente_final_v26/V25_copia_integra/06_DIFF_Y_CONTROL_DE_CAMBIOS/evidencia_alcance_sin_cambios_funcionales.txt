@@ -1,0 +1,7 @@
+Archivos cambiados o nuevos fuera de docs/fase0/: 0 []
+Archivos cambiados o nuevos en docs/fase0/herramientas/ o docs/fase0/historico/: 0 []
+git diff --stat ac84133b776cc73c0cb3416e51e2767039bb5132 -- docs/fase0/herramientas docs/fase0/historico: ''
+SHA-256 modelo_estructural.py (22 funciones): cc87236a19b924617e13346f80eb642d0dc5f0090664908d1e96d8780f4fc52a
+SHA-256 verificar_expediente.py: 1acec85dc5e76c9e004d8f2b7ed942c94826377ff240c346bee9f2792e7a035a
+SHA-256 modelo_estructural.py en el commit V20: cc87236a19b924617e13346f80eb642d0dc5f0090664908d1e96d8780f4fc52a
+SHA-256 verificar_expediente.py en el commit V20: 1acec85dc5e76c9e004d8f2b7ed942c94826377ff240c346bee9f2792e7a035a

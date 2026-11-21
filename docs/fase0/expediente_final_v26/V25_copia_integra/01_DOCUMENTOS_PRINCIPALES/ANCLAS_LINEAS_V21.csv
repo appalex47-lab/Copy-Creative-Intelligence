@@ -1,0 +1,27 @@
+documento_que_cita,archivo,linea,ancla
+expediente_final_v16_v19/INVENTARIO_DECISIONES_ABIERTAS_FASE0.md,REGISTRO_HISTORICO_VERSIONES.md,117,Decisiones del propietario pendientes
+expediente_final_v16_v19/INVENTARIO_DECISIONES_ABIERTAS_FASE0.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,415,Historial inmutable de quién es el revisor asignado
+expediente_final_v16_v19/INVENTARIO_DECISIONES_ABIERTAS_FASE0.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,40,Decisiones DG-01 a DG-16
+expediente_final_v16_v19/INVENTARIO_DECISIONES_ABIERTAS_FASE0.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,117,"replaces_piece_id uuid NULL (opcional, sujeto a DG-18)"
+expediente_final_v16_v19/INVENTARIO_DECISIONES_ABIERTAS_FASE0.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,4786,| DG-20 | Columna `approvals.decision`
+expediente_final_v16_v19/INVENTARIO_DECISIONES_ABIERTAS_FASE0.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,2778,Ampliación mínima (DG-20
+expediente_final_v16_v19/MATRIZ_MODELO_DATOS_FINAL.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,38,Catorce tablas nuevas
+expediente_final_v16_v19/MATRIZ_MODELO_DATOS_FINAL.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,1301,| Fuentes físicas |
+expediente_final_v16_v19/MATRIZ_MODELO_DATOS_FINAL.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,3656,Reutilizable sin cambio (22 de 27)
+expediente_final_v16_v19/REVISION_FUENTES_FISICAS_K32_K45_K55_V20.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,1301,| Fuentes físicas |
+expediente_final_v16_v19/REVISION_FUENTES_FISICAS_K32_K45_K55_V20.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,3656,Reutilizable sin cambio (22 de 27)
+expediente_final_v16_v19/PE_POSTGRESQL_V20/README.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,1118,#### `attribution_discard_resolutions`
+expediente_final_v16_v19/MATRIZ_HV02_PO05_EVIDENCIA.md,REGISTRO_HISTORICO_VERSIONES.md,126,| PO-05 | Aceptación del addendum
+expediente_final_v21/MATRIZ_CONCILIACION_V21.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,38,Catorce tablas nuevas
+expediente_final_v21/AUDITORIA_FINAL_V21.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,38,Catorce tablas nuevas
+expediente_final_v21/INDICE_VIGENCIA_DOCUMENTAL_V21.md,REGISTRO_HISTORICO_VERSIONES.md,126,| PO-05 | Aceptación del addendum
+expediente_final_v21/REGISTRO_CAMBIOS_V20_V21.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,4786,| DG-20 | Columna `approvals.decision`
+expediente_final_v21/REGISTRO_CAMBIOS_V20_V21.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,2778,Ampliación mínima (DG-20
+expediente_final_v21/REGISTRO_CAMBIOS_V20_V21.md,REGISTRO_HISTORICO_VERSIONES.md,126,| PO-05 | Aceptación del addendum
+expediente_final_v21/REGISTRO_DECISIONES_ABIERTAS_V21.md,REGISTRO_HISTORICO_VERSIONES.md,126,| PO-05 | Aceptación del addendum
+expediente_final_v21/REGISTRO_DECISIONES_ABIERTAS_V21.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,40,Decisiones DG-01 a DG-16
+expediente_final_v21/REGISTRO_DECISIONES_ABIERTAS_V21.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,117,"replaces_piece_id uuid NULL (opcional, sujeto a DG-18)"
+expediente_final_v21/REGISTRO_DECISIONES_ABIERTAS_V21.md,REGISTRO_HISTORICO_VERSIONES.md,117,Decisiones del propietario pendientes
+expediente_final_v21/REGISTRO_DECISIONES_ABIERTAS_V21.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,415,Historial inmutable de quién es el revisor asignado
+expediente_final_v21/REPORTE_VALIDACION_INTEGRAL_V21.md,ESPECIFICACION_TECNICA_G1_G5_G10.md,38,Catorce tablas nuevas
+expediente_final_v21/REPORTE_VALIDACION_INTEGRAL_V21.md,REGISTRO_HISTORICO_VERSIONES.md,126,| PO-05 | Aceptación del addendum

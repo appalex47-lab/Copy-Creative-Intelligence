@@ -1,0 +1,21 @@
+# Re-ejecución V26 (RV01-RV11) de la verificación remota de V25: commit del expediente f235768 y HEAD publicado c3adaf9 (2026-11-20T23:57:10Z)
+RV01 (variante V26: la punta actual es el HEAD de publicación c3adaf97588ce3b8fef075a44aff6336f4e8c266; el commit del expediente f235768135175ce3fcd9405a3a4d3a3a68311d3e es su padre) rama v25: ls-remote=c3adaf97588ce3b8fef075a44aff6336f4e8c266 REST=c3adaf97588ce3b8fef075a44aff6336f4e8c266 padre_de_HEAD=f235768135175ce3fcd9405a3a4d3a3a68311d3e -> PASS
+RV02 padre del commit inicial: b88bde038e331ba67899632ca4e09eebf2cde82d (esperado b88bde038e331ba67899632ca4e09eebf2cde82d); nº de padres=1
+RV03 expediente publicado: archivos bajo docs/fase0/expediente_final_v25/ en GitHub=275; árbol remoto = local: SI (916 blobs); truncado=false
+RV04 manifiesto remoto idéntico al local: SI; entradas=274; existen en el árbol remoto: 274
+RV05 archivos descargados de GitHub y comparados con el manifiesto: 274 OK, 0 discrepancias
+RV06 reporte de validación remoto vs matriz de controles remota: matriz C=18 R=8 PASS=26 de 26; informe remoto declara 26 PASS=True, 18 controles=True, 16/16 y 18/18=True; reporte de validación: pasada A con 14 PASS y resumen 14/14=True; cifra V25 «16 controles»=True
+RV07 (ref consultada c3adaf97588ce3b8fef075a44aff6336f4e8c266, rama audit/fase0-v25-review; repositorio appalex47-lab/Copy-Creative-Intelligence; 2026-11-20T23:57:33Z)
+PASS | RV07.a el reporte de publicación remoto es idéntico byte a byte al del commit HEAD local | sha256=aaf98181b7d1192d215414435a4148dcee80e3fde42c48467bcd6087db3eb9da
+PASS | RV07.b ambos reportes declaran 16 controles de validación (P01–P14 + Q01–Q02) y 11 verificaciones remotas (RV01–RV11) | 
+PASS | RV07.c el bloque de la pasada A del reporte de validación remoto = salida cruda de la pasada A | 
+PASS | RV07.d el bloque C del reporte de publicación remoto = salida cruda de la pasada C | 
+PASS | RV07.e el bloque E del reporte de publicación remoto = salida cruda original de RV01–RV06 y RV08–RV11 (sin RV07) | 
+PASS | RV07.f el SHA del commit del expediente citado en el reporte de publicación es el del padre del HEAD | 
+PASS | RV07.g las etapas A–E del reporte de validación remoto coinciden con las del reporte de publicación (A 14/14, C 16/16, E RV01–RV11) | 
+INFO | RV07 observación (no criterio de PASS): el resumen de resultados del reporte de publicación lista ['RV01', 'RV02', 'RV03', 'RV04', 'RV05', 'RV06', 'RV08', 'RV09', 'RV10', 'RV11'] y omite RV10 y RV11, aunque sus salidas están en el bloque E; y declara RV07 pendiente de ejecución
+RESUMEN RV07: 7 comprobaciones, 7 PASS, 0 FAIL
+RV08 archivos del commit: 275; fuera de docs/fase0/expediente_final_v25/: 0; estados distintos de added: 0
+RV09 SHA: V20=ac84133b776cc73c0cb3416e51e2767039bb5132 V23=8674114c69881ff1ebda3c5db1f89f2a4d6d31c6 V24=b88bde038e331ba67899632ca4e09eebf2cde82d main=6a1af2424ef39e0960b8f7e09d4e19ec52e6f046
+RV10 PRs (todos los estados)=0; merge de v25 en main: ahead (ahead_by=7, behind_by=0)
+RV11 funcional/infra: archivos en docs/fase0/(herramientas|historico)/ o fuera de docs/fase0 en el commit=0; árbol de herramientas V25=árbol V24: 82c39ae9 vs 82c39ae9

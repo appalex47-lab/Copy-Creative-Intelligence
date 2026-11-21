@@ -1,0 +1,1 @@
+IDENTICOS: árbol remoto (API REST de GitHub, ref c3adaf97588ce3b8fef075a44aff6336f4e8c266) = árbol local (git ls-tree); líneas=917 (formato: sha-blob-git ruta)

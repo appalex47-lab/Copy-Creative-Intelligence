@@ -1,0 +1,11 @@
+# Verificación remota V25 del commit del expediente (2026-11-20T22:32:57Z)
+RV01 rama v25 existe: ls-remote=f235768135175ce3fcd9405a3a4d3a3a68311d3e REST=f235768135175ce3fcd9405a3a4d3a3a68311d3e esperado=f235768135175ce3fcd9405a3a4d3a3a68311d3e
+RV02 padre del commit inicial: b88bde038e331ba67899632ca4e09eebf2cde82d (esperado b88bde038e331ba67899632ca4e09eebf2cde82d); nº de padres=1
+RV03 expediente publicado: archivos bajo docs/fase0/expediente_final_v25/ en GitHub=275; árbol remoto = local: SI (916 blobs); truncado=false
+RV04 manifiesto remoto idéntico al local: SI; entradas=274; existen en el árbol remoto: 274
+RV05 archivos descargados de GitHub y comparados con el manifiesto: 274 OK, 0 discrepancias
+RV06 reporte de validación remoto vs matriz de controles remota: matriz C=18 R=8 PASS=26 de 26; informe remoto declara 26 PASS=True, 18 controles=True, 16/16 y 18/18=True; reporte de validación: pasada A con 14 PASS y resumen 14/14=True; cifra V25 «16 controles»=True
+RV08 archivos del commit: 275; fuera de docs/fase0/expediente_final_v25/: 0; estados distintos de added: 0
+RV09 SHA: V20=ac84133b776cc73c0cb3416e51e2767039bb5132 V23=8674114c69881ff1ebda3c5db1f89f2a4d6d31c6 V24=b88bde038e331ba67899632ca4e09eebf2cde82d main=6a1af2424ef39e0960b8f7e09d4e19ec52e6f046
+RV10 PRs (todos los estados)=0; merge de v25 en main: ahead (ahead_by=7, behind_by=0)
+RV11 funcional/infra: archivos en docs/fase0/(herramientas|historico)/ o fuera de docs/fase0 en el commit=0; árbol de herramientas V25=árbol V24: 82c39ae9 vs 82c39ae9

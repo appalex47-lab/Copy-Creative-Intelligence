@@ -1,0 +1,239 @@
+ID_ejecucion,ID_control,Tipo,Ejecutada_en_version,Fecha,Resultado,Ruta_evidencia,Linea,Texto_clave,Observaciones
+EX-0001,C01,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_A_previa_manifiesto.txt,1,PASS |,pasada A previa al manifiesto (solo C01–C16)
+EX-0002,C02,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_A_previa_manifiesto.txt,2,PASS |,pasada A previa al manifiesto (solo C01–C16)
+EX-0003,C03,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_A_previa_manifiesto.txt,3,PASS |,pasada A previa al manifiesto (solo C01–C16)
+EX-0004,C04,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_A_previa_manifiesto.txt,4,PASS |,pasada A previa al manifiesto (solo C01–C16)
+EX-0005,C05,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_A_previa_manifiesto.txt,5,PASS |,pasada A previa al manifiesto (solo C01–C16)
+EX-0006,C06,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_A_previa_manifiesto.txt,6,PASS |,pasada A previa al manifiesto (solo C01–C16)
+EX-0007,C07,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_A_previa_manifiesto.txt,7,PASS |,pasada A previa al manifiesto (solo C01–C16)
+EX-0008,C08,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_A_previa_manifiesto.txt,8,PASS |,pasada A previa al manifiesto (solo C01–C16)
+EX-0009,C09,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_A_previa_manifiesto.txt,9,PASS |,pasada A previa al manifiesto (solo C01–C16)
+EX-0010,C10,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_A_previa_manifiesto.txt,10,PASS |,pasada A previa al manifiesto (solo C01–C16)
+EX-0011,C11,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_A_previa_manifiesto.txt,11,PASS |,pasada A previa al manifiesto (solo C01–C16)
+EX-0012,C12,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_A_previa_manifiesto.txt,12,PASS |,pasada A previa al manifiesto (solo C01–C16)
+EX-0013,C13,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_A_previa_manifiesto.txt,13,PASS |,pasada A previa al manifiesto (solo C01–C16)
+EX-0014,C14,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_A_previa_manifiesto.txt,14,PASS |,pasada A previa al manifiesto (solo C01–C16)
+EX-0015,C15,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_A_previa_manifiesto.txt,15,PASS |,pasada A previa al manifiesto (solo C01–C16)
+EX-0016,C16,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_A_previa_manifiesto.txt,16,PASS |,pasada A previa al manifiesto (solo C01–C16)
+EX-0017,C01,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_C_posterior_manifiesto.txt,1,PASS |,pasada C posterior al manifiesto
+EX-0018,C02,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_C_posterior_manifiesto.txt,2,PASS |,pasada C posterior al manifiesto
+EX-0019,C03,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_C_posterior_manifiesto.txt,3,PASS |,pasada C posterior al manifiesto
+EX-0020,C04,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_C_posterior_manifiesto.txt,4,PASS |,pasada C posterior al manifiesto
+EX-0021,C05,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_C_posterior_manifiesto.txt,5,PASS |,pasada C posterior al manifiesto
+EX-0022,C06,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_C_posterior_manifiesto.txt,6,PASS |,pasada C posterior al manifiesto
+EX-0023,C07,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_C_posterior_manifiesto.txt,7,PASS |,pasada C posterior al manifiesto
+EX-0024,C08,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_C_posterior_manifiesto.txt,8,PASS |,pasada C posterior al manifiesto
+EX-0025,C09,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_C_posterior_manifiesto.txt,9,PASS |,pasada C posterior al manifiesto
+EX-0026,C10,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_C_posterior_manifiesto.txt,10,PASS |,pasada C posterior al manifiesto
+EX-0027,C11,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_C_posterior_manifiesto.txt,11,PASS |,pasada C posterior al manifiesto
+EX-0028,C12,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_C_posterior_manifiesto.txt,12,PASS |,pasada C posterior al manifiesto
+EX-0029,C13,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_C_posterior_manifiesto.txt,13,PASS |,pasada C posterior al manifiesto
+EX-0030,C14,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_C_posterior_manifiesto.txt,14,PASS |,pasada C posterior al manifiesto
+EX-0031,C15,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_C_posterior_manifiesto.txt,15,PASS |,pasada C posterior al manifiesto
+EX-0032,C16,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_C_posterior_manifiesto.txt,16,PASS |,pasada C posterior al manifiesto
+EX-0033,C17,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_C_posterior_manifiesto.txt,17,PASS |,pasada C posterior al manifiesto
+EX-0034,C18,histórica,V24,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/salida_val24_pasada_C_posterior_manifiesto.txt,18,PASS |,pasada C posterior al manifiesto
+EX-0035,C01,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_val24_sobre_V24.txt,1,PASS |,re-ejecución sobre V24 publicado
+EX-0036,C02,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_val24_sobre_V24.txt,2,PASS |,re-ejecución sobre V24 publicado
+EX-0037,C03,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_val24_sobre_V24.txt,3,PASS |,re-ejecución sobre V24 publicado
+EX-0038,C04,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_val24_sobre_V24.txt,4,PASS |,re-ejecución sobre V24 publicado
+EX-0039,C05,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_val24_sobre_V24.txt,5,PASS |,re-ejecución sobre V24 publicado
+EX-0040,C06,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_val24_sobre_V24.txt,6,PASS |,re-ejecución sobre V24 publicado
+EX-0041,C07,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_val24_sobre_V24.txt,7,PASS |,re-ejecución sobre V24 publicado
+EX-0042,C08,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_val24_sobre_V24.txt,8,PASS |,re-ejecución sobre V24 publicado
+EX-0043,C09,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_val24_sobre_V24.txt,9,PASS |,re-ejecución sobre V24 publicado
+EX-0044,C10,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_val24_sobre_V24.txt,10,PASS |,re-ejecución sobre V24 publicado
+EX-0045,C11,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_val24_sobre_V24.txt,11,PASS |,re-ejecución sobre V24 publicado
+EX-0046,C12,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_val24_sobre_V24.txt,12,PASS |,re-ejecución sobre V24 publicado
+EX-0047,C13,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_val24_sobre_V24.txt,13,PASS |,re-ejecución sobre V24 publicado
+EX-0048,C14,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_val24_sobre_V24.txt,14,PASS |,re-ejecución sobre V24 publicado
+EX-0049,C15,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_val24_sobre_V24.txt,15,PASS |,re-ejecución sobre V24 publicado
+EX-0050,C16,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_val24_sobre_V24.txt,16,PASS |,re-ejecución sobre V24 publicado
+EX-0051,C17,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_val24_sobre_V24.txt,17,PASS |,re-ejecución sobre V24 publicado
+EX-0052,C18,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_val24_sobre_V24.txt,18,PASS |,re-ejecución sobre V24 publicado
+EX-0053,C01,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val24_sobre_V24.txt,1,PASS |,re-ejecución sobre V24 publicado
+EX-0054,C02,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val24_sobre_V24.txt,2,PASS |,re-ejecución sobre V24 publicado
+EX-0055,C03,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val24_sobre_V24.txt,3,PASS |,re-ejecución sobre V24 publicado
+EX-0056,C04,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val24_sobre_V24.txt,4,PASS |,re-ejecución sobre V24 publicado
+EX-0057,C05,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val24_sobre_V24.txt,5,PASS |,re-ejecución sobre V24 publicado
+EX-0058,C06,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val24_sobre_V24.txt,6,PASS |,re-ejecución sobre V24 publicado
+EX-0059,C07,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val24_sobre_V24.txt,7,PASS |,re-ejecución sobre V24 publicado
+EX-0060,C08,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val24_sobre_V24.txt,8,PASS |,re-ejecución sobre V24 publicado
+EX-0061,C09,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val24_sobre_V24.txt,9,PASS |,re-ejecución sobre V24 publicado
+EX-0062,C10,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val24_sobre_V24.txt,10,PASS |,re-ejecución sobre V24 publicado
+EX-0063,C11,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val24_sobre_V24.txt,11,PASS |,re-ejecución sobre V24 publicado
+EX-0064,C12,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val24_sobre_V24.txt,12,PASS |,re-ejecución sobre V24 publicado
+EX-0065,C13,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val24_sobre_V24.txt,13,PASS |,re-ejecución sobre V24 publicado
+EX-0066,C14,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val24_sobre_V24.txt,14,PASS |,re-ejecución sobre V24 publicado
+EX-0067,C15,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val24_sobre_V24.txt,15,PASS |,re-ejecución sobre V24 publicado
+EX-0068,C16,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val24_sobre_V24.txt,16,PASS |,re-ejecución sobre V24 publicado
+EX-0069,C17,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val24_sobre_V24.txt,17,PASS |,re-ejecución sobre V24 publicado
+EX-0070,C18,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val24_sobre_V24.txt,18,PASS |,re-ejecución sobre V24 publicado
+EX-0071,R01,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_remoto_V24.txt,2,R01 ,re-ejecución contra GitHub de la verificación de V24 (la salida cruda original de V24 no se archivó)
+EX-0072,R02,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_remoto_V24.txt,3,R02 ,re-ejecución contra GitHub de la verificación de V24 (la salida cruda original de V24 no se archivó)
+EX-0073,R03,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_remoto_V24.txt,4,R03 ,re-ejecución contra GitHub de la verificación de V24 (la salida cruda original de V24 no se archivó)
+EX-0074,R04,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_remoto_V24.txt,5,R04 ,re-ejecución contra GitHub de la verificación de V24 (la salida cruda original de V24 no se archivó)
+EX-0075,R05,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_remoto_V24.txt,6,R05 ,re-ejecución contra GitHub de la verificación de V24 (la salida cruda original de V24 no se archivó)
+EX-0076,R06,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_remoto_V24.txt,7,R06 ,re-ejecución contra GitHub de la verificación de V24 (la salida cruda original de V24 no se archivó)
+EX-0077,R07,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_remoto_V24.txt,8,R07 ,re-ejecución contra GitHub de la verificación de V24 (la salida cruda original de V24 no se archivó)
+EX-0078,R08,nueva,V25,2026-11-20,PASS,V25_copia_integra/evidencia_reconstruccion_V25/reejecucion_V25_remoto_V24.txt,9,R08 ,re-ejecución contra GitHub de la verificación de V24 (la salida cruda original de V24 no se archivó)
+EX-0079,R01,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_R01_R08.txt,2,R01 ,re-ejecución contra GitHub de la verificación de V24 (la salida cruda original de V24 no se archivó)
+EX-0080,R02,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_R01_R08.txt,3,R02 ,re-ejecución contra GitHub de la verificación de V24 (la salida cruda original de V24 no se archivó)
+EX-0081,R03,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_R01_R08.txt,4,R03 ,re-ejecución contra GitHub de la verificación de V24 (la salida cruda original de V24 no se archivó)
+EX-0082,R04,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_R01_R08.txt,5,R04 ,re-ejecución contra GitHub de la verificación de V24 (la salida cruda original de V24 no se archivó)
+EX-0083,R05,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_R01_R08.txt,6,R05 ,re-ejecución contra GitHub de la verificación de V24 (la salida cruda original de V24 no se archivó)
+EX-0084,R06,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_R01_R08.txt,7,R06 ,re-ejecución contra GitHub de la verificación de V24 (la salida cruda original de V24 no se archivó)
+EX-0085,R07,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_R01_R08.txt,8,R07 ,re-ejecución contra GitHub de la verificación de V24 (la salida cruda original de V24 no se archivó)
+EX-0086,R08,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_R01_R08.txt,9,R08 ,re-ejecución contra GitHub de la verificación de V24 (la salida cruda original de V24 no se archivó)
+EX-0087,P01,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A_previa_manifiesto.txt,1,PASS | P01 ,pasada A previa al manifiesto V25
+EX-0088,P02,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A_previa_manifiesto.txt,2,PASS | P02 ,pasada A previa al manifiesto V25
+EX-0089,P03,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A_previa_manifiesto.txt,3,PASS | P03 ,pasada A previa al manifiesto V25
+EX-0090,P04,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A_previa_manifiesto.txt,4,PASS | P04 ,pasada A previa al manifiesto V25
+EX-0091,P05,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A_previa_manifiesto.txt,5,PASS | P05 ,pasada A previa al manifiesto V25
+EX-0092,P06,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A_previa_manifiesto.txt,6,PASS | P06 ,pasada A previa al manifiesto V25
+EX-0093,P07,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A_previa_manifiesto.txt,7,PASS | P07 ,pasada A previa al manifiesto V25
+EX-0094,P08,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A_previa_manifiesto.txt,8,PASS | P08 ,pasada A previa al manifiesto V25
+EX-0095,P09,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A_previa_manifiesto.txt,9,PASS | P09 ,pasada A previa al manifiesto V25
+EX-0096,P10,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A_previa_manifiesto.txt,10,PASS | P10 ,pasada A previa al manifiesto V25
+EX-0097,P11,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A_previa_manifiesto.txt,11,PASS | P11 ,pasada A previa al manifiesto V25
+EX-0098,P12,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A_previa_manifiesto.txt,12,PASS | P12 ,pasada A previa al manifiesto V25
+EX-0099,P13,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A_previa_manifiesto.txt,13,PASS | P13 ,pasada A previa al manifiesto V25
+EX-0100,P14,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A_previa_manifiesto.txt,14,PASS | P14 ,pasada A previa al manifiesto V25
+EX-0101,P01,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A2_intermedia_no_archivada_en_V25.txt,1,PASS | P01 ,repetición intermedia de la pasada A (salida idéntica a A); no se había documentado ni archivado en V25
+EX-0102,P02,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A2_intermedia_no_archivada_en_V25.txt,2,PASS | P02 ,repetición intermedia de la pasada A (salida idéntica a A); no se había documentado ni archivado en V25
+EX-0103,P03,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A2_intermedia_no_archivada_en_V25.txt,3,PASS | P03 ,repetición intermedia de la pasada A (salida idéntica a A); no se había documentado ni archivado en V25
+EX-0104,P04,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A2_intermedia_no_archivada_en_V25.txt,4,PASS | P04 ,repetición intermedia de la pasada A (salida idéntica a A); no se había documentado ni archivado en V25
+EX-0105,P05,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A2_intermedia_no_archivada_en_V25.txt,5,PASS | P05 ,repetición intermedia de la pasada A (salida idéntica a A); no se había documentado ni archivado en V25
+EX-0106,P06,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A2_intermedia_no_archivada_en_V25.txt,6,PASS | P06 ,repetición intermedia de la pasada A (salida idéntica a A); no se había documentado ni archivado en V25
+EX-0107,P07,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A2_intermedia_no_archivada_en_V25.txt,7,PASS | P07 ,repetición intermedia de la pasada A (salida idéntica a A); no se había documentado ni archivado en V25
+EX-0108,P08,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A2_intermedia_no_archivada_en_V25.txt,8,PASS | P08 ,repetición intermedia de la pasada A (salida idéntica a A); no se había documentado ni archivado en V25
+EX-0109,P09,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A2_intermedia_no_archivada_en_V25.txt,9,PASS | P09 ,repetición intermedia de la pasada A (salida idéntica a A); no se había documentado ni archivado en V25
+EX-0110,P10,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A2_intermedia_no_archivada_en_V25.txt,10,PASS | P10 ,repetición intermedia de la pasada A (salida idéntica a A); no se había documentado ni archivado en V25
+EX-0111,P11,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A2_intermedia_no_archivada_en_V25.txt,11,PASS | P11 ,repetición intermedia de la pasada A (salida idéntica a A); no se había documentado ni archivado en V25
+EX-0112,P12,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A2_intermedia_no_archivada_en_V25.txt,12,PASS | P12 ,repetición intermedia de la pasada A (salida idéntica a A); no se había documentado ni archivado en V25
+EX-0113,P13,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A2_intermedia_no_archivada_en_V25.txt,13,PASS | P13 ,repetición intermedia de la pasada A (salida idéntica a A); no se había documentado ni archivado en V25
+EX-0114,P14,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_A2_intermedia_no_archivada_en_V25.txt,14,PASS | P14 ,repetición intermedia de la pasada A (salida idéntica a A); no se había documentado ni archivado en V25
+EX-0115,P01,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_C_posterior_manifiesto.txt,1,PASS | P01 ,pasada C posterior al manifiesto V25 (embebida en REPORTE_PUBLICACION_V25)
+EX-0116,P02,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_C_posterior_manifiesto.txt,2,PASS | P02 ,pasada C posterior al manifiesto V25 (embebida en REPORTE_PUBLICACION_V25)
+EX-0117,P03,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_C_posterior_manifiesto.txt,3,PASS | P03 ,pasada C posterior al manifiesto V25 (embebida en REPORTE_PUBLICACION_V25)
+EX-0118,P04,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_C_posterior_manifiesto.txt,4,PASS | P04 ,pasada C posterior al manifiesto V25 (embebida en REPORTE_PUBLICACION_V25)
+EX-0119,P05,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_C_posterior_manifiesto.txt,5,PASS | P05 ,pasada C posterior al manifiesto V25 (embebida en REPORTE_PUBLICACION_V25)
+EX-0120,P06,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_C_posterior_manifiesto.txt,6,PASS | P06 ,pasada C posterior al manifiesto V25 (embebida en REPORTE_PUBLICACION_V25)
+EX-0121,P07,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_C_posterior_manifiesto.txt,7,PASS | P07 ,pasada C posterior al manifiesto V25 (embebida en REPORTE_PUBLICACION_V25)
+EX-0122,P08,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_C_posterior_manifiesto.txt,8,PASS | P08 ,pasada C posterior al manifiesto V25 (embebida en REPORTE_PUBLICACION_V25)
+EX-0123,P09,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_C_posterior_manifiesto.txt,9,PASS | P09 ,pasada C posterior al manifiesto V25 (embebida en REPORTE_PUBLICACION_V25)
+EX-0124,P10,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_C_posterior_manifiesto.txt,10,PASS | P10 ,pasada C posterior al manifiesto V25 (embebida en REPORTE_PUBLICACION_V25)
+EX-0125,P11,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_C_posterior_manifiesto.txt,11,PASS | P11 ,pasada C posterior al manifiesto V25 (embebida en REPORTE_PUBLICACION_V25)
+EX-0126,P12,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_C_posterior_manifiesto.txt,12,PASS | P12 ,pasada C posterior al manifiesto V25 (embebida en REPORTE_PUBLICACION_V25)
+EX-0127,P13,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_C_posterior_manifiesto.txt,13,PASS | P13 ,pasada C posterior al manifiesto V25 (embebida en REPORTE_PUBLICACION_V25)
+EX-0128,P14,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_C_posterior_manifiesto.txt,14,PASS | P14 ,pasada C posterior al manifiesto V25 (embebida en REPORTE_PUBLICACION_V25)
+EX-0129,Q01,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_C_posterior_manifiesto.txt,15,PASS | Q01 ,pasada C posterior al manifiesto V25 (embebida en REPORTE_PUBLICACION_V25)
+EX-0130,Q02,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/val25_pasada_C_posterior_manifiesto.txt,16,PASS | Q02 ,pasada C posterior al manifiesto V25 (embebida en REPORTE_PUBLICACION_V25)
+EX-0131,P01,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val25_sobre_V25.txt,1,PASS | P01 ,re-ejecución de val25.py sobre V25 publicado
+EX-0132,P02,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val25_sobre_V25.txt,2,PASS | P02 ,re-ejecución de val25.py sobre V25 publicado
+EX-0133,P03,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val25_sobre_V25.txt,3,PASS | P03 ,re-ejecución de val25.py sobre V25 publicado
+EX-0134,P04,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val25_sobre_V25.txt,4,PASS | P04 ,re-ejecución de val25.py sobre V25 publicado
+EX-0135,P05,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val25_sobre_V25.txt,5,PASS | P05 ,re-ejecución de val25.py sobre V25 publicado
+EX-0136,P06,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val25_sobre_V25.txt,6,PASS | P06 ,re-ejecución de val25.py sobre V25 publicado
+EX-0137,P07,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val25_sobre_V25.txt,7,PASS | P07 ,re-ejecución de val25.py sobre V25 publicado
+EX-0138,P08,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val25_sobre_V25.txt,8,PASS | P08 ,re-ejecución de val25.py sobre V25 publicado
+EX-0139,P09,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val25_sobre_V25.txt,9,PASS | P09 ,re-ejecución de val25.py sobre V25 publicado
+EX-0140,P10,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val25_sobre_V25.txt,10,PASS | P10 ,re-ejecución de val25.py sobre V25 publicado
+EX-0141,P11,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val25_sobre_V25.txt,11,PASS | P11 ,re-ejecución de val25.py sobre V25 publicado
+EX-0142,P12,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val25_sobre_V25.txt,12,PASS | P12 ,re-ejecución de val25.py sobre V25 publicado
+EX-0143,P13,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val25_sobre_V25.txt,13,PASS | P13 ,re-ejecución de val25.py sobre V25 publicado
+EX-0144,P14,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val25_sobre_V25.txt,14,PASS | P14 ,re-ejecución de val25.py sobre V25 publicado
+EX-0145,Q01,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val25_sobre_V25.txt,15,PASS | Q01 ,re-ejecución de val25.py sobre V25 publicado
+EX-0146,Q02,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_val25_sobre_V25.txt,16,PASS | Q02 ,re-ejecución de val25.py sobre V25 publicado
+EX-0147,RV01,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/remoto_RV_V25_salida_original_sin_RV07.txt,2,RV01 ,salida original de V25 (RV07 no incluida; ver D01)
+EX-0148,RV02,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/remoto_RV_V25_salida_original_sin_RV07.txt,3,RV02 ,salida original de V25 (RV07 no incluida; ver D01)
+EX-0149,RV03,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/remoto_RV_V25_salida_original_sin_RV07.txt,4,RV03 ,salida original de V25 (RV07 no incluida; ver D01)
+EX-0150,RV04,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/remoto_RV_V25_salida_original_sin_RV07.txt,5,RV04 ,salida original de V25 (RV07 no incluida; ver D01)
+EX-0151,RV05,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/remoto_RV_V25_salida_original_sin_RV07.txt,6,RV05 ,salida original de V25 (RV07 no incluida; ver D01)
+EX-0152,RV06,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/remoto_RV_V25_salida_original_sin_RV07.txt,7,RV06 ,salida original de V25 (RV07 no incluida; ver D01)
+EX-0153,RV08,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/remoto_RV_V25_salida_original_sin_RV07.txt,8,RV08 ,salida original de V25 (RV07 no incluida; ver D01)
+EX-0154,RV09,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/remoto_RV_V25_salida_original_sin_RV07.txt,9,RV09 ,salida original de V25 (RV07 no incluida; ver D01)
+EX-0155,RV10,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/remoto_RV_V25_salida_original_sin_RV07.txt,10,RV10 ,salida original de V25 (RV07 no incluida; ver D01)
+EX-0156,RV11,histórica,V25,2026-11-20,PASS,evidencia_reconstruccion_V26/historico_V25_no_archivado/remoto_RV_V25_salida_original_sin_RV07.txt,11,RV11 ,salida original de V25 (RV07 no incluida; ver D01)
+EX-0157,RV01,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida1_RV07e_FAIL_por_defecto_del_script.txt,2,RV01 ,"corrida 1 de V26; RV07 FAIL por un defecto del propio script de comprobación (criterio RV07.e arbitrario), no del objeto verificado"
+EX-0158,RV02,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida1_RV07e_FAIL_por_defecto_del_script.txt,3,RV02 ,"corrida 1 de V26; RV07 FAIL por un defecto del propio script de comprobación (criterio RV07.e arbitrario), no del objeto verificado"
+EX-0159,RV03,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida1_RV07e_FAIL_por_defecto_del_script.txt,4,RV03 ,"corrida 1 de V26; RV07 FAIL por un defecto del propio script de comprobación (criterio RV07.e arbitrario), no del objeto verificado"
+EX-0160,RV04,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida1_RV07e_FAIL_por_defecto_del_script.txt,5,RV04 ,"corrida 1 de V26; RV07 FAIL por un defecto del propio script de comprobación (criterio RV07.e arbitrario), no del objeto verificado"
+EX-0161,RV05,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida1_RV07e_FAIL_por_defecto_del_script.txt,6,RV05 ,"corrida 1 de V26; RV07 FAIL por un defecto del propio script de comprobación (criterio RV07.e arbitrario), no del objeto verificado"
+EX-0162,RV06,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida1_RV07e_FAIL_por_defecto_del_script.txt,7,RV06 ,"corrida 1 de V26; RV07 FAIL por un defecto del propio script de comprobación (criterio RV07.e arbitrario), no del objeto verificado"
+EX-0163,RV08,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida1_RV07e_FAIL_por_defecto_del_script.txt,18,RV08 ,"corrida 1 de V26; RV07 FAIL por un defecto del propio script de comprobación (criterio RV07.e arbitrario), no del objeto verificado"
+EX-0164,RV09,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida1_RV07e_FAIL_por_defecto_del_script.txt,19,RV09 ,"corrida 1 de V26; RV07 FAIL por un defecto del propio script de comprobación (criterio RV07.e arbitrario), no del objeto verificado"
+EX-0165,RV10,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida1_RV07e_FAIL_por_defecto_del_script.txt,20,RV10 ,"corrida 1 de V26; RV07 FAIL por un defecto del propio script de comprobación (criterio RV07.e arbitrario), no del objeto verificado"
+EX-0166,RV11,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida1_RV07e_FAIL_por_defecto_del_script.txt,21,RV11 ,"corrida 1 de V26; RV07 FAIL por un defecto del propio script de comprobación (criterio RV07.e arbitrario), no del objeto verificado"
+EX-0167,RV07,nueva,V26,2026-11-20,FAIL,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida1_RV07e_FAIL_por_defecto_del_script.txt,17,RESUMEN RV07:,"corrida 1 de V26; RV07 FAIL por un defecto del propio script de comprobación (criterio RV07.e arbitrario), no del objeto verificado"
+EX-0168,RV01,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida2.txt,2,RV01 ,corrida 2 de V26 con el script corregido
+EX-0169,RV02,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida2.txt,3,RV02 ,corrida 2 de V26 con el script corregido
+EX-0170,RV03,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida2.txt,4,RV03 ,corrida 2 de V26 con el script corregido
+EX-0171,RV04,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida2.txt,5,RV04 ,corrida 2 de V26 con el script corregido
+EX-0172,RV05,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida2.txt,6,RV05 ,corrida 2 de V26 con el script corregido
+EX-0173,RV06,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida2.txt,7,RV06 ,corrida 2 de V26 con el script corregido
+EX-0174,RV08,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida2.txt,18,RV08 ,corrida 2 de V26 con el script corregido
+EX-0175,RV09,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida2.txt,19,RV09 ,corrida 2 de V26 con el script corregido
+EX-0176,RV10,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida2.txt,20,RV10 ,corrida 2 de V26 con el script corregido
+EX-0177,RV11,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida2.txt,21,RV11 ,corrida 2 de V26 con el script corregido
+EX-0178,RV07,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_RV01_RV11_corrida2.txt,17,RESUMEN RV07:,corrida 2 de V26 con el script corregido
+EX-0179,W01,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_W01_W03_previo.txt,2,W01 ,verificación remota previa a la publicación de V26
+EX-0180,W02,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_W01_W03_previo.txt,3,W02 ,verificación remota previa a la publicación de V26
+EX-0181,W03,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/reejecucion_V26_W01_W03_previo.txt,4,W03 ,verificación remota previa a la publicación de V26
+EX-0182,HT01,histórica,V21,2026-11-20,PASS,V25_copia_integra/04_RESULTADOS_DE_PRUEBAS/V21/salida_verificador_V21_corrida1.txt,360,"RESUMEN: 59 comprobaciones, 59 aprueban, 0 fallan, 0 pendientes",no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0183,HT01,histórica,V21,2026-11-20,PASS,V25_copia_integra/04_RESULTADOS_DE_PRUEBAS/V21/salida_verificador_V21_corrida2.txt,360,"RESUMEN: 59 comprobaciones, 59 aprueban, 0 fallan, 0 pendientes",no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0184,HT01,histórica,V22,2026-11-20,PASS,V25_copia_integra/04_RESULTADOS_DE_PRUEBAS/V22_reproduccion_desde_copia/salida_verificador_reproducido_desde_copia.txt,360,"RESUMEN: 59 comprobaciones, 59 aprueban, 0 fallan, 0 pendientes",no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0185,HT02,histórica,V21,2026-11-20,PASS,V25_copia_integra/04_RESULTADOS_DE_PRUEBAS/V21/salida_verificador_V21_corrida1.txt,360,"28 controles (28 OK, 0 NO OK, 0 PENDIENTE)",no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0186,HT02,histórica,V21,2026-11-20,PASS,V25_copia_integra/04_RESULTADOS_DE_PRUEBAS/V21/salida_verificador_V21_corrida2.txt,360,"28 controles (28 OK, 0 NO OK, 0 PENDIENTE)",no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0187,HT02,histórica,V22,2026-11-20,PASS,V25_copia_integra/04_RESULTADOS_DE_PRUEBAS/V22_reproduccion_desde_copia/salida_verificador_reproducido_desde_copia.txt,360,"28 controles (28 OK, 0 NO OK, 0 PENDIENTE)",no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0188,HT03,histórica,V21,2026-11-20,PASS,V25_copia_integra/04_RESULTADOS_DE_PRUEBAS/V21/salida_verificador_V21_corrida1.txt,360,300 mutaciones (300 detectadas),no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0189,HT03,histórica,V21,2026-11-20,PASS,V25_copia_integra/04_RESULTADOS_DE_PRUEBAS/V21/salida_verificador_V21_corrida2.txt,360,300 mutaciones (300 detectadas),no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0190,HT03,histórica,V22,2026-11-20,PASS,V25_copia_integra/04_RESULTADOS_DE_PRUEBAS/V22_reproduccion_desde_copia/salida_verificador_reproducido_desde_copia.txt,360,300 mutaciones (300 detectadas),no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0191,HT04,histórica,V21,2026-11-20,PASS,V25_copia_integra/04_RESULTADOS_DE_PRUEBAS/V21/salida_22_funciones_V21_corrida3.txt,367,TOTAL funciones=22 casos=366 fallos=0,no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0192,HT04,histórica,V22,2026-11-20,PASS,V25_copia_integra/04_RESULTADOS_DE_PRUEBAS/V22_reproduccion_desde_copia/salida_22_funciones_reproducida_desde_copia.txt,367,TOTAL funciones=22 casos=366 fallos=0,no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0193,HT05,histórica,V21,2026-11-20,PASS,V25_copia_integra/04_RESULTADOS_DE_PRUEBAS/V21/salida_PE_V21_corrida3.txt,380,TOTAL pruebas=63 PASS=63 FAIL=0,no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0194,HT06,histórica,V21,2026-11-20,PASS,V25_copia_integra/04_RESULTADOS_DE_PRUEBAS/V21/salida_PE_V21_mutaciones_corrida2.txt,16,TOTAL mutaciones=14 DETECTADAS=14,no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0195,HT07,histórica,V21,2026-11-20,PASS,V25_copia_integra/04_RESULTADOS_DE_PRUEBAS/V21/salida_bateria_V21_corrida1.txt,47,RESUMEN BATERÍA V21: 46 pruebas; PASS=46 FAIL=0 BLOCKED=0,no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0196,HT07,histórica,V21,2026-11-20,PASS,V25_copia_integra/04_RESULTADOS_DE_PRUEBAS/V21/salida_bateria_V21_corrida2.txt,47,RESUMEN BATERÍA V21: 46 pruebas; PASS=46 FAIL=0 BLOCKED=0,no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0197,HT08,histórica,V21,2026-11-20,PASS,V25_copia_integra/04_RESULTADOS_DE_PRUEBAS/V21/salida_controles_negativos_V21.txt,27,TOTAL controles negativos=26 DETECTADOS=26,no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0198,HT09,histórica,V21,2026-11-20,PASS,V25_copia_integra/04_RESULTADOS_DE_PRUEBAS/V21/salida_integridad_V21_corrida1.txt,10,RESUMEN INTEGRIDAD V21: TODO PASS,no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0199,HT09,histórica,V21,2026-11-20,PASS,V25_copia_integra/04_RESULTADOS_DE_PRUEBAS/V21/salida_integridad_V21_corrida2.txt,10,RESUMEN INTEGRIDAD V21: TODO PASS,no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0200,HT10,histórica,V22,2026-11-20,PARTIAL,V25_copia_integra/08_INTEGRIDAD_Y_MANIFIESTOS/INFORME_VERIFICACION_REPRODUCCION.md,9,8 de 9 controles PASS,no re-ejecutada en V26: se verifica que la salida archivada contiene la línea-resumen (S13)
+EX-0201,S01,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/salida_val26_pasada_A_previa_manifiesto.txt,1,PASS | S01 ,pasada A previa al manifiesto V26
+EX-0202,S01,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S01 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0203,S02,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/salida_val26_pasada_A_previa_manifiesto.txt,2,PASS | S02 ,pasada A previa al manifiesto V26
+EX-0204,S02,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S02 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0205,S03,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/salida_val26_pasada_A_previa_manifiesto.txt,3,PASS | S03 ,pasada A previa al manifiesto V26
+EX-0206,S03,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S03 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0207,S04,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/salida_val26_pasada_A_previa_manifiesto.txt,4,PASS | S04 ,pasada A previa al manifiesto V26
+EX-0208,S04,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S04 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0209,S05,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/salida_val26_pasada_A_previa_manifiesto.txt,5,PASS | S05 ,pasada A previa al manifiesto V26
+EX-0210,S05,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S05 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0211,S06,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/salida_val26_pasada_A_previa_manifiesto.txt,6,PASS | S06 ,pasada A previa al manifiesto V26
+EX-0212,S06,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S06 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0213,S07,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/salida_val26_pasada_A_previa_manifiesto.txt,7,PASS | S07 ,pasada A previa al manifiesto V26
+EX-0214,S07,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S07 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0215,S08,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/salida_val26_pasada_A_previa_manifiesto.txt,8,PASS | S08 ,pasada A previa al manifiesto V26
+EX-0216,S08,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S08 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0217,S09,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/salida_val26_pasada_A_previa_manifiesto.txt,9,PASS | S09 ,pasada A previa al manifiesto V26
+EX-0218,S09,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S09 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0219,S10,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/salida_val26_pasada_A_previa_manifiesto.txt,10,PASS | S10 ,pasada A previa al manifiesto V26
+EX-0220,S10,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S10 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0221,S11,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/salida_val26_pasada_A_previa_manifiesto.txt,11,PASS | S11 ,pasada A previa al manifiesto V26
+EX-0222,S11,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S11 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0223,S12,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/salida_val26_pasada_A_previa_manifiesto.txt,12,PASS | S12 ,pasada A previa al manifiesto V26
+EX-0224,S12,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S12 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0225,S13,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/salida_val26_pasada_A_previa_manifiesto.txt,13,PASS | S13 ,pasada A previa al manifiesto V26
+EX-0226,S13,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S13 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0227,S14,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/salida_val26_pasada_A_previa_manifiesto.txt,14,PASS | S14 ,pasada A previa al manifiesto V26
+EX-0228,S14,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S14 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0229,S15,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/salida_val26_pasada_A_previa_manifiesto.txt,15,PASS | S15 ,pasada A previa al manifiesto V26
+EX-0230,S15,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S15 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0231,S16,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/salida_val26_pasada_A_previa_manifiesto.txt,16,PASS | S16 ,pasada A previa al manifiesto V26
+EX-0232,S16,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S16 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0233,S17,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/salida_val26_pasada_A_previa_manifiesto.txt,17,PASS | S17 ,pasada A previa al manifiesto V26
+EX-0234,S17,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S17 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0235,S18,nueva,V26,2026-11-20,PASS,evidencia_reconstruccion_V26/salida_val26_pasada_A_previa_manifiesto.txt,18,PASS | S18 ,pasada A previa al manifiesto V26
+EX-0236,S18,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S18 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0237,S19,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S19 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)
+EX-0238,S20,nueva,V26,2026-11-20,PASS,../REPORTE_PUBLICACION_V26_GITHUB.md,sección C,PASS | S20 ,pasada C posterior al manifiesto V26; salida cruda fuera del expediente (no puede contener el hash de sí misma)

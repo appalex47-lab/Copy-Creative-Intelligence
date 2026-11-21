@@ -1,0 +1,4 @@
+# Verificaciones remotas previas a la publicación de V26 (2026-11-20T23:57:51Z)
+W01 la rama audit/fase0-v26-review NO existe en el remoto antes de publicar: ls-remote='' REST={"message":"Not Found","documentation_url":"https://docs.git
+W02 referencias remotas: main=6a1af2424ef39e0960b8f7e09d4e19ec52e6f046 V20=ac84133b776cc73c0cb3416e51e2767039bb5132 V23=8674114c69881ff1ebda3c5db1f89f2a4d6d31c6 V24=b88bde038e331ba67899632ca4e09eebf2cde82d V25=c3adaf97588ce3b8fef075a44aff6336f4e8c266
+W03 árbol remoto del HEAD V25 c3adaf97588ce3b8fef075a44aff6336f4e8c266 = árbol local de la base de V26: SI (917 blobs; truncado=false); HEAD local de wt26=c3adaf97588ce3b8fef075a44aff6336f4e8c266
