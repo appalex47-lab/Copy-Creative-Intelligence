@@ -14,7 +14,7 @@ create or replace function pg_temp.clase(p_sqlstate text, p_msg text) returns te
     when p_sqlstate = '42883' then 'FUNCION_INEXISTENTE'            -- undefined_function: la función, o una función de la que depende, no existe / firma incorrecta
     when p_sqlstate in ('42P01','42703','42704','42P02','42P10','42804','42P07','42710','3F000','42P16') then 'ESTRUCTURA'
     when p_sqlstate in ('42601','42000','42P18','42P19','42611','42602','42622') then 'SINTAXIS'
-    when p_sqlstate = 'P0001' or p_sqlstate like '23%' then 'DOMINIO_CANDIDATO'   -- posible rechazo de negocio; sólo cuenta si coincide con el contrato esperado
+    when p_sqlstate = 'P0001' or p_sqlstate like '23%' or p_sqlstate like 'RJ%' then 'DOMINIO_CANDIDATO'   -- posible rechazo de negocio (RJ%: clase PROPUESTA en PROPUESTA_CONTRATO_ERRORES_R1_R9.md, no aprobada); sólo cuenta si coincide con el contrato esperado
     else 'ERROR_INESPERADO' end $f$;
 -- Ejecuta una sentencia como (rol, uid) dentro de un sub-bloque con excepción; nunca propaga el error: lo devuelve clasificado.
 -- p_post: sentencia opcional (devuelve un valor) evaluada DESPUÉS de p_sql y ANTES de deshacer, para comprobar el efecto (p. ej. que se registró la fila).
@@ -48,7 +48,7 @@ create or replace function pg_temp.veredicto(p_tipo text, p_clase text, p_sqlsta
         when p_clase in ('PERMISOS','FUNCION_INEXISTENTE','ESTRUCTURA','SINTAXIS') then 'BLOCKED'   -- fallo técnico: JAMÁS es PASS
         when p_clase = 'DOMINIO_CANDIDATO' then case
             when coalesce(p_esperado,'') = '' then 'PARTIAL'              -- rechazo observado pero la especificación no define el contrato: no se puede atribuir a la regla
-            when starts_with(p_sqlstate || ':' || coalesce(p_msg,''), p_esperado) or p_sqlstate = p_esperado then 'PASS'
+            when p_sqlstate = split_part(p_esperado, ':', 1) and (position(':' in p_esperado) = 0 or starts_with(coalesce(p_msg,''), substr(p_esperado, position(':' in p_esperado) + 1))) then 'PASS'   -- SQLSTATE EXACTO; el prefijo de mensaje solo se exige si el contrato lo declara
             else 'FAIL' end
         else 'FAIL' end
     else 'NOT VERIFIED' end $f$;

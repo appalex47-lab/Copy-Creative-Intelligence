@@ -281,3 +281,30 @@
 - Un único cambio por mutación y estado inicial válido (garantizado por `_correr_lista`): evita falsos positivos de detección por estado roto.
 - La detección exige el invariante específico **y** su mensaje (`kw in v[1]`): sensible a cambios de redacción en los mensajes del modelo.
 - Equivalencia modelo/físico no demostrada (ver `REVISION_22_FUNCIONES.md` y `MATRIZ_MODELO_LOGICO_FISICO.md`).
+
+<!-- ANEXO_CORRESPONDENCIA -->
+
+## Anexo: niveles de correspondencia ejecutados (corrección final)
+
+Generado por `scripts_validacion/ct_t409_t422_correspondencia.py` (une `k47_por_escenario.csv` y `t409_t422_individual.csv`; salida `resultados/t409_t422_correspondencia.csv`).
+
+| Escenario | K47-M mapeadas | Invariantes que detectan las K47-M | Variantes individuales (detectadas) | Invariante esperada / observada (variantes) | Nivel escenario→mutación K47-M |
+|---|---|---|---|---|---|
+| T-409 | K47-M01 | I1,I15 | 4 (4) | I1 / I1,I9 | INFERIDA con COINCIDENCIA EMPÍRICA DE INVARIANTE |
+| T-410 | K47-M02 | I1,I15 | 4 (4) | I1 / I1,I9 | INFERIDA con COINCIDENCIA EMPÍRICA DE INVARIANTE |
+| T-411 | K47-M03 | I1,I15 | 4 (4) | I1 / I1,I9 | INFERIDA con COINCIDENCIA EMPÍRICA DE INVARIANTE |
+| T-412 | K47-M04 | I2 | 4 (4) | I2 / I2,I9 | INFERIDA con COINCIDENCIA EMPÍRICA DE INVARIANTE |
+| T-413 | K47-M05;K47-M18;K47-M19 | I15,I4,I5,I7 | 1 (1) | I5 / I5 | INFERIDA con COINCIDENCIA EMPÍRICA DE INVARIANTE |
+| T-414 | K47-M06;K47-M17;K47-M24 | I15,I3,I6,I7 | 1 (1) | I3 / I3 | INFERIDA con COINCIDENCIA EMPÍRICA DE INVARIANTE |
+| T-415 | K47-M07;K47-M26 | I10 | 1 (1) | I10 / I10 | INFERIDA con COINCIDENCIA EMPÍRICA DE INVARIANTE |
+| T-416 | K47-M08;K47-M20 | I1,I10 | 1 (1) | I10 / I10 | INFERIDA con COINCIDENCIA EMPÍRICA DE INVARIANTE |
+| T-417 | K47-M09;K47-M22;K47-M23 | I20,I8 | 1 (1) | I8 / I8 | INFERIDA con COINCIDENCIA EMPÍRICA DE INVARIANTE |
+| T-418 | K47-M10;K47-M15;K47-M16;K47-M25 | I15,I3,I7 | 1 (1) | I7 / I7 | INFERIDA con COINCIDENCIA EMPÍRICA DE INVARIANTE |
+| T-419 | K47-M11 | I9 | 1 (1) | I9|I1 / I1,I9 | INFERIDA sin coincidencia de invariante |
+| T-420 | K47-M12 | I9 | 1 (1) | I9|I1 / I1,I9 | INFERIDA sin coincidencia de invariante |
+| T-421 | K47-M13 | I11 | 1 (1) | I11 / I11,I9 | INFERIDA con COINCIDENCIA EMPÍRICA DE INVARIANTE |
+| T-422 | K47-M14 | I12,I15 | 1 (1) | I12 / I12 | INFERIDA con COINCIDENCIA EMPÍRICA DE INVARIANTE |
+
+**Lectura.** Regla→K47-M: DEMOSTRADA (tabla de AUDITORIA_FINAL). Escenario→alteración de la tabla C/D: DEMOSTRADA por el texto y ejecutada individualmente (26 variantes, en memoria). Escenario→K47-Mxx concreta: **INFERIDA**; la coincidencia de invariante es evidencia empírica adicional, **no** demostración de identidad de operación. Falta el equivalente físico (K47 y tablas C/D en CCI-DEV, etapa E8).
+
+**Reproducibilidad.** `ct_t409_t422_individual.py` se ejecuta dos veces en la batería final y las salidas deben ser idénticas byte a byte (`resultados/bateria_final/INDICE_BATERIA.csv`, columna `sha256_salida`; control `repro_t409` en el informe de pruebas finales).

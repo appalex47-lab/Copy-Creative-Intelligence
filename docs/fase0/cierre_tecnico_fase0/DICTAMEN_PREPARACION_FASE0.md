@@ -12,7 +12,7 @@ No se emite PREPARADO_DOCUMENTALMENTE porque subsisten limitaciones que no son d
 - 12 escenarios PARCIAL reevaluados: 5 PASS_PROTOTYPE, 1 PASS_STATIC, 6 PARTIAL (ninguno es aceptación física).
 - T-409..T-422: 26 variantes individuales detectadas en modelo; la relación con K47-Mxx concretas es inferida (separada de la demostrada).
 - 22 funciones: 366 evaluaciones (354 fixtures distintos), 0 fallos, 0 defectos funcionales (DEF-F01..F06 clasificados).
-- Script `04_trigger_r1_r9` v2: arnés con clasificador de errores; 21/21 autopruebas; se reproduce el defecto de v1 (11 falsos PASS). Los seis scripts CCI-DEV (v2) pasan el escáner estático (64/0) y el smoke local.
+- Script `04_trigger_r1_r9` v2: arnés con clasificador de errores; 28/28 autopruebas; se reproduce el defecto de v1 (11 falsos PASS). Los seis scripts CCI-DEV (v2) pasan el escáner estático (64/0) y el smoke local.
 - 21 decisiones con recomendación técnica, alternativas, impacto y pruebas.
 
 ## 2. Documentado pero NO validado físicamente

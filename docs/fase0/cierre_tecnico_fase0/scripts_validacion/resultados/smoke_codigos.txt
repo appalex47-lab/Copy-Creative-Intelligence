@@ -4,9 +4,3 @@
 03-corregida rc=0
 04 rc=0
 05 rc=0
-01 rc=0
-02 rc=0
-03-defectuosa rc=0
-03-corregida rc=0
-04 rc=0
-05 rc=0

@@ -1,0 +1,16 @@
+BÚSQUEDA GLOBAL (excluye resultados/, evidencia_verificacion/ y los scripts que contienen los patrones como definición)
+PASS | marcadores TODO/FIXME de código: 0 | []
+PASS | «INCONSISTENTE»: 0 apariciones | 
+PASS | «NO CONCILIADO»: 0 apariciones | 
+PASS | «REFERENCIA ROTA»: 0 apariciones | 
+PASS | «HASH INCORRECTO»: 0 apariciones | 
+PASS | «ARCHIVO FALTANTE»: 0 apariciones | 
+PASS | «ARCHIVO EXTRA»: 0 apariciones | 
+PASS | «EVIDENCIA AUSENTE»: 0 apariciones | 
+PASS | «ESTADO CONTRADICTORIO»: 0 apariciones | 
+PASS | «FALSO FAIL»: 0 apariciones | 
+INFO | «PENDIENTE»: 182 apariciones en 12 archivos (descripciones de limitaciones/estados/pruebas negativas, con justificación en las matrices)
+INFO | «NO VERIFICADO»: 3 apariciones en 3 archivos (descripciones de limitaciones/estados/pruebas negativas, con justificación en las matrices)
+INFO | «FALSO PASS»: 0 apariciones en 0 archivos (descripciones de limitaciones/estados/pruebas negativas, con justificación en las matrices)
+PASS | sin referencias obsoletas fuera de contexto histórico | 
+TOTAL_FAIL=0

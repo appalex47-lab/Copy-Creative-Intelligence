@@ -1,0 +1,29 @@
+AUTOPRUEBA DEL ESCÁNER (muestras aisladas en memoria/tempfile)
+PASS | SQL | limpia | esperado=ninguno fallos_detectados=0
+PASS | SQL | COMMIT | esperado=sin COMMIT fallos_detectados=1
+PASS | SQL | DROP | esperado=sin DDL/DCL peligroso fallos_detectados=1
+PASS | SQL | TRUNCATE | esperado=sin DDL/DCL peligroso fallos_detectados=1
+PASS | SQL | DROP dentro de DO | esperado=sin DDL/DCL peligroso fallos_detectados=1
+PASS | SQL | TRUNCATE en SQL de prueba $q$ | esperado=sin DDL/DCL peligroso fallos_detectados=1
+PASS | SQL | GRANT | esperado=sin DDL/DCL peligroso fallos_detectados=1
+PASS | SQL | insert sin rollback | esperado=escrituras solo con ROLLBACK fallos_detectados=1
+PASS | SQL | metacomando \c | esperado=sin metacomandos fallos_detectados=1
+PASS | SQL | JWT | esperado=sin refs de proyecto fallos_detectados=1
+PASS | SQL | objeto permanente | esperado=sin objetos permanentes fallos_detectados=1
+PASS | SQL | FOR UPDATE | esperado=sin LOCK TABLE fallos_detectados=1
+PASS | SQL | pg_sleep largo | esperado=pg_sleep acotado fallos_detectados=1
+PASS | SQL | format %s | esperado=SQL dinámico: format() fallos_detectados=1
+PASS | SQL | EXECUTE concatenado | esperado=SQL dinámico: sin EXECUTE fallos_detectados=1
+PASS | SQL | WHEN OTHERS silencioso | esperado=WHEN OTHERS solo clasifica fallos_detectados=1
+PASS | SQL | WHEN OTHERS => PASS | esperado=WHEN OTHERS nunca fallos_detectados=2
+PASS | SQL | sin guarda | esperado=guarda SI-CCI-DEV fallos_detectados=3
+PASS | SQL | sin ON_ERROR_STOP | esperado=\set ON_ERROR_STOP on fallos_detectados=1
+PASS | TEXTO | limpio | esperado=ninguno
+PASS | TEXTO | JWT | esperado=sin JWT
+PASS | TEXTO | URI con credenciales | esperado=sin cadenas
+PASS | TEXTO | correo | esperado=sin correos
+PASS | TEXTO | teléfono | esperado=sin teléfonos
+PASS | TEXTO | project ref | esperado=sin refs
+PASS | ÁRBOL | enlace simbólico detectado
+TOTAL=26 FAIL=0
+

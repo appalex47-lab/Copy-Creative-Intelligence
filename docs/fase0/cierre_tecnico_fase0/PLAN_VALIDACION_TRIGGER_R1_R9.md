@@ -20,7 +20,9 @@ La especificación **no define** (a) SQLSTATE ni código de dominio para el rech
 | Veredicto | error técnico → BLOCKED; inesperado → FAIL; rechazo de dominio → PASS solo si coincide el contrato; sin contrato → PARTIAL; precondición falsa → BLOCKED |
 | Aislamiento | cada caso en sub-bloque, efecto revertido con excepción centinela `CC999`; sesión en ROLLBACK; comprobación final de residuos |
 
-Autoprueba local (`ct_arnes_r1r9_autoprueba.sh`, 21/21 PASS): 18 casos de control (función inexistente, firma incorrecta, tabla ausente, permiso insuficiente, excepción inesperada, rechazo válido, contrato ausente, contrato distinto…), sin residuos, y **reproducción del defecto de v1** (11 falsos PASS con `intenta()`; ver `scripts_validacion/historico_defectos/`, SHA-256 `544372ad…c6a3`). Usa funciones de relleno que **no implementan R1–R9**.
+Autoprueba local (`local_ext/20_arnes_r1r9_autoprueba_LOCAL.sql` vía `ct_arnes_r1r9_autoprueba.sh`, **28/28 PASS**): casos de control (función inexistente, firma incorrecta, tabla ausente, permiso insuficiente, excepción inesperada, rechazo válido con SQLSTATE RJ exacto, contrato ausente, contrato distinto, prefijo parcial RJ00 ≠ RJ003, P0001 genérico…), sin residuos, y **reproducción del defecto de v1** (11 falsos PASS con `intenta()`; ver `scripts_validacion/historico_defectos/`). Usa funciones de relleno que **no implementan R1–R9**.
+
+**Contrato de error:** la versión anterior de este plan proponía `P0001` con texto `R3:no_afectado`; se sustituye por la propuesta única `PROPUESTA_CONTRATO_ERRORES_R1_R9.md` (SQLSTATE `RJ001..RJ009`, `RJ010` evidencia ausente; comparación por SQLSTATE exacto). **Propuesta no aprobada** (BRECHA-R1R9-01).
 
 ## 4. Precondiciones que el script verifica (PRE-01..PRE-10)
 

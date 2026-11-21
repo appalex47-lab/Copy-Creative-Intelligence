@@ -16,9 +16,9 @@ Revisión local sobre PostgreSQL 16.15 temporal (clúster UTF8 autoritativo; SQL
 | K47 por escenario | 25/25 detectadas (mapeo = inferencia del revisor) |
 | 22 funciones | 366 evaluaciones (354 fixtures distintos), 0 fallos, 0 ids repetidos |
 | T-409..T-422 individual (modelo) | 26 variantes, 14 escenarios, 26 detectadas (PASS_MODEL_INDIVIDUAL) |
-| Arnés R1–R9 (autoprueba) | 21/21 (prueba el arnés, no R1–R9) |
+| Arnés R1–R9 (autoprueba) | 28/28 (prueba el arnés, no R1–R9) |
 | Smoke local de los 6 scripts CCI-DEV | guardas 7/7; 03 shim defectuoso FAIL / corregido PASS; 04 NO VERIFICABLE; 05 PASS/BLOCKED |
-| Escáner estático de seguridad SQL | 64 comprobaciones, 0 FAIL (control negativo detecta 8) |
+| Escáner estático de seguridad SQL | sql 115 / texto 571 comprobaciones, 0 FAIL; autoprueba 26/26 |
 | Experimento PK DG-19 | 63/63 |
 
 ## 3. Escenarios PARCIAL (12)
@@ -31,7 +31,7 @@ Revisión local sobre PostgreSQL 16.15 temporal (clúster UTF8 autoritativo; SQL
 41 tablas; 28 sin prueba física; el fixture V20 no tiene RLS ni roles. Ver MATRIZ_MODELO_LOGICO_FISICO.md.
 
 ## 6. Paquete CCI-DEV
-Scripts 01–05 (v2) preparados y **no ejecutados** en CCI-DEV (01/02 smoke local; 03 sobre shim local; 04 con arnés probado 21/21 pero lógica R1–R9 no verificable; 05 smoke local). Defecto corregido: el 04 v1 daba falso PASS a cualquier excepción (11 reproducidos; v1 conservado como histórico).
+Scripts 01–05 (v2) preparados y **no ejecutados** en CCI-DEV (01/02 smoke local; 03 sobre shim local; 04 con arnés probado 28/28 pero lógica R1–R9 no verificable; 05 smoke local). Defecto corregido: el 04 v1 daba falso PASS a cualquier excepción (11 reproducidos; v1 conservado como histórico).
 
 ## 7. Hallazgos nuevos
 DEF-01 (btrim «no vacío»), DEF-DG12-01 (concat_ws ambiguo), DEF-DG19-01 (normalización débil), DEF-NAME-01 (`approver` vs `decided_by`), DEF-ENV-01 (codificación local), BRECHA-R1R9-01 (sin SQLSTATE/contrato para R1–R9), LR-22 (la guarda no distingue DEV de PROD), DEF-F06 (riesgo técnico, 0 ocurrencias). Ninguno modifica resultados de V26.

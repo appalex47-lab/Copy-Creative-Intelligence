@@ -1,65 +1,116 @@
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | guarda SI-CCI-DEV | 
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | guarda LOCAL-TEMPORAL (socket, db ^cci_) | 
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | guarda antes de cualquier SQL de datos | 
+PASS | 01_inventario_esquema_SOLO_LECTURA.sql | \set ON_ERROR_STOP on | 
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | sin COMMIT | 
-PASS | 01_inventario_esquema_SOLO_LECTURA.sql | sin DDL peligroso (drop/truncate/alter/grant/revoke/create role|extension) | 
-PASS | 01_inventario_esquema_SOLO_LECTURA.sql | sin DELETE/UPDATE/INSERT fuera de PROD-safe (solo en scripts con rollback) | 
-PASS | 01_inventario_esquema_SOLO_LECTURA.sql | sin metacomandos de conexion (\c, \connect, \! , \copy) | 
+PASS | 01_inventario_esquema_SOLO_LECTURA.sql | sin DDL/DCL peligroso (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA) | 
+PASS | 01_inventario_esquema_SOLO_LECTURA.sql | escrituras solo con ROLLBACK | 
+PASS | 01_inventario_esquema_SOLO_LECTURA.sql | sin metacomandos de conexión/shell (\c, \connect, \!, \copy, \o) | 
 PASS | 01_inventario_esquema_SOLO_LECTURA.sql | sin refs de proyecto/URL/secretos/JWT | 
-PASS | 01_inventario_esquema_SOLO_LECTURA.sql | sin DDL de objetos permanentes (create table/function/trigger sin pg_temp/temp) | 
+PASS | 01_inventario_esquema_SOLO_LECTURA.sql | sin objetos permanentes (create table/function/trigger/view/index fuera de pg_temp/temp) | 
+PASS | 01_inventario_esquema_SOLO_LECTURA.sql | sin LOCK TABLE ni FOR UPDATE/SHARE (bloqueos de producción) | 
+PASS | 01_inventario_esquema_SOLO_LECTURA.sql | pg_sleep acotado (<= 10 s) | 
+PASS | 01_inventario_esquema_SOLO_LECTURA.sql | SQL dinámico: format() solo con %I/%L (sin %s sin comillas) | format(%s) en: 
+PASS | 01_inventario_esquema_SOLO_LECTURA.sql | SQL dinámico: sin EXECUTE con concatenación '||' | 
+PASS | 01_inventario_esquema_SOLO_LECTURA.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
+PASS | 01_inventario_esquema_SOLO_LECTURA.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
+PASS | 01_inventario_esquema_SOLO_LECTURA.sql | WHEN OTHERS nunca convierte el error en PASS | 
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | guarda SI-CCI-DEV | 
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | guarda LOCAL-TEMPORAL (socket, db ^cci_) | 
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | guarda antes de cualquier SQL de datos | 
+PASS | 02_rls_privilegios_SOLO_LECTURA.sql | \set ON_ERROR_STOP on | 
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | sin COMMIT | 
-PASS | 02_rls_privilegios_SOLO_LECTURA.sql | sin DDL peligroso (drop/truncate/alter/grant/revoke/create role|extension) | 
-PASS | 02_rls_privilegios_SOLO_LECTURA.sql | sin DELETE/UPDATE/INSERT fuera de PROD-safe (solo en scripts con rollback) | 
-PASS | 02_rls_privilegios_SOLO_LECTURA.sql | sin metacomandos de conexion (\c, \connect, \! , \copy) | 
+PASS | 02_rls_privilegios_SOLO_LECTURA.sql | sin DDL/DCL peligroso (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA) | 
+PASS | 02_rls_privilegios_SOLO_LECTURA.sql | escrituras solo con ROLLBACK | 
+PASS | 02_rls_privilegios_SOLO_LECTURA.sql | sin metacomandos de conexión/shell (\c, \connect, \!, \copy, \o) | 
 PASS | 02_rls_privilegios_SOLO_LECTURA.sql | sin refs de proyecto/URL/secretos/JWT | 
-PASS | 02_rls_privilegios_SOLO_LECTURA.sql | sin DDL de objetos permanentes (create table/function/trigger sin pg_temp/temp) | 
+PASS | 02_rls_privilegios_SOLO_LECTURA.sql | sin objetos permanentes (create table/function/trigger/view/index fuera de pg_temp/temp) | 
+PASS | 02_rls_privilegios_SOLO_LECTURA.sql | sin LOCK TABLE ni FOR UPDATE/SHARE (bloqueos de producción) | 
+PASS | 02_rls_privilegios_SOLO_LECTURA.sql | pg_sleep acotado (<= 10 s) | 
+PASS | 02_rls_privilegios_SOLO_LECTURA.sql | SQL dinámico: format() solo con %I/%L (sin %s sin comillas) | format(%s) en: 
+PASS | 02_rls_privilegios_SOLO_LECTURA.sql | SQL dinámico: sin EXECUTE con concatenación '||' | 
+PASS | 02_rls_privilegios_SOLO_LECTURA.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
+PASS | 02_rls_privilegios_SOLO_LECTURA.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
+PASS | 02_rls_privilegios_SOLO_LECTURA.sql | WHEN OTHERS nunca convierte el error en PASS | 
 PASS | 03_pruebas_rls_ROLLBACK.sql | guarda SI-CCI-DEV | 
 PASS | 03_pruebas_rls_ROLLBACK.sql | guarda LOCAL-TEMPORAL (socket, db ^cci_) | 
 PASS | 03_pruebas_rls_ROLLBACK.sql | guarda antes de cualquier SQL de datos | 
+PASS | 03_pruebas_rls_ROLLBACK.sql | \set ON_ERROR_STOP on | 
 PASS | 03_pruebas_rls_ROLLBACK.sql | sin COMMIT | 
-PASS | 03_pruebas_rls_ROLLBACK.sql | sin DDL peligroso (drop/truncate/alter/grant/revoke/create role|extension) | 
-PASS | 03_pruebas_rls_ROLLBACK.sql | sin DELETE/UPDATE/INSERT fuera de PROD-safe (solo en scripts con rollback) | 
-PASS | 03_pruebas_rls_ROLLBACK.sql | sin metacomandos de conexion (\c, \connect, \! , \copy) | 
+PASS | 03_pruebas_rls_ROLLBACK.sql | sin DDL/DCL peligroso (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA) | 
+PASS | 03_pruebas_rls_ROLLBACK.sql | escrituras solo con ROLLBACK | 
+PASS | 03_pruebas_rls_ROLLBACK.sql | sin metacomandos de conexión/shell (\c, \connect, \!, \copy, \o) | 
 PASS | 03_pruebas_rls_ROLLBACK.sql | sin refs de proyecto/URL/secretos/JWT | 
-PASS | 03_pruebas_rls_ROLLBACK.sql | sin DDL de objetos permanentes (create table/function/trigger sin pg_temp/temp) | 
-PASS | 03_pruebas_rls_ROLLBACK.sql | escrituras dentro de transaccion con rollback/ROLLBACK final | 
+PASS | 03_pruebas_rls_ROLLBACK.sql | sin objetos permanentes (create table/function/trigger/view/index fuera de pg_temp/temp) | 
+PASS | 03_pruebas_rls_ROLLBACK.sql | sin LOCK TABLE ni FOR UPDATE/SHARE (bloqueos de producción) | 
+PASS | 03_pruebas_rls_ROLLBACK.sql | pg_sleep acotado (<= 10 s) | 
+PASS | 03_pruebas_rls_ROLLBACK.sql | SQL dinámico: format() solo con %I/%L (sin %s sin comillas) | format(%s) en: 
+PASS | 03_pruebas_rls_ROLLBACK.sql | SQL dinámico: sin EXECUTE con concatenación '||' | 
+PASS | 03_pruebas_rls_ROLLBACK.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
+PASS | 03_pruebas_rls_ROLLBACK.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
+PASS | 03_pruebas_rls_ROLLBACK.sql | WHEN OTHERS nunca convierte el error en PASS | 
 PASS | 04_lib_clasificador.sql | sin COMMIT | 
-PASS | 04_lib_clasificador.sql | sin DDL peligroso (drop/truncate/alter/grant/revoke/create role|extension) | 
-PASS | 04_lib_clasificador.sql | sin DELETE/UPDATE/INSERT fuera de PROD-safe (solo en scripts con rollback) | 
-PASS | 04_lib_clasificador.sql | sin metacomandos de conexion (\c, \connect, \! , \copy) | 
+PASS | 04_lib_clasificador.sql | sin DDL/DCL peligroso (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA) | 
+PASS | 04_lib_clasificador.sql | escrituras solo con ROLLBACK | 
+PASS | 04_lib_clasificador.sql | sin metacomandos de conexión/shell (\c, \connect, \!, \copy, \o) | 
 PASS | 04_lib_clasificador.sql | sin refs de proyecto/URL/secretos/JWT | 
-PASS | 04_lib_clasificador.sql | sin DDL de objetos permanentes (create table/function/trigger sin pg_temp/temp) | 
+PASS | 04_lib_clasificador.sql | sin objetos permanentes (create table/function/trigger/view/index fuera de pg_temp/temp) | 
+PASS | 04_lib_clasificador.sql | sin LOCK TABLE ni FOR UPDATE/SHARE (bloqueos de producción) | 
+PASS | 04_lib_clasificador.sql | pg_sleep acotado (<= 10 s) | 
+PASS | 04_lib_clasificador.sql | SQL dinámico: format() solo con %I/%L (sin %s sin comillas) | format(%s) en: 
+PASS | 04_lib_clasificador.sql | SQL dinámico: sin EXECUTE con concatenación '||' | 
+PASS | 04_lib_clasificador.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
+PASS | 04_lib_clasificador.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
+PASS | 04_lib_clasificador.sql | WHEN OTHERS nunca convierte el error en PASS | 
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | guarda SI-CCI-DEV | 
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | guarda LOCAL-TEMPORAL (socket, db ^cci_) | 
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | guarda antes de cualquier SQL de datos | 
+PASS | 04_trigger_r1_r9_ROLLBACK.sql | \set ON_ERROR_STOP on | 
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | sin COMMIT | 
-PASS | 04_trigger_r1_r9_ROLLBACK.sql | sin DDL peligroso (drop/truncate/alter/grant/revoke/create role|extension) | 
-PASS | 04_trigger_r1_r9_ROLLBACK.sql | sin DELETE/UPDATE/INSERT fuera de PROD-safe (solo en scripts con rollback) | 
-PASS | 04_trigger_r1_r9_ROLLBACK.sql | sin metacomandos de conexion (\c, \connect, \! , \copy) | 
+PASS | 04_trigger_r1_r9_ROLLBACK.sql | sin DDL/DCL peligroso (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA) | 
+PASS | 04_trigger_r1_r9_ROLLBACK.sql | escrituras solo con ROLLBACK | 
+PASS | 04_trigger_r1_r9_ROLLBACK.sql | sin metacomandos de conexión/shell (\c, \connect, \!, \copy, \o) | 
 PASS | 04_trigger_r1_r9_ROLLBACK.sql | sin refs de proyecto/URL/secretos/JWT | 
-PASS | 04_trigger_r1_r9_ROLLBACK.sql | sin DDL de objetos permanentes (create table/function/trigger sin pg_temp/temp) | 
-PASS | 04_trigger_r1_r9_ROLLBACK.sql | escrituras dentro de transaccion con rollback/ROLLBACK final | 
+PASS | 04_trigger_r1_r9_ROLLBACK.sql | sin objetos permanentes (create table/function/trigger/view/index fuera de pg_temp/temp) | 
+PASS | 04_trigger_r1_r9_ROLLBACK.sql | sin LOCK TABLE ni FOR UPDATE/SHARE (bloqueos de producción) | 
+PASS | 04_trigger_r1_r9_ROLLBACK.sql | pg_sleep acotado (<= 10 s) | 
+PASS | 04_trigger_r1_r9_ROLLBACK.sql | SQL dinámico: format() solo con %I/%L (sin %s sin comillas) | format(%s) en: 
+PASS | 04_trigger_r1_r9_ROLLBACK.sql | SQL dinámico: sin EXECUTE con concatenación '||' | 
+PASS | 04_trigger_r1_r9_ROLLBACK.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
+PASS | 04_trigger_r1_r9_ROLLBACK.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
+PASS | 04_trigger_r1_r9_ROLLBACK.sql | WHEN OTHERS nunca convierte el error en PASS | 
 PASS | 05_concurrencia_sesion_A.sql | guarda SI-CCI-DEV | 
 PASS | 05_concurrencia_sesion_A.sql | guarda LOCAL-TEMPORAL (socket, db ^cci_) | 
 PASS | 05_concurrencia_sesion_A.sql | guarda antes de cualquier SQL de datos | 
+PASS | 05_concurrencia_sesion_A.sql | \set ON_ERROR_STOP on | 
 PASS | 05_concurrencia_sesion_A.sql | sin COMMIT | 
-PASS | 05_concurrencia_sesion_A.sql | sin DDL peligroso (drop/truncate/alter/grant/revoke/create role|extension) | 
-PASS | 05_concurrencia_sesion_A.sql | sin DELETE/UPDATE/INSERT fuera de PROD-safe (solo en scripts con rollback) | 
-PASS | 05_concurrencia_sesion_A.sql | sin metacomandos de conexion (\c, \connect, \! , \copy) | 
+PASS | 05_concurrencia_sesion_A.sql | sin DDL/DCL peligroso (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA) | 
+PASS | 05_concurrencia_sesion_A.sql | escrituras solo con ROLLBACK | 
+PASS | 05_concurrencia_sesion_A.sql | sin metacomandos de conexión/shell (\c, \connect, \!, \copy, \o) | 
 PASS | 05_concurrencia_sesion_A.sql | sin refs de proyecto/URL/secretos/JWT | 
-PASS | 05_concurrencia_sesion_A.sql | sin DDL de objetos permanentes (create table/function/trigger sin pg_temp/temp) | 
-PASS | 05_concurrencia_sesion_A.sql | escrituras dentro de transaccion con rollback/ROLLBACK final | 
+PASS | 05_concurrencia_sesion_A.sql | sin objetos permanentes (create table/function/trigger/view/index fuera de pg_temp/temp) | 
+PASS | 05_concurrencia_sesion_A.sql | sin LOCK TABLE ni FOR UPDATE/SHARE (bloqueos de producción) | 
+PASS | 05_concurrencia_sesion_A.sql | pg_sleep acotado (<= 10 s) | 
+PASS | 05_concurrencia_sesion_A.sql | SQL dinámico: format() solo con %I/%L (sin %s sin comillas) | format(%s) en: 
+PASS | 05_concurrencia_sesion_A.sql | SQL dinámico: sin EXECUTE con concatenación '||' | 
+PASS | 05_concurrencia_sesion_A.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
+PASS | 05_concurrencia_sesion_A.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
+PASS | 05_concurrencia_sesion_A.sql | WHEN OTHERS nunca convierte el error en PASS | 
 PASS | 05_concurrencia_sesion_B.sql | guarda SI-CCI-DEV | 
 PASS | 05_concurrencia_sesion_B.sql | guarda LOCAL-TEMPORAL (socket, db ^cci_) | 
 PASS | 05_concurrencia_sesion_B.sql | guarda antes de cualquier SQL de datos | 
+PASS | 05_concurrencia_sesion_B.sql | \set ON_ERROR_STOP on | 
 PASS | 05_concurrencia_sesion_B.sql | sin COMMIT | 
-PASS | 05_concurrencia_sesion_B.sql | sin DDL peligroso (drop/truncate/alter/grant/revoke/create role|extension) | 
-PASS | 05_concurrencia_sesion_B.sql | sin DELETE/UPDATE/INSERT fuera de PROD-safe (solo en scripts con rollback) | 
-PASS | 05_concurrencia_sesion_B.sql | sin metacomandos de conexion (\c, \connect, \! , \copy) | 
+PASS | 05_concurrencia_sesion_B.sql | sin DDL/DCL peligroso (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA) | 
+PASS | 05_concurrencia_sesion_B.sql | escrituras solo con ROLLBACK | 
+PASS | 05_concurrencia_sesion_B.sql | sin metacomandos de conexión/shell (\c, \connect, \!, \copy, \o) | 
 PASS | 05_concurrencia_sesion_B.sql | sin refs de proyecto/URL/secretos/JWT | 
-PASS | 05_concurrencia_sesion_B.sql | sin DDL de objetos permanentes (create table/function/trigger sin pg_temp/temp) | 
-PASS | 05_concurrencia_sesion_B.sql | escrituras dentro de transaccion con rollback/ROLLBACK final | 
-TOTAL=64 FAIL=0
+PASS | 05_concurrencia_sesion_B.sql | sin objetos permanentes (create table/function/trigger/view/index fuera de pg_temp/temp) | 
+PASS | 05_concurrencia_sesion_B.sql | sin LOCK TABLE ni FOR UPDATE/SHARE (bloqueos de producción) | 
+PASS | 05_concurrencia_sesion_B.sql | pg_sleep acotado (<= 10 s) | 
+PASS | 05_concurrencia_sesion_B.sql | SQL dinámico: format() solo con %I/%L (sin %s sin comillas) | format(%s) en: 
+PASS | 05_concurrencia_sesion_B.sql | SQL dinámico: sin EXECUTE con concatenación '||' | 
+PASS | 05_concurrencia_sesion_B.sql | SET ROLE solo con %I (nunca literal ni concatenación) | 
+PASS | 05_concurrencia_sesion_B.sql | WHEN OTHERS solo clasifica/registra SQLSTATE (o exención documentada de RESET ROLE) | 
+PASS | 05_concurrencia_sesion_B.sql | WHEN OTHERS nunca convierte el error en PASS | 
+TOTAL=115 FAIL=0

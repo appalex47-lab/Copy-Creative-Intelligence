@@ -1,0 +1,38 @@
+CONTROLES NEGATIVOS ct_manifiesto.py (entorno aislado en tempfile fuera del repositorio, eliminado al terminar)
+PASS | vía A | control positivo: copia íntegra | esperado=ACEPTA obtenido_rc=0
+PASS | vía B | control positivo: copia íntegra | esperado=ACEPTA obtenido_rc=0
+PASS | vía A | evidencia_verificacion/ añadida (permitida) | esperado=ACEPTA obtenido_rc=0
+PASS | vía B | evidencia_verificacion/ añadida (permitida) | esperado=ACEPTA obtenido_rc=0
+PASS | vía A | archivo modificado (1 byte) | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | archivo modificado (1 byte) | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | archivo eliminado | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | archivo eliminado | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | archivo extra no declarado | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | archivo extra no declarado | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | hash del manifiesto alterado | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | hash del manifiesto alterado | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | entrada duplicada | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | entrada duplicada | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | ruta absoluta en el manifiesto | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | ruta absoluta en el manifiesto | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | ruta con .. en el manifiesto | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | ruta con .. en el manifiesto | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto se lista a sí mismo | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto se lista a sí mismo | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto desordenado | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto desordenado | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto con CRLF | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto con CRLF | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto sin LF final | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto sin LF final | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | enlace simbólico en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | enlace simbólico en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | __pycache__ en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | __pycache__ en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | contenidos intercambiados entre dos archivos | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | contenidos intercambiados entre dos archivos | esperado=RECHAZA obtenido_rc=1
+PASS | generador determinista (dos generaciones idénticas byte a byte)
+PASS | el manifiesto regenerado coincide con el del dossier (informativo)
+PASS | --base: commit posterior que solo toca evidencia_verificacion/ (ACEPTA)
+PASS | --base: commit posterior que cambia otro archivo (RECHAZA)
+TOTAL=36 FAIL=0

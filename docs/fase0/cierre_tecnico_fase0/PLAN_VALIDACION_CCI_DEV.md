@@ -31,9 +31,9 @@ Todas las filas heredan: *Evidencia a guardar* = salida íntegra del script + SH
 | E0-1 | Base V20 | `PE_POSTGRESQL_V20/ejecutar.sh <socket> <puerto>` y `mutaciones.sh` | 63/63 PASS; 14/14 detectadas | PASS si 63/63 y 14/14 |
 | E0-2 | Extensión local | `local_ext/ejecutar_ext.sh` | 80/80 PASS (UTF8) | PASS si 80/80 |
 | E0-3 | Concurrencia local | `ct_concurrencia_local.sh` | CC-01, CC-02 PASS | PASS si espera ≥1,5 s y error 23P01/23505 |
-| E0-4 | Arnés R1–R9 | `ct_arnes_r1r9_autoprueba.sh` | 21/21 (incl. reproducción de 11 falsos PASS de v1) | PASS si 21/21; **prueba el arnés, no R1–R9** |
+| E0-4 | Arnés R1–R9 | `ct_arnes_r1r9_autoprueba.sh` | 28/28 (incl. reproducción de 11 falsos PASS de v1 y contrato RJ exacto) | PASS si 28/28; **prueba el arnés, no R1–R9** |
 | E0-5 | Smoke de los 6 scripts en modo LOCAL-TEMPORAL | `ct_smoke_scripts_cci_dev_local.sh` | guardas 7/7; 03 sobre shim defectuoso=FAIL, corregido=PASS; 04=NO VERIFICABLE; 05 B espera ≥2 s PASS | **No equivale a Supabase** |
-| E0-6 | Escáner estático de seguridad | `ct_escaner_seguridad_sql.py` | 64 comprobaciones, 0 FAIL; control negativo detecta 8 | PASS si 0 FAIL |
+| E0-6 | Escáner estático de seguridad | `ct_escaner_seguridad_sql.py` | sql 115 / texto 571 comprobaciones, 0 FAIL; autoprueba 26/26 | PASS si 0 FAIL |
 
 ### E1 — Modelo en memoria (EJECUTADA)
 
@@ -90,3 +90,39 @@ No crear/alterar/borrar objetos permanentes; no ejecutar en CCI-PROD; no despleg
 ## 5. Pendiente del propietario / no verificado
 
 Pendiente del propietario: P0–P4; project ref de CCI-DEV; definición del contrato de error de R1–R9 (BRECHA-R1R9-01). No verificado por Claude: cualquier comportamiento en Supabase; `auth.uid()`; roles reales; versión y extensiones reales; E2–E8.
+
+## 6. Requisitos de entorno (a confirmar con el inventario; no se asumen)
+
+| Elemento | Requisito | Origen / estado |
+|---|---|---|
+| PostgreSQL | ≥ 13 (precondición PRE-01 del script 04); la versión exacta de Supabase **no está especificada** en el expediente: registrar `select version()` | script 04; sin dato de Supabase (no inventado) |
+| Extensiones | `btree_gist` (restricción de exclusión G-9) y `pgcrypto` (cadena hash DG-12) | uso en prototipos locales; su presencia en Supabase se verifica con el inventario 01 |
+| Codificación | UTF8 (LR-11) | inventario |
+| Roles | `anon`, `authenticated`, `service_role` (roles de prueba de 02/03), rol de ejecución `exec_role` (04), propietario `cci_records_owner` previsto en la especificación | confirmar en 02; los nombres reales de Supabase no se verificaron aquí |
+| Tablas | las 41 de `MATRIZ_MODELO_LOGICO_FISICO.md` §5; mínimas por script: 03 (`organization_id` en tablas de negocio), 04 (`attribution_discard_resolutions`, `brief_field_attributions`, `memberships`), 05 (`piece_reviewer_assignments`) | inventario 01 |
+| Funciones / triggers | `resolve_attribution_discard(uuid,text,text)` (firma PROPUESTA), trigger BEFORE INSERT en `attribution_discard_resolutions`, `transition_piece_status` | PRE de 04; la firma y el contrato de error son decisión pendiente |
+| Datos de prueba | dos organizaciones de prueba con filas en cada una (PRE-04 de 03); usuarios r_ok, r_nomember, r_noreview, r_direct, r_inherited, r_othersrc, r_benef, affected, requester, change_actor, creados **solo** en CCI-DEV y marcados como prueba; ids propios, sin datos personales reales | variables `-v` de 04; los crea/entrega el propietario |
+
+## 7. Casos positivos y negativos por script
+
+03: positivos (usuario del org A lee solo A), negativos RLS-01..05. 04: positivo R-POS y negativos R1–R9, R-ev1. 05: positivo (A inserta y revierte), negativo (B bloqueada y luego 23P01). 01/02: sin casos (inventario).
+
+## 8. Criterios de interrupción (detener la ejecución y no continuar)
+
+(1) la guarda no coincide con el project ref confirmado (P1); (2) cualquier script informa una escritura persistente (recuento posterior ≠ anterior en 04); (3) aparece un error de conexión/bloqueo largo (`lock_timeout`) en tablas de producción; (4) un FAIL de fuga RLS (reportar y detener: no «arreglar» en el momento); (5) el entorno resulta ser CCI-PROD o un proyecto de RevNavigator; (6) falta la autorización escrita P0–P4. Tras interrumpir: `rollback`, cerrar sesiones, guardar la salida íntegra.
+
+## 9. Procedimiento de limpieza
+
+Los scripts no persisten datos (rollback). Verificación: recuento de filas de las tablas tocadas antes y después (04 lo hace; para 03/05 contar a mano). Los datos de prueba sembrados por el propietario se eliminan por el propietario con su propio procedimiento aprobado; este expediente no ejecuta borrados. Cerrar sesiones A/B de 05 y verificar con `pg_stat_activity` que no quedan transacciones abiertas.
+
+## 10. Evidencias y criterios de aceptación globales
+
+Por etapa: salida íntegra sin editar, SHA-256 del script (de `MANIFIESTO_SHA256_CIERRE.txt`), versión, fecha, project ref confirmado, identidad del ejecutor. Aceptación de E2–E8: todos los PASS aplicables sin FAIL ni BLOCKED inexplicado; PARTIAL y NOT VERIFIED se reportan como pendientes; ningún resultado se «mejora» editando el script (cambio = nueva versión del script con su historial). La aceptación **formal** de Fase 0 y la autorización de Fase 1 son decisiones exclusivas del propietario.
+
+## 11. Qué se puede preparar documentalmente y qué requiere ejecución real
+
+Preparable (hecho): scripts v2, arnés, propuestas (contrato R1–R9, guarda DEV/PROD), plan, criterios. Requiere ejecución real en CCI-DEV con autorización expresa: E2–E8 completas, la prueba de la guarda con el marcador de entorno, K47 físico y las funciones. CCI-PROD queda fuera de esta operación.
+
+## 12. Aprobación requerida
+
+Autorización escrita del propietario para: ejecutar E2–E3 (lectura), E4–E8 (escritura con rollback), el contrato de error de R1–R9, el mecanismo de marcador de entorno y la entrega de datos de prueba. Sin ella, todo permanece NO EJECUTADO.

@@ -1,0 +1,572 @@
+PASS | PLAN_VALIDACION_CCI_DEV.md | sin JWT/claves/tokens | 
+PASS | PLAN_VALIDACION_CCI_DEV.md | sin cadenas de conexión con credenciales | 
+PASS | PLAN_VALIDACION_CCI_DEV.md | sin correos electrónicos (datos personales) | 
+PASS | PLAN_VALIDACION_CCI_DEV.md | sin teléfonos | 
+PASS | PLAN_VALIDACION_CCI_DEV.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | MATRIZ_TRAZABILIDAD_MAESTRA.csv | sin JWT/claves/tokens | 
+PASS | MATRIZ_TRAZABILIDAD_MAESTRA.csv | sin cadenas de conexión con credenciales | 
+PASS | MATRIZ_TRAZABILIDAD_MAESTRA.csv | sin correos electrónicos (datos personales) | 
+PASS | MATRIZ_TRAZABILIDAD_MAESTRA.csv | sin teléfonos | 
+PASS | MATRIZ_TRAZABILIDAD_MAESTRA.csv | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md | sin JWT/claves/tokens | 
+PASS | PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md | sin cadenas de conexión con credenciales | 
+PASS | PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md | sin correos electrónicos (datos personales) | 
+PASS | PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md | sin teléfonos | 
+PASS | PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | INFORME_REVISION_SCRIPTS_CCI_DEV.md | sin JWT/claves/tokens | 
+PASS | INFORME_REVISION_SCRIPTS_CCI_DEV.md | sin cadenas de conexión con credenciales | 
+PASS | INFORME_REVISION_SCRIPTS_CCI_DEV.md | sin correos electrónicos (datos personales) | 
+PASS | INFORME_REVISION_SCRIPTS_CCI_DEV.md | sin teléfonos | 
+PASS | INFORME_REVISION_SCRIPTS_CCI_DEV.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | INFORME_CIERRE_TECNICO_FASE0.md | sin JWT/claves/tokens | 
+PASS | INFORME_CIERRE_TECNICO_FASE0.md | sin cadenas de conexión con credenciales | 
+PASS | INFORME_CIERRE_TECNICO_FASE0.md | sin correos electrónicos (datos personales) | 
+PASS | INFORME_CIERRE_TECNICO_FASE0.md | sin teléfonos | 
+PASS | INFORME_CIERRE_TECNICO_FASE0.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | LEEME_CIERRE_TECNICO.md | sin JWT/claves/tokens | 
+PASS | LEEME_CIERRE_TECNICO.md | sin cadenas de conexión con credenciales | 
+PASS | LEEME_CIERRE_TECNICO.md | sin correos electrónicos (datos personales) | 
+PASS | LEEME_CIERRE_TECNICO.md | sin teléfonos | 
+PASS | LEEME_CIERRE_TECNICO.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | MATRIZ_12_ESCENARIOS_PARCIALES.csv | sin JWT/claves/tokens | 
+PASS | MATRIZ_12_ESCENARIOS_PARCIALES.csv | sin cadenas de conexión con credenciales | 
+PASS | MATRIZ_12_ESCENARIOS_PARCIALES.csv | sin correos electrónicos (datos personales) | 
+PASS | MATRIZ_12_ESCENARIOS_PARCIALES.csv | sin teléfonos | 
+PASS | MATRIZ_12_ESCENARIOS_PARCIALES.csv | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | PLAN_VALIDACION_TRIGGER_R1_R9.md | sin JWT/claves/tokens | 
+PASS | PLAN_VALIDACION_TRIGGER_R1_R9.md | sin cadenas de conexión con credenciales | 
+PASS | PLAN_VALIDACION_TRIGGER_R1_R9.md | sin correos electrónicos (datos personales) | 
+PASS | PLAN_VALIDACION_TRIGGER_R1_R9.md | sin teléfonos | 
+PASS | PLAN_VALIDACION_TRIGGER_R1_R9.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | PROPUESTA_GUARDA_DEV_PROD.md | sin JWT/claves/tokens | 
+PASS | PROPUESTA_GUARDA_DEV_PROD.md | sin cadenas de conexión con credenciales | 
+PASS | PROPUESTA_GUARDA_DEV_PROD.md | sin correos electrónicos (datos personales) | 
+PASS | PROPUESTA_GUARDA_DEV_PROD.md | sin teléfonos | 
+PASS | PROPUESTA_GUARDA_DEV_PROD.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | MATRIZ_MODELO_LOGICO_FISICO.md | sin JWT/claves/tokens | 
+PASS | MATRIZ_MODELO_LOGICO_FISICO.md | sin cadenas de conexión con credenciales | 
+PASS | MATRIZ_MODELO_LOGICO_FISICO.md | sin correos electrónicos (datos personales) | 
+PASS | MATRIZ_MODELO_LOGICO_FISICO.md | sin teléfonos | 
+PASS | MATRIZ_MODELO_LOGICO_FISICO.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | INFORME_HASHES_MANIFIESTO.md | sin JWT/claves/tokens | 
+PASS | INFORME_HASHES_MANIFIESTO.md | sin cadenas de conexión con credenciales | 
+PASS | INFORME_HASHES_MANIFIESTO.md | sin correos electrónicos (datos personales) | 
+PASS | INFORME_HASHES_MANIFIESTO.md | sin teléfonos | 
+PASS | INFORME_HASHES_MANIFIESTO.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | INFORME_DECISIONES_ARQUITECTONICAS.md | sin JWT/claves/tokens | 
+PASS | INFORME_DECISIONES_ARQUITECTONICAS.md | sin cadenas de conexión con credenciales | 
+PASS | INFORME_DECISIONES_ARQUITECTONICAS.md | sin correos electrónicos (datos personales) | 
+PASS | INFORME_DECISIONES_ARQUITECTONICAS.md | sin teléfonos | 
+PASS | INFORME_DECISIONES_ARQUITECTONICAS.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | REVISION_22_FUNCIONES.md | sin JWT/claves/tokens | 
+PASS | REVISION_22_FUNCIONES.md | sin cadenas de conexión con credenciales | 
+PASS | REVISION_22_FUNCIONES.md | sin correos electrónicos (datos personales) | 
+PASS | REVISION_22_FUNCIONES.md | sin teléfonos | 
+PASS | REVISION_22_FUNCIONES.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | INFORME_PRUEBAS_FINALES.md | sin JWT/claves/tokens | 
+PASS | INFORME_PRUEBAS_FINALES.md | sin cadenas de conexión con credenciales | 
+PASS | INFORME_PRUEBAS_FINALES.md | sin correos electrónicos (datos personales) | 
+PASS | INFORME_PRUEBAS_FINALES.md | sin teléfonos | 
+PASS | INFORME_PRUEBAS_FINALES.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | REGISTRO_DECISIONES_RECOMENDADAS.csv | sin JWT/claves/tokens | 
+PASS | REGISTRO_DECISIONES_RECOMENDADAS.csv | sin cadenas de conexión con credenciales | 
+PASS | REGISTRO_DECISIONES_RECOMENDADAS.csv | sin correos electrónicos (datos personales) | 
+PASS | REGISTRO_DECISIONES_RECOMENDADAS.csv | sin teléfonos | 
+PASS | REGISTRO_DECISIONES_RECOMENDADAS.csv | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | MATRIZ_LIMITACIONES_RESIDUALES.csv | sin JWT/claves/tokens | 
+PASS | MATRIZ_LIMITACIONES_RESIDUALES.csv | sin cadenas de conexión con credenciales | 
+PASS | MATRIZ_LIMITACIONES_RESIDUALES.csv | sin correos electrónicos (datos personales) | 
+PASS | MATRIZ_LIMITACIONES_RESIDUALES.csv | sin teléfonos | 
+PASS | MATRIZ_LIMITACIONES_RESIDUALES.csv | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv | sin JWT/claves/tokens | 
+PASS | MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv | sin cadenas de conexión con credenciales | 
+PASS | MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv | sin correos electrónicos (datos personales) | 
+PASS | MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv | sin teléfonos | 
+PASS | MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | PROPUESTA_CONTRATO_ERRORES_R1_R9.md | sin JWT/claves/tokens | 
+PASS | PROPUESTA_CONTRATO_ERRORES_R1_R9.md | sin cadenas de conexión con credenciales | 
+PASS | PROPUESTA_CONTRATO_ERRORES_R1_R9.md | sin correos electrónicos (datos personales) | 
+PASS | PROPUESTA_CONTRATO_ERRORES_R1_R9.md | sin teléfonos | 
+PASS | PROPUESTA_CONTRATO_ERRORES_R1_R9.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | INFORME_PUBLICACION_GITHUB.md | sin JWT/claves/tokens | 
+PASS | INFORME_PUBLICACION_GITHUB.md | sin cadenas de conexión con credenciales | 
+PASS | INFORME_PUBLICACION_GITHUB.md | sin correos electrónicos (datos personales) | 
+PASS | INFORME_PUBLICACION_GITHUB.md | sin teléfonos | 
+PASS | INFORME_PUBLICACION_GITHUB.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | INFORME_SEGURIDAD_SCRIPTS.md | sin JWT/claves/tokens | 
+PASS | INFORME_SEGURIDAD_SCRIPTS.md | sin cadenas de conexión con credenciales | 
+PASS | INFORME_SEGURIDAD_SCRIPTS.md | sin correos electrónicos (datos personales) | 
+PASS | INFORME_SEGURIDAD_SCRIPTS.md | sin teléfonos | 
+PASS | INFORME_SEGURIDAD_SCRIPTS.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | MANIFIESTO_SHA256_CIERRE.txt | sin JWT/claves/tokens | 
+PASS | MANIFIESTO_SHA256_CIERRE.txt | sin cadenas de conexión con credenciales | 
+PASS | MANIFIESTO_SHA256_CIERRE.txt | sin correos electrónicos (datos personales) | 
+PASS | MANIFIESTO_SHA256_CIERRE.txt | sin teléfonos | 
+PASS | MANIFIESTO_SHA256_CIERRE.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | DICTAMEN_PREPARACION_FASE0.md | sin JWT/claves/tokens | 
+PASS | DICTAMEN_PREPARACION_FASE0.md | sin cadenas de conexión con credenciales | 
+PASS | DICTAMEN_PREPARACION_FASE0.md | sin correos electrónicos (datos personales) | 
+PASS | DICTAMEN_PREPARACION_FASE0.md | sin teléfonos | 
+PASS | DICTAMEN_PREPARACION_FASE0.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | INFORME_RECONCILIACION_INTEGRAL.md | sin JWT/claves/tokens | 
+PASS | INFORME_RECONCILIACION_INTEGRAL.md | sin cadenas de conexión con credenciales | 
+PASS | INFORME_RECONCILIACION_INTEGRAL.md | sin correos electrónicos (datos personales) | 
+PASS | INFORME_RECONCILIACION_INTEGRAL.md | sin teléfonos | 
+PASS | INFORME_RECONCILIACION_INTEGRAL.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | EXPEDIENTE_T409_T422.md | sin JWT/claves/tokens | 
+PASS | EXPEDIENTE_T409_T422.md | sin cadenas de conexión con credenciales | 
+PASS | EXPEDIENTE_T409_T422.md | sin correos electrónicos (datos personales) | 
+PASS | EXPEDIENTE_T409_T422.md | sin teléfonos | 
+PASS | EXPEDIENTE_T409_T422.md | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_smoke_scripts_cci_dev_local.sh | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_smoke_scripts_cci_dev_local.sh | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_smoke_scripts_cci_dev_local.sh | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_smoke_scripts_cci_dev_local.sh | sin teléfonos | 
+PASS | scripts_validacion/ct_smoke_scripts_cci_dev_local.sh | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_inspeccion_22_funciones.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_inspeccion_22_funciones.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_inspeccion_22_funciones.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_inspeccion_22_funciones.py | sin teléfonos | 
+PASS | scripts_validacion/ct_inspeccion_22_funciones.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_t409_t422_correspondencia.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_t409_t422_correspondencia.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_t409_t422_correspondencia.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_t409_t422_correspondencia.py | sin teléfonos | 
+PASS | scripts_validacion/ct_t409_t422_correspondencia.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_gen_decisiones_ext.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_gen_decisiones_ext.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_gen_decisiones_ext.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_gen_decisiones_ext.py | sin teléfonos | 
+PASS | scripts_validacion/ct_gen_decisiones_ext.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_gen_trazabilidad_maestra.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_gen_trazabilidad_maestra.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_gen_trazabilidad_maestra.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_gen_trazabilidad_maestra.py | sin teléfonos | 
+PASS | scripts_validacion/ct_gen_trazabilidad_maestra.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_gen_matriz_12.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_gen_matriz_12.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_gen_matriz_12.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_gen_matriz_12.py | sin teléfonos | 
+PASS | scripts_validacion/ct_gen_matriz_12.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_reejecucion_22_funciones.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_reejecucion_22_funciones.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_reejecucion_22_funciones.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_reejecucion_22_funciones.py | sin teléfonos | 
+PASS | scripts_validacion/ct_reejecucion_22_funciones.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_gen_decisiones.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_gen_decisiones.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_gen_decisiones.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_gen_decisiones.py | sin teléfonos | 
+PASS | scripts_validacion/ct_gen_decisiones.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_gen_t409.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_gen_t409.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_gen_t409.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_gen_t409.py | sin teléfonos | 
+PASS | scripts_validacion/ct_gen_t409.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_gen_revision_22.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_gen_revision_22.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_gen_revision_22.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_gen_revision_22.py | sin teléfonos | 
+PASS | scripts_validacion/ct_gen_revision_22.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_reconciliacion_integral.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_reconciliacion_integral.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_reconciliacion_integral.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_reconciliacion_integral.py | sin teléfonos | 
+PASS | scripts_validacion/ct_reconciliacion_integral.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_exc_en_mutaciones_modelo14.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_exc_en_mutaciones_modelo14.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_exc_en_mutaciones_modelo14.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_exc_en_mutaciones_modelo14.py | sin teléfonos | 
+PASS | scripts_validacion/ct_exc_en_mutaciones_modelo14.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_manifiesto.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_manifiesto.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_manifiesto.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_manifiesto.py | sin teléfonos | 
+PASS | scripts_validacion/ct_manifiesto.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_hash_cadena_referencia.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_hash_cadena_referencia.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_hash_cadena_referencia.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_hash_cadena_referencia.py | sin teléfonos | 
+PASS | scripts_validacion/ct_hash_cadena_referencia.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_dg19_pk_experimento.sh | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_dg19_pk_experimento.sh | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_dg19_pk_experimento.sh | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_dg19_pk_experimento.sh | sin teléfonos | 
+PASS | scripts_validacion/ct_dg19_pk_experimento.sh | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_arnes_r1r9_autoprueba.sh | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_arnes_r1r9_autoprueba.sh | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_arnes_r1r9_autoprueba.sh | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_arnes_r1r9_autoprueba.sh | sin teléfonos | 
+PASS | scripts_validacion/ct_arnes_r1r9_autoprueba.sh | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_revision_estatica_T47_T124.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_revision_estatica_T47_T124.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_revision_estatica_T47_T124.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_revision_estatica_T47_T124.py | sin teléfonos | 
+PASS | scripts_validacion/ct_revision_estatica_T47_T124.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_concurrencia_local.sh | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_concurrencia_local.sh | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_concurrencia_local.sh | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_concurrencia_local.sh | sin teléfonos | 
+PASS | scripts_validacion/ct_concurrencia_local.sh | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_escaner_seguridad_sql.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_escaner_seguridad_sql.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_escaner_seguridad_sql.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_escaner_seguridad_sql.py | sin teléfonos | 
+PASS | scripts_validacion/ct_escaner_seguridad_sql.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_t409_t422_individual.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_t409_t422_individual.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_t409_t422_individual.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_t409_t422_individual.py | sin teléfonos | 
+PASS | scripts_validacion/ct_t409_t422_individual.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_catalogo_except_y_ramas_muertas.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_catalogo_except_y_ramas_muertas.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_catalogo_except_y_ramas_muertas.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_catalogo_except_y_ramas_muertas.py | sin teléfonos | 
+PASS | scripts_validacion/ct_catalogo_except_y_ramas_muertas.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_bateria_final.sh | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_bateria_final.sh | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_bateria_final.sh | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_bateria_final.sh | sin teléfonos | 
+PASS | scripts_validacion/ct_bateria_final.sh | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_k47_por_escenario.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_k47_por_escenario.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_k47_por_escenario.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_k47_por_escenario.py | sin teléfonos | 
+PASS | scripts_validacion/ct_k47_por_escenario.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_gen_limitaciones.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_gen_limitaciones.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_gen_limitaciones.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_gen_limitaciones.py | sin teléfonos | 
+PASS | scripts_validacion/ct_gen_limitaciones.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_gen_decisiones_cinco.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_gen_decisiones_cinco.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_gen_decisiones_cinco.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_gen_decisiones_cinco.py | sin teléfonos | 
+PASS | scripts_validacion/ct_gen_decisiones_cinco.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_controles_negativos_manifiesto.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_controles_negativos_manifiesto.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_controles_negativos_manifiesto.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_controles_negativos_manifiesto.py | sin teléfonos | 
+PASS | scripts_validacion/ct_controles_negativos_manifiesto.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/historico_defectos/04_trigger_r1_r9_ROLLBACK_v1_CON_DEFECTO.sql.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/historico_defectos/04_trigger_r1_r9_ROLLBACK_v1_CON_DEFECTO.sql.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/historico_defectos/04_trigger_r1_r9_ROLLBACK_v1_CON_DEFECTO.sql.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/historico_defectos/04_trigger_r1_r9_ROLLBACK_v1_CON_DEFECTO.sql.txt | sin teléfonos | 
+PASS | scripts_validacion/historico_defectos/04_trigger_r1_r9_ROLLBACK_v1_CON_DEFECTO.sql.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/local_ext/12_ext2_fixture.sql | sin JWT/claves/tokens | 
+PASS | scripts_validacion/local_ext/12_ext2_fixture.sql | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/local_ext/12_ext2_fixture.sql | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/local_ext/12_ext2_fixture.sql | sin teléfonos | 
+PASS | scripts_validacion/local_ext/12_ext2_fixture.sql | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/local_ext/11_ext_pruebas.sql | sin JWT/claves/tokens | 
+PASS | scripts_validacion/local_ext/11_ext_pruebas.sql | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/local_ext/11_ext_pruebas.sql | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/local_ext/11_ext_pruebas.sql | sin teléfonos | 
+PASS | scripts_validacion/local_ext/11_ext_pruebas.sql | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/local_ext/13_ext2_pruebas.sql | sin JWT/claves/tokens | 
+PASS | scripts_validacion/local_ext/13_ext2_pruebas.sql | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/local_ext/13_ext2_pruebas.sql | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/local_ext/13_ext2_pruebas.sql | sin teléfonos | 
+PASS | scripts_validacion/local_ext/13_ext2_pruebas.sql | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/local_ext/30_shim_rls_fixture_LOCAL.sql | sin JWT/claves/tokens | 
+PASS | scripts_validacion/local_ext/30_shim_rls_fixture_LOCAL.sql | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/local_ext/30_shim_rls_fixture_LOCAL.sql | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/local_ext/30_shim_rls_fixture_LOCAL.sql | sin teléfonos | 
+PASS | scripts_validacion/local_ext/30_shim_rls_fixture_LOCAL.sql | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/local_ext/31_conc_smoke_fixture_LOCAL.sql | sin JWT/claves/tokens | 
+PASS | scripts_validacion/local_ext/31_conc_smoke_fixture_LOCAL.sql | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/local_ext/31_conc_smoke_fixture_LOCAL.sql | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/local_ext/31_conc_smoke_fixture_LOCAL.sql | sin teléfonos | 
+PASS | scripts_validacion/local_ext/31_conc_smoke_fixture_LOCAL.sql | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/local_ext/10_ext_fixture.sql | sin JWT/claves/tokens | 
+PASS | scripts_validacion/local_ext/10_ext_fixture.sql | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/local_ext/10_ext_fixture.sql | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/local_ext/10_ext_fixture.sql | sin teléfonos | 
+PASS | scripts_validacion/local_ext/10_ext_fixture.sql | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/local_ext/20_arnes_r1r9_autoprueba_LOCAL.sql | sin JWT/claves/tokens | 
+PASS | scripts_validacion/local_ext/20_arnes_r1r9_autoprueba_LOCAL.sql | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/local_ext/20_arnes_r1r9_autoprueba_LOCAL.sql | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/local_ext/20_arnes_r1r9_autoprueba_LOCAL.sql | sin teléfonos | 
+PASS | scripts_validacion/local_ext/20_arnes_r1r9_autoprueba_LOCAL.sql | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/local_ext/ejecutar_ext.sh | sin JWT/claves/tokens | 
+PASS | scripts_validacion/local_ext/ejecutar_ext.sh | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/local_ext/ejecutar_ext.sh | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/local_ext/ejecutar_ext.sh | sin teléfonos | 
+PASS | scripts_validacion/local_ext/ejecutar_ext.sh | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/smoke_05_sesion_B.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/smoke_05_sesion_B.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/smoke_05_sesion_B.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/smoke_05_sesion_B.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/smoke_05_sesion_B.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/smoke_05_sin_tabla.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/smoke_05_sin_tabla.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/smoke_05_sin_tabla.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/smoke_05_sin_tabla.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/smoke_05_sin_tabla.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/catalogo_except_y_ramas_muertas.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/catalogo_except_y_ramas_muertas.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/catalogo_except_y_ramas_muertas.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/catalogo_except_y_ramas_muertas.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/catalogo_except_y_ramas_muertas.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/catalogo_except_exception.csv | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/catalogo_except_exception.csv | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/catalogo_except_exception.csv | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/catalogo_except_exception.csv | sin teléfonos | 
+PASS | scripts_validacion/resultados/catalogo_except_exception.csv | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/exc_en_mutaciones_modelo14.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/exc_en_mutaciones_modelo14.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/exc_en_mutaciones_modelo14.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/exc_en_mutaciones_modelo14.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/exc_en_mutaciones_modelo14.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/k47_por_escenario.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/k47_por_escenario.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/k47_por_escenario.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/k47_por_escenario.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/k47_por_escenario.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/arnes_r1r9_autoprueba_local.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/arnes_r1r9_autoprueba_local.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/arnes_r1r9_autoprueba_local.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/arnes_r1r9_autoprueba_local.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/arnes_r1r9_autoprueba_local.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/base_V20_mutaciones_utf8.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/base_V20_mutaciones_utf8.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/base_V20_mutaciones_utf8.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/base_V20_mutaciones_utf8.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/base_V20_mutaciones_utf8.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/ext_sqlascii.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/ext_sqlascii.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/ext_sqlascii.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/ext_sqlascii.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/ext_sqlascii.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/smoke_codigos.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/smoke_codigos.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/smoke_codigos.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/smoke_codigos.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/smoke_codigos.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/smoke_01_inventario.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/smoke_01_inventario.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/smoke_01_inventario.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/smoke_01_inventario.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/smoke_01_inventario.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/concurrencia_local_utf8.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/concurrencia_local_utf8.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/concurrencia_local_utf8.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/concurrencia_local_utf8.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/concurrencia_local_utf8.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/ext_utf8.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/ext_utf8.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/ext_utf8.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/ext_utf8.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/ext_utf8.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/smoke_05_sesion_A.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/smoke_05_sesion_A.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/smoke_05_sesion_A.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/smoke_05_sesion_A.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/smoke_05_sesion_A.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/smoke_03_rls_shim_corregida.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/smoke_03_rls_shim_corregida.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/smoke_03_rls_shim_corregida.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/smoke_03_rls_shim_corregida.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/smoke_03_rls_shim_corregida.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/base_V20_pe_utf8.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/base_V20_pe_utf8.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/base_V20_pe_utf8.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/base_V20_pe_utf8.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/base_V20_pe_utf8.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/base_V20_mutaciones_sqlascii.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/base_V20_mutaciones_sqlascii.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/base_V20_mutaciones_sqlascii.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/base_V20_mutaciones_sqlascii.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/base_V20_mutaciones_sqlascii.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/dg19_pk_experimento.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/dg19_pk_experimento.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/dg19_pk_experimento.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/dg19_pk_experimento.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/dg19_pk_experimento.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/smoke_03_rls_shim_defectuosa.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/smoke_03_rls_shim_defectuosa.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/smoke_03_rls_shim_defectuosa.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/smoke_03_rls_shim_defectuosa.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/smoke_03_rls_shim_defectuosa.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/k47_por_escenario.csv | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/k47_por_escenario.csv | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/k47_por_escenario.csv | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/k47_por_escenario.csv | sin teléfonos | 
+PASS | scripts_validacion/resultados/k47_por_escenario.csv | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/hash_cadena_referencia.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/hash_cadena_referencia.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/hash_cadena_referencia.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/hash_cadena_referencia.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/hash_cadena_referencia.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/t409_t422_correspondencia.csv | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/t409_t422_correspondencia.csv | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/t409_t422_correspondencia.csv | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/t409_t422_correspondencia.csv | sin teléfonos | 
+PASS | scripts_validacion/resultados/t409_t422_correspondencia.csv | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/base_V20_pe_sqlascii.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/base_V20_pe_sqlascii.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/base_V20_pe_sqlascii.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/base_V20_pe_sqlascii.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/base_V20_pe_sqlascii.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/revision_estatica_T47_T124.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/revision_estatica_T47_T124.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/revision_estatica_T47_T124.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/revision_estatica_T47_T124.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/revision_estatica_T47_T124.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/shim_rls_corrida2_corregido.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/shim_rls_corrida2_corregido.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/shim_rls_corrida2_corregido.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/shim_rls_corrida2_corregido.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/shim_rls_corrida2_corregido.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/historico_verificador_v1_control_negativo.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/historico_verificador_v1_control_negativo.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/historico_verificador_v1_control_negativo.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/historico_verificador_v1_control_negativo.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/historico_verificador_v1_control_negativo.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/smoke_guardas.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/smoke_guardas.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/smoke_guardas.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/smoke_guardas.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/smoke_guardas.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/t409_t422_individual.csv | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/t409_t422_individual.csv | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/t409_t422_individual.csv | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/t409_t422_individual.csv | sin teléfonos | 
+PASS | scripts_validacion/resultados/t409_t422_individual.csv | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/escaner_seguridad_control_negativo.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/escaner_seguridad_control_negativo.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/escaner_seguridad_control_negativo.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/escaner_seguridad_control_negativo.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/escaner_seguridad_control_negativo.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/escaner_seguridad_sql.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/escaner_seguridad_sql.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/escaner_seguridad_sql.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/escaner_seguridad_sql.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/escaner_seguridad_sql.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/t409_t422_individual.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/t409_t422_individual.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/t409_t422_individual.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/t409_t422_individual.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/t409_t422_individual.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/22_funciones_conciliacion.csv | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/22_funciones_conciliacion.csv | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/22_funciones_conciliacion.csv | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/22_funciones_conciliacion.csv | sin teléfonos | 
+PASS | scripts_validacion/resultados/22_funciones_conciliacion.csv | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/04_r1r9_local_bloqueado.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/04_r1r9_local_bloqueado.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/04_r1r9_local_bloqueado.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/04_r1r9_local_bloqueado.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/04_r1r9_local_bloqueado.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/22_funciones_reejecucion_local.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/22_funciones_reejecucion_local.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/22_funciones_reejecucion_local.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/22_funciones_reejecucion_local.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/22_funciones_reejecucion_local.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/shim_rls_corrida1_con_defectos.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/shim_rls_corrida1_con_defectos.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/shim_rls_corrida1_con_defectos.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/shim_rls_corrida1_con_defectos.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/shim_rls_corrida1_con_defectos.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/smoke_02_rls_inventario.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/smoke_02_rls_inventario.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/smoke_02_rls_inventario.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/smoke_02_rls_inventario.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/smoke_02_rls_inventario.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/bateria_final/t409_repro.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/bateria_final/t409_repro.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/bateria_final/t409_repro.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/bateria_final/t409_repro.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/bateria_final/t409_repro.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/bateria_final/escaner_texto_stdout.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/bateria_final/escaner_texto_stdout.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/bateria_final/escaner_texto_stdout.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/bateria_final/escaner_texto_stdout.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/bateria_final/escaner_texto_stdout.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/bateria_final/t409_correspondencia.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/bateria_final/t409_correspondencia.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/bateria_final/t409_correspondencia.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/bateria_final/t409_correspondencia.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/bateria_final/t409_correspondencia.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/bateria_final/t409_repro_cmp.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/bateria_final/t409_repro_cmp.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/bateria_final/t409_repro_cmp.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/bateria_final/t409_repro_cmp.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/bateria_final/t409_repro_cmp.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/bateria_final/escaner_sql_stdout.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/bateria_final/escaner_sql_stdout.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/bateria_final/escaner_sql_stdout.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/bateria_final/escaner_sql_stdout.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/bateria_final/escaner_sql_stdout.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/bateria_final/22_stdout.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/bateria_final/22_stdout.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/bateria_final/22_stdout.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/bateria_final/22_stdout.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/bateria_final/22_stdout.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv | sin teléfonos | 
+PASS | scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/bateria_final/smoke_stdout.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/bateria_final/smoke_stdout.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/bateria_final/smoke_stdout.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/bateria_final/smoke_stdout.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/bateria_final/smoke_stdout.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/bateria_final/t409_repro.csv | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/bateria_final/t409_repro.csv | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/bateria_final/t409_repro.csv | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/bateria_final/t409_repro.csv | sin teléfonos | 
+PASS | scripts_validacion/resultados/bateria_final/t409_repro.csv | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/resultados/bateria_final/ENTORNO.txt | sin JWT/claves/tokens | 
+PASS | scripts_validacion/resultados/bateria_final/ENTORNO.txt | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/resultados/bateria_final/ENTORNO.txt | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/resultados/bateria_final/ENTORNO.txt | sin teléfonos | 
+PASS | scripts_validacion/resultados/bateria_final/ENTORNO.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_B.sql | sin JWT/claves/tokens | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_B.sql | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_B.sql | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_B.sql | sin teléfonos | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_B.sql | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/04_lib_clasificador.sql | sin JWT/claves/tokens | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/04_lib_clasificador.sql | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/04_lib_clasificador.sql | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/04_lib_clasificador.sql | sin teléfonos | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/04_lib_clasificador.sql | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/02_rls_privilegios_SOLO_LECTURA.sql | sin JWT/claves/tokens | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/02_rls_privilegios_SOLO_LECTURA.sql | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/02_rls_privilegios_SOLO_LECTURA.sql | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/02_rls_privilegios_SOLO_LECTURA.sql | sin teléfonos | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/02_rls_privilegios_SOLO_LECTURA.sql | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/03_pruebas_rls_ROLLBACK.sql | sin JWT/claves/tokens | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/03_pruebas_rls_ROLLBACK.sql | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/03_pruebas_rls_ROLLBACK.sql | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/03_pruebas_rls_ROLLBACK.sql | sin teléfonos | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/03_pruebas_rls_ROLLBACK.sql | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/04_trigger_r1_r9_ROLLBACK.sql | sin JWT/claves/tokens | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/04_trigger_r1_r9_ROLLBACK.sql | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/04_trigger_r1_r9_ROLLBACK.sql | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/04_trigger_r1_r9_ROLLBACK.sql | sin teléfonos | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/04_trigger_r1_r9_ROLLBACK.sql | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/01_inventario_esquema_SOLO_LECTURA.sql | sin JWT/claves/tokens | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/01_inventario_esquema_SOLO_LECTURA.sql | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/01_inventario_esquema_SOLO_LECTURA.sql | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/01_inventario_esquema_SOLO_LECTURA.sql | sin teléfonos | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/01_inventario_esquema_SOLO_LECTURA.sql | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_A.sql | sin JWT/claves/tokens | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_A.sql | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_A.sql | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_A.sql | sin teléfonos | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_A.sql | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaA.txt | sin JWT/claves/tokens | 
+PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaA.txt | sin cadenas de conexión con credenciales | 
+PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaA.txt | sin correos electrónicos (datos personales) | 
+PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaA.txt | sin teléfonos | 
+PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaA.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaB.txt | sin JWT/claves/tokens | 
+PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaB.txt | sin cadenas de conexión con credenciales | 
+PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaB.txt | sin correos electrónicos (datos personales) | 
+PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaB.txt | sin teléfonos | 
+PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaB.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | (árbol) | sin enlaces simbólicos ni artefactos de Python | 
+TOTAL=571 FAIL=0

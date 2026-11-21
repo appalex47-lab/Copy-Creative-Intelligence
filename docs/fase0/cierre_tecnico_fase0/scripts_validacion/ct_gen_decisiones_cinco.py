@@ -15,6 +15,9 @@ L = ["## 0. Separación de los cinco elementos por decisión", "",
 for d in dec:
     ev = d["Pruebas_necesarias"]; dev = "Sí" if re.search(r"CCI-DEV|físic|real", ev, re.I) else "No identificada en el registro"
     L.append("| %s | %s | %s | %s | %s | %s |" % (d["ID"], corto(d["Recomendacion_tecnica"]).replace("|", "/"), corto(d["Decision_requerida_del_propietario"]).replace("|", "/"), corto(ev).replace("|", "/"), dev, NO_DISP.get(d["ID"], "ninguno identificado")))
+L += ["", "### Consecuencias de aprobar / no aprobar y estado actual", "", "| ID | Consecuencia si se aprueba | Consecuencia si no se aprueba | Estado actual |", "|---|---|---|---|"]
+for d in dec:
+    L.append("| %s | %s | %s | %s |" % (d["ID"], corto(d["Consecuencia_si_se_aprueba"], 300).replace("|", "/"), corto(d["Consecuencia_si_no_se_aprueba"], 300).replace("|", "/"), corto(d["Estado_actual"], 120).replace("|", "/")))
 L += ["", "No se inventan política de retención, responsables reales, infraestructura, catálogo real, umbrales no aprobados ni el contenido de la Adenda v9/OD-13; si el texto fuente no está disponible, se declara.", ""]
 p = os.path.join(c, "INFORME_DECISIONES_ARQUITECTONICAS.md"); s = open(p, encoding="utf-8").read()
 s = re.sub(r"## 0\. Separación de los cinco elementos por decisión.*?(?=\n## G-1 )", "", s, flags=re.S)

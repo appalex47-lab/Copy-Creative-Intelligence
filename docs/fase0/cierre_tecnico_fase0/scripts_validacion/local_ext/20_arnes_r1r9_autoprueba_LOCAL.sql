@@ -15,6 +15,9 @@ create function arnes_stub.stub_ok(a uuid, t text, e text) returns void language
 create function arnes_stub.stub_ok_sin_fila(a uuid, t text, e text) returns void language plpgsql as $$ begin null; end $$;
 create function arnes_stub.stub_tabla_falta(a uuid, t text, e text) returns void language plpgsql as $$ begin perform 1 from arnes_stub.no_existe; end $$;
 create function arnes_stub.stub_dep_falta(a uuid, t text, e text) returns void language plpgsql as $$ begin perform arnes_stub.dependencia_inexistente(); end $$;
+create function arnes_stub.stub_rj003(a uuid, t text, e text) returns void language plpgsql as $$ begin raise exception 'R3:no_afectado' using errcode='RJ003'; end $$;
+create function arnes_stub.stub_rj004(a uuid, t text, e text) returns void language plpgsql as $$ begin raise exception 'R4:no_solicitante' using errcode='RJ004'; end $$;
+create function arnes_stub.stub_p0001_generico(a uuid, t text, e text) returns void language plpgsql as $$ begin raise exception 'R3:no_afectado' using errcode='P0001'; end $$;
 create function arnes_stub.stub_div0(a uuid, t text, e text) returns void language plpgsql as $$ begin perform 1/0; end $$;
 create function arnes_stub.stub_check(a uuid, t text, e text) returns void language plpgsql as $$ begin insert into arnes_stub.res values (0, a); end $$;
 create function arnes_stub.stub_priv(a uuid, t text, e text) returns void language plpgsql as $$ begin null; end $$;
@@ -39,7 +42,14 @@ insert into caso values
  ('C15','control positivo: error inesperado','POS',$$select arnes_stub.stub_div0(gen_random_uuid(),'m','e')$$,null,'',true,'FAIL','ERROR_INESPERADO'),
  ('C16','precondición incumplida fuerza BLOCKED aunque el rechazo coincida','NEG',$$select arnes_stub.stub_dom(gen_random_uuid(),'m','e')$$,null,'P0001:RESOLUTOR_NO_ELEGIBLE:R1',false,'BLOCKED','DOMINIO_CANDIDATO'),
  ('C17','prueba de permisos: 42501 observado (contrato no definido por la especificación)','ERR_PERM',$$select arnes_stub.stub_priv(gen_random_uuid(),'m','e')$$,'cci_arnes_noexec','',true,'PARTIAL','PERMISOS'),
- ('C18','prueba de permisos: se esperaba denegación y la llamada tuvo éxito','ERR_PERM',$$select arnes_stub.stub_ok_sin_fila(gen_random_uuid(),'m','e')$$,null,'',true,'FAIL','OK');
+ ('C18','prueba de permisos: se esperaba denegación y la llamada tuvo éxito','ERR_PERM',$$select arnes_stub.stub_ok_sin_fila(gen_random_uuid(),'m','e')$$,null,'',true,'FAIL','OK'),
+ ('C19','contrato PROPUESTO: SQLSTATE RJ003 observado = esperado RJ003','NEG',$$select arnes_stub.stub_rj003(gen_random_uuid(),'m','e')$$,null,'RJ003',true,'PASS','DOMINIO_CANDIDATO'),
+ ('C20','contrato PROPUESTO: se esperaba RJ003 y la función rechazó con RJ004 (otra regla)','NEG',$$select arnes_stub.stub_rj004(gen_random_uuid(),'m','e')$$,null,'RJ003',true,'FAIL','DOMINIO_CANDIDATO'),
+ ('C21','contrato PROPUESTO: P0001 genérico con el mismo texto NO satisface RJ003 (no depende del texto)','NEG',$$select arnes_stub.stub_p0001_generico(gen_random_uuid(),'m','e')$$,null,'RJ003',true,'FAIL','DOMINIO_CANDIDATO'),
+ ('C22','clase RJ sin contrato declarado: PARTIAL, nunca PASS','NEG',$$select arnes_stub.stub_rj003(gen_random_uuid(),'m','e')$$,null,'',true,'PARTIAL','DOMINIO_CANDIDATO'),
+ ('C23','SQLSTATE exacto: el contrato RJ00 (prefijo de RJ003) NO debe aceptar RJ003 como PASS','NEG',$$select arnes_stub.stub_rj003(gen_random_uuid(),'m','e')$$,null,'RJ00',true,'FAIL','DOMINIO_CANDIDATO'),
+ ('C24','contrato SQLSTATE+prefijo de mensaje: SQLSTATE correcto pero mensaje distinto => FAIL','NEG',$$select arnes_stub.stub_rj003(gen_random_uuid(),'m','e')$$,null,'RJ003:R9:no_beneficiario',true,'FAIL','DOMINIO_CANDIDATO'),
+ ('C25','contrato SQLSTATE+prefijo de mensaje coincidente => PASS','NEG',$$select arnes_stub.stub_rj003(gen_random_uuid(),'m','e')$$,null,'RJ003:R3:no_afectado',true,'PASS','DOMINIO_CANDIDATO');
 create temp table obs as select c.id, c.descr, c.tipo, c.v_esperado, c.c_esperada, x.o_clase, x.o_sqlstate, pg_temp.veredicto(c.tipo, x.o_clase, x.o_sqlstate, x.o_msg, c.esperado, c.precond) as v_obtenido,
    (select count(*) from arnes_stub.res) as filas_tras_caso
   from caso c cross join lateral pg_temp.ejecuta(c.sqltxt, c.rol, null, null, true) x order by c.id;

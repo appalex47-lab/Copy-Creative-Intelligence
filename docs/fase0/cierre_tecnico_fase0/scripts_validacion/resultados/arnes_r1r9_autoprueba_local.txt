@@ -1,25 +1,32 @@
 === PRUEBAS DEL ARNÉS (no de la lógica R1–R9) ===
- id  |                                      descr                                       |   clase_esperada    |   clase_obtenida    | v_esperado | v_obtenido | resultado_arnes 
------+----------------------------------------------------------------------------------+---------------------+---------------------+------------+------------+-----------------
- C01 | función inexistente                                                              | FUNCION_INEXISTENTE | FUNCION_INEXISTENTE | BLOCKED    | BLOCKED    | PASS
- C02 | firma incorrecta (1 argumento)                                                   | FUNCION_INEXISTENTE | FUNCION_INEXISTENTE | BLOCKED    | BLOCKED    | PASS
- C03 | tabla/dependencia inexistente dentro de la función                               | ESTRUCTURA          | ESTRUCTURA          | BLOCKED    | BLOCKED    | PASS
- C04 | permiso insuficiente (EXECUTE revocado)                                          | PERMISOS            | PERMISOS            | BLOCKED    | BLOCKED    | PASS
- C05 | excepción inesperada (división por cero)                                         | ERROR_INESPERADO    | ERROR_INESPERADO    | FAIL       | FAIL       | PASS
- C06 | rechazo válido de negocio con contrato coincidente                               | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | PASS       | PASS       | PASS
- C07 | rechazo de negocio con código distinto del esperado                              | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | FAIL       | FAIL       | PASS
- C08 | rechazo observado sin contrato definido                                          | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | PARTIAL    | PARTIAL    | PASS
- C09 | la regla no rechazó (la función tuvo éxito)                                      | OK                  | OK                  | FAIL       | FAIL       | PASS
- C10 | error de sintaxis                                                                | SINTAXIS            | SINTAXIS            | BLOCKED    | BLOCKED    | PASS
- C11 | rechazo por CHECK 23514 con contrato 23514                                       | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | PASS       | PASS       | PASS
- C12 | P0001 técnico (mensaje ajeno al contrato) NO es rechazo de la regla              | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | FAIL       | FAIL       | PASS
- C13 | dependencia de tipo función inexistente dentro de la función                     | FUNCION_INEXISTENTE | FUNCION_INEXISTENTE | BLOCKED    | BLOCKED    | PASS
- C14 | control positivo: éxito                                                          | OK                  | OK                  | PASS       | PASS       | PASS
- C15 | control positivo: error inesperado                                               | ERROR_INESPERADO    | ERROR_INESPERADO    | FAIL       | FAIL       | PASS
- C16 | precondición incumplida fuerza BLOCKED aunque el rechazo coincida                | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | BLOCKED    | BLOCKED    | PASS
- C17 | prueba de permisos: 42501 observado (contrato no definido por la especificación) | PERMISOS            | PERMISOS            | PARTIAL    | PARTIAL    | PASS
- C18 | prueba de permisos: se esperaba denegación y la llamada tuvo éxito               | OK                  | OK                  | FAIL       | FAIL       | PASS
-(18 rows)
+ id  |                                              descr                                              |   clase_esperada    |   clase_obtenida    | v_esperado | v_obtenido | resultado_arnes 
+-----+-------------------------------------------------------------------------------------------------+---------------------+---------------------+------------+------------+-----------------
+ C01 | función inexistente                                                                             | FUNCION_INEXISTENTE | FUNCION_INEXISTENTE | BLOCKED    | BLOCKED    | PASS
+ C02 | firma incorrecta (1 argumento)                                                                  | FUNCION_INEXISTENTE | FUNCION_INEXISTENTE | BLOCKED    | BLOCKED    | PASS
+ C03 | tabla/dependencia inexistente dentro de la función                                              | ESTRUCTURA          | ESTRUCTURA          | BLOCKED    | BLOCKED    | PASS
+ C04 | permiso insuficiente (EXECUTE revocado)                                                         | PERMISOS            | PERMISOS            | BLOCKED    | BLOCKED    | PASS
+ C05 | excepción inesperada (división por cero)                                                        | ERROR_INESPERADO    | ERROR_INESPERADO    | FAIL       | FAIL       | PASS
+ C06 | rechazo válido de negocio con contrato coincidente                                              | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | PASS       | PASS       | PASS
+ C07 | rechazo de negocio con código distinto del esperado                                             | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | FAIL       | FAIL       | PASS
+ C08 | rechazo observado sin contrato definido                                                         | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | PARTIAL    | PARTIAL    | PASS
+ C09 | la regla no rechazó (la función tuvo éxito)                                                     | OK                  | OK                  | FAIL       | FAIL       | PASS
+ C10 | error de sintaxis                                                                               | SINTAXIS            | SINTAXIS            | BLOCKED    | BLOCKED    | PASS
+ C11 | rechazo por CHECK 23514 con contrato 23514                                                      | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | PASS       | PASS       | PASS
+ C12 | P0001 técnico (mensaje ajeno al contrato) NO es rechazo de la regla                             | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | FAIL       | FAIL       | PASS
+ C13 | dependencia de tipo función inexistente dentro de la función                                    | FUNCION_INEXISTENTE | FUNCION_INEXISTENTE | BLOCKED    | BLOCKED    | PASS
+ C14 | control positivo: éxito                                                                         | OK                  | OK                  | PASS       | PASS       | PASS
+ C15 | control positivo: error inesperado                                                              | ERROR_INESPERADO    | ERROR_INESPERADO    | FAIL       | FAIL       | PASS
+ C16 | precondición incumplida fuerza BLOCKED aunque el rechazo coincida                               | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | BLOCKED    | BLOCKED    | PASS
+ C17 | prueba de permisos: 42501 observado (contrato no definido por la especificación)                | PERMISOS            | PERMISOS            | PARTIAL    | PARTIAL    | PASS
+ C18 | prueba de permisos: se esperaba denegación y la llamada tuvo éxito                              | OK                  | OK                  | FAIL       | FAIL       | PASS
+ C19 | contrato PROPUESTO: SQLSTATE RJ003 observado = esperado RJ003                                   | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | PASS       | PASS       | PASS
+ C20 | contrato PROPUESTO: se esperaba RJ003 y la función rechazó con RJ004 (otra regla)               | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | FAIL       | FAIL       | PASS
+ C21 | contrato PROPUESTO: P0001 genérico con el mismo texto NO satisface RJ003 (no depende del texto) | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | FAIL       | FAIL       | PASS
+ C22 | clase RJ sin contrato declarado: PARTIAL, nunca PASS                                            | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | PARTIAL    | PARTIAL    | PASS
+ C23 | SQLSTATE exacto: el contrato RJ00 (prefijo de RJ003) NO debe aceptar RJ003 como PASS            | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | FAIL       | FAIL       | PASS
+ C24 | contrato SQLSTATE+prefijo de mensaje: SQLSTATE correcto pero mensaje distinto => FAIL           | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | FAIL       | FAIL       | PASS
+ C25 | contrato SQLSTATE+prefijo de mensaje coincidente => PASS                                        | DOMINIO_CANDIDATO   | DOMINIO_CANDIDATO   | PASS       | PASS       | PASS
+(25 rows)
 
                            prueba                            | resultado_arnes 
 -------------------------------------------------------------+-----------------
@@ -32,29 +39,34 @@
 (1 row)
 
 === DEFECTO v1 REPRODUCIDO: falsos PASS del criterio original (obtenido <> OK => PASS) en casos NEG ===
- id  |                                descr                                |       o_clase       | veredicto_v1_defectuoso | veredicto_v2 
------+---------------------------------------------------------------------+---------------------+-------------------------+--------------
- C01 | función inexistente                                                 | FUNCION_INEXISTENTE | PASS                    | BLOCKED
- C02 | firma incorrecta (1 argumento)                                      | FUNCION_INEXISTENTE | PASS                    | BLOCKED
- C03 | tabla/dependencia inexistente dentro de la función                  | ESTRUCTURA          | PASS                    | BLOCKED
- C04 | permiso insuficiente (EXECUTE revocado)                             | PERMISOS            | PASS                    | BLOCKED
- C05 | excepción inesperada (división por cero)                            | ERROR_INESPERADO    | PASS                    | FAIL
- C07 | rechazo de negocio con código distinto del esperado                 | DOMINIO_CANDIDATO   | PASS                    | FAIL
- C08 | rechazo observado sin contrato definido                             | DOMINIO_CANDIDATO   | PASS                    | PARTIAL
- C10 | error de sintaxis                                                   | SINTAXIS            | PASS                    | BLOCKED
- C12 | P0001 técnico (mensaje ajeno al contrato) NO es rechazo de la regla | DOMINIO_CANDIDATO   | PASS                    | FAIL
- C13 | dependencia de tipo función inexistente dentro de la función        | FUNCION_INEXISTENTE | PASS                    | BLOCKED
- C16 | precondición incumplida fuerza BLOCKED aunque el rechazo coincida   | DOMINIO_CANDIDATO   | PASS                    | BLOCKED
-(11 rows)
+ id  |                                              descr                                              |       o_clase       | veredicto_v1_defectuoso | veredicto_v2 
+-----+-------------------------------------------------------------------------------------------------+---------------------+-------------------------+--------------
+ C01 | función inexistente                                                                             | FUNCION_INEXISTENTE | PASS                    | BLOCKED
+ C02 | firma incorrecta (1 argumento)                                                                  | FUNCION_INEXISTENTE | PASS                    | BLOCKED
+ C03 | tabla/dependencia inexistente dentro de la función                                              | ESTRUCTURA          | PASS                    | BLOCKED
+ C04 | permiso insuficiente (EXECUTE revocado)                                                         | PERMISOS            | PASS                    | BLOCKED
+ C05 | excepción inesperada (división por cero)                                                        | ERROR_INESPERADO    | PASS                    | FAIL
+ C07 | rechazo de negocio con código distinto del esperado                                             | DOMINIO_CANDIDATO   | PASS                    | FAIL
+ C08 | rechazo observado sin contrato definido                                                         | DOMINIO_CANDIDATO   | PASS                    | PARTIAL
+ C10 | error de sintaxis                                                                               | SINTAXIS            | PASS                    | BLOCKED
+ C12 | P0001 técnico (mensaje ajeno al contrato) NO es rechazo de la regla                             | DOMINIO_CANDIDATO   | PASS                    | FAIL
+ C13 | dependencia de tipo función inexistente dentro de la función                                    | FUNCION_INEXISTENTE | PASS                    | BLOCKED
+ C16 | precondición incumplida fuerza BLOCKED aunque el rechazo coincida                               | DOMINIO_CANDIDATO   | PASS                    | BLOCKED
+ C20 | contrato PROPUESTO: se esperaba RJ003 y la función rechazó con RJ004 (otra regla)               | DOMINIO_CANDIDATO   | PASS                    | FAIL
+ C21 | contrato PROPUESTO: P0001 genérico con el mismo texto NO satisface RJ003 (no depende del texto) | DOMINIO_CANDIDATO   | PASS                    | FAIL
+ C22 | clase RJ sin contrato declarado: PARTIAL, nunca PASS                                            | DOMINIO_CANDIDATO   | PASS                    | PARTIAL
+ C23 | SQLSTATE exacto: el contrato RJ00 (prefijo de RJ003) NO debe aceptar RJ003 como PASS            | DOMINIO_CANDIDATO   | PASS                    | FAIL
+ C24 | contrato SQLSTATE+prefijo de mensaje: SQLSTATE correcto pero mensaje distinto => FAIL           | DOMINIO_CANDIDATO   | PASS                    | FAIL
+(16 rows)
 
                    prueba                    |              resultado_arnes              
 ---------------------------------------------+-------------------------------------------
- AR-21 falsos PASS que la v1 habría dado: 11 | PASS (defecto reproducido y neutralizado)
+ AR-21 falsos PASS que la v1 habría dado: 16 | PASS (defecto reproducido y neutralizado)
 (1 row)
 
 === TOTAL ===
                 resumen                
 ---------------------------------------
- TOTAL pruebas_arnes=21 PASS=21 FAIL=0
+ TOTAL pruebas_arnes=28 PASS=28 FAIL=0
 (1 row)
 

@@ -10,8 +10,8 @@
 | 05 | sin comprobar tabla; sin timeouts | precondición (BLOCKED), `lock_timeout`/`statement_timeout`, PASS solo con espera medida |
 | 01/02 | sin guarda explícita | guarda + `begin read only`; solo inventario |
 
-## Comprobaciones (escáner `ct_escaner_seguridad_sql.py`: 64, 0 FAIL)
-Guarda presente (CCI-DEV y local-temporal) y antes de cualquier SQL de datos; sin COMMIT; sin DDL/DCL peligroso fuera de literales (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA); escrituras solo en scripts con ROLLBACK; sin metacomandos de conexión (`\c`, `\!`, `\copy`); sin referencias de proyecto, URL, secretos ni JWT; sin objetos permanentes. **Control negativo:** un script deliberadamente malo produce 8 FAIL (el escáner detecta).
+## Comprobaciones (escáner `ct_escaner_seguridad_sql.py`, v2: `sql` 115 comprobaciones/0 FAIL; `texto` sobre todo el dossier; `autoprueba` 26/26)
+Guarda presente (CCI-DEV y local-temporal) y antes de cualquier SQL de datos; sin COMMIT; sin DDL/DCL peligroso fuera de literales (DROP/TRUNCATE/ALTER/GRANT/REVOKE/CREATE ROLE|EXTENSION|DATABASE|SCHEMA); escrituras solo en scripts con ROLLBACK; sin metacomandos de conexión (`\c`, `\!`, `\copy`); sin referencias de proyecto, URL, secretos ni JWT; sin objetos permanentes. v2 añade: SQL dinámico (`%s`, concatenación), `WHEN OTHERS`, `SET ROLE`, `LOCK`/`FOR UPDATE`, `pg_sleep`, `ON_ERROR_STOP`, secretos/credenciales/correos/teléfonos/refs de proyecto en **todo** el dossier y enlaces simbólicos. **Controles negativos:** `autoprueba` (26 muestras aisladas, cada una dispara su comprobación; el control limpio no dispara ninguna). El escáner v1 no examinaba el interior de los bloques `$$…$$`; corregido.
 
 ## Smoke local (modo LOCAL-TEMPORAL)
 Guardas: los seis abortan sin autorización (6/6) y el 01 aborta en una base sin prefijo `cci_` (7/7). 03: shim defectuoso → RLS-01/02/03 FAIL; corregido → PASS; RLS-06 NOT VERIFIED. 04: NO VERIFICABLE EN ENTORNO FÍSICO. 05: B espera 3,50 s → PASS; sin tabla → BLOCKED.
