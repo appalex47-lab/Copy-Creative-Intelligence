@@ -7,9 +7,11 @@
 -- Variables (psql -v): org_a, org_b, uid_a (miembro de org_a), uid_b (miembro de org_b), uid_x (sin membresía). Datos de PRUEBA preexistentes (no se crean aquí).
 -- ====================================================================================================
 \set ON_ERROR_STOP on
--- Guarda de destino compartida (H-03): ver 00_guarda_destino.sql
-\ir 00_guarda_destino.sql
-do $v$ begin if pg_catalog.to_regclass('pg_temp.cci_guarda_ok') is null then raise exception 'NO EJECUTADO [G-GUARDA-NO-EJECUTADA] la guarda 00_guarda_destino.sql no se ejecutó completa'; end if; end $v$;
+\set cci_script '03'
+-- Guarda de destino compartida (H-03): 00_preflight_guarda.sql (hash externo + ejecución de la copia verificada de 00_guarda_destino.sql) y 00_verificar_marcador.sql (marcador por ejecución)
+\ir 00_preflight_guarda.sql
+\set cci_script '03'
+\ir 00_verificar_marcador.sql
 \ir 04_lib_clasificador.sql
 select pg_catalog.set_config('cci.org_a', :'org_a', false), pg_catalog.set_config('cci.org_b', :'org_b', false), pg_catalog.set_config('cci.uid_a', :'uid_a', false), pg_catalog.set_config('cci.uid_x', :'uid_x', false) \gset
 create temp table pre(id text, descripcion text, estado text, detalle text);
@@ -20,8 +22,8 @@ insert into pre select 'PRE-03','hay tablas con organization_id (conjunto evalua
 do $$ declare n_b bigint := 0; n_a bigint := 0; r record; c bigint;
 begin
   for r in select t from tablas_org loop
-    execute pg_catalog.format('select count(*) from public.%I where organization_id = %L', r.t, pg_catalog.current_setting('cci.org_b')) into c; n_b := n_b + c;
-    execute pg_catalog.format('select count(*) from public.%I where organization_id = %L', r.t, pg_catalog.current_setting('cci.org_a')) into c; n_a := n_a + c;
+    execute pg_catalog.format('select pg_catalog.count(*) from public.%I where organization_id = %L', r.t, pg_catalog.current_setting('cci.org_b')) into c; n_b := n_b + c;
+    execute pg_catalog.format('select pg_catalog.count(*) from public.%I where organization_id = %L', r.t, pg_catalog.current_setting('cci.org_a')) into c; n_a := n_a + c;
   end loop;
   insert into pre values ('PRE-04','existen filas de org_b y de org_a (sin ellas RLS-01/02/04 serían vacuas)', case when n_a > 0 and n_b > 0 then 'OK' else 'PARTIAL' end, 'filas_org_a='||n_a||' filas_org_b='||n_b);
 exception when others then insert into pre values ('PRE-04','conteo de filas de prueba','BLOCKED', sqlstate||':'||pg_catalog.left(sqlerrm,100)); end $$;

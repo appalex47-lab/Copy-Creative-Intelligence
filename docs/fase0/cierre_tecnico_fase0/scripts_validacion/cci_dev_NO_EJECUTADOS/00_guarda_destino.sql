@@ -8,13 +8,14 @@
 -- el modo CCI-DEV rechaza TODO destino (DESTINO-DESCONOCIDO) hasta que el propietario registre el identificador de CCI-DEV. Falla de forma segura.
 -- Cómo obtener el identificador (solo lectura, en cada proyecto): select system_identifier from pg_catalog.pg_control_system();
 -- Reglas (en este orden; la primera que falla aborta con 'NO EJECUTADO [CÓDIGO]'; el mensaje no incluye secretos, solo una huella md5 truncada):
+--   G-SEARCH-PATH-NO-SEGURO el search_path efectivo del llamador contiene esquemas distintos de pg_catalog/public/pg_temp/"$user", "$user" apunta a un esquema existente, o public/pg_temp preceden a pg_catalog
 --   G-CONFIG-INCOMPLETA     falta cci.validacion_autorizada o cci.entorno
 --   G-CONFIG-INVALIDA       el par declarado no es (SI-CCI-DEV,CCI-DEV) ni (SI-LOCAL-TEMPORAL,LOCAL-TEMPORAL)
 --   G-IDENTIDAD-NO-VERIFICABLE  no se pudo leer la identidad efectiva (p. ej. pg_control_system() sin permiso)
 --   G-PROD-RECHAZADO        el clúster está en prod_deny: se rechaza AUNQUE el operador declare DEV
 --   G-DESTINO-DESCONOCIDO   (modo DEV) 'system_identifier|base' no está en dev_allow
 --   G-LOCAL-NO-SOCKET / G-LOCAL-BASE / G-LOCAL-ROLES-PLATAFORMA  (modo local) exige socket Unix, base ^cci_ y ausencia de roles supabase_*
---   G-GUARDA-NO-EJECUTADA   (la emite cada script, no este archivo) tras \ir este archivo no dejó la tabla temporal pg_temp.cci_guarda_ok: guarda vacía, truncada o neutralizada
+--   G-GUARDA-INTEGRIDAD / G-GUARDA-NO-EJECUTADA   (las emiten 00_preflight_guarda.sql y 00_verificar_marcador.sql, no este archivo): hash externo no coincide, o no hay marcador de ESTA ejecución para ESTE script (ver cabeceras de esos archivos)
 -- ====================================================================================================
 do $guarda$
 declare
@@ -22,23 +23,41 @@ declare
   dev_allow text[] := array[]::text[];  -- @@DEV_ALLOW@@  (vacío: el propietario añade 'system_identifier|base' de CCI-DEV)
   prod_deny text[] := array[]::text[];  -- @@PROD_DENY@@  (vacío: el propietario añade el 'system_identifier' de CCI-PROD)
   sysid text; dbn text := pg_catalog.current_database(); ident text; plat int; fp text; err text;
+  sp0 text := pg_catalog.current_setting('search_path'); ent text; n int := 0; ipc int := 0; ipub int := 0; ipt int := 0;   -- search_path EFECTIVO del llamador (ALTER ROLE/DATABASE, PGOPTIONS, SET) capturado ANTES de blindar el del bloque
 begin
   perform pg_catalog.set_config('search_path','pg_catalog, pg_temp',true);   -- anti-suplantación: ningún objeto del operador (p. ej. public.pg_control_system) puede sustituir a los del catálogo
+  -- @@SP_CHECK_INI@@ (cierre definitivo, AUD-CIERRE-04) el script NO se ejecuta bajo un search_path hostil: el del bloque es local y las instrucciones posteriores usan el del llamador
+  foreach ent in array pg_catalog.string_to_array(sp0, ',') loop
+    ent := pg_catalog.btrim(ent); n := n + 1;
+    if ent = 'pg_catalog' then ipc := n; elsif ent in ('public','"public"') then ipub := n; elsif ent = 'pg_temp' then ipt := n; end if;
+    if ent not in ('pg_catalog','public','pg_temp','"$user"','"public"') then raise exception 'NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]: el search_path del llamador contiene un esquema no permitido (%); sólo pg_catalog, public, pg_temp y "$user"', ent; end if;
+    if ent = '"$user"' and exists (select 1 from pg_catalog.pg_namespace where nspname = current_user) then raise exception 'NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]: existe un esquema con el nombre del rol y "$user" está en el search_path'; end if;
+  end loop;
+  if ipc > 0 and ((ipub > 0 and ipub < ipc) or (ipt > 0 and ipt < ipc)) then raise exception 'NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]: public o pg_temp preceden a pg_catalog en el search_path (los operadores/funciones de esos esquemas ganarían a los del catálogo)'; end if;
+  -- @@SP_CHECK_FIN@@
   if a = '' or e = '' then raise exception 'NO EJECUTADO [G-CONFIG-INCOMPLETA]: falta cci.validacion_autorizada y/o cci.entorno'; end if;
   if not ((a = 'SI-CCI-DEV' and e = 'CCI-DEV') or (a = 'SI-LOCAL-TEMPORAL' and e = 'LOCAL-TEMPORAL')) then raise exception 'NO EJECUTADO [G-CONFIG-INVALIDA]: par de variables no reconocido'; end if;
   begin select system_identifier::text into sysid from pg_catalog.pg_control_system();
   exception when others then sysid := null; err := sqlstate; end;
   if sysid is null or dbn is null or sysid = '' then raise exception 'NO EJECUTADO [G-IDENTIDAD-NO-VERIFICABLE]: no se pudo leer la identidad efectiva del servidor (sqlstate=%)', coalesce(err,'sin_fila'); end if;
-  ident := sysid || '|' || dbn; fp := left(md5(sysid), 8);
-  select count(*) into plat from pg_catalog.pg_roles where rolname in ('supabase_admin','supabase_auth_admin','supabase_storage_admin','supabase_read_only_user','pgbouncer');
+  ident := sysid || '|' || dbn; fp := pg_catalog.left(pg_catalog.md5(sysid), 8);
+  select pg_catalog.count(*) into plat from pg_catalog.pg_roles where rolname in ('supabase_admin','supabase_auth_admin','supabase_storage_admin','supabase_read_only_user','pgbouncer');
   if sysid = any(prod_deny) then raise exception 'NO EJECUTADO [G-PROD-RECHAZADO]: el clúster destino (huella %) está en la lista de PRODUCCIÓN; se rechaza aunque se declare DEV', fp; end if;
   if a = 'SI-CCI-DEV' then
     if not (ident = any(dev_allow)) then raise exception 'NO EJECUTADO [G-DESTINO-DESCONOCIDO]: el destino (huella %) no está en la allowlist de CCI-DEV autorizados', fp; end if;
   else
-    if inet_server_addr() is not null then raise exception 'NO EJECUTADO [G-LOCAL-NO-SOCKET]: el modo local exige socket Unix (huella %)', fp; end if;
+    if pg_catalog.inet_server_addr() is not null then raise exception 'NO EJECUTADO [G-LOCAL-NO-SOCKET]: el modo local exige socket Unix (huella %)', fp; end if;
     if dbn !~ '^cci_' then raise exception 'NO EJECUTADO [G-LOCAL-BASE]: el modo local exige base ^cci_ (huella %)', fp; end if;
     if plat > 0 then raise exception 'NO EJECUTADO [G-LOCAL-ROLES-PLATAFORMA]: la base tiene roles de plataforma supabase_* (huella %); no es un clúster local temporal', fp; end if;
   end if;
-  create temp table if not exists pg_temp.cci_guarda_ok (ok boolean);   -- marcador de sesión (AUD-G1/AUD-FINAL-02): tabla TEMPORAL que sólo existe si esta guarda llegó a su última línea; no puede preinstalarse por PGOPTIONS ni por variables. El search_path blindado de arriba es LOCAL a este bloque (no persiste; ver MATRIZ_PERSISTENCIA_SEARCH_PATH)
   raise notice 'GUARDA OK modo=% huella=%', a, fp;
 end $guarda$;
+-- MARCADOR POR EJECUCIÓN (cierre definitivo). Sólo se llega aquí si TODAS las comprobaciones anteriores pasaron. cci_script lo declara el script que nos incluye.
+\if :{?cci_script}
+\else
+do $x$ begin raise exception 'NO EJECUTADO [G-GUARDA-NO-EJECUTADA] la guarda se incluyó sin declarar cci_script'; end $x$;
+\endif
+\unset cci_run
+select pg_catalog.replace(pg_catalog.gen_random_uuid()::text, '-', '') as cci_run \gset
+select pg_catalog.format('create temp table pg_temp.%I (script text not null, pid int not null, usado boolean not null default false)', pg_catalog.concat('cci_g_', :'cci_run')) \gexec
+select pg_catalog.format('insert into pg_temp.%I values (%L, pg_catalog.pg_backend_pid(), false)', pg_catalog.concat('cci_g_', :'cci_run'), :'cci_script') \gexec

@@ -6,9 +6,11 @@
 -- Tipo: SOLO LECTURA (catálogos del sistema). Transacción READ ONLY; no crea, modifica ni borra nada. Es un INVENTARIO: no emite PASS/FAIL; sus salidas se comparan con el diseño (INV-01..INV-10).
 -- ====================================================================================================
 \set ON_ERROR_STOP on
+\set cci_script '01'
 -- Guarda de destino compartida (H-03): identidad efectiva del servidor + allowlist/denylist literales; ver 00_guarda_destino.sql (falla de forma segura).
-\ir 00_guarda_destino.sql
-do $v$ begin if pg_catalog.to_regclass('pg_temp.cci_guarda_ok') is null then raise exception 'NO EJECUTADO [G-GUARDA-NO-EJECUTADA] la guarda 00_guarda_destino.sql no se ejecutó completa'; end if; end $v$;
+\ir 00_preflight_guarda.sql
+\set cci_script '01'
+\ir 00_verificar_marcador.sql
 begin read only;
 -- INV-01 tablas del esquema public
 select c.relname as tabla, c.relkind, c.relrowsecurity as rls_activa, c.relforcerowsecurity as rls_forzada from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind in ('r','p') order by 1;

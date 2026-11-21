@@ -6,9 +6,11 @@
 -- Tipo: SOLO LECTURA. Inventario de políticas RLS, grants y privilegios efectivos (PRIV-01..PRIV-07). Es un INVENTARIO: no emite PASS/FAIL; sus salidas se evalúan contra PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md.
 -- ====================================================================================================
 \set ON_ERROR_STOP on
+\set cci_script '02'
 -- Guarda de destino compartida (H-03): identidad efectiva del servidor + allowlist/denylist literales; ver 00_guarda_destino.sql (falla de forma segura).
-\ir 00_guarda_destino.sql
-do $v$ begin if pg_catalog.to_regclass('pg_temp.cci_guarda_ok') is null then raise exception 'NO EJECUTADO [G-GUARDA-NO-EJECUTADA] la guarda 00_guarda_destino.sql no se ejecutó completa'; end if; end $v$;
+\ir 00_preflight_guarda.sql
+\set cci_script '02'
+\ir 00_verificar_marcador.sql
 begin read only;
 -- PRIV-01 políticas RLS
 select schemaname, tablename, policyname, permissive, roles, cmd, qual, with_check from pg_policies where schemaname='public' order by 2,3;

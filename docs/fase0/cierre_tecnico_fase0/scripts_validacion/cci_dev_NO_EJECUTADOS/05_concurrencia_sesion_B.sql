@@ -8,9 +8,11 @@
 --   inefectiva) o BLOCKED (error técnico). La prueba de que B recibe 23P01 si A hiciera COMMIT queda como variante manual NO automatizada (NOT VERIFIED).
 -- ====================================================================================================
 \set ON_ERROR_STOP on
--- Guarda de destino compartida (H-03): ver 00_guarda_destino.sql
-\ir 00_guarda_destino.sql
-do $v$ begin if pg_catalog.to_regclass('pg_temp.cci_guarda_ok') is null then raise exception 'NO EJECUTADO [G-GUARDA-NO-EJECUTADA] la guarda 00_guarda_destino.sql no se ejecutó completa'; end if; end $v$;
+\set cci_script '05B'
+-- Guarda de destino compartida (H-03): 00_preflight_guarda.sql (hash externo + ejecución de la copia verificada de 00_guarda_destino.sql) y 00_verificar_marcador.sql (marcador por ejecución)
+\ir 00_preflight_guarda.sql
+\set cci_script '05B'
+\ir 00_verificar_marcador.sql
 \ir 04_lib_clasificador.sql
 select pg_catalog.to_regclass('public.piece_reviewer_assignments') is not null as tabla_ok \gset
 \if :tabla_ok
@@ -21,7 +23,7 @@ select pg_catalog.to_regclass('public.piece_reviewer_assignments') is not null a
 begin;
 set local lock_timeout = '15s'; set local statement_timeout = '30s';
 select pg_catalog.clock_timestamp() as t0 \gset
-create temp table res_b as select o_clase, o_sqlstate, o_msg from pg_temp.ejecuta(pg_catalog.format('insert into public.piece_reviewer_assignments(id, organization_id, piece_id, reviewer_id, assigned_by, valid_during, reason) values (gen_random_uuid(), %L, %L, %L, %L, tstzrange(now(), null, ''[)''), ''concurrencia B'')', :'org', :'piece', :'reviewer_b', :'reviewer_b'), null, null, null, true);
+create temp table res_b as select o_clase, o_sqlstate, o_msg from pg_temp.ejecuta(pg_catalog.format('insert into public.piece_reviewer_assignments(id, organization_id, piece_id, reviewer_id, assigned_by, valid_during, reason) values (pg_catalog.gen_random_uuid(), %L, %L, %L, %L, pg_catalog.tstzrange(pg_catalog.now(), null, ''[)''), ''concurrencia B'')', :'org', :'piece', :'reviewer_b', :'reviewer_b'), null, null, null, true);
 select pg_catalog.round(extract(epoch from pg_catalog.clock_timestamp() - :'t0'::timestamptz)::numeric, 2) as espera_s, o_clase, o_sqlstate,
   case when o_clase = 'OK' and extract(epoch from pg_catalog.clock_timestamp() - :'t0'::timestamptz) >= 2 then 'PASS'
        when o_clase = 'OK' then 'FAIL'                       -- no esperó: la exclusión no bloqueó

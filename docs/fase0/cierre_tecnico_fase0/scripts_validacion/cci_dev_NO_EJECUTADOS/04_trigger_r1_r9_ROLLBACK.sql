@@ -18,9 +18,11 @@
 --   code_r1..code_r9, code_rev = contrato de error esperado 'SQLSTATE[:prefijo del mensaje]'. POR DEFECTO VACÍOS: la especificación NO define SQLSTATE ni código de dominio
 --                 para R1–R9 (BRECHA BRECHA-R1R9-01). Con el contrato vacío, un rechazo observado sólo puede ser PARTIAL, nunca PASS.
 \set ON_ERROR_STOP on
+\set cci_script '04'
 -- Guarda de destino compartida (H-03): identidad efectiva del servidor + allowlist/denylist literales; ver 00_guarda_destino.sql (falla de forma segura).
-\ir 00_guarda_destino.sql
-do $v$ begin if pg_catalog.to_regclass('pg_temp.cci_guarda_ok') is null then raise exception 'NO EJECUTADO [G-GUARDA-NO-EJECUTADA] la guarda 00_guarda_destino.sql no se ejecutó completa'; end if; end $v$;
+\ir 00_preflight_guarda.sql
+\set cci_script '04'
+\ir 00_verificar_marcador.sql
 \if :{?fn_regproc}
 \else
   \set fn_regproc 'public.resolve_attribution_discard(uuid,text,text)'
@@ -87,7 +89,7 @@ select pg_catalog.set_config('cci.org', :'org', false), pg_catalog.set_config('c
        pg_catalog.set_config('cci.reason', :'reason', false), pg_catalog.set_config('cci.evidence', :'evidence', false), pg_catalog.set_config('cci.exec_role', :'exec_role', false),
        pg_catalog.set_config('cci.r_ok', :'r_ok', false), pg_catalog.set_config('cci.r_nomember', :'r_nomember', false), pg_catalog.set_config('cci.affected', :'affected', false),
        pg_catalog.set_config('cci.requester', :'requester', false), pg_catalog.set_config('cci.change_actor', :'change_actor', false) \gset
-select case when pg_catalog.to_regclass('public.attribution_discard_resolutions') is null then -1 else (pg_catalog.xpath('/row/c/text()', pg_catalog.query_to_xml('select count(*) as c from public.attribution_discard_resolutions', false, true, '')))[1]::text::bigint end as pre_count \gset
+select case when pg_catalog.to_regclass('public.attribution_discard_resolutions') is null then -1 else (pg_catalog.xpath('/row/c/text()', pg_catalog.query_to_xml('select pg_catalog.count(*) as c from public.attribution_discard_resolutions', false, true, '')))[1]::text::bigint end as pre_count \gset
 create temp table pre(id text, descripcion text, estado text, detalle text);
 -- ====== PRECONDICIONES (autocommit; sólo lectura de catálogos y de datos de prueba) ======
 do $$ declare fn oid; falt text; v_n int; v_def text;
@@ -118,7 +120,7 @@ do $$ declare ok_att boolean := false; v_n int; v_aff uuid; v_mem_ok boolean; v_
 begin
   if pg_catalog.to_regclass('public.brief_field_attributions') is null or pg_catalog.to_regclass('public.memberships') is null or pg_catalog.to_regclass('public.attribution_discard_resolutions') is null then
     insert into pre values ('PRE-09','datos de prueba verificables','BLOCKED','tablas ausentes: no se pueden verificar los datos de prueba'); return; end if;
-  execute 'select count(*), min(contributor_id::text)::uuid from public.brief_field_attributions where organization_id = $1 and id = $2' into v_n, v_aff using pg_catalog.current_setting('cci.org')::uuid, pg_catalog.current_setting('cci.attr')::uuid;
+  execute 'select pg_catalog.count(*), pg_catalog.min(contributor_id::text)::uuid from public.brief_field_attributions where organization_id = $1 and id = $2' into v_n, v_aff using pg_catalog.current_setting('cci.org')::uuid, pg_catalog.current_setting('cci.attr')::uuid;
   insert into pre values ('PRE-09a','la atribución attr existe en la organización (fuente brief; otras fuentes: ajustar)', case when v_n = 1 then 'OK' else 'BLOCKED' end, 'filas='||v_n);
   insert into pre values ('PRE-09b','affected coincide con el contribuyente de attr', case when v_aff = pg_catalog.current_setting('cci.affected')::uuid then 'OK' else 'BLOCKED' end, 'contribuyente='||coalesce(v_aff::text,'NULL'));
   execute 'select exists(select 1 from public.memberships where organization_id=$1 and user_id=$2), exists(select 1 from public.memberships where organization_id=$1 and user_id=$3)' into v_mem_ok, v_mem_no using pg_catalog.current_setting('cci.org')::uuid, pg_catalog.current_setting('cci.r_ok')::uuid, pg_catalog.current_setting('cci.r_nomember')::uuid;
@@ -152,7 +154,7 @@ create temp table r_res(id text, regla text, tipo text, esperado text, clase tex
   insert into r_res(id, regla, tipo, esperado, clase, sqlstate, msg, post, veredicto)
   select 'R-POS','control positivo: todas las reglas se cumplen','POS','éxito', c.o_clase, c.o_sqlstate, c.o_msg, c.o_post, pg_temp.veredicto('POS', c.o_clase, c.o_sqlstate, c.o_msg, '', true)
   from pg_temp.ejecuta(pg_catalog.format(pg_catalog.current_setting('cci.fn_call'), pg_catalog.current_setting('cci.attr'), pg_catalog.current_setting('cci.reason'), pg_catalog.current_setting('cci.evidence')), pg_catalog.current_setting('cci.exec_role'), :'r_ok'::uuid,
-       pg_catalog.format('select (count(*) = 1)::text from public.attribution_discard_resolutions where organization_id = %L and resolved_by = %L and (brief_attribution_id = %L or promotion_attribution_id = %L or copy_provenance_id = %L)', :'org', :'r_ok', :'attr', :'attr', :'attr'), true) c;
+       pg_catalog.format('select (pg_catalog.count(*) = 1)::text from public.attribution_discard_resolutions where organization_id = %L and resolved_by = %L and (brief_attribution_id = %L or promotion_attribution_id = %L or copy_provenance_id = %L)', :'org', :'r_ok', :'attr', :'attr', :'attr'), true) c;
   update r_res set veredicto = 'FAIL', nota = 'la función retornó sin error pero no registró exactamente una resolución del resolutor' where id = 'R-POS' and clase = 'OK' and post is distinct from 'true';
   -- Casos negativos: se ejecutan siempre DESPUÉS del control positivo y cada uno se revierte.
   insert into r_res(id, regla, tipo, esperado, clase, sqlstate, msg, veredicto)
@@ -172,5 +174,5 @@ create temp table r_res(id text, regla text, tipo text, esperado text, clase tex
   rollback;
 \endif
 -- Sin residuos: el recuento posterior al ROLLBACK debe ser igual al anterior
-select case when pg_catalog.to_regclass('public.attribution_discard_resolutions') is null then -1 else (pg_catalog.xpath('/row/c/text()', pg_catalog.query_to_xml('select count(*) as c from public.attribution_discard_resolutions', false, true, '')))[1]::text::bigint end as post_count \gset
+select case when pg_catalog.to_regclass('public.attribution_discard_resolutions') is null then -1 else (pg_catalog.xpath('/row/c/text()', pg_catalog.query_to_xml('select pg_catalog.count(*) as c from public.attribution_discard_resolutions', false, true, '')))[1]::text::bigint end as post_count \gset
 select case when :pre_count = -1 then 'NO APLICA (tabla inexistente: nada que comprobar)' when :pre_count = :post_count then 'PASS: sin residuos (filas antes = después = '||:post_count||')' else 'FAIL: RESIDUOS (antes '||:pre_count||', después '||:post_count||')' end as residuos;
