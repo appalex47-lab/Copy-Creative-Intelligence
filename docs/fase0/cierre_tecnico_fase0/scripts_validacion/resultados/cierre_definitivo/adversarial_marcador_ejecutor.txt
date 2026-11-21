@@ -1,2 +1,0 @@
-TOTAL=166 {'PASS': 142, 'PARTIAL': 6, 'FAIL': 18}
-rc=0

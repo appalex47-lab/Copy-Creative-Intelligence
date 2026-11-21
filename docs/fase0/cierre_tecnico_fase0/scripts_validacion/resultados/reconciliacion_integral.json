@@ -3,7 +3,7 @@
   {
    "comprobacion": "CSV bien formado MATRIZ_12_ESCENARIOS_PARCIALES.csv",
    "detalle": "12 filas x 19 cols",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -11,7 +11,7 @@
      "sha256": "cb1e8cd98cf43bd7609942f8ddaaff6ef7e0c4f639ec72a486b298a978e02ea3"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "MATRIZ_12_ESCENARIOS_PARCIALES.csv"
    ],
@@ -22,7 +22,7 @@
   {
    "comprobacion": "CSV bien formado MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv",
    "detalle": "33 filas x 10 cols",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -30,7 +30,7 @@
      "sha256": "937768defe8928625dfbdd2f25bbf5eb73b1a49ff41f28ce7bf10468fa25613d"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv"
    ],
@@ -41,7 +41,7 @@
   {
    "comprobacion": "CSV bien formado MATRIZ_LIMITACIONES_RESIDUALES.csv",
    "detalle": "27 filas x 13 cols",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -49,7 +49,7 @@
      "sha256": "039b28717e1b5fa28219b4880b476c36ed13c2cb0aa0f36dce2012b16a1a83fc"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "MATRIZ_LIMITACIONES_RESIDUALES.csv"
    ],
@@ -60,7 +60,7 @@
   {
    "comprobacion": "CSV bien formado MATRIZ_TRAZABILIDAD_MAESTRA.csv",
    "detalle": "54 filas x 21 cols",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -68,7 +68,7 @@
      "sha256": "bf838417d1961e939fc4209aa8872b2f7d1a7fde1c4672e12eba0592f3fd2588"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "MATRIZ_TRAZABILIDAD_MAESTRA.csv"
    ],
@@ -79,7 +79,7 @@
   {
    "comprobacion": "CSV bien formado REGISTRO_DECISIONES_RECOMENDADAS.csv",
    "detalle": "21 filas x 24 cols",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -87,7 +87,7 @@
      "sha256": "f94ae7d26d41fff08c2d329764d22f7c0b90a2f54ac7ad75391c37d12a3f989c"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "REGISTRO_DECISIONES_RECOMENDADAS.csv"
    ],
@@ -98,7 +98,7 @@
   {
    "comprobacion": "CSV bien formado 22_funciones_conciliacion.csv",
    "detalle": "23 filas x 4 cols",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -106,7 +106,7 @@
      "sha256": "3a5c3296a50e0a141dbe4733324167303f2436e35d2238046a6cebe70839019c"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -117,7 +117,7 @@
   {
    "comprobacion": "CSV bien formado catalogo_except_exception.csv",
    "detalle": "23 filas x 4 cols",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -125,7 +125,7 @@
      "sha256": "4676d57a15dbd5afff9335232d2d36c0391ef356ac5238a8bda56683bb67cc02"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -136,7 +136,7 @@
   {
    "comprobacion": "CSV bien formado k47_por_escenario.csv",
    "detalle": "25 filas x 7 cols",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -144,7 +144,7 @@
      "sha256": "3d15a811623d3066d7bdf99281536eee78c99d0055987424b7361e60e7282ee6"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -155,7 +155,7 @@
   {
    "comprobacion": "CSV bien formado t409_t422_correspondencia.csv",
    "detalle": "14 filas x 12 cols",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -163,7 +163,7 @@
      "sha256": "b31056815d4cce2cde2108417ef36864615a74dbeda52d1ed614aeee64c41012"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -174,7 +174,7 @@
   {
    "comprobacion": "CSV bien formado t409_t422_individual.csv",
    "detalle": "26 filas x 8 cols",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -182,7 +182,7 @@
      "sha256": "108e0d7b2f12a3ff7c346d6d81982f63f00b79ab982d80d09ceaea6899642b28"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -193,7 +193,7 @@
   {
    "comprobacion": "decisiones: las 20 pendientes exigidas están en el registro",
    "detalle": "faltan=[]",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -201,7 +201,7 @@
      "sha256": "f94ae7d26d41fff08c2d329764d22f7c0b90a2f54ac7ad75391c37d12a3f989c"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "REGISTRO_DECISIONES_RECOMENDADAS.csv"
    ],
@@ -212,7 +212,7 @@
   {
    "comprobacion": "decisiones: sin ids duplicados; total 21 (20 + HV-02)",
    "detalle": "21",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -220,7 +220,7 @@
      "sha256": "f94ae7d26d41fff08c2d329764d22f7c0b90a2f54ac7ad75391c37d12a3f989c"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "REGISTRO_DECISIONES_RECOMENDADAS.csv"
    ],
@@ -231,7 +231,7 @@
   {
    "comprobacion": "decisiones: columnas de consecuencias y estado actual completas",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -239,7 +239,7 @@
      "sha256": "f94ae7d26d41fff08c2d329764d22f7c0b90a2f54ac7ad75391c37d12a3f989c"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "REGISTRO_DECISIONES_RECOMENDADAS.csv"
    ],
@@ -250,7 +250,7 @@
   {
    "comprobacion": "decisiones: todas REQUIERE_APROBACION_DEL_PROPIETARIO (ninguna aprobada)",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -258,7 +258,7 @@
      "sha256": "f94ae7d26d41fff08c2d329764d22f7c0b90a2f54ac7ad75391c37d12a3f989c"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "REGISTRO_DECISIONES_RECOMENDADAS.csv"
    ],
@@ -269,7 +269,7 @@
   {
    "comprobacion": "limitaciones: 27 ids únicos (LR-28 fusionada en LR-05)",
    "detalle": "27",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -277,7 +277,7 @@
      "sha256": "039b28717e1b5fa28219b4880b476c36ed13c2cb0aa0f36dce2012b16a1a83fc"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "MATRIZ_LIMITACIONES_RESIDUALES.csv"
    ],
@@ -288,7 +288,7 @@
   {
    "comprobacion": "limitaciones: vigencia declarada en todas (18 VIGENTE, 5 RESUELTA, 4 PARCIALMENTE_RESUELTA)",
    "detalle": "{'VIGENTE': 18, 'RESUELTA': 5, 'PARCIALMENTE_RESUELTA': 4}",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -296,7 +296,7 @@
      "sha256": "039b28717e1b5fa28219b4880b476c36ed13c2cb0aa0f36dce2012b16a1a83fc"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "MATRIZ_LIMITACIONES_RESIDUALES.csv"
    ],
@@ -307,7 +307,7 @@
   {
    "comprobacion": "limitaciones: acción concreta y dependencia en todas",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -315,7 +315,7 @@
      "sha256": "039b28717e1b5fa28219b4880b476c36ed13c2cb0aa0f36dce2012b16a1a83fc"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "MATRIZ_LIMITACIONES_RESIDUALES.csv"
    ],
@@ -326,7 +326,7 @@
   {
    "comprobacion": "12 escenarios: 5 PASS_PROTOTYPE, 1 PASS_STATIC, 6 PARTIAL",
    "detalle": "{'PASS_PROTOTYPE': 5, 'PARTIAL': 6, 'PASS_STATIC': 1}",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -334,7 +334,7 @@
      "sha256": "cb1e8cd98cf43bd7609942f8ddaaff6ef7e0c4f639ec72a486b298a978e02ea3"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "MATRIZ_12_ESCENARIOS_PARCIALES.csv"
    ],
@@ -345,7 +345,7 @@
   {
    "comprobacion": "12 escenarios: aceptación física PENDIENTE en todos",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -353,7 +353,7 @@
      "sha256": "cb1e8cd98cf43bd7609942f8ddaaff6ef7e0c4f639ec72a486b298a978e02ea3"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "MATRIZ_12_ESCENARIOS_PARCIALES.csv"
    ],
@@ -364,7 +364,7 @@
   {
    "comprobacion": "22 funciones: 22 filas, 366 casos, 0 fallos",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -372,7 +372,7 @@
      "sha256": "3a5c3296a50e0a141dbe4733324167303f2436e35d2238046a6cebe70839019c"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -383,7 +383,7 @@
   {
    "comprobacion": "matriz función-regla cubre las 22 funciones",
    "detalle": "22",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -391,7 +391,7 @@
      "sha256": "937768defe8928625dfbdd2f25bbf5eb73b1a49ff41f28ce7bf10468fa25613d"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv"
    ],
@@ -402,7 +402,7 @@
   {
    "comprobacion": "T-409..T-422: 26 variantes DETECTADA, 14 escenarios",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -410,7 +410,7 @@
      "sha256": "108e0d7b2f12a3ff7c346d6d81982f63f00b79ab982d80d09ceaea6899642b28"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -421,7 +421,7 @@
   {
    "comprobacion": "trazabilidad: 54 filas con referencia verificable y relación declarada",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -429,7 +429,7 @@
      "sha256": "bf838417d1961e939fc4209aa8872b2f7d1a7fde1c4672e12eba0592f3fd2588"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "MATRIZ_TRAZABILIDAD_MAESTRA.csv"
    ],
@@ -440,7 +440,7 @@
   {
    "comprobacion": "trazabilidad: niveles de evidencia en vocabulario permitido en cada relación",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -448,7 +448,7 @@
      "sha256": "bf838417d1961e939fc4209aa8872b2f7d1a7fde1c4672e12eba0592f3fd2588"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "MATRIZ_TRAZABILIDAD_MAESTRA.csv"
    ],
@@ -459,15 +459,15 @@
   {
    "comprobacion": "V20 63/63",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/base_V20_pe_utf8.txt",
-     "sha256": "cdf6aeb213bc8667e5773bae99fd2abd84a37b975e29bc9e98e31cc1430d73e3"
+     "sha256": "60164c83494e1a9f8e67c7e7e402cf11126e3b7effd98dc32d62113defa18f1c"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -478,7 +478,7 @@
   {
    "comprobacion": "V20 mutaciones 14/14",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -486,7 +486,7 @@
      "sha256": "5ff31240b365e382685ae7b723673c23d195b4ad42fa461d77709c0eac8d45b9"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -497,15 +497,15 @@
   {
    "comprobacion": "extensión 80/80",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/ext_utf8.txt",
-     "sha256": "54f6941ea7d3da97255a605187f64d4338870cf7ec3000f09f3ccb3580e56e96"
+     "sha256": "502f15ca3e28d04352094fe362075120c0c0d21d2d126fec0367b66324624220"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -516,7 +516,7 @@
   {
    "comprobacion": "DG-19 63/63",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -524,7 +524,7 @@
      "sha256": "02cd7664a3971b2dbc9f4c055fce6a95a9295ac4d3af08419d88dd9bb3dfa370"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -535,7 +535,7 @@
   {
    "comprobacion": "hash 16/16",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -543,7 +543,7 @@
      "sha256": "ce96f96482d220adedcc4f7e66f47cc4b9c5979ae87c2b17391bacd95e239b94"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -554,15 +554,15 @@
   {
    "comprobacion": "arnés 28/28 (total=aprobadas, 0 FAIL; esperado fijado en la batería)",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/arnes_r1r9_autoprueba_local.txt",
-     "sha256": "200fa4e5808fcc542736744f2e363f8c1c3311112554f035393ac9d8e087e9a0"
+     "sha256": "e764615afde62e804ee79577e012ea5a1c494656df1871a998c43275073b954f"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -573,7 +573,7 @@
   {
    "comprobacion": "escáner sql 0 FAIL",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -581,7 +581,7 @@
      "sha256": "150d5149499f032b1d3a07b2365feb830093a922050c6ebc9f1485c8e17e7e10"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -592,15 +592,15 @@
   {
    "comprobacion": "escáner texto 0 FAIL",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/escaner_seguridad_texto.txt",
-     "sha256": "92e0cfa7e3164555cc988c9ff374553cafb81077c0976b6f53cee5b4eeac7283"
+     "sha256": "58284cd0814c0931adfdc1c1e3be69b205a191ecce45b5ab7c5838b46ed32035"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -611,7 +611,7 @@
   {
    "comprobacion": "escáner texto repetido sobre el árbol final: 0 FAIL",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -619,7 +619,7 @@
      "sha256": "392fdf3fe9b8813e7cf85e0e126947da809d092a0f087cf134ba4ef0d0cbffd0"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -630,7 +630,7 @@
   {
    "comprobacion": "escáner autoprueba: 39 muestras, 0 FAIL",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -638,7 +638,7 @@
      "sha256": "82bbe1813958a909a62edf438bb4effdbfd778f5a5d8a5fc128309326a883f74"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -649,15 +649,15 @@
   {
    "comprobacion": "04 local = NO VERIFICABLE",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/04_r1r9_local_bloqueado.txt",
-     "sha256": "27cdd597aa9111e3590bc833b7a4307d3889ae985dd6781bd1e5bb2f31a0c6d0"
+     "sha256": "30bdfea6aa9128fb38e379b0da7742fcef82da970f93c42a86df66bcda9163b8"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -668,15 +668,15 @@
   {
    "comprobacion": "concurrencia CC-01/CC-02 PASS",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/concurrencia_local_utf8.txt",
-     "sha256": "4327e90f9653d3ce60d3eadbc3690c7aee7378f4ab1c8a3fc838d3c0323c3fee"
+     "sha256": "96eef996d87a93fad7a1ea2d2fce78593ad9a949c871302748915a317900bfdf"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -687,7 +687,7 @@
   {
    "comprobacion": "DICTAMEN_PREPARACION_FASE0.md: cifras 63/63, 14/14, 80/80, 366, 354, 28/28 presentes",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -695,7 +695,7 @@
      "sha256": "c19c09606c574fa41b670112050f99eaf881de489c9463773afc9d251fc14230"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "DICTAMEN_PREPARACION_FASE0.md"
    ],
@@ -706,7 +706,7 @@
   {
    "comprobacion": "INFORME_CIERRE_TECNICO_FASE0.md: cifras 63/63, 14/14, 80/80, 366, 354, 28/28 presentes",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -714,7 +714,7 @@
      "sha256": "f753d8d6c5c85b75377f2363125a8f64743efa4e12280ddadaa203fe446609ae"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "INFORME_CIERRE_TECNICO_FASE0.md"
    ],
@@ -725,15 +725,15 @@
   {
    "comprobacion": "LEEME no afirma «sin commit» como estado actual",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "62dbf24a49e169f8d06cd69e016dd9a032003236df60a2d7f395115c2b08bfb6"
+     "sha256": "e93d3bddbf54a726e67d65630f47a8e4706fc44f36b188b6de366c05124b7084"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "LEEME_CIERRE_TECNICO.md"
    ],
@@ -744,7 +744,7 @@
   {
    "comprobacion": "ningún documento declara aceptada Fase 0 ni autorizada Fase 1",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -757,7 +757,7 @@
     },
     {
      "ruta": "INFORME_AUDITORIA_FECHAS_HORAS.md",
-     "sha256": "e89d38ac62d0a6f2780ab43809250476ccabfe815eac80932e8b1915fee78dda"
+     "sha256": "b1230ba30d31122562cfc9d6e904ead3f1fc498e0469bde675a05ca3a81eeaa8"
     },
     {
      "ruta": "INFORME_CIERRE_TECNICO_FASE0.md",
@@ -765,7 +765,7 @@
     },
     {
      "ruta": "INFORME_CIFRAS_DEFINITIVAS.md",
-     "sha256": "a62173e103c4f79c5fa690da124a378224fdb85539f87d245cf0fb341b2015f5"
+     "sha256": "335d53af7c6ab168068c6913cb10b433f0403ae2ef5ae2abaa986d478d6b3041"
     },
     {
      "ruta": "INFORME_DECISIONES_ARQUITECTONICAS.md",
@@ -777,7 +777,7 @@
     },
     {
      "ruta": "INFORME_PRUEBAS_FINALES.md",
-     "sha256": "f302e4f8fa7e6983adb60552ba7d7af6760b0d29bad4207100131ba02f1b0abb"
+     "sha256": "c2e75c386917f7adefdd0d8e6fbf836fd9935fa3593c40b5d1a0f6402315020a"
     },
     {
      "ruta": "INFORME_PUBLICACION_GITHUB.md",
@@ -785,7 +785,7 @@
     },
     {
      "ruta": "INFORME_RECONCILIACION_INTEGRAL.md",
-     "sha256": "5641ada1c7e1c703736cbfb1fbc5d46e410d217924aaa97bcd5e9fd3f8a0db71"
+     "sha256": "252caab2bfc92c8d5b55c3b1e9c4f12a0b0de8532ffcca6e4b7371c3a180a509"
     },
     {
      "ruta": "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
@@ -797,7 +797,7 @@
     },
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "62dbf24a49e169f8d06cd69e016dd9a032003236df60a2d7f395115c2b08bfb6"
+     "sha256": "e93d3bddbf54a726e67d65630f47a8e4706fc44f36b188b6de366c05124b7084"
     },
     {
      "ruta": "MATRIZ_MODELO_LOGICO_FISICO.md",
@@ -832,7 +832,7 @@
      "sha256": "a8c0f65a8d77604b04c93817f0b251e2b71c595286dfe295e948895b19c8d491"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "DICTAMEN_PREPARACION_FASE0.md",
     "EXPEDIENTE_T409_T422.md",
@@ -863,7 +863,7 @@
   {
    "comprobacion": "ningún documento marca decisión como APROBADA",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -876,7 +876,7 @@
     },
     {
      "ruta": "INFORME_AUDITORIA_FECHAS_HORAS.md",
-     "sha256": "e89d38ac62d0a6f2780ab43809250476ccabfe815eac80932e8b1915fee78dda"
+     "sha256": "b1230ba30d31122562cfc9d6e904ead3f1fc498e0469bde675a05ca3a81eeaa8"
     },
     {
      "ruta": "INFORME_CIERRE_TECNICO_FASE0.md",
@@ -884,7 +884,7 @@
     },
     {
      "ruta": "INFORME_CIFRAS_DEFINITIVAS.md",
-     "sha256": "a62173e103c4f79c5fa690da124a378224fdb85539f87d245cf0fb341b2015f5"
+     "sha256": "335d53af7c6ab168068c6913cb10b433f0403ae2ef5ae2abaa986d478d6b3041"
     },
     {
      "ruta": "INFORME_DECISIONES_ARQUITECTONICAS.md",
@@ -896,7 +896,7 @@
     },
     {
      "ruta": "INFORME_PRUEBAS_FINALES.md",
-     "sha256": "f302e4f8fa7e6983adb60552ba7d7af6760b0d29bad4207100131ba02f1b0abb"
+     "sha256": "c2e75c386917f7adefdd0d8e6fbf836fd9935fa3593c40b5d1a0f6402315020a"
     },
     {
      "ruta": "INFORME_PUBLICACION_GITHUB.md",
@@ -904,7 +904,7 @@
     },
     {
      "ruta": "INFORME_RECONCILIACION_INTEGRAL.md",
-     "sha256": "5641ada1c7e1c703736cbfb1fbc5d46e410d217924aaa97bcd5e9fd3f8a0db71"
+     "sha256": "252caab2bfc92c8d5b55c3b1e9c4f12a0b0de8532ffcca6e4b7371c3a180a509"
     },
     {
      "ruta": "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
@@ -916,7 +916,7 @@
     },
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "62dbf24a49e169f8d06cd69e016dd9a032003236df60a2d7f395115c2b08bfb6"
+     "sha256": "e93d3bddbf54a726e67d65630f47a8e4706fc44f36b188b6de366c05124b7084"
     },
     {
      "ruta": "MATRIZ_MODELO_LOGICO_FISICO.md",
@@ -951,7 +951,7 @@
      "sha256": "a8c0f65a8d77604b04c93817f0b251e2b71c595286dfe295e948895b19c8d491"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "DICTAMEN_PREPARACION_FASE0.md",
     "EXPEDIENTE_T409_T422.md",
@@ -982,15 +982,15 @@
   {
    "comprobacion": "batería: 22 pasos (= pasos declarados en ct_bateria_final.sh), todos rc=0 Y estado=OK (rc=0 solo no basta: se exige el contenido esperado)",
    "detalle": "[]",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
-     "sha256": "d4f3ff0dee6ab1772233d5ce4216fad91250c077007211970d82e9e68c6d0b85"
+     "sha256": "02da53ae462e2c25513229123038d0b5db83d672ef8b51c4676611d0cc552472"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -1001,16 +1001,16 @@
   {
    "comprobacion": "batería: cada salida existe y su SHA-256 coincide con el índice",
    "detalle": "[]",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
-     "sha256": "d4f3ff0dee6ab1772233d5ce4216fad91250c077007211970d82e9e68c6d0b85"
+     "sha256": "02da53ae462e2c25513229123038d0b5db83d672ef8b51c4676611d0cc552472"
     },
     {
      "ruta": "scripts_validacion/resultados/base_V20_pe_utf8.txt",
-     "sha256": "cdf6aeb213bc8667e5773bae99fd2abd84a37b975e29bc9e98e31cc1430d73e3"
+     "sha256": "60164c83494e1a9f8e67c7e7e402cf11126e3b7effd98dc32d62113defa18f1c"
     },
     {
      "ruta": "scripts_validacion/resultados/base_V20_mutaciones_utf8.txt",
@@ -1018,11 +1018,11 @@
     },
     {
      "ruta": "scripts_validacion/resultados/ext_utf8.txt",
-     "sha256": "54f6941ea7d3da97255a605187f64d4338870cf7ec3000f09f3ccb3580e56e96"
+     "sha256": "502f15ca3e28d04352094fe362075120c0c0d21d2d126fec0367b66324624220"
     },
     {
      "ruta": "scripts_validacion/resultados/concurrencia_local_utf8.txt",
-     "sha256": "4327e90f9653d3ce60d3eadbc3690c7aee7378f4ab1c8a3fc838d3c0323c3fee"
+     "sha256": "96eef996d87a93fad7a1ea2d2fce78593ad9a949c871302748915a317900bfdf"
     },
     {
      "ruta": "scripts_validacion/resultados/dg19_pk_experimento.txt",
@@ -1070,11 +1070,11 @@
     },
     {
      "ruta": "scripts_validacion/resultados/arnes_r1r9_autoprueba_local.txt",
-     "sha256": "200fa4e5808fcc542736744f2e363f8c1c3311112554f035393ac9d8e087e9a0"
+     "sha256": "e764615afde62e804ee79577e012ea5a1c494656df1871a998c43275073b954f"
     },
     {
      "ruta": "scripts_validacion/resultados/bateria_final/smoke_stdout.txt",
-     "sha256": "5921312c7ca13104c5284161efdbba846a9c166eac7c57ed5261ae28dba76115"
+     "sha256": "abb0027dd97d0224013fbc0c9cfdc60d1623760bb1546c0a7a4751b5b99065ce"
     },
     {
      "ruta": "scripts_validacion/resultados/aserciones_smoke.txt",
@@ -1082,7 +1082,7 @@
     },
     {
      "ruta": "scripts_validacion/resultados/guarda_destino.txt",
-     "sha256": "f78e96446180ea9919213fe670c7e6fa23b1d3fa9d34eda6dc110910afeefd78"
+     "sha256": "04057874df4dfeec26ceb2b23bf6eb72714d0ce43e813244d8a0675ba3ae5838"
     },
     {
      "ruta": "scripts_validacion/resultados/bateria_final/escaner_sql_stdout.txt",
@@ -1090,14 +1090,14 @@
     },
     {
      "ruta": "scripts_validacion/resultados/bateria_final/escaner_texto_stdout.txt",
-     "sha256": "472bce2748223d7abba871a99c6e92685e55097f3b03d79b0666707fd6256ede"
+     "sha256": "4da7b748f1b60407775d4b56d54fb83ea2eacc9c820947d23b54cf2c369560e2"
     },
     {
      "ruta": "scripts_validacion/resultados/bateria_final/escaner_autoprueba_stdout.txt",
      "sha256": "91f0a0ce5610de9404786788c2676f57aa68e3afdcba333cd5e696c6ae32fd53"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -1108,7 +1108,7 @@
   {
    "comprobacion": "smoke de los 6 scripts: aserciones de contenido 12/12, 0 FAIL (guardas, precondición de roles, 03 defectuoso/corregido, 04 NO VERIFICABLE, 05 BLOCKED)",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -1116,7 +1116,7 @@
      "sha256": "a252d3e43aec2195e57434b489105b308951ca788f62282677a3996e68fa2080"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -1127,15 +1127,15 @@
   {
    "comprobacion": "guarda DEV/PROD (H-03): 187/187 pruebas, 0 FAIL; cubre los 6 scripts, PROD, destino desconocido, identidad no verificable, configuración incompleta y manipulada",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/guarda_destino.txt",
-     "sha256": "f78e96446180ea9919213fe670c7e6fa23b1d3fa9d34eda6dc110910afeefd78"
+     "sha256": "04057874df4dfeec26ceb2b23bf6eb72714d0ce43e813244d8a0675ba3ae5838"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -1146,7 +1146,7 @@
   {
    "comprobacion": "guarda DEV/PROD: los 6 scripts invocan preflight+verificador de marcador (guarda compartida) y las listas versionadas siguen vacías (no se inventan identificadores)",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -1178,7 +1178,7 @@
      "sha256": "10f7a93f359a340c5451310bb6b7c1474ad4b86950ed6fa3d0f438e789f8829a"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -1189,7 +1189,7 @@
   {
    "comprobacion": "T-409: 2ª corrida idéntica byte a byte",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -1197,7 +1197,7 @@
      "sha256": "50a86dd8d80492b268533140585c6b8a2528bc85708333fd17537f2e52280b93"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -1208,7 +1208,7 @@
   {
    "comprobacion": "T-409..T-422: correspondencia con nivel de evidencia explícito (14 escenarios)",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -1216,7 +1216,7 @@
      "sha256": "b31056815d4cce2cde2108417ef36864615a74dbeda52d1ed614aeee64c41012"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -1227,7 +1227,7 @@
   {
    "comprobacion": "manifiesto: controles negativos 36/36, 0 FAIL",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -1235,7 +1235,7 @@
      "sha256": "5b3c9dd17fe4228261bed2e31a0910fef6f4dae2e0361885084cc691ee6d0fc7"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -1246,15 +1246,15 @@
   {
    "comprobacion": "búsqueda global sin FAIL",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/busqueda_global.txt",
-     "sha256": "3c958efe717fe7ba9f3317518b55408d100826b91824626fabc5434c1c543a29"
+     "sha256": "1a389b3593efd3b844c308232f2b8aa405f84fbda7b8834da8ca27ddaa842afd"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -1265,15 +1265,15 @@
   {
    "comprobacion": "herramientas antiguas eliminadas",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "virtual:listado:scripts_validacion",
-     "sha256": "1944c4bba1b9e3ca38589e989622389f9343ea77772494bbb81b14f4021c94c8"
+     "sha256": "bf1fb71956c85a33971a6e780d4b668dfb1940360f4a802406565448d56e9541"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "virtual:listado:scripts_validacion"
    ],
@@ -1284,15 +1284,15 @@
   {
    "comprobacion": "cifras definitivas: generadas, batería 22/22 OK, decisiones aprobadas = 0, PASS_PHYSICAL = 0",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/cifras_definitivas.json",
-     "sha256": "df18e6b7a128c5802c5936ce06ca351597672391c8e468ec786b9bd996f9e16b"
+     "sha256": "c6870d15cd66fc0744a920da927f5e23b805e51dee4c5783c266f9a0bce49b1d"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -1303,15 +1303,15 @@
   {
    "comprobacion": "cifras: limitaciones 27 = vigentes+parciales+resueltas; decisiones 21; escenarios 12; fixtures 354 de 366 evaluaciones",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/cifras_definitivas.json",
-     "sha256": "df18e6b7a128c5802c5936ce06ca351597672391c8e468ec786b9bd996f9e16b"
+     "sha256": "c6870d15cd66fc0744a920da927f5e23b805e51dee4c5783c266f9a0bce49b1d"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "scripts_validacion"
    ],
@@ -1320,17 +1320,17 @@
    "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   },
   {
-   "comprobacion": "manifiesto: nº de entradas (154) = cifra generada y = archivos sujetos a verificación",
+   "comprobacion": "manifiesto: nº de entradas (148) = cifra generada y = archivos sujetos a verificación",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
-   "estado": "PASS",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
+   "estado": "FAIL",
    "evidencia": [
     {
      "ruta": "MANIFIESTO_SHA256_CIERRE.txt",
-     "sha256": "6c0f05dc5fb31ea96ebee82e63e4e959b7921d74833c8a8019880dfad1fc7055"
+     "sha256": "f41ee384596cbbfb08335cb60119494e05e76e584567df07907b0f8b874e51ac"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "MANIFIESTO_SHA256_CIERRE.txt"
    ],
@@ -1341,12 +1341,12 @@
   {
    "comprobacion": "cifras de los documentos narrativos coinciden con cifras_definitivas.json (limitaciones, decisiones, arnés, fixtures, evaluaciones)",
    "detalle": "[]",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "62dbf24a49e169f8d06cd69e016dd9a032003236df60a2d7f395115c2b08bfb6"
+     "sha256": "e93d3bddbf54a726e67d65630f47a8e4706fc44f36b188b6de366c05124b7084"
     },
     {
      "ruta": "DICTAMEN_PREPARACION_FASE0.md",
@@ -1366,10 +1366,10 @@
     },
     {
      "ruta": "INFORME_PRUEBAS_FINALES.md",
-     "sha256": "f302e4f8fa7e6983adb60552ba7d7af6760b0d29bad4207100131ba02f1b0abb"
+     "sha256": "c2e75c386917f7adefdd0d8e6fbf836fd9935fa3593c40b5d1a0f6402315020a"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "DICTAMEN_PREPARACION_FASE0.md",
     "INFORME_CIERRE_TECNICO_FASE0.md",
@@ -1385,15 +1385,15 @@
   {
    "comprobacion": "alcance: contra V26 no hay archivos modificados/eliminados/añadidos fuera de docs/fase0/cierre_tecnico_fase0 (tracked: 0, sin seguimiento: 0)",
    "detalle": "[]",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "virtual:git-diff-name-status:439777c9ea7db464fe49299adfeb2112abfd285c",
-     "sha256": "916f3665be090591263810d2292cabec09b577263e118ad47a82a62db7bc76a3"
+     "sha256": "c60e20a64caff7d98854939ded3caf7a56565b18401361acf024a13c48df586a"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "virtual:git-diff-name-status:439777c9ea7db464fe49299adfeb2112abfd285c"
    ],
@@ -1404,7 +1404,7 @@
   {
    "comprobacion": "alcance: herramientas protegidas (modelo_estructural.py, verificar_expediente.py) idénticas a V26",
    "detalle": "",
-   "ejecucion_id": "manual-20261121T202423Z",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
    "estado": "PASS",
    "evidencia": [
     {
@@ -1412,7 +1412,7 @@
      "sha256": "bf0b1ba56881d89ea3300a8c58e1a2654ce1919a92630ab7db43c1a4f4a8d73d"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "virtual:git-diff-herramientas:439777c9ea7db464fe49299adfeb2112abfd285c"
    ],
@@ -1422,9 +1422,9 @@
   },
   {
    "comprobacion": "referencias a archivos (171) y enlaces relativos resuelven; las citas históricas están etiquetadas",
-   "detalle": "[]",
-   "ejecucion_id": "manual-20261121T202423Z",
-   "estado": "PASS",
+   "detalle": "[('INFORME_HASHES_MANIFIESTO.md', 'resultados/controles_consistencia_informe.txt'), ('RESOLUCION_OBSERVACIONES_FINALES.md', 'scripts_validacion/resultados/reconciliacion_integral.txt')]",
+   "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
+   "estado": "FAIL",
    "evidencia": [
     {
      "ruta": "DICTAMEN_PREPARACION_FASE0.md",
@@ -1436,7 +1436,7 @@
     },
     {
      "ruta": "INFORME_AUDITORIA_FECHAS_HORAS.md",
-     "sha256": "e89d38ac62d0a6f2780ab43809250476ccabfe815eac80932e8b1915fee78dda"
+     "sha256": "b1230ba30d31122562cfc9d6e904ead3f1fc498e0469bde675a05ca3a81eeaa8"
     },
     {
      "ruta": "INFORME_CIERRE_TECNICO_FASE0.md",
@@ -1444,7 +1444,7 @@
     },
     {
      "ruta": "INFORME_CIFRAS_DEFINITIVAS.md",
-     "sha256": "a62173e103c4f79c5fa690da124a378224fdb85539f87d245cf0fb341b2015f5"
+     "sha256": "335d53af7c6ab168068c6913cb10b433f0403ae2ef5ae2abaa986d478d6b3041"
     },
     {
      "ruta": "INFORME_DECISIONES_ARQUITECTONICAS.md",
@@ -1456,7 +1456,7 @@
     },
     {
      "ruta": "INFORME_PRUEBAS_FINALES.md",
-     "sha256": "f302e4f8fa7e6983adb60552ba7d7af6760b0d29bad4207100131ba02f1b0abb"
+     "sha256": "c2e75c386917f7adefdd0d8e6fbf836fd9935fa3593c40b5d1a0f6402315020a"
     },
     {
      "ruta": "INFORME_PUBLICACION_GITHUB.md",
@@ -1464,7 +1464,7 @@
     },
     {
      "ruta": "INFORME_RECONCILIACION_INTEGRAL.md",
-     "sha256": "5641ada1c7e1c703736cbfb1fbc5d46e410d217924aaa97bcd5e9fd3f8a0db71"
+     "sha256": "252caab2bfc92c8d5b55c3b1e9c4f12a0b0de8532ffcca6e4b7371c3a180a509"
     },
     {
      "ruta": "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
@@ -1476,7 +1476,7 @@
     },
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "62dbf24a49e169f8d06cd69e016dd9a032003236df60a2d7f395115c2b08bfb6"
+     "sha256": "e93d3bddbf54a726e67d65630f47a8e4706fc44f36b188b6de366c05124b7084"
     },
     {
      "ruta": "MATRIZ_MODELO_LOGICO_FISICO.md",
@@ -1511,7 +1511,7 @@
      "sha256": "a8c0f65a8d77604b04c93817f0b251e2b71c595286dfe295e948895b19c8d491"
     }
    ],
-   "fecha_ejecucion_utc": "2026-11-21T20:24:23Z",
+   "fecha_ejecucion_utc": "2026-11-21T20:32:02Z",
    "fuente": [
     "DICTAMEN_PREPARACION_FASE0.md",
     "EXPEDIENTE_T409_T422.md",
@@ -1540,15 +1540,15 @@
    "metodo": "comparación de valores leídos de la fuente con el valor esperado"
   }
  ],
- "fail": 0,
+ "fail": 2,
  "meta": {
-  "commit_base_git": "07f227af0657e4642f14138d06de41b0e6352350",
-  "ejecucion_id": "manual-20261121T202423Z",
+  "commit_base_git": "a7c1d45b7e90bae8a137af7839fe93f9a7239bf8",
+  "ejecucion_id": "CCI-RUN-20261121T202654Z-905e1602",
   "fuente_unica": "este JSON; el TXT y el MD se generan de él en la misma ejecución",
-  "generado_local": "2026-11-21T14:24:23-0600",
-  "generado_utc": "2026-11-21T20:24:23Z",
-  "zona_local": "CST"
+  "generado_local": "2026-11-21T20:32:02+0000",
+  "generado_utc": "2026-11-21T20:32:02Z",
+  "zona_local": "UTC"
  },
- "pass": 58,
+ "pass": 56,
  "total": 58
 }
