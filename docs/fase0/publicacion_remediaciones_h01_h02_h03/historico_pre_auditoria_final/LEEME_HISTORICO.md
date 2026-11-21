@@ -1,0 +1,3 @@
+# HISTÓRICO — documentos SUSTITUIDOS
+Estos documentos son los publicados en el commit `d365a16` (auditoría de la guarda y expediente de publicación) y **no reflejan el estado vigente**: describen la guarda *antes* de la auditoría final independiente (marcador `cci.guarda_ok` como variable; 109 pruebas; hash `07c6673c…`; AUD-G1/AUD-G3 presentados como corregidos). Se conservan sin modificar por trazabilidad.
+**Documentos vigentes:** `../` (misma carpeta padre) y el expediente `AUDITORIA_FINAL_INDEPENDIENTE_FASE0/`. Vigente: guarda `b30a39d9d6dac4974913bf7140a619d1991b599a0c0d12af504f9af0906eb1ec`; 139 pruebas; marcador = tabla temporal `pg_temp.cci_guarda_ok`.

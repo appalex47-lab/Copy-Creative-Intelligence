@@ -178,6 +178,11 @@ PASS | scripts_validacion/ct_aserciones_smoke.py | sin cadenas de conexión con 
 PASS | scripts_validacion/ct_aserciones_smoke.py | sin correos electrónicos (datos personales) | 
 PASS | scripts_validacion/ct_aserciones_smoke.py | sin teléfonos | 
 PASS | scripts_validacion/ct_aserciones_smoke.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ejecutar_script_verificado.sh | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ejecutar_script_verificado.sh | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ejecutar_script_verificado.sh | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ejecutar_script_verificado.sh | sin teléfonos | 
+PASS | scripts_validacion/ejecutar_script_verificado.sh | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | scripts_validacion/ct_gen_cifras.py | sin JWT/claves/tokens | 
 PASS | scripts_validacion/ct_gen_cifras.py | sin cadenas de conexión con credenciales | 
 PASS | scripts_validacion/ct_gen_cifras.py | sin correos electrónicos (datos personales) | 
@@ -729,4 +734,4 @@ PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaB.
 PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaB.txt | sin teléfonos | 
 PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaB.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | (árbol) | sin enlaces simbólicos ni artefactos de Python | 
-TOTAL=731 FAIL=0
+TOTAL=736 FAIL=0

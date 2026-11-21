@@ -294,7 +294,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/escaner_seguridad_texto.txt",
-     "sha256": "b1b5da2768228ef38965933f9ac53b3fddc7742fb52e5f0c4aab3a35aabc8de5"
+     "sha256": "dd5d9226a5e3125100aa4d9cb1705f8780bab589f2af90cee0fa1b7d3cb76305"
     }
    ],
    "id": 32
@@ -330,7 +330,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/04_r1r9_local_bloqueado.txt",
-     "sha256": "c829ac4eb93fb139734ae620c688298e7d66420044541531ed97bb86439a830e"
+     "sha256": "44e14b7f8258ccb05cb7905d04bf84f3e19f02be93c73ca33fa5726fb73b5ea0"
     }
    ],
    "id": 35
@@ -342,7 +342,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/concurrencia_local_utf8.txt",
-     "sha256": "243908cad5e8b4810c95eba14e18e497e1ce2d2b87a261b5b5c0a0939f46a732"
+     "sha256": "c730ca96bce2a89383937d55ccd248c5808d377f341ebb8fa2ab51a73f052c98"
     }
    ],
    "id": 36
@@ -378,7 +378,7 @@
    "evidencia": [
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "418cc5066b413dd8381bad89bbf16ce190217a809663f10b1499935a28fcd1f9"
+     "sha256": "32b49547f6578b9835c57f29b9d673a4a5489276688c496aae78cc8b2a856cae"
     }
    ],
    "id": 39
@@ -398,7 +398,7 @@
     },
     {
      "ruta": "INFORME_AUDITORIA_FECHAS_HORAS.md",
-     "sha256": "1fb70bfc7d94e7278632fa7220370e2152cb83fe53834f8f8d402ca98c70b6fc"
+     "sha256": "6eaa39d96b7bfe5b8dfa53fd286a8fbe105097ab1ee8c4ca45fed20e2110febc"
     },
     {
      "ruta": "INFORME_CIERRE_TECNICO_FASE0.md",
@@ -406,7 +406,7 @@
     },
     {
      "ruta": "INFORME_CIFRAS_DEFINITIVAS.md",
-     "sha256": "21d7d598788255292974ec19ee8e0dfbbe631221dd4f41e58e2606fadf0cda6c"
+     "sha256": "6780465994a07b10212762be374d828427a82009812e91afa9dde9bb4087c7fe"
     },
     {
      "ruta": "INFORME_DECISIONES_ARQUITECTONICAS.md",
@@ -418,7 +418,7 @@
     },
     {
      "ruta": "INFORME_PRUEBAS_FINALES.md",
-     "sha256": "82d09104a0532286becba89bea10b4735b1d40fc1d1dcdf95774798c45de7be8"
+     "sha256": "fe57719e8368a3fcb3251d8ce21c2bd3ff2dfbbe4dc9fb20d22306ac1b9858d9"
     },
     {
      "ruta": "INFORME_PUBLICACION_GITHUB.md",
@@ -426,7 +426,7 @@
     },
     {
      "ruta": "INFORME_RECONCILIACION_INTEGRAL.md",
-     "sha256": "0ec936d30ff2457d94a7c16a25b973a3aea22f8441e94648fe41b1aea7338bc8"
+     "sha256": "53f96b087c5c314a90789b9d13bae79357003c94bf380e450857d98dba3e29ed"
     },
     {
      "ruta": "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
@@ -438,7 +438,7 @@
     },
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "418cc5066b413dd8381bad89bbf16ce190217a809663f10b1499935a28fcd1f9"
+     "sha256": "32b49547f6578b9835c57f29b9d673a4a5489276688c496aae78cc8b2a856cae"
     },
     {
      "ruta": "MATRIZ_MODELO_LOGICO_FISICO.md",
@@ -458,7 +458,7 @@
     },
     {
      "ruta": "PROPUESTA_GUARDA_DEV_PROD.md",
-     "sha256": "761c18e7b9b6218df325c8bf52379c3b5e8f36cb28a20d1e2d59f6a507997a28"
+     "sha256": "da1b9aa20eefe15339457fff27128a647f6fe8f07947069cfa8b656022ca6557"
     },
     {
      "ruta": "PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md",
@@ -490,7 +490,7 @@
     },
     {
      "ruta": "INFORME_AUDITORIA_FECHAS_HORAS.md",
-     "sha256": "1fb70bfc7d94e7278632fa7220370e2152cb83fe53834f8f8d402ca98c70b6fc"
+     "sha256": "6eaa39d96b7bfe5b8dfa53fd286a8fbe105097ab1ee8c4ca45fed20e2110febc"
     },
     {
      "ruta": "INFORME_CIERRE_TECNICO_FASE0.md",
@@ -498,7 +498,7 @@
     },
     {
      "ruta": "INFORME_CIFRAS_DEFINITIVAS.md",
-     "sha256": "21d7d598788255292974ec19ee8e0dfbbe631221dd4f41e58e2606fadf0cda6c"
+     "sha256": "6780465994a07b10212762be374d828427a82009812e91afa9dde9bb4087c7fe"
     },
     {
      "ruta": "INFORME_DECISIONES_ARQUITECTONICAS.md",
@@ -510,7 +510,7 @@
     },
     {
      "ruta": "INFORME_PRUEBAS_FINALES.md",
-     "sha256": "82d09104a0532286becba89bea10b4735b1d40fc1d1dcdf95774798c45de7be8"
+     "sha256": "fe57719e8368a3fcb3251d8ce21c2bd3ff2dfbbe4dc9fb20d22306ac1b9858d9"
     },
     {
      "ruta": "INFORME_PUBLICACION_GITHUB.md",
@@ -518,7 +518,7 @@
     },
     {
      "ruta": "INFORME_RECONCILIACION_INTEGRAL.md",
-     "sha256": "0ec936d30ff2457d94a7c16a25b973a3aea22f8441e94648fe41b1aea7338bc8"
+     "sha256": "53f96b087c5c314a90789b9d13bae79357003c94bf380e450857d98dba3e29ed"
     },
     {
      "ruta": "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
@@ -530,7 +530,7 @@
     },
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "418cc5066b413dd8381bad89bbf16ce190217a809663f10b1499935a28fcd1f9"
+     "sha256": "32b49547f6578b9835c57f29b9d673a4a5489276688c496aae78cc8b2a856cae"
     },
     {
      "ruta": "MATRIZ_MODELO_LOGICO_FISICO.md",
@@ -550,7 +550,7 @@
     },
     {
      "ruta": "PROPUESTA_GUARDA_DEV_PROD.md",
-     "sha256": "761c18e7b9b6218df325c8bf52379c3b5e8f36cb28a20d1e2d59f6a507997a28"
+     "sha256": "da1b9aa20eefe15339457fff27128a647f6fe8f07947069cfa8b656022ca6557"
     },
     {
      "ruta": "PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md",
@@ -574,7 +574,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
-     "sha256": "ec8fe8f3c0a835f759e998605c17e55478a28126104f2ae33935324afcff6255"
+     "sha256": "cd8b88b0eb0d7dfec702596a788db481173a277560388c9c60e8606499c75905"
     }
    ],
    "id": 42
@@ -599,13 +599,13 @@
    "id": 44
   },
   {
-   "comprobacion": "guarda DEV/PROD (H-03): 109/109 pruebas, 0 FAIL; cubre los 6 scripts, PROD, destino desconocido, identidad no verificable, configuración incompleta y manipulada",
+   "comprobacion": "guarda DEV/PROD (H-03): 139/139 pruebas, 0 FAIL; cubre los 6 scripts, PROD, destino desconocido, identidad no verificable, configuración incompleta y manipulada",
    "detalle": "",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/guarda_destino.txt",
-     "sha256": "1e4fd9a84d99a37ce77bbade797d8b82adb87969da82b30c9a50beedca2a0d48"
+     "sha256": "d25ff66bf0b3e1a99e3f0ec280294f0bc75708c9bef3e3c033a493bb9722a2ae"
     }
    ],
    "id": 45
@@ -617,31 +617,31 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/00_guarda_destino.sql",
-     "sha256": "07c6673cc7f6cd4beebcb261eeea6e3ab1c4dbc99fe7dc8021b707607016e5a9"
+     "sha256": "b30a39d9d6dac4974913bf7140a619d1991b599a0c0d12af504f9af0906eb1ec"
     },
     {
      "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/01_inventario_esquema_SOLO_LECTURA.sql",
-     "sha256": "ee0d03575821b04bea23a2dc535adb5d266fb5bc28d062778596f97cb3c8e4e4"
+     "sha256": "f3a8f5fd89265f16b44085944497c63977d4d83a1e90026efd43321360377048"
     },
     {
      "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/02_rls_privilegios_SOLO_LECTURA.sql",
-     "sha256": "59eb5c931c2827d5739b65810a09924f2378950427d5d7929e8c0a249b5b2938"
+     "sha256": "551b61fab7e122b7956a17e32976dbf10446fadc0a03e33203f3b80ad781093c"
     },
     {
      "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/03_pruebas_rls_ROLLBACK.sql",
-     "sha256": "63c143980894832ca28cad696422f80ac9b7ea73579ccfef14f0fcb25146500f"
+     "sha256": "727242bde5827e3fae739d33d39ade5e3f900f32053bc2cd5aa837c561e3689f"
     },
     {
      "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/04_trigger_r1_r9_ROLLBACK.sql",
-     "sha256": "58b015ee5163d999f8c4fc0348b69cbbd573b60ecde4ec08ea54d843caa15e5f"
+     "sha256": "7b0304daa9f5c9538a497d8c82296f54bfd2cefa83012801457dc7b1ec8a262a"
     },
     {
      "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_A.sql",
-     "sha256": "189f6224b10490fb870c830bcfce30c30464c295cd7b33bbd8f985c6107f854b"
+     "sha256": "0882ec56992139ea99abbc9e65ae8c006c927d0a48b27aa06ea86566ec8a35bb"
     },
     {
      "ruta": "scripts_validacion/cci_dev_NO_EJECUTADOS/05_concurrencia_sesion_B.sql",
-     "sha256": "e54da9c17c5d8fb3531f7e576da93464e994e6c01524c82addf8e8b993f39297"
+     "sha256": "2de25c95b0b5a24225d4fec759176fba328e2dde16728e0215e28ea1e62bdf5d"
     }
    ],
    "id": 46
@@ -708,7 +708,7 @@
    "evidencia": [
     {
      "ruta": "scripts_validacion/resultados/cifras_definitivas.json",
-     "sha256": "c681c8a8f2fcd7c7c550c518439cd68755dbaa38da56eb904639f266e008603e"
+     "sha256": "bf05036a0d71f6b544c08e7eb23c9b4762431db8665f5b4a7588717343211edf"
     }
    ],
    "id": 52
@@ -721,13 +721,13 @@
    "id": 53
   },
   {
-   "comprobacion": "manifiesto: nº de entradas (137) = cifra generada y = archivos sujetos a verificación",
+   "comprobacion": "manifiesto: nº de entradas (138) = cifra generada y = archivos sujetos a verificación",
    "detalle": "",
    "estado": "PASS",
    "evidencia": [
     {
      "ruta": "MANIFIESTO_SHA256_CIERRE.txt",
-     "sha256": "e7cc5de39c3ef464582f3286f948fb3be8b7d1751276a9ec56cb2fe02b297892"
+     "sha256": "863099ce38848fe9b44b04873ae5c5fb4bc751ae75ab299aece5cb9ffb813f44"
     }
    ],
    "id": 54
@@ -739,7 +739,7 @@
    "evidencia": [
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "418cc5066b413dd8381bad89bbf16ce190217a809663f10b1499935a28fcd1f9"
+     "sha256": "32b49547f6578b9835c57f29b9d673a4a5489276688c496aae78cc8b2a856cae"
     },
     {
      "ruta": "DICTAMEN_PREPARACION_FASE0.md",
@@ -759,7 +759,7 @@
     },
     {
      "ruta": "INFORME_PRUEBAS_FINALES.md",
-     "sha256": "82d09104a0532286becba89bea10b4735b1d40fc1d1dcdf95774798c45de7be8"
+     "sha256": "fe57719e8368a3fcb3251d8ce21c2bd3ff2dfbbe4dc9fb20d22306ac1b9858d9"
     }
    ],
    "id": 55
@@ -779,7 +779,7 @@
    "id": 57
   },
   {
-   "comprobacion": "referencias a archivos (172) y enlaces relativos resuelven; las citas históricas están etiquetadas",
+   "comprobacion": "referencias a archivos (171) y enlaces relativos resuelven; las citas históricas están etiquetadas",
    "detalle": "[]",
    "estado": "PASS",
    "evidencia": [
@@ -793,7 +793,7 @@
     },
     {
      "ruta": "INFORME_AUDITORIA_FECHAS_HORAS.md",
-     "sha256": "1fb70bfc7d94e7278632fa7220370e2152cb83fe53834f8f8d402ca98c70b6fc"
+     "sha256": "6eaa39d96b7bfe5b8dfa53fd286a8fbe105097ab1ee8c4ca45fed20e2110febc"
     },
     {
      "ruta": "INFORME_CIERRE_TECNICO_FASE0.md",
@@ -801,7 +801,7 @@
     },
     {
      "ruta": "INFORME_CIFRAS_DEFINITIVAS.md",
-     "sha256": "21d7d598788255292974ec19ee8e0dfbbe631221dd4f41e58e2606fadf0cda6c"
+     "sha256": "6780465994a07b10212762be374d828427a82009812e91afa9dde9bb4087c7fe"
     },
     {
      "ruta": "INFORME_DECISIONES_ARQUITECTONICAS.md",
@@ -813,7 +813,7 @@
     },
     {
      "ruta": "INFORME_PRUEBAS_FINALES.md",
-     "sha256": "82d09104a0532286becba89bea10b4735b1d40fc1d1dcdf95774798c45de7be8"
+     "sha256": "fe57719e8368a3fcb3251d8ce21c2bd3ff2dfbbe4dc9fb20d22306ac1b9858d9"
     },
     {
      "ruta": "INFORME_PUBLICACION_GITHUB.md",
@@ -821,7 +821,7 @@
     },
     {
      "ruta": "INFORME_RECONCILIACION_INTEGRAL.md",
-     "sha256": "0ec936d30ff2457d94a7c16a25b973a3aea22f8441e94648fe41b1aea7338bc8"
+     "sha256": "53f96b087c5c314a90789b9d13bae79357003c94bf380e450857d98dba3e29ed"
     },
     {
      "ruta": "INFORME_REVISION_SCRIPTS_CCI_DEV.md",
@@ -833,7 +833,7 @@
     },
     {
      "ruta": "LEEME_CIERRE_TECNICO.md",
-     "sha256": "418cc5066b413dd8381bad89bbf16ce190217a809663f10b1499935a28fcd1f9"
+     "sha256": "32b49547f6578b9835c57f29b9d673a4a5489276688c496aae78cc8b2a856cae"
     },
     {
      "ruta": "MATRIZ_MODELO_LOGICO_FISICO.md",
@@ -853,7 +853,7 @@
     },
     {
      "ruta": "PROPUESTA_GUARDA_DEV_PROD.md",
-     "sha256": "761c18e7b9b6218df325c8bf52379c3b5e8f36cb28a20d1e2d59f6a507997a28"
+     "sha256": "da1b9aa20eefe15339457fff27128a647f6fe8f07947069cfa8b656022ca6557"
     },
     {
      "ruta": "PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md",
@@ -873,10 +873,10 @@
  ],
  "fail": 0,
  "meta": {
-  "commit_base_git": "5b008485706bde3e9cf8407e71c0652cfd0497a5",
+  "commit_base_git": "d365a162e54809f3b8de9c77f5902a8ea131a97f",
   "fuente_unica": "este JSON; el TXT y el MD se generan de él en la misma ejecución",
-  "generado_local": "2026-11-21T10:59:44-0600",
-  "generado_utc": "2026-11-21T16:59:44Z",
+  "generado_local": "2026-11-21T12:09:39-0600",
+  "generado_utc": "2026-11-21T18:09:39Z",
   "zona_local": "CST"
  },
  "pass": 58,

@@ -20,9 +20,9 @@ _Generado por `ct_gen_cifras.py` desde `resultados/cifras_definitivas.json`; tod
 
 - PostgreSQL 16 temporal: V20 63 pruebas PASS y 14 mutaciones detectadas; extensión 80 PASS; DG-19 63 PASS; hash encadenado 16 PASS; concurrencia local CC-01/CC-02 (ver batería); arnés R1–R9 28 PASS (prueba el arnés, no R1–R9).
 - Modelo en memoria: K47 25 mapeadas detectadas; T-409..T-422 26 variantes detectadas; 22 funciones: 366 evaluaciones, 354 fixtures distintos; 23 bloques `except Exception` (19 SEGURO, 4 RIESGO_TECNICO).
-- Escáneres estáticos: SQL 137 comprobaciones (0 FAIL), texto 731 en la batería y 771 en el árbol final (0 FAIL), autoprueba 37 (0 FAIL).
-- Smoke de los 6 scripts: 12 aserciones de contenido (12 PASS). Guarda DEV/PROD (H-03): 109 pruebas (109 PASS, 0 FAIL) sobre los 6 scripts.
-- Batería: 22 pasos, 22 con estado OK (rc=0 **y** contenido esperado). Manifiesto: 137 entradas.
+- Escáneres estáticos: SQL 137 comprobaciones (0 FAIL), texto 736 en la batería y 771 en el árbol final (0 FAIL), autoprueba 37 (0 FAIL).
+- Smoke de los 6 scripts: 12 aserciones de contenido (12 PASS). Guarda DEV/PROD (H-03): 139 pruebas (139 PASS, 0 FAIL) sobre los 6 scripts.
+- Batería: 22 pasos, 22 con estado OK (rc=0 **y** contenido esperado). Manifiesto: 138 entradas.
 - Limitaciones: 27 (vigentes 18, parcialmente resueltas 4, resueltas 5). Decisiones: 21 (aprobadas: 0). Escenarios parciales: 12 (PASS_PROTOTYPE 5, PASS_STATIC 1, PARTIAL 6). Trazabilidad: 54 filas.
 - Reconciliación integral y verificación A/B: `INFORME_RECONCILIACION_INTEGRAL.md`, `evidencia_verificacion/`.
 <!-- CIFRAS:FIN -->
