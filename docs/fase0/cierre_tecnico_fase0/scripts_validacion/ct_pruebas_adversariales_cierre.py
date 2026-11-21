@@ -124,7 +124,7 @@ try:
     def mkset():
         d = tempfile.mkdtemp(prefix="adv_w_"); TMPS.append(d); t = os.path.join(d, "s"); shutil.copytree(SRC, t); gen(t); return t
     def gen(t):
-        fs = ["00_guarda_destino.sql", "00_preflight_guarda.sql", "00_verificar_marcador.sql", "01_inventario_esquema_SOLO_LECTURA.sql", "02_rls_privilegios_SOLO_LECTURA.sql", "03_pruebas_rls_ROLLBACK.sql", "04_lib_clasificador.sql", "04_trigger_r1_r9_ROLLBACK.sql", "05_concurrencia_sesion_A.sql", "05_concurrencia_sesion_B.sql"]
+        fs = ["00_guarda_destino.sql", "00_preflight_guarda.sql", "00_verificar_marcador.sql", "01_inventario_esquema_SOLO_LECTURA.sql", "02_rls_privilegios_SOLO_LECTURA.sql", "03_pruebas_rls_ROLLBACK.sql", "04_lib_clasificador.sql", "04_trigger_r1_r9_ROLLBACK.sql", "05_concurrencia_sesion_A.sql", "05_concurrencia_sesion_B.sql", "ct_identidad_entorno.py"]
         open(os.path.join(t, "SHA256SUMS_CCI.txt"), "w").write("".join("%s  %s\n" % (sha(os.path.join(t, f)), f) for f in fs))
     BASE = mkset(); SUMH = sha(os.path.join(BASE, "SHA256SUMS_CCI.txt"))
     def wrap(args, t=BASE, sc=SEIS[0], aprob=None, env=None, cwd="/tmp", opts=LOC, user=None, timeout=60):

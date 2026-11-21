@@ -18,7 +18,7 @@ def escanear_sql(base, raw):
         cs = set(re.findall(r"current_setting\('([^']+)'", raw))
         c("guarda: identidad efectiva del servidor (pg_control_system)", "pg_control_system" in raw)
         c("guarda: allowlist DEV y denylist PROD literales", "dev_allow" in raw and "prod_deny" in raw)
-        c("guarda: allowlist/denylist no se leen de variables de sesión (solo cci.validacion_autorizada y cci.entorno)", (cs - {"search_path"}) <= {"cci.validacion_autorizada", "cci.entorno"} and len(cs - {"search_path"}) == 2)
+        c("guarda: allowlist/denylist no se leen de variables de sesión (solo cci.validacion_autorizada y cci.entorno; application_name sólo para el registro de auditoría)", (cs - {"search_path", "application_name"}) <= {"cci.validacion_autorizada", "cci.entorno"} and len(cs - {"search_path", "application_name"}) == 2)
         c("guarda: rechaza PROD aunque se declare DEV", "G-PROD-RECHAZADO" in raw and "= any(prod_deny)" in raw)
         c("guarda: rechaza destino desconocido y falla cerrada si la identidad no es verificable", "G-DESTINO-DESCONOCIDO" in raw and "G-IDENTIDAD-NO-VERIFICABLE" in raw)
         c("guarda: configuración incompleta o inválida rechazada", "G-CONFIG-INCOMPLETA" in raw and "G-CONFIG-INVALIDA" in raw)

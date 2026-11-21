@@ -9,7 +9,8 @@ SEIS = ["01_inventario_esquema_SOLO_LECTURA", "02_rls_privilegios_SOLO_LECTURA",
 DEV = "-c cci.validacion_autorizada=SI-CCI-DEV -c cci.entorno=CCI-DEV"; LOC = "-c cci.validacion_autorizada=SI-LOCAL-TEMPORAL -c cci.entorno=LOCAL-TEMPORAL"
 VARS = ["-v", "org=x", "-v", "org_a=x", "-v", "org_b=x", "-v", "uid_a=x", "-v", "uid_x=x", "-v", "piece=x", "-v", "attr=x"]
 res = []; tmps = []
-def psql(args, opts, user="cci_test", db="postgres", sql=None, cwd=None, xenv=None):
+def psql(args, opts, user=None, db="postgres", sql=None, cwd=None, xenv=None):
+    user = user or ("t_gd_op" if "cci.entorno=CCI-DEV" in opts else "cci_test")   # el modo DEV exige un operador autorizado (rol sin privilegios, miembro de cci_operador): fixture local
     env = dict(os.environ, PGHOST=SOCK, PGPORT=PORT, PGUSER=user, PGOPTIONS=opts)
     if xenv: env.update(xenv)
     r = subprocess.run(["psql", "-d", db, "-X", "-v", "ON_ERROR_STOP=1", "-P", "pager=off"] + args, env=env, capture_output=True, text=True, cwd=cwd)
@@ -38,6 +39,7 @@ def rechaza(i, desc, dirv, opts, codigo, scripts=SEIS, **kw):
         anota(i, "%s — %s" % (desc, sc[:2] + sc[-1] if sc.startswith("05") else sc[:2]), ok, "rechazo [%s], rc!=0, sin datos" % codigo, "rc=%d %s" % (rc, (re.search(r"\[G-[A-Z-]+\]", o) or re.search(r"(GUARDA OK|ERROR[^\n]{0,60})", o) or re.search(r"$", o)).group(0)))
 sysid = adm("select system_identifier from pg_control_system()")[1].strip()
 adm("drop database if exists cci_gdev"); adm("create database cci_gdev"); adm("drop database if exists cci_prod_simulada"); adm("create database cci_prod_simulada")
+adm("drop role if exists t_gd_op"); adm("drop role if exists cci_operador"); adm("drop role if exists cci_custodio"); adm("drop role if exists cci_administrador"); adm("create role cci_operador nologin"); adm("create role cci_custodio nologin"); adm("create role cci_administrador nologin"); adm("create role t_gd_op login"); adm("grant cci_operador to t_gd_op")
 adm("drop role if exists sin_permiso"); adm("create role sin_permiso login"); adm("drop role if exists supabase_admin")
 try:
     anota("GD-00", "precondición: identidad efectiva legible (system_identifier numérico)", sysid.isdigit(), "dígitos", "huella md5=%s" % __import__("hashlib").md5(sysid.encode()).hexdigest()[:8])
@@ -171,7 +173,7 @@ try:
 finally:
     adm("drop role if exists supabase_admin")
     for d in tmps: shutil.rmtree(d, ignore_errors=True)
-    adm("drop database if exists cci_gdev"); adm("drop database if exists cci_prod_simulada"); adm("drop role if exists sin_permiso")
+    adm("drop database if exists cci_gdev"); adm("drop database if exists cci_prod_simulada"); adm("drop role if exists sin_permiso"); adm("drop role if exists t_gd_op"); adm("drop role if exists cci_operador"); adm("drop role if exists cci_custodio"); adm("drop role if exists cci_administrador")
 fail = sum(r[0] == "FAIL" for r in res)
 L = ["%s | %s | %s | esperado: %s | obtenido: %s" % r for r in res] + ["TOTAL=%d PASS=%d FAIL=%d" % (len(res), len(res) - fail, fail)]
 print("\n".join(L)); open(OUT, "w", encoding="utf-8").write("\n".join(L) + "\n"); sys.exit(1 if fail else 0)

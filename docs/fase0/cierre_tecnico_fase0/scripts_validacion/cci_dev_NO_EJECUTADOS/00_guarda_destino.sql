@@ -55,7 +55,7 @@ begin
     if not exists (select 1 from pg_catalog.pg_roles where rolname = 'cci_operador') then raise exception 'NO EJECUTADO [G-OPERADOR-ROLES-NO-CONFIGURADOS]: no existe el rol cci_operador; el administrador debe crear la matriz de roles (PROCEDIMIENTO_ROLES_CCI_DEV.sql)'; end if;
     if not pg_catalog.pg_has_role(session_user, 'cci_operador', 'member') then raise exception 'NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]: el rol de la sesión no es miembro de cci_operador'; end if;
     if exists (select 1 from pg_catalog.pg_roles x where x.rolname in ('cci_custodio','cci_administrador') and pg_catalog.pg_has_role(session_user, x.oid, 'member')) then raise exception 'NO EJECUTADO [G-SEPARACION-FUNCIONES]: el operador no puede ser a la vez custodio o administrador'; end if;
-    raise log 'CCI-AUDITORIA operador=% pid=% script=% app=% destino_huella=%', session_user, pg_catalog.pg_backend_pid(), coalesce(pg_catalog.current_setting('cci.script_declarado', true), '?'), pg_catalog.current_setting('application_name'), fp;
+    raise log 'CCI-AUDITORIA operador=% pid=% app=% destino_huella=%', session_user, pg_catalog.pg_backend_pid(), pg_catalog.current_setting('application_name'), fp;
   else
     if pg_catalog.inet_server_addr() is not null then raise exception 'NO EJECUTADO [G-LOCAL-NO-SOCKET]: el modo local exige socket Unix (huella %)', fp; end if;
     if dbn !~ '^cci_' then raise exception 'NO EJECUTADO [G-LOCAL-BASE]: el modo local exige base ^cci_ (huella %)', fp; end if;
