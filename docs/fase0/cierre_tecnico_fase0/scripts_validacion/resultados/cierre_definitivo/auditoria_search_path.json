@@ -1,12 +1,12 @@
 {
  "instalacion_evil_funciones": {
   "cci_ap_shim": {
-   "funciones_ok": 73,
+   "funciones_ok": 74,
    "fallidas": 0,
    "sin_homonimo": []
   },
   "cci_ap_conc": {
-   "funciones_ok": 73,
+   "funciones_ok": 74,
    "fallidas": 0,
    "sin_homonimo": []
   }
@@ -21,12 +21,12 @@
  },
  "instalacion_public": {
   "cci_ap_shim": {
-   "funciones_ok": 73,
+   "funciones_ok": 74,
    "fallidas": 0,
    "operadores": 9
   },
   "cci_ap_conc": {
-   "funciones_ok": 73,
+   "funciones_ok": 74,
    "fallidas": 0,
    "operadores": 9
   }
@@ -1071,6 +1071,7 @@
   "to_regclass",
   "to_regprocedure",
   "tstzrange",
+  "txid_current",
   "unnest",
   "version",
   "xpath"

@@ -1,4 +1,4 @@
-PASS | GD-00 | precondición: identidad efectiva legible (system_identifier numérico) | esperado: dígitos | obtenido: huella md5=26da9f2f
+PASS | GD-00 | precondición: identidad efectiva legible (system_identifier numérico) | esperado: dígitos | obtenido: huella md5=bb2b22db
 PASS | GD-01 | DEV autorizado (allowlist 'sysid|base') PERMITIDO — 01 | esperado: GUARDA OK modo=SI-CCI-DEV y rc=0 | obtenido: rc=0 guarda_ok=True
 PASS | GD-01 | DEV autorizado (allowlist 'sysid|base') PERMITIDO — 02 | esperado: GUARDA OK modo=SI-CCI-DEV y rc=0 | obtenido: rc=0 guarda_ok=True
 PASS | GD-01 | DEV autorizado (allowlist 'sysid|base') PERMITIDO — 03 | esperado: GUARDA OK modo=SI-CCI-DEV | obtenido: rc=0 guarda_ok=True

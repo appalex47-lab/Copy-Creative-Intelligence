@@ -1,6 +1,6 @@
 PASS | 00_guarda_destino.sql | guarda: identidad efectiva del servidor (pg_control_system) | 
 PASS | 00_guarda_destino.sql | guarda: allowlist DEV y denylist PROD literales | 
-PASS | 00_guarda_destino.sql | guarda: allowlist/denylist no se leen de variables de sesión (solo cci.validacion_autorizada y cci.entorno) | 
+PASS | 00_guarda_destino.sql | guarda: allowlist/denylist no se leen de variables de sesión (solo cci.validacion_autorizada y cci.entorno; application_name sólo para el registro de auditoría) | 
 PASS | 00_guarda_destino.sql | guarda: rechaza PROD aunque se declare DEV | 
 PASS | 00_guarda_destino.sql | guarda: rechaza destino desconocido y falla cerrada si la identidad no es verificable | 
 PASS | 00_guarda_destino.sql | guarda: configuración incompleta o inválida rechazada | 

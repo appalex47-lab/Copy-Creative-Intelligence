@@ -1,7 +1,0 @@
-GUARDA 01_inventario_esquema_SOLO_LECTURA sin autorizacion -> abortado: SI
-GUARDA 02_rls_privilegios_SOLO_LECTURA sin autorizacion -> abortado: SI
-GUARDA 03_pruebas_rls_ROLLBACK sin autorizacion -> abortado: SI
-GUARDA 04_trigger_r1_r9_ROLLBACK sin autorizacion -> abortado: SI
-GUARDA 05_concurrencia_sesion_A sin autorizacion -> abortado: SI
-GUARDA 05_concurrencia_sesion_B sin autorizacion -> abortado: SI
-GUARDA 01 en base 'postgres' (no cci_) con modo local -> abortado: SI

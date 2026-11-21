@@ -138,6 +138,11 @@ PASS | scripts_validacion/ct_orquestador_fase0.py | sin cadenas de conexión con
 PASS | scripts_validacion/ct_orquestador_fase0.py | sin correos electrónicos (datos personales) | 
 PASS | scripts_validacion/ct_orquestador_fase0.py | sin teléfonos | 
 PASS | scripts_validacion/ct_orquestador_fase0.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_pruebas_autorizacion_operadores.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_pruebas_autorizacion_operadores.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_pruebas_autorizacion_operadores.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_pruebas_autorizacion_operadores.py | sin teléfonos | 
+PASS | scripts_validacion/ct_pruebas_autorizacion_operadores.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | scripts_validacion/ct_gen_informe_pruebas.py | sin JWT/claves/tokens | 
 PASS | scripts_validacion/ct_gen_informe_pruebas.py | sin cadenas de conexión con credenciales | 
 PASS | scripts_validacion/ct_gen_informe_pruebas.py | sin correos electrónicos (datos personales) | 
@@ -158,6 +163,11 @@ PASS | scripts_validacion/ct_inspeccion_22_funciones.py | sin cadenas de conexi�
 PASS | scripts_validacion/ct_inspeccion_22_funciones.py | sin correos electrónicos (datos personales) | 
 PASS | scripts_validacion/ct_inspeccion_22_funciones.py | sin teléfonos | 
 PASS | scripts_validacion/ct_inspeccion_22_funciones.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_pruebas_orquestador_fallos.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_pruebas_orquestador_fallos.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_pruebas_orquestador_fallos.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_pruebas_orquestador_fallos.py | sin teléfonos | 
+PASS | scripts_validacion/ct_pruebas_orquestador_fallos.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | scripts_validacion/ct_t409_t422_correspondencia.py | sin JWT/claves/tokens | 
 PASS | scripts_validacion/ct_t409_t422_correspondencia.py | sin cadenas de conexión con credenciales | 
 PASS | scripts_validacion/ct_t409_t422_correspondencia.py | sin correos electrónicos (datos personales) | 
@@ -178,6 +188,11 @@ PASS | scripts_validacion/ct_nuevo_cluster.sh | sin cadenas de conexión con cre
 PASS | scripts_validacion/ct_nuevo_cluster.sh | sin correos electrónicos (datos personales) | 
 PASS | scripts_validacion/ct_nuevo_cluster.sh | sin teléfonos | 
 PASS | scripts_validacion/ct_nuevo_cluster.sh | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_pruebas_05_secuencia.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_pruebas_05_secuencia.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_pruebas_05_secuencia.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_pruebas_05_secuencia.py | sin teléfonos | 
+PASS | scripts_validacion/ct_pruebas_05_secuencia.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | scripts_validacion/ct_gen_trazabilidad_maestra.py | sin JWT/claves/tokens | 
 PASS | scripts_validacion/ct_gen_trazabilidad_maestra.py | sin cadenas de conexión con credenciales | 
 PASS | scripts_validacion/ct_gen_trazabilidad_maestra.py | sin correos electrónicos (datos personales) | 
@@ -193,6 +208,11 @@ PASS | scripts_validacion/ct_gen_matriz_12.py | sin cadenas de conexión con cre
 PASS | scripts_validacion/ct_gen_matriz_12.py | sin correos electrónicos (datos personales) | 
 PASS | scripts_validacion/ct_gen_matriz_12.py | sin teléfonos | 
 PASS | scripts_validacion/ct_gen_matriz_12.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_pruebas_ext02_sonda.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_pruebas_ext02_sonda.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_pruebas_ext02_sonda.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_pruebas_ext02_sonda.py | sin teléfonos | 
+PASS | scripts_validacion/ct_pruebas_ext02_sonda.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | scripts_validacion/ct_gen_informe_reconciliacion.py | sin JWT/claves/tokens | 
 PASS | scripts_validacion/ct_gen_informe_reconciliacion.py | sin cadenas de conexión con credenciales | 
 PASS | scripts_validacion/ct_gen_informe_reconciliacion.py | sin correos electrónicos (datos personales) | 
@@ -218,6 +238,11 @@ PASS | scripts_validacion/ct_reejecucion_22_funciones.py | sin cadenas de conexi
 PASS | scripts_validacion/ct_reejecucion_22_funciones.py | sin correos electrónicos (datos personales) | 
 PASS | scripts_validacion/ct_reejecucion_22_funciones.py | sin teléfonos | 
 PASS | scripts_validacion/ct_reejecucion_22_funciones.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_verificar_05.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_verificar_05.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_verificar_05.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_verificar_05.py | sin teléfonos | 
+PASS | scripts_validacion/ct_verificar_05.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | scripts_validacion/ct_gen_decisiones.py | sin JWT/claves/tokens | 
 PASS | scripts_validacion/ct_gen_decisiones.py | sin cadenas de conexión con credenciales | 
 PASS | scripts_validacion/ct_gen_decisiones.py | sin correos electrónicos (datos personales) | 
@@ -238,11 +263,21 @@ PASS | scripts_validacion/ct_cierre_final.sh | sin cadenas de conexión con cred
 PASS | scripts_validacion/ct_cierre_final.sh | sin correos electrónicos (datos personales) | 
 PASS | scripts_validacion/ct_cierre_final.sh | sin teléfonos | 
 PASS | scripts_validacion/ct_cierre_final.sh | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_validar_listas_destinos.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_validar_listas_destinos.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_validar_listas_destinos.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_validar_listas_destinos.py | sin teléfonos | 
+PASS | scripts_validacion/ct_validar_listas_destinos.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | scripts_validacion/ct_gen_auditoria_fechas.py | sin JWT/claves/tokens | 
 PASS | scripts_validacion/ct_gen_auditoria_fechas.py | sin cadenas de conexión con credenciales | 
 PASS | scripts_validacion/ct_gen_auditoria_fechas.py | sin correos electrónicos (datos personales) | 
 PASS | scripts_validacion/ct_gen_auditoria_fechas.py | sin teléfonos | 
 PASS | scripts_validacion/ct_gen_auditoria_fechas.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_ext02_validar_supabase_dev.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_ext02_validar_supabase_dev.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_ext02_validar_supabase_dev.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_ext02_validar_supabase_dev.py | sin teléfonos | 
+PASS | scripts_validacion/ct_ext02_validar_supabase_dev.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | scripts_validacion/ct_verificar_consistencia_informe.py | sin JWT/claves/tokens | 
 PASS | scripts_validacion/ct_verificar_consistencia_informe.py | sin cadenas de conexión con credenciales | 
 PASS | scripts_validacion/ct_verificar_consistencia_informe.py | sin correos electrónicos (datos personales) | 
@@ -273,6 +308,11 @@ PASS | scripts_validacion/ct_pruebas_guarda_destino.py | sin cadenas de conexió
 PASS | scripts_validacion/ct_pruebas_guarda_destino.py | sin correos electrónicos (datos personales) | 
 PASS | scripts_validacion/ct_pruebas_guarda_destino.py | sin teléfonos | 
 PASS | scripts_validacion/ct_pruebas_guarda_destino.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_pruebas_identidad_firmada.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_pruebas_identidad_firmada.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_pruebas_identidad_firmada.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_pruebas_identidad_firmada.py | sin teléfonos | 
+PASS | scripts_validacion/ct_pruebas_identidad_firmada.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | scripts_validacion/ct_gen_resolucion_observaciones.py | sin JWT/claves/tokens | 
 PASS | scripts_validacion/ct_gen_resolucion_observaciones.py | sin cadenas de conexión con credenciales | 
 PASS | scripts_validacion/ct_gen_resolucion_observaciones.py | sin correos electrónicos (datos personales) | 
@@ -338,6 +378,16 @@ PASS | scripts_validacion/ct_k47_por_escenario.py | sin cadenas de conexión con
 PASS | scripts_validacion/ct_k47_por_escenario.py | sin correos electrónicos (datos personales) | 
 PASS | scripts_validacion/ct_k47_por_escenario.py | sin teléfonos | 
 PASS | scripts_validacion/ct_k47_por_escenario.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_pruebas_ext01_y_e2e_dev.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_pruebas_ext01_y_e2e_dev.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_pruebas_ext01_y_e2e_dev.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_pruebas_ext01_y_e2e_dev.py | sin teléfonos | 
+PASS | scripts_validacion/ct_pruebas_ext01_y_e2e_dev.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_pruebas_validador_listas.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_pruebas_validador_listas.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_pruebas_validador_listas.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_pruebas_validador_listas.py | sin teléfonos | 
+PASS | scripts_validacion/ct_pruebas_validador_listas.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | scripts_validacion/ct_gen_limitaciones.py | sin JWT/claves/tokens | 
 PASS | scripts_validacion/ct_gen_limitaciones.py | sin cadenas de conexión con credenciales | 
 PASS | scripts_validacion/ct_gen_limitaciones.py | sin correos electrónicos (datos personales) | 
@@ -348,6 +398,11 @@ PASS | scripts_validacion/ct_gen_decisiones_cinco.py | sin cadenas de conexión 
 PASS | scripts_validacion/ct_gen_decisiones_cinco.py | sin correos electrónicos (datos personales) | 
 PASS | scripts_validacion/ct_gen_decisiones_cinco.py | sin teléfonos | 
 PASS | scripts_validacion/ct_gen_decisiones_cinco.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/ct_anclas_evidencia.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/ct_anclas_evidencia.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/ct_anclas_evidencia.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/ct_anclas_evidencia.py | sin teléfonos | 
+PASS | scripts_validacion/ct_anclas_evidencia.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | scripts_validacion/ct_auditoria_search_path.py | sin JWT/claves/tokens | 
 PASS | scripts_validacion/ct_auditoria_search_path.py | sin cadenas de conexión con credenciales | 
 PASS | scripts_validacion/ct_auditoria_search_path.py | sin correos electrónicos (datos personales) | 
@@ -483,6 +538,11 @@ PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/00_preflight_guarda.sql | sin ca
 PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/00_preflight_guarda.sql | sin correos electrónicos (datos personales) | 
 PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/00_preflight_guarda.sql | sin teléfonos | 
 PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/00_preflight_guarda.sql | sin refs de proyecto Supabase (formato ref.supabase.co) | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/ct_identidad_entorno.py | sin JWT/claves/tokens | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/ct_identidad_entorno.py | sin cadenas de conexión con credenciales | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/ct_identidad_entorno.py | sin correos electrónicos (datos personales) | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/ct_identidad_entorno.py | sin teléfonos | 
+PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/ct_identidad_entorno.py | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/04_lib_clasificador.sql | sin JWT/claves/tokens | 
 PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/04_lib_clasificador.sql | sin cadenas de conexión con credenciales | 
 PASS | scripts_validacion/cci_dev_NO_EJECUTADOS/04_lib_clasificador.sql | sin correos electrónicos (datos personales) | 
@@ -614,4 +674,4 @@ PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaB.
 PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaB.txt | sin teléfonos | 
 PASS | evidencia_verificacion/historico_commit_182b832/verificacion_remota_viaB.txt | sin refs de proyecto Supabase (formato ref.supabase.co) | 
 PASS | (árbol) | sin enlaces simbólicos ni artefactos de Python | 
-TOTAL=616 FAIL=0
+TOTAL=676 FAIL=0
