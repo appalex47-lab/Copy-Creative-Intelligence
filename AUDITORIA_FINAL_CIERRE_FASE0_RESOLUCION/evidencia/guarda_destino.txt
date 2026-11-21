@@ -1,4 +1,4 @@
-PASS | GD-00 | precondición: identidad efectiva legible (system_identifier numérico) | esperado: dígitos | obtenido: huella md5=b8b2bfd9
+PASS | GD-00 | precondición: identidad efectiva legible (system_identifier numérico) | esperado: dígitos | obtenido: huella md5=9cebeb7c
 PASS | GD-01 | DEV autorizado (allowlist 'sysid|base') PERMITIDO — 01 | esperado: GUARDA OK modo=SI-CCI-DEV y rc=0 | obtenido: rc=0 guarda_ok=True
 PASS | GD-01 | DEV autorizado (allowlist 'sysid|base') PERMITIDO — 02 | esperado: GUARDA OK modo=SI-CCI-DEV y rc=0 | obtenido: rc=0 guarda_ok=True
 PASS | GD-01 | DEV autorizado (allowlist 'sysid|base') PERMITIDO — 03 | esperado: GUARDA OK modo=SI-CCI-DEV | obtenido: rc=0 guarda_ok=True
@@ -105,12 +105,12 @@ PASS | GD-14 | stdin con guarda homónima vacía en el cwd: sin datos y sin GUAR
 PASS | GD-14 | stdin con guarda homónima vacía en el cwd: sin datos y sin GUARDA OK — 04 | esperado: rc!=0 y sin datos | obtenido: rc=3
 PASS | GD-14 | stdin con guarda homónima vacía en el cwd: sin datos y sin GUARDA OK — 05A | esperado: rc!=0 y sin datos | obtenido: rc=3
 PASS | GD-14 | stdin con guarda homónima vacía en el cwd: sin datos y sin GUARDA OK — 05B | esperado: rc!=0 y sin datos | obtenido: rc=3
-PASS | GD-15 | CONSTANCIA: tras la guarda rige el search_path del llamador (no persiste el de la guarda) — 01 | esperado: SPVAL=public,pg_temp (comportamiento documentado) | obtenido: SPVAL=public,pg_temp
-PASS | GD-15 | CONSTANCIA: tras la guarda rige el search_path del llamador (no persiste el de la guarda) — 02 | esperado: SPVAL=public,pg_temp (comportamiento documentado) | obtenido: SPVAL=public,pg_temp
-PASS | GD-15 | CONSTANCIA: tras la guarda rige el search_path del llamador (no persiste el de la guarda) — 03 | esperado: SPVAL=public,pg_temp (comportamiento documentado) | obtenido: SPVAL=public,pg_temp
-PASS | GD-15 | CONSTANCIA: tras la guarda rige el search_path del llamador (no persiste el de la guarda) — 04 | esperado: SPVAL=public,pg_temp (comportamiento documentado) | obtenido: SPVAL=public,pg_temp
-PASS | GD-15 | CONSTANCIA: tras la guarda rige el search_path del llamador (no persiste el de la guarda) — 05A | esperado: SPVAL=public,pg_temp (comportamiento documentado) | obtenido: SPVAL=public,pg_temp
-PASS | GD-15 | CONSTANCIA: tras la guarda rige el search_path del llamador (no persiste el de la guarda) — 05B | esperado: SPVAL=public,pg_temp (comportamiento documentado) | obtenido: SPVAL=public,pg_temp
+PASS | GD-15 | CONSTANCIA: tras superar la guarda rige el search_path de sesión blindado (pg_catalog primero) — 01 | esperado: SPVAL=pg_catalog, public, pg_temp (blindaje de sesión tras superar la guarda) | obtenido: SPVAL=pg_catalog, public, pg_temp
+PASS | GD-15 | CONSTANCIA: tras superar la guarda rige el search_path de sesión blindado (pg_catalog primero) — 02 | esperado: SPVAL=pg_catalog, public, pg_temp (blindaje de sesión tras superar la guarda) | obtenido: SPVAL=pg_catalog, public, pg_temp
+PASS | GD-15 | CONSTANCIA: tras superar la guarda rige el search_path de sesión blindado (pg_catalog primero) — 03 | esperado: SPVAL=pg_catalog, public, pg_temp (blindaje de sesión tras superar la guarda) | obtenido: SPVAL=pg_catalog, public, pg_temp
+PASS | GD-15 | CONSTANCIA: tras superar la guarda rige el search_path de sesión blindado (pg_catalog primero) — 04 | esperado: SPVAL=pg_catalog, public, pg_temp (blindaje de sesión tras superar la guarda) | obtenido: SPVAL=pg_catalog, public, pg_temp
+PASS | GD-15 | CONSTANCIA: tras superar la guarda rige el search_path de sesión blindado (pg_catalog primero) — 05A | esperado: SPVAL=pg_catalog, public, pg_temp (blindaje de sesión tras superar la guarda) | obtenido: SPVAL=pg_catalog, public, pg_temp
+PASS | GD-15 | CONSTANCIA: tras superar la guarda rige el search_path de sesión blindado (pg_catalog primero) — 05B | esperado: SPVAL=pg_catalog, public, pg_temp (blindaje de sesión tras superar la guarda) | obtenido: SPVAL=pg_catalog, public, pg_temp
 PASS | GD-19 | search_path hostil (evil antes de pg_catalog) con funciones homónimas: la guarda RECHAZA [G-SEARCH-PATH-NO-SEGURO] antes de que se ejecute nada del script — 01 | esperado: rechazo [G-SEARCH-PATH-NO-SEGURO], rc!=0, sin datos | obtenido: rc=3 [G-SEARCH-PATH-NO-SEGURO]
 PASS | GD-19 | search_path hostil (evil antes de pg_catalog) con funciones homónimas: la guarda RECHAZA [G-SEARCH-PATH-NO-SEGURO] antes de que se ejecute nada del script — 02 | esperado: rechazo [G-SEARCH-PATH-NO-SEGURO], rc!=0, sin datos | obtenido: rc=3 [G-SEARCH-PATH-NO-SEGURO]
 PASS | GD-19 | search_path hostil (evil antes de pg_catalog) con funciones homónimas: la guarda RECHAZA [G-SEARCH-PATH-NO-SEGURO] antes de que se ejecute nada del script — 03 | esperado: rechazo [G-SEARCH-PATH-NO-SEGURO], rc!=0, sin datos | obtenido: rc=3 [G-SEARCH-PATH-NO-SEGURO]

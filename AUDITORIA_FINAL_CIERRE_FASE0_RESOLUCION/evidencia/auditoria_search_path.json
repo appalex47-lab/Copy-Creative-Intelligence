@@ -352,12 +352,12 @@
    "escenario": "mismo ataque con el chequeo de search_path de la guarda ELIMINADO (aísla la calificación pg_catalog.)",
    "arbol": "corregido-sin-chequeo",
    "script": "04_trigger_r1_r9_ROLLBACK",
-   "rc": 3,
+   "rc": 0,
    "guarda_ok": true,
    "rechazo": "",
    "hijack_funcion": false,
    "hijack_operador": false,
-   "salida_error": "ERROR:  operator does not exist: unknown ||- integer"
+   "salida_error": ""
   },
   {
    "id": "SPD2-05A",
@@ -601,55 +601,55 @@
   },
   {
    "id": "SPD7-01",
-   "escenario": "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados (límite: sólo los cubre el chequeo)",
+   "escenario": "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados; los cubre el blindaje de sesión de la guarda (search_path de sesión = pg_catalog, public, pg_temp)",
    "arbol": "corregido-sin-chequeo",
    "script": "01_inventario_esquema_SOLO_LECTURA",
-   "rc": 3,
+   "rc": 0,
    "guarda_ok": true,
    "rechazo": "",
    "hijack_funcion": false,
-   "hijack_operador": true,
-   "salida_error": "ERROR:  HIJACK-OP ="
+   "hijack_operador": false,
+   "salida_error": ""
   },
   {
    "id": "SPD7-02",
-   "escenario": "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados (límite: sólo los cubre el chequeo)",
+   "escenario": "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados; los cubre el blindaje de sesión de la guarda (search_path de sesión = pg_catalog, public, pg_temp)",
    "arbol": "corregido-sin-chequeo",
    "script": "02_rls_privilegios_SOLO_LECTURA",
-   "rc": 3,
+   "rc": 0,
    "guarda_ok": true,
    "rechazo": "",
    "hijack_funcion": false,
-   "hijack_operador": true,
-   "salida_error": "ERROR:  HIJACK-OP ="
+   "hijack_operador": false,
+   "salida_error": ""
   },
   {
    "id": "SPD7-03",
-   "escenario": "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados (límite: sólo los cubre el chequeo)",
+   "escenario": "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados; los cubre el blindaje de sesión de la guarda (search_path de sesión = pg_catalog, public, pg_temp)",
    "arbol": "corregido-sin-chequeo",
    "script": "03_pruebas_rls_ROLLBACK",
-   "rc": 3,
+   "rc": 0,
    "guarda_ok": true,
    "rechazo": "",
    "hijack_funcion": false,
-   "hijack_operador": true,
-   "salida_error": "ERROR:  HIJACK-OP ="
+   "hijack_operador": false,
+   "salida_error": ""
   },
   {
    "id": "SPD7-04",
-   "escenario": "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados (límite: sólo los cubre el chequeo)",
+   "escenario": "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados; los cubre el blindaje de sesión de la guarda (search_path de sesión = pg_catalog, public, pg_temp)",
    "arbol": "corregido-sin-chequeo",
    "script": "04_trigger_r1_r9_ROLLBACK",
-   "rc": 3,
+   "rc": 0,
    "guarda_ok": true,
    "rechazo": "",
    "hijack_funcion": false,
-   "hijack_operador": true,
-   "salida_error": "ERROR:  HIJACK-OP ||"
+   "hijack_operador": false,
+   "salida_error": ""
   },
   {
    "id": "SPD7-05A",
-   "escenario": "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados (límite: sólo los cubre el chequeo)",
+   "escenario": "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados; los cubre el blindaje de sesión de la guarda (search_path de sesión = pg_catalog, public, pg_temp)",
    "arbol": "corregido-sin-chequeo",
    "script": "05_concurrencia_sesion_A",
    "rc": 0,
@@ -661,7 +661,7 @@
   },
   {
    "id": "SPD7-05B",
-   "escenario": "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados (límite: sólo los cubre el chequeo)",
+   "escenario": "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados; los cubre el blindaje de sesión de la guarda (search_path de sesión = pg_catalog, public, pg_temp)",
    "arbol": "corregido-sin-chequeo",
    "script": "05_concurrencia_sesion_B",
    "rc": 0,
@@ -856,12 +856,12 @@
    "escenario": "homónimos de funciones y operadores creados en 'public' (permitido por el chequeo); search_path por defecto",
    "arbol": "corregido",
    "script": "04_trigger_r1_r9_ROLLBACK",
-   "rc": 3,
+   "rc": 0,
    "guarda_ok": true,
    "rechazo": "",
    "hijack_funcion": false,
    "hijack_operador": false,
-   "salida_error": "ERROR:  operator does not exist: unknown ||- integer"
+   "salida_error": ""
   },
   {
    "id": "SPD4-05A",

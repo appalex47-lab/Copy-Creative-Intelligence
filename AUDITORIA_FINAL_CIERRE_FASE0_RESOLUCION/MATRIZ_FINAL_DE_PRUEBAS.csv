@@ -4,7 +4,7 @@ ORQ,A/sha256sums_guarda_y_scripts,PASS,,pasos/A_sha256sums_guarda_y_scripts.stdo
 ORQ,A/ramas_protegidas_intactas,PASS,,pasos/A_ramas_protegidas_intactas.stdout.txt
 ORQ,A/cluster_nuevo_dev,PASS,,pasos/A_cluster_nuevo_dev.stdout.txt
 ORQ,A/cluster_nuevo_prod,PASS,,pasos/A_cluster_nuevo_prod.stdout.txt
-ORQ,A/clusteres_independientes_y_vacios,PASS,"{""dev"": {""sysid"": ""7710750170142132283"", ""port"": 32943}, ""prod"": {""sysid"": ""7710750173099673693"", ""port"": 37483}}",
+ORQ,A/clusteres_independientes_y_vacios,PASS,"{""dev"": {""sysid"": ""7710756749892870120"", ""port"": 34233}, ""prod"": {""sysid"": ""7710756753390919690"", ""port"": 48841}}",
 ORQ,B/bat_escaner_sql,PASS,,pasos/B_bat_escaner_sql.stdout.txt
 ORQ,B/bat_escaner_autoprueba,PASS,,pasos/B_bat_escaner_autoprueba.stdout.txt
 ORQ,B/bat_escaner_texto,PASS,,pasos/B_bat_escaner_texto.stdout.txt
@@ -213,7 +213,7 @@ ADV,WRAP-19-opcion-1,PASS,rc=3 V-OPCION-NO-PERMITIDA,evidencia/adversarial_marca
 ADV,WRAP-20-destino-aprobado,PASS,rc=0 GUARDA OK,evidencia/adversarial_marcador_ejecutor.json
 ADV,WRAP-21-destino-no-aprobado,PASS,rc=3 V-DESTINO-NO-APROBADO,evidencia/adversarial_marcador_ejecutor.json
 ADV,WRAP-22-DEV-sin-lista,PASS,rc=3 V-DESTINO-NO-CONFIGURADO,evidencia/adversarial_marcador_ejecutor.json
-ADV,WRAP-23-TOCTOU,PASS,rc=0 ejecuciones=25 ok=11 rechazadas=14 pwned=0,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-23-TOCTOU,PASS,rc=0 ejecuciones=25 ok=13 rechazadas=12 pwned=0,evidencia/adversarial_marcador_ejecutor.json
 ADV,WRAP-24-concurrencia,PASS,rc=0 ok=6/6,evidencia/adversarial_marcador_ejecutor.json
 ADV,WRAP-25-interrupcion,PASS,rc=0 residuales=0,evidencia/adversarial_marcador_ejecutor.json
 ADV,WRAP-26-permisos,PASS,rc=99 [Errno 2] No such file or directory: 'runuser',evidencia/adversarial_marcador_ejecutor.json
@@ -250,10 +250,10 @@ SP,SPD6-03/03/corregido,PASS,G-SEARCH-PATH-NO-SEGURO,evidencia/auditoria_search_
 SP,SPD6-04/04/corregido,PASS,G-SEARCH-PATH-NO-SEGURO,evidencia/auditoria_search_path.json
 SP,SPD6-05A/05/corregido,PASS,G-SEARCH-PATH-NO-SEGURO,evidencia/auditoria_search_path.json
 SP,SPD6-05B/05/corregido,PASS,G-SEARCH-PATH-NO-SEGURO,evidencia/auditoria_search_path.json
-SP,SPD7-01/01/corregido-sin-chequeo,PARTIAL,,evidencia/auditoria_search_path.json
-SP,SPD7-02/02/corregido-sin-chequeo,PARTIAL,,evidencia/auditoria_search_path.json
-SP,SPD7-03/03/corregido-sin-chequeo,PARTIAL,,evidencia/auditoria_search_path.json
-SP,SPD7-04/04/corregido-sin-chequeo,PARTIAL,,evidencia/auditoria_search_path.json
+SP,SPD7-01/01/corregido-sin-chequeo,PASS,,evidencia/auditoria_search_path.json
+SP,SPD7-02/02/corregido-sin-chequeo,PASS,,evidencia/auditoria_search_path.json
+SP,SPD7-03/03/corregido-sin-chequeo,PASS,,evidencia/auditoria_search_path.json
+SP,SPD7-04/04/corregido-sin-chequeo,PASS,,evidencia/auditoria_search_path.json
 SP,SPD7-05A/05/corregido-sin-chequeo,PASS,,evidencia/auditoria_search_path.json
 SP,SPD7-05B/05/corregido-sin-chequeo,PASS,,evidencia/auditoria_search_path.json
 SP,SPD4-01/01/corregido,PASS,,evidencia/auditoria_search_path.json
@@ -264,7 +264,7 @@ SP,SPD4-05A/05/corregido,PASS,,evidencia/auditoria_search_path.json
 SP,SPD4-05B/05/corregido,PASS,,evidencia/auditoria_search_path.json
 AO,AO-01,PASS,roles de la matriz no configurados (cci_operador no existe) | rc=3 ['NO EJECUTADO [G-OPERADOR-ROLES-NO-CONFIGURADOS]'] can,evidencia/autorizacion_operadores.json
 AO,AO-02,PASS,"operador autorizado (miembro de cci_operador, sin privilegios elevados | rc=0 guarda_ok=True canario=True",evidencia/autorizacion_operadores.json
-AO,AO-03,PASS,registro de quién ejecutó (RAISE LOG con rol y pid) | ['CCI-AUDITORIA operador=t_op_ok pid=27022'],evidencia/autorizacion_operadores.json
+AO,AO-03,PASS,registro de quién ejecutó (RAISE LOG con rol y pid) | ['CCI-AUDITORIA operador=t_op_ok pid=12695'],evidencia/autorizacion_operadores.json
 AO,AO-04,PASS,rol desconocido: existe pero no es miembro de cci_operador | rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=Fal,evidencia/autorizacion_operadores.json
 AO,AO-05,PASS,superusuario (cci_test) no puede operar: privilegios mínimos | rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canar,evidencia/autorizacion_operadores.json
 AO,AO-06-createrole,PASS,operador con CREATEROLE | rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canar,evidencia/autorizacion_operadores.json
@@ -284,7 +284,7 @@ AO,AO-15b,PASS,no autorizado intenta session_replication_role=replica: el servid
 AO,AO-16,PASS,no autorizado con aplicación declarada cci_05A (impostor de identidad  | rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=Fal,evidencia/autorizacion_operadores.json
 AO,AO-17,PASS,operador autorizado que re-declara su propio session_authorization (si | rc=0,evidencia/autorizacion_operadores.json
 AO,AO-18,PASS,sin efectos persistentes en toda la suite (roles/membresías/objetos pú | 4|18|0,evidencia/autorizacion_operadores.json
-AG18,AG-00,PASS,los clones físicos son reales: mismo system_identifier que su origen y | dev=7710750780936202972 clon_dev=7710750780936202972 prod=77,evidencia/identidad_firmada_ag18.json
+AG18,AG-00,PASS,los clones físicos son reales: mismo system_identifier que su origen y | dev=7710757365314499301 clon_dev=7710757365314499301 prod=77,evidencia/identidad_firmada_ag18.json
 AG18,AG-01,PASS,DEV legítimo con identidad firmada vigente (caso positivo) | rc=0 OK entorno=CCI-DEV proyecto=proj-dev-prueba serial=5,evidencia/identidad_firmada_ag18.json
 AG18,AG-02,PASS,CLON FÍSICO de DEV en otro endpoint con el token legítimo de DEV (mism | rc=3 RECHAZADO [I-ENDPOINT-DISTINTO] el destino real no es e,evidencia/identidad_firmada_ag18.json
 AG18,AG-03,PASS,token tomado del CONTENIDO CLONADO de la base y usado desde el clon | rc=3 RECHAZADO [I-ENDPOINT-DISTINTO] el destino real no es e,evidencia/identidad_firmada_ag18.json
@@ -385,7 +385,7 @@ EXT03,EXT03-20,PASS,"claves extra en el archivo | rc=3 RECHAZADO [L-ESQUEMA] cla
 EXT03,EXT03-21,PASS,"schema incorrecto | rc=3 RECHAZADO [L-ESQUEMA] claves exactas: schema, dev_allow",evidencia/validador_listas_ext03.json
 EXT03,EXT03-22,PASS,JSON con clave duplicada | rc=3 RECHAZADO [L-CLAVE-DUPLICADA] dev_allow,evidencia/validador_listas_ext03.json
 EXT03,EXT03-23,PASS,JSON inválido | rc=3 RECHAZADO [L-JSON] JSONDecodeError('Expecting property ,evidencia/validador_listas_ext03.json
-EXT03,EXT03-24,PASS,archivo ausente | rc=3 RECHAZADO [L-ARCHIVO-AUSENTE] /tmp/lst.fuindqsj/no_exis,evidencia/validador_listas_ext03.json
+EXT03,EXT03-24,PASS,archivo ausente | rc=3 RECHAZADO [L-ARCHIVO-AUSENTE] /tmp/lst.bbxt1r6n/no_exis,evidencia/validador_listas_ext03.json
 EXT03,EXT03-25,PASS,listas no son arreglos | rc=3 RECHAZADO [L-TIPO] las listas deben ser arreglos,evidencia/validador_listas_ext03.json
 EXT03,EXT03-26,PASS,demasiadas entradas (65) | rc=3 RECHAZADO [L-DEMASIADAS] máximo 64 entradas,evidencia/validador_listas_ext03.json
 EXT03,EXT03-27,PASS,guarda REAL actual (listas vacías) con exigencia de no vacías: debe RE | rc=3 RECHAZADO [L-DEV-VACIA] dev_allow vacía: el propietario,evidencia/validador_listas_ext03.json

@@ -21,7 +21,7 @@ PASS EXT03-20 claves extra en el archivo -> RECHAZADO [L-ESQUEMA] claves exactas
 PASS EXT03-21 schema incorrecto -> RECHAZADO [L-ESQUEMA] claves exactas: schema, dev_allow, prod_deny
 PASS EXT03-22 JSON con clave duplicada -> RECHAZADO [L-CLAVE-DUPLICADA] dev_allow
 PASS EXT03-23 JSON inválido -> RECHAZADO [L-JSON] JSONDecodeError('Expecting property name enclosed i
-PASS EXT03-24 archivo ausente -> RECHAZADO [L-ARCHIVO-AUSENTE] /tmp/lst.fuindqsj/no_existe.json
+PASS EXT03-24 archivo ausente -> RECHAZADO [L-ARCHIVO-AUSENTE] /tmp/lst.bbxt1r6n/no_existe.json
 PASS EXT03-25 listas no son arreglos -> RECHAZADO [L-TIPO] las listas deben ser arreglos
 PASS EXT03-26 demasiadas entradas (65) -> RECHAZADO [L-DEMASIADAS] máximo 64 entradas
 PASS EXT03-27 guarda REAL actual (listas vacías) con exigencia de no vacías: debe RECHAZAR (EXT-03 sigue bloqueado) -> RECHAZADO [L-DEV-VACIA] dev_allow vacía: el propietario debe aportar a

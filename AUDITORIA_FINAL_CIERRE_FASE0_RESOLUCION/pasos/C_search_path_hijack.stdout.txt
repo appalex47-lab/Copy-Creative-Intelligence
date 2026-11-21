@@ -8,6 +8,6 @@ SPD4 corregido funcion_hijack=0 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
 SPD5-d365a16 anterior:d365a16 funcion_hijack=0 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
 SPD5-e0b1d81 anterior:e0b1d81 funcion_hijack=0 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
 SPD6 corregido funcion_hijack=0 operador_hijack=0 rechazos=6 guarda_ok=0 de 6
-SPD7 corregido-sin-chequeo funcion_hijack=0 operador_hijack=4 rechazos=0 guarda_ok=6 de 6
+SPD7 corregido-sin-chequeo funcion_hijack=0 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
 SPD8-d365a16 anterior:d365a16 funcion_hijack=0 operador_hijack=6 rechazos=0 guarda_ok=6 de 6
 SPD8-e0b1d81 anterior:e0b1d81 funcion_hijack=0 operador_hijack=4 rechazos=0 guarda_ok=6 de 6

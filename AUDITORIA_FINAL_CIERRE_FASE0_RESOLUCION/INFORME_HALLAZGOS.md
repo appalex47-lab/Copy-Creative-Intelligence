@@ -111,6 +111,17 @@ Formato por hallazgo: estado previo · causa raíz · solución · archivos · p
 - **Resultado/evidencia**: K: EXT-04-L04…L08 BLOCKED por separado
 - **Desbloqueo**: Ver fichas L04…L08
 
+## F-11 — Operadores sin calificar en los 6 scripts SQL (SPD7)
+**Clasificación: RESUELTO_VERIFICADO**
+- **Estado previo**: Con el chequeo de search_path eliminado, 4/6 scripts eran secuestrables por operadores hostiles (= y ||).
+- **Causa raíz**: Los operadores (=, ||, IN, joins) no pueden calificarse uno a uno de forma fiable; resolvían por el search_path del llamador.
+- **Solución**: La guarda fija, tras superar sus comprobaciones, el search_path de SESIÓN a pg_catalog, public, pg_temp (\gset). Además se corrigió un defecto latente en 04 (`'||:post_count||'` con -1 se lexaba como operador ||-) usando casts y espacios.
+- **Archivos** (`scripts_validacion/…`): cci_dev_NO_EJECUTADOS/00_guarda_destino.sql, 04_trigger_r1_r9_ROLLBACK.sql
+- **Prueba que reproduce**: Versiones anteriores: operadores hostiles ejecutados (SPD8, control positivo)
+- **Prueba posterior**: SPD6/SPD7: 0 secuestros de operador por script; SPD1-SPD5 sin regresión
+- **Resultado/evidencia**: evidencia/auditoria_search_path.json
+- **Desbloqueo**: Residuo: homónimos EXACTOS de pg_catalog no pueden ser superados desde public (el orden pone pg_catalog primero); homónimos más específicos en public siguen siendo un límite aceptado de un esquema permitido
+
 ## F-09 — Registro de auditoría anulable (hallado en la revisión adversarial de esta operación)
 **Clasificación: RESUELTO_VERIFICADO**
 - **Estado previo**: CCI_AUDITORIA_LOG=/dev/null (o enlace/FIFO) permitía ejecutar sin registro real.

@@ -18,7 +18,7 @@
   "objetivo": "registro de quién ejecutó (RAISE LOG con rol y pid)",
   "esperado": "CCI-AUDITORIA operador=t_op_ok pid=<n>",
   "observado": [
-   "CCI-AUDITORIA operador=t_op_ok pid=27022"
+   "CCI-AUDITORIA operador=t_op_ok pid=12695"
   ],
   "estado": "PASS"
  },

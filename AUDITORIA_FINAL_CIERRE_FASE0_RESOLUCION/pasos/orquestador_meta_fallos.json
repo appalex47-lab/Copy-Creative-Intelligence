@@ -8,7 +8,7 @@
  {
   "id": "ORQ-S01",
   "objetivo": "cada ejecución genera un run id nuevo",
-  "observado": "('CCI-RUN-20261121T220847Z-c22078ae', 'CCI-RUN-20261121T220847Z-a3f21e1d')",
+  "observado": "('CCI-RUN-20261121T223419Z-c5a8c618', 'CCI-RUN-20261121T223419Z-6c34aa9d')",
   "estado": "PASS"
  },
  {

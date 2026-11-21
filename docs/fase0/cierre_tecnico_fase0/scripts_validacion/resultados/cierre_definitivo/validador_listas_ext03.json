@@ -164,7 +164,7 @@
   "id": "EXT03-24",
   "objetivo": "archivo ausente",
   "esperado": "L-ARCHIVO-AUSENTE",
-  "observado": "rc=3 RECHAZADO [L-ARCHIVO-AUSENTE] /tmp/lst.fuindqsj/no_existe.json",
+  "observado": "rc=3 RECHAZADO [L-ARCHIVO-AUSENTE] /tmp/lst.bbxt1r6n/no_existe.json",
   "estado": "PASS"
  },
  {

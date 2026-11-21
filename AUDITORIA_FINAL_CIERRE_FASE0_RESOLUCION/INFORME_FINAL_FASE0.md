@@ -4,10 +4,10 @@
 **FASE0_BLOCKED** (código de salida 2). Causa: dependencias externas pendientes: ID-13, EXT-03, EXT-01, EXT-02, EXT-04-L04, EXT-04-L05, EXT-04-L06, EXT-04-L07, EXT-04-L08. **No hay defecto técnico abierto detectado por las pruebas** (FAIL = 0); lo que impide `FASE0_READY_FOR_OWNER_ACCEPTANCE` son dependencias que solo el propietario puede aportar. **Fase 0 NO está aceptada.**
 
 ## Ejecución
-- Ejecución `CCI-RUN-20261121T220844Z-9ec25036` · inicio 2026-11-21T22:08:44Z · duración 447.0 s · código evaluado `2e45345` · rama `audit/fase0-resolucion-final`.
+- Ejecución `CCI-RUN-20261121T223416Z-67eb098f` · inicio 2026-11-21T22:34:16Z · duración 457.7 s · código evaluado `cd8689b55e2f7c06b2756596d0f449bb2c2ce5b6` · rama `audit/fase0-resolucion-final`.
 - Pasos del orquestador: 77 · PASS 66 · FAIL 0 · BLOCKED 10 · NOT_TESTED 1 · etapas no iniciadas 0.
-- Etapas: {'A': 'PASSED', 'B': 'PASSED', 'C': 'PASSED', 'D': 'PASSED', 'E': 'PASSED', 'F': 'PASSED', 'G': 'PASSED', 'H': 'PASSED', 'I': 'PASSED', 'J': 'PASSED', 'K': 'BLOCKED'}. Clústeres nuevos y vacíos, independientes (system_identifier, directorio y puerto distintos): {'dev': {'port': 32943, 'sysid': '7710750170142132283'}, 'prod': {'port': 37483, 'sysid': '7710750173099673693'}}.
-- Matriz de la versión actual `MATRIZ_FINAL_DE_PRUEBAS.csv`: 548 filas → {'PASS': 523, 'BLOCKED': 10, 'NOT_TESTED': 1, 'PARTIAL': 13, 'NOT TESTED': 1}. Por suite: {'ORQ': 77, 'ADV': 142, 'IDENT-GUARDA-SQL': 14, 'SP': 30, 'AO': 22, 'AG18': 42, 'EXT01/E2E': 36, 'EXT03': 34, 'EXT02-SIM': 7, 'SEC05': 15, 'ORQ-META': 49, 'BAT': 22, 'RECON': 58}.
+- Etapas: {'A': 'PASSED', 'B': 'PASSED', 'C': 'PASSED', 'D': 'PASSED', 'E': 'PASSED', 'F': 'PASSED', 'G': 'PASSED', 'H': 'PASSED', 'I': 'PASSED', 'J': 'PASSED', 'K': 'BLOCKED'}. Clústeres nuevos y vacíos, independientes (system_identifier, directorio y puerto distintos): {'dev': {'port': 34233, 'sysid': '7710756749892870120'}, 'prod': {'port': 48841, 'sysid': '7710756753390919690'}}.
+- Matriz de la versión actual `MATRIZ_FINAL_DE_PRUEBAS.csv`: 548 filas → {'PASS': 527, 'BLOCKED': 10, 'NOT_TESTED': 1, 'PARTIAL': 9, 'NOT TESTED': 1}. Por suite: {'ORQ': 77, 'ADV': 142, 'IDENT-GUARDA-SQL': 14, 'SP': 30, 'AO': 22, 'AG18': 42, 'EXT01/E2E': 36, 'EXT03': 34, 'EXT02-SIM': 7, 'SEC05': 15, 'ORQ-META': 49, 'BAT': 22, 'RECON': 58}.
 - Ataques contra la versión **anterior** (separados, no cuentan como resultado de la versión actual): `ATAQUES_CONTRA_VERSION_ANTERIOR.csv` → {'FAIL': 33, 'PASS': 27} (los 33 FAIL históricos: 18 casos adversariales de la rama publicada + 15 de search_path de ramas anteriores; son los ataques reproducidos, esperados).
 
 ## Causas raíz y correcciones

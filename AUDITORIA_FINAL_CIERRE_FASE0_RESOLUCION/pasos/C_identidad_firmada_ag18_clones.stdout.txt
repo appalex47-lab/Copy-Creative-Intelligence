@@ -1,4 +1,4 @@
-PASS dev=7710750780936202972 clon_dev=7710750780936202972 prod=7710750784557665022 clon_prod=7710750784557665022 token_en_clon=True
+PASS dev=7710757365314499301 clon_dev=7710757365314499301 prod=7710757369334715143 clon_prod=7710757369334715143 token_en_clon=True
 PASS | AG-01 | DEV legítimo con identidad firmada vigente (caso positivo) | rc=0 OK entorno=CCI-DEV proyecto=proj-dev-prueba serial=5
 PASS | AG-02 | CLON FÍSICO de DEV en otro endpoint con el token legítimo de DEV (mismo system_identifier y mismo token copiado) | rc=3 RECHAZADO [I-ENDPOINT-DISTINTO] el destino real no es el endpoint firmado
 PASS | AG-03 | token tomado del CONTENIDO CLONADO de la base y usado desde el clon | rc=3 RECHAZADO [I-ENDPOINT-DISTINTO] el destino real no es el endpoint firmado
@@ -8,16 +8,16 @@ PASS | AG-06 | PROD real reclamado como DEV con el endpoint de DEV (parámetros 
 PASS | AG-07 | identidad legítima de PROD presentada cuando se exige DEV (clon de PROD con su identidad) | rc=3 RECHAZADO [I-ENTORNO-DISTINTO] el token es de otro entorno
 PASS | AG-08 | PROD real nunca se acepta como DEV, ni con identidad de PROD y endpoint de PROD | rc=3 RECHAZADO [I-ENTORNO-DISTINTO] el token es de otro entorno
 PASS | AG-09 | identidad ausente (directorio inexistente) | rc=3 RECHAZADO [I-AUSENTE] falta el directorio de identidad
-PASS | AG-10 | identidad ausente (directorio vacío) | rc=3 RECHAZADO [I-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T220844Z-9ec25036/a
+PASS | AG-10 | identidad ausente (directorio vacío) | rc=3 RECHAZADO [I-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T223416Z-67eb098f/a
 PASS | AG-11 | identidad FALSIFICADA: firmada por clave del atacante (token y política), verificada con la clave aprobada | rc=3 RECHAZADO [I-POLITICA-FIRMA-INVALIDA]
 PASS | AG-12 | identidad falsificada con la clave pública del atacante entregada junto (sin aprobación externa de su hash) | rc=3 RECHAZADO [I-CLAVE-NO-APROBADA] la clave pública no coincide con el SHA-256 aprobado exter
 PASS | AG-13 | sin SHA-256 externo de la clave | rc=3 RECHAZADO [I-CLAVE-NO-APROBADA] falta el SHA-256 externo de la clave pública
-PASS | AG-14 | clave pública ausente | rc=3 RECHAZADO [I-CLAVE-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T220844Z-9ec2
+PASS | AG-14 | clave pública ausente | rc=3 RECHAZADO [I-CLAVE-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T223416Z-67eb
 PASS | AG-15 | política legítima pero token firmado por el atacante | rc=3 RECHAZADO [I-FIRMA-INVALIDA]
 PASS | AG-16 | firma inválida (un bit alterado en token.sig) | rc=3 RECHAZADO [I-FIRMA-INVALIDA]
 PASS | AG-17 | token alterado después de firmar (proyecto cambiado) | rc=3 RECHAZADO [I-FIRMA-INVALIDA]
 PASS | AG-18 | política alterada después de firmar | rc=3 RECHAZADO [I-POLITICA-FIRMA-INVALIDA]
-PASS | AG-19 | política sin firma | rc=3 RECHAZADO [I-POLITICA-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T220844Z-9
+PASS | AG-19 | política sin firma | rc=3 RECHAZADO [I-POLITICA-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T223416Z-6
 PASS | AG-20 | firma de otro entorno/autoridad (clave distinta de la aprobada) | rc=3 RECHAZADO [I-POLITICA-FIRMA-INVALIDA]
 PASS | AG-21 | token firmado por la autoridad pero con entorno PROD exigido como DEV | rc=3 RECHAZADO [I-ENTORNO-DISTINTO] el token es de otro entorno
 PASS | AG-22 | identidad caducada | rc=3 RECHAZADO [I-CADUCADA]
@@ -37,6 +37,6 @@ PASS | AG-35 | base alterada | rc=3 RECHAZADO [I-BASE-DISTINTA]
 PASS | AG-36 | system_identifier alterado | rc=3 RECHAZADO [I-SYSID-DISTINTO] el clúster real no es el firmado (clon o restauración)
 PASS | AG-37 | entorno exigido alterado a PROD con identidad DEV | rc=3 RECHAZADO [I-ENTORNO-DISTINTO] el token es de otro entorno
 PASS | AG-38 | JSON con claves duplicadas (firmado) | rc=3 RECHAZADO [I-FORMATO] clave duplicada: schema
-PASS | AG-39 | token.json como enlace simbólico | rc=3 RECHAZADO [I-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T220844Z-9ec25036/a
+PASS | AG-39 | token.json como enlace simbólico | rc=3 RECHAZADO [I-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T223416Z-67eb098f/a
 PASS | AG-40 | clave 'aprobada' ilegible/corrupta con SHA-256 coincidente: nunca OK | rc=3 RECHAZADO [I-POLITICA-FIRMA-INVALIDA]
 TOTAL=42 PASS=42 FAIL=0

@@ -1,4 +1,4 @@
-psql:/tmp/cci.3IzTkM/g.sql:65: NOTICE:  GUARDA OK modo=SI-LOCAL-TEMPORAL huella=b8b2bfd9
+psql:/tmp/cci.d3jqYx/g.sql:65: NOTICE:  GUARDA OK modo=SI-LOCAL-TEMPORAL huella=9cebeb7c
 DO
 CREATE TABLE
 INSERT 0 1

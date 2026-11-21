@@ -1,6 +1,6 @@
 PASS | AO-01 | roles de la matriz no configurados (cci_operador no existe) | rc=3 ['NO EJECUTADO [G-OPERADOR-ROLES-NO-CONFIGURADOS]'] canario=False efectos=False
 PASS | AO-02 | operador autorizado (miembro de cci_operador, sin privilegios elevados) | rc=0 guarda_ok=True canario=True
-PASS | AO-03 | registro de quién ejecutó (RAISE LOG con rol y pid) | ['CCI-AUDITORIA operador=t_op_ok pid=27022']
+PASS | AO-03 | registro de quién ejecutó (RAISE LOG con rol y pid) | ['CCI-AUDITORIA operador=t_op_ok pid=12695']
 PASS | AO-04 | rol desconocido: existe pero no es miembro de cci_operador | rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=False efectos=False
 PASS | AO-05 | superusuario (cci_test) no puede operar: privilegios mínimos | rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canario=False efectos=False
 PASS | AO-06-createrole | operador con CREATEROLE | rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canario=False efectos=False

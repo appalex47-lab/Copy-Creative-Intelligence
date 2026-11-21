@@ -1,4 +1,4 @@
-psql:/tmp/cci.1zLZcn/g.sql:65: NOTICE:  GUARDA OK modo=SI-LOCAL-TEMPORAL huella=b8b2bfd9
+psql:/tmp/cci.vBiExO/g.sql:65: NOTICE:  GUARDA OK modo=SI-LOCAL-TEMPORAL huella=9cebeb7c
 DO
 CREATE TABLE
 INSERT 0 1
@@ -12,7 +12,7 @@ SET
 SET
  o_clase | o_sqlstate |    sesion_a    | pid_a | xid_a 
 ---------+------------+----------------+-------+-------
- OK      |            | SESION_A_LISTA | 29761 |  4977
+ OK      |            | SESION_A_LISTA | 15443 |  5002
 (1 row)
 
  pg_sleep 

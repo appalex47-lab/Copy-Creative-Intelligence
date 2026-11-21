@@ -1,1 +1,1 @@
-cluster listo: socket=/tmp/CCI-RUN-20261121T220844Z-9ec25036/prod/sock puerto=37483 sysid=7710750173099673693
+cluster listo: socket=/tmp/CCI-RUN-20261121T223416Z-67eb098f/prod/sock puerto=48841 sysid=7710756753390919690

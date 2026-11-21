@@ -3,7 +3,7 @@ variables heredadas detectadas (se ignoran; los pasos usan entorno limpio): []
 [A] arbol_git_limpio                   PASS 
 ----- stdout -----
 ARBOL_LIMPIO
-2e45345edce59b2293c9776a08dbcaf4db69d78f
+cd8689b55e2f7c06b2756596d0f449bb2c2ce5b6
 
 ----- stderr -----
 
@@ -36,13 +36,13 @@ d365a162e54809f3b8de9c77f5902a8ea131a97f	refs/heads/audit/fase0-remediaciones-h0
 
 [A] cluster_nuevo_dev                  PASS 
 ----- stdout -----
-cluster listo: socket=/tmp/CCI-RUN-20261121T220844Z-9ec25036/dev/sock puerto=32943 sysid=7710750170142132283
+cluster listo: socket=/tmp/CCI-RUN-20261121T223416Z-67eb098f/dev/sock puerto=34233 sysid=7710756749892870120
 
 ----- stderr -----
 
 [A] cluster_nuevo_prod                 PASS 
 ----- stdout -----
-cluster listo: socket=/tmp/CCI-RUN-20261121T220844Z-9ec25036/prod/sock puerto=37483 sysid=7710750173099673693
+cluster listo: socket=/tmp/CCI-RUN-20261121T223416Z-67eb098f/prod/sock puerto=48841 sysid=7710756753390919690
 
 ----- stderr -----
 
@@ -106,7 +106,7 @@ SPD4 corregido funcion_hijack=0 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
 SPD5-d365a16 anterior:d365a16 funcion_hijack=0 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
 SPD5-e0b1d81 anterior:e0b1d81 funcion_hijack=0 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
 SPD6 corregido funcion_hijack=0 operador_hijack=0 rechazos=6 guarda_ok=0 de 6
-SPD7 corregido-sin-chequeo funcion_hijack=0 operador_hijack=4 rechazos=0 guarda_ok=6 de 6
+SPD7 corregido-sin-chequeo funcion_hijack=0 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
 SPD8-d365a16 anterior:d365a16 funcion_hijack=0 operador_hijack=6 rechazos=0 guarda_ok=6 de 6
 SPD8-e0b1d81 anterior:e0b1d81 funcion_hijack=0 operador_hijack=4 rechazos=0 guarda_ok=6 de 6
 
@@ -160,7 +160,7 @@ PASS | AG-35 | base alterada | rc=3 RECHAZADO [I-BASE-DISTINTA]
 PASS | AG-36 | system_identifier alterado | rc=3 RECHAZADO [I-SYSID-DISTINTO] el clúster real no es el firmado (clon o restauración)
 PASS | AG-37 | entorno exigido alterado a PROD con identidad DEV | rc=3 RECHAZADO [I-ENTORNO-DISTINTO] el token es de otro entorno
 PASS | AG-38 | JSON con claves duplicadas (firmado) | rc=3 RECHAZADO [I-FORMATO] clave duplicada: schema
-PASS | AG-39 | token.json como enlace simbólico | rc=3 RECHAZADO [I-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T220844Z-9ec25036/a
+PASS | AG-39 | token.json como enlace simbólico | rc=3 RECHAZADO [I-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T223416Z-67eb098f/a
 PASS | AG-40 | clave 'aprobada' ilegible/corrupta con SHA-256 coincidente: nunca OK | rc=3 RECHAZADO [I-POLITICA-FIRMA-INVALIDA]
 TOTAL=42 PASS=42 FAIL=0
 
@@ -194,7 +194,7 @@ PASS EXT03-20 claves extra en el archivo -> RECHAZADO [L-ESQUEMA] claves exactas
 PASS EXT03-21 schema incorrecto -> RECHAZADO [L-ESQUEMA] claves exactas: schema, dev_allow, prod_deny
 PASS EXT03-22 JSON con clave duplicada -> RECHAZADO [L-CLAVE-DUPLICADA] dev_allow
 PASS EXT03-23 JSON inválido -> RECHAZADO [L-JSON] JSONDecodeError('Expecting property name enclosed i
-PASS EXT03-24 archivo ausente -> RECHAZADO [L-ARCHIVO-AUSENTE] /tmp/lst.fuindqsj/no_existe.json
+PASS EXT03-24 archivo ausente -> RECHAZADO [L-ARCHIVO-AUSENTE] /tmp/lst.bbxt1r6n/no_existe.json
 PASS EXT03-25 listas no son arreglos -> RECHAZADO [L-TIPO] las listas deben ser arreglos
 PASS EXT03-26 demasiadas entradas (65) -> RECHAZADO [L-DEMASIADAS] máximo 64 entradas
 PASS EXT03-27 guarda REAL actual (listas vacías) con exigencia de no vacías: debe RECHAZAR (EXT-03 sigue bloqueado) -> RECHAZADO [L-DEV-VACIA] dev_allow vacía: el propietario debe aportar a
