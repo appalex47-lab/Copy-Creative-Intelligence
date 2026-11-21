@@ -1,0 +1,8 @@
+# SHIM LOCAL (no es Supabase): corrida 1 = shim con defectos deliberados (fuga_t sin RLS; UPDATE concedido) → el script debe dar FAIL
+RLS-01 | lectura cruzada entre organizaciones (todas las tablas) | sin fuga | fuga_t(1)  | FAIL
+RLS-02 | usuario sin membresía no lee ninguna fila | 0 filas | fuga_t  | FAIL
+RLS-03 | anon no lee tablas de negocio | 0 filas | fuga_t  | FAIL
+RLS-05a | authenticated no puede INSERT en role_permissions | 42501 | 42501 | PASS
+RLS-05b | authenticated no puede UPDATE en approvals | 42501 | OK:1 | FAIL
+RLS-05c | authenticated no puede DELETE en activity_logs | 42501 | 42501 | PASS
+RLS-05d | authenticated no puede TRUNCATE tablas inmutables | 42501 | 42501 | PASS

@@ -1,0 +1,81 @@
+EX-T03a | IG1-08 | 23503 | 23503:insert or update on table "copy_versions" violates foreign key constra | PASS
+EX-T03b | IG1-08 | 23503 | 23503:insert or update on table "copy_versions" violates foreign key constra | PASS
+EX-T03c | IG1-05 | 23503 | 23503:insert or update on table "copy_versions" violates foreign key constra | PASS
+EX-T03d | IG1-08 | OK | OK | PASS
+EX-T06a | IG1-14 | OK | OK | PASS
+EX-T06b | IG1-14 | 23505 | 23505:duplicate key value violates unique constraint "copy_versions_organiza | PASS
+EX-T06c | IG1-14 | OK | OK | PASS
+EX-T06d | IG1-10 | P0001:INMUTABLE | P0001:INMUTABLE | PASS
+EX-T10a | IG1-12/IG1-21 | P0001:APROBADOR_CONTRIBUYENTE | P0001:APROBADOR_CONTRIBUYENTE | PASS
+EX-T10b | IG1-12 | P0001:APROBADOR_CONTRIBUYENTE | P0001:APROBADOR_CONTRIBUYENTE | PASS
+EX-T10c | IG1-12 | OK | OK | PASS
+EX-T10d | IG1-12 | OK | OK | PASS
+EX-T80a | IG5-27 | P0001:APROBADOR_CONTRIBUYENTE | P0001:APROBADOR_CONTRIBUYENTE | PASS
+EX-T78a | IG5-27 | 23503 | 23503:insert or update on table "approval_citations_x" violates foreign key  | PASS
+EX-T78b | IG5-27 | 23503 | 23503:insert or update on table "approval_citations_x" violates foreign key  | PASS
+EX-T78c | IG5-27 | OK | OK | PASS
+EX-T78d | IG5-27 | OK | OK | PASS
+EX-T137 | IG5-37 | 23503 | 23503:insert or update on table "impact_evaluations_x" violates foreign key  | PASS
+EX-T138 | IG5-37 | 23503 | 23503:insert or update on table "impact_evaluations_x" violates foreign key  | PASS
+EX-T139 | IG5-37 | 23503 | 23503:insert or update on table "impact_evaluations_x" violates foreign key  | PASS
+EX-T140 | IG5-37 | 23503 | 23503:insert or update on table "impact_evaluations_x" violates foreign key  | PASS
+EX-T140b | IG5-37 | 23503 | 23503:insert or update on table "impact_evaluations_x" violates foreign key  | PASS
+EX-T137p | IG5-37 | OK | OK | PASS
+EX-T137s | IG5-37 | 23514 | 23514:new row for relation "impact_evaluations_x" violates check constraint  | PASS
+EX-T137c | IG5-37 | OK | OK | PASS
+EX-T03e | IG1-09 | 23503 | 23503:insert or update on table "adaptation_art_refs_x" violates foreign key | PASS
+EX-T03f | IG1-09 | OK | OK | PASS
+EX-T03g | IG1-09 | OK | OK | PASS
+EX-DG20a | DG-20 | 23514 | 23514:new row for relation "approvals_dg20_x" violates check constraint "app | PASS
+EX-DG20b | DG-20 | 23502 | 23502:null value in column "decision" of relation "approvals_dg20_x" violate | PASS
+EX-DG20c | DG-20 | 23514 | 23514:new row for relation "approvals_dg20_x" violates check constraint "app | PASS
+EX-DG20d | DG-20 | OK | OK | PASS
+EX-DG20e | DG-20 | OK | OK | PASS
+EX-DG20f | DG-20 | 23502 | 23502:column "decision" of relation "approvals_legacy_x" contains null value | PASS
+EX-DG20g | DG-20 | OK | OK | PASS
+EX-DG20h | DG-20 | 23503 | 23503:insert or update on table "cit_dg20_x" violates foreign key constraint | PASS
+EX-DG18a | DG-18 | 23514 | 23514:new row for relation "pieces_dg18_x" violates check constraint "pieces | PASS
+EX-DG18b | DG-18 | 23503 | 23503:insert or update on table "pieces_dg18_x" violates foreign key constra | PASS
+EX-DG18c | DG-18 | 23503 | 23503:insert or update on table "pieces_dg18_x" violates foreign key constra | PASS
+EX-DG18d | DG-18 | P0001:REPLACES_INMUTABLE | P0001:REPLACES_INMUTABLE | PASS
+EX-DG18e | DG-18 | P0001:REPLACES_INMUTABLE | P0001:REPLACES_INMUTABLE | PASS
+EX-DG18f | DG-18 | P0001:REPLACES_INMUTABLE | P0001:REPLACES_INMUTABLE | PASS
+EX-DG18g | DG-18 | 23503 | 23503:update or delete on table "pieces_dg18_x" violates foreign key constra | PASS
+EX-DG18h | DG-18 | OK | OK | PASS
+EX-DG18i | DG-18 | OK | OK | PASS
+EX-G9a | G-9 | OK | OK | PASS
+EX-G9b | G-9 | 23P01 | 23P01:conflicting key value violates exclusion constraint "piece_reviewer_as | PASS
+EX-G9c | G-9 | OK | OK | PASS
+EX-G9d | G-9 | OK | OK | PASS
+EX-G9e | G-9 | P0001:ASIGNACION_INMUTABLE | P0001:ASIGNACION_INMUTABLE | PASS
+EX-G9f | G-9 | P0001:ASIGNACION_INMUTABLE | P0001:ASIGNACION_INMUTABLE | PASS
+EX-G9g | G-9 | P0001:ASIGNACION_INMUTABLE | P0001:ASIGNACION_INMUTABLE | PASS
+EX-G9h | G-9 | 23514 | 23514:new row for relation "piece_reviewer_assignments_x" violates check con | PASS
+EX-G9i | G-9 | 23503 | 23503:insert or update on table "piece_reviewer_assignments_x" violates fore | PASS
+EX-G9j | G-9 | OK | OK | PASS
+EX-DG16a | DG-16 | 23514 | 23514:new row for relation "justificaciones_x" violates check constraint "ju | PASS
+EX-DG16b | DG-16 | OK | OK | PASS
+EX-DG16c | DG-16 | OK | OK | PASS
+EX-DG16d | DG-16 | OK | OK | PASS
+EX-DG16e | DG-16 | 23514 | 23514:new row for relation "justificaciones_x" violates check constraint "ju | PASS
+EX-DG16f | DG-16 | 23514 | 23514:new row for relation "justificaciones_x" violates check constraint "ju | PASS
+EX-DG16g | DG-16 | 23514 | 23514:new row for relation "justificaciones_x" violates check constraint "ju | PASS
+EX-DG16h | DG-16 | OK | OK | PASS
+EX-DG16i | DG-16 | 23514 | 23514:new row for relation "justificaciones_x" violates check constraint "ju | PASS
+EX-DG16j | DG-16 | OK | OK | PASS
+EX-DG16k | DG-16 | 23514 | 23514:new row for relation "justificaciones_x" violates check constraint "ju | PASS
+EX-DG16l | DG-16 | OK | OK | PASS
+EX-DG16m | DG-16 | OK | OK | PASS
+EX-DG12a | DG-12 | OK | OK | PASS
+EX-DG12b | DG-12 | OK | OK | PASS
+EX-DG12c | DG-12 | OK | OK | PASS
+EX-DG19a | DG-19 | OK | OK | PASS
+EX-DG19b | DG-19 | OK | OK | PASS
+EX-DG19c | DG-19 | 23514 | 23514:new row for relation "cf_rob" violates check constraint "cf_rob_f_chec | PASS
+EX-DG19d | DG-19 | OK | OK | PASS
+EX-DG16n | DG-16 | 23514 | 23514:new row for relation "justificaciones2_x" violates check constraint "j | PASS
+EX-DG16o | DG-16 | 23514 | 23514:new row for relation "justificaciones2_x" violates check constraint "j | PASS
+EX-DG16p | DG-16 | OK | OK | PASS
+EX-DG16q | DG-16 | OK | OK | PASS
+EX-DG16r | DG-16 | 23514 | 23514:new row for relation "justificaciones2_x" violates check constraint "j | PASS
+TOTAL pruebas=80 PASS=80 FAIL=0

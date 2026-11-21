@@ -1,0 +1,16 @@
+NOTICE:  database "cci_v20_mut" does not exist, skipping
+MUT-1 | PE-01a pasa a FAIL al quitar: alter table creative_pieces drop constraint creative_pieces_organization_id_master_piece_id_fkey | DETECTADA
+MUT-2 | PE-02a pasa a FAIL al quitar: drop trigger t_master on creative_pieces | DETECTADA
+MUT-3 | PE-03a pasa a FAIL al quitar: drop trigger t_cv_imm on copy_versions | DETECTADA
+MUT-4 | PE-04a pasa a FAIL al quitar: alter table approvals drop constraint approvals_organization_id_piece_id_copy_version_id_fkey | DETECTADA
+MUT-5 | PE-05b pasa a FAIL al quitar: alter table impact_evaluations drop constraint impact_evaluations_organization_id_adaptation_piece_id_adap_key | DETECTADA
+MUT-6 | PE-05f pasa a FAIL al quitar: alter table impact_evaluations drop constraint impact_evaluations_organization_id_adaptation_piece_id_ada_fkey | DETECTADA
+MUT-7 | PG-CF-05 pasa a FAIL al quitar: alter table channel_formats drop constraint channel_formats_format_check | DETECTADA
+MUT-8 | PG-CF-12 pasa a FAIL al quitar: drop trigger t_cf_upd on channel_formats | DETECTADA
+MUT-9 | PG-CF-08 pasa a FAIL al quitar: alter table channel_formats drop constraint channel_formats_organization_id_channel_fkey | DETECTADA
+MUT-10 | PG-AD-05 pasa a FAIL al quitar: drop trigger t_adr_imm on attribution_discard_resolutions | DETECTADA
+MUT-11 | PG-AD-07 pasa a FAIL al quitar: drop trigger t_adr_trunc on attribution_discard_resolutions | DETECTADA
+MUT-12 | PG-AD-08 pasa a FAIL al quitar: alter table attribution_discard_resolutions drop constraint attribution_discard_resolutions_check1 | DETECTADA
+MUT-13 | PG-AD-04 pasa a FAIL al quitar: drop index u_adr_aceptada | DETECTADA
+MUT-14 | PG-AD-15 pasa a FAIL al quitar: alter table attribution_discard_resolutions disable trigger t_adr_ins | DETECTADA
+TOTAL mutaciones=14 DETECTADAS=14

@@ -1,0 +1,8 @@
+# SHIM LOCAL (no es Supabase): corrida 2 = shim corregido → el script debe dar PASS
+RLS-01 | lectura cruzada entre organizaciones (todas las tablas) | sin fuga | sin fuga | PASS
+RLS-02 | usuario sin membresía no lee ninguna fila | 0 filas | 0 filas | PASS
+RLS-03 | anon no lee tablas de negocio | 0 filas | 0 filas | PASS
+RLS-05a | authenticated no puede INSERT en role_permissions | 42501 | 42501 | PASS
+RLS-05b | authenticated no puede UPDATE en approvals | 42501 | 42501 | PASS
+RLS-05c | authenticated no puede DELETE en activity_logs | 42501 | 42501 | PASS
+RLS-05d | authenticated no puede TRUNCATE tablas inmutables | 42501 | 42501 | PASS

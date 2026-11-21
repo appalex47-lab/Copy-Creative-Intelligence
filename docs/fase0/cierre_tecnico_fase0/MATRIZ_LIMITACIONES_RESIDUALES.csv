@@ -1,0 +1,21 @@
+ID,Area,Limitacion,Origen,Efecto,Mitigacion_en_este_cierre,Cierre_definitivo_requiere,Responsable,Bloquea_Fase1
+LR-01,Controles V26,5 controles NO VERIFICADO (L04–L08) heredados de V26,V26,Sin evidencia ejecutable en Fase 0,Documentados; ninguno se reclasifica como PASS,Verificación por el propietario o en CCI-DEV,Propietario,Según control
+LR-02,Controles V26,"4 controles PARCIAL (HT10, L01–L03)",V26,Evidencia incompleta,Documentados sin cambio,Completar evidencia en CCI-DEV,Propietario/CCI-DEV,Según control
+LR-03,Historial,RV07 corrida 1 FAIL conservada como histórica,V26,Ninguno (corrida posterior corregida),Se conserva sin editar,Ninguno,—,No
+LR-04,Escenarios,"6 de 12 escenarios PARCIAL siguen PARTIAL (T-06, T-10, T-78, T-80, T-124, T-166); 6 pasan a PASS en modelo/prototipo (T-03, T-47, T-137..T-140)",MATRIZ_12_ESCENARIOS_PARCIALES.csv,"Nivel de evidencia: prototipo/modelo, no esquema físico real",Prototipos locales y revisión estática,Pruebas en esquema físico CCI-DEV,CCI-DEV,Sí (antes de migrar)
+LR-05,T-409..T-422,Dossiers con K47 en memoria; el mapeo 25 mutaciones→escenarios es inferencia del revisor,EXPEDIENTE_T409_T422.md,Sin K47 físico,25/25 detectadas en modelo,K47 físico en CCI-DEV,CCI-DEV,Sí
+LR-06,22 funciones,Re-ejecución local 0 fallos; defectos DEF-F01..F05 sin efecto en resultados; sin ejecución en la base real,REVISION_22_FUNCIONES.md,Funciones no probadas en PostgreSQL real de CCI,Revisión AST y re-ejecución,Implementación SQL y pruebas,CCI-DEV,Sí
+LR-07,Modelo físico,28 de 41 tablas sin prueba física; fixture V20 sin RLS ni roles,MATRIZ_MODELO_LOGICO_FISICO.md,RLS y privilegios no demostrados,Plan y scripts NO EJECUTADOS; shim local para 03,Ejecutar scripts 01–05 en CCI-DEV autorizado,CCI-DEV,Sí
+LR-08,RLS/privilegios,Script 03 sólo probado en shim local con roles propios; script 04 (R1–R9) plantilla sin probar,scripts_validacion/cci_dev_NO_EJECUTADOS,Resultado del shim no equivale a Supabase,Marcados NO EJECUTADOS con guarda,Ejecución autorizada en CCI-DEV,CCI-DEV,Sí
+LR-09,Concurrencia,CC-01 y CC-02 sólo en PostgreSQL local; CONC-03..06 sin ejecutar,ct_concurrencia_local.sh,Sin evidencia en infraestructura real,Local repetible,Concurrencia en CCI-DEV autorizada,CCI-DEV,Sí
+LR-10,PostgreSQL,"Local 16.15 UTF8 C.UTF-8; versión/extensiones de Supabase no verificadas (btree_gist, pgcrypto)",Entorno,Diferencias posibles,Sin hacer suposiciones; inventario 01 las consulta,INV en CCI-DEV,CCI-DEV,Sí
+LR-11,Entorno,En SQL_ASCII 3/80 pruebas multibyte fallan (DEF-ENV-01); la autoridad es UTF8,resultados/ext_sqlascii.txt,Ninguno si CCI-DEV es UTF8,Clúster UTF8 autoritativo,Confirmar codificación en CCI-DEV,CCI-DEV,No
+LR-12,Hash,Referencia local; sin datos reales; ancla externa no definida,ct_hash_cadena_referencia.py,DG-12 diferida,Diseño de referencia,Decisión DG-12,Propietario,No
+LR-13,Decisiones,Ninguna decisión aprobada (21 con estado REQUIERE_APROBACION_DEL_PROPIETARIO),REGISTRO_DECISIONES_RECOMENDADAS.csv,Sin base de migración,Recomendaciones con pruebas,Aprobación del propietario,Propietario,Sí
+LR-14,DG-19,Valores reales de canales/formatos no entregados,DG-19,No se pueden crear piezas,No se inventan,Entrega por la organización,Organización,Sí
+LR-15,DG-09/DEP-RET-01,Sin política de retención ni procedimiento de retiro externo,DG-09,Riesgo operativo,Documentado,Política y responsable,Propietario,No
+LR-16,Adenda v9,Texto de la Adenda v9 y de OD-13 fuera del repositorio; no analizados,PO-05/OD-13,Sin análisis de OD-13,Sólo hash SHA-256 citado,Aportar la Adenda v9,Propietario,No (documental)
+LR-17,HV-02/PO-05,No verificable que PO-05 se refiera hoy a la v9,MATRIZ_HV02_PO05_EVIDENCIA.md,Trazabilidad dependiente del propietario,Línea histórica no editada,Confirmación expresa,Propietario,No
+LR-18,Documental,Discrepancia «12 tablas» (V20) vs 11 tablas del fixture V20 (el fixture no incluye las 41),MATRIZ_MODELO_LOGICO_FISICO.md,Posible confusión de conteo,Aclarada en la matriz,Revisión del propietario,Propietario,No
+LR-19,Personas,"RP-01, P-04, P-05 sin nombres reales",Registro histórico,No se pueden asignar roles,Sólo perfil técnico,Designación,Propietario,Sí (6.5)
+LR-20,Infraestructura,"P-01 (organización/proyectos Supabase), P-02, P-03, P-10 pendientes",v3.3 §9,Bloquean subfases,—,Acciones del propietario,Propietario,Sí

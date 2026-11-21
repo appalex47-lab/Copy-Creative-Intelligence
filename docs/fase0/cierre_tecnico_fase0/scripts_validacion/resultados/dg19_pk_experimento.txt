@@ -1,0 +1,2 @@
+líneas modificadas del fixture (copia temporal): 1
+DG-19 PK natural: TOTAL pruebas=63 PASS=63 FAIL=0
