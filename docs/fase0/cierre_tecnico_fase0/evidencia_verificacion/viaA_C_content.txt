@@ -1,0 +1,17 @@
+FECHA_UTC=2026-11-21T05:08:09Z LOCAL=2026-11-20T23:08:09-0600
+COMANDO: git clone --branch audit/cierre-tecnico-fase0 <repo> && python3 -I -B ct_manifiesto.py dir <clon>/docs/fase0/cierre_tecnico_fase0 --repo <clon>
+HEAD_CLON=942a7f66bfd2cb2b2a240c9a79069dc88934c6b8
+VIA=A (directorio/clon) DIR=/tmp/vclone_a.cx8x/r/docs/fase0/cierre_tecnico_fase0 HEAD=942a7f66bfd2cb2b2a240c9a79069dc88934c6b8
+PASS | sin enlaces simbólicos, no regulares ni artefactos de Python | 
+PASS | manifiesto ordenado de forma determinista (orden bytewise de rutas) | 
+PASS | sin rutas duplicadas | 133
+PASS | sin rutas absolutas, relativas inseguras ni con caracteres de control | []
+PASS | el manifiesto no se lista a sí mismo ni lista la evidencia posterior | 
+PASS | el manifiesto está en el árbol | 
+PASS | ninguna entrada del manifiesto falta en el árbol | []
+PASS | ningún archivo del árbol queda sin entrada (salvo manifiesto y evidencia_verificacion/) | []
+PASS | SHA-256 recalculado sobre los bytes reales coincide en 133/133 entradas | []
+PASS | entradas (133) = archivos sujetos a verificación (133) | 
+TOTAL_ENTRADAS=133 ARCHIVOS_EN_ARBOL=143 EXCLUIDOS_DECLARADOS=10 FAIL=0
+RESULTADO=OK
+FIN_UTC=2026-11-21T05:08:09Z
