@@ -92,7 +92,7 @@ for lb, pth in OLDL: barrido("anterior:" + lb, pth, LOC + " -c search_path=evil,
 for db in ("cci_ap_shim", "cci_ap_conc"): q("drop schema evil cascade", db)
 inst = instala("evil", False, True); R["instalacion_evil_operadores"] = {k: {"operadores": v[3]} for k, v in inst.items()}
 barrido("corregido", NEW, LOC + " -c search_path=evil,pg_catalog,public", True, "SPD6", "search_path hostil con homónimos de OPERADORES (||, =, <>, ~, !~ sobre text/name/oid/int)")
-barrido("corregido-sin-chequeo", NEWSC, LOC + " -c search_path=evil,pg_catalog,public", True, "SPD7", "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados (límite: sólo los cubre el chequeo)")
+barrido("corregido-sin-chequeo", NEWSC, LOC + " -c search_path=evil,pg_catalog,public", True, "SPD7", "operadores hostiles con el chequeo de search_path ELIMINADO: los operadores NO van calificados; los cubre el blindaje de sesión de la guarda (search_path de sesión = pg_catalog, public, pg_temp)")
 for lb, pth in OLDL: barrido("anterior:" + lb, pth, LOC + " -c search_path=evil,pg_catalog,public", False, "SPD8-" + lb, "operadores hostiles contra el árbol anterior " + lb)
 # homónimos en public (esquema permitido): sólo se prueba lo que la calificación puede cubrir
 for db in ("cci_ap_shim", "cci_ap_conc"): q("drop schema evil cascade", db)

@@ -63,6 +63,8 @@ begin
   end if;
   raise notice 'GUARDA OK modo=% huella=%', a, fp;
 end $guarda$;
+-- BLINDAJE DE SESIÓN (resolución del límite SPD7): sólo tras superar la guarda se fija el search_path de la SESIÓN a pg_catalog primero; los operadores sin calificar de los scripts ya no se resuelven en esquemas del llamador. (public queda por detrás: los homónimos exactos de pg_catalog ganan por orden.)
+select pg_catalog.set_config('search_path','pg_catalog, public, pg_temp',false) as _cci_sp_pin \gset
 -- MARCADOR POR EJECUCIÓN (cierre definitivo). Sólo se llega aquí si TODAS las comprobaciones anteriores pasaron. cci_script lo declara el script que nos incluye.
 \if :{?cci_script}
 \else

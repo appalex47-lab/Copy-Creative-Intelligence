@@ -175,4 +175,4 @@ create temp table r_res(id text, regla text, tipo text, esperado text, clase tex
 \endif
 -- Sin residuos: el recuento posterior al ROLLBACK debe ser igual al anterior
 select case when pg_catalog.to_regclass('public.attribution_discard_resolutions') is null then -1 else (pg_catalog.xpath('/row/c/text()', pg_catalog.query_to_xml('select pg_catalog.count(*) as c from public.attribution_discard_resolutions', false, true, '')))[1]::text::bigint end as post_count \gset
-select case when :pre_count = -1 then 'NO APLICA (tabla inexistente: nada que comprobar)' when :pre_count = :post_count then 'PASS: sin residuos (filas antes = después = '||:post_count||')' else 'FAIL: RESIDUOS (antes '||:pre_count||', después '||:post_count||')' end as residuos;
+select case when :pre_count = -1 then 'NO APLICA (tabla inexistente: nada que comprobar)' when :pre_count = :post_count then 'PASS: sin residuos (filas antes = después = ' || (:post_count)::text || ')' else 'FAIL: RESIDUOS (antes ' || (:pre_count)::text || ', después ' || (:post_count)::text || ')' end as residuos;

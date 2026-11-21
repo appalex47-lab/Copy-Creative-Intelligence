@@ -132,8 +132,9 @@ def C():
         base = sum(1 for r in D if r["id"].startswith("SPD3") and r["arbol"] == "anterior:d365a16" and r["hijack_funcion"]) >= 1   # el ataque se reproduce en la versión vulnerable
         est = [e for e in J["estatico"] if e["arbol"] == "corregido"]
         op = sum(1 for r in D if r["arbol"] == "corregido-sin-chequeo" and r["hijack_operador"])
-        if op: LIMITES.append({"origen": "search_path", "id": "SPD7", "estado": "PARTIAL", "descripcion": "operadores no calificados: con el chequeo de search_path desactivado %d/6 scripts son secuestrables; sólo el chequeo los protege" % op})
-        return (ok1 and ok2 and base and not est, "ok1=%s ok2=%s base=%s sin_calificar_corregido=%d" % (ok1, ok2, base, len(est)))
+        # SPD7 (resuelto): el blindaje de sesión de la guarda deja 0 scripts secuestrables por operadores aun SIN el chequeo de search_path
+        baseop = sum(1 for r in D if r["id"].startswith("SPD8") and r["hijack_operador"]) >= 1   # control positivo: el ataque de operadores funciona contra versiones anteriores
+        return (ok1 and ok2 and base and op == 0 and baseop and not est, "ok1=%s ok2=%s base=%s op_sin_chequeo=%d control_op=%s sin_calificar_corregido=%d" % (ok1, ok2, base, op, baseop, len(est)))
     paso("C", "search_path_hijack", PY + [os.path.join(SV, "ct_auditoria_search_path.py"), sock, port, SQLD, "e0b1d81=%s,d365a16=%s" % (pv["e0b1d81"], pv["d365a16"]), os.path.join(CD, "auditoria_search_path.json")], chequeo=sp)
     def idn(o):
         J = json.load(open(os.path.join(CD, "identidad.json"))); mal = [r["id"] for r in J if r["estado"] not in ("PASS", "PARTIAL", "NOT TESTED")]
