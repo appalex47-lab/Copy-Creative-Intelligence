@@ -1,0 +1,17 @@
+FECHA_UTC=2026-11-21T05:09:41Z LOCAL=2026-11-20T23:09:41-0600
+COMANDO: ct_manifiesto.py api appalex47-lab/Copy-Creative-Intelligence d0840871d9abf13c97cb58053d2001aaea876051 --base 942a7f66bfd2cb2b2a240c9a79069dc88934c6b8
+VIA=B (API de GitHub; blobs descargados) REPO=appalex47-lab/Copy-Creative-Intelligence REF=d0840871d9abf13c97cb58053d2001aaea876051 HEAD=d0840871d9abf13c97cb58053d2001aaea876051
+PASS | sin enlaces simbólicos, no regulares ni artefactos de Python | 
+PASS | manifiesto ordenado de forma determinista (orden bytewise de rutas) | 
+PASS | sin rutas duplicadas | 133
+PASS | sin rutas absolutas, relativas inseguras ni con caracteres de control | []
+PASS | el manifiesto no se lista a sí mismo ni lista la evidencia posterior | 
+PASS | el manifiesto está en el árbol | 
+PASS | ninguna entrada del manifiesto falta en el árbol | []
+PASS | ningún archivo del árbol queda sin entrada (salvo manifiesto y evidencia_verificacion/) | []
+PASS | SHA-256 recalculado sobre los bytes reales coincide en 133/133 entradas | []
+PASS | entradas (133) = archivos sujetos a verificación (133) | 
+TOTAL_ENTRADAS=133 ARCHIVOS_EN_ARBOL=148 EXCLUIDOS_DECLARADOS=15 FAIL=0
+PASS | entre el commit de contenido 942a7f66bf y HEAD solo cambió evidencia_verificacion/ (5 rutas; fuera: [])
+RESULTADO=OK
+FIN_UTC=2026-11-21T05:10:44Z
