@@ -8,29 +8,29 @@ Las cifras de verificación remota (HEAD, archivos y hashes verificados por las 
 |---|---|---|---|---|
 | escaner_texto_final_total | 771 | `scripts_validacion/resultados/escaner_seguridad_texto_final.txt` | 392fdf3fe9b8 | repetición sobre el árbol final (tras generar informes) |
 | escaner_texto_final_FAIL | 0 | `scripts_validacion/resultados/escaner_seguridad_texto_final.txt` | 392fdf3fe9b8 |  |
-| pasos_bateria | 22 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d |  |
-| pasos_bateria_OK | 22 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d |  |
-| V20_pruebas_PASS | 63 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d | paso v20_pe de la batería |
-| V20_mutaciones_detectadas | 14 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d | paso v20_mutaciones de la batería |
-| extension_PASS | 80 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d | paso extension_local de la batería |
-| DG19_PASS | 63 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d | paso dg19 de la batería |
-| hash_PASS | 16 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d | paso hash_encadenado de la batería |
-| K47_mapeadas_detectadas | 25 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d | paso k47_por_escenario de la batería |
-| T409_variantes_detectadas | 26 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d | paso t409_individual de la batería |
-| arnes_R1R9_PASS | 28 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d | paso arnes_r1r9 de la batería |
-| escaner_sql_total | 137 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d | paso escaner_sql de la batería |
-| escaner_texto_total | 736 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d | paso escaner_texto de la batería |
-| escaner_autoprueba_total | 37 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d | paso escaner_autoprueba de la batería |
-| evaluaciones_22_funciones | 366 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d | paso funciones_22 de la batería |
-| aserciones_smoke_total | 12 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d | paso aserciones_smoke de la batería |
-| aserciones_smoke_PASS | 12 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d | paso aserciones_smoke de la batería |
-| guarda_destino_total | 139 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d | paso guarda_destino de la batería |
-| guarda_destino_PASS | 139 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d | paso guarda_destino de la batería |
-| guarda_destino_FAIL | 0 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d | paso guarda_destino de la batería |
-| escaner_sql_FAIL | 0 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d |  |
-| escaner_texto_FAIL | 0 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d |  |
-| escaner_autoprueba_FAIL | 0 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d |  |
-| arnes_FAIL | 0 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | cd8b88b0eb0d |  |
+| pasos_bateria | 22 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a |  |
+| pasos_bateria_OK | 22 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a |  |
+| V20_pruebas_PASS | 63 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a | paso v20_pe de la batería |
+| V20_mutaciones_detectadas | 14 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a | paso v20_mutaciones de la batería |
+| extension_PASS | 80 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a | paso extension_local de la batería |
+| DG19_PASS | 63 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a | paso dg19 de la batería |
+| hash_PASS | 16 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a | paso hash_encadenado de la batería |
+| K47_mapeadas_detectadas | 25 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a | paso k47_por_escenario de la batería |
+| T409_variantes_detectadas | 26 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a | paso t409_individual de la batería |
+| arnes_R1R9_PASS | 28 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a | paso arnes_r1r9 de la batería |
+| escaner_sql_total | 176 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a | paso escaner_sql de la batería |
+| escaner_texto_total | 781 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a | paso escaner_texto de la batería |
+| escaner_autoprueba_total | 39 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a | paso escaner_autoprueba de la batería |
+| evaluaciones_22_funciones | 366 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a | paso funciones_22 de la batería |
+| aserciones_smoke_total | 12 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a | paso aserciones_smoke de la batería |
+| aserciones_smoke_PASS | 12 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a | paso aserciones_smoke de la batería |
+| guarda_destino_total | 187 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a | paso guarda_destino de la batería |
+| guarda_destino_PASS | 187 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a | paso guarda_destino de la batería |
+| guarda_destino_FAIL | 0 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a | paso guarda_destino de la batería |
+| escaner_sql_FAIL | 0 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a |  |
+| escaner_texto_FAIL | 0 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a |  |
+| escaner_autoprueba_FAIL | 0 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a |  |
+| arnes_FAIL | 0 | `scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv` | d4f3ff0dee6a |  |
 | fixtures_distintos_22_funciones | 354 | `scripts_validacion/resultados/bateria_final/22_stdout.txt` | cac467d3949f | evaluaciones − casos de correr_mutaciones_rechazo, que pruebas_atomicidad invoca (doble conteo); la derivación solo vale si la llamada está comprobada (True) |
 | bloques_except_Exception | 23 | `scripts_validacion/resultados/catalogo_except_exception.csv` | 4676d57a15db |  |
 | except_SEGURO | 19 | `scripts_validacion/resultados/catalogo_except_exception.csv` | 4676d57a15db |  |
@@ -47,4 +47,4 @@ Las cifras de verificación remota (HEAD, archivos y hashes verificados por las 
 | escenarios_PARTIAL | 6 | `MATRIZ_12_ESCENARIOS_PARCIALES.csv` | cb1e8cd98cf4 |  |
 | escenarios_PASS_PHYSICAL | 0 | `MATRIZ_12_ESCENARIOS_PARCIALES.csv` | cb1e8cd98cf4 |  |
 | trazabilidad_filas | 54 | `MATRIZ_TRAZABILIDAD_MAESTRA.csv` | bf838417d196 |  |
-| manifiesto_entradas | 138 | `MANIFIESTO_SHA256_CIERRE.txt` | 46e1a2ceb2d9 | el manifiesto se regenera después de este archivo; la reconciliación final y la verificación A/B comprueban la coincidencia |
+| manifiesto_entradas | 154 | `MANIFIESTO_SHA256_CIERRE.txt` | 63e35a9aa4e3 | el manifiesto se regenera después de este archivo; la reconciliación final y la verificación A/B comprueban la coincidencia |
