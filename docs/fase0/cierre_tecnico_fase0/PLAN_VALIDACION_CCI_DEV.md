@@ -33,7 +33,7 @@ Todas las filas heredan: *Evidencia a guardar* = salida íntegra del script + SH
 | E0-3 | Concurrencia local | `ct_concurrencia_local.sh` | CC-01, CC-02 PASS | PASS si espera ≥1,5 s y error 23P01/23505 |
 | E0-4 | Arnés R1–R9 | `ct_arnes_r1r9_autoprueba.sh` | 28/28 (incl. reproducción de 11 falsos PASS de v1 y contrato RJ exacto) | PASS si 28/28; **prueba el arnés, no R1–R9** |
 | E0-5 | Smoke de los 6 scripts en modo LOCAL-TEMPORAL | `ct_smoke_scripts_cci_dev_local.sh` | guardas 7/7; 03 sobre shim defectuoso=FAIL, corregido=PASS; 04=NO VERIFICABLE; 05 B espera ≥2 s PASS | **No equivale a Supabase** |
-| E0-6 | Escáner estático de seguridad | `ct_escaner_seguridad_sql.py` | sql 115 / texto 571 comprobaciones, 0 FAIL; autoprueba 26/26 | PASS si 0 FAIL |
+| E0-6 | Escáner estático de seguridad | `ct_escaner_seguridad_sql.py` | 0 FAIL en escáner SQL y de texto; autoprueba 26/26 (totales de comprobaciones: `INFORME_CIFRAS_DEFINITIVAS.md`) | PASS si 0 FAIL |
 
 ### E1 — Modelo en memoria (EJECUTADA)
 

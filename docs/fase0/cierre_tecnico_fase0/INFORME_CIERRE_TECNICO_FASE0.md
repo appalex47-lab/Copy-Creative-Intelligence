@@ -1,6 +1,6 @@
 # INFORME DE CIERRE TÉCNICO DE FASE 0 — CCI
 
-Complementario a V26; no reinicia la auditoría ni es V27. Estado actual: publicado en la rama `audit/cierre-tecnico-fase0` (primera publicación e6caebf…, más la corrección final consolidada en el commit siguiente); sin PR ni merge; sin operaciones en Supabase. *Estado histórico (superado):* la versión inicial se redactó «sin commit/push/merge».
+Complementario a V26; no reinicia la auditoría ni es V27. Estado actual: publicado en la rama `audit/cierre-tecnico-fase0` para revisión independiente; sin PR ni merge; sin operaciones en Supabase. HEAD, commits y verificaciones A/B: `INFORME_PUBLICACION_GITHUB.md`, `INFORME_HASHES_MANIFIESTO.md` y `evidencia_verificacion/` (no pueden constar en este archivo). Cifras exactas: `INFORME_CIFRAS_DEFINITIVAS.md`.
 
 ## 1. Alcance y método
 Revisión local sobre PostgreSQL 16.15 temporal (clúster UTF8 autoritativo; SQL_ASCII sólo contraste) y el modelo K47 en memoria, con el fixture V20 sin modificar. Herramientas protegidas (`modelo_estructural.py`, `verificar_expediente.py`) sin cambios.
@@ -18,7 +18,7 @@ Revisión local sobre PostgreSQL 16.15 temporal (clúster UTF8 autoritativo; SQL
 | T-409..T-422 individual (modelo) | 26 variantes, 14 escenarios, 26 detectadas (PASS_MODEL_INDIVIDUAL) |
 | Arnés R1–R9 (autoprueba) | 28/28 (prueba el arnés, no R1–R9) |
 | Smoke local de los 6 scripts CCI-DEV | guardas 7/7; 03 shim defectuoso FAIL / corregido PASS; 04 NO VERIFICABLE; 05 PASS/BLOCKED |
-| Escáner estático de seguridad SQL | sql 115 / texto 571 comprobaciones, 0 FAIL; autoprueba 26/26 |
+| Escáner estático de seguridad SQL | 0 FAIL en escáner SQL y de texto; autoprueba 26/26 (totales exactos en `INFORME_CIFRAS_DEFINITIVAS.md`, generados desde los resultados) |
 | Experimento PK DG-19 | 63/63 |
 
 ## 3. Escenarios PARCIAL (12)

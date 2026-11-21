@@ -12,7 +12,7 @@ No se emite PREPARADO_DOCUMENTALMENTE porque subsisten limitaciones que no son d
 - 12 escenarios PARCIAL reevaluados: 5 PASS_PROTOTYPE, 1 PASS_STATIC, 6 PARTIAL (ninguno es aceptación física).
 - T-409..T-422: 26 variantes individuales detectadas en modelo; la relación con K47-Mxx concretas es inferida (separada de la demostrada).
 - 22 funciones: 366 evaluaciones (354 fixtures distintos), 0 fallos, 0 defectos funcionales (DEF-F01..F06 clasificados).
-- Script `04_trigger_r1_r9` v2: arnés con clasificador de errores; 28/28 autopruebas; se reproduce el defecto de v1 (11 falsos PASS). Los seis scripts CCI-DEV (v2) pasan el escáner estático (64/0) y el smoke local.
+- Script `04_trigger_r1_r9` v2: arnés con clasificador de errores; 28/28 autopruebas; se reproduce el defecto de v1 (11 falsos PASS). Los seis scripts CCI-DEV (v2) pasan el escáner estático (0 FAIL; totales en `INFORME_CIFRAS_DEFINITIVAS.md`) y el smoke local con aserciones de contenido.
 - 21 decisiones con recomendación técnica, alternativas, impacto y pruebas.
 
 ## 2. Documentado pero NO validado físicamente
@@ -28,7 +28,7 @@ G-1, G-5, G-10, DG-19, DG-20, DG-12, DG-16, DG-18, G-9, RP-01, P-01..P-05, P-10,
 Texto de la Adenda v9 y de OD-13 (fuera del expediente); que PO-05 apunte a la v9 (HV-02); valores reales de canales/formatos (DG-19); política de retención; responsables reales; infraestructura Supabase; que una guarda distinga DEV de PROD (LR-22).
 
 ## 6. Qué impide la aceptación formal de Fase 0
-Decisiones sin aprobar; validación física pendiente; 5 controles NO VERIFICADO y 4 PARCIAL heredados de V26; dependencias externas (Adenda v9, OD-13, catálogo real). Ver `MATRIZ_LIMITACIONES_RESIDUALES.csv` (28).
+Decisiones sin aprobar; validación física pendiente; 5 controles NO VERIFICADO y 4 PARCIAL heredados de V26; dependencias externas (Adenda v9, OD-13, catálogo real). Ver `MATRIZ_LIMITACIONES_RESIDUALES.csv` (27 filas; la LR-28 se fusionó con la LR-05, ver `INFORME_CIFRAS_DEFINITIVAS.md`).
 
 ## 7. Condiciones antes de considerar Fase 1 (a decidir por el propietario)
 Aprobación de las decisiones de la sección 4; confirmación del proyecto CCI-DEV (P1); ejecución y resultado de E2–E8 del plan; definición del contrato de error de R1–R9; entrega de los datos externos. Este dictamen **no** autoriza Fase 1.

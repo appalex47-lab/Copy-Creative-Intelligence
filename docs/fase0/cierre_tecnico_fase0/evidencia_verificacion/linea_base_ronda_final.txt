@@ -1,0 +1,12 @@
+LÍNEA BASE REMOTA DE LA RONDA FINAL (consulta de esta ronda; ningún push se había hecho aún)
+fecha_utc=2026-11-21T05:04:53Z fecha_local=2026-11-20T23:04:53-0600 (consulta repetida al registrar esta evidencia; el estado remoto no cambió desde el inicio de la ronda: HEAD bdd4a6d, ver ls-remote)
+--- git ls-remote
+bdd4a6d78a68ede6e6f68391e4c2eebbcc34503a	refs/heads/audit/cierre-tecnico-fase0
+439777c9ea7db464fe49299adfeb2112abfd285c	refs/heads/audit/fase0-v26-review
+6a1af2424ef39e0960b8f7e09d4e19ec52e6f046	refs/heads/main
+--- PR (REST: pulls?state=all) cantidad=0
+--- git log -3 de la rama
+bdd4a6d78a68ede6e6f68391e4c2eebbcc34503a 2026-11-20T20:46:27-06:00 Evidencia de verificación remota (vías A y B) del commit de contenido 6a041cb
+6a041cb9ca7cbd4bcc41a9eed43c9e51a1c2716f 2026-11-20T20:45:13-06:00 Cierre técnico Fase 0: verificación independiente, manifiesto de punto fijo y revisión integral
+51ebb72263b49fe0e84eee137ef68c74c27372e1 2026-11-20T20:13:24-06:00 Manifiesto SHA-256 actualizado (96 entradas) e informe de publicación
+NOTA: en la ronda anterior se usó 'gh pr list' (GraphQL), que en este entorno devuelve HTTP 403; aquel recuento de PR no era válido. Aquí se usó la API REST.

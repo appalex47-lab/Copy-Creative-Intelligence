@@ -13,5 +13,8 @@ Este documento es **estático**: no contiene SHAs de HEAD ni resultados de verif
 ## Evidencia de la ronda actual
 `evidencia_verificacion/` (vía A, vía B, comandos, SHA, fecha, archivos y resultado por archivo) — ver `INFORME_HASHES_MANIFIESTO.md` para el diseño de punto fijo.
 
+## Documentos de control de esta ronda
+`RESOLUCION_OBSERVACIONES_FINALES.md` (causa del 51/51 con FAIL=1 y las cuatro referencias), `INFORME_RECONCILIACION_INTEGRAL.md` (generado junto con su JSON y TXT), `INFORME_CIFRAS_DEFINITIVAS.md`, `INFORME_AUDITORIA_FECHAS_HORAS.md`, `INFORME_PRUEBAS_FINALES.md`. Los commits y HEAD de esta ronda constan en `evidencia_verificacion/` y en `git log` de la rama (no pueden constar en este archivo).
+
 ## Alcance
 Solo archivos bajo `docs/fase0/cierre_tecnico_fase0/`. CCI-DEV, CCI-PROD y Supabase no se tocaron. El SHA-256 prueba identidad de archivos, no corrección de contenido.

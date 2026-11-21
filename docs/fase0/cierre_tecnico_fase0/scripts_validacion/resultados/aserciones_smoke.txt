@@ -1,0 +1,12 @@
+PASS | guardas: los 6 scripts abortan sin autorización (6 líneas 'abortado: SI')
+PASS | guarda: base 'postgres' (no cci_) en modo local aborta
+PASS | códigos de salida de las 6 ejecuciones = 0 (necesario, no suficiente)
+PASS | smoke_01_inventario.txt: salida no vacía (>100 líneas) y sin ERROR
+PASS | smoke_02_rls_inventario.txt: salida no vacía (>100 líneas) y sin ERROR
+PASS | 03 defectuoso: detecta fuga (≥1 FAIL, FUGA)
+PASS | 03 corregido: 0 FAIL, ≥8 PASS y RLS-06 NOT VERIFIED
+PASS | 04: NO VERIFICABLE EN ENTORNO FÍSICO y sin residuos
+PASS | 05 sesión A y B: ejecutadas con PASS
+PASS | 05 sesión B: PASS
+PASS | 05 sin tabla: BLOCKED (no PASS)
+TOTAL=11 PASS=11 FAIL=0

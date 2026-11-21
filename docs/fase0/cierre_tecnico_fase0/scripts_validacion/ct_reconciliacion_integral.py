@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
-# Uso: python3 -I -B ct_reconciliacion_integral.py <dir_cierre> [salida.txt]. Reconciliación textual/numérica del expediente. No usa base de datos.
-import csv, re, os, sys, glob
-c = sys.argv[1]; out = sys.argv[2] if len(sys.argv) > 2 else None
+# Uso: python3 -I -B ct_reconciliacion_integral.py <dir_cierre> [--sin-salida]. Escribe resultados/reconciliacion_integral.{json,txt} e INFORME_RECONCILIACION_INTEGRAL.md desde una única lista estructurada. Sin base de datos.
+import csv, re, os, sys, glob, json, hashlib, time, subprocess
+c = os.path.abspath(sys.argv[1]); out = "gen" if len(sys.argv) < 3 or sys.argv[2] != "--sin-salida" else None
 R = os.path.join(c, "scripts_validacion", "resultados"); res = []; fails = 0
+EV = []; REG = []   # evidencia: cada archivo leído para una comprobación (ruta relativa + SHA-256 de los bytes leídos)
+def _reg(p):
+    b = open(p, "rb").read(); r = os.path.relpath(os.path.abspath(p), os.path.abspath(c)); EV.append({"ruta": r, "sha256": hashlib.sha256(b).hexdigest()}); return b
 def chk(n, ok, det=""):
-    global fails; res.append(("PASS" if ok else "FAIL", n, det)); fails += (not ok)
-rd = lambda p: list(csv.DictReader(open(p, encoding="utf-8")))
-txt = lambda p: open(p, encoding="utf-8").read()
+    global fails; ok = bool(ok); ev = list({e["ruta"]: e for e in EV}.values()); EV.clear()
+    REG.append({"id": len(REG) + 1, "estado": "PASS" if ok else "FAIL", "comprobacion": n, "detalle": det if not ok else (det or ""), "evidencia": ev})
+    res.append(("PASS" if ok else "FAIL", n, det)); fails += (not ok)
+rd = lambda p: list(csv.DictReader(_reg(p).decode("utf-8").splitlines()))
+txt = lambda p: _reg(p).decode("utf-8")
 # CSV bien formados
 for f in sorted(glob.glob(os.path.join(c, "*.csv")) + glob.glob(os.path.join(R, "*.csv"))):
     rows = list(csv.reader(open(f, encoding="utf-8"))); n = len(rows[0])
@@ -52,24 +57,30 @@ chk("extensión 80/80", has("ext_utf8.txt", r"TOTAL pruebas=80 PASS=80 FAIL=0"))
 chk("DG-19 63/63", has("dg19_pk_experimento.txt", r"PASS=63 FAIL=0"))
 chk("hash 16/16", has("hash_cadena_referencia.txt", r"TOTAL=16 PASS=16 FAIL=0"))
 chk("arnés 28/28", has("arnes_r1r9_autoprueba_local.txt", r"PASS=28 FAIL=0"))
-chk("escáner sql 0 FAIL", has("escaner_seguridad_sql.txt", r"FAIL=0") and "TOTAL=115" in txt(os.path.join(R, "escaner_seguridad_sql.txt")))
-chk("escáner texto 0 FAIL", "TOTAL=571" in txt(os.path.join(R, "escaner_seguridad_texto.txt")) and has("escaner_seguridad_texto.txt", r"FAIL=0"))
+chk("escáner sql 0 FAIL", has("escaner_seguridad_sql.txt", r"TOTAL=\d+ FAIL=0"))
+chk("escáner texto 0 FAIL", has("escaner_seguridad_texto.txt", r"TOTAL=\d+ FAIL=0"))
+chk("escáner texto repetido sobre el árbol final: 0 FAIL", has("escaner_seguridad_texto_final.txt", r"TOTAL=\d+ FAIL=0"))
 chk("escáner autoprueba 26/26", has("escaner_seguridad_autoprueba.txt", r"26/26|PASS=26|TOTAL=26"))
 chk("04 local = NO VERIFICABLE", has("04_r1r9_local_bloqueado.txt", r"NO VERIFICABLE EN ENTORNO F"))
 chk("concurrencia CC-01/CC-02 PASS", len(re.findall(r"\| PASS", txt(os.path.join(R, "concurrencia_local_utf8.txt")))) >= 2)
 # coherencia de cifras en documentos
-docs = {os.path.basename(p): txt(p) for p in glob.glob(os.path.join(c, "*.md"))}
+docs = {os.path.basename(p): open(p, encoding="utf-8").read() for p in glob.glob(os.path.join(c, "*.md"))}   # lectura sin registro: cada comprobación registra los documentos que realmente usa
+evd = lambda *ns: [_reg(os.path.join(c, n)) for n in ns]
+evall = lambda: evd(*sorted(docs))
 for nombre in ("DICTAMEN_PREPARACION_FASE0.md", "INFORME_CIERRE_TECNICO_FASE0.md"):
-    d = docs[nombre]
+    d = docs[nombre]; evd(nombre)
     chk(nombre + ": cifras 63/63, 14/14, 80/80, 366, 354, 26, 21/21 presentes", all(x in d for x in ("63/63", "14/14", "80/80", "366", "354", "28/28")) or nombre.startswith("DICT") and all(x in d for x in ("63/63", "14/14", "80/80", "366", "354", "28/28")))
+evd("LEEME_CIERRE_TECNICO.md")
 chk("LEEME no afirma «sin commit» como estado actual", "sin commit, push ni merge" not in docs["LEEME_CIERRE_TECNICO.md"] or "histórico" in docs["LEEME_CIERRE_TECNICO.md"].lower())
+evall()
 chk("ningún documento declara aceptada Fase 0 ni autorizada Fase 1", not any(re.search(r"Fase 0 (queda|está|fue) (formalmente )?aceptada|Fase 1 (queda|está|fue) autorizada", d) for d in docs.values()))
+evall()
 chk("ningún documento marca decisión como APROBADA", not any(re.search(r"Estado_aprobacion\W+APROBAD", d) for d in docs.values()))
 
 # batería final: índice completo, rc=0, salidas existentes y hashes coincidentes
 import hashlib
 B = os.path.join(R, "bateria_final"); idx = rd(os.path.join(B, "INDICE_BATERIA.csv"))
-chk("batería: 20 pasos, todos rc=0", len(idx) == 20 and all(r["rc"] == "0" for r in idx), str(len(idx)))
+chk("batería: 21 pasos, todos rc=0 Y estado=OK (rc=0 solo no basta: se exige el contenido esperado)", len(idx) == 21 and all(r["rc"] == "0" and r["estado"] == "OK" and r["esperado"] for r in idx), str([r["paso"] for r in idx if r["estado"] != "OK"]))
 bad = []
 for r in idx:
     p = r["salida"]; p = p if os.path.exists(p) else os.path.join(c, p.split("cierre_tecnico_fase0/", 1)[-1])
@@ -77,9 +88,8 @@ for r in idx:
 chk("batería: cada salida existe y su SHA-256 coincide con el índice", not bad, str(bad))
 # smoke de los seis scripts
 sm = lambda f: txt(os.path.join(R, f))
-chk("smoke: guardas abortan (6 scripts) y base 'postgres' rechazada", sm("smoke_guardas.txt").count("abortado: SI") == 7 and "base 'postgres'" in sm("smoke_guardas.txt"))
-chk("smoke 03: defectuosa → FAIL; corregida → PASS", re.search(r"FAIL", sm("smoke_03_rls_shim_defectuosa.txt")) and re.search(r"PASS", sm("smoke_03_rls_shim_corregida.txt")))
-chk("smoke 05: sesiones A/B ejecutadas con resultado PASS", re.search(r"PASS|OK", sm("smoke_05_sesion_A.txt")) and re.search(r"PASS", sm("smoke_05_sesion_B.txt")))
+asm = sm("aserciones_smoke.txt")
+chk("smoke de los 6 scripts: aserciones de contenido 11/11, 0 FAIL (guardas, 03 defectuoso/corregido, 04 NO VERIFICABLE, 05 BLOCKED)", "TOTAL=11 PASS=11 FAIL=0" in asm)
 # T-409 reproducibilidad y correspondencia
 chk("T-409: 2ª corrida idéntica byte a byte", "IDENTICO_BYTE_A_BYTE" in txt(os.path.join(B, "t409_repro_cmp.txt")))
 tc = rd(os.path.join(R, "t409_t422_correspondencia.csv"))
@@ -90,18 +100,71 @@ chk("manifiesto: controles negativos 36/36, 0 FAIL", os.path.exists(cn) and "FAI
 bg = os.path.join(R, "busqueda_global.txt")
 chk("búsqueda global sin FAIL", os.path.exists(bg) and not re.search(r"^FAIL", txt(bg), re.M))
 chk("herramientas antiguas eliminadas", not os.path.exists(os.path.join(c, "scripts_validacion", "ct_verificar_publicacion.py")) and not os.path.exists(os.path.join(c, "scripts_validacion", "ct_gen_manifiesto.py")))
-# enlaces / nombres de archivo citados
-miss = []
-for n, d in docs.items():
-    for m in set(re.findall(r"`([\w./-]+\.(?:md|csv|sql|py|sh|txt))`", d)):
-        base = os.path.basename(m)
-        if not (glob.glob(os.path.join(c, "**", base), recursive=True) or "V25_copia_integra" in m or "expediente_final" in m or m.startswith("PE_") or base in ("ESPECIFICACION_TECNICA_G1_G5_G10.md", "AUDITORIA_FINAL_G1_G5_G10.md", "INVENTARIO_DECISIONES_ABIERTAS_FASE0.md", "modelo_estructural.py", "verificar_expediente.py", "REGISTRO_CASOS_22_FUNCIONES_V20.csv", "MATRIZ_HV02_PO05_EVIDENCIA.md", "01_fixture.sql", "mutaciones.sh", "ejecutar.sh")):
-            miss.append((n, m))
-chk("nombres de archivo citados existen en el dossier (o son fuentes V26 externas listadas)", not miss, str(sorted(set(miss))[:12]))
-for r in res: print("%s | %s | %s" % r)
-print("TOTAL=%d FAIL=%d" % (len(res), fails))
-if out:
-    with open(out, "w", encoding="utf-8") as o:
-        for r in res: o.write("%s | %s | %s\n" % r)
-        o.write("TOTAL=%d FAIL=%d\n" % (len(res), fails))
+
+# cifras definitivas (fuente única generada) frente a las cifras escritas en los documentos narrativos
+CF = {x["cifra"]: x["valor"] for x in json.loads(txt(os.path.join(R, "cifras_definitivas.json")))["cifras"]}
+chk("cifras definitivas: generadas, batería 21/21 OK, decisiones aprobadas = 0, PASS_PHYSICAL = 0", CF["pasos_bateria"] == 21 == CF["pasos_bateria_OK"] and CF["decisiones_aprobadas"] == 0 and CF["escenarios_PASS_PHYSICAL"] == 0)
+chk("cifras: limitaciones %d = vigentes+parciales+resueltas; decisiones %d; escenarios %d; fixtures %d de %d evaluaciones" % (CF["limitaciones_total"], CF["decisiones_total"], CF["escenarios_parciales_total"], CF["fixtures_distintos_22_funciones"], CF["evaluaciones_22_funciones"]),
+    CF["limitaciones_total"] == CF["limitaciones_VIGENTE"] + CF["limitaciones_PARCIALMENTE_RESUELTA"] + CF["limitaciones_RESUELTA"] and CF["fixtures_distintos_22_funciones"] == 354 and CF["evaluaciones_22_funciones"] == 366 and CF["bloques_except_Exception"] == CF["except_SEGURO"] + CF["except_RIESGO_TECNICO"])
+chk("manifiesto: nº de entradas (%d) = cifra generada y = archivos sujetos a verificación" % CF["manifiesto_entradas"], len(txt(os.path.join(c, "MANIFIESTO_SHA256_CIERRE.txt")).splitlines()) == CF["manifiesto_entradas"])
+def nums(rx, d): return {int(x) for x in re.findall(rx, d)}
+dd = {n: docs[n] for n in ("LEEME_CIERRE_TECNICO.md", "DICTAMEN_PREPARACION_FASE0.md", "INFORME_CIERRE_TECNICO_FASE0.md", "INFORME_PUBLICACION_GITHUB.md", "INFORME_HASHES_MANIFIESTO.md", "INFORME_PRUEBAS_FINALES.md")}
+bad = []; evd(*dd)
+for n, d in dd.items():
+    for rx, key in ((r"(\d+) limitaciones", "limitaciones_total"), (r"RESIDUALES\.csv`?\s*\((\d+)", "limitaciones_total"), (r"(\d+) decisiones", "decisiones_total"), (r"arnés[^.|\n]{0,40}?(\d+)/\d+", "arnes_R1R9_PASS"), (r"(\d+) fixtures distintos", "fixtures_distintos_22_funciones"), (r"(\d+) evaluaciones", "evaluaciones_22_funciones")):
+        for v in nums(rx, d):
+            if v != CF[key] and not re.search(r"(?i)hist[oó]ric|anterior|v1", " ".join(l for l in d.splitlines() if re.search(rx, l))): bad.append((n, key, v, CF[key]))
+chk("cifras de los documentos narrativos coinciden con cifras_definitivas.json (limitaciones, decisiones, arnés, fixtures, evaluaciones)", not bad, str(bad[:6]))
+
+# alcance respecto de V26: nada fuera del dossier, V26 intacto (comprobación contra el SHA de V26 con git; el árbol de trabajo incluye cambios sin commit)
+V26 = "439777c9ea7db464fe49299adfeb2112abfd285c"; g = lambda *a: subprocess.run(["git", "-C", c] + list(a), capture_output=True, text=True)
+if g("rev-parse", "--git-dir").returncode == 0 and g("cat-file", "-e", V26 + "^{commit}").returncode == 0:
+    top = g("rev-parse", "--show-toplevel").stdout.strip(); pref = os.path.relpath(c, top).replace(os.sep, "/")
+    ch = [l for l in g("diff", "--name-status", V26, "--", top).stdout.splitlines() if l]; fuera = [l for l in ch if not l.split("\t")[-1].startswith(pref + "/")]; mod = [l for l in ch if l[0] in "MDRT" and l.split("\t")[-1].startswith(pref + "/") is False]
+    nuevos = [l for l in subprocess.run(["git", "-C", top, "ls-files", "--others", "--exclude-standard"], capture_output=True, text=True).stdout.splitlines() if not l.startswith(pref + "/")]
+    chk("alcance: contra V26 no hay archivos modificados/eliminados/añadidos fuera de %s (tracked: %d, sin seguimiento: %d)" % (pref, len(fuera), len(nuevos)), not fuera and not nuevos, str(fuera[:3] + nuevos[:3]))
+    chk("alcance: herramientas protegidas (modelo_estructural.py, verificar_expediente.py) idénticas a V26", g("diff", "--quiet", V26, "--", "docs/fase0/herramientas/modelo_estructural.py", "docs/fase0/herramientas/verificar_expediente.py").returncode == 0)
+else:
+    chk("alcance contra V26 verificable con git en este entorno", False, "sin repositorio git o sin el commit V26")
+# enlaces / nombres de archivo citados: rutas con "/" deben resolverse exactamente (relativas al dossier, a docs/fase0 o a scripts_validacion); nombres sueltos, por nombre exacto (sensible a mayúsculas)
+EXT = ("ESPECIFICACION_TECNICA_G1_G5_G10.md", "AUDITORIA_FINAL_G1_G5_G10.md", "INVENTARIO_DECISIONES_ABIERTAS.md", "modelo_estructural.py", "verificar_expediente.py")   # fuentes V26 protegidas, fuera del dossier (docs/fase0/herramientas/)
+V26BASES = {f for dp, _, fs in os.walk(os.path.dirname(c)) if os.path.abspath(dp) != c and not os.path.abspath(dp).startswith(c + os.sep) for f in fs}   # nombres de archivos de V26 (docs/fase0) citados sin ruta
+allf = {os.path.relpath(os.path.join(dp, f), c) for dp, _, fs in os.walk(c) for f in fs}; bases = {os.path.basename(x) for x in allf}
+def resuelve(m):
+    if "V25_copia_integra" in m or "expediente_final" in m or m.startswith("PE_") or os.path.basename(m) in EXT: return "fuente V26 externa"
+    if "/" in m:
+        for pre in ("", "scripts_validacion/", "scripts_validacion/resultados/"):
+            if os.path.normpath(pre + m) in allf: return "ruta exacta"
+        return None
+    if m in bases: return "nombre exacto"
+    return "fuente V26 (nombre exacto en docs/fase0)" if m in V26BASES else None
+evall(); miss = []; nref = 0; EXCL = ("INFORME_RECONCILIACION_INTEGRAL.md",)   # el informe generado cita comprobaciones fallidas con nombres que no son referencias suyas
+for n, d in sorted(docs.items()):
+    if n in EXCL: continue
+    for m in sorted(set(re.findall(r"`([\w./-]+\.(?:md|csv|sql|py|sh|txt|json))`", d))):
+        nref += 1
+        if resuelve(m) is None and not re.search(r"(?i)hist[oó]ric|v1|retirad|eliminad", " ".join(l for l in d.splitlines() if m in l)): miss.append((n, m))
+    for m in re.findall(r"\]\(([^)#:]+)\)", d):
+        nref += 1
+        if not os.path.exists(os.path.normpath(os.path.join(c, m))): miss.append((n, "enlace:" + m))
+chk("referencias a archivos (%d) y enlaces relativos resuelven; las citas históricas están etiquetadas" % nref, not miss, str(sorted(set(miss))[:12]))
+tot = len(res); npass = tot - fails; ahora = time.time()
+meta = {"generado_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(ahora)), "generado_local": time.strftime("%Y-%m-%dT%H:%M:%S%z", time.localtime(ahora)), "zona_local": time.strftime("%Z", time.localtime(ahora)),
+        "commit_base_git": (lambda r: r.stdout.strip() if r.returncode == 0 else "no disponible")(subprocess.run(["git", "-C", c, "rev-parse", "HEAD"], capture_output=True, text=True)),
+        "fuente_unica": "este JSON; el TXT y el MD se generan de él en la misma ejecución"}
+J = {"meta": meta, "total": tot, "pass": npass, "fail": fails, "comprobaciones": REG}
+RJ = os.path.join(R, "reconciliacion_integral.json"); RT = os.path.join(R, "reconciliacion_integral.txt"); RM = os.path.join(c, "INFORME_RECONCILIACION_INTEGRAL.md")
+if out is not None:
+    open(RJ, "w", encoding="utf-8").write(json.dumps(J, ensure_ascii=False, indent=1, sort_keys=True) + "\n")
+    T = ["%s | %s | %s" % (r["estado"], r["comprobacion"], r["detalle"]) for r in REG] + ["TOTAL=%d PASS=%d FAIL=%d" % (tot, npass, fails)]
+    open(RT, "w", encoding="utf-8").write("\n".join(T) + "\n")
+    M = ["# INFORME DE RECONCILIACIÓN INTEGRAL", "", "Generado por `scripts_validacion/ct_reconciliacion_integral.py` en una sola ejecución a partir de la misma lista estructurada: `resultados/reconciliacion_integral.json` (fuente), `resultados/reconciliacion_integral.txt` y este informe. La coincidencia entre los tres se verifica con `ct_verificar_consistencia_informe.py` (con control negativo).", "",
+         "- Generado: %s UTC = %s (%s) — hora tomada del reloj del entorno; no verificada contra una fuente externa." % (meta["generado_utc"], meta["generado_local"], meta["zona_local"]), "- Commit base del árbol de trabajo: `%s` (el árbol puede contener cambios sin commit; el commit publicado se identifica en `evidencia_verificacion/`)." % meta["commit_base_git"], "",
+         "## Resultado", "**TOTAL=%d PASS=%d FAIL=%d**" % (tot, npass, fails), "", "| # | Estado | Comprobación | Detalle | Evidencia (archivo : SHA-256, 12 primeros) |", "|---|---|---|---|---|"]
+    for r in REG: M.append("| %d | %s | %s | %s | %s |" % (r["id"], r["estado"], r["comprobacion"].replace("|", "/"), r["detalle"].replace("|", "/"), "<br>".join("`%s`: %s" % (e["ruta"], e["sha256"][:12]) for e in r["evidencia"]) or "(cálculo sobre el árbol)"))
+    M += ["", "## Alcance", "La reconciliación comprueba coherencia entre documentos, matrices y salidas; no demuestra corrección funcional ni valida el esquema físico. La coincidencia del manifiesto con el árbol publicado se verifica con `ct_manifiesto.py` (vías A y B), no aquí."]
+    open(RM, "w", encoding="utf-8").write("\n".join(M) + "\n")
+print("TOTAL=%d PASS=%d FAIL=%d" % (tot, npass, fails))
+for r in res:
+    if r[0] == "FAIL": print("%s | %s | %s" % r)
 sys.exit(1 if fails else 0)

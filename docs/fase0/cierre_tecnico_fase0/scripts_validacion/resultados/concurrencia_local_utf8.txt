@@ -1,2 +1,2 @@
-CC-01 | G-9 exclusión bajo concurrencia | esperado: B bloqueada >=1.5s y luego 23P01; filas=1 | obtenido: espera=2.06s filas=1 err=ERROR: conflicting key value violates exclusion constraint "piece_revi | PASS
+CC-01 | G-9 exclusión bajo concurrencia | esperado: B bloqueada >=1.5s y luego 23P01; filas=1 | obtenido: espera=2.07s filas=1 err=ERROR: conflicting key value violates exclusion constraint "piece_revi | PASS
 CC-02 | IG1-14 numeración de versión única bajo concurrencia | esperado: B bloqueada >=1.5s y luego 23505; filas=1 | obtenido: espera=2.07s filas=1 err=ERROR: duplicate key value violates unique constraint "copy_ | PASS

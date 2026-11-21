@@ -12,20 +12,30 @@
 | PR / merge | Ninguno. Publicación exclusiva para revisión independiente. |
 | Dictamen | **PREPARADO_CON_LIMITACIONES** (`DICTAMEN_PREPARACION_FASE0.md`) |
 
-**No** hay validación física en CCI-DEV (ni en CCI-PROD): nada se ejecutó contra Supabase. **No** hay aceptación formal de Fase 0. **No** se autoriza Fase 1. Ninguna decisión arquitectónica está aprobada (21 registradas, todas pendientes del propietario).
+**No** hay validación física en CCI-DEV (ni en CCI-PROD): nada se ejecutó contra Supabase. **No** hay aceptación formal de Fase 0. **No** se autoriza Fase 1. Ninguna decisión arquitectónica está aprobada (ver cifras generadas más abajo: todas pendientes del propietario).
 
 ## Estado de verificación (local, no físico)
-PostgreSQL 16.15 temporal: V20 63/63 y 14/14; extensión 80/80; concurrencia local 2/2; hash 16/16; arnés R1–R9 28/28; 22 funciones 366 evaluaciones/0 fallos; T-409..T-422 26/26 en modelo; escáner de seguridad SQL 64/0; reconciliación integral y manifiesto: ver `INFORME_RECONCILIACION_INTEGRAL.md`, `INFORME_PRUEBAS_FINALES.md`, `INFORME_HASHES_MANIFIESTO.md`. Limitaciones: `MATRIZ_LIMITACIONES_RESIDUALES.csv` (28).
+<!-- CIFRAS:INICIO -->
+_Generado por `ct_gen_cifras.py` desde `resultados/cifras_definitivas.json`; todo resultado es LOCAL/PROTOTIPO/ESTÁTICO: PASS_PHYSICAL = 0._
+
+- PostgreSQL 16 temporal: V20 63 pruebas PASS y 14 mutaciones detectadas; extensión 80 PASS; DG-19 63 PASS; hash encadenado 16 PASS; concurrencia local CC-01/CC-02 (ver batería); arnés R1–R9 28 PASS (prueba el arnés, no R1–R9).
+- Modelo en memoria: K47 25 mapeadas detectadas; T-409..T-422 26 variantes detectadas; 22 funciones: 366 evaluaciones, 354 fixtures distintos; 23 bloques `except Exception` (19 SEGURO, 4 RIESGO_TECNICO).
+- Escáneres estáticos: SQL 115 comprobaciones (0 FAIL), texto 661 en la batería y 706 en el árbol final (0 FAIL), autoprueba 26 (0 FAIL).
+- Batería: 21 pasos, 21 con estado OK (rc=0 **y** contenido esperado). Manifiesto: 133 entradas.
+- Limitaciones: 27 (vigentes 18, parcialmente resueltas 4, resueltas 5). Decisiones: 21 (aprobadas: 0). Escenarios parciales: 12 (PASS_PROTOTYPE 5, PASS_STATIC 1, PARTIAL 6). Trazabilidad: 54 filas.
+- Reconciliación integral y verificación A/B: `INFORME_RECONCILIACION_INTEGRAL.md`, `evidencia_verificacion/`.
+<!-- CIFRAS:FIN -->
 
 ## Estado histórico (superado, conservado)
 La versión inicial de este expediente se redactó en una rama local `local/cierre-tecnico-fase0` desde `439777c9…`, «sin commit, push ni merge». Después se publicó (e6caebf…) y luego se aplicó la corrección final (defecto del script R1–R9 con falsos PASS, revisión de los seis scripts, reclasificación de evidencias, trazabilidad). El script anterior se conserva en `scripts_validacion/historico_defectos/`.
 
 ## Orden de lectura
 1. DICTAMEN_PREPARACION_FASE0.md → 2. INFORME_CIERRE_TECNICO_FASE0.md → 3. INFORME_DECISIONES_ARQUITECTONICAS.md (+ REGISTRO_DECISIONES_RECOMENDADAS.csv) → 4. MATRIZ_LIMITACIONES_RESIDUALES.csv → 5. MATRIZ_TRAZABILIDAD_MAESTRA.csv.
+Control del cierre: INFORME_CIFRAS_DEFINITIVAS.md (cifras generadas desde los resultados), INFORME_RECONCILIACION_INTEGRAL.md, INFORME_PRUEBAS_FINALES.md, INFORME_AUDITORIA_FECHAS_HORAS.md, RESOLUCION_OBSERVACIONES_FINALES.md, INFORME_HASHES_MANIFIESTO.md, INFORME_PUBLICACION_GITHUB.md, `evidencia_verificacion/`.
 Detalle: MATRIZ_12_ESCENARIOS_PARCIALES.csv, EXPEDIENTE_T409_T422.md, REVISION_22_FUNCIONES.md, MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv, MATRIZ_MODELO_LOGICO_FISICO.md, PLAN_VALIDACION_CCI_DEV.md, PLAN_VALIDACION_TRIGGER_R1_R9.md, PRUEBAS_RLS_PRIVILEGIOS_CONCURRENCIA.md, INFORME_SEGURIDAD_SCRIPTS.md.
 
 ## scripts_validacion/
-- Locales (solo clústeres PostgreSQL temporales; usar `python3 -I -B`): `local_ext/ejecutar_ext.sh <socket> <puerto>`; `ct_concurrencia_local.sh`, `ct_dg19_pk_experimento.sh <socket> <puerto>`; `ct_hash_cadena_referencia.py --pg <socket> <puerto>`; `ct_revision_estatica_T47_T124.py <docs/fase0>`; `ct_k47_por_escenario.py <herramientas> [csv]`; `ct_t409_t422_individual.py <docs/fase0> [csv]`; `ct_reejecucion_22_funciones.py <docs/fase0> [txt] [csv]`; `ct_arnes_r1r9_autoprueba.sh <socket> <puerto>`; `ct_smoke_scripts_cci_dev_local.sh <socket> <puerto>`; `ct_escaner_seguridad_sql.py <dir_sql>`; `ct_reconciliacion_integral.py <dir_cierre>`; `ct_manifiesto.py gen|dir|api` (manifiesto y verificación A/B); `ct_controles_negativos_manifiesto.py`; `ct_busqueda_global.py`; `ct_bateria_final.sh` (batería completa); generadores `ct_gen_*.py`.
+- Locales (solo clústeres PostgreSQL temporales; usar `python3 -I -B`): `local_ext/ejecutar_ext.sh <socket> <puerto>`; `ct_concurrencia_local.sh`, `ct_dg19_pk_experimento.sh <socket> <puerto>`; `ct_hash_cadena_referencia.py --pg <socket> <puerto>`; `ct_revision_estatica_T47_T124.py <docs/fase0>`; `ct_k47_por_escenario.py <herramientas> [csv]`; `ct_t409_t422_individual.py <docs/fase0> [csv]`; `ct_reejecucion_22_funciones.py <docs/fase0> [txt] [csv]`; `ct_arnes_r1r9_autoprueba.sh <socket> <puerto>`; `ct_smoke_scripts_cci_dev_local.sh <socket> <puerto>`; `ct_escaner_seguridad_sql.py <dir_sql>`; `ct_reconciliacion_integral.py <dir_cierre>`; `ct_manifiesto.py gen|dir|api` (manifiesto y verificación A/B); `ct_aserciones_smoke.py`; `ct_gen_cifras.py`; `ct_verificar_consistencia_informe.py`; `ct_gen_auditoria_fechas.py`; `ct_gen_resolucion_observaciones.py`; `ct_cierre_final.sh` (secuencia completa); `ct_controles_negativos_manifiesto.py`; `ct_busqueda_global.py`; `ct_bateria_final.sh` (batería completa); generadores `ct_gen_*.py`.
 - `cci_dev_NO_EJECUTADOS/`: seis scripts v2 para CCI-DEV. **NO EJECUTADOS — REQUIEREN AUTORIZACIÓN Y CCI-DEV.** Guarda `cci.validacion_autorizada='SI-CCI-DEV'` + `cci.entorno='CCI-DEV'` (la guarda no puede distinguir DEV de PROD: LR-22).
 - `resultados/`: salidas de las corridas locales (UTF8 autoritativo; SQL_ASCII, contraste).
 

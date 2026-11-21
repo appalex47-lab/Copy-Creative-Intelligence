@@ -70,7 +70,7 @@ def correr_texto(d):
             p = os.path.join(r, n); rel = os.path.relpath(p, d).replace(os.sep, "/")
             if os.path.islink(p): prob.append(rel); continue
             if rel.endswith(".pyc") or "__pycache__" in rel: prob.append(rel); continue
-            if rel.startswith("evidencia_verificacion/"): pass
+            if os.path.basename(p).startswith("escaner_seguridad_texto"): continue   # salidas de este mismo escáner: se excluyen para que el total no dependa de su presencia
             res += [(rel,) + r_ for r_ in escanear_texto(rel, open(p, "rb").read())]
     res.append(("(árbol)", "sin enlaces simbólicos ni artefactos de Python", not prob, ",".join(prob[:3])))
     return res

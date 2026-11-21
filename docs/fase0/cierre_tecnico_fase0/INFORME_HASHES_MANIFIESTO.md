@@ -18,6 +18,10 @@
 - Ambas escriben HEAD, fecha, número de archivos y resultado por archivo.
 - Controles negativos aislados (36/36, vía A y vía B con `gh` simulado, 18 casos c/u + determinismo + `--base`): `resultados/controles_negativos_manifiesto.txt`.
 
+## Controles añadidos en la ronda final
+- `ct_verificar_consistencia_informe.py` (con 7 controles negativos: `resultados/controles_consistencia_informe.txt`) garantiza que el JSON, el TXT y el MD de la reconciliación coinciden y que la evidencia citada no cambió.
+- La batería (`ct_bateria_final.sh`) exige rc=0 **y** el contenido esperado por paso; el total de la reconciliación y de las cifras se calcula desde los resultados.
+
 ## Defectos de la ronda anterior (corregidos)
 Verificador v1 omitía enlaces simbólicos en silencio, usaba lista de «extras» permitidos, no probaba la vía B con control negativo y el informe de publicación afirmaba verificaciones de commits anteriores. Herramientas antiguas (generador y verificador v1) eliminadas; su control negativo se conserva como histórico en `resultados/historico_verificador_v1_control_negativo.txt`.
 
