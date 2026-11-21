@@ -101,13 +101,13 @@ try:
         r = subprocess.run(["psql", "-d", "cci_gdev", "-X", "-v", "ON_ERROR_STOP=1", "-P", "pager=off"] + VARS, env=env, capture_output=True, text=True, cwd=rogue, stdin=open(os.path.join(SRC, sc + ".sql"), encoding="utf-8"))
         o = r.stdout + r.stderr
         anota("GD-14", "stdin con guarda homónima vacía en el cwd: sin datos y sin GUARDA OK — " + sc[:2] + (sc[-1] if sc.startswith("05") else ""), r.returncode != 0 and SIN_DATOS(o) and "GUARDA OK" not in o, "rc!=0 y sin datos", "rc=%d" % r.returncode)
-    # GD-15 (AUD-FINAL-01) el search_path blindado de la guarda es LOCAL a su bloque DO: tras la guarda rige el search_path del llamador (por diseño: las políticas RLS y funciones bajo prueba se resuelven con él)
+    # GD-15 (resolución SPD7) tras superar la guarda el search_path de SESIÓN queda en pg_catalog, public, pg_temp
     for sc in SEIS:
         v = variante(); f = os.path.join(v, sc + ".sql"); t = open(f, encoding="utf-8").read(); k = "\\ir 00_verificar_marcador.sql\n"
         i = t.index(k); j = i + len(k); open(f, "w", encoding="utf-8").write(t[:j] + "select 'SPVAL=' || pg_catalog.current_setting('search_path') as sp;\n" + t[j:])
         rc, o = corre(v, sc, LOC + " -c search_path=public,pg_temp", db="cci_gdev")
-        m = re.search(r"SPVAL=(\S+)", o)
-        anota("GD-15", "CONSTANCIA: tras la guarda rige el search_path del llamador (no persiste el de la guarda) — " + sc[:2] + (sc[-1] if sc.startswith("05") else ""), bool(m) and m.group(1) == "public,pg_temp", "SPVAL=public,pg_temp (comportamiento documentado)", m.group(0) if m else "sin SPVAL")
+        m = re.search(r"SPVAL=(pg_catalog, public, pg_temp|\S+)", o)
+        anota("GD-15", "CONSTANCIA: tras superar la guarda rige el search_path de sesión blindado (pg_catalog primero) — " + sc[:2] + (sc[-1] if sc.startswith("05") else ""), bool(m) and m.group(1) == "pg_catalog, public, pg_temp", "SPVAL=pg_catalog, public, pg_temp (blindaje de sesión tras superar la guarda)", m.group(0) if m else "sin SPVAL")
     # GD-19 (AUD-FINAL-01) las instrucciones POSTERIORES a la guarda no se dejan secuestrar por funciones homónimas en un esquema anterior del search_path (las funciones del catálogo van calificadas con pg_catalog.)
     adm("create schema if not exists evil", db="cci_gdev")
     for sig, ret in [("current_setting(text)", "text"), ("current_setting(text, boolean)", "text"), ("to_regclass(text)", "regclass"), ("pg_get_userbyid(oid)", "name"), ("has_table_privilege(text, text, text)", "boolean"), ("count(*)", "bigint")]:
