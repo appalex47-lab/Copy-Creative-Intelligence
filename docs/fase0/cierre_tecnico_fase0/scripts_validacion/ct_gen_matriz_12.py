@@ -44,8 +44,15 @@ R = [
   "El código de error exacto no está implementado ni probado en el modelo; la función version_contributors no existe físicamente. IG5-48 es una declaración de no-cierre de G-5, no una obligación demostrable por un escenario (BLOCKED_EXTERNAL: depende de la aceptación del propietario).",
   "Se verificó que el modelo bloquea E con cadena promocional incompleta (fallo cerrado) y se registró la ausencia del código de error.", FIS + "; función version_contributors con promotion_snapshots.integrity_status; recomendación: retirar IG5-48 de la cobertura de T-166"),
 ]
+# --- Esquema consolidado (corrección final): resultado con alcance explícito; la aceptación física es SIEMPRE pendiente ---
+H2 = ["ID", "Linea_ESPEC", "Tipo_escenario", "Regla_o_requisito_original", "Obligacion", "Evidencia_V26", "Evidencia_nueva", "Tipo_evidencia", "Resultado", "Estado_aceptacion_fisica", "Limitacion", "Accion_realizada", "Criterio_PASS_definitivo"]
+V26 = "Control L01 de V26: escenario declarado PARCIAL (sin esquema físico); sin ejecución individual en V26."
+TIPO = {"FIXTURE_LOCAL_PROTOTIPO": "prototipo local (PostgreSQL 16 temporal, tablas prototipo/fixture V20)", "FIXTURE_LOCAL": "ejecución local sobre fixture V20 + prototipo", "LECTURA_ESTATICA": "análisis estático (lectura automatizada de documentos)", "MODELO_EN_MEMORIA": "modelo en memoria (K47/Python); no es base de datos"}
+def res(r):
+    if r[7] == "PASS": return "PASS_STATIC" if r[8] == "LECTURA_ESTATICA" else "PASS_PROTOTYPE"
+    return "PARTIAL"
 out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "MATRIZ_12_ESCENARIOS_PARCIALES.csv")
 with open(out, "w", newline="", encoding="utf-8") as f:
-    w = csv.writer(f); w.writerow(H)
-    for r in R: w.writerow([r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9], r[10], r[11]])
-import collections; print(len(R), collections.Counter(r[7] for r in R))
+    w = csv.writer(f); w.writerow(H2)
+    for r in R: w.writerow([r[0], r[1], r[2], r[3], r[4], V26, r[5], TIPO.get(r[8], r[8]), res(r), "PENDIENTE (ningún escenario tiene validación física)", r[9], r[10], r[11]])
+import collections; print(len(R), collections.Counter(res(r) for r in R))

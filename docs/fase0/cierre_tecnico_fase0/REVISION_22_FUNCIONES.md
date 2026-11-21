@@ -368,3 +368,41 @@ Ninguno altera un resultado (no hay falsos PASS demostrados). Todos son de mante
 - Prueban un **modelo en memoria**; no demuestran FK, triggers, RLS, privilegios, transacciones ni concurrencia del esquema físico (ver `MATRIZ_MODELO_LOGICO_FISICO.md`).
 - 366 casos PASS significan que el modelo detecta las mutaciones que sus autores previeron; no demuestra exhaustividad para Fase 1.
 - La matriz función→regla→escenario→prueba está en `MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv`.
+
+
+## Corrección final: clasificación de hallazgos, manejo de errores y conciliación de los 366 casos
+
+### A. Clasificación de los hallazgos DEF-F01..F06
+
+Categorías: **defecto funcional** (cambia un resultado), **riesgo técnico** (puede producir un resultado engañoso en otras condiciones), **código provisional** (residuo sin efecto), **decisión intencional** (diseño deliberado).
+
+| ID | Hallazgo | Clasificación | Evidencia | ¿Afecta resultados actuales? | Corrección propuesta (NO aplicada: el código no se modifica) | Impacto de la corrección |
+|---|---|---|---|---|---|---|
+| DEF-F01 | Rama muerta `x0.E("ca") if False else calcular_E_verificado(...)` (l.2264) | **Código provisional** (residuo de refactor) | `ct_catalogo_except_y_ramas_muertas.py`: `correr_mutaciones_rechazo` idéntica con y sin la rama | No | Eliminar la rama | Nulo (equivalencia demostrada por ejecución) |
+| DEF-F02 | `ev[...] if False else ...` (l.2276, `_pos13`) | **Código provisional** | Ídem para `correr_positivos_arte` | No | Eliminar la rama | Nulo |
+| DEF-F03 | `... if True else False` (l.2959) | **Código provisional** (condición temporal tautológica) | Ídem para `correr_adversariales15` | No | Quitar el condicional | Nulo |
+| DEF-F04 | `correr_mutaciones_atribucion` sin try por caso | **Riesgo técnico** | Inspección AST | No (0 excepciones en la ejecución) | Envolver por caso | Un fallo se localizaría en un caso en vez de abortar la función |
+| DEF-F05 | Detección acoplada al texto del mensaje (`kw in mensaje`) | **Decisión intencional con riesgo técnico** (exige condición específica, no sólo el código) | Lectura de `_correr_lista` | No | Añadir identificación por código | Reduce el riesgo de falsos «no detectada» por cambios de redacción (falla visible, no falso PASS) |
+| DEF-F06 | `_baterias14` captura `except Exception` y registra `("X","EXC",False)`; en `correr_mutaciones_modelo14` un fallo de batería cuenta como **detección** | **Riesgo técnico** (misma familia que el defecto del script 04: un error técnico puede leerse como detección) | `ct_exc_en_mutaciones_modelo14.py`: línea base 123 baterías, 0 fallos, 0 EXC; las 12 mutaciones K56 producen 0 entradas EXC y todas tienen fallos localizados | **No** (0 ocurrencias) | Distinguir EXC de fallo localizado y exigir al menos un fallo localizado para declarar «detectada» | Evita detecciones espurias por caída del modelo |
+
+**Conclusión:** ningún hallazgo es un **defecto funcional** (ninguno altera un resultado actual); tres son código provisional, dos riesgos técnicos latentes con 0 ocurrencias y uno decisión intencional con riesgo técnico.
+
+### B. Catálogo completo de `except Exception` (AST)
+
+`resultados/catalogo_except_exception.csv`: 23 bloques; 19 **SEGUROS** (la excepción deja el caso en FAIL/ERROR y nunca en PASS: los manejadores asignan `False`, `err=` o `EXC`; en `_correr_lista` y `correr_mutaciones_k45` un error implica `det=False`); 4 **RIESGO_TECNICO** (los de `_baterias14`, ver DEF-F06). Ninguno asigna `True`. Propagación: el modelo no define una jerarquía de errores propia para fallos técnicos; sólo `ResolucionInmutable`, `OperacionInvalida/ReutilizacionInvalida` y `ProcedenciaIncompleta` son excepciones de dominio, y los manejadores amplios las agrupan con cualquier otra.
+
+### C. Conciliación de los 366 casos (re-ejecución versionada)
+
+`ct_reejecucion_22_funciones.py` (antes la re-ejecución no estaba versionada: brecha corregida) llama a las 22 funciones sin modificar el modelo y escribe `resultados/22_funciones_reejecucion_local.txt` (una línea por caso) y `resultados/22_funciones_conciliacion.csv` (casos por función).
+
+| Verificación | Resultado |
+|---|---|
+| Funciones re-ejecutadas | 22 |
+| Casos reportados (suma por función) | **366** (366 PASS, 0 FAIL) |
+| Identificadores de caso repetidos entre funciones | 0 |
+| Solapamiento estructural | `pruebas_atomicidad` (20 = 8 propios + 12) **llama a `correr_mutaciones_rechazo`** y reevalúa sus 12 fixtures con otro criterio (`atomico and rechaza`): son **12 evaluaciones distintas sobre 12 fixtures compartidos** |
+| Lectura honesta de la cifra | **366 evaluaciones; 354 fixtures distintos.** La cifra 366 no es incorrecta, pero no equivale a 366 situaciones independientes |
+| Suma por función | 9+20+12+16+17+36+12+53+26+30+24+24+12+11+6+8+8+6+8+8+8+12 = 366 (coincide con el REPORTE de V26) |
+| `correr_mutaciones_k45` | 30 = 27 mutaciones + 3 positivos; los positivos devuelven `(nombre, violaciones)` y el OK es lista vacía (un adaptador ingenuo los contaría como fallo) |
+
+**Nivel de evidencia:** ejecución local del modelo en memoria; no es validación física. Los 366 PASS significan que el modelo detecta/acepta lo que el propio modelo declara.

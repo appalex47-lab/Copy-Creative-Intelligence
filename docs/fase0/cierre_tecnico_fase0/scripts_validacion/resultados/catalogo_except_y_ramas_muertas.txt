@@ -1,0 +1,9 @@
+bloques except Exception: 23 ; SEGURO=19 ; RIESGO_TECNICO=4 ; REVISAR=0
+rama muerta localizada 1 vez: x0.E("ca") if False else calcular_E_verificado(m0, "ca")
+rama muerta localizada 1 vez: (ev["source_root_asset_id"] if False else ev["source_root_as
+rama muerta localizada 1 vez:  if True else False
+            det_campos
+correr_mutaciones_rechazo: resultado idéntico con y sin la rama muerta: True
+correr_positivos_arte: resultado idéntico con y sin la rama muerta: True
+correr_adversariales15: resultado idéntico con y sin la rama muerta: True
+EQUIVALENCIA_RAMAS_MUERTAS=True

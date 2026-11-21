@@ -1,12 +1,17 @@
 -- ====================================================================================================
--- NO EJECUTADOS — REQUIEREN AUTORIZACIÓN Y CCI-DEV
--- Este archivo fue PREPARADO en el cierre técnico de Fase 0 y NO se ha ejecutado contra ningún proyecto Supabase.
--- Prohibido en CCI-PROD. Sólo el propietario puede autorizar su ejecución, y únicamente en CCI-DEV.
--- Guarda: falla si no se declara explícitamente la autorización (set cci.validacion_autorizada='SI-CCI-DEV').
+-- NO EJECUTADO CONTRA CCI-DEV NI CCI-PROD — REQUIERE AUTORIZACIÓN Y CCI-DEV
+-- Preparado en el cierre técnico de Fase 0. Prohibido en CCI-PROD. Sólo el propietario puede autorizar su ejecución, y únicamente en CCI-DEV:
+--   PGOPTIONS="-c cci.validacion_autorizada=SI-CCI-DEV -c cci.entorno=CCI-DEV" psql ... -f <este archivo>
+-- Estados de resultado: PASS, FAIL, BLOCKED, PARTIAL, NOT VERIFIED. Un error técnico (permisos, estructura, sintaxis, función inexistente) NUNCA es PASS.
+-- Tipo: SOLO LECTURA (catálogos del sistema). Transacción READ ONLY; no crea, modifica ni borra nada. Es un INVENTARIO: no emite PASS/FAIL; sus salidas se comparan con el diseño (INV-01..INV-10).
 -- ====================================================================================================
--- Tipo: SOLO LECTURA (catálogos del sistema). No crea, modifica ni borra nada.
 \set ON_ERROR_STOP on
-do $$ begin if coalesce(current_setting('cci.validacion_autorizada', true),'') <> 'SI-CCI-DEV' then raise exception 'NO EJECUTADO: requiere autorizacion expresa del propietario y proyecto CCI-DEV (cci.validacion_autorizada)'; end if; end $$;
+-- Guarda (idéntica en los 6 scripts). Nota: ninguna guarda puede probar que la base sea CCI-DEV y no CCI-PROD; la identificación del proyecto la hace el propietario.
+do $$ declare a text := coalesce(current_setting('cci.validacion_autorizada', true),''); e text := coalesce(current_setting('cci.entorno', true),'');
+begin
+  if a = 'SI-CCI-DEV' and e = 'CCI-DEV' then null;
+  elsif a = 'SI-LOCAL-TEMPORAL' and e = 'LOCAL-TEMPORAL' and current_database() ~ '^cci_' and inet_server_addr() is null then null;
+  else raise exception 'NO EJECUTADO: requiere autorizacion expresa del propietario y proyecto CCI-DEV (cci.validacion_autorizada + cci.entorno), o ejecucion local temporal por socket Unix'; end if; end $$;
 begin read only;
 -- INV-01 tablas del esquema public
 select c.relname as tabla, c.relkind, c.relrowsecurity as rls_activa, c.relforcerowsecurity as rls_forzada from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relkind in ('r','p') order by 1;

@@ -1,0 +1,11 @@
+FAIL   99_malo.sql                                guarda SI-CCI-DEV 
+FAIL   99_malo.sql                                guarda LOCAL-TEMPORAL (socket, db ^cci_) 
+FAIL   99_malo.sql                                guarda antes de cualquier SQL de datos 
+FAIL   99_malo.sql                                sin COMMIT 
+FAIL   99_malo.sql                                sin DDL peligroso (drop/truncate/alter/grant/revoke/create role|extension) 
+FAIL   99_malo.sql                                sin DELETE/UPDATE/INSERT fuera de PROD-safe (solo en scripts con rollback) 
+FAIL   99_malo.sql                                sin metacomandos de conexion (\c, \connect, \! , \copy) 
+PASS   99_malo.sql                                sin refs de proyecto/URL/secretos/JWT 
+PASS   99_malo.sql                                sin DDL de objetos permanentes (create table/function/trigger sin pg_temp/temp) 
+FAIL   99_malo.sql                                escrituras dentro de transaccion con rollback/ROLLBACK final 
+TOTAL=10 FAIL=8

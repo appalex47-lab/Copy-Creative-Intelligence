@@ -1,52 +1,30 @@
-# PRUEBAS DE RLS, PRIVILEGIOS Y CONCURRENCIA — DISEÑO DE PRUEBAS (NO EJECUTADAS EN CCI-DEV)
+# PRUEBAS RLS, PRIVILEGIOS Y CONCURRENCIA — v2 (**NO EJECUTADAS EN CCI-DEV**)
 
-Complementa `PLAN_VALIDACION_CCI_DEV.md`. Todas las pruebas de este documento están **preparadas, no ejecutadas** contra Supabase; lo ejecutado localmente se indica por separado en cada sección.
+> Scripts v2 en `scripts_validacion/cci_dev_NO_EJECUTADOS/`. Guarda idéntica en los seis (`SI-CCI-DEV`+`CCI-DEV`, o modo local temporal por socket Unix con base `^cci_`). La guarda **no puede probar** que la base sea DEV y no PROD (LR-22).
 
-## 1. Pruebas de RLS
+## 1. RLS / privilegios (`03_pruebas_rls_ROLLBACK.sql`)
 
-Modelo de acceso (de la especificación): aislamiento por organización (`organization_id`); lectura para miembros; escritura sólo por funciones autorizadas en tablas críticas.
+Defectos de v1 corregidos: usaba una columna inexistente (`approver`; el diseño usa `decided_by`, DEF-NAME-01) y las sondas DELETE/TRUNCATE podían ejecutarse. v2: precondiciones (tablas, columnas, datos de ambas organizaciones: sin ellas las pruebas serían vacuas), resultado **por tabla**, sondas de denegación sin efecto (`where false` o `has_table_privilege`).
 
-| ID | Prueba | Roles | Esperado | Script | Estado |
-|---|---|---|---|---|---|
-| RLS-01 | Lectura cruzada: ningún usuario de la org A ve filas de la org B en **ninguna** tabla con `organization_id` (consulta dinámica) | authenticated (uid_a) | 0 filas ajenas | `03` | NO_EJECUTADO (probado en shim) |
-| RLS-02 | Usuario autenticado sin membresía no ve filas | authenticated (uid_x) | 0 filas | `03` | NO_EJECUTADO (shim) |
-| RLS-03 | `anon` no lee tablas de negocio | anon | 0 filas o 42501 | `03` | NO_EJECUTADO (shim) |
-| RLS-04 | Escritura cruzada: INSERT/UPDATE/DELETE de uid_a sobre filas de org_b | authenticated | error o 0 filas | `03` (plantilla) | NO_EJECUTADO |
-| RLS-05a..d | Escalada: sin INSERT en `role_permissions`, sin UPDATE en `approvals`, sin DELETE en `activity_logs`, sin TRUNCATE en tablas inmutables | authenticated | 42501 | `03` | NO_EJECUTADO (shim) |
-| RLS-06 | Separación de roles: un usuario sin la clave `piece.approve` no ejecuta `record_approval`; uno que la tiene sí (los roles que la tienen se leen de `role_permissions`; no se asume aquí) | authenticated con distintos roles | según `role_permissions` | por escribir | NO_EJECUTADO |
-| RLS-07 | Registros propios vs ajenos dentro de la misma organización: lectura permitida a miembros, edición sólo del autor donde aplique | authenticated | según política | por escribir | NO_EJECUTADO |
-| RLS-08 | CRUD completo por tabla (matriz S/I/U/D) contra la matriz de aislamiento de la especificación (27 tablas v3.3 + 14) | cada rol | igual a la matriz | `02` PRIV-04 | NO_EJECUTADO |
-| RLS-09 | Casos negativos: JWT sin `sub`, `sub` inexistente, rol alterado en claims | authenticated | 0 filas / 42501 | por escribir | NO_EJECUTADO |
+| Prueba | Qué comprueba | Estado local (shim) |
+|---|---|---|
+| RLS-01 | lectura cruzada entre organizaciones | shim defectuoso FAIL; corregido PASS |
+| RLS-02 | usuario sin membresía | defectuoso FAIL; corregido PASS |
+| RLS-03 | `anon` | defectuoso FAIL; corregido PASS |
+| RLS-04 | escritura cruzada | PASS en ambos |
+| RLS-05a–e | denegación de DELETE/TRUNCATE/UPDATE/INSERT donde corresponde | PASS |
+| RLS-06 | aislamiento por rol de aplicación | **NOT VERIFIED** (no implementado) |
 
-**Hallazgo de diseño local relevante:** una FK compuesta no sustituye a RLS (las FK se comprueban con privilegios del propietario de la tabla; no filtran lectura). Por eso RLS-01 debe ejecutarse sobre *todas* las tablas.
+El shim (`local_ext/30_shim_rls_fixture_LOCAL.sql`) simula roles; **no es Supabase** (sin `auth.uid()`, `authenticator`, políticas reales). Resultados: `resultados/smoke_03_rls_shim_*.txt`; las corridas 1/2 históricas (`shim_rls_corrida*.txt`) se conservan, aunque su shim no estaba versionado (LR-25).
 
-## 2. Pruebas de privilegios
+## 2. Inventarios (`01`, `02`, solo lectura)
 
-| ID | Prueba | Esperado | Script |
-|---|---|---|---|
-| PRIV-01..07 | Inventario: políticas, grants, matriz S/I/U/D/T efectiva, EXECUTE, atributos de roles, privilegios por defecto | Coincide con el diseño: mínimo privilegio; escritura directa sólo para propietarios de funciones | `02` |
-| PRIV-08 | Acceso directo vs vía función: `authenticated` no puede INSERT directo en `approvals`; sí vía `record_approval` | 42501 directo; OK vía función | por escribir |
-| PRIV-09 | Separación administrativa vs operativa: `org.manage` sólo concede permisos; no aprueba piezas por cargo (IG5-95: ni Admin ni propietario obtienen independencia por su cargo) | rechazo R-reglas | `04` |
-| PRIV-10 | Funciones `SECURITY DEFINER`: `search_path` fijo; sin ejecución para `anon` | Cumple | `01` INV-06, `02` PRIV-05 |
-| PRIV-11 | `service_role` sin acceso directo a tablas con escritura restringida (la especificación lo exige para `approvals`) | Cumple | `02` |
+`begin read only`; devuelven catálogos; **no emiten PASS/FAIL**. Smoke local: `smoke_01_inventario.txt`, `smoke_02_rls_inventario.txt`.
 
-## 3. Pruebas de concurrencia
+## 3. Concurrencia (`05_concurrencia_sesion_A.sql` y `05_concurrencia_sesion_B.sql`)
 
-| ID | Escenario | Mecanismo bajo prueba | Esperado | Evidencia local |
-|---|---|---|---|---|
-| CONC-01 | Dos asignaciones de revisor solapadas para la misma pieza (G-9) | EXCLUDE USING gist | B se bloquea y luego falla con 23P01; una fila | **CC-01 PASS local** (PG16 UTF8, espera ≈2 s) |
-| CONC-02 | Dos versiones con la misma numeración (IG1-14) | UNIQUE(org,piece,version_no) | B se bloquea y falla con 23505 | **CC-02 PASS local** |
-| CONC-03 | Dos resoluciones `aceptada` para la misma atribución | índice parcial `u_adr_aceptada` | segunda falla con 23505 | no ejecutado (probar con A/B en CCI-DEV) |
-| CONC-04 | Dos aprobaciones simultáneas de la misma versión (ciclo con revocación) | transición T-02 + independencia | una sola transición válida; sin estado intermedio | no ejecutado |
-| CONC-05 | Actualización conflictiva de estado de pieza (lost update) | `transition_piece_status` con bloqueo de fila (`FOR UPDATE`) o versión optimista | la segunda ve el estado nuevo y falla | no ejecutado |
-| CONC-06 | Idempotencia: misma `idempotency_key` con mismo/otro `request_fingerprint` (evaluaciones) | UNIQUE(idempotency_key) | mismo → misma fila; otro → rechazo | no ejecutado |
-| CONC-07 | Consumo de cuota de IA (`consume_ai_quota`) concurrente | UPDATE atómico condicional | nunca supera el tope | no ejecutado |
-| CONC-08 | Rollback: fallo a mitad de una operación compuesta (reutilización de asset) no deja filas parciales | transacción de la función | estado idéntico | modelo en memoria PASS (20+11+8); físico NO_EJECUTADO |
-| CONC-09 | Deadlock: dos sesiones que actualizan dos filas en orden inverso | orden de bloqueo definido | una aborta con 40P01; el cliente reintenta | no ejecutado |
-| CONC-10 | Lectura durante escritura (aislamiento READ COMMITTED vs REPEATABLE READ) para el cálculo de E | snapshot consistente | E calculado sobre un snapshot | no ejecutado |
+Precondición: la tabla `piece_reviewer_assignments` existe (si no, `\quit` con BLOCKED). A inserta una asignación vigente, espera 5 s y revierte; B intenta lo mismo con `lock_timeout`/`statement_timeout`. PASS si B espera ≥2 s y luego recibe el error esperado; FAIL si no hay espera (no se serializó); PARTIAL si 23P01 sin espera medible; BLOCKED por errores técnicos. Smoke local (fixture `31_conc_smoke_fixture_LOCAL.sql`): B esperó 3,50 s → PASS; sin tabla → BLOCKED. CC-01/CC-02 locales: PASS (`concurrencia_local_utf8.txt`). CONC-03..06: sin script.
 
-Procedimiento de dos sesiones: lanzar A (`05_concurrencia_sesion_A.sql`), esperar 1–2 s, lanzar B; registrar tiempos de bloqueo y códigos. Todas las operaciones terminan en ROLLBACK.
+## 4. Pendiente / no verificado
 
-## 4. Límites
-
-Las pruebas locales CC-01/CC-02 demuestran que los mecanismos de PostgreSQL 16 (EXCLUDE, UNIQUE) bloquean como se espera; **no** demuestran la configuración de Supabase (pooler en modo transacción, timeouts, versión de Postgres) ni las funciones reales.
+Pendiente del propietario: autorización y proyecto CCI-DEV. No verificado: todo comportamiento en Supabase (roles, JWT, `auth.uid()`, políticas), concurrencia real, RLS-06.

@@ -1,0 +1,7 @@
+FAIL | sin rutas duplicadas en el manifiesto | 91
+FAIL | sin rutas absolutas o inseguras | 
+PASS | el manifiesto no se lista a sí mismo | 
+FAIL | sin archivos faltantes | ['PLAN_VALIDACION_CCI_DEV.md', '../fuera', '/abs/x']
+FAIL | sin archivos extra no declarados | ['EXTRA.txt']
+FAIL | SHA-256 recalculado coincide en los 91 archivos | ['LEEME_CIERRE_TECNICO.md']
+TOTAL_ENTRADAS=91 FAIL=5

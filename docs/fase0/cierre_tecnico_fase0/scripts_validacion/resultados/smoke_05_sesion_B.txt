@@ -1,0 +1,14 @@
+DO
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+BEGIN
+SET
+SET
+SELECT 1
+ espera_s | o_clase | o_sqlstate | veredicto 
+----------+---------+------------+-----------
+     3.50 | OK      |            | PASS
+(1 row)
+
+ROLLBACK
