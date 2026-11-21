@@ -232,6 +232,46 @@
   "nota": ""
  },
  {
+  "id": "E2E-10",
+  "objetivo": "registro de auditoría = /dev/null (ejecución sin registro real)",
+  "esperado": "V-AUDITORIA-INVALIDA",
+  "observado": "rc=3 V-AUDITORIA-INVALIDA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "E2E-11",
+  "objetivo": "registro de auditoría = enlace simbólico",
+  "esperado": "V-AUDITORIA-INVALIDA",
+  "observado": "rc=3 V-AUDITORIA-INVALIDA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "E2E-12",
+  "objetivo": "registro de auditoría con ruta relativa",
+  "esperado": "V-AUDITORIA-INVALIDA",
+  "observado": "rc=3 V-AUDITORIA-INVALIDA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "E2E-13",
+  "objetivo": "registro de auditoría en directorio inexistente (no escribible)",
+  "esperado": "V-AUDITORIA-NO-ESCRIBIBLE",
+  "observado": "rc=3 V-AUDITORIA-NO-ESCRIBIBLE canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "E2E-14",
+  "objetivo": "registro de auditoría = FIFO",
+  "esperado": "V-AUDITORIA-INVALIDA",
+  "observado": "rc=3 V-AUDITORIA-INVALIDA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
   "id": "E2E-08",
   "objetivo": "TOMA DEL ENDPOINT: el clon físico de PROD arranca en el socket y puerto exactos de DEV (mismo host, puerto y base)",
   "esperado": "V-IDENTIDAD-SYSID-DISTINTO",

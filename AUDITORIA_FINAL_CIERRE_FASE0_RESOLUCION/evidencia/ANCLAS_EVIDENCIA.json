@@ -1,0 +1,23 @@
+{
+ "anclas": {
+  "INFORME_RECONCILIACION_INTEGRAL.md": "94b951ecb51179faed147682a23fb49556eb6fa7c9e62cc8af78d69d47500995",
+  "MANIFIESTO_SHA256_CIERRE.txt": "9e53bc8e0d2b34e897ed94963b9de8fdb7755e138f5a7fc36efca089bb79cf9d",
+  "scripts_validacion/resultados/reconciliacion_integral.json": "1477424d3a4588cc2b1abcdfd8ef99d45174b9111b8f398261050280cb4ca4a2",
+  "scripts_validacion/resultados/reconciliacion_integral.txt": "299c4c5647d8ec58916dac38057949cced5cd04a4a8600bc6bc76cbe313a7d80"
+ },
+ "ejecucion_id": "CCI-RUN-20261121T220844Z-9ec25036",
+ "totales": {
+  "ejecucion_ids": [
+   "CCI-RUN-20261121T220844Z-9ec25036"
+  ],
+  "fail": 0,
+  "n_comprobaciones": 58,
+  "pass": 58,
+  "total": 58
+ },
+ "totales_stdout": [
+  58,
+  58,
+  0
+ ]
+}

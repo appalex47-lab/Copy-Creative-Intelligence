@@ -1,6 +1,6 @@
 BÚSQUEDA GLOBAL (excluye resultados/, evidencia_verificacion/ y los scripts que contienen los patrones como definición)
 PASS | marcadores TODO/FIXME de código: 0 | []
-FAIL | «INCONSISTENTE»: 0 apariciones | scripts_validacion/cci_dev_NO_EJECUTADOS/ct_identidad_entorno.py,scripts_validacion/ct_pruebas_identidad_firmada.py
+PASS | «INCONSISTENTE»: 0 apariciones | 
 PASS | «NO CONCILIADO»: 0 apariciones | 
 PASS | «REFERENCIA ROTA»: 0 apariciones | 
 PASS | «HASH INCORRECTO»: 0 apariciones | 
@@ -16,4 +16,4 @@ INFO | clasificadas 2 líneas: ERROR (contexto técnico/histórico/contrato)
 INFO | clasificadas 72 líneas: FAIL (vocabulario de estados / 0 FAIL / control negativo / histórico)
 PASS | FAIL/ERROR en documentos: todas las apariciones tienen contexto legítimo (0 sin justificar) | 
 PASS | sin referencias obsoletas fuera de contexto histórico | 
-TOTAL_FAIL=1
+TOTAL_FAIL=0

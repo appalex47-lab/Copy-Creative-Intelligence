@@ -1,0 +1,9 @@
+PASS | sin manipulación (sin incoherencias)
+PASS | modificación COHERENTE de JSON+TXT (eliminar una comprobación y ajustar totales) (detecta: salida modificada después de generarse: scripts_validacion/resultados/)
+PASS | INFORME .md alterado (detecta: salida modificada después de generarse: INFORME_RECONCILIACION_INTEGRA)
+PASS | reconciliacion_integral.json eliminado (detecta: salida anclada ausente: scripts_validacion/resultados/reconciliacion_i)
+PASS | comprobación de otra ejecución con SHA re-anclado a mano en el JSON (la comprobación de run id lo delata) (detecta: comprobaciones de otra ejecución)
+PASS | anclas de otra ejecución (detecta: anclas de otra ejecución)
+PASS | anclas ausentes (detecta: anclas ilegibles/ausentes: FileNotFoundError(2, 'No such file or direc)
+PASS | totales del stdout del generador no coinciden con el JSON (detecta: totales del stdout del generador distintos del JSON)
+TOTAL=8 FAIL=0

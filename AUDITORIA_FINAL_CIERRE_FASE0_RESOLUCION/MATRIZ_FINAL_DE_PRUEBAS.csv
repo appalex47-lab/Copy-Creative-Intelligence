@@ -1,0 +1,554 @@
+suite,id,estado,detalle,evidencia
+ORQ,A/arbol_git_limpio,PASS,,pasos/A_arbol_git_limpio.stdout.txt
+ORQ,A/sha256sums_guarda_y_scripts,PASS,,pasos/A_sha256sums_guarda_y_scripts.stdout.txt
+ORQ,A/ramas_protegidas_intactas,PASS,,pasos/A_ramas_protegidas_intactas.stdout.txt
+ORQ,A/cluster_nuevo_dev,PASS,,pasos/A_cluster_nuevo_dev.stdout.txt
+ORQ,A/cluster_nuevo_prod,PASS,,pasos/A_cluster_nuevo_prod.stdout.txt
+ORQ,A/clusteres_independientes_y_vacios,PASS,"{""dev"": {""sysid"": ""7710750170142132283"", ""port"": 32943}, ""prod"": {""sysid"": ""7710750173099673693"", ""port"": 37483}}",
+ORQ,B/bat_escaner_sql,PASS,,pasos/B_bat_escaner_sql.stdout.txt
+ORQ,B/bat_escaner_autoprueba,PASS,,pasos/B_bat_escaner_autoprueba.stdout.txt
+ORQ,B/bat_escaner_texto,PASS,,pasos/B_bat_escaner_texto.stdout.txt
+ORQ,B/meta_orquestador_fallos_inducidos,PASS,,pasos/B_meta_orquestador_fallos_inducidos.stdout.txt
+ORQ,C/bat___precondicion_roles,PASS,,pasos/C_bat___precondicion_roles.stdout.txt
+ORQ,C/bat_guarda_destino,PASS,,pasos/C_bat_guarda_destino.stdout.txt
+ORQ,C/adversarial_marcador_y_ejecutor,PASS,,pasos/C_adversarial_marcador_y_ejecutor.stdout.txt
+ORQ,C/search_path_hijack,PASS,,pasos/C_search_path_hijack.stdout.txt
+ORQ,C/identidad_dev_prod_ag18,PASS,,pasos/C_identidad_dev_prod_ag18.stdout.txt
+ORQ,C/autorizacion_operadores,PASS,,pasos/C_autorizacion_operadores.stdout.txt
+ORQ,C/identidad_firmada_ag18_clones,PASS,,pasos/C_identidad_firmada_ag18_clones.stdout.txt
+ORQ,C/aprobacion_firmada_y_cadena_dev,PASS,,pasos/C_aprobacion_firmada_y_cadena_dev.stdout.txt
+ORQ,C/validador_listas_ext03,PASS,,pasos/C_validador_listas_ext03.stdout.txt
+ORQ,C/sonda_ext02_simulada_local,PASS,,pasos/C_sonda_ext02_simulada_local.stdout.txt
+ORQ,D/bat_v20_pe,PASS,,pasos/D_bat_v20_pe.stdout.txt
+ORQ,D/bat_v20_mutaciones,PASS,,pasos/D_bat_v20_mutaciones.stdout.txt
+ORQ,D/bat_extension_local,PASS,,pasos/D_bat_extension_local.stdout.txt
+ORQ,D/bat_dg19,PASS,,pasos/D_bat_dg19.stdout.txt
+ORQ,D/bat_hash_encadenado,PASS,,pasos/D_bat_hash_encadenado.stdout.txt
+ORQ,E/bat___precondicion_roles,PASS,,pasos/E_bat___precondicion_roles.stdout.txt
+ORQ,E/bat_smoke_6_scripts,PASS,,pasos/E_bat_smoke_6_scripts.stdout.txt
+ORQ,E/bat_aserciones_smoke,PASS,,pasos/E_bat_aserciones_smoke.stdout.txt
+ORQ,F/bat_estatica_T47_T124,PASS,,pasos/F_bat_estatica_T47_T124.stdout.txt
+ORQ,F/bat_k47_por_escenario,PASS,,pasos/F_bat_k47_por_escenario.stdout.txt
+ORQ,F/bat_t409_individual,PASS,,pasos/F_bat_t409_individual.stdout.txt
+ORQ,F/bat_t409_repro_2a_corrida,PASS,,pasos/F_bat_t409_repro_2a_corrida.stdout.txt
+ORQ,F/bat_t409_repro_comparacion,PASS,,pasos/F_bat_t409_repro_comparacion.stdout.txt
+ORQ,F/bat_t409_correspondencia,PASS,,pasos/F_bat_t409_correspondencia.stdout.txt
+ORQ,F/bat_funciones_22,PASS,,pasos/F_bat_funciones_22.stdout.txt
+ORQ,F/bat_exc_modelo14,PASS,,pasos/F_bat_exc_modelo14.stdout.txt
+ORQ,F/bat_catalogo_except,PASS,,pasos/F_bat_catalogo_except.stdout.txt
+ORQ,F/bat_arnes_r1r9,PASS,,pasos/F_bat_arnes_r1r9.stdout.txt
+ORQ,G/bat_concurrencia_local,PASS,,pasos/G_bat_concurrencia_local.stdout.txt
+ORQ,G/permutaciones_orden,PASS,,pasos/G_permutaciones_orden.stdout.txt
+ORQ,G/secuencia_05A_05B_observador_independiente,PASS,,pasos/G_secuencia_05A_05B_observador_independiente.stdout.txt
+ORQ,H/ct_gen_limitaciones.py,PASS,,pasos/H_ct_gen_limitaciones.py.stdout.txt
+ORQ,H/ct_gen_trazabilidad_maestra.py,PASS,,pasos/H_ct_gen_trazabilidad_maestra.py.stdout.txt
+ORQ,H/ct_gen_informe_pruebas.py,PASS,,pasos/H_ct_gen_informe_pruebas.py.stdout.txt
+ORQ,H/ct_gen_cifras.py_pasada1,PASS,,pasos/H_ct_gen_cifras.py_pasada1.stdout.txt
+ORQ,H/ct_manifiesto.py_pasada1,PASS,,pasos/H_ct_manifiesto.py_pasada1.stdout.txt
+ORQ,H/ct_controles_negativos_manifiesto.py_pasada1,PASS,,pasos/H_ct_controles_negativos_manifiesto.py_pasada1.stdout.txt
+ORQ,H/ct_gen_resolucion_observaciones.py_pasada1,PASS,,pasos/H_ct_gen_resolucion_observaciones.py_pasada1.stdout.txt
+ORQ,H/ct_gen_auditoria_fechas.py_pasada1,PASS,,pasos/H_ct_gen_auditoria_fechas.py_pasada1.stdout.txt
+ORQ,H/ct_gen_cifras.py_pasada2,PASS,,pasos/H_ct_gen_cifras.py_pasada2.stdout.txt
+ORQ,H/ct_manifiesto.py_pasada2,PASS,,pasos/H_ct_manifiesto.py_pasada2.stdout.txt
+ORQ,H/ct_controles_negativos_manifiesto.py_pasada2,PASS,,pasos/H_ct_controles_negativos_manifiesto.py_pasada2.stdout.txt
+ORQ,H/ct_gen_resolucion_observaciones.py_pasada2,PASS,,pasos/H_ct_gen_resolucion_observaciones.py_pasada2.stdout.txt
+ORQ,H/ct_gen_auditoria_fechas.py_pasada2,PASS,,pasos/H_ct_gen_auditoria_fechas.py_pasada2.stdout.txt
+ORQ,H/busqueda_global,PASS,,pasos/H_busqueda_global.stdout.txt
+ORQ,H/reconciliacion_integral,PASS,,pasos/H_reconciliacion_integral.stdout.txt
+ORQ,H/anclaje_externo_reconciliacion,PASS,,pasos/H_anclaje_externo_reconciliacion.stdout.txt
+ORQ,I/consistencia_informe,PASS,,pasos/I_consistencia_informe.stdout.txt
+ORQ,I/anclas_verificadas_tras_H,PASS,,pasos/I_anclas_verificadas_tras_H.stdout.txt
+ORQ,I/controles_negativos_anclas,PASS,,pasos/I_controles_negativos_anclas.stdout.txt
+ORQ,I/controles_negativos_consistencia,PASS,,pasos/I_controles_negativos_consistencia.stdout.txt
+ORQ,J/manifiesto_regenerado,PASS,,pasos/J_manifiesto_regenerado.stdout.txt
+ORQ,J/manifiesto_verificado,PASS,,pasos/J_manifiesto_verificado.stdout.txt
+ORQ,J/anclaje_externo_manifiesto,PASS,,pasos/J_anclaje_externo_manifiesto.stdout.txt
+ORQ,K/resultados_de_esta_ejecucion_e_integridad_de_critica,PASS,67 archivos críticos sin cambios,
+ORQ,K/anclas_externas_intactas,PASS,,pasos/K_anclas_externas_intactas.stdout.txt
+ORQ,K/validador_listas_sobre_guarda_real,BLOCKED,RECHAZADO [L-DEV-VACIA] dev_allow vacía: el propietario debe aportar al menos un 'system_identifier|base' de CCI-DEV,
+ORQ,K/supabase_cci_dev_real_ext02,NOT_TESTED,no se aportó un reporte REAL_CCI_DEV con SHA-256 externo; ID-13 NOT_TESTED,
+ORQ,K/dependencia_externa_ID-13,BLOCKED,validación real en Supabase (no autorizada ni disponible),
+ORQ,K/dependencia_externa_EXT-03,BLOCKED,listas de destinos DEV/PROD autorizados: RECHAZADO [L-DEV-VACIA] dev_allow vacía: el propietario debe aportar al menos u,
+ORQ,K/dependencia_externa_EXT-01,BLOCKED,custodio externo del hash aprobado no definido: falta la aprobación firmada (CCI_APROBACION_CUSTODIO) y la clave pública,
+ORQ,K/dependencia_externa_EXT-02,BLOCKED,"compatibilidad con Supabase CCI-DEV (TEMP, pg_control_system(), PGOPTIONS por pooler, project ref, pooler): sólo verific",
+ORQ,K/dependencia_externa_EXT-04-L04,BLOCKED,equivalencia del PostgreSQL temporal con el esquema físico aprobado (no existe esquema físico aprobado),
+ORQ,K/dependencia_externa_EXT-04-L05,BLOCKED,validación física en CCI-DEV,
+ORQ,K/dependencia_externa_EXT-04-L06,BLOCKED,"RLS, privilegios y concurrencia reales en CCI-DEV",
+ORQ,K/dependencia_externa_EXT-04-L07,BLOCKED,trigger de elegibilidad R1–R9 en entorno físico,
+ORQ,K/dependencia_externa_EXT-04-L08,BLOCKED,HV-02/PO-05: confirmación del propietario sobre la Adenda v9 (el documento no existe en el repositorio),
+ADV,CTRL-cor-01,PASS,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV,CTRL-cor-02,PASS,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV,CTRL-cor-03,PASS,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV,CTRL-cor-04,PASS,"CUERPO EJECUTADO rc=3 ERROR:  syntax error at or near "":""",evidencia/adversarial_marcador_ejecutor.json
+ADV,CTRL-cor-05A,PASS,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV,CTRL-cor-05B,PASS,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV,A-cor-01,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,A-cor-02,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,A-cor-03,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,A-cor-04,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,A-cor-05A,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,A-cor-05B,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,B-cor-01,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,B-cor-02,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,B-cor-03,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,B-cor-04,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,B-cor-05A,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,B-cor-05B,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,C-cor-01,PASS,rc=0 guardas_ok=2,evidencia/adversarial_marcador_ejecutor.json
+ADV,C-cor-02,PASS,rc=0 guardas_ok=2,evidencia/adversarial_marcador_ejecutor.json
+ADV,C-cor-03,PASS,rc=0 guardas_ok=2,evidencia/adversarial_marcador_ejecutor.json
+ADV,C-cor-04,PASS,rc=3 guardas_ok=2,evidencia/adversarial_marcador_ejecutor.json
+ADV,C-cor-05A,PASS,rc=0 guardas_ok=2,evidencia/adversarial_marcador_ejecutor.json
+ADV,C-cor-05B,PASS,rc=0 guardas_ok=2,evidencia/adversarial_marcador_ejecutor.json
+ADV,C2-cor-01,PASS,rc=3 cuerpos=0 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,C2-cor-02,PASS,rc=3 cuerpos=0 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,C2-cor-03,PASS,rc=3 cuerpos=0 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,C2-cor-04,PASS,rc=3 cuerpos=0 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,C2-cor-05A,PASS,rc=3 cuerpos=0 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,C2-cor-05B,PASS,rc=3 cuerpos=0 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,D-cor-01,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,D-cor-02,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,D-cor-03,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,D-cor-04,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,D-cor-05A,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,D-cor-05B,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,E1-cor-01,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,E1-cor-02,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,E1-cor-03,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,E1-cor-04,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,E1-cor-05A,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,E1-cor-05B,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,E1-cor-01,PASS,rc=3 G-GUARDA-INTEGRIDAD,evidencia/adversarial_marcador_ejecutor.json
+ADV,E1-cor-02,PASS,rc=3 G-GUARDA-INTEGRIDAD,evidencia/adversarial_marcador_ejecutor.json
+ADV,E1-cor-03,PASS,rc=3 G-GUARDA-INTEGRIDAD,evidencia/adversarial_marcador_ejecutor.json
+ADV,E1-cor-04,PASS,rc=3 G-GUARDA-INTEGRIDAD,evidencia/adversarial_marcador_ejecutor.json
+ADV,E1-cor-05A,PASS,rc=3 G-GUARDA-INTEGRIDAD,evidencia/adversarial_marcador_ejecutor.json
+ADV,E1-cor-05B,PASS,rc=3 G-GUARDA-INTEGRIDAD,evidencia/adversarial_marcador_ejecutor.json
+ADV,E2-cor-01,PARTIAL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV,E2-cor-02,PARTIAL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV,E2-cor-03,PARTIAL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV,E2-cor-04,PARTIAL,"CUERPO EJECUTADO rc=3 ERROR:  syntax error at or near "":""",evidencia/adversarial_marcador_ejecutor.json
+ADV,E2-cor-05A,PARTIAL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV,E2-cor-05B,PARTIAL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV,E2-cor-01,PASS,rc=3 G-GUARDA-INTEGRIDAD,evidencia/adversarial_marcador_ejecutor.json
+ADV,E2-cor-02,PASS,rc=3 G-GUARDA-INTEGRIDAD,evidencia/adversarial_marcador_ejecutor.json
+ADV,E2-cor-03,PASS,rc=3 G-GUARDA-INTEGRIDAD,evidencia/adversarial_marcador_ejecutor.json
+ADV,E2-cor-04,PASS,rc=3 G-GUARDA-INTEGRIDAD,evidencia/adversarial_marcador_ejecutor.json
+ADV,E2-cor-05A,PASS,rc=3 G-GUARDA-INTEGRIDAD,evidencia/adversarial_marcador_ejecutor.json
+ADV,E2-cor-05B,PASS,rc=3 G-GUARDA-INTEGRIDAD,evidencia/adversarial_marcador_ejecutor.json
+ADV,F-cor-01,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,F-cor-02,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,F-cor-03,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,F-cor-04,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,F-cor-05A,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,F-cor-05B,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,G-cor-01,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,G-cor-02,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,G-cor-03,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,G-cor-04,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,G-cor-05A,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,G-cor-05B,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,H-cor-01,PASS,rc=3 G-GUARDA-INTEGRIDAD,evidencia/adversarial_marcador_ejecutor.json
+ADV,H-cor-02,PASS,rc=3 G-GUARDA-INTEGRIDAD,evidencia/adversarial_marcador_ejecutor.json
+ADV,H-cor-03,PASS,rc=3 G-GUARDA-INTEGRIDAD,evidencia/adversarial_marcador_ejecutor.json
+ADV,H-cor-04,PASS,rc=3 G-GUARDA-INTEGRIDAD,evidencia/adversarial_marcador_ejecutor.json
+ADV,H-cor-05A,PASS,rc=3 G-GUARDA-INTEGRIDAD,evidencia/adversarial_marcador_ejecutor.json
+ADV,H-cor-05B,PASS,rc=3 G-GUARDA-INTEGRIDAD,evidencia/adversarial_marcador_ejecutor.json
+ADV,I1-cor-01-02-01,PASS,rc=0 guardas=3 cuerpos=3,evidencia/adversarial_marcador_ejecutor.json
+ADV,I2-cor-01-02-01,PASS,rc=0 guardas=3 cuerpos=3,evidencia/adversarial_marcador_ejecutor.json
+ADV,J-cor-01,PASS,rc=3 cuerpos=0 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,J-cor-02,PASS,rc=3 cuerpos=0 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,J-cor-03,PASS,rc=3 cuerpos=0 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,J-cor-04,PASS,rc=3 cuerpos=0 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,J-cor-05A,PASS,rc=3 cuerpos=0 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,J-cor-05B,PASS,rc=3 cuerpos=0 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,K-cor-01,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,K-cor-05A,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,K-cor-01,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,K-cor-05A,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,K-cor-01,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,K-cor-05A,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,K-cor-01,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,K-cor-05A,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,L-cor-01,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,L-cor-02,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,L-cor-03,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,L-cor-04,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,L-cor-05A,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,L-cor-05B,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,M-cor-01,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,M-cor-02,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,M-cor-03,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,M-cor-04,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,M-cor-05A,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,M-cor-05B,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,N-cor-01,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,N-cor-02,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,N-cor-03,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,N-cor-04,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,N-cor-05A,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,N-cor-05B,PASS,rc=3 G-GUARDA-NO-EJECUTADA,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-01-ok,PASS,rc=0 GUARDA OK,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-02-script-alterado,PASS,rc=3 V-ARCHIVO-ALTERADO,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-03-guarda-alterada,PASS,rc=3 V-ARCHIVO-ALTERADO,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-04-sums-regenerado,PASS,rc=3 V-SUMS-HASH-DISTINTO,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-05-hash-incorrecto,PASS,rc=3 V-SUMS-HASH-DISTINTO,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-06-hash-mal-formado,PASS,rc=3 V-HASH-INVALIDO,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-07-hash-ausente,PASS,rc=3 V-HASH-INVALIDO,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-08-guarda-vacia,PASS,rc=3 V-ARCHIVO-ALTERADO,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-09-guarda-truncada,PASS,rc=3 V-ARCHIVO-ALTERADO,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-10-guarda-ausente,PASS,rc=3 V-ARCHIVO-AUSENTE-O-SYMLINK,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-11-symlink-guarda,PASS,rc=3 V-ARCHIVO-AUSENTE-O-SYMLINK,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-12-symlink-script,PASS,rc=3 V-SYMLINK,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-13-symlink-sums,PASS,rc=3 V-SUMS-AUSENTE,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-14-ruta-relativa,PASS,rc=0 GUARDA OK,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-15-PATH,PASS,rc=0 GUARDA OK,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-16-PSQLRC-BASH_ENV,PASS,rc=0 GUARDA OK,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-17-CCI_DIR-preestablecida,PASS,rc=0 GUARDA OK,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-18-PGOPTIONS-extra,PASS,rc=3 V-PGOPTIONS-NO-PERMITIDO,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-19-opcion-vcci_,PASS,rc=3 V-OPCION-NO-PERMITIDA,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-19-opcion-csele,PASS,rc=3 V-OPCION-NO-PERMITIDA,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-19-opcion-f/etc,PASS,rc=3 V-OPCION-NO-PERMITIDA,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-19-opcion-1,PASS,rc=3 V-OPCION-NO-PERMITIDA,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-20-destino-aprobado,PASS,rc=0 GUARDA OK,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-21-destino-no-aprobado,PASS,rc=3 V-DESTINO-NO-APROBADO,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-22-DEV-sin-lista,PASS,rc=3 V-DESTINO-NO-CONFIGURADO,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-23-TOCTOU,PASS,rc=0 ejecuciones=25 ok=11 rechazadas=14 pwned=0,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-24-concurrencia,PASS,rc=0 ok=6/6,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-25-interrupcion,PASS,rc=0 residuales=0,evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-26-permisos,PASS,rc=99 [Errno 2] No such file or directory: 'runuser',evidencia/adversarial_marcador_ejecutor.json
+ADV,WRAP-27-script-ajeno,PASS,rc=3 V-SCRIPT-NO-RECONOCIDO,evidencia/adversarial_marcador_ejecutor.json
+IDENT-GUARDA-SQL,ID-00,PASS,distintos,evidencia/identidad.json
+IDENT-GUARDA-SQL,ID-01,PASS,rc=0 GUARDA OK,evidencia/identidad.json
+IDENT-GUARDA-SQL,ID-02,PASS,rc=3 G-PROD-RECHAZADO,evidencia/identidad.json
+IDENT-GUARDA-SQL,ID-03,PASS,rc=3 G-DESTINO-DESCONOCIDO,evidencia/identidad.json
+IDENT-GUARDA-SQL,ID-04,PASS,igual,evidencia/identidad.json
+IDENT-GUARDA-SQL,ID-05,PARTIAL,rc=0 GUARDA OK (aceptado),evidencia/identidad.json
+IDENT-GUARDA-SQL,ID-06,PARTIAL,DEV: G-PROD-RECHAZADO; clon: G-PROD-RECHAZADO,evidencia/identidad.json
+IDENT-GUARDA-SQL,ID-07,PASS,rc=3 V-AUDITORIA-NO-CONFIGURADA,evidencia/identidad.json
+IDENT-GUARDA-SQL,ID-08,PASS,rc=3 V-DESTINO-NO-APROBADO,evidencia/identidad.json
+IDENT-GUARDA-SQL,ID-09,PASS,rc=3 V-DESTINO-NO-CONFIGURADO,evidencia/identidad.json
+IDENT-GUARDA-SQL,ID-10,PARTIAL,rc=3 V-AUDITORIA-NO-CONFIGURADA,evidencia/identidad.json
+IDENT-GUARDA-SQL,ID-11,PASS,rc=3 G-DESTINO-DESCONOCIDO,evidencia/identidad.json
+IDENT-GUARDA-SQL,ID-12,PASS,rc=3 G-DESTINO-DESCONOCIDO,evidencia/identidad.json
+IDENT-GUARDA-SQL,ID-13,NOT TESTED,NOT TESTED,evidencia/identidad.json
+SP,SPD1-01/01/corregido,PASS,G-SEARCH-PATH-NO-SEGURO,evidencia/auditoria_search_path.json
+SP,SPD1-02/02/corregido,PASS,G-SEARCH-PATH-NO-SEGURO,evidencia/auditoria_search_path.json
+SP,SPD1-03/03/corregido,PASS,G-SEARCH-PATH-NO-SEGURO,evidencia/auditoria_search_path.json
+SP,SPD1-04/04/corregido,PASS,G-SEARCH-PATH-NO-SEGURO,evidencia/auditoria_search_path.json
+SP,SPD1-05A/05/corregido,PASS,G-SEARCH-PATH-NO-SEGURO,evidencia/auditoria_search_path.json
+SP,SPD1-05B/05/corregido,PASS,G-SEARCH-PATH-NO-SEGURO,evidencia/auditoria_search_path.json
+SP,SPD2-01/01/corregido-sin-chequeo,PASS,,evidencia/auditoria_search_path.json
+SP,SPD2-02/02/corregido-sin-chequeo,PASS,,evidencia/auditoria_search_path.json
+SP,SPD2-03/03/corregido-sin-chequeo,PASS,,evidencia/auditoria_search_path.json
+SP,SPD2-04/04/corregido-sin-chequeo,PASS,,evidencia/auditoria_search_path.json
+SP,SPD2-05A/05/corregido-sin-chequeo,PASS,,evidencia/auditoria_search_path.json
+SP,SPD2-05B/05/corregido-sin-chequeo,PASS,,evidencia/auditoria_search_path.json
+SP,SPD6-01/01/corregido,PASS,G-SEARCH-PATH-NO-SEGURO,evidencia/auditoria_search_path.json
+SP,SPD6-02/02/corregido,PASS,G-SEARCH-PATH-NO-SEGURO,evidencia/auditoria_search_path.json
+SP,SPD6-03/03/corregido,PASS,G-SEARCH-PATH-NO-SEGURO,evidencia/auditoria_search_path.json
+SP,SPD6-04/04/corregido,PASS,G-SEARCH-PATH-NO-SEGURO,evidencia/auditoria_search_path.json
+SP,SPD6-05A/05/corregido,PASS,G-SEARCH-PATH-NO-SEGURO,evidencia/auditoria_search_path.json
+SP,SPD6-05B/05/corregido,PASS,G-SEARCH-PATH-NO-SEGURO,evidencia/auditoria_search_path.json
+SP,SPD7-01/01/corregido-sin-chequeo,PARTIAL,,evidencia/auditoria_search_path.json
+SP,SPD7-02/02/corregido-sin-chequeo,PARTIAL,,evidencia/auditoria_search_path.json
+SP,SPD7-03/03/corregido-sin-chequeo,PARTIAL,,evidencia/auditoria_search_path.json
+SP,SPD7-04/04/corregido-sin-chequeo,PARTIAL,,evidencia/auditoria_search_path.json
+SP,SPD7-05A/05/corregido-sin-chequeo,PASS,,evidencia/auditoria_search_path.json
+SP,SPD7-05B/05/corregido-sin-chequeo,PASS,,evidencia/auditoria_search_path.json
+SP,SPD4-01/01/corregido,PASS,,evidencia/auditoria_search_path.json
+SP,SPD4-02/02/corregido,PASS,,evidencia/auditoria_search_path.json
+SP,SPD4-03/03/corregido,PASS,,evidencia/auditoria_search_path.json
+SP,SPD4-04/04/corregido,PASS,,evidencia/auditoria_search_path.json
+SP,SPD4-05A/05/corregido,PASS,,evidencia/auditoria_search_path.json
+SP,SPD4-05B/05/corregido,PASS,,evidencia/auditoria_search_path.json
+AO,AO-01,PASS,roles de la matriz no configurados (cci_operador no existe) | rc=3 ['NO EJECUTADO [G-OPERADOR-ROLES-NO-CONFIGURADOS]'] can,evidencia/autorizacion_operadores.json
+AO,AO-02,PASS,"operador autorizado (miembro de cci_operador, sin privilegios elevados | rc=0 guarda_ok=True canario=True",evidencia/autorizacion_operadores.json
+AO,AO-03,PASS,registro de quién ejecutó (RAISE LOG con rol y pid) | ['CCI-AUDITORIA operador=t_op_ok pid=27022'],evidencia/autorizacion_operadores.json
+AO,AO-04,PASS,rol desconocido: existe pero no es miembro de cci_operador | rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=Fal,evidencia/autorizacion_operadores.json
+AO,AO-05,PASS,superusuario (cci_test) no puede operar: privilegios mínimos | rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canar,evidencia/autorizacion_operadores.json
+AO,AO-06-createrole,PASS,operador con CREATEROLE | rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canar,evidencia/autorizacion_operadores.json
+AO,AO-06-createdb,PASS,operador con CREATEDB | rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canar,evidencia/autorizacion_operadores.json
+AO,AO-06-bypassrls,PASS,operador con BYPASSRLS | rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canar,evidencia/autorizacion_operadores.json
+AO,AO-06-replication,PASS,operador con REPLICATION | rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canar,evidencia/autorizacion_operadores.json
+AO,AO-07,PASS,separación de funciones: operador + custodio | rc=3 ['NO EJECUTADO [G-SEPARACION-FUNCIONES]'] canario=False,evidencia/autorizacion_operadores.json
+AO,AO-08,PASS,separación de funciones: operador + administrador | rc=3 ['NO EJECUTADO [G-SEPARACION-FUNCIONES]'] canario=False,evidencia/autorizacion_operadores.json
+AO,AO-09,PASS,separación de funciones por membresía INDIRECTA (cadena de roles) | rc=3 ['NO EJECUTADO [G-SEPARACION-FUNCIONES]'] canario=False,evidencia/autorizacion_operadores.json
+AO,AO-10,PASS,separación de funciones aunque el rol sea NOINHERIT (membresía sin her | rc=3 ['NO EJECUTADO [G-SEPARACION-FUNCIONES]'] canario=False,evidencia/autorizacion_operadores.json
+AO,AO-11,PASS,escalamiento por SET ROLE a cci_operador | ['NO EJECUTADO [G-ROL-CAMBIADO]'],evidencia/autorizacion_operadores.json
+AO,AO-12,PASS,no autorizado con search_path hostil (evil antes de pg_catalog) | rc=3 ['NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]'] canario=Fals,evidencia/autorizacion_operadores.json
+AO,AO-13,PASS,no autorizado con search_path hostil y SIN el chequeo de search_path ( | rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=Fal,evidencia/autorizacion_operadores.json
+AO,AO-14,PASS,no autorizado con GUC cci.* adicionales preinstaladas por PGOPTIONS (c | rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=Fal,evidencia/autorizacion_operadores.json
+AO,AO-15,PASS,"no autorizado con parámetros de sesión (row_security=off, default_tran | rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=Fal",evidencia/autorizacion_operadores.json
+AO,AO-15b,PASS,no autorizado intenta session_replication_role=replica: el servidor lo | rc=2 canario=False True,evidencia/autorizacion_operadores.json
+AO,AO-16,PASS,no autorizado con aplicación declarada cci_05A (impostor de identidad  | rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=Fal,evidencia/autorizacion_operadores.json
+AO,AO-17,PASS,operador autorizado que re-declara su propio session_authorization (si | rc=0,evidencia/autorizacion_operadores.json
+AO,AO-18,PASS,sin efectos persistentes en toda la suite (roles/membresías/objetos pú | 4|18|0,evidencia/autorizacion_operadores.json
+AG18,AG-00,PASS,los clones físicos son reales: mismo system_identifier que su origen y | dev=7710750780936202972 clon_dev=7710750780936202972 prod=77,evidencia/identidad_firmada_ag18.json
+AG18,AG-01,PASS,DEV legítimo con identidad firmada vigente (caso positivo) | rc=0 OK entorno=CCI-DEV proyecto=proj-dev-prueba serial=5,evidencia/identidad_firmada_ag18.json
+AG18,AG-02,PASS,CLON FÍSICO de DEV en otro endpoint con el token legítimo de DEV (mism | rc=3 RECHAZADO [I-ENDPOINT-DISTINTO] el destino real no es e,evidencia/identidad_firmada_ag18.json
+AG18,AG-03,PASS,token tomado del CONTENIDO CLONADO de la base y usado desde el clon | rc=3 RECHAZADO [I-ENDPOINT-DISTINTO] el destino real no es e,evidencia/identidad_firmada_ag18.json
+AG18,AG-04,PASS,CLON FÍSICO de PROD presentado como DEV con el token legítimo de DEV | rc=3 RECHAZADO [I-ENDPOINT-DISTINTO] el destino real no es e,evidencia/identidad_firmada_ag18.json
+AG18,AG-05,PASS,CLON FÍSICO de PROD que reclama el endpoint firmado de DEV (altera el  | rc=3 RECHAZADO [I-SYSID-DISTINTO] el clúster real no es el f,evidencia/identidad_firmada_ag18.json
+AG18,AG-06,PASS,PROD real reclamado como DEV con el endpoint de DEV (parámetros altera | rc=3 RECHAZADO [I-SYSID-DISTINTO] el clúster real no es el f,evidencia/identidad_firmada_ag18.json
+AG18,AG-07,PASS,identidad legítima de PROD presentada cuando se exige DEV (clon de PRO | rc=3 RECHAZADO [I-ENTORNO-DISTINTO] el token es de otro ento,evidencia/identidad_firmada_ag18.json
+AG18,AG-08,PASS,"PROD real nunca se acepta como DEV, ni con identidad de PROD y endpoin | rc=3 RECHAZADO [I-ENTORNO-DISTINTO] el token es de otro ento",evidencia/identidad_firmada_ag18.json
+AG18,AG-09,PASS,identidad ausente (directorio inexistente) | rc=3 RECHAZADO [I-AUSENTE] falta el directorio de identidad,evidencia/identidad_firmada_ag18.json
+AG18,AG-10,PASS,identidad ausente (directorio vacío) | rc=3 RECHAZADO [I-AUSENTE] ausente o enlace simbólico: /tmp/,evidencia/identidad_firmada_ag18.json
+AG18,AG-11,PASS,identidad FALSIFICADA: firmada por clave del atacante (token y polític | rc=3 RECHAZADO [I-POLITICA-FIRMA-INVALIDA],evidencia/identidad_firmada_ag18.json
+AG18,AG-12,PASS,identidad falsificada con la clave pública del atacante entregada junt | rc=3 RECHAZADO [I-CLAVE-NO-APROBADA] la clave pública no coi,evidencia/identidad_firmada_ag18.json
+AG18,AG-13,PASS,sin SHA-256 externo de la clave | rc=3 RECHAZADO [I-CLAVE-NO-APROBADA] falta el SHA-256 extern,evidencia/identidad_firmada_ag18.json
+AG18,AG-14,PASS,clave pública ausente | rc=3 RECHAZADO [I-CLAVE-AUSENTE] ausente o enlace simbólico:,evidencia/identidad_firmada_ag18.json
+AG18,AG-15,PASS,política legítima pero token firmado por el atacante | rc=3 RECHAZADO [I-FIRMA-INVALIDA],evidencia/identidad_firmada_ag18.json
+AG18,AG-16,PASS,firma inválida (un bit alterado en token.sig) | rc=3 RECHAZADO [I-FIRMA-INVALIDA],evidencia/identidad_firmada_ag18.json
+AG18,AG-17,PASS,token alterado después de firmar (proyecto cambiado) | rc=3 RECHAZADO [I-FIRMA-INVALIDA],evidencia/identidad_firmada_ag18.json
+AG18,AG-18,PASS,política alterada después de firmar | rc=3 RECHAZADO [I-POLITICA-FIRMA-INVALIDA],evidencia/identidad_firmada_ag18.json
+AG18,AG-19,PASS,política sin firma | rc=3 RECHAZADO [I-POLITICA-AUSENTE] ausente o enlace simbóli,evidencia/identidad_firmada_ag18.json
+AG18,AG-20,PASS,firma de otro entorno/autoridad (clave distinta de la aprobada) | rc=3 RECHAZADO [I-POLITICA-FIRMA-INVALIDA],evidencia/identidad_firmada_ag18.json
+AG18,AG-21,PASS,token firmado por la autoridad pero con entorno PROD exigido como DEV | rc=3 RECHAZADO [I-ENTORNO-DISTINTO] el token es de otro ento,evidencia/identidad_firmada_ag18.json
+AG18,AG-22,PASS,identidad caducada | rc=3 RECHAZADO [I-CADUCADA],evidencia/identidad_firmada_ag18.json
+AG18,AG-23,PASS,identidad aún no vigente | rc=3 RECHAZADO [I-NO-VIGENTE-AUN],evidencia/identidad_firmada_ag18.json
+AG18,AG-24,PASS,validez excesiva (>7 días) | rc=3 RECHAZADO [I-VALIDEZ-EXCESIVA] la identidad no puede du,evidencia/identidad_firmada_ag18.json
+AG18,AG-25,PASS,identidad válida evaluada con reloj posterior a su caducidad (reloj in | rc=3 RECHAZADO [I-CADUCADA],evidencia/identidad_firmada_ag18.json
+AG18,AG-26,PASS,identidad válida con proyecto de PROD en token DEV | rc=3 RECHAZADO [I-PROYECTO-NO-AUTORIZADO],evidencia/identidad_firmada_ag18.json
+AG18,AG-27,PASS,identidad válida con proyecto desconocido | rc=3 RECHAZADO [I-PROYECTO-NO-AUTORIZADO],evidencia/identidad_firmada_ag18.json
+AG18,AG-28,PASS,política inconsistente: mismo proyecto en DEV y PROD | rc=3 RECHAZADO [I-POLITICA-CONTRADICTORIA] un proyecto figur,evidencia/identidad_firmada_ag18.json
+AG18,AG-29,PASS,reutilización de identidad anterior (serial < mínimo de la política) | rc=3 RECHAZADO [I-SERIAL-OBSOLETO] identidad anterior reutil,evidencia/identidad_firmada_ag18.json
+AG18,AG-30,PASS,identidad revocada (serial 4 en seriales_revocados) | rc=3 RECHAZADO [I-REVOCADA],evidencia/identidad_firmada_ag18.json
+AG18,AG-31,PASS,clave de la autoridad revocada en la política (rotación) | rc=3 RECHAZADO [I-CLAVE-REVOCADA],evidencia/identidad_firmada_ag18.json
+AG18,AG-32,PASS,"rotación: identidad firmada con la clave NUEVA, aprobada con su nuevo  | rc=0 OK entorno=CCI-DEV proyecto=proj-dev-prueba serial=6",evidencia/identidad_firmada_ag18.json
+AG18,AG-33,PASS,rotación: identidad con la clave NUEVA pero el verificador sigue ancla | rc=3 RECHAZADO [I-POLITICA-FIRMA-INVALIDA],evidencia/identidad_firmada_ag18.json
+AG18,AG-34,PASS,endpoint alterado (otro puerto) | rc=3 RECHAZADO [I-ENDPOINT-DISTINTO] el destino real no es e,evidencia/identidad_firmada_ag18.json
+AG18,AG-35,PASS,base alterada | rc=3 RECHAZADO [I-BASE-DISTINTA],evidencia/identidad_firmada_ag18.json
+AG18,AG-36,PASS,system_identifier alterado | rc=3 RECHAZADO [I-SYSID-DISTINTO] el clúster real no es el f,evidencia/identidad_firmada_ag18.json
+AG18,AG-37,PASS,entorno exigido alterado a PROD con identidad DEV | rc=3 RECHAZADO [I-ENTORNO-DISTINTO] el token es de otro ento,evidencia/identidad_firmada_ag18.json
+AG18,AG-38,PASS,JSON con claves duplicadas (firmado) | rc=3 RECHAZADO [I-FORMATO] clave duplicada: schema,evidencia/identidad_firmada_ag18.json
+AG18,AG-39,PASS,token.json como enlace simbólico | rc=3 RECHAZADO [I-AUSENTE] ausente o enlace simbólico: /tmp/,evidencia/identidad_firmada_ag18.json
+AG18,AG-40,PASS,clave 'aprobada' ilegible/corrupta con SHA-256 coincidente: nunca OK | rc=3 RECHAZADO [I-POLITICA-FIRMA-INVALIDA],evidencia/identidad_firmada_ag18.json
+AG18,AG-41,PASS,argumentos incompletos => no OK | rc=3,evidencia/identidad_firmada_ag18.json
+EXT01/E2E,EXT01-01,PASS,firma válida del custodio de prueba sobre el hash del conjunto (contro | rc=0 GUARDA OK canario=True,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-02,PASS,mismo uso con hash hexadecimal directo (modo anterior) sigue funcionan | rc=0 GUARDA OK canario=True,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-03,PASS,firma inválida (bit alterado) | rc=3 V-APROBACION-FIRMA-INVALIDA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-04,PASS,clave pública incorrecta con SHA-256 externo correcto de OTRA clave (l | rc=3 V-APROBACION-FIRMA-INVALIDA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-05,PASS,clave pública sustituida sin que coincida con el SHA-256 externo aprob | rc=3 V-APROBACION-CLAVE-NO-APROBADA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-06,PASS,sin clave del custodio configurada | rc=3 V-APROBACION-CLAVE-NO-CONFIGURADA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-07,PASS,hash alterado dentro de la aprobación después de firmar | rc=3 V-APROBACION-FIRMA-INVALIDA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-08,PASS,hash alterado y re-firmado por el atacante (clave no aprobada) | rc=3 V-APROBACION-FIRMA-INVALIDA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-09,PASS,manifiesto SHA256SUMS alterado tras la aprobación | rc=3 V-SUMS-HASH-DISTINTO canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-10,PASS,archivo del conjunto alterado sin regenerar el manifiesto | rc=3 V-ARCHIVO-ALTERADO canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-11,PASS,archivo alterado Y manifiesto regenerado por el atacante: la aprobació | rc=3 V-SUMS-HASH-DISTINTO canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-12,PASS,aprobación caducada | rc=3 V-APROBACION-CADUCADA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-13,PASS,aprobación REUTILIZADA: aprobación del conjunto anterior aplicada al c | rc=3 V-SUMS-HASH-DISTINTO canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-14,PASS,aprobación revocada (hash en CCI_CUSTODIO_REVOCADOS_SHA256) | rc=3 V-APROBACION-REVOCADA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-15,PASS,custodio NO autorizado: firma con clave que no es la aprobada por el p | rc=3 V-APROBACION-FIRMA-INVALIDA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-16,PASS,aprobación sin archivo .sig | rc=3 V-APROBACION-AUSENTE canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-17,PASS,aprobación firmada de otro tipo | rc=3 V-APROBACION-FORMATO canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-18,PASS,dos sums_sha256 en la aprobación (firmada): ambigüedad rechazada | rc=3 V-APROBACION-FORMATO canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-19,PASS,rotación: aprobación con la clave NUEVA y su nuevo SHA-256 | rc=0 GUARDA OK canario=True,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-20,PASS,rotación: aprobación con la clave nueva frente al verificador anclado  | rc=3 V-APROBACION-FIRMA-INVALIDA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-21,PASS,rotación: aprobación vieja frente al verificador anclado a la clave NU | rc=3 V-APROBACION-FIRMA-INVALIDA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,EXT01-22,PASS,aprobación apuntando a un enlace simbólico de clave | rc=3 V-APROBACION-CLAVE-NO-CONFIGURADA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,E2E-01,PASS,cadena completa CCI-DEV local: aprobación firmada + destino + identida | rc=0 GUARDA OK canario=True,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,E2E-02,PASS,sin CCI_IDENTIDAD_DIR/clave de autoridad (identidad no configurada) | rc=3 V-IDENTIDAD-NO-CONFIGURADA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,E2E-03,PASS,sin registro de auditoría configurado | rc=3 V-AUDITORIA-NO-CONFIGURADA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,E2E-04,PASS,identidad caducada | rc=3 V-IDENTIDAD-CADUCADA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,E2E-05,PASS,identidad válida pero operador sin rol cci_operador: rechaza la guarda | rc=3 ['[G-OPERADOR-NO-AUTORIZADO]'] canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,E2E-06,PASS,"CLON FÍSICO de PROD en otro endpoint, destino aprobado por error en la | rc=3 V-IDENTIDAD-ENDPOINT-DISTINTO canario=False",evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,E2E-07,PASS,"CLON FÍSICO de DEV en otro endpoint (misma base, mismo system_identifi | rc=3 V-IDENTIDAD-ENDPOINT-DISTINTO canario=False",evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,E2E-10,PASS,registro de auditoría = /dev/null (ejecución sin registro real) | rc=3 V-AUDITORIA-INVALIDA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,E2E-11,PASS,registro de auditoría = enlace simbólico | rc=3 V-AUDITORIA-INVALIDA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,E2E-12,PASS,registro de auditoría con ruta relativa | rc=3 V-AUDITORIA-INVALIDA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,E2E-13,PASS,registro de auditoría en directorio inexistente (no escribible) | rc=3 V-AUDITORIA-NO-ESCRIBIBLE canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,E2E-14,PASS,registro de auditoría = FIFO | rc=3 V-AUDITORIA-INVALIDA canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,E2E-08,PASS,TOMA DEL ENDPOINT: el clon físico de PROD arranca en el socket y puert | rc=3 V-IDENTIDAD-SYSID-DISTINTO canario=False,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT01/E2E,E2E-09,PASS,LÍMITE DOCUMENTADO: un clon físico de DEV que ocupa el endpoint de DEV | rc=0 guarda_ok=True,evidencia/aprobacion_firmada_ext01_cadena_dev.json
+EXT03,EXT03-01,PASS,listas válidas (valores ficticios de prueba) | rc=0 OK dev_allow=1 prod_deny=1,evidencia/validador_listas_ext03.json
+EXT03,EXT03-02,PASS,ambas listas vacías cuando se exige no vacías | rc=3 RECHAZADO [L-DEV-VACIA] dev_allow vacía: el propietario,evidencia/validador_listas_ext03.json
+EXT03,EXT03-03,PASS,prod_deny vacía cuando se exige | rc=3 RECHAZADO [L-PROD-VACIA] prod_deny vacía: el propietari,evidencia/validador_listas_ext03.json
+EXT03,EXT03-04,PASS,dev_allow vacía con prod_deny llena | rc=3 RECHAZADO [L-DEV-VACIA] dev_allow vacía: el propietario,evidencia/validador_listas_ext03.json
+EXT03,EXT03-05,PASS,listas vacías sin exigir no-vacías: formato válido (informativo) | rc=0 OK dev_allow=0 prod_deny=0,evidencia/validador_listas_ext03.json
+EXT03,EXT03-06,PASS,dev_allow sin separador '|' | rc=3 RECHAZADO [L-DEV-FORMATO] '7710738743337034195',evidencia/validador_listas_ext03.json
+EXT03,EXT03-07,PASS,dev_allow con dos '|' | rc=3 RECHAZADO [L-DEV-FORMATO] '1|a|b',evidencia/validador_listas_ext03.json
+EXT03,EXT03-08,PASS,system_identifier no numérico | rc=3 RECHAZADO [L-DEV-SYSID] 'abc|cci_dev',evidencia/validador_listas_ext03.json
+EXT03,EXT03-09,PASS,system_identifier con ceros a la izquierda | rc=3 RECHAZADO [L-DEV-SYSID] '0123|cci_dev',evidencia/validador_listas_ext03.json
+EXT03,EXT03-10,PASS,system_identifier fuera de uint64 | rc=3 RECHAZADO [L-DEV-SYSID] '18446744073709551616|cci_dev',evidencia/validador_listas_ext03.json
+EXT03,EXT03-11,PASS,identificador de relleno (todos los dígitos iguales) | rc=3 RECHAZADO [L-DEV-SYSID-MARCADOR] identificador de relle,evidencia/validador_listas_ext03.json
+EXT03,EXT03-12,PASS,"base con inyección SQL (comilla) | rc=3 RECHAZADO [L-DEV-BASE] ""12345|x'); drop table t;--""",evidencia/validador_listas_ext03.json
+EXT03,EXT03-13,PASS,base vacía | rc=3 RECHAZADO [L-DEV-BASE] '12345|',evidencia/validador_listas_ext03.json
+EXT03,EXT03-14,PASS,base marcador 'TBD' | rc=3 RECHAZADO [L-DEV-BASE-MARCADOR] 12345|TBD,evidencia/validador_listas_ext03.json
+EXT03,EXT03-15,PASS,entrada duplicada en dev_allow | rc=3 RECHAZADO [L-DEV-DUPLICADA] 12345|a,evidencia/validador_listas_ext03.json
+EXT03,EXT03-16,PASS,entrada duplicada en prod_deny | rc=3 RECHAZADO [L-PROD-DUPLICADA] 67890,evidencia/validador_listas_ext03.json
+EXT03,EXT03-17,PASS,mismo clúster en DEV y en prod_deny (solapamiento) | rc=3 RECHAZADO [L-SOLAPAMIENTO] un clúster no puede estar a ,evidencia/validador_listas_ext03.json
+EXT03,EXT03-18,PASS,prod_deny con formato 'id|base' | rc=3 RECHAZADO [L-PROD-FORMATO] '67890|b',evidencia/validador_listas_ext03.json
+EXT03,EXT03-19,PASS,entrada que no es cadena (número) | rc=3 RECHAZADO [L-DEV-FORMATO] 12345,evidencia/validador_listas_ext03.json
+EXT03,EXT03-20,PASS,"claves extra en el archivo | rc=3 RECHAZADO [L-ESQUEMA] claves exactas: schema, dev_allow",evidencia/validador_listas_ext03.json
+EXT03,EXT03-21,PASS,"schema incorrecto | rc=3 RECHAZADO [L-ESQUEMA] claves exactas: schema, dev_allow",evidencia/validador_listas_ext03.json
+EXT03,EXT03-22,PASS,JSON con clave duplicada | rc=3 RECHAZADO [L-CLAVE-DUPLICADA] dev_allow,evidencia/validador_listas_ext03.json
+EXT03,EXT03-23,PASS,JSON inválido | rc=3 RECHAZADO [L-JSON] JSONDecodeError('Expecting property ,evidencia/validador_listas_ext03.json
+EXT03,EXT03-24,PASS,archivo ausente | rc=3 RECHAZADO [L-ARCHIVO-AUSENTE] /tmp/lst.fuindqsj/no_exis,evidencia/validador_listas_ext03.json
+EXT03,EXT03-25,PASS,listas no son arreglos | rc=3 RECHAZADO [L-TIPO] las listas deben ser arreglos,evidencia/validador_listas_ext03.json
+EXT03,EXT03-26,PASS,demasiadas entradas (65) | rc=3 RECHAZADO [L-DEMASIADAS] máximo 64 entradas,evidencia/validador_listas_ext03.json
+EXT03,EXT03-27,PASS,guarda REAL actual (listas vacías) con exigencia de no vacías: debe RE | rc=3 RECHAZADO [L-DEV-VACIA] dev_allow vacía: el propietario,evidencia/validador_listas_ext03.json
+EXT03,EXT03-28,PASS,guarda real: estructura reconocida (vacía sin exigencia) | rc=0 OK dev_allow=0 prod_deny=0,evidencia/validador_listas_ext03.json
+EXT03,EXT03-29,PASS,guarda con la línea de allowlist eliminada | rc=3 RECHAZADO [L-GUARDA-ESTRUCTURA] no se encontró exactame,evidencia/validador_listas_ext03.json
+EXT03,EXT03-30,PASS,guarda con literal no estático (concatenación) | rc=3 RECHAZADO [L-GUARDA-LITERAL] contenido no literal en DE,evidencia/validador_listas_ext03.json
+EXT03,EXT03-31,PASS,guarda con listas válidas inyectadas (control positivo) | rc=0 OK dev_allow=1 prod_deny=1,evidencia/validador_listas_ext03.json
+EXT03,EXT03-32,PASS,guarda con solapamiento inyectado | rc=3 RECHAZADO [L-SOLAPAMIENTO] un clúster no puede estar a ,evidencia/validador_listas_ext03.json
+EXT03,EXT03-33,PASS,generar: imprime las dos líneas literales exactas | dev_allow text[] := array['12345|cci_dev']::text[];  -- @@DE,evidencia/validador_listas_ext03.json
+EXT03,EXT03-34,PASS,generar con listas vacías: rechaza (no produce líneas) | RECHAZADO [L-DEV-VACIA] dev_allow vacía: el propietario debe,evidencia/validador_listas_ext03.json
+EXT02-SIM,EXT02-01,PASS,"sin CCI_EXT02_CONFIRMA_DEV la sonda se niega a conectar | {""veredicto"": ""RECHAZADO"", ""codigo"": ""X-SIN-CONFIRMACION"", """,evidencia/sonda_ext02_local.json
+EXT02-SIM,EXT02-02,PASS,"sin --local ni proyecto esperado se niega | {""veredicto"": ""RECHAZADO"", ""codigo"": ""X-PROYECTO-NO-COINCIDE",evidencia/sonda_ext02_local.json
+EXT02-SIM,EXT02-03,PASS,"host que no contiene la referencia del proyecto esperado: se niega (an | {""veredicto"": ""RECHAZADO"", ""codigo"": ""X-PROYECTO-NO-COINCIDE",evidencia/sonda_ext02_local.json
+EXT02-SIM,EXT02-04,PASS,"host con 'prod': se niega | {""veredicto"": ""RECHAZADO"", ""codigo"": ""X-PARECE-PROD"", ""detal",evidencia/sonda_ext02_local.json
+EXT02-SIM,EXT02-05,PASS,"contra clúster local: todos los checks PASS y etiquetado SIMULADO_LOCA | {
+ ""veredicto"": ""PASS"",
+ ""modo"": ""SIMULADO_LOCAL"",
+ ""checks""",evidencia/sonda_ext02_local.json
+EXT02-SIM,EXT02-06,PASS,"destino inalcanzable: nunca PASS | {
+ ""veredicto"": ""BLOQUEADO_O_FALLO"",
+ ""modo"": ""SIMULADO_LOCA",evidencia/sonda_ext02_local.json
+EXT02-SIM,EXT02-07,PASS,la sonda no deja objetos tras ejecutarse | relname cci_sonda=0,evidencia/sonda_ext02_local.json
+SEC05,05-P1,PASS,A y B reales + observador independiente | PASS,evidencia/secuencia_05.json
+SEC05,05-P2,PASS,"B no emite PASS propio (veredicto_propio ESPERO, no PASS) | True",evidencia/secuencia_05.json
+SEC05,05-N1,PASS,salida de A eliminada | 05-A-SALIDA-AUSENTE,evidencia/secuencia_05.json
+SEC05,05-N2,PASS,salida de B eliminada | 05-B-SALIDA-AUSENTE,evidencia/secuencia_05.json
+SEC05,05-N3,PASS,veredicto de B alterado (ESPERO→NO_ESPERO) | 05-B-NO-ESPERO (NO_ESPERO),evidencia/secuencia_05.json
+SEC05,05-N4,PASS,pid de B falsificado | 05-SIN-EVIDENCIA-INDEPENDIENTE (el observador no vio a B blo,evidencia/secuencia_05.json
+SEC05,05-N5,PASS,salidas de A y B intercambiadas | 05-A-SALIDA-AUSENTE,evidencia/secuencia_05.json
+SEC05,05-N6,PASS,observador ausente (sin evidencia independiente) | 05-SIN-EVIDENCIA-INDEPENDIENTE,evidencia/secuencia_05.json
+SEC05,05-N7,PASS,el bloqueador observado no es A | 05-BLOQUEO-POR-OTRA-SESION (el bloqueador observado no es A),evidencia/secuencia_05.json
+SEC05,05-P3,PASS,segunda corrida independiente | PASS,evidencia/secuencia_05.json
+SEC05,05-N8,PASS,evidencia de OTRA corrida (resultado heredado) | 05-SIN-EVIDENCIA-INDEPENDIENTE (el observador no vio a B blo,evidencia/secuencia_05.json
+SEC05,05-N9,PASS,B sin A: BLOCKED y sin inserción | True,evidencia/secuencia_05.json
+SEC05,05-N10,PASS,impostor 'cci_05A' sin xid | True,evidencia/secuencia_05.json
+SEC05,05-N11,PASS,impostor 'cci_05A' con xid pero sin conflicto | 05-B-NO-ESPERO (NO_ESPERO) | B:NO_ESPERO,evidencia/secuencia_05.json
+SEC05,05-N12,PASS,sin residuos tras todas las corridas | 0,evidencia/secuencia_05.json
+ORQ-META,ORQ-S00,PASS,"simulación sin inyección: todas las etapas PASSED, código 0, estado SIMULACION_READY (nunca un vered",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-S01,PASS,cada ejecución genera un run id nuevo,pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-A-FAIL,PASS,"FAIL inyectado en la etapa A: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-A-EXC,PASS,"EXC inyectado en la etapa A: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-A-MUTAR_CRITICO,PASS,"MUTAR_CRITICO inyectado en la etapa A: detiene, código 1, etapas posteriores no iniciadas y sin paso",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-A-BLOCKED,PASS,"BLOCKED inyectado en la etapa A: detiene, código 2, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-B-FAIL,PASS,"FAIL inyectado en la etapa B: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-B-EXC,PASS,"EXC inyectado en la etapa B: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-B-MUTAR_CRITICO,PASS,"MUTAR_CRITICO inyectado en la etapa B: detiene, código 1, etapas posteriores no iniciadas y sin paso",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-B-BLOCKED,PASS,"BLOCKED inyectado en la etapa B: detiene, código 2, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-C-FAIL,PASS,"FAIL inyectado en la etapa C: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-C-EXC,PASS,"EXC inyectado en la etapa C: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-C-MUTAR_CRITICO,PASS,"MUTAR_CRITICO inyectado en la etapa C: detiene, código 1, etapas posteriores no iniciadas y sin paso",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-C-BLOCKED,PASS,"BLOCKED inyectado en la etapa C: detiene, código 2, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-D-FAIL,PASS,"FAIL inyectado en la etapa D: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-D-EXC,PASS,"EXC inyectado en la etapa D: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-D-MUTAR_CRITICO,PASS,"MUTAR_CRITICO inyectado en la etapa D: detiene, código 1, etapas posteriores no iniciadas y sin paso",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-D-BLOCKED,PASS,"BLOCKED inyectado en la etapa D: detiene, código 2, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-E-FAIL,PASS,"FAIL inyectado en la etapa E: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-E-EXC,PASS,"EXC inyectado en la etapa E: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-E-MUTAR_CRITICO,PASS,"MUTAR_CRITICO inyectado en la etapa E: detiene, código 1, etapas posteriores no iniciadas y sin paso",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-E-BLOCKED,PASS,"BLOCKED inyectado en la etapa E: detiene, código 2, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-F-FAIL,PASS,"FAIL inyectado en la etapa F: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-F-EXC,PASS,"EXC inyectado en la etapa F: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-F-MUTAR_CRITICO,PASS,"MUTAR_CRITICO inyectado en la etapa F: detiene, código 1, etapas posteriores no iniciadas y sin paso",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-F-BLOCKED,PASS,"BLOCKED inyectado en la etapa F: detiene, código 2, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-G-FAIL,PASS,"FAIL inyectado en la etapa G: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-G-EXC,PASS,"EXC inyectado en la etapa G: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-G-MUTAR_CRITICO,PASS,"MUTAR_CRITICO inyectado en la etapa G: detiene, código 1, etapas posteriores no iniciadas y sin paso",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-G-BLOCKED,PASS,"BLOCKED inyectado en la etapa G: detiene, código 2, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-H-FAIL,PASS,"FAIL inyectado en la etapa H: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-H-EXC,PASS,"EXC inyectado en la etapa H: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-H-MUTAR_CRITICO,PASS,"MUTAR_CRITICO inyectado en la etapa H: detiene, código 1, etapas posteriores no iniciadas y sin paso",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-H-BLOCKED,PASS,"BLOCKED inyectado en la etapa H: detiene, código 2, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-I-FAIL,PASS,"FAIL inyectado en la etapa I: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-I-EXC,PASS,"EXC inyectado en la etapa I: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-I-MUTAR_CRITICO,PASS,"MUTAR_CRITICO inyectado en la etapa I: detiene, código 1, etapas posteriores no iniciadas y sin paso",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-I-BLOCKED,PASS,"BLOCKED inyectado en la etapa I: detiene, código 2, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-J-FAIL,PASS,"FAIL inyectado en la etapa J: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-J-EXC,PASS,"EXC inyectado en la etapa J: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-J-MUTAR_CRITICO,PASS,"MUTAR_CRITICO inyectado en la etapa J: detiene, código 1, etapas posteriores no iniciadas y sin paso",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-J-BLOCKED,PASS,"BLOCKED inyectado en la etapa J: detiene, código 2, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-K-FAIL,PASS,"FAIL inyectado en la etapa K: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-K-EXC,PASS,"EXC inyectado en la etapa K: detiene, código 1, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-K-MUTAR_CRITICO,PASS,"MUTAR_CRITICO inyectado en la etapa K: detiene, código 1, etapas posteriores no iniciadas y sin paso",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-K-BLOCKED,PASS,"BLOCKED inyectado en la etapa K: detiene, código 2, etapas posteriores no iniciadas y sin pasos",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-NT,PASS,"un paso NOT_TESTED nunca equivale a PASS: el estado final no es READY (BLOCKED, código 2) y el recue",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-R1,PASS,"REAL: árbol git sucio -> FAILED en la etapa A, código 1, ninguna etapa posterior",pasos/orquestador_meta_fallos.json
+ORQ-META,ORQ-R2,PASS,"REAL: script SQL alterado sin regenerar SHA256SUMS (árbol limpio): FAILED en A (sha256sums), código ",pasos/orquestador_meta_fallos.json
+BAT,v20_pe,PASS,TOTAL pruebas=63 PASS=63 FAIL=0,evidencia/INDICE_BATERIA.csv
+BAT,v20_mutaciones,PASS,TOTAL mutaciones=14 DETECTADAS=14,evidencia/INDICE_BATERIA.csv
+BAT,extension_local,PASS,TOTAL pruebas=80 PASS=80 FAIL=0,evidencia/INDICE_BATERIA.csv
+BAT,concurrencia_local,PASS,CC-02 | IG1-14 numeración de versión única bajo concurrencia | esperado: B bloqueada >=1.5s y luego ,evidencia/INDICE_BATERIA.csv
+BAT,dg19,PASS,DG-19 PK natural: TOTAL pruebas=63 PASS=63 FAIL=0,evidencia/INDICE_BATERIA.csv
+BAT,hash_encadenado,PASS,TOTAL=16 PASS=16 FAIL=0,evidencia/INDICE_BATERIA.csv
+BAT,estatica_T47_T124,PASS,TOTAL=12 PASS=10 FAIL=0 SIN_DATOS=2,evidencia/INDICE_BATERIA.csv
+BAT,k47_por_escenario,PASS,TOTAL mutaciones mapeadas=25 DETECTADAS=25 todas_detectadas_con_estado_inicial_valido=True ; total K,evidencia/INDICE_BATERIA.csv
+BAT,t409_individual,PASS,TOTAL variantes=26 DETECTADAS=26 escenarios=14 (14 esperados) control_sin_alterar_ok=True todo_ok=Tr,evidencia/INDICE_BATERIA.csv
+BAT,t409_repro_2a_corrida,PASS,TOTAL variantes=26 DETECTADAS=26 escenarios=14 (14 esperados) control_sin_alterar_ok=True todo_ok=Tr,evidencia/INDICE_BATERIA.csv
+BAT,t409_repro_comparacion,PASS,IDENTICO_BYTE_A_BYTE,evidencia/INDICE_BATERIA.csv
+BAT,t409_correspondencia,PASS,14 12 con coincidencia; 0 no establecidas,evidencia/INDICE_BATERIA.csv
+BAT,funciones_22,PASS,TOTAL funciones=22 casos_reportados=366 fallos=0,evidencia/INDICE_BATERIA.csv
+BAT,exc_modelo14,PASS,TOTAL entradas EXC en las 12 mutaciones=0,evidencia/INDICE_BATERIA.csv
+BAT,catalogo_except,PASS,EQUIVALENCIA_RAMAS_MUERTAS=True,evidencia/INDICE_BATERIA.csv
+BAT,arnes_r1r9,PASS, TOTAL pruebas_arnes=28 PASS=28 FAIL=0,evidencia/INDICE_BATERIA.csv
+BAT,smoke_6_scripts,PASS,SMOKE_RC=0,evidencia/INDICE_BATERIA.csv
+BAT,aserciones_smoke,PASS,TOTAL=12 PASS=12 FAIL=0,evidencia/INDICE_BATERIA.csv
+BAT,guarda_destino,PASS,TOTAL=187 PASS=187 FAIL=0,evidencia/INDICE_BATERIA.csv
+BAT,escaner_sql,PASS,TOTAL=176 FAIL=0,evidencia/INDICE_BATERIA.csv
+BAT,escaner_texto,PASS,TOTAL=676 FAIL=0,evidencia/INDICE_BATERIA.csv
+BAT,escaner_autoprueba,PASS,TOTAL=39 FAIL=0,evidencia/INDICE_BATERIA.csv
+RECON,RC-001,PASS,CSV bien formado MATRIZ_12_ESCENARIOS_PARCIALES.csv | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-002,PASS,CSV bien formado MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-003,PASS,CSV bien formado MATRIZ_LIMITACIONES_RESIDUALES.csv | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-004,PASS,CSV bien formado MATRIZ_TRAZABILIDAD_MAESTRA.csv | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-005,PASS,CSV bien formado REGISTRO_DECISIONES_RECOMENDADAS.csv | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-006,PASS,CSV bien formado 22_funciones_conciliacion.csv | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-007,PASS,CSV bien formado catalogo_except_exception.csv | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-008,PASS,CSV bien formado k47_por_escenario.csv | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-009,PASS,CSV bien formado t409_t422_correspondencia.csv | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-010,PASS,CSV bien formado t409_t422_individual.csv | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-011,PASS,decisiones: las 20 pendientes exigidas están en el registro | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-012,PASS,decisiones: sin ids duplicados; total 21 (20 + HV-02) | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-013,PASS,decisiones: columnas de consecuencias y estado actual completas | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-014,PASS,decisiones: todas REQUIERE_APROBACION_DEL_PROPIETARIO (ninguna aprobada) | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-015,PASS,limitaciones: 27 ids únicos (LR-28 fusionada en LR-05) | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-016,PASS,"limitaciones: vigencia declarada en todas (18 VIGENTE, 5 RESUELTA, 4 PARCIALMENTE_RESUELTA) | evidencias=1",evidencia/reconciliacion_integral.json
+RECON,RC-017,PASS,limitaciones: acción concreta y dependencia en todas | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-018,PASS,"12 escenarios: 5 PASS_PROTOTYPE, 1 PASS_STATIC, 6 PARTIAL | evidencias=1",evidencia/reconciliacion_integral.json
+RECON,RC-019,PASS,12 escenarios: aceptación física PENDIENTE en todos | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-020,PASS,"22 funciones: 22 filas, 366 casos, 0 fallos | evidencias=1",evidencia/reconciliacion_integral.json
+RECON,RC-021,PASS,matriz función-regla cubre las 22 funciones | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-022,PASS,"T-409..T-422: 26 variantes DETECTADA, 14 escenarios | evidencias=1",evidencia/reconciliacion_integral.json
+RECON,RC-023,PASS,trazabilidad: 54 filas con referencia verificable y relación declarada | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-024,PASS,trazabilidad: niveles de evidencia en vocabulario permitido en cada relación | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-025,PASS,V20 63/63 | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-026,PASS,V20 mutaciones 14/14 | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-027,PASS,extensión 80/80 | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-028,PASS,DG-19 63/63 | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-029,PASS,hash 16/16 | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-030,PASS,"arnés 28/28 (total=aprobadas, 0 FAIL; esperado fijado en la batería) | evidencias=1",evidencia/reconciliacion_integral.json
+RECON,RC-031,PASS,escáner sql 0 FAIL | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-032,PASS,escáner texto 0 FAIL | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-033,PASS,escáner texto repetido sobre el árbol final: 0 FAIL | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-034,PASS,"escáner autoprueba: 39 muestras, 0 FAIL | evidencias=1",evidencia/reconciliacion_integral.json
+RECON,RC-035,PASS,04 local = NO VERIFICABLE | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-036,PASS,concurrencia CC-01/CC-02 PASS | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-037,PASS,"DICTAMEN_PREPARACION_FASE0.md: cifras 63/63, 14/14, 80/80, 366, 354, 28/28 presentes | evidencias=1",evidencia/reconciliacion_integral.json
+RECON,RC-038,PASS,"INFORME_CIERRE_TECNICO_FASE0.md: cifras 63/63, 14/14, 80/80, 366, 354, 28/28 presentes | evidencias=1",evidencia/reconciliacion_integral.json
+RECON,RC-039,PASS,LEEME no afirma «sin commit» como estado actual | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-040,PASS,ningún documento declara aceptada Fase 0 ni autorizada Fase 1 | evidencias=21,evidencia/reconciliacion_integral.json
+RECON,RC-041,PASS,ningún documento marca decisión como APROBADA | evidencias=21,evidencia/reconciliacion_integral.json
+RECON,RC-042,PASS,"batería: 22 pasos (= pasos declarados en ct_bateria_final.sh), todos rc=0 Y estado=OK (rc=0 solo no  | evidencias=1",evidencia/reconciliacion_integral.json
+RECON,RC-043,PASS,batería: cada salida existe y su SHA-256 coincide con el índice | evidencias=23,evidencia/reconciliacion_integral.json
+RECON,RC-044,PASS,"smoke de los 6 scripts: aserciones de contenido 12/12, 0 FAIL (guardas, precondición de roles, 03 de | evidencias=1",evidencia/reconciliacion_integral.json
+RECON,RC-045,PASS,"guarda DEV/PROD (H-03): 187/187 pruebas, 0 FAIL; cubre los 6 scripts, PROD, destino desconocido, ide | evidencias=1",evidencia/reconciliacion_integral.json
+RECON,RC-046,PASS,guarda DEV/PROD: los 6 scripts invocan preflight+verificador de marcador (guarda compartida) y las l | evidencias=7,evidencia/reconciliacion_integral.json
+RECON,RC-047,PASS,T-409: 2ª corrida idéntica byte a byte | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-048,PASS,T-409..T-422: correspondencia con nivel de evidencia explícito (14 escenarios) | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-049,PASS,"manifiesto: controles negativos 36/36, 0 FAIL | evidencias=1",evidencia/reconciliacion_integral.json
+RECON,RC-050,PASS,búsqueda global sin FAIL | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-051,PASS,herramientas antiguas eliminadas | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-052,PASS,"cifras definitivas: generadas, batería 22/22 OK, decisiones aprobadas = 0, PASS_PHYSICAL = 0 | evidencias=1",evidencia/reconciliacion_integral.json
+RECON,RC-053,PASS,cifras: limitaciones 27 = vigentes+parciales+resueltas; decisiones 21; escenarios 12; fixtures 354 d | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-054,PASS,manifiesto: nº de entradas (171) = cifra generada y = archivos sujetos a verificación | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-055,PASS,"cifras de los documentos narrativos coinciden con cifras_definitivas.json (limitaciones, decisiones, | evidencias=6",evidencia/reconciliacion_integral.json
+RECON,RC-056,PASS,alcance: contra V26 no hay archivos modificados/eliminados/añadidos fuera de docs/fase0/cierre_tecni | evidencias=1,evidencia/reconciliacion_integral.json
+RECON,RC-057,PASS,"alcance: herramientas protegidas (modelo_estructural.py, verificar_expediente.py) idénticas a V26 | evidencias=1",evidencia/reconciliacion_integral.json
+RECON,RC-058,PASS,referencias a archivos (171) y enlaces relativos resuelven; las citas históricas están etiquetadas | evidencias=21,evidencia/reconciliacion_integral.json

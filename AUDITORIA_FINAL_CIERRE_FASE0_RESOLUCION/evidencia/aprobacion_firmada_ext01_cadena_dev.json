@@ -1,0 +1,290 @@
+[
+ {
+  "id": "EXT01-01",
+  "objetivo": "firma válida del custodio de prueba sobre el hash del conjunto (control positivo; criptografía local, NO custodio real)",
+  "esperado": "OK",
+  "observado": "rc=0 GUARDA OK canario=True",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-02",
+  "objetivo": "mismo uso con hash hexadecimal directo (modo anterior) sigue funcionando",
+  "esperado": "OK",
+  "observado": "rc=0 GUARDA OK canario=True",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-03",
+  "objetivo": "firma inválida (bit alterado)",
+  "esperado": "V-APROBACION-FIRMA-INVALIDA",
+  "observado": "rc=3 V-APROBACION-FIRMA-INVALIDA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-04",
+  "objetivo": "clave pública incorrecta con SHA-256 externo correcto de OTRA clave (la del atacante, anclada a su propio hash)",
+  "esperado": "V-APROBACION-FIRMA-INVALIDA",
+  "observado": "rc=3 V-APROBACION-FIRMA-INVALIDA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-05",
+  "objetivo": "clave pública sustituida sin que coincida con el SHA-256 externo aprobado",
+  "esperado": "V-APROBACION-CLAVE-NO-APROBADA",
+  "observado": "rc=3 V-APROBACION-CLAVE-NO-APROBADA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-06",
+  "objetivo": "sin clave del custodio configurada",
+  "esperado": "V-APROBACION-CLAVE-NO-CONFIGURADA",
+  "observado": "rc=3 V-APROBACION-CLAVE-NO-CONFIGURADA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-07",
+  "objetivo": "hash alterado dentro de la aprobación después de firmar",
+  "esperado": "V-APROBACION-FIRMA-INVALIDA",
+  "observado": "rc=3 V-APROBACION-FIRMA-INVALIDA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-08",
+  "objetivo": "hash alterado y re-firmado por el atacante (clave no aprobada)",
+  "esperado": "V-APROBACION-FIRMA-INVALIDA",
+  "observado": "rc=3 V-APROBACION-FIRMA-INVALIDA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-09",
+  "objetivo": "manifiesto SHA256SUMS alterado tras la aprobación",
+  "esperado": "V-SUMS-HASH-DISTINTO",
+  "observado": "rc=3 V-SUMS-HASH-DISTINTO canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-10",
+  "objetivo": "archivo del conjunto alterado sin regenerar el manifiesto",
+  "esperado": "V-ARCHIVO-ALTERADO",
+  "observado": "rc=3 V-ARCHIVO-ALTERADO canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-11",
+  "objetivo": "archivo alterado Y manifiesto regenerado por el atacante: la aprobación ya no corresponde",
+  "esperado": "V-SUMS-HASH-DISTINTO",
+  "observado": "rc=3 V-SUMS-HASH-DISTINTO canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-12",
+  "objetivo": "aprobación caducada",
+  "esperado": "V-APROBACION-CADUCADA",
+  "observado": "rc=3 V-APROBACION-CADUCADA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-13",
+  "objetivo": "aprobación REUTILIZADA: aprobación del conjunto anterior aplicada al conjunto modificado",
+  "esperado": "V-SUMS-HASH-DISTINTO",
+  "observado": "rc=3 V-SUMS-HASH-DISTINTO canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-14",
+  "objetivo": "aprobación revocada (hash en CCI_CUSTODIO_REVOCADOS_SHA256)",
+  "esperado": "V-APROBACION-REVOCADA",
+  "observado": "rc=3 V-APROBACION-REVOCADA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-15",
+  "objetivo": "custodio NO autorizado: firma con clave que no es la aprobada por el propietario",
+  "esperado": "V-APROBACION-FIRMA-INVALIDA",
+  "observado": "rc=3 V-APROBACION-FIRMA-INVALIDA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-16",
+  "objetivo": "aprobación sin archivo .sig",
+  "esperado": "V-APROBACION-AUSENTE",
+  "observado": "rc=3 V-APROBACION-AUSENTE canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-17",
+  "objetivo": "aprobación firmada de otro tipo",
+  "esperado": "V-APROBACION-FORMATO",
+  "observado": "rc=3 V-APROBACION-FORMATO canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-18",
+  "objetivo": "dos sums_sha256 en la aprobación (firmada): ambigüedad rechazada",
+  "esperado": "V-APROBACION-FORMATO",
+  "observado": "rc=3 V-APROBACION-FORMATO canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-19",
+  "objetivo": "rotación: aprobación con la clave NUEVA y su nuevo SHA-256",
+  "esperado": "OK",
+  "observado": "rc=0 GUARDA OK canario=True",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-20",
+  "objetivo": "rotación: aprobación con la clave nueva frente al verificador anclado a la clave VIEJA",
+  "esperado": "V-APROBACION-FIRMA-INVALIDA",
+  "observado": "rc=3 V-APROBACION-FIRMA-INVALIDA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-21",
+  "objetivo": "rotación: aprobación vieja frente al verificador anclado a la clave NUEVA",
+  "esperado": "V-APROBACION-FIRMA-INVALIDA",
+  "observado": "rc=3 V-APROBACION-FIRMA-INVALIDA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "EXT01-22",
+  "objetivo": "aprobación apuntando a un enlace simbólico de clave",
+  "esperado": "V-APROBACION-CLAVE-NO-CONFIGURADA",
+  "observado": "rc=3 V-APROBACION-CLAVE-NO-CONFIGURADA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "E2E-01",
+  "objetivo": "cadena completa CCI-DEV local: aprobación firmada + destino + identidad firmada + auditoría + operador autorizado",
+  "esperado": "OK",
+  "observado": "rc=0 GUARDA OK canario=True",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "E2E-02",
+  "objetivo": "sin CCI_IDENTIDAD_DIR/clave de autoridad (identidad no configurada)",
+  "esperado": "V-IDENTIDAD-NO-CONFIGURADA",
+  "observado": "rc=3 V-IDENTIDAD-NO-CONFIGURADA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "E2E-03",
+  "objetivo": "sin registro de auditoría configurado",
+  "esperado": "V-AUDITORIA-NO-CONFIGURADA",
+  "observado": "rc=3 V-AUDITORIA-NO-CONFIGURADA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "E2E-04",
+  "objetivo": "identidad caducada",
+  "esperado": "V-IDENTIDAD-CADUCADA",
+  "observado": "rc=3 V-IDENTIDAD-CADUCADA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "E2E-05",
+  "objetivo": "identidad válida pero operador sin rol cci_operador: rechaza la guarda",
+  "esperado": "G-OPERADOR-NO-AUTORIZADO, sin canario",
+  "observado": "rc=3 ['[G-OPERADOR-NO-AUTORIZADO]'] canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "E2E-06",
+  "objetivo": "CLON FÍSICO de PROD en otro endpoint, destino aprobado por error en la lista de hosts",
+  "esperado": "V-IDENTIDAD-ENDPOINT-DISTINTO",
+  "observado": "rc=3 V-IDENTIDAD-ENDPOINT-DISTINTO canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "E2E-07",
+  "objetivo": "CLON FÍSICO de DEV en otro endpoint (misma base, mismo system_identifier)",
+  "esperado": "V-IDENTIDAD-ENDPOINT-DISTINTO",
+  "observado": "rc=3 V-IDENTIDAD-ENDPOINT-DISTINTO canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "E2E-10",
+  "objetivo": "registro de auditoría = /dev/null (ejecución sin registro real)",
+  "esperado": "V-AUDITORIA-INVALIDA",
+  "observado": "rc=3 V-AUDITORIA-INVALIDA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "E2E-11",
+  "objetivo": "registro de auditoría = enlace simbólico",
+  "esperado": "V-AUDITORIA-INVALIDA",
+  "observado": "rc=3 V-AUDITORIA-INVALIDA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "E2E-12",
+  "objetivo": "registro de auditoría con ruta relativa",
+  "esperado": "V-AUDITORIA-INVALIDA",
+  "observado": "rc=3 V-AUDITORIA-INVALIDA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "E2E-13",
+  "objetivo": "registro de auditoría en directorio inexistente (no escribible)",
+  "esperado": "V-AUDITORIA-NO-ESCRIBIBLE",
+  "observado": "rc=3 V-AUDITORIA-NO-ESCRIBIBLE canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "E2E-14",
+  "objetivo": "registro de auditoría = FIFO",
+  "esperado": "V-AUDITORIA-INVALIDA",
+  "observado": "rc=3 V-AUDITORIA-INVALIDA canario=False",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "E2E-08",
+  "objetivo": "TOMA DEL ENDPOINT: el clon físico de PROD arranca en el socket y puerto exactos de DEV (mismo host, puerto y base)",
+  "esperado": "V-IDENTIDAD-SYSID-DISTINTO",
+  "observado": "rc=3 V-IDENTIDAD-SYSID-DISTINTO canario=False",
+  "estado": "PASS",
+  "nota": "el system_identifier real (que el clon hereda de PROD) no coincide con el firmado para DEV"
+ },
+ {
+  "id": "E2E-09",
+  "objetivo": "LÍMITE DOCUMENTADO: un clon físico de DEV que ocupa el endpoint de DEV ES indistinguible de DEV (y sólo contiene datos de DEV)",
+  "esperado": "aceptado como DEV (no es un defecto: el riesgo AG-18 es confundir PROD con DEV)",
+  "observado": "rc=0 guarda_ok=True",
+  "estado": "PASS",
+  "nota": "Si el clon de DEV fuera un problema, la autoridad debe emitir un nuevo token (nuevo serial/endpoint) y revocar el anterior."
+ }
+]

@@ -1,0 +1,338 @@
+[
+ {
+  "id": "AG-00",
+  "objetivo": "los clones físicos son reales: mismo system_identifier que su origen y contenido de la BD copiado (incluido el token guardado en ella)",
+  "esperado": "sysid(clon)=sysid(origen) y token presente en el clon",
+  "observado": "dev=7710750780936202972 clon_dev=7710750780936202972 prod=7710750784557665022 clon_prod=7710750784557665022 token_en_clon=True",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-01",
+  "objetivo": "DEV legítimo con identidad firmada vigente (caso positivo)",
+  "esperado": "OK",
+  "observado": "rc=0 OK entorno=CCI-DEV proyecto=proj-dev-prueba serial=5",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-02",
+  "objetivo": "CLON FÍSICO de DEV en otro endpoint con el token legítimo de DEV (mismo system_identifier y mismo token copiado)",
+  "esperado": "I-ENDPOINT-DISTINTO",
+  "observado": "rc=3 RECHAZADO [I-ENDPOINT-DISTINTO] el destino real no es el endpoint firmado",
+  "estado": "PASS",
+  "nota": "el clon conserva system_identifier; lo que lo delata es el endpoint firmado"
+ },
+ {
+  "id": "AG-03",
+  "objetivo": "token tomado del CONTENIDO CLONADO de la base y usado desde el clon",
+  "esperado": "I-ENDPOINT-DISTINTO",
+  "observado": "rc=3 RECHAZADO [I-ENDPOINT-DISTINTO] el destino real no es el endpoint firmado",
+  "estado": "PASS",
+  "nota": "la BD puede guardar lo que sea: la verificación no lee la BD"
+ },
+ {
+  "id": "AG-04",
+  "objetivo": "CLON FÍSICO de PROD presentado como DEV con el token legítimo de DEV",
+  "esperado": "I-ENDPOINT-DISTINTO",
+  "observado": "rc=3 RECHAZADO [I-ENDPOINT-DISTINTO] el destino real no es el endpoint firmado",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-05",
+  "objetivo": "CLON FÍSICO de PROD que reclama el endpoint firmado de DEV (altera el destino declarado): el system_identifier real delata a PROD",
+  "esperado": "I-SYSID-DISTINTO",
+  "observado": "rc=3 RECHAZADO [I-SYSID-DISTINTO] el clúster real no es el firmado (clon o restauración)",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-06",
+  "objetivo": "PROD real reclamado como DEV con el endpoint de DEV (parámetros alterados)",
+  "esperado": "I-SYSID-DISTINTO",
+  "observado": "rc=3 RECHAZADO [I-SYSID-DISTINTO] el clúster real no es el firmado (clon o restauración)",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-07",
+  "objetivo": "identidad legítima de PROD presentada cuando se exige DEV (clon de PROD con su identidad)",
+  "esperado": "I-ENTORNO-DISTINTO",
+  "observado": "rc=3 RECHAZADO [I-ENTORNO-DISTINTO] el token es de otro entorno",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-08",
+  "objetivo": "PROD real nunca se acepta como DEV, ni con identidad de PROD y endpoint de PROD",
+  "esperado": "I-ENTORNO-DISTINTO",
+  "observado": "rc=3 RECHAZADO [I-ENTORNO-DISTINTO] el token es de otro entorno",
+  "estado": "PASS",
+  "nota": "prohibición por entorno exigido, no por inventario"
+ },
+ {
+  "id": "AG-09",
+  "objetivo": "identidad ausente (directorio inexistente)",
+  "esperado": "I-AUSENTE",
+  "observado": "rc=3 RECHAZADO [I-AUSENTE] falta el directorio de identidad",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-10",
+  "objetivo": "identidad ausente (directorio vacío)",
+  "esperado": "I-AUSENTE",
+  "observado": "rc=3 RECHAZADO [I-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T220844Z-9ec25036/ag18/id_vacio/token.j",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-11",
+  "objetivo": "identidad FALSIFICADA: firmada por clave del atacante (token y política), verificada con la clave aprobada",
+  "esperado": "I-POLITICA-FIRMA-INVALIDA",
+  "observado": "rc=3 RECHAZADO [I-POLITICA-FIRMA-INVALIDA]",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-12",
+  "objetivo": "identidad falsificada con la clave pública del atacante entregada junto (sin aprobación externa de su hash)",
+  "esperado": "I-CLAVE-NO-APROBADA",
+  "observado": "rc=3 RECHAZADO [I-CLAVE-NO-APROBADA] la clave pública no coincide con el SHA-256 aprobado externamente",
+  "estado": "PASS",
+  "nota": "el atacante no controla el SHA-256 externo"
+ },
+ {
+  "id": "AG-13",
+  "objetivo": "sin SHA-256 externo de la clave",
+  "esperado": "I-CLAVE-NO-APROBADA",
+  "observado": "rc=3 RECHAZADO [I-CLAVE-NO-APROBADA] falta el SHA-256 externo de la clave pública",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-14",
+  "objetivo": "clave pública ausente",
+  "esperado": "I-CLAVE-AUSENTE",
+  "observado": "rc=3 RECHAZADO [I-CLAVE-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T220844Z-9ec25036/ag18/no.pub",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-15",
+  "objetivo": "política legítima pero token firmado por el atacante",
+  "esperado": "I-FIRMA-INVALIDA",
+  "observado": "rc=3 RECHAZADO [I-FIRMA-INVALIDA]",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-16",
+  "objetivo": "firma inválida (un bit alterado en token.sig)",
+  "esperado": "I-FIRMA-INVALIDA",
+  "observado": "rc=3 RECHAZADO [I-FIRMA-INVALIDA]",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-17",
+  "objetivo": "token alterado después de firmar (proyecto cambiado)",
+  "esperado": "I-FIRMA-INVALIDA",
+  "observado": "rc=3 RECHAZADO [I-FIRMA-INVALIDA]",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-18",
+  "objetivo": "política alterada después de firmar",
+  "esperado": "I-POLITICA-FIRMA-INVALIDA",
+  "observado": "rc=3 RECHAZADO [I-POLITICA-FIRMA-INVALIDA]",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-19",
+  "objetivo": "política sin firma",
+  "esperado": "I-POLITICA-AUSENTE",
+  "observado": "rc=3 RECHAZADO [I-POLITICA-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T220844Z-9ec25036/ag18/id_psig",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-20",
+  "objetivo": "firma de otro entorno/autoridad (clave distinta de la aprobada)",
+  "esperado": "I-POLITICA-FIRMA-INVALIDA",
+  "observado": "rc=3 RECHAZADO [I-POLITICA-FIRMA-INVALIDA]",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-21",
+  "objetivo": "token firmado por la autoridad pero con entorno PROD exigido como DEV",
+  "esperado": "I-ENTORNO-DISTINTO",
+  "observado": "rc=3 RECHAZADO [I-ENTORNO-DISTINTO] el token es de otro entorno",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-22",
+  "objetivo": "identidad caducada",
+  "esperado": "I-CADUCADA",
+  "observado": "rc=3 RECHAZADO [I-CADUCADA]",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-23",
+  "objetivo": "identidad aún no vigente",
+  "esperado": "I-NO-VIGENTE-AUN",
+  "observado": "rc=3 RECHAZADO [I-NO-VIGENTE-AUN]",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-24",
+  "objetivo": "validez excesiva (>7 días)",
+  "esperado": "I-VALIDEZ-EXCESIVA",
+  "observado": "rc=3 RECHAZADO [I-VALIDEZ-EXCESIVA] la identidad no puede durar más de 7 días",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-25",
+  "objetivo": "identidad válida evaluada con reloj posterior a su caducidad (reloj inyectado)",
+  "esperado": "I-CADUCADA",
+  "observado": "rc=3 RECHAZADO [I-CADUCADA]",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-26",
+  "objetivo": "identidad válida con proyecto de PROD en token DEV",
+  "esperado": "I-PROYECTO-NO-AUTORIZADO",
+  "observado": "rc=3 RECHAZADO [I-PROYECTO-NO-AUTORIZADO]",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-27",
+  "objetivo": "identidad válida con proyecto desconocido",
+  "esperado": "I-PROYECTO-NO-AUTORIZADO",
+  "observado": "rc=3 RECHAZADO [I-PROYECTO-NO-AUTORIZADO]",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-28",
+  "objetivo": "política inconsistente: mismo proyecto en DEV y PROD",
+  "esperado": "I-POLITICA-CONTRADICTORIA",
+  "observado": "rc=3 RECHAZADO [I-POLITICA-CONTRADICTORIA] un proyecto figura a la vez en DEV y PROD",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-29",
+  "objetivo": "reutilización de identidad anterior (serial < mínimo de la política)",
+  "esperado": "I-SERIAL-OBSOLETO",
+  "observado": "rc=3 RECHAZADO [I-SERIAL-OBSOLETO] identidad anterior reutilizada",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-30",
+  "objetivo": "identidad revocada (serial 4 en seriales_revocados)",
+  "esperado": "I-REVOCADA",
+  "observado": "rc=3 RECHAZADO [I-REVOCADA]",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-31",
+  "objetivo": "clave de la autoridad revocada en la política (rotación)",
+  "esperado": "I-CLAVE-REVOCADA",
+  "observado": "rc=3 RECHAZADO [I-CLAVE-REVOCADA]",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-32",
+  "objetivo": "rotación: identidad firmada con la clave NUEVA, aprobada con su nuevo SHA-256",
+  "esperado": "OK",
+  "observado": "rc=0 OK entorno=CCI-DEV proyecto=proj-dev-prueba serial=6",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-33",
+  "objetivo": "rotación: identidad con la clave NUEVA pero el verificador sigue anclado a la clave VIEJA",
+  "esperado": "I-POLITICA-FIRMA-INVALIDA",
+  "observado": "rc=3 RECHAZADO [I-POLITICA-FIRMA-INVALIDA]",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-34",
+  "objetivo": "endpoint alterado (otro puerto)",
+  "esperado": "I-ENDPOINT-DISTINTO",
+  "observado": "rc=3 RECHAZADO [I-ENDPOINT-DISTINTO] el destino real no es el endpoint firmado",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-35",
+  "objetivo": "base alterada",
+  "esperado": "I-BASE-DISTINTA",
+  "observado": "rc=3 RECHAZADO [I-BASE-DISTINTA]",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-36",
+  "objetivo": "system_identifier alterado",
+  "esperado": "I-SYSID-DISTINTO",
+  "observado": "rc=3 RECHAZADO [I-SYSID-DISTINTO] el clúster real no es el firmado (clon o restauración)",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-37",
+  "objetivo": "entorno exigido alterado a PROD con identidad DEV",
+  "esperado": "I-ENTORNO-DISTINTO",
+  "observado": "rc=3 RECHAZADO [I-ENTORNO-DISTINTO] el token es de otro entorno",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-38",
+  "objetivo": "JSON con claves duplicadas (firmado)",
+  "esperado": "I-FORMATO",
+  "observado": "rc=3 RECHAZADO [I-FORMATO] clave duplicada: schema",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-39",
+  "objetivo": "token.json como enlace simbólico",
+  "esperado": "I-AUSENTE",
+  "observado": "rc=3 RECHAZADO [I-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T220844Z-9ec25036/ag18/id_lnk/token.jso",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-40",
+  "objetivo": "clave 'aprobada' ilegible/corrupta con SHA-256 coincidente: nunca OK",
+  "esperado": "I-POLITICA-FIRMA-INVALIDA",
+  "observado": "rc=3 RECHAZADO [I-POLITICA-FIRMA-INVALIDA]",
+  "estado": "PASS",
+  "nota": ""
+ },
+ {
+  "id": "AG-41",
+  "objetivo": "argumentos incompletos => no OK",
+  "esperado": "rc!=0",
+  "observado": "rc=3",
+  "estado": "PASS",
+  "nota": ""
+ }
+]

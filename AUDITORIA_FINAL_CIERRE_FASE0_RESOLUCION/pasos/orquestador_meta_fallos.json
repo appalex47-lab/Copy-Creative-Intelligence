@@ -1,0 +1,296 @@
+[
+ {
+  "id": "ORQ-S00",
+  "objetivo": "simulación sin inyección: todas las etapas PASSED, código 0, estado SIMULACION_READY (nunca un veredicto real)",
+  "observado": "(0, 'SIMULACION_READY_FOR_OWNER_ACCEPTANCE')",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-S01",
+  "objetivo": "cada ejecución genera un run id nuevo",
+  "observado": "('CCI-RUN-20261121T220847Z-c22078ae', 'CCI-RUN-20261121T220847Z-a3f21e1d')",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-A-FAIL",
+  "objetivo": "FAIL inyectado en la etapa A: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'B': 'NOT_STARTED', 'C': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-A-EXC",
+  "objetivo": "EXC inyectado en la etapa A: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'B': 'NOT_STARTED', 'C': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-A-MUTAR_CRITICO",
+  "objetivo": "MUTAR_CRITICO inyectado en la etapa A: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'B': 'NOT_STARTED', 'C': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-A-BLOCKED",
+  "objetivo": "BLOCKED inyectado en la etapa A: detiene, código 2, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(2, 'SIMULACION_BLOCKED', 'BLOCKED', \"posteriores={'B': 'NOT_STARTED', 'C': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-B-FAIL",
+  "objetivo": "FAIL inyectado en la etapa B: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'C': 'NOT_STARTED', 'D': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-B-EXC",
+  "objetivo": "EXC inyectado en la etapa B: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'C': 'NOT_STARTED', 'D': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-B-MUTAR_CRITICO",
+  "objetivo": "MUTAR_CRITICO inyectado en la etapa B: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'C': 'NOT_STARTED', 'D': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-B-BLOCKED",
+  "objetivo": "BLOCKED inyectado en la etapa B: detiene, código 2, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(2, 'SIMULACION_BLOCKED', 'BLOCKED', \"posteriores={'C': 'NOT_STARTED', 'D': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-C-FAIL",
+  "objetivo": "FAIL inyectado en la etapa C: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'D': 'NOT_STARTED', 'E': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-C-EXC",
+  "objetivo": "EXC inyectado en la etapa C: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'D': 'NOT_STARTED', 'E': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-C-MUTAR_CRITICO",
+  "objetivo": "MUTAR_CRITICO inyectado en la etapa C: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'D': 'NOT_STARTED', 'E': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-C-BLOCKED",
+  "objetivo": "BLOCKED inyectado en la etapa C: detiene, código 2, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(2, 'SIMULACION_BLOCKED', 'BLOCKED', \"posteriores={'D': 'NOT_STARTED', 'E': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-D-FAIL",
+  "objetivo": "FAIL inyectado en la etapa D: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'E': 'NOT_STARTED', 'F': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-D-EXC",
+  "objetivo": "EXC inyectado en la etapa D: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'E': 'NOT_STARTED', 'F': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-D-MUTAR_CRITICO",
+  "objetivo": "MUTAR_CRITICO inyectado en la etapa D: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'E': 'NOT_STARTED', 'F': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-D-BLOCKED",
+  "objetivo": "BLOCKED inyectado en la etapa D: detiene, código 2, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(2, 'SIMULACION_BLOCKED', 'BLOCKED', \"posteriores={'E': 'NOT_STARTED', 'F': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-E-FAIL",
+  "objetivo": "FAIL inyectado en la etapa E: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'F': 'NOT_STARTED', 'G': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-E-EXC",
+  "objetivo": "EXC inyectado en la etapa E: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'F': 'NOT_STARTED', 'G': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-E-MUTAR_CRITICO",
+  "objetivo": "MUTAR_CRITICO inyectado en la etapa E: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'F': 'NOT_STARTED', 'G': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-E-BLOCKED",
+  "objetivo": "BLOCKED inyectado en la etapa E: detiene, código 2, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(2, 'SIMULACION_BLOCKED', 'BLOCKED', \"posteriores={'F': 'NOT_STARTED', 'G': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-F-FAIL",
+  "objetivo": "FAIL inyectado en la etapa F: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'G': 'NOT_STARTED', 'H': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-F-EXC",
+  "objetivo": "EXC inyectado en la etapa F: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'G': 'NOT_STARTED', 'H': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-F-MUTAR_CRITICO",
+  "objetivo": "MUTAR_CRITICO inyectado en la etapa F: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'G': 'NOT_STARTED', 'H': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-F-BLOCKED",
+  "objetivo": "BLOCKED inyectado en la etapa F: detiene, código 2, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(2, 'SIMULACION_BLOCKED', 'BLOCKED', \"posteriores={'G': 'NOT_STARTED', 'H': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-G-FAIL",
+  "objetivo": "FAIL inyectado en la etapa G: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'H': 'NOT_STARTED', 'I': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-G-EXC",
+  "objetivo": "EXC inyectado en la etapa G: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'H': 'NOT_STARTED', 'I': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-G-MUTAR_CRITICO",
+  "objetivo": "MUTAR_CRITICO inyectado en la etapa G: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'H': 'NOT_STARTED', 'I': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-G-BLOCKED",
+  "objetivo": "BLOCKED inyectado en la etapa G: detiene, código 2, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(2, 'SIMULACION_BLOCKED', 'BLOCKED', \"posteriores={'H': 'NOT_STARTED', 'I': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-H-FAIL",
+  "objetivo": "FAIL inyectado en la etapa H: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'I': 'NOT_STARTED', 'J': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-H-EXC",
+  "objetivo": "EXC inyectado en la etapa H: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'I': 'NOT_STARTED', 'J': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-H-MUTAR_CRITICO",
+  "objetivo": "MUTAR_CRITICO inyectado en la etapa H: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'I': 'NOT_STARTED', 'J': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-H-BLOCKED",
+  "objetivo": "BLOCKED inyectado en la etapa H: detiene, código 2, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(2, 'SIMULACION_BLOCKED', 'BLOCKED', \"posteriores={'I': 'NOT_STARTED', 'J': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-I-FAIL",
+  "objetivo": "FAIL inyectado en la etapa I: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'J': 'NOT_STARTED', 'K': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-I-EXC",
+  "objetivo": "EXC inyectado en la etapa I: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'J': 'NOT_STARTED', 'K': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-I-MUTAR_CRITICO",
+  "objetivo": "MUTAR_CRITICO inyectado en la etapa I: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'J': 'NOT_STARTED', 'K': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-I-BLOCKED",
+  "objetivo": "BLOCKED inyectado en la etapa I: detiene, código 2, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(2, 'SIMULACION_BLOCKED', 'BLOCKED', \"posteriores={'J': 'NOT_STARTED', 'K': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-J-FAIL",
+  "objetivo": "FAIL inyectado en la etapa J: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'K': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-J-EXC",
+  "objetivo": "EXC inyectado en la etapa J: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'K': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-J-MUTAR_CRITICO",
+  "objetivo": "MUTAR_CRITICO inyectado en la etapa J: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', \"posteriores={'K': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-J-BLOCKED",
+  "objetivo": "BLOCKED inyectado en la etapa J: detiene, código 2, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(2, 'SIMULACION_BLOCKED', 'BLOCKED', \"posteriores={'K': 'NOT_STARTED'}\")",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-K-FAIL",
+  "objetivo": "FAIL inyectado en la etapa K: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', 'posteriores={}')",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-K-EXC",
+  "objetivo": "EXC inyectado en la etapa K: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', 'posteriores={}')",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-K-MUTAR_CRITICO",
+  "objetivo": "MUTAR_CRITICO inyectado en la etapa K: detiene, código 1, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(1, 'SIMULACION_FAILED', 'FAILED', 'posteriores={}')",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-K-BLOCKED",
+  "objetivo": "BLOCKED inyectado en la etapa K: detiene, código 2, etapas posteriores no iniciadas y sin pasos",
+  "observado": "(2, 'SIMULACION_BLOCKED', 'BLOCKED', 'posteriores={}')",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-NT",
+  "objetivo": "un paso NOT_TESTED nunca equivale a PASS: el estado final no es READY (BLOCKED, código 2) y el recuento lo declara",
+  "observado": "(2, 'SIMULACION_BLOCKED', {'BLOCKED': 0, 'FAIL': 0, 'NOT_TESTED': 1, 'PASS': 10, 'pendientes_etapas_no_iniciadas': 0, 'total_ejecutados': 11})",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-R1",
+  "objetivo": "REAL: árbol git sucio -> FAILED en la etapa A, código 1, ninguna etapa posterior",
+  "observado": "(1, 'FASE0_FAILED', 'A/arbol_git_limpio: rc=1 / salida sin lo esperado (ARBOL_LIMPIO)')",
+  "estado": "PASS"
+ },
+ {
+  "id": "ORQ-R2",
+  "objetivo": "REAL: script SQL alterado sin regenerar SHA256SUMS (árbol limpio): FAILED en A (sha256sums), código 1, sin clústeres ni etapas posteriores",
+  "observado": "(1, 'A/sha256sums_guarda_y_scripts: rc=1 / salida sin lo esperado (OK)')",
+  "estado": "PASS"
+ }
+]

@@ -1,0 +1,61 @@
+suite,id,estado,detalle,evidencia
+ADV-VERSION-ANTERIOR,A-pub-01,FAIL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,A-pub-02,FAIL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,A-pub-03,FAIL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,A-pub-04,FAIL,"CUERPO EJECUTADO rc=3 ERROR:  syntax error at or near "":""",evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,A-pub-05A,FAIL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,A-pub-05B,FAIL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,D-pub-01,FAIL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,D-pub-02,FAIL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,D-pub-03,FAIL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,D-pub-04,FAIL,"CUERPO EJECUTADO rc=3 ERROR:  syntax error at or near "":""",evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,D-pub-05A,FAIL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,D-pub-05B,FAIL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,E1-pub-01,FAIL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,E1-pub-02,FAIL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,E1-pub-03,FAIL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,E1-pub-04,FAIL,"CUERPO EJECUTADO rc=3 ERROR:  syntax error at or near "":""",evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,E1-pub-05A,FAIL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,E1-pub-05B,FAIL,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,H-pub-01,PASS,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,H-pub-02,PASS,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,H-pub-03,PASS,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,H-pub-04,PASS,"CUERPO EJECUTADO rc=3 ERROR:  syntax error at or near "":""",evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,H-pub-05A,PASS,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+ADV-VERSION-ANTERIOR,H-pub-05B,PASS,CUERPO EJECUTADO rc=0 ,evidencia/adversarial_marcador_ejecutor.json
+SP-VERSION-ANTERIOR,SPD3-e0b1d81-01/01/anterior:e0b1d81,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD3-e0b1d81-02/02/anterior:e0b1d81,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD3-e0b1d81-03/03/anterior:e0b1d81,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD3-e0b1d81-04/04/anterior:e0b1d81,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD3-e0b1d81-05A/05/anterior:e0b1d81,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD3-e0b1d81-05B/05/anterior:e0b1d81,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD3-d365a16-01/01/anterior:d365a16,FAIL,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD3-d365a16-02/02/anterior:d365a16,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD3-d365a16-03/03/anterior:d365a16,FAIL,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD3-d365a16-04/04/anterior:d365a16,FAIL,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD3-d365a16-05A/05/anterior:d365a16,FAIL,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD3-d365a16-05B/05/anterior:d365a16,FAIL,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD8-e0b1d81-01/01/anterior:e0b1d81,FAIL,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD8-e0b1d81-02/02/anterior:e0b1d81,FAIL,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD8-e0b1d81-03/03/anterior:e0b1d81,FAIL,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD8-e0b1d81-04/04/anterior:e0b1d81,FAIL,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD8-e0b1d81-05A/05/anterior:e0b1d81,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD8-e0b1d81-05B/05/anterior:e0b1d81,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD8-d365a16-01/01/anterior:d365a16,FAIL,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD8-d365a16-02/02/anterior:d365a16,FAIL,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD8-d365a16-03/03/anterior:d365a16,FAIL,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD8-d365a16-04/04/anterior:d365a16,FAIL,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD8-d365a16-05A/05/anterior:d365a16,FAIL,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD8-d365a16-05B/05/anterior:d365a16,FAIL,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD5-e0b1d81-01/01/anterior:e0b1d81,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD5-e0b1d81-02/02/anterior:e0b1d81,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD5-e0b1d81-03/03/anterior:e0b1d81,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD5-e0b1d81-04/04/anterior:e0b1d81,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD5-e0b1d81-05A/05/anterior:e0b1d81,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD5-e0b1d81-05B/05/anterior:e0b1d81,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD5-d365a16-01/01/anterior:d365a16,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD5-d365a16-02/02/anterior:d365a16,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD5-d365a16-03/03/anterior:d365a16,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD5-d365a16-04/04/anterior:d365a16,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD5-d365a16-05A/05/anterior:d365a16,PASS,,evidencia/auditoria_search_path.json
+SP-VERSION-ANTERIOR,SPD5-d365a16-05B/05/anterior:d365a16,PASS,,evidencia/auditoria_search_path.json

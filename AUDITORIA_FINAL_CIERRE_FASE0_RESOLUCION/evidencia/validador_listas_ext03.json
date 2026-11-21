@@ -1,0 +1,240 @@
+[
+ {
+  "id": "EXT03-01",
+  "objetivo": "listas válidas (valores ficticios de prueba)",
+  "esperado": "OK",
+  "observado": "rc=0 OK dev_allow=1 prod_deny=1",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-02",
+  "objetivo": "ambas listas vacías cuando se exige no vacías",
+  "esperado": "L-DEV-VACIA",
+  "observado": "rc=3 RECHAZADO [L-DEV-VACIA] dev_allow vacía: el propietario debe aportar al menos un 'system_i",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-03",
+  "objetivo": "prod_deny vacía cuando se exige",
+  "esperado": "L-PROD-VACIA",
+  "observado": "rc=3 RECHAZADO [L-PROD-VACIA] prod_deny vacía: el propietario debe aportar el system_identifier",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-04",
+  "objetivo": "dev_allow vacía con prod_deny llena",
+  "esperado": "L-DEV-VACIA",
+  "observado": "rc=3 RECHAZADO [L-DEV-VACIA] dev_allow vacía: el propietario debe aportar al menos un 'system_i",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-05",
+  "objetivo": "listas vacías sin exigir no-vacías: formato válido (informativo)",
+  "esperado": "OK",
+  "observado": "rc=0 OK dev_allow=0 prod_deny=0",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-06",
+  "objetivo": "dev_allow sin separador '|'",
+  "esperado": "L-DEV-FORMATO",
+  "observado": "rc=3 RECHAZADO [L-DEV-FORMATO] '7710738743337034195'",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-07",
+  "objetivo": "dev_allow con dos '|'",
+  "esperado": "L-DEV-FORMATO",
+  "observado": "rc=3 RECHAZADO [L-DEV-FORMATO] '1|a|b'",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-08",
+  "objetivo": "system_identifier no numérico",
+  "esperado": "L-DEV-SYSID",
+  "observado": "rc=3 RECHAZADO [L-DEV-SYSID] 'abc|cci_dev'",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-09",
+  "objetivo": "system_identifier con ceros a la izquierda",
+  "esperado": "L-DEV-SYSID",
+  "observado": "rc=3 RECHAZADO [L-DEV-SYSID] '0123|cci_dev'",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-10",
+  "objetivo": "system_identifier fuera de uint64",
+  "esperado": "L-DEV-SYSID",
+  "observado": "rc=3 RECHAZADO [L-DEV-SYSID] '18446744073709551616|cci_dev'",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-11",
+  "objetivo": "identificador de relleno (todos los dígitos iguales)",
+  "esperado": "L-DEV-SYSID-MARCADOR",
+  "observado": "rc=3 RECHAZADO [L-DEV-SYSID-MARCADOR] identificador de relleno: 1111111111|cci_dev",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-12",
+  "objetivo": "base con inyección SQL (comilla)",
+  "esperado": "L-DEV-BASE",
+  "observado": "rc=3 RECHAZADO [L-DEV-BASE] \"12345|x'); drop table t;--\"",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-13",
+  "objetivo": "base vacía",
+  "esperado": "L-DEV-BASE",
+  "observado": "rc=3 RECHAZADO [L-DEV-BASE] '12345|'",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-14",
+  "objetivo": "base marcador 'TBD'",
+  "esperado": "L-DEV-BASE-MARCADOR",
+  "observado": "rc=3 RECHAZADO [L-DEV-BASE-MARCADOR] 12345|TBD",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-15",
+  "objetivo": "entrada duplicada en dev_allow",
+  "esperado": "L-DEV-DUPLICADA",
+  "observado": "rc=3 RECHAZADO [L-DEV-DUPLICADA] 12345|a",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-16",
+  "objetivo": "entrada duplicada en prod_deny",
+  "esperado": "L-PROD-DUPLICADA",
+  "observado": "rc=3 RECHAZADO [L-PROD-DUPLICADA] 67890",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-17",
+  "objetivo": "mismo clúster en DEV y en prod_deny (solapamiento)",
+  "esperado": "L-SOLAPAMIENTO",
+  "observado": "rc=3 RECHAZADO [L-SOLAPAMIENTO] un clúster no puede estar a la vez en CCI-DEV y en la lista de ",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-18",
+  "objetivo": "prod_deny con formato 'id|base'",
+  "esperado": "L-PROD-FORMATO",
+  "observado": "rc=3 RECHAZADO [L-PROD-FORMATO] '67890|b'",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-19",
+  "objetivo": "entrada que no es cadena (número)",
+  "esperado": "L-DEV-FORMATO",
+  "observado": "rc=3 RECHAZADO [L-DEV-FORMATO] 12345",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-20",
+  "objetivo": "claves extra en el archivo",
+  "esperado": "L-ESQUEMA",
+  "observado": "rc=3 RECHAZADO [L-ESQUEMA] claves exactas: schema, dev_allow, prod_deny",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-21",
+  "objetivo": "schema incorrecto",
+  "esperado": "L-ESQUEMA",
+  "observado": "rc=3 RECHAZADO [L-ESQUEMA] claves exactas: schema, dev_allow, prod_deny",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-22",
+  "objetivo": "JSON con clave duplicada",
+  "esperado": "L-CLAVE-DUPLICADA",
+  "observado": "rc=3 RECHAZADO [L-CLAVE-DUPLICADA] dev_allow",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-23",
+  "objetivo": "JSON inválido",
+  "esperado": "L-JSON",
+  "observado": "rc=3 RECHAZADO [L-JSON] JSONDecodeError('Expecting property name enclosed in double quotes: lin",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-24",
+  "objetivo": "archivo ausente",
+  "esperado": "L-ARCHIVO-AUSENTE",
+  "observado": "rc=3 RECHAZADO [L-ARCHIVO-AUSENTE] /tmp/lst.fuindqsj/no_existe.json",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-25",
+  "objetivo": "listas no son arreglos",
+  "esperado": "L-TIPO",
+  "observado": "rc=3 RECHAZADO [L-TIPO] las listas deben ser arreglos",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-26",
+  "objetivo": "demasiadas entradas (65)",
+  "esperado": "L-DEMASIADAS",
+  "observado": "rc=3 RECHAZADO [L-DEMASIADAS] máximo 64 entradas",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-27",
+  "objetivo": "guarda REAL actual (listas vacías) con exigencia de no vacías: debe RECHAZAR (EXT-03 sigue bloqueado)",
+  "esperado": "L-DEV-VACIA",
+  "observado": "rc=3 RECHAZADO [L-DEV-VACIA] dev_allow vacía: el propietario debe aportar al menos un 'system_i",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-28",
+  "objetivo": "guarda real: estructura reconocida (vacía sin exigencia)",
+  "esperado": "OK",
+  "observado": "rc=0 OK dev_allow=0 prod_deny=0",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-29",
+  "objetivo": "guarda con la línea de allowlist eliminada",
+  "esperado": "L-GUARDA-ESTRUCTURA",
+  "observado": "rc=3 RECHAZADO [L-GUARDA-ESTRUCTURA] no se encontró exactamente una línea de DEV_ALLOW",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-30",
+  "objetivo": "guarda con literal no estático (concatenación)",
+  "esperado": "L-GUARDA-LITERAL",
+  "observado": "rc=3 RECHAZADO [L-GUARDA-LITERAL] contenido no literal en DEV_ALLOW",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-31",
+  "objetivo": "guarda con listas válidas inyectadas (control positivo)",
+  "esperado": "OK",
+  "observado": "rc=0 OK dev_allow=1 prod_deny=1",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-32",
+  "objetivo": "guarda con solapamiento inyectado",
+  "esperado": "L-SOLAPAMIENTO",
+  "observado": "rc=3 RECHAZADO [L-SOLAPAMIENTO] un clúster no puede estar a la vez en CCI-DEV y en la lista de ",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-33",
+  "objetivo": "generar: imprime las dos líneas literales exactas",
+  "esperado": "dos líneas con marcadores @@",
+  "observado": "dev_allow text[] := array['12345|cci_dev']::text[];  -- @@DEV_ALLOW@@\n  prod_deny text[] := array['67890']::text[];  -- ",
+  "estado": "PASS"
+ },
+ {
+  "id": "EXT03-34",
+  "objetivo": "generar con listas vacías: rechaza (no produce líneas)",
+  "esperado": "L-DEV-VACIA",
+  "observado": "RECHAZADO [L-DEV-VACIA] dev_allow vacía: el propietario debe aportar al menos un",
+  "estado": "PASS"
+ }
+]

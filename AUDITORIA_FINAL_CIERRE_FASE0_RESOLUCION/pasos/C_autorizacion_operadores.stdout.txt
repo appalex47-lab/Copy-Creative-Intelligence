@@ -1,0 +1,23 @@
+PASS | AO-01 | roles de la matriz no configurados (cci_operador no existe) | rc=3 ['NO EJECUTADO [G-OPERADOR-ROLES-NO-CONFIGURADOS]'] canario=False efectos=False
+PASS | AO-02 | operador autorizado (miembro de cci_operador, sin privilegios elevados) | rc=0 guarda_ok=True canario=True
+PASS | AO-03 | registro de quién ejecutó (RAISE LOG con rol y pid) | ['CCI-AUDITORIA operador=t_op_ok pid=27022']
+PASS | AO-04 | rol desconocido: existe pero no es miembro de cci_operador | rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=False efectos=False
+PASS | AO-05 | superusuario (cci_test) no puede operar: privilegios mínimos | rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canario=False efectos=False
+PASS | AO-06-createrole | operador con CREATEROLE | rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canario=False efectos=False
+PASS | AO-06-createdb | operador con CREATEDB | rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canario=False efectos=False
+PASS | AO-06-bypassrls | operador con BYPASSRLS | rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canario=False efectos=False
+PASS | AO-06-replication | operador con REPLICATION | rc=3 ['NO EJECUTADO [G-OPERADOR-PRIVILEGIO-EXCESIVO]'] canario=False efectos=False
+PASS | AO-07 | separación de funciones: operador + custodio | rc=3 ['NO EJECUTADO [G-SEPARACION-FUNCIONES]'] canario=False efectos=False
+PASS | AO-08 | separación de funciones: operador + administrador | rc=3 ['NO EJECUTADO [G-SEPARACION-FUNCIONES]'] canario=False efectos=False
+PASS | AO-09 | separación de funciones por membresía INDIRECTA (cadena de roles) | rc=3 ['NO EJECUTADO [G-SEPARACION-FUNCIONES]'] canario=False efectos=False
+PASS | AO-10 | separación de funciones aunque el rol sea NOINHERIT (membresía sin herencia) | rc=3 ['NO EJECUTADO [G-SEPARACION-FUNCIONES]'] canario=False efectos=False
+PASS | AO-11 | escalamiento por SET ROLE a cci_operador | ['NO EJECUTADO [G-ROL-CAMBIADO]']
+PASS | AO-12 | no autorizado con search_path hostil (evil antes de pg_catalog) | rc=3 ['NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]'] canario=False efectos=False
+PASS | AO-13 | no autorizado con search_path hostil y SIN el chequeo de search_path (sólo la calificación pg_catalog protege) | rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=False efectos=False
+PASS | AO-14 | no autorizado con GUC cci.* adicionales preinstaladas por PGOPTIONS (cci.operador_autorizado, cci.script_declarado) | rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=False efectos=False
+PASS | AO-15 | no autorizado con parámetros de sesión (row_security=off, default_transaction_read_only=off) | rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=False efectos=False
+PASS | AO-15b | no autorizado intenta session_replication_role=replica: el servidor lo rechaza antes de la guarda (no superusuario) | rc=2 canario=False True
+PASS | AO-16 | no autorizado con aplicación declarada cci_05A (impostor de identidad de prueba) | rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=False efectos=False
+PASS | AO-17 | operador autorizado que re-declara su propio session_authorization (sin cambio de rol) | rc=0
+PASS | AO-18 | sin efectos persistentes en toda la suite (roles/membresías/objetos públicos sólo los creados por la fixture) | 4|18|0
+TOTAL=22 PASS=22 FAIL=0

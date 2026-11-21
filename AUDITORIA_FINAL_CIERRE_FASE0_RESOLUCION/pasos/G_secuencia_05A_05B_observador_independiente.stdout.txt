@@ -1,0 +1,16 @@
+PASS | 05-P1 | A y B reales + observador independiente | PASS
+PASS | 05-P2 | B no emite PASS propio (veredicto_propio ESPERO, no PASS) | True
+PASS | 05-N1 | salida de A eliminada | 05-A-SALIDA-AUSENTE
+PASS | 05-N2 | salida de B eliminada | 05-B-SALIDA-AUSENTE
+PASS | 05-N3 | veredicto de B alterado (ESPERO→NO_ESPERO) | 05-B-NO-ESPERO (NO_ESPERO)
+PASS | 05-N4 | pid de B falsificado | 05-SIN-EVIDENCIA-INDEPENDIENTE (el observador no vio a B bloqueada)
+PASS | 05-N5 | salidas de A y B intercambiadas | 05-A-SALIDA-AUSENTE
+PASS | 05-N6 | observador ausente (sin evidencia independiente) | 05-SIN-EVIDENCIA-INDEPENDIENTE
+PASS | 05-N7 | el bloqueador observado no es A | 05-BLOQUEO-POR-OTRA-SESION (el bloqueador observado no es A)
+PASS | 05-P3 | segunda corrida independiente | PASS
+PASS | 05-N8 | evidencia de OTRA corrida (resultado heredado) | 05-SIN-EVIDENCIA-INDEPENDIENTE (el observador no vio a B bloqueada)
+PASS | 05-N9 | B sin A: BLOCKED y sin inserción | True
+PASS | 05-N10 | impostor 'cci_05A' sin xid | True
+PASS | 05-N11 | impostor 'cci_05A' con xid pero sin conflicto | 05-B-NO-ESPERO (NO_ESPERO) | B:NO_ESPERO
+PASS | 05-N12 | sin residuos tras todas las corridas | 0
+TOTAL=15 PASS=15 FAIL=0

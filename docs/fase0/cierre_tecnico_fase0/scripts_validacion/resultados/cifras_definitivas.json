@@ -18,161 +18,161 @@
    "cifra": "pasos_bateria",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 22
   },
   {
    "cifra": "pasos_bateria_OK",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 22
   },
   {
    "cifra": "V20_pruebas_PASS",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "paso v20_pe de la batería",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 63
   },
   {
    "cifra": "V20_mutaciones_detectadas",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "paso v20_mutaciones de la batería",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 14
   },
   {
    "cifra": "extension_PASS",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "paso extension_local de la batería",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 80
   },
   {
    "cifra": "DG19_PASS",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "paso dg19 de la batería",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 63
   },
   {
    "cifra": "hash_PASS",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "paso hash_encadenado de la batería",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 16
   },
   {
    "cifra": "K47_mapeadas_detectadas",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "paso k47_por_escenario de la batería",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 25
   },
   {
    "cifra": "T409_variantes_detectadas",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "paso t409_individual de la batería",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 26
   },
   {
    "cifra": "arnes_R1R9_PASS",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "paso arnes_r1r9 de la batería",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 28
   },
   {
    "cifra": "escaner_sql_total",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "paso escaner_sql de la batería",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 176
   },
   {
    "cifra": "escaner_texto_total",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "paso escaner_texto de la batería",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 676
   },
   {
    "cifra": "escaner_autoprueba_total",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "paso escaner_autoprueba de la batería",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 39
   },
   {
    "cifra": "evaluaciones_22_funciones",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "paso funciones_22 de la batería",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 366
   },
   {
    "cifra": "aserciones_smoke_total",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "paso aserciones_smoke de la batería",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 12
   },
   {
    "cifra": "aserciones_smoke_PASS",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "paso aserciones_smoke de la batería",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 12
   },
   {
    "cifra": "guarda_destino_total",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "paso guarda_destino de la batería",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 187
   },
   {
    "cifra": "guarda_destino_PASS",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "paso guarda_destino de la batería",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 187
   },
   {
    "cifra": "guarda_destino_FAIL",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "paso guarda_destino de la batería",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 0
   },
   {
    "cifra": "escaner_sql_FAIL",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 0
   },
   {
    "cifra": "escaner_texto_FAIL",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 0
   },
   {
    "cifra": "escaner_autoprueba_FAIL",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 0
   },
   {
    "cifra": "arnes_FAIL",
    "fuente": "scripts_validacion/resultados/bateria_final/INDICE_BATERIA.csv",
    "nota": "",
-   "sha256_fuente": "44c76c081d0392ac7a2504bd5b92351632131cb602adf3d3a3ee82376ca15ac4",
+   "sha256_fuente": "638323e678dc4a0908d1b76d2b3e4707ae0690e3a5c7254976c396851c60ae80",
    "valor": 0
   },
   {
@@ -291,7 +291,7 @@
    "cifra": "manifiesto_entradas",
    "fuente": "MANIFIESTO_SHA256_CIERRE.txt",
    "nota": "el manifiesto se regenera después de este archivo; la reconciliación final y la verificación A/B comprueban la coincidencia",
-   "sha256_fuente": "78bbf13097d83e3fbf23c4837a567485146ec150d979012091e9c8c1948f5f84",
+   "sha256_fuente": "90e9442eb4d6570331d3183a62a305a760b92118f85d87ed2fb1a73c5e888d67",
    "valor": 171
   }
  ]

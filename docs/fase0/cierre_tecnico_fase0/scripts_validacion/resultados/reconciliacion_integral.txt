@@ -1,1 +1,59 @@
-PENDIENTE_DE_GENERAR_EN_ESTA_EJECUCION CCI-RUN-20261121T214206Z-95bbb87c
+PASS | CSV bien formado MATRIZ_12_ESCENARIOS_PARCIALES.csv | 12 filas x 19 cols
+PASS | CSV bien formado MATRIZ_FUNCION_REGLA_ESCENARIO_PRUEBA.csv | 33 filas x 10 cols
+PASS | CSV bien formado MATRIZ_LIMITACIONES_RESIDUALES.csv | 27 filas x 13 cols
+PASS | CSV bien formado MATRIZ_TRAZABILIDAD_MAESTRA.csv | 54 filas x 21 cols
+PASS | CSV bien formado REGISTRO_DECISIONES_RECOMENDADAS.csv | 21 filas x 24 cols
+PASS | CSV bien formado 22_funciones_conciliacion.csv | 23 filas x 4 cols
+PASS | CSV bien formado catalogo_except_exception.csv | 23 filas x 4 cols
+PASS | CSV bien formado k47_por_escenario.csv | 25 filas x 7 cols
+PASS | CSV bien formado t409_t422_correspondencia.csv | 14 filas x 12 cols
+PASS | CSV bien formado t409_t422_individual.csv | 26 filas x 8 cols
+PASS | decisiones: las 20 pendientes exigidas están en el registro | faltan=[]
+PASS | decisiones: sin ids duplicados; total 21 (20 + HV-02) | 21
+PASS | decisiones: columnas de consecuencias y estado actual completas | 
+PASS | decisiones: todas REQUIERE_APROBACION_DEL_PROPIETARIO (ninguna aprobada) | 
+PASS | limitaciones: 27 ids únicos (LR-28 fusionada en LR-05) | 27
+PASS | limitaciones: vigencia declarada en todas (18 VIGENTE, 5 RESUELTA, 4 PARCIALMENTE_RESUELTA) | {'VIGENTE': 18, 'RESUELTA': 5, 'PARCIALMENTE_RESUELTA': 4}
+PASS | limitaciones: acción concreta y dependencia en todas | 
+PASS | 12 escenarios: 5 PASS_PROTOTYPE, 1 PASS_STATIC, 6 PARTIAL | {'PASS_PROTOTYPE': 5, 'PARTIAL': 6, 'PASS_STATIC': 1}
+PASS | 12 escenarios: aceptación física PENDIENTE en todos | 
+PASS | 22 funciones: 22 filas, 366 casos, 0 fallos | 
+PASS | matriz función-regla cubre las 22 funciones | 22
+PASS | T-409..T-422: 26 variantes DETECTADA, 14 escenarios | 
+PASS | trazabilidad: 54 filas con referencia verificable y relación declarada | 
+PASS | trazabilidad: niveles de evidencia en vocabulario permitido en cada relación | 
+PASS | V20 63/63 | 
+PASS | V20 mutaciones 14/14 | 
+PASS | extensión 80/80 | 
+PASS | DG-19 63/63 | 
+PASS | hash 16/16 | 
+PASS | arnés 28/28 (total=aprobadas, 0 FAIL; esperado fijado en la batería) | 
+PASS | escáner sql 0 FAIL | 
+PASS | escáner texto 0 FAIL | 
+PASS | escáner texto repetido sobre el árbol final: 0 FAIL | 
+PASS | escáner autoprueba: 39 muestras, 0 FAIL | 
+PASS | 04 local = NO VERIFICABLE | 
+PASS | concurrencia CC-01/CC-02 PASS | 
+PASS | DICTAMEN_PREPARACION_FASE0.md: cifras 63/63, 14/14, 80/80, 366, 354, 28/28 presentes | 
+PASS | INFORME_CIERRE_TECNICO_FASE0.md: cifras 63/63, 14/14, 80/80, 366, 354, 28/28 presentes | 
+PASS | LEEME no afirma «sin commit» como estado actual | 
+PASS | ningún documento declara aceptada Fase 0 ni autorizada Fase 1 | 
+PASS | ningún documento marca decisión como APROBADA | 
+PASS | batería: 22 pasos (= pasos declarados en ct_bateria_final.sh), todos rc=0 Y estado=OK (rc=0 solo no basta: se exige el contenido esperado) | []
+PASS | batería: cada salida existe y su SHA-256 coincide con el índice | []
+PASS | smoke de los 6 scripts: aserciones de contenido 12/12, 0 FAIL (guardas, precondición de roles, 03 defectuoso/corregido, 04 NO VERIFICABLE, 05 BLOCKED) | 
+PASS | guarda DEV/PROD (H-03): 187/187 pruebas, 0 FAIL; cubre los 6 scripts, PROD, destino desconocido, identidad no verificable, configuración incompleta y manipulada | 
+PASS | guarda DEV/PROD: los 6 scripts invocan preflight+verificador de marcador (guarda compartida) y las listas versionadas siguen vacías (no se inventan identificadores) | 
+PASS | T-409: 2ª corrida idéntica byte a byte | 
+PASS | T-409..T-422: correspondencia con nivel de evidencia explícito (14 escenarios) | 
+PASS | manifiesto: controles negativos 36/36, 0 FAIL | 
+PASS | búsqueda global sin FAIL | 
+PASS | herramientas antiguas eliminadas | 
+PASS | cifras definitivas: generadas, batería 22/22 OK, decisiones aprobadas = 0, PASS_PHYSICAL = 0 | 
+PASS | cifras: limitaciones 27 = vigentes+parciales+resueltas; decisiones 21; escenarios 12; fixtures 354 de 366 evaluaciones | 
+PASS | manifiesto: nº de entradas (171) = cifra generada y = archivos sujetos a verificación | 
+PASS | cifras de los documentos narrativos coinciden con cifras_definitivas.json (limitaciones, decisiones, arnés, fixtures, evaluaciones) | []
+PASS | alcance: contra V26 no hay archivos modificados/eliminados/añadidos fuera de docs/fase0/cierre_tecnico_fase0 (tracked: 0, sin seguimiento: 0) | []
+PASS | alcance: herramientas protegidas (modelo_estructural.py, verificar_expediente.py) idénticas a V26 | 
+PASS | referencias a archivos (171) y enlaces relativos resuelven; las citas históricas están etiquetadas | []
+TOTAL=58 PASS=58 FAIL=0

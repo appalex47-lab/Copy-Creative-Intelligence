@@ -1,1 +1,13 @@
-PENDIENTE_DE_GENERAR_EN_ESTA_EJECUCION CCI-RUN-20261121T214206Z-95bbb87c
+PASS | coherente: sin manipulación (sin incoherencias)
+PASS | MD: FAIL=0 → FAIL=1 (la contradicción detectada en la revisión) (detecta: MD: línea TOTAL difiere del JSON: ['**TOTAL=58 PASS=58 FAIL=)
+PASS | TXT: línea TOTAL alterada (detecta: TXT: línea TOTAL difiere del JSON: ['TOTAL=59 PASS=58 FAIL=0)
+PASS | JSON: una comprobación pasa a FAIL (detecta: JSON: fail no coincide con los estados)
+PASS | MD: estado de una fila alterado (detecta: MD: filas (id, estado) difieren del JSON)
+PASS | evidencia: archivo citado modificado (detecta: evidencia modificada tras la reconciliación: MATRIZ_LIMITACI)
+PASS | evidencia: archivo citado eliminado (detecta: evidencia ausente: MATRIZ_TRAZABILIDAD_MAESTRA.csv (comproba)
+PASS | evidencia vacía en una comprobación PASS (detecta: PASS con evidencia vacía: RC-004)
+PASS | ID único duplicado (detecta: IDs únicos duplicados o ausentes)
+PASS | hash incorrecto en la evidencia (detecta: evidencia modificada tras la reconciliación: MATRIZ_12_ESCEN)
+PASS | fila faltante (detecta: JSON: total != pass+fail o != nº de comprobaciones)
+PASS | resultado heredado (otra ejecución) (detecta: resultado heredado: RC-001 pertenece a otra ejecución (CCI-R)
+TOTAL=12 FAIL=0

@@ -1,0 +1,601 @@
+=== ETAPA A: Integridad del repositorio ===
+variables heredadas detectadas (se ignoran; los pasos usan entorno limpio): []
+[A] arbol_git_limpio                   PASS 
+----- stdout -----
+ARBOL_LIMPIO
+2e45345edce59b2293c9776a08dbcaf4db69d78f
+
+----- stderr -----
+
+[A] sha256sums_guarda_y_scripts        PASS 
+----- stdout -----
+00_guarda_destino.sql: OK
+00_preflight_guarda.sql: OK
+00_verificar_marcador.sql: OK
+01_inventario_esquema_SOLO_LECTURA.sql: OK
+02_rls_privilegios_SOLO_LECTURA.sql: OK
+03_pruebas_rls_ROLLBACK.sql: OK
+04_lib_clasificador.sql: OK
+04_trigger_r1_r9_ROLLBACK.sql: OK
+05_concurrencia_sesion_A.sql: OK
+05_concurrencia_sesion_B.sql: OK
+ct_identidad_entorno.py: OK
+
+----- stderr -----
+
+[A] ramas_protegidas_intactas          PASS 
+----- stdout -----
+5b008485706bde3e9cf8407e71c0652cfd0497a5	refs/heads/audit/cierre-tecnico-fase0
+e0b1d8165d7584edd7fd03c2fa3c54fcce9d87e0	refs/heads/audit/fase0-auditoria-final-publicacion
+20cc0c1bafb425044dece2a6fe85eb629e092fc8	refs/heads/audit/fase0-cierre-definitivo
+d365a162e54809f3b8de9c77f5902a8ea131a97f	refs/heads/audit/fase0-remediaciones-h01-h02-h03
+439777c9ea7db464fe49299adfeb2112abfd285c	refs/heads/audit/fase0-v26-review
+6a1af2424ef39e0960b8f7e09d4e19ec52e6f046	refs/heads/main
+
+----- stderr -----
+
+[A] cluster_nuevo_dev                  PASS 
+----- stdout -----
+cluster listo: socket=/tmp/CCI-RUN-20261121T220844Z-9ec25036/dev/sock puerto=32943 sysid=7710750170142132283
+
+----- stderr -----
+
+[A] cluster_nuevo_prod                 PASS 
+----- stdout -----
+cluster listo: socket=/tmp/CCI-RUN-20261121T220844Z-9ec25036/prod/sock puerto=37483 sysid=7710750173099673693
+
+----- stderr -----
+
+[A] clusteres independientes y vacios: PASS
+=== ETAPA B: Validación estática ===
+[B] bat_escaner_sql                    PASS 
+----- stdout -----
+
+----- stderr -----
+
+[B] bat_escaner_autoprueba             PASS 
+----- stdout -----
+
+----- stderr -----
+
+[B] bat_escaner_texto                  PASS 
+----- stdout -----
+
+----- stderr -----
+
+[B] meta_orquestador_fallos_inducidos  PASS 
+----- stdout -----
+a etapa J: detiene, código 2, etapas posteriores no iniciadas y sin pasos -> (2, 'SIMULACION_BLOCKED', 'BLOCKED', "posteriores={'K': 'NOT_STARTED'}")
+PASS ORQ-K-FAIL FAIL inyectado en la etapa K: detiene, código 1, etapas posteriores no iniciadas y sin pasos -> (1, 'SIMULACION_FAILED', 'FAILED', 'posteriores={}')
+PASS ORQ-K-EXC EXC inyectado en la etapa K: detiene, código 1, etapas posteriores no iniciadas y sin pasos -> (1, 'SIMULACION_FAILED', 'FAILED', 'posteriores={}')
+PASS ORQ-K-MUTAR_CRITICO MUTAR_CRITICO inyectado en la etapa K: detiene, código 1, etapas posteriores no iniciadas y sin pasos -> (1, 'SIMULACION_FAILED', 'FAILED', 'posteriores={}')
+PASS ORQ-K-BLOCKED BLOCKED inyectado en la etapa K: detiene, código 2, etapas posteriores no iniciadas y sin pasos -> (2, 'SIMULACION_BLOCKED', 'BLOCKED', 'posteriores={}')
+PASS ORQ-NT un paso NOT_TESTED nunca equivale a PASS: el estado final no es READY (BLOCKED, código 2) y el recuento lo declara -> (2, 'SIMULACION_BLOCKED', {'BLOCKED': 0, 'FAIL': 0, 'NOT_TESTED': 1, 'PASS': 10, 'pendientes_etapas_
+PASS ORQ-R1 REAL: árbol git sucio -> FAILED en la etapa A, código 1, ninguna etapa posterior -> (1, 'FASE0_FAILED', 'A/arbol_git_limpio: rc=1 / salida sin lo esperado (ARBOL_LIMPIO)')
+PASS ORQ-R2 REAL: script SQL alterado sin regenerar SHA256SUMS (árbol limpio): FAILED en A (sha256sums), código 1, sin clústeres ni etapas posteriores -> (1, 'A/sha256sums_guarda_y_scripts: rc=1 / salida sin lo esperado (OK)')
+TOTAL=49 PASS=49 FAIL=0
+
+----- stderr -----
+
+=== ETAPA C: Seguridad de la guarda ===
+[C] bat___precondicion_roles           PASS 
+----- stdout -----
+
+----- stderr -----
+
+[C] bat_guarda_destino                 PASS 
+----- stdout -----
+
+----- stderr -----
+
+[C] adversarial_marcador_y_ejecutor    PASS 
+----- stdout -----
+TOTAL=166 {'PASS': 142, 'PARTIAL': 6, 'FAIL': 18}
+
+----- stderr -----
+
+[C] search_path_hijack                 PASS 
+----- stdout -----
+estatico sin calificar: {'anterior:d365a16': 161, 'anterior:e0b1d81': 17}
+instalacion {'cci_ap_shim': {'funciones_ok': 74, 'fallidas': 0, 'sin_homonimo': []}, 'cci_ap_conc': {'funciones_ok': 74, 'fallidas': 0, 'sin_homonimo': []}} {'cci_ap_shim': {'operadores': 9}, 'cci_ap_conc': {'operadores': 9}} {'cci_ap_shim': {'funciones_ok': 74, 'fallidas': 0, 'operadores': 9}, 'cci_ap_conc': {'funciones_ok': 74, 'fallidas': 0, 'operadores': 9}}
+SPD1 corregido funcion_hijack=0 operador_hijack=0 rechazos=6 guarda_ok=0 de 6
+SPD2 corregido-sin-chequeo funcion_hijack=0 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
+SPD3-d365a16 anterior:d365a16 funcion_hijack=5 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
+SPD3-e0b1d81 anterior:e0b1d81 funcion_hijack=0 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
+SPD4 corregido funcion_hijack=0 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
+SPD5-d365a16 anterior:d365a16 funcion_hijack=0 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
+SPD5-e0b1d81 anterior:e0b1d81 funcion_hijack=0 operador_hijack=0 rechazos=0 guarda_ok=6 de 6
+SPD6 corregido funcion_hijack=0 operador_hijack=0 rechazos=6 guarda_ok=0 de 6
+SPD7 corregido-sin-chequeo funcion_hijack=0 operador_hijack=4 rechazos=0 guarda_ok=6 de 6
+SPD8-d365a16 anterior:d365a16 funcion_hijack=0 operador_hijack=6 rechazos=0 guarda_ok=6 de 6
+SPD8-e0b1d81 anterior:e0b1d81 funcion_hijack=0 operador_hijack=4 rechazos=0 guarda_ok=6 de 6
+
+----- stderr -----
+
+[C] identidad_dev_prod_ag18            PASS 
+----- stdout -----
+TOTAL=14 {'PASS': 10, 'PARTIAL': 3, 'NOT TESTED': 1}
+PASS ID-00 distintos
+PASS ID-01 rc=0 GUARDA OK
+PASS ID-02 rc=3 G-PROD-RECHAZADO
+PASS ID-03 rc=3 G-DESTINO-DESCONOCIDO
+PASS ID-04 igual
+PARTIAL ID-05 rc=0 GUARDA OK (aceptado)
+PARTIAL ID-06 DEV: G-PROD-RECHAZADO; clon: G-PROD-RECHAZADO
+PASS ID-07 rc=3 V-AUDITORIA-NO-CONFIGURADA
+PASS ID-08 rc=3 V-DESTINO-NO-APROBADO
+PASS ID-09 rc=3 V-DESTINO-NO-CONFIGURADO
+PARTIAL ID-10 rc=3 V-AUDITORIA-NO-CONFIGURADA
+PASS ID-11 rc=3 G-DESTINO-DESCONOCIDO
+PASS ID-12 rc=3 G-DESTINO-DESCONOCIDO
+NOT TESTED ID-13 NOT TESTED
+
+----- stderr -----
+
+[C] autorizacion_operadores            PASS 
+----- stdout -----
+ARACION-FUNCIONES]'] canario=False efectos=False
+PASS | AO-11 | escalamiento por SET ROLE a cci_operador | ['NO EJECUTADO [G-ROL-CAMBIADO]']
+PASS | AO-12 | no autorizado con search_path hostil (evil antes de pg_catalog) | rc=3 ['NO EJECUTADO [G-SEARCH-PATH-NO-SEGURO]'] canario=False efectos=False
+PASS | AO-13 | no autorizado con search_path hostil y SIN el chequeo de search_path (sólo la calificación pg_catalog protege) | rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=False efectos=False
+PASS | AO-14 | no autorizado con GUC cci.* adicionales preinstaladas por PGOPTIONS (cci.operador_autorizado, cci.script_declarado) | rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=False efectos=False
+PASS | AO-15 | no autorizado con parámetros de sesión (row_security=off, default_transaction_read_only=off) | rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=False efectos=False
+PASS | AO-15b | no autorizado intenta session_replication_role=replica: el servidor lo rechaza antes de la guarda (no superusuario) | rc=2 canario=False True
+PASS | AO-16 | no autorizado con aplicación declarada cci_05A (impostor de identidad de prueba) | rc=3 ['NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]'] canario=False efectos=False
+PASS | AO-17 | operador autorizado que re-declara su propio session_authorization (sin cambio de rol) | rc=0
+PASS | AO-18 | sin efectos persistentes en toda la suite (roles/membresías/objetos públicos sólo los creados por la fixture) | 4|18|0
+TOTAL=22 PASS=22 FAIL=0
+
+----- stderr -----
+
+[C] identidad_firmada_ag18_clones      PASS 
+----- stdout -----
+lización de identidad anterior (serial < mínimo de la política) | rc=3 RECHAZADO [I-SERIAL-OBSOLETO] identidad anterior reutilizada
+PASS | AG-30 | identidad revocada (serial 4 en seriales_revocados) | rc=3 RECHAZADO [I-REVOCADA]
+PASS | AG-31 | clave de la autoridad revocada en la política (rotación) | rc=3 RECHAZADO [I-CLAVE-REVOCADA]
+PASS | AG-32 | rotación: identidad firmada con la clave NUEVA, aprobada con su nuevo SHA-256 | rc=0 OK entorno=CCI-DEV proyecto=proj-dev-prueba serial=6
+PASS | AG-33 | rotación: identidad con la clave NUEVA pero el verificador sigue anclado a la clave VIEJA | rc=3 RECHAZADO [I-POLITICA-FIRMA-INVALIDA]
+PASS | AG-34 | endpoint alterado (otro puerto) | rc=3 RECHAZADO [I-ENDPOINT-DISTINTO] el destino real no es el endpoint firmado
+PASS | AG-35 | base alterada | rc=3 RECHAZADO [I-BASE-DISTINTA]
+PASS | AG-36 | system_identifier alterado | rc=3 RECHAZADO [I-SYSID-DISTINTO] el clúster real no es el firmado (clon o restauración)
+PASS | AG-37 | entorno exigido alterado a PROD con identidad DEV | rc=3 RECHAZADO [I-ENTORNO-DISTINTO] el token es de otro entorno
+PASS | AG-38 | JSON con claves duplicadas (firmado) | rc=3 RECHAZADO [I-FORMATO] clave duplicada: schema
+PASS | AG-39 | token.json como enlace simbólico | rc=3 RECHAZADO [I-AUSENTE] ausente o enlace simbólico: /tmp/CCI-RUN-20261121T220844Z-9ec25036/a
+PASS | AG-40 | clave 'aprobada' ilegible/corrupta con SHA-256 coincidente: nunca OK | rc=3 RECHAZADO [I-POLITICA-FIRMA-INVALIDA]
+TOTAL=42 PASS=42 FAIL=0
+
+----- stderr -----
+
+[C] aprobacion_firmada_y_cadena_dev    PASS 
+----- stdout -----
+ntando a un enlace simbólico de clave | rc=3 V-APROBACION-CLAVE-NO-CONFIGURADA
+PASS | E2E-01 | cadena completa CCI-DEV local: aprobación firmada + destino + identidad firmada + auditoría + operador autorizado | rc=0 OK
+PASS | E2E-02 | sin CCI_IDENTIDAD_DIR/clave de autoridad (identidad no configurada) | rc=3 V-IDENTIDAD-NO-CONFIGURADA
+PASS | E2E-03 | sin registro de auditoría configurado | rc=3 V-AUDITORIA-NO-CONFIGURADA
+PASS | E2E-04 | identidad caducada | rc=3 V-IDENTIDAD-CADUCADA
+PASS E2E-05 rc=3 ['[G-OPERADOR-NO-AUTORIZADO]'] canario=False
+PASS | E2E-06 | CLON FÍSICO de PROD en otro endpoint, destino aprobado por error en la lista de hosts | rc=3 V-IDENTIDAD-ENDPOINT-DISTINTO
+PASS | E2E-07 | CLON FÍSICO de DEV en otro endpoint (misma base, mismo system_identifier) | rc=3 V-IDENTIDAD-ENDPOINT-DISTINTO
+PASS | E2E-10 | registro de auditoría = /dev/null (ejecución sin registro real) | rc=3 V-AUDITORIA-INVALIDA
+PASS | E2E-11 | registro de auditoría = enlace simbólico | rc=3 V-AUDITORIA-INVALIDA
+PASS | E2E-12 | registro de auditoría con ruta relativa | rc=3 V-AUDITORIA-INVALIDA
+PASS | E2E-13 | registro de auditoría en directorio inexistente (no escribible) | rc=3 V-AUDITORIA-NO-ESCRIBIBLE
+PASS | E2E-14 | registro de auditoría = FIFO | rc=3 V-AUDITORIA-INVALIDA
+PASS | E2E-08 | TOMA DEL ENDPOINT: el clon físico de PROD arranca en el socket y puerto exactos de DEV (mismo host, puerto y base) | rc=3 V-IDENTIDAD-SYSID-DISTINTO
+PASS E2E-09 rc=0 guarda_ok=True
+TOTAL=36 PASS=36 FAIL=0
+
+----- stderr -----
+
+[C] validador_listas_ext03             PASS 
+----- stdout -----
+O] 12345
+PASS EXT03-20 claves extra en el archivo -> RECHAZADO [L-ESQUEMA] claves exactas: schema, dev_allow, prod_deny
+PASS EXT03-21 schema incorrecto -> RECHAZADO [L-ESQUEMA] claves exactas: schema, dev_allow, prod_deny
+PASS EXT03-22 JSON con clave duplicada -> RECHAZADO [L-CLAVE-DUPLICADA] dev_allow
+PASS EXT03-23 JSON inválido -> RECHAZADO [L-JSON] JSONDecodeError('Expecting property name enclosed i
+PASS EXT03-24 archivo ausente -> RECHAZADO [L-ARCHIVO-AUSENTE] /tmp/lst.fuindqsj/no_existe.json
+PASS EXT03-25 listas no son arreglos -> RECHAZADO [L-TIPO] las listas deben ser arreglos
+PASS EXT03-26 demasiadas entradas (65) -> RECHAZADO [L-DEMASIADAS] máximo 64 entradas
+PASS EXT03-27 guarda REAL actual (listas vacías) con exigencia de no vacías: debe RECHAZAR (EXT-03 sigue bloqueado) -> RECHAZADO [L-DEV-VACIA] dev_allow vacía: el propietario debe aportar a
+PASS EXT03-28 guarda real: estructura reconocida (vacía sin exigencia) -> OK dev_allow=0 prod_deny=0
+PASS EXT03-29 guarda con la línea de allowlist eliminada -> RECHAZADO [L-GUARDA-ESTRUCTURA] no se encontró exactamente una línea d
+PASS EXT03-30 guarda con literal no estático (concatenación) -> RECHAZADO [L-GUARDA-LITERAL] contenido no literal en DEV_ALLOW
+PASS EXT03-31 guarda con listas válidas inyectadas (control positivo) -> OK dev_allow=1 prod_deny=1
+PASS EXT03-32 guarda con solapamiento inyectado -> RECHAZADO [L-SOLAPAMIENTO] un clúster no puede estar a la vez en CCI-D
+PASS EXT03-33
+PASS EXT03-34
+TOTAL=34 PASS=34 FAIL=0
+
+----- stderr -----
+
+[C] sonda_ext02_simulada_local         PASS 
+----- stdout -----
+PASS EXT02-01 sin CCI_EXT02_CONFIRMA_DEV la sonda se niega a conectar
+PASS EXT02-02 sin --local ni proyecto esperado se niega
+PASS EXT02-03 host que no contiene la referencia del proyecto esperado: se niega (antes de conectar)
+PASS EXT02-04 host con 'prod': se niega
+PASS EXT02-05 contra clúster local: todos los checks PASS y etiquetado SIMULADO_LOCAL (no es evidencia de Supabase)
+PASS EXT02-06 destino inalcanzable: nunca PASS
+PASS EXT02-07 la sonda no deja objetos tras ejecutarse
+TOTAL=7 PASS=7 FAIL=0
+
+----- stderr -----
+
+=== ETAPA D: Pruebas PostgreSQL aisladas ===
+[D] bat_v20_pe                         PASS 
+----- stdout -----
+
+----- stderr -----
+
+[D] bat_v20_mutaciones                 PASS 
+----- stdout -----
+
+----- stderr -----
+
+[D] bat_extension_local                PASS 
+----- stdout -----
+
+----- stderr -----
+
+[D] bat_dg19                           PASS 
+----- stdout -----
+
+----- stderr -----
+
+[D] bat_hash_encadenado                PASS 
+----- stdout -----
+
+----- stderr -----
+
+=== ETAPA E: RLS y privilegios ===
+[E] bat___precondicion_roles           PASS 
+----- stdout -----
+
+----- stderr -----
+
+[E] bat_smoke_6_scripts                PASS 
+----- stdout -----
+
+----- stderr -----
+
+[E] bat_aserciones_smoke               PASS 
+----- stdout -----
+
+----- stderr -----
+
+=== ETAPA F: Triggers y funciones ===
+[F] bat_estatica_T47_T124              PASS 
+----- stdout -----
+
+----- stderr -----
+
+[F] bat_k47_por_escenario              PASS 
+----- stdout -----
+
+----- stderr -----
+
+[F] bat_t409_individual                PASS 
+----- stdout -----
+
+----- stderr -----
+
+[F] bat_t409_repro_2a_corrida          PASS 
+----- stdout -----
+
+----- stderr -----
+
+[F] bat_t409_repro_comparacion         PASS 
+----- stdout -----
+
+----- stderr -----
+
+[F] bat_t409_correspondencia           PASS 
+----- stdout -----
+
+----- stderr -----
+
+[F] bat_funciones_22                   PASS 
+----- stdout -----
+
+----- stderr -----
+
+[F] bat_exc_modelo14                   PASS 
+----- stdout -----
+
+----- stderr -----
+
+[F] bat_catalogo_except                PASS 
+----- stdout -----
+
+----- stderr -----
+
+[F] bat_arnes_r1r9                     PASS 
+----- stdout -----
+
+----- stderr -----
+
+=== ETAPA G: Concurrencia ===
+[G] bat_concurrencia_local             PASS 
+----- stdout -----
+
+----- stderr -----
+
+[G] permutaciones_orden                PASS 
+----- stdout -----
+{"permutaciones_01_04": 24, "todas_salidas_iguales": {"01": true, "02": true, "03": true, "04": true}, "sin_cambios_persistentes": true, "05_A_primero_vs_B_primero_iguales": {"05A": true, "05B": true}}
+
+----- stderr -----
+
+[G] secuencia_05A_05B_observador_independiente PASS 
+----- stdout -----
+PASS | 05-P1 | A y B reales + observador independiente | PASS
+PASS | 05-P2 | B no emite PASS propio (veredicto_propio ESPERO, no PASS) | True
+PASS | 05-N1 | salida de A eliminada | 05-A-SALIDA-AUSENTE
+PASS | 05-N2 | salida de B eliminada | 05-B-SALIDA-AUSENTE
+PASS | 05-N3 | veredicto de B alterado (ESPERO→NO_ESPERO) | 05-B-NO-ESPERO (NO_ESPERO)
+PASS | 05-N4 | pid de B falsificado | 05-SIN-EVIDENCIA-INDEPENDIENTE (el observador no vio a B bloqueada)
+PASS | 05-N5 | salidas de A y B intercambiadas | 05-A-SALIDA-AUSENTE
+PASS | 05-N6 | observador ausente (sin evidencia independiente) | 05-SIN-EVIDENCIA-INDEPENDIENTE
+PASS | 05-N7 | el bloqueador observado no es A | 05-BLOQUEO-POR-OTRA-SESION (el bloqueador observado no es A)
+PASS | 05-P3 | segunda corrida independiente | PASS
+PASS | 05-N8 | evidencia de OTRA corrida (resultado heredado) | 05-SIN-EVIDENCIA-INDEPENDIENTE (el observador no vio a B bloqueada)
+PASS | 05-N9 | B sin A: BLOCKED y sin inserción | True
+PASS | 05-N10 | impostor 'cci_05A' sin xid | True
+PASS | 05-N11 | impostor 'cci_05A' con xid pero sin conflicto | 05-B-NO-ESPERO (NO_ESPERO) | B:NO_ESPERO
+PASS | 05-N12 | sin residuos tras todas las corridas | 0
+TOTAL=15 PASS=15 FAIL=0
+
+----- stderr -----
+
+=== ETAPA H: Reconciliación integral ===
+[H] ct_gen_limitaciones.py             PASS 
+----- stdout -----
+27 Counter({'VIGENTE': 18, 'RESUELTA': 5, 'PARCIALMENTE_RESUELTA': 4})
+
+----- stderr -----
+
+[H] ct_gen_trazabilidad_maestra.py     PASS 
+----- stdout -----
+filas 54 regla-función 33 decisiones 21 duplicadas 0 reglas con texto 38 decisión DEMOSTRADA 0 INFERIDA 0
+
+----- stderr -----
+
+[H] ct_gen_informe_pruebas.py          PASS 
+----- stdout -----
+ok 22
+
+----- stderr -----
+
+[H] ct_gen_cifras.py_pasada1           PASS 
+----- stdout -----
+cifras: 42
+
+----- stderr -----
+
+[H] ct_manifiesto.py_pasada1           PASS 
+----- stdout -----
+generado: 171 entradas
+
+----- stderr -----
+
+[H] ct_controles_negativos_manifiesto.py_pasada1 PASS 
+----- stdout -----
+manifiesto | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | ruta con .. en el manifiesto | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto se lista a sí mismo | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto se lista a sí mismo | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto desordenado | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto desordenado | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto con CRLF | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto con CRLF | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto sin LF final | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto sin LF final | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | enlace simbólico en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | enlace simbólico en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | __pycache__ en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | __pycache__ en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | contenidos intercambiados entre dos archivos | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | contenidos intercambiados entre dos archivos | esperado=RECHAZA obtenido_rc=1
+PASS | generador determinista (dos generaciones idénticas byte a byte)
+PASS | el manifiesto regenerado coincide con el del dossier (informativo)
+PASS | --base: commit posterior que solo toca evidencia_verificacion/ (ACEPTA)
+PASS | --base: commit posterior que cambia otro archivo (RECHAZA)
+TOTAL=36 FAIL=0
+
+
+----- stderr -----
+
+[H] ct_gen_resolucion_observaciones.py_pasada1 PASS 
+----- stdout -----
+ok refs=0
+
+----- stderr -----
+
+[H] ct_gen_auditoria_fechas.py_pasada1 PASS 
+----- stdout -----
+ok
+
+----- stderr -----
+
+[H] ct_gen_cifras.py_pasada2           PASS 
+----- stdout -----
+cifras: 42
+
+----- stderr -----
+
+[H] ct_manifiesto.py_pasada2           PASS 
+----- stdout -----
+generado: 171 entradas
+
+----- stderr -----
+
+[H] ct_controles_negativos_manifiesto.py_pasada2 PASS 
+----- stdout -----
+manifiesto | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | ruta con .. en el manifiesto | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto se lista a sí mismo | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto se lista a sí mismo | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto desordenado | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto desordenado | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto con CRLF | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto con CRLF | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | manifiesto sin LF final | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | manifiesto sin LF final | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | enlace simbólico en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | enlace simbólico en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | __pycache__ en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | __pycache__ en el dossier | esperado=RECHAZA obtenido_rc=1
+PASS | vía A | contenidos intercambiados entre dos archivos | esperado=RECHAZA obtenido_rc=1
+PASS | vía B | contenidos intercambiados entre dos archivos | esperado=RECHAZA obtenido_rc=1
+PASS | generador determinista (dos generaciones idénticas byte a byte)
+PASS | el manifiesto regenerado coincide con el del dossier (informativo)
+PASS | --base: commit posterior que solo toca evidencia_verificacion/ (ACEPTA)
+PASS | --base: commit posterior que cambia otro archivo (RECHAZA)
+TOTAL=36 FAIL=0
+
+
+----- stderr -----
+
+[H] ct_gen_resolucion_observaciones.py_pasada2 PASS 
+----- stdout -----
+ok refs=0
+
+----- stderr -----
+
+[H] ct_gen_auditoria_fechas.py_pasada2 PASS 
+----- stdout -----
+ok
+
+----- stderr -----
+
+[H] busqueda_global                    PASS 
+----- stdout -----
+BÚSQUEDA GLOBAL (excluye resultados/, evidencia_verificacion/ y los scripts que contienen los patrones como definición)
+PASS | marcadores TODO/FIXME de código: 0 | []
+PASS | «INCONSISTENTE»: 0 apariciones | 
+PASS | «NO CONCILIADO»: 0 apariciones | 
+PASS | «REFERENCIA ROTA»: 0 apariciones | 
+PASS | «HASH INCORRECTO»: 0 apariciones | 
+PASS | «ARCHIVO FALTANTE»: 0 apariciones | 
+PASS | «ARCHIVO EXTRA»: 0 apariciones | 
+PASS | «EVIDENCIA AUSENTE»: 0 apariciones | 
+PASS | «ESTADO CONTRADICTORIO»: 0 apariciones | 
+PASS | «FALSO FAIL»: 0 apariciones | 
+INFO | «PENDIENTE»: 190 apariciones en 18 archivos (descripciones de limitaciones/estados/pruebas negativas, con justificación en las matrices)
+INFO | «NO VERIFICADO»: 4 apariciones en 4 archivos (descripciones de limitaciones/estados/pruebas negativas, con justificación en las matrices)
+INFO | «FALSO PASS»: 0 apariciones en 0 archivos (descripciones de limitaciones/estados/pruebas negativas, con justificación en las matrices)
+INFO | clasificadas 2 líneas: ERROR (contexto técnico/histórico/contrato)
+INFO | clasificadas 72 líneas: FAIL (vocabulario de estados / 0 FAIL / control negativo / histórico)
+PASS | FAIL/ERROR en documentos: todas las apariciones tienen contexto legítimo (0 sin justificar) | 
+PASS | sin referencias obsoletas fuera de contexto histórico | 
+TOTAL_FAIL=0
+
+----- stderr -----
+
+[H] reconciliacion_integral            PASS 
+----- stdout -----
+TOTAL=58 PASS=58 FAIL=0
+
+----- stderr -----
+
+[H] anclaje_externo_reconciliacion     PASS 
+----- stdout -----
+ANCLADO H
+
+----- stderr -----
+
+=== ETAPA I: Consistencia documental ===
+[I] consistencia_informe               PASS 
+----- stdout -----
+CONSISTENCIA total=58 pass=58 fail=0 | incoherencias=0
+
+----- stderr -----
+
+[I] anclas_verificadas_tras_H          PASS 
+----- stdout -----
+ANCLAS incoherencias=0
+
+----- stderr -----
+
+[I] controles_negativos_anclas         PASS 
+----- stdout -----
+PASS | sin manipulación (sin incoherencias)
+PASS | modificación COHERENTE de JSON+TXT (eliminar una comprobación y ajustar totales) (detecta: salida modificada después de generarse: scripts_validacion/resultados/)
+PASS | INFORME .md alterado (detecta: salida modificada después de generarse: INFORME_RECONCILIACION_INTEGRA)
+PASS | reconciliacion_integral.json eliminado (detecta: salida anclada ausente: scripts_validacion/resultados/reconciliacion_i)
+PASS | comprobación de otra ejecución con SHA re-anclado a mano en el JSON (la comprobación de run id lo delata) (detecta: comprobaciones de otra ejecución)
+PASS | anclas de otra ejecución (detecta: anclas de otra ejecución)
+PASS | anclas ausentes (detecta: anclas ilegibles/ausentes: FileNotFoundError(2, 'No such file or direc)
+PASS | totales del stdout del generador no coinciden con el JSON (detecta: totales del stdout del generador distintos del JSON)
+TOTAL=8 FAIL=0
+
+----- stderr -----
+
+[I] controles_negativos_consistencia   PASS 
+----- stdout -----
+PASS | coherente: sin manipulación (sin incoherencias)
+PASS | MD: FAIL=0 → FAIL=1 (la contradicción detectada en la revisión) (detecta: MD: línea TOTAL difiere del JSON: ['**TOTAL=58 PASS=58 FAIL=)
+PASS | TXT: línea TOTAL alterada (detecta: TXT: línea TOTAL difiere del JSON: ['TOTAL=59 PASS=58 FAIL=0)
+PASS | JSON: una comprobación pasa a FAIL (detecta: JSON: fail no coincide con los estados)
+PASS | MD: estado de una fila alterado (detecta: MD: filas (id, estado) difieren del JSON)
+PASS | evidencia: archivo citado modificado (detecta: evidencia modificada tras la reconciliación: MATRIZ_LIMITACI)
+PASS | evidencia: archivo citado eliminado (detecta: evidencia ausente: MATRIZ_TRAZABILIDAD_MAESTRA.csv (comproba)
+PASS | evidencia vacía en una comprobación PASS (detecta: PASS con evidencia vacía: RC-004)
+PASS | ID único duplicado (detecta: IDs únicos duplicados o ausentes)
+PASS | hash incorrecto en la evidencia (detecta: evidencia modificada tras la reconciliación: MATRIZ_12_ESCEN)
+PASS | fila faltante (detecta: JSON: total != pass+fail o != nº de comprobaciones)
+PASS | resultado heredado (otra ejecución) (detecta: resultado heredado: RC-001 pertenece a otra ejecución (CCI-R)
+TOTAL=12 FAIL=0
+
+----- stderr -----
+
+=== ETAPA J: Integridad de manifiestos ===
+[J] manifiesto_regenerado              PASS 
+----- stdout -----
+generado: 171 entradas
+
+----- stderr -----
+
+[J] manifiesto_verificado              PASS 
+----- stdout -----
+VIA=A (directorio/clon) DIR=/tmp/aud2/work/docs/fase0/cierre_tecnico_fase0 HEAD=n/d
+PASS | sin enlaces simbólicos, no regulares ni artefactos de Python | 
+PASS | manifiesto ordenado de forma determinista (orden bytewise de rutas) | 
+PASS | sin rutas duplicadas | 171
+PASS | sin rutas absolutas, relativas inseguras ni con caracteres de control | []
+PASS | el manifiesto no se lista a sí mismo ni lista la evidencia posterior | 
+PASS | el manifiesto está en el árbol | 
+PASS | ninguna entrada del manifiesto falta en el árbol | []
+PASS | ningún archivo del árbol queda sin entrada (salvo manifiesto y evidencia_verificacion/) | []
+PASS | SHA-256 recalculado sobre los bytes reales coincide en 171/171 entradas | []
+PASS | entradas (171) = archivos sujetos a verificación (171) | 
+TOTAL_ENTRADAS=171 ARCHIVOS_EN_ARBOL=190 EXCLUIDOS_DECLARADOS=19 FAIL=0
+RESULTADO=OK
+
+----- stderr -----
+
+[J] anclaje_externo_manifiesto         PASS 
+----- stdout -----
+ANCLADO J
+
+----- stderr -----
+
+=== ETAPA K: Verificación final ===
+[K] resultados de esta ejecución e integridad de archivos críticos: PASS
+[K] anclas_externas_intactas           PASS 
+----- stdout -----
+ANCLAS incoherencias=0
+
+----- stderr -----
+
+[K] ID-13 BLOCKED: validación real en Supabase (no autorizada ni disponible)
+[K] EXT-03 BLOCKED: listas de destinos DEV/PROD autorizados: RECHAZADO [L-DEV-VACIA] dev_allow vacía: el propietario debe aportar al menos un 'system_identifier|base' de CCI-DEV
+[K] EXT-01 BLOCKED: custodio externo del hash aprobado no definido: falta la aprobación firmada (CCI_APROBACION_CUSTODIO) y la clave pública con su SHA-256 (CCI_CUSTODIO_PUBKEY, CCI_CUSTODIO_PUBKEY_SHA256). El mecanismo criptográfico está probado con claves de prueba; NO hay custodio real
+[K] EXT-02 BLOCKED: compatibilidad con Supabase CCI-DEV (TEMP, pg_control_system(), PGOPTIONS por pooler, project ref, pooler): sólo verificable en CCI-DEV; la sonda existe y está probada en local (SIMULADO_LOCAL)
+[K] EXT-04-L04 BLOCKED: equivalencia del PostgreSQL temporal con el esquema físico aprobado (no existe esquema físico aprobado)
+[K] EXT-04-L05 BLOCKED: validación física en CCI-DEV
+[K] EXT-04-L06 BLOCKED: RLS, privilegios y concurrencia reales en CCI-DEV
+[K] EXT-04-L07 BLOCKED: trigger de elegibilidad R1–R9 en entorno físico
+[K] EXT-04-L08 BLOCKED: HV-02/PO-05: confirmación del propietario sobre la Adenda v9 (el documento no existe en el repositorio)
+[K] supabase_cci_dev_real_ext02 NOT_TESTED: no se aportó un reporte REAL_CCI_DEV con SHA-256 externo; ID-13 NOT_TESTED

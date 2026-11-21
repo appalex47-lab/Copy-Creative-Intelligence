@@ -1,0 +1,1 @@
+cluster listo: socket=/tmp/CCI-RUN-20261121T220844Z-9ec25036/dev/sock puerto=32943 sysid=7710750170142132283
