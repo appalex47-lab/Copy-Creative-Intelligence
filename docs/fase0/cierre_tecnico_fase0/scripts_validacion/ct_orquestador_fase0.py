@@ -146,6 +146,12 @@ def C():
     paso("C", "identidad_dev_prod_ag18", PY + [os.path.join(SV, "ct_pruebas_identidad_cierre.py"), dev["sock"], str(dev["port"]), prod["sock"], str(prod["port"]), cl, str(clp), os.path.join(CD, "identidad.json")], chequeo=idn)
     ops = os.path.join(CD, "autorizacion_operadores.json")
     paso("C", "autorizacion_operadores", PY + [os.path.join(SV, "ct_pruebas_autorizacion_operadores.py"), sock, port, ops], rx=r"^TOTAL=22 PASS=22 FAIL=0$")
+    def opc(o):   # el control positivo exige que la guarda anterior sea idéntica a 404f5adc y que los ataques funcionen contra ella
+        J = json.load(open(os.path.join(CD, "operadores_privilegios_cierre.json")))
+        eq = J["equivalencia_VULN_con_guarda_404f5adc"].get("identica") is True
+        cp = [c for c in J["casos_barrido"] if c["id"] in ("B-01", "B-02", "E-01")]
+        return (eq and all(c["control_positivo_VULN_scripts_secuestrados"] for c in cp), "equivalencia=%s controles_positivos=%s" % (eq, [(c["id"], c["control_positivo_VULN_scripts_secuestrados"]) for c in cp]))
+    paso("C", "operadores_y_privilegios_efectivos", PY + [os.path.join(SV, "ct_pruebas_operadores_cierre.py"), sock, port, os.path.join(CD, "operadores_privilegios_cierre.json")], rx=r"^TOTAL=37 PASS=37 FAIL=0$", chequeo=opc)
     pb = puertos_libres(4); wd = os.path.join(tempfile.gettempdir(), RUN, "ag18")
     paso("C", "identidad_firmada_ag18_clones", PY + [os.path.join(SV, "ct_pruebas_identidad_firmada.py"), wd, str(pb), os.path.join(CD, "identidad_firmada_ag18.json")], rx=r"^TOTAL=42 PASS=42 FAIL=0$")
     pb = puertos_libres(4); wd = os.path.join(tempfile.gettempdir(), RUN, "ext01")

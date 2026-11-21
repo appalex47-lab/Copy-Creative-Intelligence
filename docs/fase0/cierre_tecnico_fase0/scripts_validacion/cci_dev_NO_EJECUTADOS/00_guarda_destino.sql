@@ -10,6 +10,8 @@
 -- Reglas (en este orden; la primera que falla aborta con 'NO EJECUTADO [CÓDIGO]'; el mensaje no incluye secretos, solo una huella md5 truncada):
 --   G-SEARCH-PATH-NO-SEGURO el search_path efectivo del llamador contiene esquemas distintos de pg_catalog/public/pg_temp/"$user", "$user" apunta a un esquema existente, o public/pg_temp preceden a pg_catalog
 --   G-ROL-CAMBIADO / G-OPERADOR-DESCONOCIDO / G-OPERADOR-PRIVILEGIO-EXCESIVO / G-OPERADOR-ROLES-NO-CONFIGURADOS / G-OPERADOR-NO-AUTORIZADO / G-SEPARACION-FUNCIONES  (modo DEV; autorización del operador, ver MATRIZ_AUTORIZACION_OPERADORES.md)
+--   G-OPERADOR-CREATE-EN-PUBLIC / G-OPERADOR-CREATE-EN-BASE / G-PUBLIC-CREATE-AJENO  (modo DEV; privilegios EFECTIVOS: el operador y ningún rol no superusuario puede crear objetos en public; el operador tampoco en la base)
+--   G-OPERADOR-AJENO-EN-SEARCH-PATH / G-CAST-AJENO  (todos los modos; operadores en public/temporales o casts de usuario alteran la resolución de operadores)
 --   G-CONFIG-INCOMPLETA     falta cci.validacion_autorizada o cci.entorno
 --   G-CONFIG-INVALIDA       el par declarado no es (SI-CCI-DEV,CCI-DEV) ni (SI-LOCAL-TEMPORAL,LOCAL-TEMPORAL)
 --   G-IDENTIDAD-NO-VERIFICABLE  no se pudo leer la identidad efectiva (p. ej. pg_control_system() sin permiso)
@@ -25,6 +27,7 @@ declare
   prod_deny text[] := array[]::text[];  -- @@PROD_DENY@@  (vacío: el propietario añade el 'system_identifier' de CCI-PROD)
   sysid text; dbn text := pg_catalog.current_database(); ident text; plat int; fp text; err text;
   so_super bool; so_crole bool; so_cdb bool; so_byp bool; so_repl bool;
+  nfo int; nrc int; roles_c int;
   sp0 text := pg_catalog.current_setting('search_path'); ent text; n int := 0; ipc int := 0; ipub int := 0; ipt int := 0;   -- search_path EFECTIVO del llamador (ALTER ROLE/DATABASE, PGOPTIONS, SET) capturado ANTES de blindar el del bloque
 begin
   perform pg_catalog.set_config('search_path','pg_catalog, pg_temp',true);   -- anti-suplantación: ningún objeto del operador (p. ej. public.pg_control_system) puede sustituir a los del catálogo
@@ -55,12 +58,25 @@ begin
     if not exists (select 1 from pg_catalog.pg_roles where rolname = 'cci_operador') then raise exception 'NO EJECUTADO [G-OPERADOR-ROLES-NO-CONFIGURADOS]: no existe el rol cci_operador; el administrador debe crear la matriz de roles (PROCEDIMIENTO_ROLES_CCI_DEV.sql)'; end if;
     if not pg_catalog.pg_has_role(session_user, 'cci_operador', 'member') then raise exception 'NO EJECUTADO [G-OPERADOR-NO-AUTORIZADO]: el rol de la sesión no es miembro de cci_operador'; end if;
     if exists (select 1 from pg_catalog.pg_roles x where x.rolname in ('cci_custodio','cci_administrador') and pg_catalog.pg_has_role(session_user, x.oid, 'member')) then raise exception 'NO EJECUTADO [G-SEPARACION-FUNCIONES]: el operador no puede ser a la vez custodio o administrador'; end if;
+    -- @@PRIV_CHECK_INI@@ (cierre de operadores, AUD-OP-01) PRIVILEGIOS EFECTIVOS (has_*_privilege: incluyen herencia, PUBLIC y propiedad): el operador no puede crear objetos que alteren la resolución de nombres
+    if pg_catalog.has_schema_privilege(session_user, 'public', 'CREATE') then raise exception 'NO EJECUTADO [G-OPERADOR-CREATE-EN-PUBLIC]: el rol de la sesión tiene CREATE efectivo sobre el esquema public (podría introducir operadores/funciones/tipos que alteren los scripts); el administrador debe revocarlo (PROCEDIMIENTO_ROLES_CCI_DEV.sql)'; end if;
+    if pg_catalog.has_database_privilege(session_user, dbn, 'CREATE') then raise exception 'NO EJECUTADO [G-OPERADOR-CREATE-EN-BASE]: el rol de la sesión tiene CREATE efectivo sobre la base (podría crear esquemas auxiliares, p. ej. uno con su propio nombre); el administrador debe revocarlo'; end if;
+    select pg_catalog.count(*) into roles_c from pg_catalog.pg_roles x where not x.rolsuper and x.rolname !~ '^pg_' and pg_catalog.has_schema_privilege(x.oid, 'public', 'CREATE') and not pg_catalog.pg_has_role(x.oid, 'pg_database_owner', 'member');
+    if roles_c > 0 then raise exception 'NO EJECUTADO [G-PUBLIC-CREATE-AJENO]: % rol(es) no superusuario con CREATE efectivo sobre public pueden plantar operadores entre la comprobación y la ejecución; el administrador debe revocarlo', roles_c; end if;
+    if exists (select 1 from pg_catalog.pg_roles x where (x.rolsuper or x.rolcreaterole or x.rolcreatedb or x.rolbypassrls or x.rolreplication) and x.oid <> (select r2.oid from pg_catalog.pg_roles r2 where r2.rolname = session_user) and pg_catalog.pg_has_role(session_user, x.oid, 'member')) then raise exception 'NO EJECUTADO [G-OPERADOR-MEMBRESIA-PRIVILEGIADA]: el rol de la sesión es miembro (aunque sea NOINHERIT, directa o indirecta) de un rol con SUPERUSER/CREATEROLE/CREATEDB/BYPASSRLS/REPLICATION y podría recuperarlo con SET ROLE'; end if;
+    -- @@PRIV_CHECK_FIN@@
     raise log 'CCI-AUDITORIA operador=% pid=% app=% destino_huella=%', session_user, pg_catalog.pg_backend_pid(), pg_catalog.current_setting('application_name'), fp;
   else
     if pg_catalog.inet_server_addr() is not null then raise exception 'NO EJECUTADO [G-LOCAL-NO-SOCKET]: el modo local exige socket Unix (huella %)', fp; end if;
     if dbn !~ '^cci_' then raise exception 'NO EJECUTADO [G-LOCAL-BASE]: el modo local exige base ^cci_ (huella %)', fp; end if;
     if plat > 0 then raise exception 'NO EJECUTADO [G-LOCAL-ROLES-PLATAFORMA]: la base tiene roles de plataforma supabase_* (huella %); no es un clúster local temporal', fp; end if;
   end if;
+  -- @@OP_CHECK_INI@@ (cierre de operadores, AUD-OP-01) NINGÚN operador ajeno al catálogo en los esquemas que el blindaje deja en el search_path (public, temporales) ni casts definidos por usuarios: una firma más específica en public gana a pg_catalog (demostrado: = (oid, regnamespace))
+  select pg_catalog.count(*) into nfo from pg_catalog.pg_operator o join pg_catalog.pg_namespace n on n.oid = o.oprnamespace where n.nspname = 'public' or n.nspname ~ '^pg_temp_' or n.nspname ~ '^pg_toast_temp_';
+  if nfo > 0 then raise exception 'NO EJECUTADO [G-OPERADOR-AJENO-EN-SEARCH-PATH]: existen % operador(es) definidos en public o esquemas temporales; podrían sustituir a los de pg_catalog en los scripts', nfo; end if;
+  select pg_catalog.count(*) into nrc from pg_catalog.pg_cast c where c.oid >= 16384::oid;
+  if nrc > 0 then raise exception 'NO EJECUTADO [G-CAST-AJENO]: existen % cast(s) definidos por usuarios; alteran la resolución de operadores por conversión implícita', nrc; end if;
+  -- @@OP_CHECK_FIN@@
   raise notice 'GUARDA OK modo=% huella=%', a, fp;
 end $guarda$;
 -- BLINDAJE DE SESIÓN (resolución del límite SPD7): sólo tras superar la guarda se fija el search_path de la SESIÓN a pg_catalog primero; los operadores sin calificar de los scripts ya no se resuelven en esquemas del llamador. (public queda por detrás: los homónimos exactos de pg_catalog ganan por orden.)
