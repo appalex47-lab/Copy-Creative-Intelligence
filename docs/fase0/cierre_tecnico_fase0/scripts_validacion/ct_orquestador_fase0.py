@@ -147,7 +147,8 @@ def H():
     ordenar_indice()
     # Salidas que ESTA ejecución genera más adelante (reconciliación, controles, búsqueda global…) y que los generadores listan/citan: la limpieza de la batería las borró (no se heredan);
     # se crean como marcadores explícitos de esta ejecución y se sobrescriben con la salida real en H/I; K verifica que todo resultado pertenece a esta ejecución.
-    for rel in git("ls-files", "-d", "--", "docs/fase0/cierre_tecnico_fase0").splitlines():
+    SALIDAS_PROPIAS = ["reconciliacion_integral.json", "reconciliacion_integral.txt", "controles_consistencia_informe.txt", "controles_negativos_manifiesto.txt", "busqueda_global.txt"]
+    for rel in git("ls-files", "-d", "--", "docs/fase0/cierre_tecnico_fase0").splitlines() + ["docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/" + x for x in SALIDAS_PROPIAS]:
         p = os.path.join(ROOT, rel)
         if rel.startswith("docs/fase0/cierre_tecnico_fase0/scripts_validacion/resultados/") and not os.path.exists(p): os.makedirs(os.path.dirname(p), exist_ok=True); open(p, "w", encoding="utf-8").write("PENDIENTE_DE_GENERAR_EN_ESTA_EJECUCION %s\n" % RUN)
     for g in ("ct_gen_limitaciones.py", "ct_gen_trazabilidad_maestra.py", "ct_gen_informe_pruebas.py"):
