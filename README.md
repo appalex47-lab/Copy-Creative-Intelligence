@@ -30,11 +30,11 @@ Guías: [instalación](docs/architecture/GUIA_INSTALACION_LOCAL.md) · [ejecuci�
 | `database/`, `supabase/`                                              | Solo README: integración futura, sin SQL ni conexión                              |
 | `evidence/`                                                           | Expedientes originales de la fundación de la aplicación (Fase 1.x) y documentos de publicación |
 | `evidence/public/`                                                    | Copias de consulta pública derivadas (sin rutas del entorno temporal); **no son evidencia original** ([léelo](evidence/public/README.md)) |
-| `.github/workflows/ci.yml`                                            | Workflow de CI publicado en ramas de revisión; **nunca ejecutado ni validado en GitHub** ([estado](docs/architecture/CI.md)) |
+| `.github/workflows/ci.yml`                                            | Workflow de CI versionado y publicado en ramas de revisión; **sin ejecución registrada, habilitación no determinada y no validado en un runner real** ([estado](docs/architecture/CI.md)) |
 
 `evidence/` (aplicación) y `evidencia/` (Fase 0) coexisten en el árbol de trabajo original. **Esta rama de revisión no incluye `evidencia/`, `AUDITORIA_*` ni `ARTEFACTOS_REVISION_PUBLICACION/`**: solo `docs/fase0/` (heredado de `main`) y `evidence/`. No se renombra ni se mueve nada histórico.
 
-**CI:** el workflow está publicado en ramas de revisión, pero no se ejecutó, no consta como habilitado y no está validado en un runner real. El push a las ramas `review/*` no lo dispara (solo `pull_request`, `push` a `development/**` y ejecución manual). Detalle en [CI](docs/architecture/CI.md).
+**CI:** el workflow está versionado y publicado en ramas de revisión (no en `main`). No hay ejecución registrada ni validación en un runner real, y no se afirma que Actions esté habilitado o deshabilitado (la consulta de configuración devolvió 403). Un push a una rama `review/*` no coincide con su disparador `push` (solo `development/**`); `pull_request` es un disparador configurado, no una ejecución hecha, y la ejecución manual (`workflow_dispatch`) requiere, según GitHub, que el workflow esté en la rama predeterminada. La primera ejecución real sigue pendiente. Detalle en [CI](docs/architecture/CI.md).
 
 ## Estado
 

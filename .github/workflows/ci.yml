@@ -1,6 +1,10 @@
-# CI de Copy Creative Intelligence — PREPARADO LOCALMENTE, NO PUBLICADO NI HABILITADO.
-# Funciona sin credenciales ni secretos (no usa Supabase ni ningún servicio externo) y no despliega ni publica nada.
-# Las versiones de las acciones están ancladas a etiquetas mayores; antes de habilitarlo conviene anclarlas por SHA.
+# CI de Copy Creative Intelligence. Estado a la fecha de esta corrección documental (detalle en docs/architecture/CI.md):
+# - Versionado y publicado en las ramas de revisión (review/*).
+# - No está demostrado que esté habilitado para ejecutarse en GitHub.
+# - No existe evidencia de una ejecución real de este workflow.
+# - No se ha validado en un runner real.
+# - Las acciones @v4 siguen pendientes de validación y eventual anclaje por SHA.
+# - No despliega ni publica la aplicación; no usa credenciales, secretos, Supabase ni servicios externos.
 name: CI
 
 on:
