@@ -1,5 +1,5 @@
 # Control de cambios — Auditoría integral y regularización (2026-11-22)
-**Versión:** 2.1 (secciones R1–R7 de rondas anteriores conservadas; R8 añade la ronda de verificación de coherencia posterior)
+**Versión:** 2.2 (secciones R1–R8 de rondas anteriores conservadas; R9 añade la corrección puntual de X4)
 **Commit base:** `1bb831a32219898616e7a7ad8d12092aac16f253` (HEAD real verificado por API antes de editar; `main` = `6a1af24`). Rama `evidence/cci-fase0-review`. Solo documentación bajo `evidence/cci-fase0/`.
 **Motivo:** mandato de auditoría integral de todo el expediente de Fase 0, regularización documental y preparación de decisiones pendientes.
 
@@ -111,3 +111,14 @@ Ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` v2.0: la brecha de lectura declarada
 | `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados por script al final, sin ediciones posteriores | Integridad |
 **Archivos nuevos (3):** `auditoria_integral/13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md`, `logs/verificacion_coherencia_posterior.py`, `logs/verificacion_coherencia_posterior_2026-11-22.txt`.
 **Preservados sin cambios:** `docs/fase0/` (59), `anexos/`, logs previos, fichas P4A y análisis, `REGISTRO_DECISIONES_RESUELTAS.md` y todos los demás archivos no listados.
+
+## R9. Corrección puntual del control X4 (base `e049fcda41aad7e8b47f61b60c313c69164210cc`)
+**Alcance:** corregir el control X4 de `logs/verificacion_coherencia_posterior.py`, reejecutar el script y actualizar la evidencia directamente afectada. No es una nueva auditoría. No se modificó código de la aplicación, decisiones, definiciones de entidades, estados de CR ni documentos históricos; no hubo omisión documental real (X4: 24/24).
+| Archivo | Cambio | Motivo |
+|---|---|---|
+| `logs/verificacion_coherencia_posterior.py` | X4 reescrito (comprobación individual por CR y documento; rangos con ambos extremos explícitos; pruebas de regresión; reproducción del defecto) | Defecto de X4 (ver `13_` §18) |
+| `logs/verificacion_coherencia_posterior_2026-11-22_x4_corregido.txt` (nuevo) | Salida fechada del script corregido, con el commit verificado en su cabecera | Evidencia; la salida original se conserva sin cambios |
+| `auditoria_integral/13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md` | Addendum §18 (el contenido anterior no se altera) | Registrar defecto, corrección, pruebas y resultado |
+| `auditoria_integral/05`, `08`, `10`, `12` | Cifras: 111 archivos; 109/110 líneas de manifiesto; 171 blobs; una fila NO_APLICABLE | Archivo nuevo |
+| `auditoria_integral/07` (este archivo) | R9 | Control de cambios |
+| `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados | Integridad |

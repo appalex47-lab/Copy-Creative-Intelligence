@@ -1,13 +1,14 @@
 # Verificación de coherencia posterior a las ediciones (solo lectura). Uso: cd <raíz del repo> && python3 evidence/cci-fase0/logs/verificacion_coherencia_posterior.py
 import re,os,sys,subprocess,collections
 EV='evidence/cci-fase0'
+print('# Commit verificado (HEAD):',subprocess.run(['git','rev-parse','HEAD'],capture_output=True,text=True).stdout.strip(),'| árbol de trabajo con cambios sin confirmar:','sí' if subprocess.run(['git','status','--porcelain','--','evidence'],capture_output=True,text=True).stdout.strip() else 'no')
 def git(*a): return subprocess.run(['git']+list(a),capture_output=True,text=True).stdout
 files=[]
 for r,_,fs in os.walk(EV):
     for f in fs:
         if f.endswith(('.md','.txt','.py')): files.append(os.path.join(r,f))
 # Se excluyen de los escaneos los propios productos de esta verificación (autorreferencia): su informe 13_, este script y su salida.
-SELF=('auditoria_integral/13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md','logs/verificacion_coherencia_posterior.py','logs/verificacion_coherencia_posterior_2026-11-22.txt')
+SELF=('auditoria_integral/13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md','logs/verificacion_coherencia_posterior.py','logs/verificacion_coherencia_posterior_2026-11-22.txt','logs/verificacion_coherencia_posterior_2026-11-22_x4_corregido.txt')
 files=[p for p in files if p[len(EV)+1:] not in SELF]
 files.sort()
 txt={p:open(p,encoding='utf-8',errors='replace').read() for p in files}
@@ -137,9 +138,81 @@ est0=estados(ok13) if ok13 else {}
 dif=[(k,est0.get(k),est.get(k)) for k in sorted(est0) if k<='CR-18' and est0.get(k)!=est.get(k)]
 rec('X2_estados_CR01_18_sin_cambio_vs_13b25ca' if not dif and est0 else 'X2_CAMBIOS_CR01_18',dif if dif else len(est0))
 rec('X3_CR_con_linea_evidencia' if len(re.findall(r'Evidencia de verificaci[oó]n',D06))>=22 else 'X3_FALTA_evidencia',len(re.findall(r'Evidencia de verificaci[oó]n',D06)))
-for cr in ('CR-19','CR-20','CR-21','CR-22'):
-    faltan=[n for n in ('00_INDICE_VIGENTES_E_HISTORICOS.md','README_ENTREGA.md','auditoria_integral/01_INDICE_MAESTRO_FASE0.md','auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md','auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md','auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md') if cr.replace('CR-','CR-') not in txt[EV+'/'+n] and ('19…' not in txt[EV+'/'+n] and '19…CR-22' not in txt[EV+'/'+n] and 'CR-19' not in txt[EV+'/'+n])]
-    rec('X4_CR19_22_reflejados_en_indices' if not faltan else 'X4_no_mencionado',(cr,faltan))
+# X4 (corregido): cada CR se comprueba individualmente en cada documento.
+# Defecto de la versión anterior (e049fcd): la condición alternativa «'CR-19' not in texto» hacía que la mera presencia de CR-19
+# (o de un fragmento «19…») diera por cubiertos CR-20, CR-21 y CR-22. Aquí solo cuenta una referencia explícita al CR evaluado
+# o un rango con ambos extremos explícitos («CR-19…CR-22», «CR-19…22») que lo contenga.
+SEP=r'(?:…|\.\.\.|–|—|-)'
+def cr_cubierto(texto,n):
+    """Devuelve (True, evidencia) si 'texto' referencia inequívocamente CR-n; si no, (False, None)."""
+    m=re.search(r'\bCR-0*%d(?!\d)'%n,texto)
+    if m: return True,'explícita: '+m.group(0)
+    mejor=None  # entre los rangos que lo contienen se informa el más estrecho (la evidencia más específica)
+    for r in re.finditer(r'\bCR-(\d{1,2})\s*'+SEP+r'\s*(?:CR-)?(\d{1,2})(?!\d)',texto):
+        lo,hi=int(r.group(1)),int(r.group(2))
+        if lo<=hi and lo<=n<=hi and (mejor is None or hi-lo<mejor[0]): mejor=(hi-lo,r.group(0))
+    if mejor: return True,'rango: '+mejor[1]
+    return False,None
+def evaluar_x4(docs,crs):
+    """docs: {nombre: texto}. Resultado: lista (cr, doc, ok, evidencia) para cada combinación."""
+    return [(cr,nombre,)+cr_cubierto(texto,int(cr[3:])) for cr in crs for nombre,texto in docs.items()]
+# Pruebas de regresión controladas (textos sintéticos). Cada tupla: (descripción, texto, n, esperado)
+PRUEBAS=[
+ ('CR-19 no satisface CR-20','solo menciona CR-19 aquí',20,False),
+ ('CR-19 no satisface CR-21','solo menciona CR-19 aquí',21,False),
+ ('CR-19 no satisface CR-22','solo menciona CR-19 aquí',22,False),
+ ('CR-19 sí satisface CR-19','solo menciona CR-19 aquí',19,True),
+ ('referencia explícita CR-20 satisface CR-20','véase CR-20',20,True),
+ ('referencia explícita CR-20 no satisface CR-19','véase CR-20',19,False),
+ ('referencia explícita CR-21 satisface CR-21','véase CR-21.',21,True),
+ ('referencia explícita CR-22 satisface CR-22','véase (CR-22)',22,True),
+ ('rango CR-19…CR-22 cubre CR-19','CR-19…CR-22',19,True),
+ ('rango CR-19…CR-22 cubre CR-20','CR-19…CR-22',20,True),
+ ('rango CR-19…CR-22 cubre CR-21','CR-19…CR-22',21,True),
+ ('rango CR-19…CR-22 cubre CR-22','CR-19…CR-22',22,True),
+ ('rango CR-19…22 (extremo sin prefijo) cubre CR-21','CR-19…22',21,True),
+ ('rango CR-19…CR-21 no cubre CR-22','CR-19…CR-21',22,False),
+ ('rango CR-01…CR-18 no cubre CR-19','CR-01…CR-18',19,False),
+ ('rango invertido CR-22…CR-19 no se acepta','CR-22…CR-19',20,False),
+ ('fragmento ambiguo «19…» no se acepta','véase 19…',20,False),
+ ('fragmento ambiguo «19…CR-22» no cubre CR-20','véase 19…CR-22',20,False),
+ ('rango incompleto «CR-19…» no cubre CR-20','véase CR-19… y otros',20,False),
+ ('referencia genérica «CR-19 y siguientes» no cubre CR-21','véase CR-19 y siguientes',21,False),
+ ('«CR-2» no se confunde con CR-20','véase CR-2',20,False),
+ ('«CR-200» no se confunde con CR-20','véase CR-200',20,False),
+ ('«CR-190» no se confunde con CR-19','véase CR-190',19,False),
+ ('texto vacío no cubre ninguna referencia','',22,False),
+]
+ok_t=0
+print('## X4_pruebas_regresion (controles sobre textos sintéticos)')
+for d,tx,n,esp in PRUEBAS:
+    got=cr_cubierto(tx,n)[0]; ok=(got==esp); ok_t+=ok
+    print('   [%s] %s (esperado=%s, obtenido=%s)'%('OK' if ok else 'FALLO',d,esp,got))
+# prueba de fallo identificable: falta CR-21 en un documento sintético
+sint={'doc_A':'CR-19, CR-20, CR-22','doc_B':'CR-19…CR-22','doc_C':'solo CR-19'}
+res=evaluar_x4(sint,('CR-19','CR-20','CR-21','CR-22'))
+falt=sorted((c,dn) for c,dn,ok,_ in res if not ok)
+esperado=[('CR-20','doc_C'),('CR-21','doc_A'),('CR-21','doc_C'),('CR-22','doc_C')]
+ok=(falt==esperado); ok_t+=ok
+print('   [%s] el control falla e identifica exactamente documento y CR ausentes (esperado=%s, obtenido=%s)'%('OK' if ok else 'FALLO',esperado,falt))
+# prueba de evidencia: entre varios rangos válidos se informa el más estrecho
+ev=cr_cubierto('registro CR-01…CR-22; nuevas CR-19…CR-22',20)[1]; ok=(ev=='rango: CR-19…CR-22'); ok_t+=ok
+print('   [%s] entre varios rangos válidos se informa el más específico (esperado=rango: CR-19…CR-22, obtenido=%s)'%('OK' if ok else 'FALLO',ev))
+print('   Resultado pruebas de regresión X4: %d/%d'%(ok_t,len(PRUEBAS)+2))
+# Reproducción del defecto original (lógica de e049fcd, conservada solo para demostrarlo; no se usa como control)
+def x4_antiguo_cubierto(texto,cr):
+    return not (cr not in texto and ('19…' not in texto and '19…CR-22' not in texto and 'CR-19' not in texto))
+print('## X4_defecto_original_reproducido (lógica anterior frente a la corregida sobre un texto que solo menciona CR-19)')
+for n in (19,20,21,22):
+    a=x4_antiguo_cubierto('solo menciona CR-19 aquí','CR-%d'%n); b=cr_cubierto('solo menciona CR-19 aquí',n)[0]
+    print('   CR-%d: lógica anterior=%s | lógica corregida=%s%s'%(n,'cubierto' if a else 'ausente','cubierto' if b else 'ausente','  <- falso positivo de la lógica anterior' if a and not b else ''))
+DOCS_X4=('00_INDICE_VIGENTES_E_HISTORICOS.md','README_ENTREGA.md','auditoria_integral/01_INDICE_MAESTRO_FASE0.md','auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md','auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md','auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md')
+res=evaluar_x4({n:txt[EV+'/'+n] for n in DOCS_X4},('CR-19','CR-20','CR-21','CR-22'))
+print('## X4_detalle (cada CR en cada documento real)')
+for cr,dn,ok,ev in res: print('   %s | %-62s | %s | %s'%(cr,dn,'PRESENTE' if ok else 'AUSENTE',ev or '—'))
+faltan_x4=[(c,dn) for c,dn,ok,_ in res if not ok]
+print('   Resultado X4 real: %d/%d combinaciones presentes; ausentes: %s'%(len(res)-len(faltan_x4),len(res),faltan_x4 if faltan_x4 else 'ninguna'))
+rec('X4_CR19_22_reflejados_individualmente' if not faltan_x4 else 'X4_FALLO_referencia_ausente',(len(res)-len(faltan_x4),len(res)))
 AP=txt[EV+'/entregables_formales/APROBACIONES_FASE0.md']
 rec('X5_aprobaciones_PENDIENTE',len(re.findall(r'PENDIENTE',AP)))
 rec('X5b_aprobaciones_APROBADA_afirmadas',len(re.findall(r'\|\s*(APROBAD[AO]|COMPLETAD[AO])\s*\|',AP)))

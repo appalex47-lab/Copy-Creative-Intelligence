@@ -185,3 +185,39 @@ Lista de los 40 controles: CR: A1 22 CR y distribución 13/5/2/1/1; A2 CR-01…1
 ## 17. Pendientes del propietario y lo que Claude no verificó
 - **Por decidir/validar (propietario):** P4.B, P4.C, P4.E (E1–E5), Q-1…Q-6, C-2, C-3, entidad 9, entidades 10–12 y 14–18, las preguntas A0 de D6.c, P5…P15, aprobaciones 0.1–0.7, contenido definitivo de fases (y la propuesta de roadmap `11_`), aceptación de Fase 0, autorización de Fase 1.
 - **No verificado por Claude:** lo listado en §13 (pruebas, build, E2E, CI, scripts del expediente, `CCI-Evidence`, adjuntos A/B, documentos de la aplicación, lectura byte a byte de `docs/fase0`, reproducción independiente).
+
+## 18. Addendum — corrección puntual del control X4 (base `e049fcda41aad7e8b47f61b60c313c69164210cc`)
+**Alcance:** solo el control X4 del script y sus efectos; no es una nueva auditoría y no se vuelve a verificar el resto del expediente. Lo anterior de este informe (§0–§17) no se altera: sus cifras de archivos, manifiestos y blobs corresponden al commit `e049fcd` (110 archivos, 108/109 líneas, 170 blobs); tras esta corrección son **111** archivos, **109** líneas de `MANIFEST.sha256`, **110** de `INVENTARIO_PUBLICADO.sha256` y **171** blobs.
+- **Defecto original.** La comprobación X4 (que CR-19…CR-22 estén reflejados en seis documentos) marcaba un CR como ausente solo si su cadena **no** estaba en el texto **y además** no aparecía `19…`, `19…CR-22` ni `CR-19`. Por tanto, bastaba que un documento mencionara `CR-19` (o un fragmento `19…`) para dar por cubiertos CR-20, CR-21 y CR-22 (falso positivo); además un fragmento genérico sin ambos extremos se aceptaba como evidencia. El resultado se mostraba solo como cuatro listas vacías, sin distinguir qué evidencia había satisfecho cada CR.
+- **Nueva lógica** (`cr_cubierto` y `evaluar_x4` en el script): cada CR se evalúa individualmente en cada documento; es evidencia una referencia explícita al propio CR (`CR-20`, sin confundir con `CR-2` ni `CR-200`) o un rango con **ambos extremos explícitos** (`CR-19…CR-22`, `CR-19…22`; separadores …, ..., –, —, -) que lo contenga y no esté invertido; no son evidencia `19…`, `19…CR-22`, `CR-19…` ni «CR-19 y siguientes». Si hay varios rangos válidos se informa el más específico. Si falta una referencia, el control falla (`X4_FALLO_referencia_ausente`) y lista cada par (CR, documento) ausente.
+- **Pruebas de regresión controladas** (textos sintéticos, dentro del script): **26/26** aprobadas = 24 casos (CR-19 no satisface CR-20, CR-21 ni CR-22; referencia explícita válida satisface su propio CR; rango válido se interpreta correctamente; referencias ambiguas, incompletas, invertidas o confundibles se rechazan) + 1 prueba de que el control falla identificando exactamente documento y CR ausentes + 1 de evidencia más específica. Además el script reproduce el defecto: sobre un texto que solo dice CR-19, la lógica anterior daba «cubierto» para CR-20, CR-21 y CR-22 y la corregida «ausente».
+- **Resultado de X4 sobre los documentos reales: 24/24 combinaciones (4 CR × 6 documentos) presentes; ausentes: ninguna.** No había omisión documental real que el defecto estuviera ocultando: no se modificó ningún documento para hacer pasar el control.
+| CR | Documento | Resultado | Evidencia |
+|---|---|---|---|
+| CR-19 | `00_INDICE_VIGENTES_E_HISTORICOS.md` | PRESENTE | explícita: CR-19 |
+| CR-19 | `README_ENTREGA.md` | PRESENTE | explícita: CR-19 |
+| CR-19 | `auditoria_integral/01_INDICE_MAESTRO_FASE0.md` | PRESENTE | explícita: CR-19 |
+| CR-19 | `auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md` | PRESENTE | explícita: CR-19 |
+| CR-19 | `auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` | PRESENTE | explícita: CR-19 |
+| CR-19 | `auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md` | PRESENTE | explícita: CR-19 |
+| CR-20 | `00_INDICE_VIGENTES_E_HISTORICOS.md` | PRESENTE | explícita: CR-20 |
+| CR-20 | `README_ENTREGA.md` | PRESENTE | explícita: CR-20 |
+| CR-20 | `auditoria_integral/01_INDICE_MAESTRO_FASE0.md` | PRESENTE | rango: CR-19…CR-22 |
+| CR-20 | `auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md` | PRESENTE | rango: CR-19…CR-22 |
+| CR-20 | `auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` | PRESENTE | explícita: CR-20 |
+| CR-20 | `auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md` | PRESENTE | rango: CR-19…CR-22 |
+| CR-21 | `00_INDICE_VIGENTES_E_HISTORICOS.md` | PRESENTE | explícita: CR-21 |
+| CR-21 | `README_ENTREGA.md` | PRESENTE | explícita: CR-21 |
+| CR-21 | `auditoria_integral/01_INDICE_MAESTRO_FASE0.md` | PRESENTE | explícita: CR-21 |
+| CR-21 | `auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md` | PRESENTE | explícita: CR-21 |
+| CR-21 | `auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` | PRESENTE | explícita: CR-21 |
+| CR-21 | `auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md` | PRESENTE | explícita: CR-21 |
+| CR-22 | `00_INDICE_VIGENTES_E_HISTORICOS.md` | PRESENTE | explícita: CR-22 |
+| CR-22 | `README_ENTREGA.md` | PRESENTE | explícita: CR-22 |
+| CR-22 | `auditoria_integral/01_INDICE_MAESTRO_FASE0.md` | PRESENTE | explícita: CR-22 |
+| CR-22 | `auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md` | PRESENTE | explícita: CR-22 |
+| CR-22 | `auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` | PRESENTE | explícita: CR-22 |
+| CR-22 | `auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md` | PRESENTE | explícita: CR-22 |
+- **Efecto sobre §16:** el control A7 («CR-19…22 reflejados en índices, `05_`, `07_`, `10_`») se reevaluó con la lógica corregida y sigue aprobado (24/24); no cambian 34/40 ni 40/40. Los demás controles del script se reejecutaron: su salida coincide con la original en todas las categorías de fallo y observación (mismos 104 no resueltos externos, mismas 38 menciones condicionales, mismos 9 «sin marca», etc.); difieren solo X4 (corregido), X8 (111/111: `05_` ya lista el archivo de salida nuevo) y dos contadores de comprobaciones aprobadas (V1_ok 1158→1167 y V8_commit_existe 58→62), que suben porque los documentos actualizados añaden referencias y commits válidos. Los controles que no son del script (lectura de diffs y similares) **no** se repitieron.
+- **Evidencia.** Salida original conservada sin cambios: `logs/verificacion_coherencia_posterior_2026-11-22.txt` (con el X4 defectuoso). Salida nueva: `logs/verificacion_coherencia_posterior_2026-11-22_x4_corregido.txt` (cabecera con el commit verificado `e049fcd…` y árbol de trabajo con los cambios de esta ronda, que se publican en el commit siguiente). La versión del script de `e049fcd` queda en el historial git.
+- **Limitaciones.** Verificación propia; no hay reproducción independiente. Las pruebas de regresión cubren los casos enumerados, no todas las redacciones posibles. X4 comprueba presencia textual de la referencia, no que el texto que la acompaña sea correcto.

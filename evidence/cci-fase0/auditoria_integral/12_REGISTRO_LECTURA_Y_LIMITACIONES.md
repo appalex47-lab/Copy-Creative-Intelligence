@@ -1,5 +1,5 @@
 # Registro de lectura completa y limitaciones — ronda de cierre de la brecha de lectura (2026-11-22)
-**Versión:** 2.1 (v2.0 + ronda de verificación de coherencia posterior: §7; sustituye a la v1.0, que declaraba lectura parcial) · **Fecha:** 2026-11-22 · **Estado:** registro de hechos de esta auditoría; subordinado al registro de decisiones · **Base:** HEAD `13b25ca447c0ab17f46b3143615b4c2156661b79` + cambios de esta ronda · **No acepta Fase 0 ni autoriza Fase 1.**
+**Versión:** 2.2 (v2.1 + una fila NO_APLICABLE por la corrección puntual de X4; v2.1: v2.0 + ronda de verificación de coherencia posterior: §7; sustituye a la v1.0, que declaraba lectura parcial) · **Fecha:** 2026-11-22 · **Estado:** registro de hechos de esta auditoría; subordinado al registro de decisiones · **Base:** HEAD `13b25ca447c0ab17f46b3143615b4c2156661b79` + cambios de esta ronda · **No acepta Fase 0 ni autoriza Fase 1.**
 
 **Declaración principal.** Todos los archivos legibles y aplicables del expediente (`evidence/cci-fase0/`) y de `docs/fase0/` (59 archivos, incluidos los 52 de `historico/`) fueron **mostrados a Claude y leídos por completo** en esta ronda; archivos LEÍDO_PARCIALMENTE: **0**; NO_LEÍDO_EN_ESTA_RONDA: **0**. **Limitación exacta del método (ver §1):** en los 59 archivos de `docs/fase0/` la lectura se hizo por **líneas únicas** (se muestran todas las líneas distintas; las líneas idénticas ya mostradas en otro archivo o repetidas dentro del mismo archivo —en bloque: líneas vacías, separadores de tabla, filas y encabezados repetidos— no se volvieron a mostrar). Ningún contenido se sustituyó por encabezados, extractos, búsquedas de patrones ni hashes.
 
@@ -8,16 +8,16 @@
 - **LEÍDO_COMPLETO (`docs/fase0/`, método de líneas únicas):** se calculó el hash md5 de cada línea; cada línea distinta se mostró al menos una vez a lo largo de los 59 archivos. **No** se volvió a mostrar: (a) una línea idéntica a otra ya mostrada en un archivo anterior (p. ej. el cuerpo repetido entre versiones sucesivas v2…v14 de una misma especificación), ni (b) líneas genéricas o repetidas dentro del propio archivo (vacías, separadores de tabla). Consecuencia: un cambio de **una sola palabra** en una línea ya vista cuenta como línea distinta y sí se mostró; lo no mostrado es solo duplicado exacto de línea completa. La columna «líneas nuevas» indica los bytes de líneas que ese archivo aportó por primera vez (según el orden de lectura).
 - **LEÍDO_PARCIALMENTE:** solo una parte del archivo se mostró.
 - **NO_ACCESIBLE:** el archivo existe pero no pudo leerse. **Ningún archivo de la rama resultó inaccesible.** Fuera de la rama y no leídos: `CCI-Evidence` (API 403; no se usó ni se rodeó), adjuntos A (`de49cc27-attachment.txt`) y B (`5a9f5585-attachment.txt`) del propietario y los documentos del repositorio de la aplicación citados por nombre.
-- **NO_APLICABLE:** `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` (listas de hashes que se regeneran por script y se verifican por recálculo; su contenido se leyó en la versión de 13b25ca) este documento y `13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md` (autorreferencia) y los dos archivos `logs/verificacion_coherencia_posterior*` (generados por la ronda de coherencia).
+- **NO_APLICABLE:** `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` (listas de hashes que se regeneran por script y se verifican por recálculo; su contenido se leyó en la versión de 13b25ca) este documento y `13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md` (autorreferencia) y los tres archivos `logs/verificacion_coherencia_posterior*` (generados por las rondas de coherencia y de corrección de X4).
 - **NO_LEÍDO_EN_ESTA_RONDA** (categoría añadida por honestidad): sin lectura registrada.
 - El **escaneo automático de patrones** (`logs/scan_contradicciones.py`) y los hashes **no cuentan como lectura**.
 
 ## 2. Resumen (numerador / denominador / alcance)
 | Alcance | LEÍDO_COMPLETO | LEÍDO_PARCIALMENTE | NO_APLICABLE | NO_LEÍDO_EN_ESTA_RONDA | Total archivos |
 |---|---|---|---|---|---|
-| `evidence/cci-fase0/` (expediente) | 103 | 0 | 7 | 0 | 110 |
+| `evidence/cci-fase0/` (expediente) | 103 | 0 | 8 | 0 | 111 |
 | `docs/fase0/` (59: 5 raíz, 2 herramientas, 52 históricos) | 59 | 0 | 0 | 0 | 59 |
-| Total | 162 | 0 | 7 | 0 | 169 |
+| Total | 162 | 0 | 8 | 0 | 170 |
 
 **Bytes** (excluye listas de hashes y este documento): expediente 742313 B; `docs/fase0/` 10324392 B, de los cuales **2216734 B (21.5 %) son líneas únicas** efectivamente mostradas por primera vez (el resto es duplicado exacto de líneas ya mostradas). **Aclaración obligatoria:** «100 % de líneas únicas mostradas» en `docs/fase0/` **no equivale** al 100 % de los bytes revisados individualmente: se vieron 2 216 734 B de líneas únicas frente a 10 324 392 B totales (21,5 %); los bytes de expediente indicados son los del momento de la lectura (los archivos editados después se listan en §7). Los porcentajes de cobertura por archivo de §3 y §4 se calculan sobre rangos mostrados; en `docs/fase0/` la columna «líneas nuevas» es la medida real.
 
@@ -50,12 +50,12 @@
 | `auditoria_integral/02_MATRIZ_MAESTRA_DECISIONES.md` | LEÍDO_COMPLETO | 14149/14149 B (100 %) | lectura íntegra mostrada |
 | `auditoria_integral/03_MATRIZ_MAESTRA_ENTIDADES_P4A.md` | LEÍDO_COMPLETO | 6017/6017 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 6105 B) |
 | `auditoria_integral/04_MATRIZ_MAESTRA_DEPENDENCIAS.md` | LEÍDO_COMPLETO | 2658/2658 B (100 %) | lectura íntegra mostrada |
-| `auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md` | LEÍDO_COMPLETO | 22470/22470 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 24119 B) |
+| `auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md` | LEÍDO_COMPLETO | 22470/22470 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 24676 B) |
 | `auditoria_integral/06_REGISTRO_CONTRADICCIONES.md` | LEÍDO_COMPLETO | 21947/21947 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 29499 B) |
-| `auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` | LEÍDO_COMPLETO | 7671/7671 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 12080 B) |
-| `auditoria_integral/08_INFORME_INTEGRIDAD_ARCHIVOS.md` | LEÍDO_COMPLETO | 3922/3922 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 4871 B) |
+| `auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` | LEÍDO_COMPLETO | 7671/7671 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 13473 B) |
+| `auditoria_integral/08_INFORME_INTEGRIDAD_ARCHIVOS.md` | LEÍDO_COMPLETO | 3922/3922 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 5100 B) |
 | `auditoria_integral/09_PAQUETE_CONSOLIDADO_DECISIONES_PENDIENTES.md` | LEÍDO_COMPLETO | 13460/13460 B (100 %) | lectura íntegra mostrada |
-| `auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md` | LEÍDO_COMPLETO | 4569/4569 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 5416 B) |
+| `auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md` | LEÍDO_COMPLETO | 4569/4569 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 5559 B) |
 | `auditoria_integral/11_INDICE_CONCILIACION_DOCS_FASE0.md` | LEÍDO_COMPLETO | 13917/13917 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 14087 B) |
 | `auditoria_integral/12_REGISTRO_LECTURA_Y_LIMITACIONES.md` | NO_APLICABLE | — | documento generado por esta ronda; autorreferencia (no se cuenta a sí mismo) |
 | `auditoria_integral/13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md` | NO_APLICABLE | — | documento generado por la ronda de verificación de coherencia; autorreferencia (no se cuenta a sí mismo) |
@@ -132,7 +132,8 @@
 | `logs/test_run.log` | LEÍDO_COMPLETO | 573/573 B (100 %) | lectura íntegra mostrada |
 | `logs/typecheck.log` | LEÍDO_COMPLETO | 74/74 B (100 %) | lectura íntegra mostrada |
 | `logs/verificacion_coherencia_posterior.py` | NO_APLICABLE | — | script generado por la ronda de verificación de coherencia; su salida se revisó por categorías (no es lectura de contenido ajeno) |
-| `logs/verificacion_coherencia_posterior_2026-11-22.txt` | NO_APLICABLE | — | salida del script anterior; generada por la ronda |
+| `logs/verificacion_coherencia_posterior_2026-11-22.txt` | NO_APLICABLE | — | salida del script anterior (con el X4 defectuoso, commit `e049fcd`); generada por la ronda; se conserva como antecedente |
+| `logs/verificacion_coherencia_posterior_2026-11-22_x4_corregido.txt` | NO_APLICABLE | — | salida del script con X4 corregido; generada por la ronda puntual de corrección de X4 |
 | `logs/verificaciones_documentales_2026-11-22_correccion.txt` | LEÍDO_COMPLETO | 9536/9536 B (100 %) | lectura íntegra mostrada |
 
 ## 4. `docs/fase0/` — archivos raíz y herramientas (7)
@@ -227,11 +228,11 @@ Los 5 documentos raíz son la v15 de la línea anterior (Supabase/PostgreSQL/RLS
 | `README_ENTREGA.md` | 5255 | 6408 | Restauración desde `1bb831a` (CR-21) en `580c51f` y nota de esta ronda al final | diff re-leído con su contexto |
 | `auditoria_integral/01_INDICE_MAESTRO_FASE0.md` | 5241 | 6191 | Fila D4/D6 con límites (D4.d: M-1 y D-5.3; D6.c=A0), fila 13, nota de la ronda | diff re-leído con su contexto |
 | `auditoria_integral/03_MATRIZ_MAESTRA_ENTIDADES_P4A.md` | 6017 | 6105 | Referencia CR-06→CR-15; fila Perfil local (F2) | diff re-leído con su contexto |
-| `auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md` | 22470 | 24119 | v3.1: 110 archivos, métrica de avisos con su alcance | diff re-leído con su contexto |
+| `auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md` | 22470 | 24676 | v3.1: 110 archivos, métrica de avisos con su alcance | diff re-leído con su contexto |
 | `auditoria_integral/06_REGISTRO_CONTRADICCIONES.md` | 21947 | 29499 | v3.0 (580c51f) y correcciones de esta ronda (F4); sección final de verificación | diff re-leído con su contexto |
-| `auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` | 7671 | 12080 | Nota §4 (F3) y sección R8 | diff re-leído con su contexto |
-| `auditoria_integral/08_INFORME_INTEGRIDAD_ARCHIVOS.md` | 3922 | 4871 | v3.1: 108/109 líneas; 110 archivos; 170 blobs | diff re-leído con su contexto |
-| `auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md` | 4569 | 5416 | Cifras 110, métrica 55/55 con alcance, fila de la ronda | diff re-leído con su contexto |
+| `auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` | 7671 | 13473 | Nota §4 (F3) y sección R8 | diff re-leído con su contexto |
+| `auditoria_integral/08_INFORME_INTEGRIDAD_ARCHIVOS.md` | 3922 | 5100 | v3.1: 108/109 líneas; 110 archivos; 170 blobs | diff re-leído con su contexto |
+| `auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md` | 4569 | 5559 | Cifras 110, métrica 55/55 con alcance, fila de la ronda | diff re-leído con su contexto |
 | `auditoria_integral/11_INDICE_CONCILIACION_DOCS_FASE0.md` | 13917 | 14087 | Punto 4 (lectura completa por líneas únicas) en `580c51f` | diff re-leído con su contexto |
 | `entregables_formales/13_REGISTRO_DECISIONES_PROPIETARIO.md` | 17633 | 17855 | Nota en línea de estado (F5) | diff re-leído con su contexto |
 | `entregables_formales/CATALOGO_DEPENDENCIAS_D4_D8.md` | 12295 | 12359 | Marca «[superado]» (F6) | diff re-leído con su contexto |
@@ -242,3 +243,5 @@ Los 5 documentos raíz son la v15 de la línea anterior (Supabase/PostgreSQL/RLS
 **Resto de archivos modificados desde la regularización (42 de los 57 listados en `13_` §3):** se leyeron en su estado modificado (a partir de `13b25ca`/`580c51f`) o son documentos nuevos; su diff y contexto se re-leyeron en esta ronda. Entre ellos, los dos manifiestos y `12_` son NO_APLICABLE (listas de hashes o autorreferencia); `13_` y los dos archivos de `logs/verificacion_coherencia_posterior*` son nuevos de esta ronda (no entran en los 57).
 
 **No se actualiza ninguna cobertura sin verificación real:** los porcentajes de §2–§5 no cambian; esta sección solo añade las verificaciones de esta ronda.
+
+**Corrección puntual de X4 (base `e049fcd`):** no se leyó de nuevo ningún documento ni se amplió ninguna cobertura; esta ronda solo reejecutó el script (con X4 corregido) y actualizó cifras y filas de evidencia. Las verificaciones de §7 siguen siendo las de la ronda de coherencia anterior.
