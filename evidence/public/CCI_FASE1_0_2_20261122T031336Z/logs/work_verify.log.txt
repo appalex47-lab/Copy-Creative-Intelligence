@@ -1,0 +1,28 @@
+# COPIA DE CONSULTA PÚBLICA, no es evidencia original. Derivada de: evidence/CCI_FASE1_0_2_20261122T031336Z/logs/work_verify.log.txt (SHA-256 del original: 01fbd768df229adb28997eab51165686bb6339baae0513cfa04d75004ef5eb8d). Solo se sustituyeron rutas del entorno temporal de ejecución; ver evidence/public/README.md
+Checking formatting...
+All matched files use Prettier code style!
+
+ RUN  v5.1.1 [entorno temporal de ejecución]
+
+
+ Test Files  13 passed (13)
+      Tests  130 passed (130)
+   Start at  21:21:48
+   Duration  11.33s (environment 54%, tests 23%, setup 12%, import 8%, transform 2%, worker 1%)
+
+Environment  jsdom was created 13 times · 5.45s total, 54% of tracked time
+             create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+             learn more: https://vitest.dev/guide/improving-performance#test-environments
+
+check:secrets OK — sin secretos detectados (análisis heurístico; ver docs/architecture/CONTROL_DE_SECRETOS.md)
+NOTA: 2 archivo(s) comprimido(s) en el alcance NO se inspeccionan: AUDITORIA_FINAL_CIERRE_FASE0.zip, AUDITORIA_FINAL_INDEPENDIENTE_FASE0.zip
+vite v8.3.8 building client environment for preview...
+transforming...
+✓ 34 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.50 kB │ gzip:  0.34 kB
+dist/assets/index-XwyptuL1.css    1.73 kB │ gzip:  0.73 kB
+dist/assets/index-DgqvY5JH.js   229.79 kB │ gzip: 72.06 kB
+
+✓ built in 168ms

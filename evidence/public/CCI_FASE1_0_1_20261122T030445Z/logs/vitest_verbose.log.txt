@@ -1,0 +1,92 @@
+# COPIA DE CONSULTA PÚBLICA, no es evidencia original. Derivada de: evidence/CCI_FASE1_0_1_20261122T030445Z/logs/vitest_verbose.log.txt (SHA-256 del original: 74b4f9de01a41d117967014c68d357c2f1308d6a4bff5f937899da60edf02702). Solo se sustituyeron rutas del entorno temporal de ejecución; ver evidence/public/README.md
+
+ RUN  v5.1.1 [entorno temporal de ejecución]
+
+ ✓ src/hooks/useAsyncResource.test.tsx > useAsyncResource > pasa de cargando a éxito 80ms
+ ✓ src/hooks/useAsyncResource.test.tsx > useAsyncResource > un Result fallido pasa a error visible con mensaje por código, no el interno 56ms
+ ✓ src/hooks/useAsyncResource.test.tsx > useAsyncResource > una excepción pasa a error genérico reintentable y no a carga permanente 58ms
+ ✓ src/hooks/useAsyncResource.test.tsx > useAsyncResource > reintentar vuelve a cargar y puede terminar en éxito 108ms
+ ✓ src/hooks/useAsyncResource.test.tsx > useAsyncResource > ignora la respuesta de una solicitud ya descartada (desmontaje) 2ms
+ ✓ src/pages/pages.errors.test.tsx > HomePage — estados > muestra carga y luego éxito 33ms
+ ✓ src/pages/pages.errors.test.tsx > HomePage — estados > muestra un Result fallido de forma visible, sin detalle interno 33ms
+ ✓ src/pages/pages.errors.test.tsx > HomePage — estados > una excepción del servicio produce error (no carga permanente) con reintento 29ms
+ ✓ src/pages/pages.errors.test.tsx > HomePage — estados > un fallo transitorio ("unavailable") ofrece reintentar 6ms
+ ✓ src/pages/pages.errors.test.tsx > HomePage — estados > el fallo en proyectos no se disfraza de lista vacía 5ms
+ ✓ src/pages/pages.errors.test.tsx > HomePage — estados > una lista vacía legítima se declara explícitamente 5ms
+ ✓ src/pages/pages.errors.test.tsx > ConnectionPage — estados > mantiene el aviso de "sin backend" aun cuando falla la consulta de estado 8ms
+ ✓ src/pages/pages.errors.test.tsx > ConnectionPage — estados > excepción: error genérico con reintento que se recupera 11ms
+ ✓ src/app/App.test.tsx > inicialización de la aplicación > arranca en modo DEMO, muestra el aviso y los datos ficticios por contratos 66ms
+ ✓ src/app/App.test.tsx > inicialización de la aplicación > permite navegar al estado de conexión y declara que no hay backend 29ms
+ ✓ src/app/App.test.tsx > inicialización de la aplicación > un fallo de composición de servicios lo captura el ErrorBoundary raíz (como en main.tsx) 8ms
+ ✓ src/components/ErrorBoundary.test.tsx > ErrorBoundary > captura el error de renderizado y muestra un mensaje genérico sin detalles internos 48ms
+ ✓ src/components/ErrorBoundary.test.tsx > ErrorBoundary > permite reintentar y recupera el contenido cuando la causa desaparece 22ms
+ ✓ src/components/ErrorBoundary.test.tsx > ErrorBoundary > no interfiere cuando no hay errores 2ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta JWT 3ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta cadena de conexión 1ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta clave privada 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta URL de proyecto Supabase 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta clave Cohere 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta clave Cohere 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta clave AWS 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta token GitHub 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta clave tipo sk- (OpenAI/Anthropic) 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta asignación genérica de secreto 0ms
+ ✓ tests/secrets.test.ts > scanText (negativas) > no marca VITE_APP_ENV=development 1ms
+ ✓ tests/secrets.test.ts > scanText (negativas) > no marca VITE_DATA_MODE=demo 0ms
+ ✓ tests/secrets.test.ts > scanText (negativas) > no marca # VITE_SUPABASE_ANON_KEY= 0ms
+ ✓ tests/secrets.test.ts > scanText (negativas) > no marca COHERE_API_KEY= 0ms
+ ✓ tests/secrets.test.ts > scanText (negativas) > no marca COHERE_API_KEY=your-cohere-key-goes-here-example 0ms
+ ✓ tests/secrets.test.ts > scanText (negativas) > no marca const token = useToken(); 0ms
+ ✓ tests/secrets.test.ts > scanText (negativas) > no marca password: string; 0ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > detecta .env en la raíz sin leer su valor 2ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > detecta .env.local en la raíz sin leer su valor 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > detecta .env.production en la raíz sin leer su valor 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > detecta .env.development.local en la raíz sin leer su valor 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > detecta un .env dentro de un directorio de la app 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > acepta un .env.example con solo valores de ejemplo 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > rechaza un .env.example que contenga un valor real-looking 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > detecta secretos en archivos de la raíz y en src, con línea y sin revelar el valor 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > ignora node_modules, dist y directorios fuera del alcance (docs) 2ms
+ ✓ tests/secrets.test.ts > CLI > funciona desde cualquier directorio de trabajo y no filtra valores 96ms
+ ✓ tests/secrets.test.ts > CLI > el repositorio real no contiene secretos ni .env (independiente del cwd) 6ms
+ ✓ tests/architecture.test.ts > contratos desacoplados de proveedores (análisis por AST) > ningún archivo de src viola las reglas de arquitectura 47ms
+ ✓ tests/architecture.test.ts > contratos desacoplados de proveedores (análisis por AST) > el análisis cubre las capas esperadas (control de que el recorrido no está vacío) 1ms
+ ✓ tests/architecture.test.ts > contratos desacoplados de proveedores (análisis por AST) > el paquete no declara dependencias de Supabase en esta fase 0ms
+ ✓ tests/moduleReferences.test.ts > findModuleReferences (AST) > detecta imports estáticos, efectos laterales, export from, import type e import= 7ms
+ ✓ tests/moduleReferences.test.ts > findModuleReferences (AST) > detecta imports dinámicos literales, concatenados y con plantilla 3ms
+ ✓ tests/moduleReferences.test.ts > findModuleReferences (AST) > detecta literales con forma de módulo Supabase usados indirectamente 1ms
+ ✓ tests/moduleReferences.test.ts > findModuleReferences (AST) > no confunde comentarios ni texto con imports (ventaja sobre regex) 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > prohíbe Supabase (estático y dinámico) en pages/X.tsx 2ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > prohíbe Supabase (estático y dinámico) en components/X.tsx 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > prohíbe Supabase (estático y dinámico) en layouts/X.tsx 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > prohíbe Supabase (estático y dinámico) en hooks/x.ts 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > prohíbe Supabase (estático y dinámico) en domain/x.ts 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > prohíbe Supabase (estático y dinámico) en services/contracts/x.ts 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > prohíbe Supabase (estático y dinámico) en app/App.tsx 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > prohíbe Supabase (estático y dinámico) en services/adapters/demo/x.ts 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > permite Supabase únicamente dentro de su adaptador futuro 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > la interfaz no puede importar adaptadores, la fábrica ni la raíz de composición (alias o relativo) 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > la interfaz no puede usar imports dinámicos que no se resuelven estáticamente 0ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > la raíz de composición puede usar la fábrica pero no un adaptador directo 0ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > las dependencias permitidas no generan falsos positivos 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > adaptador DEMO > identifica todo como demo y no ofrece autenticación 2ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > adaptador DEMO > el estado de aplicación declara modo demo 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > adaptador DEMO > filtra membresías y proyectos por organización 1ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > adaptador DEMO > devuelve not_found para una organización inexistente (control negativo) 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > adaptador DEMO > todas las entidades demo llevan origin demo 0ms
+ ✓ src/lib/errorMessages.test.ts > errorMessages > describe por código y no reproduce el texto interno 3ms
+ ✓ src/lib/errorMessages.test.ts > errorMessages > solo "unavailable" es reintentable 1ms
+ ✓ src/services/index.test.ts > createServices > crea los servicios DEMO para el modo demo 2ms
+ ✓ src/services/index.test.ts > createServices > falla de forma explícita ante un modo no soportado (no devuelve undefined) 1ms
+ ✓ src/app/env.test.ts > parseEnv > usa demo y development por defecto 2ms
+ ✓ src/app/env.test.ts > parseEnv > rechaza el modo supabase mientras no exista el adaptador 0ms
+ ✓ src/app/env.test.ts > parseEnv > rechaza valores desconocidos 0ms
+
+ Test Files  11 passed (11)
+      Tests  79 passed (79)
+   Start at  21:05:20
+   Duration  8.56s (environment 61%, setup 14%, tests 11%, import 10%, transform 3%, worker 1%)
+
+Environment  jsdom was created 11 times · 4.47s total, 61% of tracked time
+             create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+             learn more: https://vitest.dev/guide/improving-performance#test-environments

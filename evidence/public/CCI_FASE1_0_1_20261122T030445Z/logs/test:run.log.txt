@@ -1,0 +1,13 @@
+# COPIA DE CONSULTA PÚBLICA, no es evidencia original. Derivada de: evidence/CCI_FASE1_0_1_20261122T030445Z/logs/test:run.log.txt (SHA-256 del original: 933e4bcc9162085ed60f21d2a294aa968cf3df590c712dde95e7cf7f532043fb). Solo se sustituyeron rutas del entorno temporal de ejecución; ver evidence/public/README.md
+
+ RUN  v5.1.1 [entorno temporal de ejecución]
+
+
+ Test Files  11 passed (11)
+      Tests  79 passed (79)
+   Start at  21:04:51
+   Duration  8.25s (environment 60%, setup 14%, import 12%, tests 11%, transform 3%, worker 1%)
+
+Environment  jsdom was created 11 times · 4.27s total, 60% of tracked time
+             create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+             learn more: https://vitest.dev/guide/improving-performance#test-environments

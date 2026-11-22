@@ -1,0 +1,143 @@
+# COPIA DE CONSULTA PÚBLICA, no es evidencia original. Derivada de: evidence/CCI_FASE1_0_2_20261122T031336Z/logs/vitest_verbose.log.txt (SHA-256 del original: 33e6949dec7f30112d0fc1072b63956b595624848bd3f8d74b54e0019b85834d). Solo se sustituyeron rutas del entorno temporal de ejecución; ver evidence/public/README.md
+
+ RUN  v5.1.1 [entorno temporal de ejecución]
+
+ ✓ tests/buildGuard.test.ts > guarda de entorno en el build (integración con Vite) > build de preview (DEMO) funciona y genera salida 426ms
+ ✓ tests/buildGuard.test.ts > guarda de entorno en el build (integración con Vite) > build de producción con DEMO (implícito) FALLA con mensaje claro y sin salida 174ms
+ ✓ tests/buildGuard.test.ts > guarda de entorno en el build (integración con Vite) > build de producción con DEMO explícito FALLA 144ms
+ ✓ tests/buildGuard.test.ts > guarda de entorno en el build (integración con Vite) > configuración contradictoria FALLA 188ms
+ ✓ tests/buildGuard.test.ts > guarda de entorno en el build (integración con Vite) > VITE_DATA_MODE=supabase FALLA (adaptador no implementado) 180ms
+ ✓ tests/buildGuard.test.ts > guarda de entorno en el build (integración con Vite) > modo desconocido FALLA 171ms
+ ✓ src/hooks/useAsyncResource.test.tsx > useAsyncResource > pasa de cargando a éxito 71ms
+ ✓ src/hooks/useAsyncResource.test.tsx > useAsyncResource > un Result fallido pasa a error visible con mensaje por código, no el interno 54ms
+ ✓ src/hooks/useAsyncResource.test.tsx > useAsyncResource > una excepción pasa a error genérico reintentable y no a carga permanente 56ms
+ ✓ src/hooks/useAsyncResource.test.tsx > useAsyncResource > reintentar vuelve a cargar y puede terminar en éxito 106ms
+ ✓ src/hooks/useAsyncResource.test.tsx > useAsyncResource > ignora la respuesta de una solicitud ya descartada (desmontaje) 2ms
+ ✓ src/app/App.test.tsx > inicialización de la aplicación > arranca en modo DEMO, muestra el aviso y los datos ficticios por contratos 83ms
+ ✓ src/app/App.test.tsx > inicialización de la aplicación > permite navegar al estado de conexión y declara que no hay backend 19ms
+ ✓ src/app/App.test.tsx > inicialización de la aplicación > un fallo de composición de servicios lo captura el ErrorBoundary raíz (como en main.tsx) 8ms
+ ✓ src/app/App.test.tsx > inicialización de la aplicación > ConfigurationError se anuncia como alerta y no muestra datos DEMO 3ms
+ ✓ src/app/App.a11y.test.tsx > accesibilidad semántica de la interfaz > expone landmarks, enlace de salto y jerarquía de encabezados h1 → h2 105ms
+ ✓ src/app/App.a11y.test.tsx > accesibilidad semántica de la interfaz > la navegación indica la página activa con aria-current y cambia con la selección 19ms
+ ✓ src/app/App.a11y.test.tsx > accesibilidad semántica de la interfaz > al navegar, el foco pasa al encabezado de la página y se actualiza el título 21ms
+ ✓ src/app/App.a11y.test.tsx > accesibilidad semántica de la interfaz > en el montaje inicial (incluido StrictMode) no se roba el foco 5ms
+ ✓ src/app/App.a11y.test.tsx > accesibilidad semántica de la interfaz > la región de estado es persistente y anuncia carga → contenido cargado 8ms
+ ✓ src/app/App.a11y.test.tsx > accesibilidad semántica de la interfaz > no usa aria-label en elementos genéricos y los contenedores con nombre tienen rol adecuado 17ms
+ ✓ src/pages/pages.errors.test.tsx > HomePage — estados > muestra carga y luego éxito 35ms
+ ✓ src/pages/pages.errors.test.tsx > HomePage — estados > muestra un Result fallido de forma visible, sin detalle interno 33ms
+ ✓ src/pages/pages.errors.test.tsx > HomePage — estados > una excepción del servicio produce error (no carga permanente) con reintento 32ms
+ ✓ src/pages/pages.errors.test.tsx > HomePage — estados > un fallo transitorio ("unavailable") ofrece reintentar 7ms
+ ✓ src/pages/pages.errors.test.tsx > HomePage — estados > el fallo en proyectos no se disfraza de lista vacía 6ms
+ ✓ src/pages/pages.errors.test.tsx > HomePage — estados > una lista vacía legítima se declara explícitamente 5ms
+ ✓ src/pages/pages.errors.test.tsx > ConnectionPage — estados > mantiene el aviso de "sin backend" aun cuando falla la consulta de estado 7ms
+ ✓ src/pages/pages.errors.test.tsx > ConnectionPage — estados > excepción: error genérico con reintento que se recupera 16ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta JWT 3ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta cadena de conexión 1ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta clave privada 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta URL de proyecto Supabase 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta clave Cohere 1ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta clave Cohere 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta clave AWS 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta token GitHub 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta clave tipo sk- (OpenAI/Anthropic) 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta token personal Supabase (sbp_) 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta clave Stripe 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta token npm 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta token Hugging Face 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta token de .npmrc 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta cabecera Authorization con token 0ms
+ ✓ tests/secrets.test.ts > scanText (positivas) > detecta asignación genérica de secreto 0ms
+ ✓ tests/secrets.test.ts > scanText (negativas) > no marca VITE_APP_ENV=development 1ms
+ ✓ tests/secrets.test.ts > scanText (negativas) > no marca VITE_DATA_MODE=demo 0ms
+ ✓ tests/secrets.test.ts > scanText (negativas) > no marca # VITE_SUPABASE_ANON_KEY= 0ms
+ ✓ tests/secrets.test.ts > scanText (negativas) > no marca COHERE_API_KEY= 0ms
+ ✓ tests/secrets.test.ts > scanText (negativas) > no marca COHERE_API_KEY=your-cohere-key-goes-here-example 0ms
+ ✓ tests/secrets.test.ts > scanText (negativas) > no marca const token = useToken(); 0ms
+ ✓ tests/secrets.test.ts > scanText (negativas) > no marca password: string; 0ms
+ ✓ tests/secrets.test.ts > scanText (negativas) > no marca Authorization: `Bearer ${token}` 0ms
+ ✓ tests/secrets.test.ts > scanText (negativas) > no marca //registry.npmjs.org/:_authToken=${NPM_TOKEN} 0ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > detecta .env en la raíz sin leer su valor 3ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > detecta .env.local en la raíz sin leer su valor 2ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > detecta .env.production en la raíz sin leer su valor 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > detecta .env.development.local en la raíz sin leer su valor 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > detecta un .env dentro de un directorio de la app 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > acepta un .env.example con solo valores de ejemplo 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > rechaza un .env.example que contenga un valor real-looking 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > detecta secretos en archivos de la raíz y en src, con línea y sin revelar el valor 2ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > detecta archivo con nombre típico de material secreto: id_rsa 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > detecta archivo con nombre típico de material secreto: server.pem 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > detecta archivo con nombre típico de material secreto: clave.key 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > detecta archivo con nombre típico de material secreto: credentials.json 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > detecta archivo con nombre típico de material secreto: .netrc 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > detecta .envrc 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > los comprimidos no se abren y se listan como NO inspeccionados (límite documentado) 1ms
+ ✓ tests/secrets.test.ts > scanTree con archivos temporales > ignora node_modules, dist y directorios fuera del alcance (docs) 2ms
+ ✓ tests/secrets.test.ts > CLI > funciona desde cualquier directorio de trabajo y no filtra valores 85ms
+ ✓ tests/secrets.test.ts > CLI > el repositorio real no contiene secretos ni .env (independiente del cwd) 8ms
+ ✓ tests/architecture.test.ts > contratos desacoplados de proveedores (análisis por AST) > ningún archivo de src viola las reglas de arquitectura 64ms
+ ✓ tests/architecture.test.ts > contratos desacoplados de proveedores (análisis por AST) > el análisis cubre las capas esperadas (control de que el recorrido no está vacío) 1ms
+ ✓ tests/architecture.test.ts > contratos desacoplados de proveedores (análisis por AST) > el paquete no declara dependencias de Supabase en esta fase 0ms
+ ✓ src/components/ErrorBoundary.test.tsx > ErrorBoundary > captura el error de renderizado y muestra un mensaje genérico sin detalles internos 49ms
+ ✓ src/components/ErrorBoundary.test.tsx > ErrorBoundary > permite reintentar y recupera el contenido cuando la causa desaparece 23ms
+ ✓ src/components/ErrorBoundary.test.tsx > ErrorBoundary > no interfiere cuando no hay errores 3ms
+ ✓ tests/moduleReferences.test.ts > findModuleReferences (AST) > detecta imports estáticos, efectos laterales, export from, import type e import= 7ms
+ ✓ tests/moduleReferences.test.ts > findModuleReferences (AST) > detecta imports dinámicos literales, concatenados y con plantilla 4ms
+ ✓ tests/moduleReferences.test.ts > findModuleReferences (AST) > detecta literales con forma de módulo Supabase usados indirectamente 1ms
+ ✓ tests/moduleReferences.test.ts > findModuleReferences (AST) > no confunde comentarios ni texto con imports (ventaja sobre regex) 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > prohíbe Supabase (estático y dinámico) en pages/X.tsx 2ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > prohíbe Supabase (estático y dinámico) en components/X.tsx 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > prohíbe Supabase (estático y dinámico) en layouts/X.tsx 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > prohíbe Supabase (estático y dinámico) en hooks/x.ts 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > prohíbe Supabase (estático y dinámico) en domain/x.ts 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > prohíbe Supabase (estático y dinámico) en services/contracts/x.ts 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > prohíbe Supabase (estático y dinámico) en app/App.tsx 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > prohíbe Supabase (estático y dinámico) en services/adapters/demo/x.ts 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > permite Supabase únicamente dentro de su adaptador futuro 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > la interfaz no puede importar adaptadores, la fábrica ni la raíz de composición (alias o relativo) 1ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > la interfaz no puede usar imports dinámicos que no se resuelven estáticamente 0ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > la raíz de composición puede usar la fábrica pero no un adaptador directo 0ms
+ ✓ tests/moduleReferences.test.ts > checkFile (reglas) > las dependencias permitidas no generan falsos positivos 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > adaptador DEMO — identidad y estado > identifica todo como demo y no ofrece autenticación 2ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > adaptador DEMO — identidad y estado > solo ofrece operaciones de lectura (sin escritura ni persistencia remota) 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > adaptador DEMO — identidad y estado > el estado declara demo en development 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > adaptador DEMO — identidad y estado > el estado declara demo en test 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > adaptador DEMO — identidad y estado > el estado declara demo en preview 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > adaptador DEMO — identidad y estado > todas las entidades demo llevan origin demo 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > semántica uniforme: padre existente / inexistente / parámetro inválido > organización válida con membresías y proyectos → listas con elementos 1ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > semántica uniforme: padre existente / inexistente / parámetro inválido > organización existente sin membresías ni proyectos → lista vacía (éxito), nunca error 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > semántica uniforme: padre existente / inexistente / parámetro inválido > organización inexistente (no-existe) → not_found en membresías y proyectos 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > semántica uniforme: padre existente / inexistente / parámetro inválido > organización inexistente (demo-org-99) → not_found en membresías y proyectos 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > semántica uniforme: padre existente / inexistente / parámetro inválido > parámetro inválido ("") → validation_error 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > semántica uniforme: padre existente / inexistente / parámetro inválido > parámetro inválido ("   ") → validation_error 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > semántica uniforme: padre existente / inexistente / parámetro inválido > parámetro inválido (undefined) → validation_error 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > semántica uniforme: padre existente / inexistente / parámetro inválido > parámetro inválido (null) → validation_error 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > semántica uniforme: padre existente / inexistente / parámetro inválido > parámetro inválido (42) → validation_error 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > semántica uniforme: padre existente / inexistente / parámetro inválido > parámetro inválido ({}) → validation_error 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > integridad referencial del conjunto de datos > el conjunto DEMO por defecto es consistente 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > integridad referencial del conjunto de datos > detecta membresía hacia organización inexistente 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > integridad referencial del conjunto de datos > detecta membresía de usuario inexistente 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > integridad referencial del conjunto de datos > detecta proyecto hacia organización inexistente, duplicados, origin y prefijo 0ms
+ ✓ src/services/adapters/demo/demoServices.test.ts > integridad referencial del conjunto de datos > el adaptador se niega a crearse con datos inconsistentes (no los sirve en silencio) 1ms
+ ✓ src/app/env.test.ts > política de entorno y modo de datos > development: DEMO permitido 3ms
+ ✓ src/app/env.test.ts > política de entorno y modo de datos > test: DEMO permitido 0ms
+ ✓ src/app/env.test.ts > política de entorno y modo de datos > preview: DEMO permitido 0ms
+ ✓ src/app/env.test.ts > política de entorno y modo de datos > producción rechaza DEMO (explícito e implícito) con mensaje claro 1ms
+ ✓ src/app/env.test.ts > política de entorno y modo de datos > producción con supabase: aún no implementado (no se acepta) 0ms
+ ✓ src/app/env.test.ts > política de entorno y modo de datos > supabase en cualquier entorno: no implementado 0ms
+ ✓ src/app/env.test.ts > política de entorno y modo de datos > configuración contradictoria: VITE_APP_ENV distinto del modo 0ms
+ ✓ src/app/env.test.ts > política de entorno y modo de datos > variables ausentes o inválidas se rechazan 0ms
+ ✓ src/app/env.test.ts > política de entorno y modo de datos > VITE_APP_ENV y VITE_DATA_MODE vacíos equivalen a no definidos 0ms
+ ✓ src/app/env.test.ts > política de entorno y modo de datos > preview no tiene conexión a backend: el único modo de datos posible es demo 1ms
+ ✓ src/services/index.test.ts > createServices > crea los servicios DEMO para el modo demo 2ms
+ ✓ src/services/index.test.ts > createServices > falla de forma explícita ante un modo no soportado (no devuelve undefined) 1ms
+ ✓ src/lib/errorMessages.test.ts > errorMessages > describe por código y no reproduce el texto interno 2ms
+ ✓ src/lib/errorMessages.test.ts > errorMessages > solo "unavailable" es reintentable 0ms
+
+ Test Files  13 passed (13)
+      Tests  130 passed (130)
+   Start at  21:22:03
+   Duration  11.59s (environment 53%, tests 23%, setup 13%, import 9%, transform 2%, worker 1%)
+
+Environment  jsdom was created 13 times · 5.43s total, 53% of tracked time
+             create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+             learn more: https://vitest.dev/guide/improving-performance#test-environments

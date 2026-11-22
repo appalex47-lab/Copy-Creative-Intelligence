@@ -1,5 +1,7 @@
 # Auditoría de seguridad previa a la publicación de `review/cci-fase1-1-audit`
 
+> **Nota de actualización (limpieza documental posterior).** Este documento describe el contenido del commit `afa2b72b819af4c885e0c8a565c869ab07bfbfd6` (193 archivos: 192 nuevos + `README.md` modificado). `INVENTARIO_ARCHIVOS.txt` e `INVENTARIO.sha256` **no se modificaron** y siguen describiendo ese commit: tras la limpieza, `README.md` y `docs/architecture/CI.md` tienen contenido distinto y existen archivos nuevos que no figuran en ese inventario; los cambios están listados con sus SHA-256 en `../CCI_LIMPIEZA_PUBLICACION_20261122T044210Z/INVENTARIO_CAMBIOS.txt`. Cambios en este documento: solo esta nota y la sustitución de las rutas temporales literales por una descripción neutral (el hallazgo se conserva). El escaneo es **heurístico y no garantiza la ausencia absoluta de secretos**; las limitaciones de la sección 6 siguen vigentes. El mensaje del commit `afa2b72…` contiene un enlace a una sesión de herramienta de trabajo; la historia no se reescribió.
+
 Fecha de la auditoría: 2026-11-22 (UTC). Rama base: `origin/main` = `6a1af2424ef39e0960b8f7e09d4e19ec52e6f046`.
 Repositorio: `appalex47-lab/Copy-Creative-Intelligence` — **público** (`private: false`, `visibility: public`, comprobado con la API REST de GitHub).
 
@@ -20,7 +22,7 @@ Código y pruebas (`src/`, `tests/`, `e2e/`, `scripts/`, `public/`), configuraci
 ## 3. Hallazgos que no son secretos (documentados, sin ocultar ni modificar)
 | Hallazgo | Archivos | Valoración |
 |---|---|---|
-| Rutas de directorios temporales del entorno de trabajo (`/tmp/aud2`, `/tmp/clean102`, `/home/claude`) | 8 logs de expedientes 1.0/1.0.1/1.0.2, `01_ESTADO_INICIAL_REPOSITORIO.md` (1.0), `01_ESTADO_GIT_Y_PRESERVACION.md` (1.1-A1) | Rutas de sandbox, sin usuario real ni datos privados. **No se editaron** para no invalidar los manifiestos de los expedientes |
+| Rutas de directorios temporales del entorno de trabajo (3 raíces distintas bajo `/tmp` y `/home`; en este documento ya no se reproducen literalmente) | 8 logs de expedientes 1.0/1.0.1/1.0.2, `01_ESTADO_INICIAL_REPOSITORIO.md` (1.0), `01_ESTADO_GIT_Y_PRESERVACION.md` (1.1-A1) | Rutas de sandbox, sin usuario real ni datos privados. **No se editaron** para no invalidar los manifiestos de los expedientes |
 | URL `http://localhost:4173/5173/5198/5199` | `playwright.config.ts`, `e2e/*`, logs de 1.0 y 1.0.2 | Locales; sin exposición |
 | Identificador `appalex47` | `evidence/CCI_FASE1_0_…/00_RESUMEN_EJECUTIVO.md` (nombre del repositorio) | Ya público en la URL del repositorio |
 | Valores ficticios con forma de secreto | `tests/secrets.test.ts` | Construidos por partes y claramente de prueba (secuencias `a1B2c3D4…`); el escáner del proyecto los trata como fixtures del test. Posible aviso de escáneres externos: no verificado |
