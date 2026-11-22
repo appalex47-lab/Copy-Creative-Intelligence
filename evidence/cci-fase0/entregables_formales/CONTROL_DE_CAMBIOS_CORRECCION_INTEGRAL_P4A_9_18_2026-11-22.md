@@ -22,9 +22,11 @@ Patrones: «pendiente de decisión», «sin responder», «siguen pendientes», 
 Sin hallazgo (sin cambio): 00_INDICE y README (ya con registro autoritativo, 9/18, matriz respondida), CATALOGO_DEPENDENCIAS_D4_D8 y DECISIONES_P4_PENDIENTES (corregidos en la regularización previa), docs 05/06/07 (ya con advertencia de vigencia), FICHA_Q7 (ya marcada resuelta), 10/13 registros (Q-7 ya resuelta). Menciones a Supabase/backend en índice/README: solo en la revisión de seguridad, no como arquitectura vigente. No se encontró texto que dé por aceptada Fase 0 ni por autorizada Fase 1.
 
 ## 3. Estados que permanecen abiertos (sin resolver aquí)
-P4.B, P4.C, P4.E (E1–E5), Q-1, Q-2, C-2, C-3; entidad 9 suspendida; entidades 10–12 y 14–18 sin aprobación vigente; aprobaciones 0.1–0.7; aceptación formal de Fase 0; Fase 1 no autorizada; en D6.c=A0: origen del valor (manual/importado/calculado), L1, L2, L3 sin decidir y A0 no aprueba D6.b=A. D5.a–d fuera de alcance (no reabiertas). P4.A: **9/18 (50 %)**.
+P4.B, P4.C, P4.E (E1–E5), Q-1, Q-2, C-2, C-3; entidad 9 suspendida; entidades 10–12 y 14–18 sin aprobación vigente; aprobaciones 0.1–0.7; aceptación formal de Fase 0; Fase 1 no autorizada; en D6.c=A0: origen del valor (manual/importado/calculado), L1, L2, L3 sin decidir y A0 no aprueba D6.b=A. D5.a–d fuera de alcance (no reabiertas). P4.A: **9/18 (50 %)**. *[Antecedente superado por la ratificación 15:56: la entidad 9 ya no está suspendida y las entidades 10–12 y 14–18 tienen definición mínima aprobada.]*
 
 ## 4. Históricos preservados
 Todos los registros y análisis originales (D1, D2, D3, D5 originales, fichas, paquetes, informes anteriores, `docs/fase0`): solo se añadieron notas fechadas; no se eliminó ni reescribió texto.
 ## 5. Limitaciones
 Verificación por búsqueda de texto y lectura de contexto, no lectura línea a línea de los 52 documentos de `docs/fase0` ni de todos los anexos; la arquitectura browser-only se comprobó por coincidencia de texto en índice/README; sin pruebas, build ni CI de la aplicación; acceso de ChatGPT no verificado.
+
+> **Nota fechada 2026-11-22 15:56 (ratificación del propietario «Confirmo todo» sobre la propuesta maestra B1–B10; el texto original no se altera):** este control de cambios es un registro histórico: el conteo P4.A 9/18 y la suspensión de la entidad 9 que menciona están **superados** (P4.A vigente: 18/18). Fuente: `REGISTRO_DECISIONES_RESUELTAS.md`, sección «Ratificación de la propuesta maestra de cierre de Fase 0 (B1–B10)».

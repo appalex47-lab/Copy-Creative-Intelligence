@@ -42,3 +42,5 @@ Lista A: 18 · Lista B: 16 · Modelo mío tras tus respuestas: 18 de A (con regl
 
 
 **Nota 2026-11-22 (D-3):** la fila 10 (BrandRule) describe «regla de marca **y de copy**»; la inclusión de las reglas de copy es **derivación mía no aprobada** y el propietario indicó que NO debe darse por incorporada (ver `D3_FAMILIAS_DE_REGLAS.md`).
+
+> **Nota fechada 2026-11-22 15:56 (ratificación del propietario «Confirmo todo» sobre la propuesta maestra B1–B10; el texto original no se altera):** la lista de 18 nombres tiene ahora definición mínima aprobada para las 18 entidades (B1). Fuente y texto literal: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`, sección «Ratificación de la propuesta maestra de cierre de Fase 0 (B1–B10)». 

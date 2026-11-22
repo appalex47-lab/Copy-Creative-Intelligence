@@ -122,3 +122,18 @@ Ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` v2.0: la brecha de lectura declarada
 | `auditoria_integral/05`, `08`, `10`, `12` | Cifras: 111 archivos; 109/110 líneas de manifiesto; 171 blobs; una fila NO_APLICABLE | Archivo nuevo |
 | `auditoria_integral/07` (este archivo) | R9 | Control de cambios |
 | `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados | Integridad |
+
+## R10. Registro de la ratificación de la propuesta maestra de cierre de Fase 0 (base `bb2030a9bc88d0ac5f2603ade57f674033c7ab0c`)
+**Alcance:** registrar la respuesta «Confirmo todo» del propietario (2026-11-22 15:56) como ratificación de B1–B10 y actualizar la evidencia derivada. No es una nueva auditoría. No se modificó código de la aplicación, `docs/fase0/`, `main` ni estados de CR; no se emitió ninguna aprobación (0/7); no se aceptó Fase 0 ni se autorizó Fase 1.
+| Archivo | Cambio | Motivo |
+|---|---|---|
+| `entregables_formales/PROPUESTA_MAESTRA_CIERRE_FASE0_v1.0.md` (nuevo) | Copia literal de la propuesta ratificada | Fuente literal de las definiciones |
+| `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` | Sección de ratificación B1–B10 y nota cronológica | Registro autoritativo |
+| `entregables_formales/CONTROL_DE_CAMBIOS_RATIFICACION_PROPUESTA_MAESTRA_2026-11-22.md` (nuevo) | Interpretaciones, archivos, cifras y estado de los criterios del §18 | Control de cambios |
+| Matrices y fichas (`02`, `03`, `04`, `09`, matriz consolidada, `13_REGISTRO…`, `DECISIONES_P4_PENDIENTES`, `FICHA_P4*`, `MATRIZ_DECISIONES_PROPIETARIO`, `D3`, `10_DEFINICION_MVP`, `DIAGNOSTICO…`, `LISTA_ORIGINAL…`) | Estado vigente actualizado o nota fechada; el estado anterior se conserva como antecedente superado | Coherencia sin reescribir historia |
+| Índices y informes (`00_INDICE`, `README_ENTREGA`, `README_PROPUESTA_VIGENTE`, `16_INDICE`, `01`, `05` v3.3, `06` (solo nota), `08` v3.3, `10` v3.3, `12` v2.3, `APROBACIONES_FASE0`) | Cifras (114 archivos; manifiestos de 112 y 113 líneas; 174 blobs), notas y filas | Coherencia |
+| `logs/verificacion_coherencia_posterior.py` | Añadido control V13 (conteo «9/18» sin marca de antecedente) y nombre de la nueva salida en la lista de exclusión | Verificar la coherencia tras la ratificación |
+| `logs/verificacion_coherencia_posterior_2026-11-22_tras_ratificacion.txt` (nuevo) | Salida del script | Evidencia |
+| `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados | Integridad |
+**Preservados sin cambios:** `docs/fase0/` (59), `anexos/`, la salida original y la corregida del script, `13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md`, fichas P4A históricas (salvo la nota en la ficha 09), y los estados de CR-01…CR-22.
+

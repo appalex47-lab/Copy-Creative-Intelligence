@@ -1,7 +1,7 @@
 # Control de cambios — Regularización documental posterior al registro D4/D6/D7/D8 (2026-11-22)
 **Commit base:** `004a736de6ad6702587aedb12a64c7c0e60f04d9` (HEAD real verificado; sin cambios posteriores). **Rama:** `evidence/cci-fase0-review`.
 **Motivo:** la revisión de ChatGPT halló el registro correcto, pero estados secundarios anteriores y conteo P4.A 8/18 sin actualizar.
-**Cambio de P4.A:** de 8/18 (44,4 %) a **9/18 (50 %)**; fundamento **D4.c=A** (entidad 13, solo definición mínima). Las 11 decisiones y su alcance no se modifican.
+**Cambio de P4.A:** de 8/18 (44,4 %) a **9/18 (50 %)**; fundamento **D4.c=A** (entidad 13, solo definición mínima). Las 11 decisiones y su alcance no se modifican. *[Antecedente superado por la ratificación 15:56: P4.A vigente 18/18.]*
 
 ## Archivos modificados y justificación
 | Archivo | Justificación |
@@ -25,3 +25,5 @@ D4/D6/D7/D8 ya no figuran como pendientes vigentes en los documentos anteriores;
 D5.a–d, C-2, C-3, P4.B, P4.C, E1–E5, Q-1, Q-2, entidad 9, entidades 10–12 y 14–18, aprobaciones 0.1–0.7: abiertas/pendientes. Fase 0 sin aceptación formal; Fase 1 no autorizada.
 ## Verificaciones y limitaciones
 Ver el informe de entrega (HEAD, API, comparación con main, hashes). No se ejecutaron pruebas/build/CI de la aplicación; la coherencia se verificó por búsqueda de texto en el expediente, no por lectura línea a línea de `docs/fase0`.
+
+> **Nota fechada 2026-11-22 15:56 (ratificación del propietario «Confirmo todo» sobre la propuesta maestra B1–B10; el texto original no se altera):** este control de cambios es un registro histórico: el conteo P4.A 9/18 y la suspensión de la entidad 9 que menciona están **superados** (P4.A vigente: 18/18). Fuente: `REGISTRO_DECISIONES_RESUELTAS.md`, sección «Ratificación de la propuesta maestra de cierre de Fase 0 (B1–B10)».

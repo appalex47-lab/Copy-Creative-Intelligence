@@ -1,4 +1,5 @@
 # Registro de decisiones del propietario
+> **Nota fechada 2026-11-22 15:56 (ratificación del propietario «Confirmo todo» sobre la propuesta maestra B1–B10; no es decisión nueva de este documento):** P4 (P4.A 18/18, P4.B, P4.C, P4.E), P5, P9, P11, P12, P13, P14 y Q-4 quedan resueltas por su contenido; P6, P7, P8, P10, P15, Q-1, Q-2, Q-3, Q-5 y Q-6 tienen **aplazamiento aceptado (no resueltas)**. Las «Recomendaciones» y opciones de este documento son anteriores y conservan su carácter de propuesta; el texto de cada decisión está en `REGISTRO_DECISIONES_RESUELTAS.md`. Aprobaciones 0.1–0.7, aceptación de Fase 0 y autorización de Fase 1: pendientes.
 
 > Documento formal del §14. Fuente de contenido: `../10_REGISTRO_DECISIONES.md` (sin cambios de fondo). Estado: propuesta para revisión; nada aprobado ni implementado.
 
@@ -10,18 +11,18 @@ Indispensabilidad para cerrar Fase 0: **I** = indispensable · **F1/F2/F5** = de
 | P1 | Identidad, organización, membresías y roles | I — **RESUELTA 2026-11-22 (b)** |
 | P2 | Sustituir formalmente DEC-D2–D4 | I — **RESUELTA 2026-11-22 (a)** |
 | P3 | Tratamiento de `docs/fase0/` | I — **RESUELTA 2026-11-22 (b)** |
-| P4 | Dominio de producto y definición de MVP | I — **PARCIAL 2026-11-22** (nombres confirmados; ver `DECISIONES_P4_PENDIENTES.md`) |
-| P5 | Binarios en IndexedDB | I (afecta esquema y formato de exportación) |
-| P6 | Formato de exportación | F2 (diseño lógico ya propuesto) |
-| P7 | Cifrado local con frase de paso | F5 |
-| P8 | Alternativa de IA y política de claves | F2 |
-| P9 | Qué es «producción» en modo local | I |
-| P10 | Hosting y origen | F5 (en Fase 1 basta `localhost`) |
-| P11 | Navegadores soportados | I |
-| P12 | Política multi-pestaña | I |
-| P13 | Dependencias y ampliación de `AppErrorCode` | I |
-| P14 | ¿Prueba de concepto en Fase 0? | I |
-| P15 | Pendientes previos (licencia, enlace de sesión, rama local, F11-D4, F5/G-1, F6, Fase 0 anterior) | A / mixto |
+| P4 | Dominio de producto y definición de MVP | I — **RESUELTA por ratificación 2026-11-22 15:56 (B1–B5, B7)**; antes: PARCIAL (nombres confirmados; ver `DECISIONES_P4_PENDIENTES.md`) |
+| P5 | Binarios en IndexedDB | I (afecta esquema y formato de exportación) — **RESUELTA por ratificación 2026-11-22 15:56 (B6)** |
+| P6 | Formato de exportación | F2 (diseño lógico ya propuesto) — **APLAZADA, aplazamiento aceptado 2026-11-22 15:56 (B8); no resuelta** |
+| P7 | Cifrado local con frase de paso | F5 — **APLAZADA, aplazamiento aceptado 2026-11-22 15:56 (B8); no resuelta** |
+| P8 | Alternativa de IA y política de claves | F2 — **APLAZADA, aplazamiento aceptado 2026-11-22 15:56 (B8); no resuelta** |
+| P9 | Qué es «producción» en modo local | I — **RESUELTA por ratificación 2026-11-22 15:56 (B6)** |
+| P10 | Hosting y origen | F5 (en Fase 1 basta `localhost`) — **APLAZADA, aplazamiento aceptado 2026-11-22 15:56 (B8); no resuelta** |
+| P11 | Navegadores soportados | I — **RESUELTA por ratificación 2026-11-22 15:56 (B6)** |
+| P12 | Política multi-pestaña | I — **RESUELTA por ratificación 2026-11-22 15:56 (B6)** |
+| P13 | Dependencias y ampliación de `AppErrorCode` | I — **RESUELTA por ratificación 2026-11-22 15:56 (B6)** |
+| P14 | ¿Prueba de concepto en Fase 0? | I — **RESUELTA por ratificación 2026-11-22 15:56 (B6)** |
+| P15 | Pendientes previos (licencia, enlace de sesión, rama local, F11-D4, F5/G-1, F6, Fase 0 anterior) | A / mixto — **APLAZADA, aplazamiento aceptado 2026-11-22 15:56 (B8); no resuelta** |
 
 ---
 ### P1 — Identidad, organización, membresías y roles

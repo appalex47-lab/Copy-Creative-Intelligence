@@ -19,7 +19,7 @@ Una **nota de ChatGPT**, un **informe de cierre** o una **recomendación de Clau
 | P4.2, P4.3, Colección | Resueltas / mantenida | Registro |
 | P4.4 / P4.D / Q-7 | **Resueltas → (a); P4.4 cerrada** | Registro |
 | P4.5 | Aprobación preliminar conservada (no definitiva) | Registro |
-| P4.A | **9/18 aprobadas (50 %) con definición mínima: entidades 1–8 y 13**; 9/18 pendientes (50 %). Entidad 9 suspendida | Registro (P4.A, D4.c) |
+| P4.A | **18/18 aprobadas (100 %) con definición mínima** (ratificación 15:56; antes: 9/18 — entidades 1–8 y 13 — con 9 suspendida) | Registro (P4.A, D4.c, B1) |
 | D-1, D-2, D-3, D-5 | Resueltas (D5.a–d fuera del alcance vigente; no se reabren) | Registro |
 | D-4 (D4.a–d), D-6 (D6.a–c), D-7 (D7.a–c), D-8 | Resueltas: D4.a=A, D4.b=A, D4.c=A, D4.d=A (limitada por M-1 y D-5.3), D6.a=A, D6.b=A, D6.c=A0 (deja sin decidir origen de valores, L1/L2 y L3), D7.a=A, D7.b=A, D7.c=C, D8=A | Registro, sección «D-4, D-6, D-7 y D-8» |
 | P4.B, P4.C, P4.E (E1–E5) | **Pendientes** | `DECISIONES_P4_PENDIENTES.md` |
@@ -53,3 +53,5 @@ Registro → este índice → 02, 03, 04 → 09 (lo que el propietario debe deci
 Guía de entrega y estado de archivos: `README_ENTREGA.md`, `00_INDICE_VIGENTES_E_HISTORICOS.md`, `entregables_formales/16_INDICE_EVIDENCIAS_FASE0.md`.
 
 **Actualización ronda de lectura completa (2026-11-22; base HEAD `13b25ca`):** lectura íntegra de todos los archivos legibles (`12_` v2.0); nuevas CR-19…CR-22 en `06_` v3.0 (CR-21: regresión propia restaurada); docs 05, 07 (R7), 08, 10, 11 actualizados. **Roadmaps:** vigente como propuesta no aprobada es `entregables_formales/11_ROADMAP_FASES_0_A_5.md`; el §15 del anexo original y los roadmaps de `docs/fase0` son antecedentes (CR-22). La jerarquía de fuentes no cambia. No se acepta Fase 0 ni se autoriza Fase 1.
+
+> **Nota fechada 2026-11-22 15:56 (ratificación del propietario «Confirmo todo» sobre la propuesta maestra B1–B10; el texto original no se altera):** la fila P4.A de la tabla de estado («9/18 … entidad 9 suspendida») es antecedente: **P4.A vigente = 18/18** con definición mínima aprobada. Estado vigente por ítem: `02_MATRIZ_MAESTRA_DECISIONES.md` §A.2 y B; entidades: `03_MATRIZ_MAESTRA_ENTIDADES_P4A.md`. Nuevos archivos: `../entregables_formales/PROPUESTA_MAESTRA_CIERRE_FASE0_v1.0.md`, `../entregables_formales/CONTROL_DE_CAMBIOS_RATIFICACION_PROPUESTA_MAESTRA_2026-11-22.md`, `../logs/verificacion_coherencia_posterior_2026-11-22_tras_ratificacion.txt`. Fuente y texto literal: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`, sección «Ratificación de la propuesta maestra de cierre de Fase 0 (B1–B10)». Aprobaciones 0.1–0.7, aceptación de Fase 0 y autorización de Fase 1 siguen pendientes.

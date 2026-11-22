@@ -8,7 +8,7 @@ for r,_,fs in os.walk(EV):
     for f in fs:
         if f.endswith(('.md','.txt','.py')): files.append(os.path.join(r,f))
 # Se excluyen de los escaneos los propios productos de esta verificación (autorreferencia): su informe 13_, este script y su salida.
-SELF=('auditoria_integral/13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md','logs/verificacion_coherencia_posterior.py','logs/verificacion_coherencia_posterior_2026-11-22.txt','logs/verificacion_coherencia_posterior_2026-11-22_x4_corregido.txt')
+SELF=('auditoria_integral/13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md','logs/verificacion_coherencia_posterior.py','logs/verificacion_coherencia_posterior_2026-11-22.txt','logs/verificacion_coherencia_posterior_2026-11-22_x4_corregido.txt','logs/verificacion_coherencia_posterior_2026-11-22_tras_ratificacion.txt')
 files=[p for p in files if p[len(EV)+1:] not in SELF]
 files.sort()
 txt={p:open(p,encoding='utf-8',errors='replace').read() for p in files}
@@ -60,6 +60,15 @@ for p in files:
             ctx=para(ls,i)
             if MARK.search(ctx) or MARK.search(l): rec('V5_8de18_con_marca',(p[len(EV)+1:],i+1))
             else: rec('V5_8de18_sin_marca',(p[len(EV)+1:],i+1,l.strip()[:220]))
+# V13 (añadido en la ronda de ratificación 15:56): conteo P4.A «9/18» sin marca de antecedente (vigente tras la ratificación: 18/18)
+for p in files:
+    if '/logs/' in p or 'auditoria_integral/12_' in p: continue
+    ls=txt[p].split('\n')
+    for i,l in enumerate(ls):
+        if re.search(r'\b9\s*/\s*18\b|(?<!Entidad )\b9 de 18\b|\b9 aprobadas\b',l):
+            ctx=para(ls,i)
+            if MARK.search(ctx) or MARK.search(l): rec('V13_9de18_con_marca',(p[len(EV)+1:],i+1))
+            else: rec('V13_9de18_sin_marca',(p[len(EV)+1:],i+1,l.strip()[:220]))
 # V6 D4/D6/D7/D8 pendientes sin marca
 for p in files:
     if '/logs/' in p or 'auditoria_integral/12_' in p: continue

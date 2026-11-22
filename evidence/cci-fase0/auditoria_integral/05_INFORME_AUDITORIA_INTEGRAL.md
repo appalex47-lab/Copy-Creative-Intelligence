@@ -1,5 +1,5 @@
 # Informe de auditoría integral del expediente — ronda final (2026-11-22)
-**Versión:** 3.2 (v3.1 + corrección puntual de X4: 111 archivos; v3.0 + ronda de verificación de coherencia posterior: 110 archivos, métrica de avisos de vigencia recalculada y descrita con su alcance real; no cambia ningún estado de CR ni decisión) · **Fecha:** 2026-11-22 · **Estado:** vigente como informe de hechos; subordinado al registro de decisiones · **Base:** HEAD `13b25ca447c0ab17f46b3143615b4c2156661b79` (la v2.0 se redactó sobre `8dc47b24…`) · **Referencias:** `06_REGISTRO_CONTRADICCIONES.md`, `08_INFORME_INTEGRIDAD_ARCHIVOS.md`, `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`.
+**Versión:** 3.3 (v3.2 + ratificación de la propuesta maestra de cierre de Fase 0 por el propietario, 15:56: 114 archivos; v3.1 + corrección puntual de X4: 111 archivos; v3.0 + ronda de verificación de coherencia posterior: 110 archivos, métrica de avisos de vigencia recalculada y descrita con su alcance real; no cambia ningún estado de CR ni decisión) · **Fecha:** 2026-11-22 · **Estado:** vigente como informe de hechos; subordinado al registro de decisiones · **Base:** HEAD `13b25ca447c0ab17f46b3143615b4c2156661b79` (la v2.0 se redactó sobre `8dc47b24…`) · **Referencias:** `06_REGISTRO_CONTRADICCIONES.md`, `08_INFORME_INTEGRIDAD_ARCHIVOS.md`, `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`.
 
 ## 0. Corrección de cifras de la versión anterior (hallazgo 3.5)
 - La versión anterior clasificaba **93** archivos y declaraba «93/93 clasificados». El árbol real de la rama en `8dc47b2` (API) tenía **164** blobs = **104** en `evidence/cci-fase0/` (93 previos + 11 documentos de la auditoría integral) + **59** en `docs/fase0/` + **1** `README.md` de la raíz del repositorio.
@@ -7,30 +7,32 @@
 - Esta versión clasifica **todos** los archivos actuales de `evidence/cci-fase0/` (107, tras añadir en esta ronda `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`, `logs/escaneo_contradicciones_2026-11-22_ronda_final.txt` y `logs/scan_contradicciones.py`). Los 59 archivos de `docs/fase0/` se concilian aparte (`11_`, `12_`).
 - **Ronda de verificación de coherencia posterior (2026-11-22; base `580c51f`):** se añaden 3 archivos (`auditoria_integral/13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md`, `logs/verificacion_coherencia_posterior.py` y `logs/verificacion_coherencia_posterior_2026-11-22.txt`) → **110** archivos en el expediente.
 - **Corrección puntual de X4 (2026-11-22; base `e049fcd`):** se añade 1 archivo (`logs/verificacion_coherencia_posterior_2026-11-22_x4_corregido.txt`) → **111** archivos. Alcance: solo el control X4 del script y la evidencia directamente afectada; no es una nueva auditoría.
+- **Ratificación de la propuesta maestra (2026-11-22 15:56; base `bb2030a`):** se añaden 3 archivos (`entregables_formales/PROPUESTA_MAESTRA_CIERRE_FASE0_v1.0.md`, `entregables_formales/CONTROL_DE_CAMBIOS_RATIFICACION_PROPUESTA_MAESTRA_2026-11-22.md` y `logs/verificacion_coherencia_posterior_2026-11-22_tras_ratificacion.txt`) → **114** archivos. Alcance: registrar la ratificación del propietario y actualizar la evidencia derivada; no cambia ningún estado de CR ni emite aprobaciones.
 
 ## 1. Alcance real
 | Concepto | Cantidad |
 |---|---|
-| Archivos en `evidence/cci-fase0/` (tras la corrección puntual de X4) | 111 |
+| Archivos en `evidence/cci-fase0/` (tras la ratificación 15:56) | 114 |
 | Archivos en `docs/fase0/` (sin modificar; idénticos a `main`) | 59 |
 | `README.md` de la raíz del repositorio (fuera del expediente; sin modificar) | 1 |
-| Total de blobs esperado en la rama tras publicar | 171 |
+| Total de blobs esperado en la rama tras publicar | 174 |
 
-## 2. Clasificación por vigencia de los 111 archivos del expediente
+## 2. Clasificación por vigencia de los 114 archivos del expediente
 | Clase | Archivos |
 |---|---|
 | Antecedente (análisis resuelto) | 4 |
 | Antecedente (respondido) | 2 |
 | Antecedente / propuesta | 7 |
-| Evidencia técnica | 17 |
+| Evidencia técnica | 18 |
 | Histórico | 2 |
 | Histórico (copia previa) | 16 |
 | Histórico (ficha resuelta/suspendida) | 14 |
 | Informe de auditoría (derivado) | 3 |
-| Informe/control (fechado) | 10 |
+| Informe/control (fechado) | 11 |
 | Integridad | 3 |
 | Integridad (informe) | 1 |
 | Propuesta | 1 |
+| Propuesta (ratificada; copia literal) | 1 |
 | Propuesta (subordinada) | 14 |
 | Propuesta vigente (no aprobada en bloque) | 1 |
 | Superado | 1 |
@@ -38,7 +40,7 @@
 | Vigente (derivado) | 7 |
 | Vigente (subordinado) | 4 |
 | Vigente (índice) | 3 |
-| **Total** | **111** |
+| **Total** | **114** |
 
 **Aviso de vigencia en el propio archivo** (clases histórica, antecedente, superado e informe: 58 archivos en esas clases; **55 de 55 aplicables** con marca; 3 «n/a»: el archivo de hashes `anexos/MANIFEST_informe_browser_only.sha256` y los informes derivados vigentes `05_` y `12_`; el nuevo `13_` también figura «n/a»). **Alcance de la métrica:** detección automática a nivel de **archivo** (basta una marca en cualquier parte del archivo); no verifica que cada afirmación histórica del archivo esté individualmente marcada. Dentro de las 46 filas de clase histórica/antecedente/superado: 45 con marca y 1 «n/a» (el archivo de hashes); `FICHA_P4A_09` se detecta por su encabezado «SUSPENDIDA».
 
@@ -103,6 +105,7 @@ Detalle archivo por archivo (ruta · clase · motivo · aviso de vigencia en el 
 | `entregables_formales/CONCILIACION_D1_D9_VERIFICADA.md` | Antecedente / propuesta | Análisis o propuesta; no prevalece sobre el registro | Sí |
 | `entregables_formales/CONTROL_DE_CAMBIOS_CORRECCION_2026-11-22.md` | Informe/control (fechado) | Estado a su hora; con nota fechada si fue superado | Sí |
 | `entregables_formales/CONTROL_DE_CAMBIOS_CORRECCION_INTEGRAL_P4A_9_18_2026-11-22.md` | Informe/control (fechado) | Estado a su hora; con nota fechada si fue superado | Sí |
+| `entregables_formales/CONTROL_DE_CAMBIOS_RATIFICACION_PROPUESTA_MAESTRA_2026-11-22.md` | Informe/control (fechado) | Control de cambios de la ratificación: interpretaciones, archivos modificados, estado de los criterios del §18 de la propuesta | n/a |
 | `entregables_formales/CONTROL_DE_CAMBIOS_REGISTRO_D4_D6_D7_D8_2026-11-22.md` | Informe/control (fechado) | Estado a su hora; con nota fechada si fue superado | Sí |
 | `entregables_formales/CONTROL_DE_CAMBIOS_REGULARIZACION_P4A_9_18_2026-11-22.md` | Informe/control (fechado) | Estado a su hora; con nota fechada si fue superado | Sí |
 | `entregables_formales/CONVENCIONES_P4_5_CONDICIONES.md` | Antecedente / propuesta | Análisis o propuesta; no prevalece sobre el registro | Sí |
@@ -137,6 +140,7 @@ Detalle archivo por archivo (ruta · clase · motivo · aviso de vigencia en el 
 | `entregables_formales/MATRIZ_DECISIONES_PROPIETARIO.md` | Antecedente / propuesta | Análisis o propuesta; no prevalece sobre el registro | Sí |
 | `entregables_formales/PAQUETE_DECISION_D1_D8.md` | Superado | Sustituido por PAQUETE_DECISION_D4_D6_D7_D8 | Sí |
 | `entregables_formales/PAQUETE_DECISION_D4_D6_D7_D8.md` | Antecedente (respondido) | Instrumento ya respondido; no se usa para volver a preguntar | Sí |
+| `entregables_formales/PROPUESTA_MAESTRA_CIERRE_FASE0_v1.0.md` | Propuesta (ratificada; copia literal) | Copia literal (SHA-256 `8eb73476…3999`) de la propuesta maestra que el propietario ratificó con «Confirmo todo» (15:56); fuente literal de las definiciones PE-09…PE-18; prevalece ante cualquier resumen | n/a |
 | `entregables_formales/README_PROPUESTA_VIGENTE.md` | Propuesta | README propuesto; no sustituye el README del repositorio | n/a |
 | `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` | VIGENTE AUTORITATIVO | Fuente de verdad de decisiones del propietario (nivel 2) | n/a |
 | `entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md` | Antecedente (respondido) | Instrumento ya respondido; no se usa para volver a preguntar | Sí |
@@ -155,6 +159,7 @@ Detalle archivo por archivo (ruta · clase · motivo · aviso de vigencia en el 
 | `logs/typecheck.log` | Evidencia técnica | Evidencia de ejecución previa (no reejecutada); registro de hechos | n/a |
 | `logs/verificacion_coherencia_posterior.py` | Evidencia técnica | Script de la verificación de coherencia posterior (solo lectura; reproducible; X4 corregido en la ronda puntual) | n/a |
 | `logs/verificacion_coherencia_posterior_2026-11-22.txt` | Evidencia técnica | Salida original (commit `e049fcd`) con el X4 defectuoso; se conserva como antecedente | n/a |
+| `logs/verificacion_coherencia_posterior_2026-11-22_tras_ratificacion.txt` | Evidencia técnica | Salida del script de coherencia tras registrar la ratificación (incluye el control V13 añadido) (registro de hechos) | n/a |
 | `logs/verificacion_coherencia_posterior_2026-11-22_x4_corregido.txt` | Evidencia técnica | Salida del script con X4 corregido, pruebas de regresión y detalle por CR y documento (registro de hechos) | n/a |
 | `logs/verificaciones_documentales_2026-11-22_correccion.txt` | Evidencia técnica | Evidencia de ejecución previa (no reejecutada); registro de hechos | n/a |
 
@@ -164,7 +169,7 @@ Detalle archivo por archivo (ruta · clase · motivo · aviso de vigencia en el 
 - **52 históricos de `docs/fase0/historico/`:** leídos por líneas únicas (ver `12_` §5, con bytes de líneas nuevas por archivo); los conteos de vocabulario de la ficha son indicadores por escaneo, no lectura.
 - **Correcciones de contenido de esta ronda:** ver `07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` (sección «Ronda final»).
 ## 4. Resultados
-- Archivos del expediente clasificados: **111/111** (100 % del conjunto actual; no equivale a lectura íntegra ni a corrección de contenido).
+- Archivos del expediente clasificados: **114/114** (100 % del conjunto actual; no equivale a lectura íntegra ni a corrección de contenido).
 - Contradicciones: **22 registradas** en `06_` v3.0: 13 RESUELTA_DOCUMENTALMENTE, 5 HISTORICA_CON_ADVERTENCIA, 2 RESUELTA_POR_DECISION_PROPIETARIO (CR-07 y CR-16), 1 PENDIENTE_PROPIETARIO (CR-17: C-2/C-3), 1 NO_RESOLUBLE_POR_FALTA_DE_EVIDENCIA (CR-12). Nuevas: CR-19…CR-22 (CR-21 es una regresión propia restaurada).
 - Duplicados de nombre en el expediente: ver verificación en `08_`.
 ## 5. Archivos no accesibles y limitaciones

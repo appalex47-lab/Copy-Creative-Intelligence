@@ -1,4 +1,5 @@
 # Matriz maestra de dependencias — P4.B / P4.C / P4.E / Q / C (2026-11-22)
+> **Nota fechada 2026-11-22 15:56 (ratificación del propietario «Confirmo todo» sobre la propuesta maestra B1–B10; no es decisión nueva de este documento):** PAQ-1, PAQ-2, PAQ-3, PAQ-4 y PAQ-6 (P5, P9, P11–P14) quedan resueltos; en PAQ-5 solo Q-4 queda resuelta (Q-1, Q-2, Q-3, Q-5, Q-6: aplazamiento aceptado; C-2 y C-3 abiertas como limitación expresa, B9); PAQ-7 (P6, P7, P8, P10, P15): aplazamiento aceptado. La tabla siguiente describe dependencias en el momento de su elaboración; las filas de ítems resueltos son antecedente. Vigente: `02_MATRIZ_MAESTRA_DECISIONES.md` §A.2 y B.
 **Subordinada al registro.** Muestra qué desbloquea cada cuestión; no decide nada. **[Rec. Claude]** = recomendación no vinculante.
 
 ## A. Dependencias entre cuestiones pendientes

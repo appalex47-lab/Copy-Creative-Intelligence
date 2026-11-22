@@ -68,3 +68,5 @@ Sin equivalente formal (se quedan en la raíz): `00` dictamen, `03` conciliació
 Las entradas de las fichas P4.A de arriba indican ahora el estado vigente (fichas 01–08 aprobadas; 09 suspendida); el «pendiente» original se conserva dentro de cada ficha como antecedente. Autoritativo: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`. Matriz de la ronda D4/D6/D7/D8: antecedente respondido. Nuevo: `CONTROL_DE_CAMBIOS_REGULARIZACION_P4A_9_18_2026-11-22.md`.
 
 **Auditoría integral 2026-11-22:** índice maestro y documentos de auditoría en `auditoria_integral/` (`01_INDICE_MAESTRO_FASE0.md` y siguientes). Esta lista conserva la redacción histórica; el estado vigente es el del índice maestro y el registro.
+
+> **Nota fechada 2026-11-22 15:56 (ratificación del propietario «Confirmo todo» sobre la propuesta maestra B1–B10; el texto original no se altera):** el «P4.A 9/18» de este índice es antecedente; vigente: 18/18. Fuente y texto literal: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`, sección «Ratificación de la propuesta maestra de cierre de Fase 0 (B1–B10)». Aprobaciones 0.1–0.7, aceptación de Fase 0 y autorización de Fase 1 siguen pendientes.

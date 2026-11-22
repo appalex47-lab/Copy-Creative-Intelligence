@@ -37,3 +37,5 @@ Estado: presentada el 2026-11-22; **sin respuesta; decisión SUSPENDIDA (2026-11
 **Recomendación mía:** aprobar la definición mínima y tratar los 9 campos como contenido requerido por las instrucciones, pendiente de tipos y valores; decidir en P4.C si se aprueban como atributos del MVP o se difieren a la especificación de Fase 3.
 
 **Opciones:** (a) aprobar la definición mínima · (b) aprobar con cambios (indícalos) · (c) aprobar el nombre pero tratar los hallazgos como parte de la Auditoría, sin entidad propia · (d) diferir o rechazar.
+
+> **Nota fechada 2026-11-22 15:56 (ratificación del propietario «Confirmo todo» sobre la propuesta maestra B1–B10; el texto original no se altera):** **la suspensión de la entidad 9 queda superada:** la definición mínima de Hallazgo de auditoría quedó aprobada (B1, PE-09). La definición literal aprobada está en el registro y **prevalece** sobre la definición propuesta de esta ficha, que se conserva como antecedente. El encabezado «PENDIENTE DE DECISIÓN» es antecedente. Fuente y texto literal: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`, sección «Ratificación de la propuesta maestra de cierre de Fase 0 (B1–B10)». 

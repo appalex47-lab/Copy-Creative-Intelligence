@@ -53,3 +53,5 @@ No encontré un concepto que tus instrucciones **exijan** y falte. Candidatos co
 
 ## 7. No verificado
 Exhaustividad de conceptos (solo búsqueda de texto); las líneas de B citadas fuera de las ya presentadas se tomaron de lecturas por grep; consistencia de atributos/relaciones/fases de los documentos 05, 06 y 07, que siguen siendo propuestas mías.
+
+> **Nota fechada 2026-11-22 15:56 (ratificación del propietario «Confirmo todo» sobre la propuesta maestra B1–B10; el texto original no se altera):** las propuestas y el diagnóstico de este documento siguen siendo antecedente histórico; las definiciones mínimas de las entidades 9–12 y 14–18 fueron aprobadas por la ratificación (18/18). Fuente y texto literal: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`, sección «Ratificación de la propuesta maestra de cierre de Fase 0 (B1–B10)». 

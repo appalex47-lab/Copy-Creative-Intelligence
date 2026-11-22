@@ -1,4 +1,5 @@
 # Aprobaciones de Fase 0 — fichas individuales (ninguna aprobada)
+> **Nota fechada 2026-11-22 15:56 (ratificación del propietario «Confirmo todo» sobre la propuesta maestra B1–B10; no es decisión nueva de este documento):** las condiciones previas de 0.1–0.7 listadas en la tabla (P4, P5, P9, P11–P14, Q-4) quedaron resueltas; B10 ratifica el contenido propuesto para revisar cada aprobación, **pero no emite ninguna**: 0.1–0.7 siguen **PENDIENTES (0/7)**, la aceptación de Fase 0 sigue **no aceptada** y la Fase 1 **no autorizada**. Se requiere respuesta expresa del propietario «aprobada / rechazada / con cambios» ficha por ficha.
 Estado de todas: **PENDIENTE**. Ninguna se marca ni se infiere. Orden sugerido: primero las decisiones de `MATRIZ_DECISIONES_PROPIETARIO.md`, después estas aprobaciones, al final el cierre. Responder: «aprobada», «rechazada» o «con cambios: …».
 | ID | Qué aceptas | Documentos que revisar | Requiere antes resueltas | Qué dejas fuera | Estado | Respuesta |
 |---|---|---|---|---|---|---|
