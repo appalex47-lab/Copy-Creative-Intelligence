@@ -4,7 +4,7 @@
 # - No existe evidencia de una ejecución real de este workflow.
 # - No se ha validado en un runner real.
 # - Las acciones @v4 siguen pendientes de validación y eventual anclaje por SHA.
-# - No despliega ni publica la aplicación; no usa credenciales, secretos, Supabase ni servicios externos.
+# - No utiliza credenciales ni secretos del proyecto, no se conecta a Supabase y no despliega ni publica la aplicación.
 name: CI
 
 on:
