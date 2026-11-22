@@ -1,5 +1,6 @@
 # Catálogo recuperado de las dependencias D-4 a D-8 — 2026-11-22
-> **Actualización posterior (2026-11-22):** D-5 resuelta; D5.a–d fuera del alcance vigente. D-4 se evalúa con D-1, D-2 y D-5.3 sin depender de nuevas resoluciones de D-5. D-4, D-6, D-7 y D-8 siguen pendientes de decisión del propietario.
+> **ESTADO VIGENTE (regularización 2026-11-22):** D-1 a D-8 están **resueltas en su alcance (8/8)**; D-4, D-6, D-7 y D-8 por las 11 decisiones registradas en `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`. La columna «Estado» de §2 refleja ese estado; el resto del documento (análisis, problemas y recomendaciones originales) es **antecedente**. Subcuestiones expresamente no decididas (A0: origen de valores, L1/L2/L3; Q-1; Q-2; P4.B; P4.C) siguen abiertas.
+> **Actualización posterior (2026-11-22):** D-5 resuelta; D5.a–d fuera del alcance vigente. D-4 se evalúa con D-1, D-2 y D-5.3 sin depender de nuevas resoluciones de D-5. *[superado: D-4, D-6, D-7 y D-8 resueltas; ver ESTADO VIGENTE]* D-4, D-6, D-7 y D-8 siguen pendientes de decisión del propietario.
 **Naturaleza:** recuperación documental y recomendación de orden. **No desarrolla D-4 ni ninguna otra dependencia y no aprueba nada.** Conserva P4.1, P4.2, D-1, D-2 y D-3 con sus límites.
 
 ## 1. Origen y alcance de la recuperación
@@ -14,11 +15,11 @@
 | D-1 | ¿Qué objetos son «contenido» auditable, versionable y aprobable (Copy, Variante, Pieza, Adaptación)? | 8, 9, 14, 15, 16 | **Resuelta** (12:04); la aprobabilidad pasó a D-5 |
 | D-2 | Variante frente a Versión: ¿alternativa simultánea frente a historial temporal? | 6, 14 | **Resuelta** (12:09) |
 | D-3 | Familias de reglas: reglas de copy, de marca, comerciales y de canal | 9, 10, 11, 12 | **Resuelta** (12:14) |
-| D-4 | Adaptación de canal: ¿produce un Copy, una Pieza o un registro propio? | 5, 7, 13 | Pendiente |
-| D-5 | Aprobación: ¿registro de decisión o estado del contenido? | 14, 15, 19 | Pendiente |
-| D-6 | Métrica: ¿definición, valor calculado o ambos? ¿«Calculado» en Resultado? | 16, 17 | Pendiente |
-| D-7 | Configuración, Perfil local, tolerancias y canales: ¿qué vive dónde? | 11, 12, 18, Perfil | Pendiente |
-| D-8 | Nombre canónico de la 16 | 16 | Pendiente |
+| D-4 | Adaptación de canal: ¿produce un Copy, una Pieza o un registro propio? | 5, 7, 13 | **Resuelta** (D4.a–d, 2026-11-22; ver registro) |
+| D-5 | Aprobación: ¿registro de decisión o estado del contenido? | 14, 15, 19 | **Resuelta** (12:29; D5.a–d fuera de alcance) |
+| D-6 | Métrica: ¿definición, valor calculado o ambos? ¿«Calculado» en Resultado? | 16, 17 | **Resuelta** (D6.a–c, 2026-11-22; con subcuestiones de A0 pendientes) |
+| D-7 | Configuración, Perfil local, tolerancias y canales: ¿qué vive dónde? | 11, 12, 18, Perfil | **Resuelta** (D7.a–c, 2026-11-22; Q-1 y Q-2 abiertas) |
+| D-8 | Nombre canónico de la 16 | 16 | **Resuelta** (D8=A, 2026-11-22) |
 
 ## 3. Catálogo de D-4 a D-8
 ### D-4 — Adaptación de canal

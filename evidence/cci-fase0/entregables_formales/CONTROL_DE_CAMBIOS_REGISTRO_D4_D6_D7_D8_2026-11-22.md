@@ -23,3 +23,5 @@ Limitación: compatibilidad comprobada por lectura de la matriz y del registro, 
 
 ## 4. Límites
 No registra D5.a–d; no cierra C-2, C-3, P4.B, P4.C, E1–E5, Q-1, Q-2; no aprueba entidades, atributos, relaciones, cardinalidades, persistencia, fórmulas, catálogo de métricas ni mecanismos; no acepta Fase 0 ni autoriza Fase 1.
+
+> **Nota posterior (regularización 2026-11-22):** la referencia de este documento a que el conteo P4.A «no se modifica» quedó superada: D4.c=A lleva P4.A a 9/18. Ver `CONTROL_DE_CAMBIOS_REGULARIZACION_P4A_9_18_2026-11-22.md`.
