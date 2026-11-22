@@ -1,0 +1,7 @@
+error during build:
+Error: [CCI] Configuración de entorno rechazada (production): Un entorno de producción no puede usar datos DEMO y aún no existe un backend real. Para un build local de demostración use el modo "preview" (npm run build).
+    at BasicMinimalPluginContext.config (file:///tmp/clean102/node_modules/.vite-temp/vite.config.ts.timestamp-1795317599304-0af3af91808b9.mjs:89:26)
+    at runConfigHook (file:///tmp/clean102/node_modules/vite/dist/node/chunks/node.js:38201:42)
+    at async resolveConfig (file:///tmp/clean102/node_modules/vite/dist/node/chunks/node.js:37607:11)
+    at async createBuilder (file:///tmp/clean102/node_modules/vite/dist/node/chunks/node.js:35183:17)
+    at async CAC.<anonymous> (file:///tmp/clean102/node_modules/vite/dist/node/cli.js:778:19)

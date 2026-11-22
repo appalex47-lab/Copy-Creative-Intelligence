@@ -1,0 +1,6 @@
+# Archivos modificados / creados respecto al respaldo previo (árbol == respaldo al inicio)
+Modificados: `scripts/check-secrets.mjs`, `scripts/check-secrets.d.mts`, `eslint.config.js`, `tests/architecture.test.ts`, `src/app/App.tsx`, `src/app/App.test.tsx`, `src/main.tsx`, `src/pages/HomePage.tsx`, `src/pages/ConnectionPage.tsx`, `src/services/index.ts`, `src/styles/global.css`, `docs/architecture/ARQUITECTURA.md`, `docs/architecture/GUIA_PRUEBAS.md`.
+Creados: `tests/secrets.test.ts`, `tests/moduleReferences.test.ts`, `tests/support/moduleReferences.ts`, `tests/support/fakeServices.tsx`, `src/hooks/useAsyncResource.ts` (+test), `src/components/ErrorBoundary.tsx` (+test), `src/components/StatusNotices.tsx`, `src/lib/errorMessages.ts` (+test), `src/pages/pages.errors.test.tsx`, `src/services/index.test.ts`, `src/types/.gitkeep`, este expediente.
+Eliminado (archivo vacío propio): `src/lib/.gitkeep` (la carpeta ya tiene contenido).
+Sin cambios: contratos de dominio (`src/domain`, `src/services/contracts`), adaptador DEMO, `docs/fase0`, `evidencia/`, `AUDITORIA_*`, README, expediente 1.0 original.
+Solo `README.md` figura como modificado en Git respecto a HEAD (lo demás es no versionado), igual que antes.

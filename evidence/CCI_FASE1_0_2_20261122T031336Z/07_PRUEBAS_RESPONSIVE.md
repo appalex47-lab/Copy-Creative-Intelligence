@@ -1,0 +1,4 @@
+# Pruebas responsive (Chrome real, alto 800 px)
+Anchos: 360, 375, 390, 768, 1024, 1440 × páginas Inicio y Estado de conexión + estado de error a 360 px. Comprobado por medición en navegador: sin scroll horizontal del documento; ningún elemento fuera del viewport salvo dentro de contenedores con scroll propio; tamaño de fuente base ≥16px; controles de navegación ≥24px (WCAG 2.2) — en la práctica 44px. 13 capturas completas en `capturas/` (`responsive_<ancho>_<pagina>.png`, `responsive_360_error.png`, `estado_carga_desktop.png`, `estado_error_desktop.png`).
+Revisión visual humana-asistida: se inspeccionaron `responsive_360_conexion.png` y `estado_error_desktop.png` (jerarquía, espaciado y botones correctos; navegación en fila a 360 px). Las demás capturas se verificaron solo por mediciones, no por inspección visual individual.
+Resultado: PASS. No se encontraron defectos demostrables; no se rediseñó nada. Pendiente: dispositivos reales y zoom del navegador.

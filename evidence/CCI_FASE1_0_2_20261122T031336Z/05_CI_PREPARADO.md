@@ -1,0 +1,4 @@
+# CI preparado (local, NO publicado)
+`.github/workflows/ci.yml` (sin versionar). Jobs: `verify` (npm ci, typecheck, ESLint, Prettier, Vitest —incluye arquitectura AST, secretos y guarda de build—, check:secrets, build preview, verificación de que el build de producción falla) y `e2e` (Playwright + axe + responsive con el Chrome del runner). Sin secretos, sin credenciales, sin Supabase, sin deploy, sin publicación; `permissions: contents: read`; disparadores: pull_request, push a `development/**`, workflow_dispatch.
+Verificado: YAML parseado con Python (sintaxis); sin referencias a `secrets.*`. NO verificado: ejecución en GitHub, `actionlint`, vigencia de `actions/*@v4`, presencia de Chrome en `ubuntu-latest`. Los mismos comandos se ejecutaron localmente en copia limpia (ver 10). Documentación: `docs/architecture/CI.md`.
+Resultado: PASS (preparado) / NOT_TESTED (en GitHub).

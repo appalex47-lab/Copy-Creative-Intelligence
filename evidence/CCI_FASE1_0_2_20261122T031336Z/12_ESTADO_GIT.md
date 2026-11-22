@@ -1,0 +1,4 @@
+# Estado Git
+Inicial: rama `development/cci-app-foundation`, HEAD `9950e709e504a8d6c4a1cf599f1af5144129b8a2`, 6 commits locales presentes, árbol idéntico al respaldo 1.0.1 (sha256 verificados), solo `README.md` modificado + entradas no versionadas (`logs/git_status_inicial.txt`).
+Final: misma rama y mismo HEAD (sin commits); `origin/main` = `6a1af24…` sin cambios; sin push/PR/merge/deploy; sin ramas nuevas; sin cambios en GitHub; sin conexión a Supabase. Solo `README.md` figura como modificado respecto a HEAD (el resto es no versionado). `docs/fase0`, `evidencia/`, `AUDITORIA_*`, expediente 1.0 y 1.0.1 idénticos a la línea base.
+Archivos creados/modificados desde el respaldo 1.0.1: `archivos_modificados_y_creados.txt` (además: `.github/workflows/ci.yml`, `e2e/*`, `playwright.config.ts` nuevos; `public/.gitkeep` eliminado porque `public/` ya tiene contenido).

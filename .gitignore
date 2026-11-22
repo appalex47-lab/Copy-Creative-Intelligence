@@ -1,0 +1,18 @@
+# Dependencias y artefactos de build
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+# Variables de entorno: nunca versionar valores reales (solo .env.example)
+.env
+.env.*
+!.env.example
+# Ruido local
+.DS_Store
+*.log
+# Supabase local (futuro): estado y secretos del CLI
+supabase/.temp/
+supabase/.branches/
+# Playwright
+playwright-report/
+test-results/

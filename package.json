@@ -1,0 +1,52 @@
+{
+  "name": "copy-creative-intelligence",
+  "private": true,
+  "version": "0.0.0-fase1.0-fundacion",
+  "description": "Copy Creative Intelligence — fundación local (Fase 1.0). Sin backend real.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.22.2"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build --mode preview",
+    "preview": "vite preview --mode preview",
+    "typecheck": "tsc -b",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write src tests e2e scripts public .github index.html *.json *.js *.ts",
+    "format:check": "prettier --check src tests e2e scripts public .github index.html *.json *.js *.ts",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "check:secrets": "node scripts/check-secrets.mjs",
+    "verify": "npm run typecheck && npm run lint && npm run format:check && npm run test:run && npm run check:secrets && npm run build",
+    "build:preview": "npm run build",
+    "build:production": "tsc -b && vite build --mode production",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.65.1",
+    "@testing-library/dom": "10.4.2",
+    "@testing-library/jest-dom": "8.0.0",
+    "@testing-library/react": "16.3.3",
+    "@types/node": "22.20.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.3.0",
+    "eslint": "10.15.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "eslint-plugin-react-refresh": "0.5.8",
+    "globals": "17.14.0",
+    "jsdom": "31.0.1",
+    "prettier": "3.10.1",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.73.0",
+    "vite": "8.3.8",
+    "vitest": "5.1.1"
+  }
+}

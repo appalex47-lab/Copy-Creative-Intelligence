@@ -1,0 +1,10 @@
+HEAD: 9950e709e504a8d6c4a1cf599f1af5144129b8a2
+Rama: development/cci-app-foundation
+Commits locales sobre origin/main: 62
+origin/main: 6a1af2424ef39e0960b8f7e09d4e19ec52e6f046
+Cambios en tracked (git diff --stat):  1 file changed, 38 insertions(+), 1 deletion(-)
+docs/fase0 modificado: 0 entradas
+src/tests/e2e/scripts modificado vs HEAD: 4 entradas
+--- evidencia/ y expedientes previos vs hash base
+0
+0

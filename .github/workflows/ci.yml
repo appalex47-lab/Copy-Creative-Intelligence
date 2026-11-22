@@ -1,0 +1,66 @@
+# CI de Copy Creative Intelligence — PREPARADO LOCALMENTE, NO PUBLICADO NI HABILITADO.
+# Funciona sin credenciales ni secretos (no usa Supabase ni ningún servicio externo) y no despliega ni publica nada.
+# Las versiones de las acciones están ancladas a etiquetas mayores; antes de habilitarlo conviene anclarlas por SHA.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: ['development/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Calidad estática, pruebas y build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Instalación reproducible (lockfile)
+        run: npm ci
+      - name: TypeScript
+        run: npm run typecheck
+      - name: ESLint (incluye scripts y configuración)
+        run: npm run lint
+      - name: Prettier
+        run: npm run format:check
+      - name: Pruebas unitarias, de componentes, arquitectura (AST) y secretos
+        run: npm run test:run
+      - name: Control de secretos
+        run: npm run check:secrets
+      - name: Build (modo preview con datos DEMO)
+        run: npm run build
+      - name: Guarda de producción (debe FALLAR mientras no exista backend)
+        run: |
+          if npm run build:production; then
+            echo "ERROR: un build de producción con DEMO no debe tener éxito" && exit 1
+          fi
+
+  e2e:
+    name: Navegador real (Playwright + axe)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: verify
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      # Usa el Google Chrome del runner (channel "chrome"); no descarga navegadores.
+      - name: Pruebas e2e, accesibilidad y responsive
+        run: npm run test:e2e
+        env:
+          CI: 'true'

@@ -1,0 +1,3 @@
+Package      Current   Wanted  Latest  Location                  Depended by
+@types/node  22.20.5  22.20.5  26.6.6  node_modules/@types/node  work
+typescript     6.0.3    6.0.3   7.0.2  node_modules/typescript   work

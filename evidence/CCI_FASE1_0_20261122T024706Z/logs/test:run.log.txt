@@ -1,0 +1,12 @@
+
+ RUN  v5.1.1 /tmp/aud2/work
+
+
+ Test Files  4 passed (4)
+      Tests  19 passed (19)
+   Start at  20:47:11
+   Duration  2.60s (environment 72%, setup 19%, tests 5%, import 2%, transform 2%, worker 1%)
+
+    Isolate  4 workers spawned · ~481ms startup each (spawn + environment, per file)
+             at least ~1.44s faster with isolate: false — reuses workers across files instead of one per file
+
