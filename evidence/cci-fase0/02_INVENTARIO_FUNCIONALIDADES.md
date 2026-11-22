@@ -1,4 +1,7 @@
 # Inventario de funcionalidades (CCI, commit auditado `ffb47bc319db0806250bcecf91d390fa59fa0d70`)
+
+> **AVISO DE VIGENCIA (ronda final 2026-11-22; el contenido original no se altera).** Copia previa del expediente (raíz): **histórica / propuesta anterior**. No constituye estado vigente ni acepta Fase 0 ni autoriza Fase 1. Estado vigente y jerarquía de fuentes: `00_INDICE_VIGENTES_E_HISTORICOS.md`, `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` y `auditoria_integral/01_INDICE_MAESTRO_FASE0.md`.
+
 Niveles: **E** = código existente · **X** = ejecutable (compila y corre) · **C** = comprobada (prueba ejecutada y aprobada, con evidencia). «C» se basa en las ejecuciones propias de esta fase sobre una copia temporal del commit (ver `13_VERIFICACION_EJECUTADA.md`): typecheck, lint, formato, secretos, `vitest` 13 archivos / 162 pruebas aprobadas, build preview, `build:production` falla como se espera, Playwright 29/29 en 3 corridas consecutivas. Que una prueba exista no la hace comprobada; que una declaración documental exista no demuestra implementación.
 
 ## A. Funcionalidades reales (existen y están comprobadas)

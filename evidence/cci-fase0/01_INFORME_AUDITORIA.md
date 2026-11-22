@@ -1,4 +1,7 @@
 # Informe de auditoría técnica (Fase 0)
+
+> **AVISO DE VIGENCIA (ronda final 2026-11-22; el contenido original no se altera).** Copia previa del expediente (raíz): **histórica / propuesta anterior**. No constituye estado vigente ni acepta Fase 0 ni autoriza Fase 1. Estado vigente y jerarquía de fuentes: `00_INDICE_VIGENTES_E_HISTORICOS.md`, `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` y `auditoria_integral/01_INDICE_MAESTRO_FASE0.md`.
+
 El informe de auditoría browser-only completo (17 secciones, con evidencia de archivo y línea) se conserva **sin modificar** en `anexos/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md` (SHA-256 `564062605d4a4ec30b7c8af608158b75263b51d8394606b132c2ca40686c1f84`; verificado igual al publicado en la rama pública y al entregado). Este documento lo complementa con lo pedido en la instrucción maestra §3.A y con verificaciones nuevas.
 
 ## 1. Partida

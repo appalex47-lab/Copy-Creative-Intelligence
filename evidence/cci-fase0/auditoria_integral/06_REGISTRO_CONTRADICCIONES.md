@@ -1,24 +1,210 @@
-# Registro de contradicciones y su resolución (2026-11-22)
-**Criterio:** se identifica ubicación, se compara con el registro autoritativo, se clasifica el texto (vigente / histórico / superado / propuesta / pendiente), se corrige la presentación vigente o se añade nota fechada, y se preserva la evidencia. Sin reemplazos globales. Si no hay decisión autoritativa suficiente, se deja abierta.
+# Registro de contradicciones y su resolución — ronda final (2026-11-22)
+**Versión:** 2.0 (reemplaza la versión de la auditoría integral; conserva la numeración CR-01…CR-16 de la versión anterior y añade CR-17 y CR-18) · **Fecha:** 2026-11-22 · **Estado:** vigente · **Referencias:** `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`, `logs/escaneo_contradicciones_2026-11-22_ronda_final.txt`.
 
-| ID | Contradicción | Archivos | Estado vigente según la fuente | Resolución | Resultado |
-|---|---|---|---|---|---|
-| CR-01 | 8/18 frente a 9/18 | `MATRIZ_CONSOLIDADA_18_ENTIDADES.md`, `DECISIONES_P4_PENDIENTES.md`, `RONDA_UNICA…`, `D3_FAMILIAS_DE_REGLAS.md`, 3 informes de cierre, `PAQUETE…D4…` | Vigente: 9/18 (D4.c=A). 8/18 = antecedente | Corregida en las dos regularizaciones previas (encabezados vigentes + notas fechadas). Esta auditoría: reverificado; sin 8/18 presentado como vigente (búsqueda automática: todos los archivos con 8/18 tienen nota de vigencia salvo `FICHA_P4A_08`, cuyo «8 de 18» es el número de entidad, no un conteo) | Resuelta |
-| CR-02 | Entidad 13 aprobada frente a «No presentada» | `MATRIZ_CONSOLIDADA_18_ENTIDADES.md` fila 13 y notas | Aprobada, definición mínima, D4.c=A | Fila 13 con texto literal de D4.c; estado anterior como antecedente (commit 1bb831a) | Resuelta |
-| CR-03 | Entidad 9: suspendida frente a «pendiente de decisión» | `FICHA_P4A_09_HALLAZGO.md`, matriz 18, índice 16 | Suspendida, sin aprobar | Coherente: «PENDIENTE DE DECISIÓN» + «SUSPENDIDA» en la ficha; índice 16 corregido a «SUSPENDIDA, sin aprobar» | Resuelta |
-| CR-04 | Q-7/P4.D y P4.4: pendiente/aplazado frente a resuelta | `DECISIONES_P4_PENDIENTES.md`, `FICHA_P4.md`, `MATRIZ_DECISIONES_PROPIETARIO.md`, registro (P4.4 «APLAZADO») | Resuelta (a); P4.4 cerrada | Corregida en 1bb831a; nota cronológica añadida al registro (esta auditoría) | Resuelta |
-| CR-05 | D1, D2, D3, D5 «pendiente de decisión» en el índice 16 | `16_INDICE_EVIDENCIAS_FASE0.md` | Resueltas | Corregida en 1bb831a | Resuelta |
-| CR-06 | D4/D6/D7/D8 como pendientes | `CATALOGO_DEPENDENCIAS_D4_D8.md`, `DECISIONES_P4_PENDIENTES.md`, `PAQUETE_DECISION_D4…`, `RONDA…` | Resueltas (11/11) | Corregidas con encabezados vigentes y notas fechadas; textos anteriores conservados | Resuelta |
-| CR-07 | D4.d aprobada frente a «Adaptación pendiente de D-4» (D-5.2) | Registro, sección D-5 | D4.d=A aprobada bajo M-1 y D-5.3 | Nota fechada en el registro (1bb831a) | Resuelta |
-| CR-08 | Fichas P4.A 01–08 listadas como «(pendiente)» en el índice 16 | `16_INDICE_EVIDENCIAS_FASE0.md` | Resueltas (1–8) / suspendida (9) | **Corregida en esta auditoría**: entradas con estado vigente; histórico preservado en la ficha | Resuelta |
-| CR-09 | `docs/fase0` declara «Fase 0 v3.3 ACEPTADA como línea base» y diseña PostgreSQL/Supabase/multiusuario, frente a Fase 0 vigente sin aceptar y arquitectura browser-only | `docs/fase0/*.md` | Línea anterior; antecedente no vinculante; la Fase 0 vigente **no** está aceptada | Advertencia de vigencia e índice de conciliación (`11_…`); archivos sin tocar. **C-2 permanece abierta** (no se resuelve) | Resuelta en presentación; C-2 abierta |
-| CR-10 | Referencias a Supabase/PostgreSQL/RLS en documentos del expediente | `anexos/INFORME_AUDITORIA…` (45 menciones), `03_CONCILIACION_DOCUMENTAL.md`, `ADR_PROPUESTO…`, `FICHA_P2.md`, otros | Descripciones del estado anterior o negaciones («Sin Supabase»), no requisitos | Revisadas por contexto en los archivos sin nota (01, 04_MATRIZ, 14, entregables 01/03/04/10, D1, FICHA_P1/P2/Q7): son negaciones o descripciones históricas. Anexo clasificado «Histórico» | Resuelta (sin cambios de texto) |
-| CR-11 | `11_ROADMAP…` y `12_CRITERIOS…`: «Pre-condición: Fase 0 aceptada y Fase 1 autorizada» | `11_ROADMAP_Y_CRITERIOS_FASES_1_A_5.md`, `entregables_formales/11…`, `12…` | Condición de entrada, no afirmación de estado | No contradice; Fase 0 no aceptada, Fase 1 no autorizada (índice maestro) | Sin contradicción |
-| CR-12 | Referencias a archivos que no existen en la rama | Ver `05_INFORME_AUDITORIA_INTEGRAL.md` §4 | — | Clasificadas: documentos del repositorio de la aplicación, adjuntos del propietario, expedientes anteriores y abreviaturas. No verificables aquí | Limitación (no resoluble) |
-| CR-13 | Copia previa en la raíz (`00`–`14`) y versión en `entregables_formales/` (`01`–`16`) con numeración distinta | Raíz y `entregables_formales/` | Prevalecen `entregables_formales/` y el registro; la raíz es copia previa | Clasificación explícita en el índice maestro y `05` §1; ya indicado en `00_INDICE_VIGENTES_E_HISTORICOS.md` | Resuelta |
-| CR-14 | `MANIFIESTO_ENTREGA_2026-11-22_D4_D6_D7_D8.txt` lista 7 hashes que ya no coinciden con los archivos (modificados después) | `entregables_formales/MANIFIESTO_ENTREGA…txt` | Manifiesto fechado de un paquete anterior; el vigente es `MANIFEST.sha256` + `INVENTARIO_PUBLICADO.sha256` | Comprobado: 0/7 coinciden (esperado). Clasificado «Integridad (histórico)»; no se altera para forzar coincidencia | Resuelta (documentada) |
-| CR-15 | Numeración «19» / Evento de actividad: D-1.a «no añade una entidad 19» frente a P4.3 (Evento de actividad aprobada como entidad propuesta) y la asociación «19»=Evento, no confirmada | Registro (D-1.a, P4.3, D-5); `CATALOGO…` §1 | Sin decisión que concilie la cuestión; el conteo 9/18 se calcula solo sobre la lista de 18 (P4.1) | **Abierta; no se resuelve por inferencia.** Documentada en matriz 03 §D. Requiere aclaración del propietario solo si desea que Evento/Etiqueta/Perfil local se cuenten o numeren de otro modo | Abierta |
-| CR-16 | D6.b=A («valor calculado» = valor cuyo origen es un cálculo) frente a A0 (clasificación del origen pendiente) | Registro D6.b, D6.c | El propietario declaró que A0 no presupone D6.b=A y son independientes | Ambas se conservan literalmente; el paquete PAQ-2 (A0-1) las presenta separadas, sin inferir una de la otra | Abierta (tensión interpretativa; sin decisión adicional) |
+**Estados finales permitidos:** RESUELTA_DOCUMENTALMENTE · RESUELTA_POR_DECISION_PROPIETARIO · HISTORICA_CON_ADVERTENCIA · PENDIENTE_PROPIETARIO · NO_RESOLUBLE_POR_FALTA_DE_EVIDENCIA. **Criterio:** una contradicción se marca «resuelta» solo si la corrección está reflejada en **todos los documentos vigentes** (no solo en una nota); los textos históricos se conservan con aviso. Sin reemplazos globales.
 
-**Resumen:** 16 registradas · resueltas/corregidas o documentadas: 12 · sin contradicción real: 1 (CR-11) · limitación no resoluble: 1 (CR-12) · abiertas que requieren al propietario: 2 (CR-15, CR-16) · C-2 y C-3 siguen abiertas (históricas, no resueltas).
-**Verificación posterior a las correcciones:** se repitieron las búsquedas automáticas (ver `07_…` §3) para comprobar que ninguna corrección creó una contradicción nueva.
+**Auditoría sistemática (patrones):** conteos de entidades (8/18, 9/18), definición de la entidad 13, entidad 9, Q-7/P4.4, D1–D8, D4.d, D5.a–d, D6.b/D6.c, P4.B/C/E, Q-1/Q-2, C-2/C-3, aprobaciones 0.1–0.7, aceptación de Fase 0, autorización de Fase 1, arquitectura browser-only, Supabase/PostgreSQL/Auth/RLS/backend/multiusuario históricos. Salida: `logs/escaneo_contradicciones_2026-11-22_ronda_final.txt`; **límite:** es un escaneo de patrones sobre los archivos de `evidence/cci-fase0/` (sin `auditoria_integral/` ni `logs/`); la lectura de `docs/fase0/` fue parcial (ver `12_`), por lo que **no se puede garantizar** que no existan otras contradicciones dentro del cuerpo no leído de esos documentos.
+
+**Resumen:** 18 registradas · HISTORICA_CON_ADVERTENCIA: 4 · NO_RESOLUBLE_POR_FALTA_DE_EVIDENCIA: 1 · PENDIENTE_PROPIETARIO: 1 · RESUELTA_DOCUMENTALMENTE: 10 · RESUELTA_POR_DECISION_PROPIETARIO: 2
+
+## CR-01 — Conteo de P4.A «8/18» presentado como vigente frente a 9/18
+1. **Ubicación exacta:** `entregables_formales/MATRIZ_CONSOLIDADA_18_ENTIDADES.md` (aviso «Actualización posterior», línea 4 actual; nota final), `DECISIONES_P4_PENDIENTES.md` (sección P4.A y actualización cronológica), `RONDA_UNICA…`, `D3_FAMILIAS_DE_REGLAS.md`, informes de cierre, `PAQUETE_DECISION_D4…`
+2. **Contradicción:** Texto «8/18 aprobadas… Prevalece este aviso» frente al ESTADO VIGENTE 9/18
+3. **Documentos en conflicto:** véase la ubicación; el vigente es el indicado en el punto 4.
+4. **Decisión o fuente prevalente:** Registro: D4.c=A → entidad 13 aprobada; «Aclaración documental» (9/18 = 50 %; 9/18 pendientes)
+5. **Clasificación del texto:** Texto 8/18 = histórico superado; 9/18 = vigente
+6. **Corrección aplicada:** Ronda final: marcador «[ANTECEDENTE HISTÓRICO SUPERADO — ya no prevalece]» antes del aviso, reescritura de la frase «Prevalece este aviso» y de «(8/18) no se modifica» en la nota final de MATRIZ_18; marcador inline en DECISIONES_P4_PENDIENTES; marca en la frase del registro «no se determina aquí si D4.c lo eleva a 9». Corregido en las dos regularizaciones previas el resto
+7. **Estado final:** **RESUELTA_DOCUMENTALMENTE**
+8. **Evidencia de verificación:** Escaneo `logs/escaneo_contradicciones_2026-11-22_ronda_final.txt`: «Prevalece este aviso» ya no aparece como texto vigente; los archivos con «8/18» llevan aviso de vigencia; única coincidencia sin aviso: `FICHA_P4A_08` («8 de 18» = número de entidad)
+9. **¿Requiere decisión del propietario?** No
+
+## CR-02 — Entidad 13 «No presentada» frente a aprobada (D4.c=A)
+1. **Ubicación exacta:** `entregables_formales/MATRIZ_CONSOLIDADA_18_ENTIDADES.md` fila 13 y notas
+2. **Contradicción:** Estado anterior «No presentada», columnas de propuesta («Dependencias: D-1, D-4», «Mantener; delimitar») frente a aprobación con definición mínima
+3. **Documentos en conflicto:** véase la ubicación; el vigente es el indicado en el punto 4.
+4. **Decisión o fuente prevalente:** Registro D4.c=A (texto literal)
+5. **Clasificación del texto:** Columnas de propuesta = histórico; definición literal = vigente
+6. **Corrección aplicada:** Fila 13 con la definición literal de D4.c; ronda final: columnas históricas de la propuesta rotuladas como tales y declarando que no se aprueban atributos, relaciones, cardinalidades, mecanismos, estructura, persistencia, versionado ni fase
+7. **Estado final:** **RESUELTA_DOCUMENTALMENTE**
+8. **Evidencia de verificación:** Verificación textual de la fila 13 en HEAD de la ronda; `03_MATRIZ_MAESTRA_ENTIDADES_P4A.md` extrae la definición literal con script
+9. **¿Requiere decisión del propietario?** No
+
+## CR-03 — Entidad 9: «pendiente de decisión» frente a suspendida
+1. **Ubicación exacta:** `FICHA_P4A_09_HALLAZGO.md` (título), matriz 18, índice 16
+2. **Contradicción:** Título «PENDIENTE DE DECISIÓN» frente a «SUSPENDIDA (11:58)»
+3. **Documentos en conflicto:** véase la ubicación; el vigente es el indicado en el punto 4.
+4. **Decisión o fuente prevalente:** Registro, «Ajuste de método de P4.A — 11:58»
+5. **Clasificación del texto:** El título es el estado al elaborar la ficha; el encabezado «Estado» aclara la suspensión
+6. **Corrección aplicada:** Sin cambio de texto (coherente); índice 16 indica «SUSPENDIDA, sin aprobar»
+7. **Estado final:** **RESUELTA_DOCUMENTALMENTE**
+8. **Evidencia de verificación:** Lectura íntegra de la ficha 09 y del índice 16 en esta ronda
+9. **¿Requiere decisión del propietario?** No
+
+## CR-04 — Q-7/P4.D «pendiente» y P4.4 «aplazado» frente a resueltas/cerrada
+1. **Ubicación exacta:** `FICHA_P4.md`, `MATRIZ_DECISIONES_PROPIETARIO.md`, `DECISIONES_P4_PENDIENTES.md`, `LISTA_ORIGINAL_18_ENTIDADES.md` (línea 41), registro (encabezado «P4.4 — APLAZADO»)
+2. **Contradicción:** «Campaña sujeta a Q-7», «P4.4 APLAZADO», «Q-7 pendiente»
+3. **Documentos en conflicto:** véase la ubicación; el vigente es el indicado en el punto 4.
+4. **Decisión o fuente prevalente:** Registro: «Q-7 — RESUELTA → (a)» y «Confirmaciones 11:38» (P4.4 cerrada)
+5. **Clasificación del texto:** Textos de pendiente/aplazado = cronológicos superados
+6. **Corrección aplicada:** Notas fechadas en registro, FICHA_P4 y MATRIZ_DECISIONES (rondas previas); ronda final: nota inline en `LISTA_ORIGINAL_18_ENTIDADES.md` y bloque «Ya resuelto» de `DECISIONES_P4_PENDIENTES.md`
+7. **Estado final:** **RESUELTA_DOCUMENTALMENTE**
+8. **Evidencia de verificación:** Escaneo: `Q-7 pendiente` / `P4.4 aplazado` solo en archivos con aviso; verificación específica de FICHA_P1 y LISTA_ORIGINAL
+9. **¿Requiere decisión del propietario?** No
+
+## CR-05 — D-1, D-2, D-3 y D-5 «pendiente de decisión» en el índice 16
+1. **Ubicación exacta:** `16_INDICE_EVIDENCIAS_FASE0.md`
+2. **Contradicción:** Entradas con estado histórico frente a resueltas
+3. **Documentos en conflicto:** véase la ubicación; el vigente es el indicado en el punto 4.
+4. **Decisión o fuente prevalente:** Registro (D-1…D-5)
+5. **Clasificación del texto:** Estado histórico al elaborarse = antecedente
+6. **Corrección aplicada:** Entradas con «estado histórico … estado vigente RESUELTA»
+7. **Estado final:** **RESUELTA_DOCUMENTALMENTE**
+8. **Evidencia de verificación:** Lectura íntegra del índice 16 en esta ronda
+9. **¿Requiere decisión del propietario?** No
+
+## CR-06 — D4/D6/D7/D8 «pendientes» en documentos de apoyo
+1. **Ubicación exacta:** `CATALOGO_DEPENDENCIAS_D4_D8.md`, `DECISIONES_P4_PENDIENTES.md`, `PAQUETE_DECISION_D4_D6_D7_D8.md`, `PAQUETE_DECISION_D1_D8.md`, `RONDA_UNICA…`
+2. **Contradicción:** «pendiente», «sin responder» frente a 11/11 resueltas
+3. **Documentos en conflicto:** véase la ubicación; el vigente es el indicado en el punto 4.
+4. **Decisión o fuente prevalente:** Registro (D4.a–d, D6.a–c, D7.a–c, D8)
+5. **Clasificación del texto:** Texto de estado pendiente = histórico superado
+6. **Corrección aplicada:** Encabezados vigentes y columna «Estado» en CATALOGO; ronda final: aviso «PAQUETE RESPONDIDO» en `PAQUETE_DECISION_D4_D6_D7_D8.md` y marcadores inline en DECISIONES_P4_PENDIENTES; `PAQUETE_DECISION_D1_D8` ya figura como SUSTITUIDO
+7. **Estado final:** **RESUELTA_DOCUMENTALMENTE**
+8. **Evidencia de verificación:** Lectura íntegra de CATALOGO y DECISIONES_P4_PENDIENTES; escaneo
+9. **¿Requiere decisión del propietario?** No
+
+## CR-07 — D4.d aprobada frente a «Adaptación pendiente de D-4» / «D4.d no aprobada»
+1. **Ubicación exacta:** Registro (D-5.2 y nota 12:35/corrección: «D4.d… no está aprobada»), `MATRIZ_CONSOLIDADA_18_ENTIDADES.md` (aviso 12:29), `PAQUETE_DECISION_D1_D8.md`, `PAQUETE_DECISION_D4_D6_D7_D8.md` (§D4.d), `RONDA_UNICA…` (alternativa C), `CONTROL_DE_CAMBIOS_REGISTRO…`
+2. **Contradicción:** Adaptación como pendiente/no aprobada frente a D4.d=A
+3. **Documentos en conflicto:** véase la ubicación; el vigente es el indicado en el punto 4.
+4. **Decisión o fuente prevalente:** Registro: D4.d=A (limitada por M-1 y D-5.3) y «Nota fechada: D4.d»
+5. **Clasificación del texto:** «pendiente» = histórico superado; D4.d=A = vigente (sin auditoría directa de Adaptación, sin publicación/distribución, sin certificación legal/comercial/de marca, sin reglas adicionales inferidas)
+6. **Corrección aplicada:** Nota fechada en el registro (rondas previas); ronda final: marcas inline en las dos frases del registro, aviso en MATRIZ_18, aviso «PAQUETE RESPONDIDO», fila 13 de MATRIZ_18. Barrido completo de «D4.d … pendiente/no aprobada»: las coincidencias restantes están en documentos con aviso de vigencia (paquetes, matriz de la ronda, controles de cambio)
+7. **Estado final:** **RESUELTA_POR_DECISION_PROPIETARIO**
+8. **Evidencia de verificación:** Escaneo, patrón `D4.d pendiente`: coincidencias solo en archivos con `aviso_vigencia=True`; sin D4.d presentada como pendiente en documentos vigentes (índice maestro, matrices 02/03/04, 09, MATRIZ_18 vigente, DECISIONES_P4 vigente)
+9. **¿Requiere decisión del propietario?** No
+
+## CR-08 — Fichas P4.A 01–08 «pendiente» en el índice 16
+1. **Ubicación exacta:** `16_INDICE_EVIDENCIAS_FASE0.md`
+2. **Contradicción:** «pendiente» frente a resueltas
+3. **Documentos en conflicto:** véase la ubicación; el vigente es el indicado en el punto 4.
+4. **Decisión o fuente prevalente:** Registro (entidades 1–8)
+5. **Clasificación del texto:** «pendiente» = estado al elaborarse la ficha
+6. **Corrección aplicada:** Entradas con estado vigente; histórico preservado en cada ficha
+7. **Estado final:** **RESUELTA_DOCUMENTALMENTE**
+8. **Evidencia de verificación:** Lectura íntegra del índice 16 y cabeceras de las fichas 01–08
+9. **¿Requiere decisión del propietario?** No
+
+## CR-09 — `docs/fase0/` declara «Fase 0 v3.3 COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL» y diseña Supabase/PostgreSQL/RLS/multiusuario frente a Fase 0 vigente no aceptada y browser-only
+1. **Ubicación exacta:** 59 archivos de `docs/fase0/` (52 históricos + 5 raíz v15 + 2 herramientas)
+2. **Contradicción:** Aceptación de una Fase 0 anterior y arquitectura con backend
+3. **Documentos en conflicto:** véase la ubicación; el vigente es el indicado en el punto 4.
+4. **Decisión o fuente prevalente:** P1, P2, P3 (b, condiciones 3–5 y 7); aceptación formal de la Fase 0 vigente: no aceptada
+5. **Clasificación del texto:** Histórico no vinculante (línea anterior)
+6. **Corrección aplicada:** Los archivos NO se modifican (prohibido); advertencia en `11_INDICE_CONCILIACION_DOCS_FASE0.md`, `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`, `01_INDICE_MAESTRO_FASE0.md` e `INDICE_ANTECEDENTES_HISTORICOS.md`. **C-2 sigue abierta** (ver CR-17)
+7. **Estado final:** **HISTORICA_CON_ADVERTENCIA**
+8. **Evidencia de verificación:** Conteos de escaneo (aceptación/Supabase/PostgreSQL/RLS) en `12_` §5; hash y tamaño idénticos a `main` (11_)
+9. **¿Requiere decisión del propietario?** No
+
+## CR-10 — Referencias a Supabase/PostgreSQL/RLS/multiusuario dentro del expediente actual
+1. **Ubicación exacta:** `anexos/INFORME_AUDITORIA…` (34 menciones Supabase), `03_CONCILIACION_DOCUMENTAL.md`, `ADR_PROPUESTO…`, `FICHA_P2.md`, `FICHA_P3.md`, `MATRIZ_DECISIONES_PROPIETARIO.md`, `REGISTRO_DECISIONES_RESUELTAS.md`, `13_REGISTRO…`, `10_REGISTRO…`, copias previas de la raíz
+2. **Contradicción:** Vocabulario de la arquitectura anterior en documentos del expediente
+3. **Documentos en conflicto:** véase la ubicación; el vigente es el indicado en el punto 4.
+4. **Decisión o fuente prevalente:** Arquitectura vigente: browser-only (P1, P2, P3)
+5. **Clasificación del texto:** Descripción de la línea anterior, negaciones («sin Supabase») o propuestas históricas; no requisitos
+6. **Corrección aplicada:** Revisión por contexto en rondas previas; ronda final: aviso de vigencia en las copias previas de la raíz (10 archivos) además de las advertencias existentes en 05/06/07 de la raíz y `entregables_formales`
+7. **Estado final:** **HISTORICA_CON_ADVERTENCIA**
+8. **Evidencia de verificación:** Escaneo (`Supabase/PostgreSQL/RLS`, `multiusuario`) por archivo; sin presencia como requisito en documentos vigentes (`04_ARQUITECTURA`, índice maestro)
+9. **¿Requiere decisión del propietario?** No
+
+## CR-11 — Fórmulas de «Pre-condición: Fase 0 aceptada y Fase 1 autorizada» en roadmap y criterios
+1. **Ubicación exacta:** `11_ROADMAP…`, `12_CRITERIOS…`, copias raíz
+2. **Contradicción:** Parece afirmar aceptación
+3. **Documentos en conflicto:** véase la ubicación; el vigente es el indicado en el punto 4.
+4. **Decisión o fuente prevalente:** Son condiciones de entrada de cada fase, no afirmaciones de estado
+5. **Clasificación del texto:** Condición (vigente como requisito futuro)
+6. **Corrección aplicada:** Sin cambio; no se cuenta como contradicción real
+7. **Estado final:** **RESUELTA_DOCUMENTALMENTE**
+8. **Evidencia de verificación:** Lectura de contexto; Fase 0 no aceptada y Fase 1 no autorizada (índice maestro)
+9. **¿Requiere decisión del propietario?** No
+
+## CR-12 — Referencias a archivos que no existen en la rama (documentos de la aplicación, adjuntos A y B, expedientes anteriores)
+1. **Ubicación exacta:** Ver `05_INFORME_AUDITORIA_INTEGRAL.md` §4 y `12_` §6
+2. **Contradicción:** Citas a documentos que no pueden verificarse aquí
+3. **Documentos en conflicto:** véase la ubicación; el vigente es el indicado en el punto 4.
+4. **Decisión o fuente prevalente:** —
+5. **Clasificación del texto:** Referencias externas al expediente
+6. **Corrección aplicada:** Clasificadas; no se inventa su contenido
+7. **Estado final:** **NO_RESOLUBLE_POR_FALTA_DE_EVIDENCIA**
+8. **Evidencia de verificación:** Búsqueda de referencias a archivos en la rama; los archivos citados no existen en el árbol de la API
+9. **¿Requiere decisión del propietario?** No
+
+## CR-13 — Copias previas de la raíz (00–14) frente a `entregables_formales/` (01–16) con numeración distinta; `00_DICTAMEN` «LISTO PARA REVISIÓN / Recomendación de aceptación»
+1. **Ubicación exacta:** Raíz y `entregables_formales/`
+2. **Contradicción:** Dos series de documentos con estados distintos; recomendación de aceptación en el dictamen previo
+3. **Documentos en conflicto:** véase la ubicación; el vigente es el indicado en el punto 4.
+4. **Decisión o fuente prevalente:** Registro y `00_INDICE_VIGENTES_E_HISTORICOS.md`: prevalece `entregables_formales/`
+5. **Clasificación del texto:** Raíz = histórico (copia previa)
+6. **Corrección aplicada:** Ronda final: **aviso de vigencia añadido a 10 copias previas de la raíz** (00, 01, 02, 04, 08, 09, 11, 12, 13, 14); el contenido original no se altera
+7. **Estado final:** **HISTORICA_CON_ADVERTENCIA**
+8. **Evidencia de verificación:** Aviso presente en los 10 archivos (verificado por escaneo de «AVISO DE VIGENCIA»)
+9. **¿Requiere decisión del propietario?** No
+
+## CR-14 — `MANIFIESTO_ENTREGA_2026-11-22_D4_D6_D7_D8.txt` con 7 hashes que ya no coinciden
+1. **Ubicación exacta:** `entregables_formales/MANIFIESTO_ENTREGA_2026-11-22_D4_D6_D7_D8.txt`
+2. **Contradicción:** Hashes de un paquete anterior frente a archivos modificados después
+3. **Documentos en conflicto:** véase la ubicación; el vigente es el indicado en el punto 4.
+4. **Decisión o fuente prevalente:** Vigentes: `MANIFEST.sha256` e `INVENTARIO_PUBLICADO.sha256`
+5. **Clasificación del texto:** Manifiesto histórico fechado
+6. **Corrección aplicada:** No se altera para forzar coincidencia; clasificado «Integridad (histórico)»
+7. **Estado final:** **HISTORICA_CON_ADVERTENCIA**
+8. **Evidencia de verificación:** Comprobación 0/7 coincidencias (esperado)
+9. **¿Requiere decisión del propietario?** No
+
+## CR-15 — Numeración «19» y Evento de actividad: D-1.a «no añade una entidad 19» frente a P4.3 (Evento de actividad aprobada como entidad propuesta)
+1. **Ubicación exacta:** Registro (D-1.a, P4.3, D-5, «D-4 reformulada y D-5 presentada»); `CATALOGO_DEPENDENCIAS_D4_D8.md` §1; `LISTA_ORIGINAL…` (conteo 21)
+2. **Contradicción:** Aparente conflicto entre «sin entidad 19» y una entidad añadida
+3. **Documentos en conflicto:** véase la ubicación; el vigente es el indicado en el punto 4.
+4. **Decisión o fuente prevalente:** Registro: D-1.a se refiere a «Contenido» (concepto paraguas); P4.3 añade Evento de actividad fuera de la lista de 18; la asociación «19»=Evento fue una inferencia de Claude **no confirmada y no asumida** (registro, 12:21)
+5. **Clasificación del texto:** «19» = etiqueta de trabajo no confirmada (no es un dato del propietario)
+6. **Corrección aplicada:** Aclaración: no hay contradicción entre decisiones; se **deja de usar «19»**; el conteo 9/18 se calcula solo sobre la lista de 18 (P4.1); Evento de actividad, Etiqueta y Perfil local (P4.3) están aprobados fuera de ese conteo; el «21» de LISTA_ORIGINAL = 18 + 3 de P4.3. **No es una pregunta para el propietario** (antes figuraba como «Abierta» por error de enfoque)
+7. **Estado final:** **RESUELTA_DOCUMENTALMENTE**
+8. **Evidencia de verificación:** Registro, secciones D-1.a, P4.3 y «D-4 reformulada»; documentado en `03_` §D
+9. **¿Requiere decisión del propietario?** No
+
+## CR-16 — «Tensión» D6.b=A frente a D6.c=A0
+1. **Ubicación exacta:** Antes: `06_REGISTRO_CONTRADICCIONES.md` (CR-16 anterior), `09_PAQUETE…` (observación en A0-1), `10_INFORME_EJECUTIVO…` (riesgos y paso 5)
+2. **Contradicción:** Lectura incorrecta: que A0 y D6.b=A se condicionaran entre sí y requirieran confirmación
+3. **Documentos en conflicto:** véase la ubicación; el vigente es el indicado en el punto 4.
+4. **Decisión o fuente prevalente:** Decisión del propietario: **D6.b=A es independiente**; D6.c=A0 deja abiertas la clasificación del origen, L1, L2 y L3; **A0 no presupone ni aprueba D6.b=A**; D6.b=A **no resuelve** la clasificación del origen
+5. **Clasificación del texto:** Interpretación incorrecta de Claude (no decisión del propietario)
+6. **Corrección aplicada:** La aparente contradicción se resuelve por la independencia ya decidida. Se mantienen abiertas las cuatro subcuestiones de A0 (origen de valores, L1/L2, L3). Se eliminó la «Observación» de tensión en PAQ-2 (A0-1) y se retiró este ítem del informe ejecutivo. **No es una decisión del propietario ni se le pide confirmación**
+7. **Estado final:** **RESUELTA_POR_DECISION_PROPIETARIO**
+8. **Evidencia de verificación:** Registro (D6.b, D6.c, «Efectos y límites»); `09_` A0-1 reescrito; `10_` actualizado.
+9. **¿Requiere decisión del propietario?** No
+
+## CR-17 — C-2 (estado de la Fase 0 v3.3 anterior) y C-3 (D-04 «APROBADA», cinco roles)
+1. **Ubicación exacta:** `INDICE_ANTECEDENTES_HISTORICOS.md` §5; registro P3 condición 7
+2. **Contradicción:** Contradicciones históricas entre documentos anteriores
+3. **Documentos en conflicto:** véase la ubicación; el vigente es el indicado en el punto 4.
+4. **Decisión o fuente prevalente:** P3 cond. 7: se mantienen abiertas; no se resuelven por inferencia
+5. **Clasificación del texto:** Contradicciones históricas abiertas
+6. **Corrección aplicada:** Ninguna (no se pueden resolver con las decisiones ya emitidas)
+7. **Estado final:** **PENDIENTE_PROPIETARIO**
+8. **Evidencia de verificación:** Registro P3; PAQ-5 de `09_`
+9. **¿Requiere decisión del propietario?** Sí (contradicción histórica abierta por P3, condición 7)
+
+## CR-18 — Conteos de clasificación: «93/93 archivos clasificados» frente a 104 archivos reales; 99 filas únicas; cinco documentos de auditoría sin clasificar
+1. **Ubicación exacta:** `05_INFORME_AUDITORIA_INTEGRAL.md` (versión anterior), `10_INFORME_EJECUTIVO…`, `08_INFORME_INTEGRIDAD_ARCHIVOS.md`
+2. **Contradicción:** 93 frente a 104 (93 previos + 11 nuevos); la tabla omitía 05, 06, 07, 08 y 10
+3. **Documentos en conflicto:** véase la ubicación; el vigente es el indicado en el punto 4.
+4. **Decisión o fuente prevalente:** Árbol real de la rama (API): 164 blobs = 104 en `evidence/cci-fase0/` + 59 en `docs/fase0/` + 1 `README.md` de raíz
+5. **Clasificación del texto:** Error propio de la auditoría anterior
+6. **Corrección aplicada:** `05_` rehecho con la clasificación de **todos** los archivos actuales (incluidos los 12 documentos de la auditoría y los 2 archivos de log nuevos); 93/93 ya no se presenta como cobertura del total; 10_ y 08_ actualizados
+7. **Estado final:** **RESUELTA_DOCUMENTALMENTE**
+8. **Evidencia de verificación:** Recuento `05_` §1 generado por script y comparado con el árbol de la API
+9. **¿Requiere decisión del propietario?** No
+
+## Descartes y limitaciones
+- La versión anterior de este registro contaba 16 contradicciones y dejaba CR-15 y CR-16 como «Abiertas — requieren al propietario»; **ambas eran incorrectas** (ver CR-15 y CR-16 de esta versión).
+- Este registro **no** declara que Fase 0 esté libre de contradicciones: afirma solo las verificadas por escaneo y lectura (ver `12_`).

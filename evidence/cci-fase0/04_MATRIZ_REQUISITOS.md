@@ -1,4 +1,7 @@
 # Matriz de requisitos y trazabilidad
+
+> **AVISO DE VIGENCIA (ronda final 2026-11-22; el contenido original no se altera).** Copia previa del expediente (raíz): **histórica / propuesta anterior**. No constituye estado vigente ni acepta Fase 0 ni autoriza Fase 1. Estado vigente y jerarquía de fuentes: `00_INDICE_VIGENTES_E_HISTORICOS.md`, `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` y `auditoria_integral/01_INDICE_MAESTRO_FASE0.md`.
+
 Origen: instrucción maestra (secciones entre paréntesis). Estado de pruebas de todas las filas: **definida, no ejecutada** (ninguna existe aún salvo las de la infraestructura, §02). Tipos: U unitaria · R repositorio · P persistencia real en navegador · M migración · E E2E · A accesibilidad · X exportación/importación · F fallo/recuperación · D rendimiento.
 | REQ | Requisito | Fase | Criterio | Pruebas |
 |---|---|---|---|---|

@@ -1,4 +1,6 @@
 # Diagnóstico integral de coherencia de las 18 entidades — 2026-11-22
+
+> **AVISO DE VIGENCIA (ronda final 2026-11-22; el contenido original no se altera).** Diagnóstico y propuestas de las 11:58 (**antecedente histórico**). Sus recomendaciones (orden D-1…D-8, tratamiento de Perfil local como parte de Configuración, diferir 15 y 17, etc.) fueron **superadas o resueltas por decisiones del propietario** (D-1…D-8; D7.a=A mantiene Perfil local como concepto propio). Estado vigente: `REGISTRO_DECISIONES_RESUELTAS.md`; P4.A vigente 9/18.
 Diagnóstico y propuestas. **No aprueba nada ni modifica decisiones ya tomadas.** Matriz completa en `MATRIZ_CONSOLIDADA_18_ENTIDADES.md`. Referencias: A = Fase 0 (`de49cc27`), B = instrucción maestra (`5a9f5585`).
 
 ## 1. Resultado general

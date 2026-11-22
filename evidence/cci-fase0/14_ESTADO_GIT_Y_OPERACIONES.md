@@ -1,4 +1,7 @@
 # Estado Git y declaración de operaciones
+
+> **AVISO DE VIGENCIA (ronda final 2026-11-22; el contenido original no se altera).** Copia previa del expediente (raíz): **histórica / propuesta anterior**. No constituye estado vigente ni acepta Fase 0 ni autoriza Fase 1. Estado vigente y jerarquía de fuentes: `00_INDICE_VIGENTES_E_HISTORICOS.md`, `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` y `auditoria_integral/01_INDICE_MAESTRO_FASE0.md`.
+
 ## Estado de partida (verificado al iniciar esta fase)
 - Clon auditado (solo lectura): rama `integration/cci-fase1-1-accepted`, HEAD `ffb47bc319db0806250bcecf91d390fa59fa0d70`, árbol limpio (0 entradas, incl. ignorados). Es una rama **local**, no publicada.
 - Base: `7bcba74e05577761081d68ca14fdc19f2400248d`; 5 commits propios: `7822410` (B1–B3), `6bfff37` (docs B5), `5cee199` (corrección E2E), `ad602d3` (expediente B4–B5, con sus logs), `ffb47bc` (expediente E2E).

@@ -1,4 +1,7 @@
 # CCI — Expediente final de Fase 0 · Informe de cierre
+
+> **AVISO DE VIGENCIA (ronda final 2026-11-22; el contenido original no se altera).** Copia previa del expediente (raíz): **histórica / propuesta anterior**. No constituye estado vigente ni acepta Fase 0 ni autoriza Fase 1. Estado vigente y jerarquía de fuentes: `00_INDICE_VIGENTES_E_HISTORICOS.md`, `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` y `auditoria_integral/01_INDICE_MAESTRO_FASE0.md`.
+
 ## 1. Dictamen
 **LISTO PARA REVISIÓN.** No se declara «APROBADO» ni aceptada: solo el propietario puede aceptar la fase.
 **Recomendación de aceptación (punto 17):** **No recomendar todavía la aceptación de la Fase 0.** El criterio de cierre exige que «las decisiones indispensables estén resueltas»; **11 decisiones indispensables siguen abiertas** (P1, P2, P3, P4, P5, P9, P11, P12, P13, P14 y Q-4). Las contradicciones están documentadas y la especificación es coherente y completa; tras las respuestas del propietario (cada una tiene recomendación), la fase podría recomendarse para aceptación.

@@ -1,38 +1,39 @@
-# Informe de integridad de archivos y manifiestos (2026-11-22)
-**Quién verificó qué:** todo lo siguiente fue ejecutado por mí (comandos reproducibles abajo); nada se toma de informes de otro proceso salvo donde se indica.
+# Informe de integridad de archivos y manifiestos — ronda final (2026-11-22)
+**Versión:** 2.0 · **Fecha:** 2026-11-22 · **Estado:** vigente · **Referencias:** `05_INFORME_AUDITORIA_INTEGRAL.md`, `07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md`, `11_INDICE_CONCILIACION_DOCS_FASE0.md`.
+**Quién verificó qué:** todo lo siguiente fue ejecutado por Claude con los comandos reproducibles de §4. No se toma nada de informes de otro proceso. Lo que no pude comprobar se marca «no verificado».
 
-## 1. Verificaciones previas a la publicación
+## 1. Verificaciones previas a la publicación (ejecutadas)
 | Comprobación | Resultado |
 |---|---|
-| HEAD de la rama por API antes de editar | `1bb831a32219898616e7a7ad8d12092aac16f253` (coincide con la referencia); `main` = `6a1af2424ef39e0960b8f7e09d4e19ec52e6f046` |
-| Estado de la integridad heredada (commit 1bb831a, clon limpio, ejecutado en la tarea anterior) | `MANIFEST.sha256` correcto; 92/92 archivos de `INVENTARIO_PUBLICADO.sha256` coinciden en tamaño y SHA-256 (0 fallos) |
-| `docs/fase0/` frente a `main` | 59/59 entradas de árbol idénticas (`git ls-tree` sin diferencias; `git diff` sin cambios) |
+| HEAD de la rama por API al iniciar la ronda | `8dc47b24bdd5b11df46a70f3c9d96930d0682235` (idéntico a la referencia; 0 commits adelante/atrás); `main` = `6a1af2424ef39e0960b8f7e09d4e19ec52e6f046` |
+| Árbol real de la rama en `8dc47b2` (API) | 164 blobs = 104 (`evidence/cci-fase0/`) + 59 (`docs/fase0/`) + 1 (`README.md` raíz) |
+| `docs/fase0/` frente a `main` | `git ls-tree -r` idéntico (huella 5be2c1e469d5bf49 en ambos); 0 archivos modificados bajo `docs/` |
 | Duplicados de nombre en el expediente | 0 |
-| Archivos de texto no mencionados en índices (antes de esta auditoría) | 0 |
-| `MANIFIESTO_ENTREGA_2026-11-22_D4_D6_D7_D8.txt` (manifiesto fechado anterior) | 0/7 hashes coinciden con los archivos actuales (esperado: se modificaron después). Es histórico; el vigente es MANIFEST + INVENTARIO. No se alteró |
-## 2. Cobertura de vigencia (documentación)
-- Archivos de texto del expediente previos a esta auditoría (excluye `logs/` y `auditoria_integral/`): **78**. Todos clasificados por vigencia en `05_INFORME_AUDITORIA_INTEGRAL.md` §1.
-- Con nota o estado de vigencia **en el propio archivo** (búsqueda de patrón): **53/78**. Los 25 restantes son entregables propuestos o antecedentes cuya vigencia se establece en el índice maestro, no en su texto. Indicador orientativo; no mide corrección de contenido.
-## 3. Verificación posterior a la publicación (clon limpio)
-Ejecutado por mí sobre un **clon limpio** del primer commit de esta auditoría (`1cf96e3d0e8dc932426ef0278cf90fa8bac965f2`, HEAD confirmado por API; `main` = `6a1af24`, sin cambios):
-| Medida | Resultado |
-|---|---|
-| Archivos bajo `evidence/cci-fase0/` | 104 |
-| Líneas de `MANIFEST.sha256` verificadas con `sha256sum -c` | 102/102 OK, 0 fallos (excluye los dos archivos de manifiesto) |
-| Líneas de `INVENTARIO_PUBLICADO.sha256` verificadas (tamaño y SHA-256 recalculados) | 103/103 OK, 0 fallos |
-| Archivos no inventariados | 1: `INVENTARIO_PUBLICADO.sha256` (no se lista a sí mismo, por diseño) |
-| Exclusiones | Ninguna otra: el 100 % de los archivos inventariados fue verificado |
-**Nota:** el segundo commit (este informe con los números anteriores, el ajuste de `16_INDICE_EVIDENCIAS_FASE0.md` y los manifiestos regenerados) se verificó con el mismo procedimiento; su resultado consta en el informe de entrega, porque un archivo no puede contener el hash definitivo de su propio commit.
+| Archivos de texto fuera de `logs/` no mencionados en `00_INDICE`, `README_ENTREGA`, `16_INDICE` ni en la tabla de `05_` | 0 |
+| `MANIFIESTO_ENTREGA_2026-11-22_D4_D6_D7_D8.txt` (manifiesto fechado anterior) | 0/7 hashes coinciden con los archivos actuales (esperado; histórico; no se altera) |
+
+## 2. Qué incluye y excluye cada manifiesto (sin referencias circulares)
+- **`MANIFEST.sha256`:** líneas `sha256  ./ruta` de todos los archivos de `evidence/cci-fase0/` **excepto** `MANIFEST.sha256` e `INVENTARIO_PUBLICADO.sha256` → **105** líneas.
+- **`INVENTARIO_PUBLICADO.sha256`:** líneas `sha256  tamaño  ruta` de todos los archivos **excepto él mismo** (sí lista a `MANIFEST.sha256`) → **106** líneas.
+- Total de archivos bajo `evidence/cci-fase0/` tras esta ronda: **107**. Los 59 archivos de `docs/fase0/` quedan **fuera** de ambos manifiestos (se contrastan con `main` y por los hashes de `11_`).
+- El hash del commit no puede constar dentro de los archivos que contiene; el resultado de la verificación sobre el commit publicado se informa en la entrega y se comprueba por API.
+
+## 3. Verificación posterior a la publicación (procedimiento y reporte)
+Se ejecuta sobre un **clon limpio** del commit publicado y se informa: archivos encontrados, inventariados, verificados por hash, verificados por tamaño, con fallo y excluidos. Resultado esperado: 107 encontrados · 106 inventariados · 106 verificados por hash y tamaño · 0 fallos · 1 excluido (`INVENTARIO_PUBLICADO.sha256`, no se lista a sí mismo) · `MANIFEST.sha256`: 105/105 con `sha256sum -c`. **El resultado real figura en el informe de entrega (no verificado dentro de este archivo).**
+
 ## 4. Procedimiento reproducible
 ```
 git clone --branch evidence/cci-fase0-review https://github.com/appalex47-lab/Copy-Creative-Intelligence
 cd Copy-Creative-Intelligence/evidence/cci-fase0
+find . -type f | wc -l                            # archivos encontrados
 sha256sum -c MANIFEST.sha256                      # excluye MANIFEST.sha256 e INVENTARIO_PUBLICADO.sha256
-# inventario: cada línea es «sha256  tamaño  ruta» (excluye INVENTARIO_PUBLICADO.sha256)
 grep -v 'INVENTARIO_PUBLICADO.sha256$' INVENTARIO_PUBLICADO.sha256 | while read h s f; do
   [ "$(sha256sum "$f"|cut -d' ' -f1)" = "$h" ] && [ "$(stat -c%s "$f")" = "$s" ] || echo FALLO $f; done
+# docs/fase0 frente a main
+git ls-tree -r origin/main docs/fase0 | sha256sum ; git ls-tree -r HEAD docs/fase0 | sha256sum
 ```
+
 ## 5. Exclusiones y límites
-- `MANIFEST.sha256` e `INVENTARIO_PUBLICADO.sha256` no se incluyen a sí mismos (INVENTARIO sí lista a MANIFEST). Un archivo que no esté en el inventario no queda verificado.
-- Los 59 archivos de `docs/fase0/` están **fuera** de los manifiestos del expediente (viven fuera de `evidence/cci-fase0/`); su integridad se contrasta con `main` y sus hashes figuran en `11_INDICE_CONCILIACION_DOCS_FASE0.md`.
+- Un archivo que no esté en el inventario no queda verificado por él; los manifiestos no se incluyen a sí mismos.
 - Los hashes de `logs/` prueban que el archivo publicado no cambió, no que la ejecución que registra se repita.
+- **Autoverificación:** las comprobaciones las ejecuté yo; no sustituyen una verificación independiente. No verificado: que otro proceso (p. ej. ChatGPT) reproduzca estos resultados.

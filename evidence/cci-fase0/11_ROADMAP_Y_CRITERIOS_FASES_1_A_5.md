@@ -1,4 +1,7 @@
 # Roadmap y criterios verificables de aceptación — Fases 1 a 5
+
+> **AVISO DE VIGENCIA (ronda final 2026-11-22; el contenido original no se altera).** Copia previa del expediente (raíz): **histórica / propuesta anterior**. No constituye estado vigente ni acepta Fase 0 ni autoriza Fase 1. Estado vigente y jerarquía de fuentes: `00_INDICE_VIGENTES_E_HISTORICOS.md`, `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` y `auditoria_integral/01_INDICE_MAESTRO_FASE0.md`.
+
 Cada fase la aprueba el propietario; la autorización de una no implica la siguiente. «Prueba» = definida; solo se considera **aprobada** cuando se ejecute y quede evidencia con hash. Criterios numerados `ACn-xx` (trazados en `04_MATRIZ_REQUISITOS.md`).
 
 ## Mapa con la numeración histórica

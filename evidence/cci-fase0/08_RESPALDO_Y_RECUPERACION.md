@@ -1,4 +1,7 @@
 # Estrategia de respaldo y recuperación (propuesta)
+
+> **AVISO DE VIGENCIA (ronda final 2026-11-22; el contenido original no se altera).** Copia previa del expediente (raíz): **histórica / propuesta anterior**. No constituye estado vigente ni acepta Fase 0 ni autoriza Fase 1. Estado vigente y jerarquía de fuentes: `00_INDICE_VIGENTES_E_HISTORICOS.md`, `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` y `auditoria_integral/01_INDICE_MAESTRO_FASE0.md`.
+
 Principio: «Los datos locales deben poder exportarse y recuperarse». La aplicación **no promete recuperación automática**: el navegador puede borrar o expulsar el almacenamiento.
 
 ## 1. Formato de exportación (lógico, independiente del contenedor; P6)

@@ -1,4 +1,7 @@
 # Análisis de integración de IA compatible con browser-only
+
+> **AVISO DE VIGENCIA (ronda final 2026-11-22; el contenido original no se altera).** Copia previa del expediente (raíz): **histórica / propuesta anterior**. No constituye estado vigente ni acepta Fase 0 ni autoriza Fase 1. Estado vigente y jerarquía de fuentes: `00_INDICE_VIGENTES_E_HISTORICOS.md`, `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` y `auditoria_integral/01_INDICE_MAESTRO_FASE0.md`.
+
 Principios del propietario: la IA ayuda a crear, analizar y sugerir; reglas y cálculos son deterministas; ninguna promoción se aprueba por sugerencia de IA; la aprobación final es humana; no se exponen claves privadas en el frontend; no se guardan secretos en Local Storage ni IndexedDB.
 
 ## 1. Alternativas

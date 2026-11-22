@@ -76,3 +76,19 @@ Formato por ítem: **Estado · Fuente · Dependencias · Evidencia · Aprobado /
 | AP-F1 | Autorización de Fase 1 | No autorizada | idem | AP-FIN | Posterior | Sí; independiente de AP-FIN | `APROBACIONES_FASE0.md` |
 
 **Fuera de alcance (no pendientes):** D5.a–d (decisión definitiva del propietario). **No son decisiones:** C-2 y C-3 son contradicciones históricas abiertas, listadas por ser cuestiones que el propietario debe resolver; se excluyen de las bases de cálculo de decisiones.
+
+## B.2 Campos adicionales por ítem pendiente (complemento de la tabla B; ronda final)
+| IDs | Aprobado / No aprobado | Opciones reales | Consecuencias / riesgos | Contradicciones relacionadas | ¿Conjunta? | Detalle (opciones, [Rec. Claude] separadas) |
+|---|---|---|---|---|---|---|
+| PE-09 … PE-12 | No aprobado (9 suspendida; 10–12 sin aprobación vigente) | (a) aprobar definición mínima propuesta; (b) con cambios; (c) mantener sin aprobar | Aprobar solo existencia y definición mínima (no atributos, relaciones, estructura, persistencia, mecanismos, reglas ni fase); riesgo: frontera 9↔8, reglas de marca sin lista (D-3) | CR-01/CR-03 | Sí (PAQ-1, una respuesta) | 09 §PAQ-1 |
+| PE-14 … PE-18 | No aprobado | (a)/(b)/(c) como arriba; 15 y 17 con límites de D-5/M-1 y A0 | Idem; riesgo: duplicar 14 con Variante/Evento (D-2), 15 con estados (D-5.1), 16/17 con A0 | CR-16 (resuelta), CR-15 (resuelta) | Sí (PAQ-2) | 09 §PAQ-2 |
+| A0-1, A0-2, A0-3 | No decidido (A0 deja abiertas las tres) | A0-1: clasificar / no clasificar aún / otra; A0-2: L1 o L2 (excluyentes) o diferir; A0-3: sí/no/diferir (independiente de L1/L2) | Sin decisión no puede cerrarse la relación Métrica–Resultado; D6.b=A no las resuelve | CR-16 (resuelta: independientes) | Sí (PAQ-2) | 09 §PAQ-2 |
+| P4.B | No aprobado (solo existencia de Campaña por Q-7; vínculo posible Adaptación–Pieza por D4.b) | Aprobar relación por relación con su cardinalidad; no aprobar | Cardinalidades condicionan P4.C y modelo de datos; Campaña–Oferta/Pieza = propuestas | — | Parcial (por bloques) | 09 §PAQ-3 |
+| P4.C, P4.E | No aprobado (P4.5 preliminar) | Atributos solo indispensables del MVP o diferir; E1–E5 una a una | E2 espera a P12; recomendaciones técnicas no son decisiones | — | Sí (PAQ-4) | 09 §PAQ-4 |
+| Q-1 … Q-6 | No decididas | Datos o criterios que solo aporta el propietario (Q-1, Q-2, Q-5) u opciones del paquete | Bloquean fases posteriores, no la preparación documental | CR-12 (referencias no verificables) | Sí (PAQ-5) | 09 §PAQ-5 |
+| C-2, C-3 | Abiertas (no resueltas por inferencia; P3 cond. 7) | Declarar estado de la Fase 0 v3.3 anterior; confirmar/descartar D-04 | La línea anterior declara «ACEPTADA» y puede inducir a error sin el índice de conciliación | CR-09, CR-17 | Sí (PAQ-5) | 09 §PAQ-5 |
+| P5, P9, P11–P14 | No decididas (indispensables según el propio expediente) | Opciones por decisión en `MATRIZ_DECISIONES_PROPIETARIO.md` | Sin ellas no se pueden aprobar 0.2 y 0.4 | — | Sí (PAQ-6) | 09 §PAQ-6 |
+| P6, P7, P8, P10, P15 | No decididas (antes de su fase) | Opciones en `13_REGISTRO_DECISIONES_PROPIETARIO.md` | No bloquean la preparación del cierre | CR-09 | Sí (PAQ-7) | 09 §PAQ-7 |
+| AP-0.1…0.7, AP-FIN, AP-F1 | Pendientes / no aceptada / no autorizada | Aprobar, rechazar o con cambios, **una por una**; no se solicitan todavía | FIN y F1 son independientes | — | No | `APROBACIONES_FASE0.md` |
+
+La recomendación de Claude de cada ítem está **separada** en `09_…` y marcada **[Rec. Claude]**; no es una decisión. Todos los ítems requieren decisión expresa del propietario y se registran en `REGISTRO_DECISIONES_RESUELTAS.md` (aprobaciones en `APROBACIONES_FASE0.md`).

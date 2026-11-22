@@ -1,4 +1,7 @@
 # Verificación ejecutada en esta fase (primera mano)
+
+> **AVISO DE VIGENCIA (ronda final 2026-11-22; el contenido original no se altera).** Copia previa del expediente (raíz): **histórica / propuesta anterior**. No constituye estado vigente ni acepta Fase 0 ni autoriza Fase 1. Estado vigente y jerarquía de fuentes: `00_INDICE_VIGENTES_E_HISTORICOS.md`, `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` y `auditoria_integral/01_INDICE_MAESTRO_FASE0.md`.
+
 Objeto: instantánea exacta del commit `ffb47bc319db0806250bcecf91d390fa59fa0d70` (obtenida con `git archive` en una copia temporal fuera del repositorio; `package-lock.json` idéntico al del `node_modules` preexistente, enlazado por symlink; **no se instaló nada**). Entorno: Node v22.23.4, npm 10.9.9, Google Chrome for Testing 153.0.8010.12 (Playwright `channel: 'chrome'`), Linux. Fecha: 2026-11-22.
 | Comando | Estado | Resultado exacto | Log |
 |---|---|---|---|
