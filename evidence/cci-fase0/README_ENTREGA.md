@@ -25,3 +25,4 @@ Orden de lectura: `INFORME_REVISION_COMPLEMENTARIA.md` → `00_DICTAMEN_Y_CIERRE
 - entregables_formales/INFORME_CIERRE_2026-11-22_PAQUETE_D4_D6_D7_D8.md y MANIFIESTO_ENTREGA_2026-11-22_D4_D6_D7_D8.txt (protocolo permanente)
 - entregables_formales/INFORME_CIERRE_2026-11-22_REGLA_PERMANENTE_12_43.md
 - entregables_formales/CONTROL_DE_CAMBIOS_CORRECCION_2026-11-22.md e INFORME_CIERRE_2026-11-22_CORRECCION_DOCUMENTAL.md — corrección documental posterior a la publicación (2026-11-22)
+- entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md — matriz consolidada de la ronda única (2026-11-22)

@@ -10,6 +10,7 @@
 5. `entregables_formales/DECISIONES_P4_PENDIENTES.md`, `entregables_formales/MATRIZ_CONSOLIDADA_18_ENTIDADES.md` (los avisos de actualización prevalecen sobre celdas antiguas), `entregables_formales/CATALOGO_DEPENDENCIAS_D4_D8.md`, `entregables_formales/D1_ANALISIS_CONTENIDO.md`, `entregables_formales/D2_VARIANTE_FRENTE_A_VERSION.md`, `entregables_formales/D3_FAMILIAS_DE_REGLAS.md`, `entregables_formales/D5_APROBACION.md`, `entregables_formales/FICHA_P4A_01_CAMPANA.md` … `entregables_formales/FICHA_P4A_08_AUDITORIA_CREATIVA.md`.
 6. `README_ENTREGA.md`, `entregables_formales/16_INDICE_EVIDENCIAS_FASE0.md`, `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256`.
 
+6a. `entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md` — **matriz consolidada vigente de la ronda única (11 decisiones, 2026-11-22 13:2x); propuesta de Claude, sin decisiones del propietario registradas.** Es el documento a responder; el paquete `PAQUETE_DECISION_D4_D6_D7_D8.md` queda como antecedente de análisis.
 6b. `entregables_formales/CONTROL_DE_CAMBIOS_CORRECCION_2026-11-22.md` e `entregables_formales/INFORME_CIERRE_2026-11-22_CORRECCION_DOCUMENTAL.md` — corrección documental posterior (vigentes).
 
 ## Antecedentes históricos o sustituidos (conservados sin reescribir)
