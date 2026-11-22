@@ -14,7 +14,15 @@
 - Archivos de texto del expediente previos a esta auditoría (excluye `logs/` y `auditoria_integral/`): **78**. Todos clasificados por vigencia en `05_INFORME_AUDITORIA_INTEGRAL.md` §1.
 - Con nota o estado de vigencia **en el propio archivo** (búsqueda de patrón): **53/78**. Los 25 restantes son entregables propuestos o antecedentes cuya vigencia se establece en el índice maestro, no en su texto. Indicador orientativo; no mide corrección de contenido.
 ## 3. Verificación posterior a la publicación (clon limpio)
-Se completa tras publicar (sección actualizada en el segundo commit de esta auditoría).
+Ejecutado por mí sobre un **clon limpio** del primer commit de esta auditoría (`1cf96e3d0e8dc932426ef0278cf90fa8bac965f2`, HEAD confirmado por API; `main` = `6a1af24`, sin cambios):
+| Medida | Resultado |
+|---|---|
+| Archivos bajo `evidence/cci-fase0/` | 104 |
+| Líneas de `MANIFEST.sha256` verificadas con `sha256sum -c` | 102/102 OK, 0 fallos (excluye los dos archivos de manifiesto) |
+| Líneas de `INVENTARIO_PUBLICADO.sha256` verificadas (tamaño y SHA-256 recalculados) | 103/103 OK, 0 fallos |
+| Archivos no inventariados | 1: `INVENTARIO_PUBLICADO.sha256` (no se lista a sí mismo, por diseño) |
+| Exclusiones | Ninguna otra: el 100 % de los archivos inventariados fue verificado |
+**Nota:** el segundo commit (este informe con los números anteriores, el ajuste de `16_INDICE_EVIDENCIAS_FASE0.md` y los manifiestos regenerados) se verificó con el mismo procedimiento; su resultado consta en el informe de entrega, porque un archivo no puede contener el hash definitivo de su propio commit.
 ## 4. Procedimiento reproducible
 ```
 git clone --branch evidence/cci-fase0-review https://github.com/appalex47-lab/Copy-Creative-Intelligence

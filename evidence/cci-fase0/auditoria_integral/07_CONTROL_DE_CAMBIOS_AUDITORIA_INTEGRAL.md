@@ -18,4 +18,4 @@ P4.B, P4.C, P4.E (E1–E5), Q-1, Q-2, C-2, C-3, entidad 9 (suspendida), entidade
 ## 5. Preservados sin cambios
 Los 59 archivos de `docs/fase0/` (idénticos a `main`), todas las fichas, análisis D1/D2/D3/D5, paquetes, informes y controles anteriores, `MANIFIESTO_ENTREGA…txt`, anexos y logs.
 ## 6. Limitaciones
-Ver `05_INFORME_AUDITORIA_INTEGRAL.md` §4. El SHA de los commits no puede escribirse dentro de los archivos que contienen; se informa en la entrega y se verifica por API.
+Ver `05_INFORME_AUDITORIA_INTEGRAL.md` §4. Se publicaron dos commits: (1) `1cf96e3` (contenido de la auditoría y manifiestos) y (2) ajuste de `16_INDICE`, números de integridad en `08_` y manifiestos regenerados. El SHA del segundo no puede escribirse dentro de los archivos que contiene; se informa en la entrega y se verifica por API.
