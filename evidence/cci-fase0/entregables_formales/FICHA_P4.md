@@ -43,3 +43,5 @@ P1 (sin identidad/roles) y P3 (vocabulario no vinculante) ya resueltas; Q-7 (F11
 Antecede a P5 y a la aprobación 0.3. Sin respuesta, Fase 1 no puede crear el esquema inicial.
 ## Respuesta (por punto)
 `P4.1 → … | P4.2 → (a)/(b) | P4.3 → Evento: … Etiqueta: … Perfil: … | P4.4 → (aplazado a Q-7) | P4.5 → …` — **pendiente**.
+
+> **Nota fechada 2026-11-22 (auditoría cruzada):** «P4.4 aplazado a Q-7»: Q-7 se resolvió (a) y cerró P4.4. Estado vigente y fuente: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`; P4.A vigente 9/18; D-1…D-8 resueltas en su alcance. Este documento se conserva como evidencia histórica.

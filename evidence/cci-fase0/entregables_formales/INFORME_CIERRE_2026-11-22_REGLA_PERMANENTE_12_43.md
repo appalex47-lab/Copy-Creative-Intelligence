@@ -7,3 +7,5 @@
 **D. Pendientes y riesgos:** 11 decisiones de D-4/D-6/D-7/D-8 y D5.a–d; sin pruebas nuevas (162/162 y 29/29 son resultados previos); trazabilidad de las entregas **no cerrada** hasta publicar o documentar la imposibilidad (queda documentada aquí). *[superado por decisión posterior: D5.a–d fuera del alcance vigente; ver nota superior]*
 **E. Avance (sin global):** dependencias D-1…D-8 4/8; entidades P4.A 8/18; documentación y pruebas sin base verificable de cálculo; repositorio de desarrollo sin cambios (`ffb47bc`, limpio); evidencia publicada 0 entregas.
 Me detengo y espero indicaciones. Ya indicaste que no fusionamos con la vista previa privada; lo dejo solo como registro.
+
+> **Nota fechada 2026-11-22 (auditoría cruzada):** Refleja el estado al 12:43 (D-1…D-8 4/8; P4.A 8/18); superado. Estado vigente y fuente: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`; P4.A vigente 9/18; D-1…D-8 resueltas en su alcance. Este documento se conserva como evidencia histórica.

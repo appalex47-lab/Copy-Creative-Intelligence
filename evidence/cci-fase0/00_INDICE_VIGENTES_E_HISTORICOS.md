@@ -26,3 +26,5 @@ Revisión de seguridad previa a la publicación (patrones de claves/tokens/crede
 > **Actualización 2026-11-22 (registro D4/D6/D7/D8):** vigente y autoritativo: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` (sección D-4, D-6, D-7 y D-8). Control de cambios: `entregables_formales/CONTROL_DE_CAMBIOS_REGISTRO_D4_D6_D7_D8_2026-11-22.md`. Informe: `entregables_formales/INFORME_CIERRE_2026-11-22_REGISTRO_D4_D6_D7_D8.md`.
 
 > **Regularización 2026-11-22:** fuente autoritativa: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`; la matriz de la ronda D4/D6/D7/D8 es antecedente respondido y no se usa para volver a preguntar. P4.A vigente: 9/18 (50 %) por D4.c=A (entidad 13, solo definición mínima). Control de cambios: `entregables_formales/CONTROL_DE_CAMBIOS_REGULARIZACION_P4A_9_18_2026-11-22.md`.
+
+> **Corrección integral 2026-11-22:** Q-7 resuelta (a); fila 13 con definición literal de D4.c; matriz de la ronda = antecedente superado. Control de cambios: `entregables_formales/CONTROL_DE_CAMBIOS_CORRECCION_INTEGRAL_P4A_9_18_2026-11-22.md`.

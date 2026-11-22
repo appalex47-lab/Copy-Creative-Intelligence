@@ -27,6 +27,7 @@ Orden de lectura: 1) `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` (au
 - entregables_formales/INFORME_CIERRE_2026-11-22_REGLA_PERMANENTE_12_43.md
 - entregables_formales/CONTROL_DE_CAMBIOS_CORRECCION_2026-11-22.md e INFORME_CIERRE_2026-11-22_CORRECCION_DOCUMENTAL.md — corrección documental posterior a la publicación (2026-11-22)
 - entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md — matriz consolidada de la ronda única (2026-11-22): instrumento ya respondido; el registro autoritativo es REGISTRO_DECISIONES_RESUELTAS.md
+- entregables_formales/CONTROL_DE_CAMBIOS_CORRECCION_INTEGRAL_P4A_9_18_2026-11-22.md — corrección integral y auditoría cruzada
 - entregables_formales/CONTROL_DE_CAMBIOS_REGULARIZACION_P4A_9_18_2026-11-22.md — regularización posterior al registro (P4.A 9/18)
 - entregables_formales/CONTROL_DE_CAMBIOS_REGISTRO_D4_D6_D7_D8_2026-11-22.md — control de cambios y compatibilidad del registro D4/D6/D7/D8
 - entregables_formales/INFORME_CIERRE_2026-11-22_REGISTRO_D4_D6_D7_D8.md — informe de cierre del registro

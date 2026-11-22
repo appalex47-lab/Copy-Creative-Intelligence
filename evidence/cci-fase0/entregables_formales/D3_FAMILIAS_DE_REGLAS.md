@@ -105,3 +105,5 @@ Respeta P4.1, P4.2, D-1 y D-2; sigue la separación textual de las cuatro famili
 
 ## 9. No verificado
 Que «Brand Intelligence / Settings» no tenga descripción en otros pasajes; el contenido de las reglas de marca; si «Reglas» en A l.309/375 (dominio, modelo de datos) se refieren a estas familias; la prioridad entre reglas solapadas (no analizada, por tu instrucción).
+
+> **Nota fechada 2026-11-22 (auditoría cruzada):** El cuadro §8 (P4.A 8/18; D-1 a D-8 2/8) refleja el momento de elaboración; D-3 quedó resuelta el 12:14. Estado vigente y fuente: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`; P4.A vigente 9/18; D-1…D-8 resueltas en su alcance. Este documento se conserva como evidencia histórica.

@@ -37,8 +37,8 @@ Sin equivalente formal (se quedan en la raíz): `00` dictamen, `03` conciliació
 ## Añadidos tras la respuesta a P3 y la ampliación de P2 (2026-11-22)
 `INDICE_ANTECEDENTES_HISTORICOS.md`, `FICHA_P4.md` (sin respuesta); ADR propuesto ampliado a «Seguridad por diseño» (aún **no publicado**); correcciones en `05` y `07` (etiquetas en Fase 2).
 ## Añadidos tras las respuestas parciales a P4 (2026-11-22)
-`LISTA_ORIGINAL_18_ENTIDADES.md` (listas A y B leídas de los adjuntos, con líneas), `FICHA_Q7.md` (sin respuesta), `CONVENCIONES_P4_5_CONDICIONES.md` (propuestas para las condiciones de P4.5); modelo (`05`, `06`, `07`) actualizado: ReglaDeMarca/ReglaComercial separadas, Etiqueta aprobada, Colección fuera del modelo, `revision` no obligatoria.
-- DECISIONES_P4_PENDIENTES.md — decisiones de P4 aún abiertas (2026-11-22)
+`LISTA_ORIGINAL_18_ENTIDADES.md` (listas A y B leídas de los adjuntos, con líneas), `FICHA_Q7.md` (sin respuesta al elaborarse; **vigente: Q-7 resuelta → (a)**), `CONVENCIONES_P4_5_CONDICIONES.md` (propuestas para las condiciones de P4.5); modelo (`05`, `06`, `07`) actualizado: ReglaDeMarca/ReglaComercial separadas, Etiqueta aprobada, Colección fuera del modelo, `revision` no obligatoria.
+- DECISIONES_P4_PENDIENTES.md — decisiones de P4 aún abiertas (2026-11-22; vigente: P4.D/Q-7 resuelta, D4/D6/D7/D8 resueltas)
 - FICHA_P4A_01_CAMPANA.md — P4.A entidad 1 (pendiente)
 - FICHA_P4A_02_BRIEF.md — P4.A entidad 2 (pendiente)
 - FICHA_P4A_03_PRODUCTO.md — P4.A entidad 3 (pendiente)
@@ -49,11 +49,11 @@ Sin equivalente formal (se quedan en la raíz): `00` dictamen, `03` conciliació
 - FICHA_P4A_08_AUDITORIA_CREATIVA.md — P4.A entidad 8 (pendiente)
 - FICHA_P4A_09_HALLAZGO.md — P4.A entidad 9 (pendiente)
 - DIAGNOSTICO_INTEGRAL_18_ENTIDADES.md / MATRIZ_CONSOLIDADA_18_ENTIDADES.md — revisión integral previa a P4.A 9–18
-- D1_ANALISIS_CONTENIDO.md — análisis D-1 (pendiente de decisión)
-- D2_VARIANTE_FRENTE_A_VERSION.md — análisis D-2 (pendiente de decisión)
-- D3_FAMILIAS_DE_REGLAS.md — análisis D-3 (pendiente de decisión)
+- D1_ANALISIS_CONTENIDO.md — análisis D-1 (**estado histórico al elaborarse:** pendiente de decisión; **estado vigente: D-1 RESUELTA** conforme a las decisiones del propietario; autoritativo: `REGISTRO_DECISIONES_RESUELTAS.md`.)
+- D2_VARIANTE_FRENTE_A_VERSION.md — análisis D-2 (**estado histórico al elaborarse:** pendiente de decisión; **estado vigente: D-2 RESUELTA** conforme a las decisiones del propietario; autoritativo: `REGISTRO_DECISIONES_RESUELTAS.md`.)
+- D3_FAMILIAS_DE_REGLAS.md — análisis D-3 (**estado histórico al elaborarse:** pendiente de decisión; **estado vigente: D-3 RESUELTA** conforme a las decisiones del propietario; autoritativo: `REGISTRO_DECISIONES_RESUELTAS.md`.)
 - CATALOGO_DEPENDENCIAS_D4_D8.md — catálogo recuperado de D-4 a D-8
-- D5_APROBACION.md — análisis D-5 (pendiente de decisión)
+- D5_APROBACION.md — análisis D-5 (**estado histórico al elaborarse:** pendiente de decisión; **estado vigente: D-5 RESUELTA** conforme a las decisiones del propietario; autoritativo: `REGISTRO_DECISIONES_RESUELTAS.md`. D5.a–d expresamente fuera del alcance vigente.)
 - entregables_formales/PAQUETE_DECISION_D1_D8.md — paquete único de decisión D-1 a D-8 (2026-11-22)
 - entregables_formales/PAQUETE_DECISION_D4_D6_D7_D8.md — paquete vigente D-4/D-6/D-7/D-8 (2026-11-22 12:35); sustituye a PAQUETE_DECISION_D1_D8.md
 - entregables_formales/INFORME_CIERRE_2026-11-22_PAQUETE_D4_D6_D7_D8.md y MANIFIESTO_ENTREGA_2026-11-22_D4_D6_D7_D8.txt (protocolo permanente)

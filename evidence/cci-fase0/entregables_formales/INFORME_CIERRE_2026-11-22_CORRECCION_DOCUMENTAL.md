@@ -17,3 +17,5 @@ Búsqueda de referencias a D5.a–d; búsqueda de dependencias D4.d→D5.c; bús
 Repositorio `appalex47-lab/Copy-Creative-Intelligence`, rama `evidence/cci-fase0-review`; `main` no modificado (`6a1af24`). Enlaces y HEAD: en el mensaje de entrega, tras la verificación por API.
 ## F. Limitaciones
 Los documentos 05/06/07 siguen conteniendo propuestas no aprobadas (solo advertidas). No se inspeccionaron los 52 históricos de `docs/fase0` del repositorio. La lectura por ChatGPT no está comprobada.
+
+> **Nota fechada 2026-11-22 (auditoría cruzada):** Refleja el estado tras la corrección documental (P4.A 8/18; D4/D6/D7/D8 pendientes); superado. Estado vigente y fuente: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`; P4.A vigente 9/18; D-1…D-8 resueltas en su alcance. Este documento se conserva como evidencia histórica.

@@ -1,9 +1,12 @@
 # CCI — Ronda única de decisiones del propietario: D4, D6, D7 y D8
 > **ESTADO: RONDA RESPONDIDA el 22 de noviembre de 2026.** Las 11 selecciones del propietario (D4.a=A; D4.b=A; D4.c=A; D4.d=A; D6.a=A; D6.b=A; D6.c=A0; D7.a=A; D7.b=A; D7.c=C; D8=A) están registradas en `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`. Esta matriz queda como **antecedente y evidencia de las opciones presentadas**; **no debe utilizarse para volver a solicitar las mismas decisiones**, y las opciones no seleccionadas **no** se convierten en decisiones pendientes. Las menciones a «propuesta», «pendientes» o «P4.A: 8/18» en el texto siguiente son históricas; el conteo vigente es P4.A 9/18. Se conservan opciones, recomendaciones y contenido.
 
+> **ANTECEDENTE SUPERADO — instrucciones originales de respuesta.** El texto que sigue (estado «propuesta consolidada», «no registra ninguna decisión», «único documento que el propietario debe responder», y la sección «Cómo responder») describe la matriz **antes** de ser respondida y **ya no está vigente**. La ronda fue **respondida por el propietario el 22 de noviembre de 2026**; las 11 selecciones están registradas en `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`. La matriz es **evidencia histórica** de las opciones y recomendaciones presentadas; **no debe usarse para volver a solicitar las decisiones**; las opciones no seleccionadas **no** se convierten en decisiones pendientes.
 **Fecha:** 2026-11-22 · **Estado:** propuesta consolidada. **No registra ninguna decisión, no modifica el expediente ni el repositorio.** Las «Recomendaciones de Claude» **no son decisiones del propietario**.
 **Versión:** esta matriz es la **corrección final** de la revisada por ChatGPT en el commit `836f9c40b1c04e1bdc7a1358e7003452a58a172e` (anterior a esta corrección, citado solo como antecedente). **Referencia vigente:** el HEAD de la rama `evidence/cci-fase0-review` que contiene esta corrección; su SHA se verifica por API y se indica en el mensaje de entrega (un archivo no puede contener el hash de su propio commit). **Es el único documento que el propietario debe responder**; `PAQUETE_DECISION_D4_D6_D7_D8.md` es solo antecedente de análisis.
 **Procedencia:** **[S]** dicho por el propietario · **[D]** evidencia documental (A = instrucción Fase 0; B = instrucción maestra; l. = línea; ambas son adjuntos del propietario, no publicados en el repositorio) · **[P]** propuesta de Claude · **[I]** inferencia de Claude sin respaldo literal.
+
+> **[ANTECEDENTE SUPERADO]** Instrucciones de respuesta originales; ya respondidas y registradas (ver nota inicial). No vigentes.
 
 ## 0. Cómo responder (una sola vez)
 Responde con una línea por ID, por ejemplo: `D4.a = A; D4.b = A; … ; D8 = A`. Cada letra reproduce abajo su contenido exacto: **la letra significa aceptar ese contenido y solo ese**. La opción **Z** («otra decisión del propietario») siempre existe: escribe tu texto y se registrará literalmente. Lo no respondido queda pendiente.
@@ -14,7 +17,7 @@ Responde con una línea por ID, por ejemplo: `D4.a = A; D4.b = A; … ; D8 = A`.
 - Variante = alternativa coexistente; Versión = evolución temporal; Variante sin versiones propias por ahora [S, D-2].
 - Familias de reglas: copy, marca, comerciales y canal; solo ReglaDeMarca y ReglaComercial son entidades; reglas por canal = dimensión de aplicación del Canal [S, D-3].
 - Perfil local: concepto propio, no componente de Configuración [S, P4.3 y 12:01]; contenido aprobado en P1: solo nombre visible opcional [S, P1].
-- P4.A: 8/18 aprobadas; 9 Hallazgo y 10–18 pendientes. Q-1 y Q-2 abiertas.
+- P4.A: 8/18 aprobadas; 9 Hallazgo y 10–18 pendientes. Q-1 y Q-2 abiertas. *[Estado histórico al elaborar la matriz; vigente: P4.A 9/18 con la entidad 13 aprobada por D4.c=A.]*
 - Aprobar una definición conceptual **no** aprueba atributos, relaciones, cardinalidades, estructura técnica, implementación ni fases.
 
 ---

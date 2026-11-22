@@ -99,3 +99,5 @@ Formato de respuesta sugerido: `P# → opción (a/b/c) | con cambios: … | rech
 - **Recomendación:** (a).
 - **Afecta:** `10_DEFINICION_MVP_CCI.md`, `11`, `12`, `05` (clasificación MVP).
 - **Relación:** se apoya en P4; las columnas de módulos 6–9 del MVP son propuestas no sustentadas (ver el documento).
+
+> **Nota fechada 2026-11-22 (auditoría cruzada):** «Ninguna está respondida» es el estado al elaborarse; varias decisiones (P1, P2, P3, P4 parcial, Q-7) fueron respondidas después. Estado vigente y fuente: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`; P4.A vigente 9/18; D-1…D-8 resueltas en su alcance. Este documento se conserva como evidencia histórica.

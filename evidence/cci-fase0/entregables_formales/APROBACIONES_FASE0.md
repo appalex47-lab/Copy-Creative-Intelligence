@@ -12,3 +12,5 @@ Estado de todas: **PENDIENTE**. Ninguna se marca ni se infiere. Orden sugerido: 
 | Final | cerrar formalmente Fase 0 | todo el expediente | las 11 indispensables y 0.1–0.7 | **no** autoriza la Fase 1 | PENDIENTE | — |
 | Aparte | autorizar el inicio de Fase 1 | — | cierre de Fase 0 | — | PENDIENTE | — |
 Inseparables técnicamente: ninguna. 0.3 y 0.4 se tocan por P4/P5 (el modelo determina los stores), pero pueden responderse por separado.
+
+> **Nota fechada 2026-11-22 (auditoría cruzada):** Todas las aprobaciones 0.1–0.7, la final y la de Fase 1 siguen **PENDIENTES**; en 0.3, Q-7 está resuelta (a) y P4 sigue parcial (P4.B, P4.C, P4.E, entidades 9–12 y 14–18 abiertas). Estado vigente y fuente: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`; P4.A vigente 9/18; D-1…D-8 resueltas en su alcance. Este documento se conserva como evidencia histórica.

@@ -1,6 +1,7 @@
 # P4 — Decisiones que siguen pendientes (corte 2026-11-22 11:38)
 
 > **ESTADO VIGENTE (regularización 2026-11-22, posterior al registro D4/D6/D7/D8):** **D4.a–d, D6.a–c, D7.a–c y D8 están RESUELTAS (11/11)** y registradas en `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`. **Ya no son pendientes y no deben volver a solicitarse.** D5.a–d siguen fuera del alcance vigente y no se reabren. **P4.A (conteo formal vigente): 9/18 aprobadas (50 %); 9/18 pendientes (50 %).** Aprobadas con definición mínima: entidades 1–8 y entidad 13 (Adaptación de canal), esta última por D4.c=A y **exclusivamente su definición mínima** (sin atributos, relaciones, cardinalidades, estructura interna, persistencia, versionado, mecanismos de generación o adaptación, reglas de auditoría ni fase de implementación). Entidad 9 (Hallazgo): suspendida, sin aprobar. Entidades 10–12 y 14–18: sin presentar o sin aprobar. Cambio 2026-11-22: de 8/18 a 9/18, fundamento D4.c=A.
+> **P4.D / Q-7: RESUELTA → (a); P4.4 cerrada (ya no es pendiente).**
 > **Siguen pendientes:** P4.B, P4.C, P4.E (E1–E5), Q-1, Q-2, entidad 9 y entidades 10–12 y 14–18, C-2 y C-3 (abiertas), aprobaciones 0.1–0.7, aceptación formal de Fase 0; Fase 1 no autorizada. Dentro de D6.c=A0 quedan sin decidir la clasificación del origen de los valores y L1/L2/L3.
 > Todo texto más abajo que presente D4/D6/D7/D8 como pendientes o P4.A como 8/18 es **antecedente cronológico** y se conserva.
 
@@ -32,7 +33,9 @@ Opciones: aprobar solo las [D]; aprobar también las [P] que elijas; rechazar. R
 ### P4.C — Atributos por entidad
 Aún no aprobados (Q-7 condición 5 incluye los de Campaña). Opciones: especificarlos al cerrar P4.A/B, o diferirlos a la fase de especificación de cada módulo. Recomendación: diferir a la especificación del módulo, aprobando antes solo los obligatorios del MVP. Afecta: 06, 07.
 
-### P4.D — Cierre de P4.4 (Campaña)
+### P4.D — Cierre de P4.4 (Campaña) — **RESUELTA** (2026-11-22; ver nota)
+> **ESTADO VIGENTE:** P4.D / Q-7 **resuelta**: selección **(a)**; **P4.4 cerrada** por esta decisión; no quedan respuestas pendientes del propietario sobre Q-7. Alcance conservado exactamente (registro, sección «Q-7»): aprueba solo la **existencia** de la entidad Campaña (≠ `Project`; F11-D5 íntegra); **no** aprueba atributos, cardinalidades, estructura, estados ni implementación; las relaciones de Campaña son propuesta no aprobada. Fuente: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`.
+> *Planteamiento original (antecedente histórico):*
 Confirmar que Q-7 = (a) cierra P4.4. Opciones: sí / no (indica qué falta). Recomendación: sí. Afecta: 05, CONCILIACION.
 
 ### P4.E — Convenciones de P4.5 aún sin cerrar
