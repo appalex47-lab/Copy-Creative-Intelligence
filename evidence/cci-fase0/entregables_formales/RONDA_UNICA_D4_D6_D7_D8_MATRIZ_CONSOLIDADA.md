@@ -1,6 +1,6 @@
 # CCI — Ronda única de decisiones del propietario: D4, D6, D7 y D8
 **Fecha:** 2026-11-22 · **Estado:** propuesta consolidada. **No registra ninguna decisión, no modifica el expediente ni el repositorio.** Las «Recomendaciones de Claude» **no son decisiones del propietario**.
-**Fuente de verdad:** rama `evidence/cci-fase0-review`, HEAD `4230cdb4b10dba34a44ac3ab3dd40aa8009a000f`.
+**Versión:** esta matriz es la **corrección final** de la revisada por ChatGPT en el commit `836f9c40b1c04e1bdc7a1358e7003452a58a172e` (anterior a esta corrección, citado solo como antecedente). **Referencia vigente:** el HEAD de la rama `evidence/cci-fase0-review` que contiene esta corrección; su SHA se verifica por API y se indica en el mensaje de entrega (un archivo no puede contener el hash de su propio commit). **Es el único documento que el propietario debe responder**; `PAQUETE_DECISION_D4_D6_D7_D8.md` es solo antecedente de análisis.
 **Procedencia:** **[S]** dicho por el propietario · **[D]** evidencia documental (A = instrucción Fase 0; B = instrucción maestra; l. = línea; ambas son adjuntos del propietario, no publicados en el repositorio) · **[P]** propuesta de Claude · **[I]** inferencia de Claude sin respaldo literal.
 
 ## 0. Cómo responder (una sola vez)
@@ -40,7 +40,7 @@ Responde con una línea por ID, por ejemplo: `D4.a = A; D4.b = A; … ; D8 = A`.
 ### D4.c — Definición mínima de la Adaptación (entidad conceptual 13, `ChannelAdaptation`)
 **Texto exacto propuesto A [P]** (válido si D4.b = A):
 «**Adaptación de canal:** contenido derivado de un copy fuente y preparado para un canal destino, con identidad y trazabilidad propias; concepto distinto de Copy, Variante de copy y Versión de contenido. Puede relacionarse con una Pieza creativa cuando el canal sea visual.»
-**Texto exacto A′ [P]** (el mismo **sin** la última oración; válido con D4.b = A, C o D):
+**Texto exacto A′ [P]** (el mismo **sin** la última oración; **neutral** respecto del vínculo con Pieza: no lo afirma ni lo niega):
 «**Adaptación de canal:** contenido derivado de un copy fuente y preparado para un canal destino, con identidad y trazabilidad propias; concepto distinto de Copy, Variante de copy y Versión de contenido.»
 **Qué implica cada parte:**
 - «contenido derivado de un copy fuente»: origen en un Copy [S, D-1.b]; no dice cardinalidad ni cómo se enlaza.
@@ -51,9 +51,9 @@ Responde con una línea por ID, por ejemplo: `D4.a = A; D4.b = A; … ; D8 = A`.
 - **Silencios deliberados:** no menciona aprobabilidad (D4.d), auditabilidad (D-1.c), versiones propias, estados, atributos, cardinalidades ni persistencia.
 | ID | Pregunta | Alternativas completas | Recomendación | Consecuencia | Dependencias | Decisión |
 |---|---|---|---|---|---|---|
-| D4.c | ¿Qué definición mínima se aprueba para la 13? | **A.** Texto A (arriba, con la oración sobre Pieza). | **Recomendada [P]** | *Aprueba:* ese texto y solo ese. *No aprueba:* nada de lo listado como silencios. | D4.a = A y D4.b = A | ☐ |
-| D4.c | (idem) | **A′.** Texto A′ (sin la oración sobre Pieza). | Alternativa compatible si D4.b ≠ A | Aprueba una definición más corta; el vínculo con Pieza queda fuera de la definición. | D4.a = A | ☐ |
-| D4.c | (idem) | **B.** El texto A o A′ con tus ediciones (escríbelas). | — | Se aprobará solo tu redacción literal. | — | ☐ |
+| D4.c | ¿Qué definición mínima se aprueba para la 13? | **A.** Texto A (arriba, con la oración sobre Pieza). | **Recomendada [P]** | *Aprueba:* ese texto y solo ese. *No aprueba:* nada de lo listado como silencios. | D4.a = A y D4.b = A (con D4.b = B, C o D es incompatible) | ☐ |
+| D4.c | (idem) | **A′.** Texto A′ (sin la oración sobre Pieza). | Alternativa neutral; compatible con cualquier D4.b | Aprueba una definición más corta; el vínculo con Pieza queda fuera de la definición. Con D4.b = B prevalece la decisión conceptual de D4.b (vínculo obligatorio), pues A′ lo omite sin negarlo. | D4.a = A | ☐ |
+| D4.c | (idem) | **B.** El texto A o A′ con tus ediciones (escríbelas). | — | Se aprobará solo tu redacción literal. Su compatibilidad con D4.a, D4.b, D-1 y D-2 **no se declara ahora**: se valida con el texto exacto, y no puede reabrir D-1 ni D-2 de forma implícita. | Según el texto | ☐ |
 | D4.c | (idem) | **C.** Diferir la definición. | No recomendada | La entidad 13 sigue «no presentada»; bloquea P4.B sobre la Adaptación. | — | ☐ |
 | D4.c | (idem) | **Z.** Otra decisión del propietario. | — | Literal. | — | ☐ |
 
@@ -71,39 +71,45 @@ Responde con una línea por ID, por ejemplo: `D4.a = A; D4.b = A; … ; D8 = A`.
 **Evidencia [D]:** A l.363–364 (`PerformanceRecord`, `Metric`); B l.210–211 («Resultados», «Métricas»); B l.635–651: «datos proporcionados por el usuario»: Campaña, Canal, Contenido, Fecha, Impresiones, Clics, Conversiones, Inversión, Ventas; «distinguir datos manuales, importados y calculados»; «documentar fórmulas y evitar mostrar indicadores cuando no existan los datos necesarios»; tu definición aprobada de Campaña («Resultado de desempeño»). **Los originales no nombran ningún indicador de desempeño ni fórmula de desempeño** (la única fórmula es la de descuento, B l.519, que no es una métrica de desempeño). **Catálogo de indicadores, fórmulas y mecanismos de cálculo: sin respaldo y sin aprobar; esta ronda no los define.**
 
 ### Las tres interpretaciones de «un Resultado contiene una métrica calculada»
-Los ejemplos usan solo los datos de B l.637–645 y son **ilustrativos; no proponen ningún indicador**.
-- **L1 — el valor calculado se deriva al mostrarse.** El Resultado guarda solo los datos ingresados (p. ej. Impresiones y Clics de una fecha); cualquier cifra calculada a partir de ellos se obtiene en el momento de mostrarla y no se guarda. *Se gana:* no hay valores guardados que queden obsoletos. *Se pierde:* no hay histórico del valor que se vio; si cambia la fórmula, cambian los números del pasado [I]. Respaldo: B l.651 (no mostrar indicadores sin datos) apoya que haya cálculo condicionado a datos [D/I].
-- **L2 — el Resultado guarda también el valor calculado.** Además de Impresiones y Clics, el Resultado conserva la cifra derivada con su origen «calculado». *Se gana:* histórico fiel y fácil exportación/importación. *Se pierde:* riesgo de inconsistencia si cambian los datos o la fórmula; exige decidir cuándo se recalcula (no aprobado). Respaldo: B l.649 habla de datos «calculados» junto a manuales e importados [D].
-- **L3 — el Resultado referencia la definición de la métrica que originó el cálculo.** El Resultado indica con qué definición (y fórmula documentada) se obtuvo el valor. *Se gana:* trazabilidad de la fórmula (B l.651). *Se pierde:* exige una relación Resultado–Métrica, que es materia de P4.B y no está aprobada; no dice si el valor se guarda. L3 es ortogonal: puede combinarse con L1 o con L2.
-- **Qué no puede determinarse con los documentos:** cuál de las tres corresponde a la intención del propietario; qué indicadores existirán; si «calculado» se refiere al valor mostrado o al guardado.
+Los ejemplos usan solo los datos de B l.637–645 y son **ilustrativos; no proponen ningún indicador, fórmula ni mecanismo**. Cada interpretación es una dimensión distinta:
+- **Dimensión de almacenamiento del valor calculado** (excluyentes entre sí): **L1** o **L2**.
+  - **L1 — derivado al mostrarse, sin guardarlo.** El Resultado guarda solo los datos ingresados (p. ej. Impresiones y Clics de una fecha); cualquier cifra calculada a partir de ellos se obtiene al mostrarla y no se conserva. *Se gana:* no hay valores guardados que queden obsoletos. *Se pierde:* no hay histórico del valor que se vio; si cambia una fórmula, cambian las cifras del pasado [I]. Respaldo parcial: B l.651 (no mostrar indicadores sin datos) [D/I].
+  - **L2 — valor calculado conservado en el Resultado.** Además de Impresiones y Clics, el Resultado conserva la cifra derivada marcada como «calculada». *Se gana:* histórico fiel y exportación/importación directas. *Se pierde:* riesgo de inconsistencia si cambian datos o fórmula; exige reglas de recálculo no definidas. Respaldo parcial: B l.649 habla de datos «calculados» junto a manuales e importados [D].
+- **Dimensión de referencia** (independiente de la anterior): **L3 — el Resultado referencia la definición de la métrica que originó el cálculo.** *Se gana:* trazabilidad de la fórmula documentada (B l.651). *Se pierde:* exige una relación Resultado–Métrica, materia de P4.B y no aprobada; por sí sola no dice si el valor se guarda.
+- **L3 puede combinarse con L1 o con L2.** L1 y L2 no pueden combinarse entre sí (uno no guarda el valor y el otro sí).
+- **No determinable con los documentos:** cuál combinación corresponde a la intención del propietario; qué indicadores existirán; si «calculado» alude al valor mostrado o al guardado.
 
 ### D6.a — Definición de una métrica frente a valor de una métrica
 | ID | Pregunta | Alternativas completas | Recomendación | Consecuencia | Dependencias | Decisión |
 |---|---|---|---|---|---|---|
-| D6.a | ¿Son conceptos distintos la definición de una métrica y su valor? | **A.** Sí: definición = qué es el indicador y cómo se documenta; valor = lo que toma en un caso. | **Recomendada [P]** | *Aprueba:* la distinción conceptual. *No aprueba:* atributos, fórmulas, catálogo. Da lugar a la «fórmula documentada» (B l.651) y al «valor» manual/importado/calculado (B l.649). | P4.1 | ☐ |
-| D6.a | (idem) | **B.** No: Métrica = solo valor. | No recomendada | La fórmula documentada (B l.651) no tiene lugar propio y cuestiona que Métrica sea entidad (P4.1). | P4.1 | ☐ |
+| D6.a | ¿Son conceptos distintos la definición de una métrica y su valor? | **A.** Sí: definición = qué es el indicador y cómo se documenta; valor = lo que toma en un caso. | **Recomendada [P]** | *Aprueba:* la distinción conceptual. *No aprueba:* atributos, fórmulas, catálogo. Da lugar a la «fórmula documentada» (B l.651) y al «valor» manual/importado/calculado (B l.649). | P4.1 (sin dependencia de otras decisiones) | ☐ |
+| D6.a | (idem) | **B.** No: Métrica = solo valor. | No recomendada | La fórmula documentada no tiene lugar propio y cuestiona que Métrica sea entidad (P4.1). | P4.1 | ☐ |
 | D6.a | (idem) | **C.** No: Métrica = solo definición; los valores no son un concepto propio. | No recomendada | No da lugar a «valor calculado» (B l.649) como concepto. | — | ☐ |
 | D6.a | (idem) | **Z.** Otra decisión del propietario. | — | Literal. | — | ☐ |
 
 ### D6.b — Significado conceptual de «valor calculado»
 | ID | Pregunta | Alternativas completas | Recomendación | Consecuencia | Dependencias | Decisión |
 |---|---|---|---|---|---|---|
-| D6.b | ¿Qué es un valor calculado? | **A.** Un valor de métrica **cuyo origen es un cálculo** (frente a manual o importado, B l.649); es una distinción de origen, no un concepto separado. | **Recomendada [P]** | *Aprueba:* esa lectura. *No aprueba:* mecanismo de cálculo, persistencia ni indicadores. | D6.a = A (o B) | ☐ |
-| D6.b | (idem) | **B.** Un concepto distinto del valor, con identidad propia. | No recomendada | Añade un concepto sin respaldo documental. | — | ☐ |
-| D6.b | (idem) | **C.** No definirlo todavía. | No recomendada | Deja sin responder la distinción de B l.649. | — | ☐ |
-| D6.b | (idem) | **Z.** Otra decisión del propietario. | — | Literal. | — | ☐ |
+| D6.b | ¿Qué es un valor calculado? | **A.** Un valor de métrica **cuyo origen es un cálculo** (frente a manual o importado, B l.649); distinción de origen, no un concepto separado. | **Recomendada [P]** | *Aprueba:* esa lectura. *No aprueba:* mecanismo de cálculo, persistencia ni indicadores. | D6.a = A o B (debe existir el concepto de valor); incompatible con D6.a = C | ☐ |
+| D6.b | (idem) | **B.** Un concepto distinto del valor, con identidad propia. | No recomendada | Añade un concepto sin respaldo documental. | D6.a = A o B | ☐ |
+| D6.b | (idem) | **C.** No definirlo todavía. | No recomendada | Deja sin responder la distinción de B l.649; limita D6.c a A0, B, C o D. | D6.a = A o B | ☐ |
+| D6.b | (idem) | **Z.** Otra decisión del propietario. | — | Literal; se valida frente a D6.a. | D6.a | ☐ |
 
 ### D6.c — Ubicación conceptual de `Metric` (entidad 17) y de sus valores
-| ID | Pregunta | Alternativas completas | Recomendación | Consecuencia: qué se gana / qué se pierde | Dependencias | Decisión |
+**Regla de dependencia única (idéntica a la sección 6):** A0 **no necesita** D6.b: solo ubica los valores en el Resultado y **puede dejar pendiente** la clasificación de un valor como «calculado» (D6.b = C). A1 a A5 **sí requieren** un significado de «valor calculado» (D6.b = A o B; se recomienda A), porque deciden cómo se trata ese valor. Todas las alternativas A requieren D6.a = A.
+**«Sin L3» en A1 y A2:** L3 **no se adopta ni se excluye**; queda para P4.B. **No se ofrece** una alternativa que excluya L3 expresamente (si la quieres, usa Z) ni L1+L2 (excluyentes).
+| ID | Pregunta | Alternativas completas | Recomendación | Consecuencia: se aprueba / queda pendiente / se gana y se pierde | Dependencias | Decisión |
 |---|---|---|---|---|---|---|
-| D6.c | ¿Dónde se ubican conceptualmente la Métrica y sus valores? | **A0.** `Metric` = **definición**; los valores (manual, importado, calculado) pertenecen al Resultado (entidad 16). **No se elige** entre L1, L2 y L3 ni se decide si el valor es una entidad aparte. | **Recomendada [P]** (era la recomendación previa; **no está aprobada**) | *Se gana:* frontera clara definición/valor; Métrica sigue siendo entidad (P4.1 intacta); acomoda B l.649 y B l.651. *Se pierde:* la relación Métrica–Resultado y la forma de guardar el valor quedan sin cerrar (P4.B). *Aprueba:* la asignación conceptual. *No aprueba:* relación, cardinalidad, atributos, fórmulas, catálogo, persistencia del valor calculado, campo «Contenido» (A-4). | D6.a = A | ☐ |
-| D6.c | (idem) | **A1.** Igual que A0 **y** se elige L1 (calculado = derivado al mostrar). | No recomendada | *Se gana:* sin valores obsoletos. *Se pierde:* sin histórico del valor mostrado. Fija una decisión de persistencia que los documentos no respaldan [I]. | D6.a = A | ☐ |
-| D6.c | (idem) | **A2.** Igual que A0 **y** se elige L2 (el Resultado guarda el valor calculado). | No recomendada | *Se gana:* histórico. *Se pierde:* riesgo de inconsistencia; exige reglas de recálculo no definidas. | D6.a = A | ☐ |
-| D6.c | (idem) | **A3.** Igual que A0 **y** se elige L3 (el Resultado referencia la definición). | No recomendada | *Se gana:* trazabilidad de fórmula. *Se pierde:* fija una relación Resultado–Métrica antes de P4.B. | D6.a = A | ☐ |
-| D6.c | (idem) | **B.** Una sola entidad Métrica cubre definición y valores. | No recomendada | *Se gana:* simplicidad. *Se pierde:* mezcla la definición con muchos valores y diluye la frontera con el Resultado. | D6.a = A | ☐ |
-| D6.c | (idem) | **C.** Solo valores; `Metric` deja de ser entidad. | No recomendada | *Se gana:* minimalismo. *Se pierde:* una entidad confirmada en P4.1 y el lugar de la fórmula documentada; **requiere revisión expresa de P4.1, no incluida en esta ronda** (solo ejecutable con tu «Z» expreso). | D6.a = B | ☐ |
+| D6.c | ¿Dónde se ubican la Métrica y sus valores? | **A0.** `Metric` = **definición**; los valores (manual, importado, calculado) pertenecen al Resultado (entidad 16). **No se decide** L1/L2 ni L3. | **Recomendada [P]** (recomendación previa; **no aprobada**) | *Aprueba:* la asignación conceptual. *Pendiente:* L1/L2, L3, relación Métrica–Resultado, cardinalidad, atributos, fórmulas, catálogo, persistencia. *Se gana:* frontera clara sin comprometer almacenamiento; P4.1 intacta. *Se pierde:* nada queda cerrado sobre cómo se guarda el calculado. | D6.a = A; D6.b: cualquiera (incluida C) | ☐ |
+| D6.c | (idem) | **A1.** A0 + **L1** (calculado derivado al mostrarse, no guardado); L3 sin adoptar ni excluir. | No recomendada | *Aprueba además:* que el valor calculado no se conserva. *Pendiente:* L3 y todo lo demás de A0. *Se gana:* sin valores obsoletos. *Se pierde:* sin histórico del valor mostrado. Decide almacenamiento sin respaldo documental [I]. | D6.a = A; D6.b = A o B | ☐ |
+| D6.c | (idem) | **A2.** A0 + **L2** (calculado conservado en el Resultado); L3 sin adoptar ni excluir. | No recomendada | *Aprueba además:* que el Resultado conserva el calculado. *Pendiente:* L3, reglas de recálculo y todo lo demás de A0. *Se gana:* histórico. *Se pierde:* riesgo de inconsistencia. | D6.a = A; D6.b = A o B | ☐ |
+| D6.c | (idem) | **A3.** A0 + **L3** (el Resultado referencia la definición que originó el cálculo); **L1/L2 explícitamente sin decidir**. | No recomendada | *Aprueba además:* que existe esa referencia conceptual. *Pendiente:* L1/L2, forma de la relación (P4.B). *Se gana:* trazabilidad de fórmula. *Se pierde:* fija una relación antes de P4.B sin saber si el valor se guarda. | D6.a = A; D6.b = A o B | ☐ |
+| D6.c | (idem) | **A4.** A0 + **L1 + L3**. | No recomendada | *Aprueba además:* calculado derivado al mostrarse y referencia a la definición. *Pendiente:* forma de la relación (P4.B) y lo demás de A0. *Se gana:* sin obsoletos y con trazabilidad. *Se pierde:* sin histórico del valor mostrado; compromete relación antes de P4.B. | D6.a = A; D6.b = A o B | ☐ |
+| D6.c | (idem) | **A5.** A0 + **L2 + L3**. | No recomendada | *Aprueba además:* calculado conservado y referencia a la definición. *Pendiente:* reglas de recálculo, forma de la relación (P4.B) y lo demás de A0. *Se gana:* histórico y trazabilidad. *Se pierde:* riesgo de inconsistencia; compromete relación antes de P4.B. | D6.a = A; D6.b = A o B | ☐ |
+| D6.c | (idem) | **B.** Una sola entidad Métrica cubre definición y valores. | No recomendada | *Se gana:* simplicidad. *Se pierde:* mezcla la definición con muchos valores y diluye la frontera con el Resultado. L1/L2/L3 quedan sin decidir. | D6.a = A; D6.b: cualquiera | ☐ |
+| D6.c | (idem) | **C.** Solo valores; `Metric` deja de ser entidad. | No recomendada | *Se gana:* minimalismo. *Se pierde:* una entidad confirmada en P4.1 y el lugar de la fórmula documentada; **requiere revisión expresa de P4.1, no autorizada en esta ronda** (solo con un «Z» expreso). | D6.a = B; revisión expresa de P4.1 | ☐ |
 | D6.c | (idem) | **D.** Diferir. | No recomendada | D8 y las definiciones de las entidades 16 y 17 quedan sin criterio. | — | ☐ |
-| D6.c | (idem) | **Z.** Otra decisión del propietario. | — | Literal. | — | ☐ |
+| D6.c | (idem) | **Z.** Otra decisión del propietario. | — | Literal; si choca con P4.1 se señalará. | — | ☐ |
 
 ---
 ## 4. D7 — Perfil local, Configuración, tolerancias y canales
@@ -141,39 +147,59 @@ Los ejemplos usan solo los datos de B l.637–645 y son **ilustrativos; no propo
 ## 5. D8 — Nombre canónico de la entidad de resultados (`PerformanceRecord`; el nombre técnico no cambia)
 **Evidencia [D]:** A l.363; B l.210 «Resultados»; B l.635 «Registrar datos»; tu definición aprobada de Campaña («Resultado de desempeño»). El nombre es independiente de la definición y de los atributos; **no aprueba catálogo de métricas ni estructura de datos**.
 **Nombre que correspondería a cada escenario de D6.c (sin resolverlo por inferencia):**
-- D6.c = A0, A1, A2 o A3: «Resultado de desempeño» (coincide con tu definición de Campaña) o, como alternativas, «Registro de desempeño» o «Resultado».
+- D6.c = A0 a A5: «Resultado de desempeño» (coincide con tu definición de Campaña) o, como alternativas, «Registro de desempeño» o «Resultado».
 - D6.c = B: «Registro de desempeño» encaja mejor, porque la Métrica absorbería los valores y «resultado» se solaparía con ellos [I].
 - D6.c = C: «Resultado de desempeño», que contendría los valores incluidos los calculados; pero C exige revisar P4.1.
 - D6.c = D (diferir): D8 también se difiere.
 | ID | Pregunta | Alternativas completas | Recomendación | Consecuencia | Dependencias | Decisión |
 |---|---|---|---|---|---|---|
-| D8 | ¿Qué nombre canónico lleva la entidad 16? | **A.** «Resultado de desempeño». | **Recomendada [P]** si D6.c = A0–A3 | *Aprueba:* el nombre. *No aprueba:* definición, atributos, métricas ni estructura. Coincide con la definición aprobada de Campaña y se distingue de «Métrica» (definición). | D6.c | ☐ |
+| D8 | ¿Qué nombre canónico lleva la entidad 16? | **A.** «Resultado de desempeño». | **Recomendada [P]** si D6.c = A0–A5 | *Aprueba:* el nombre. *No aprueba:* definición, atributos, métricas ni estructura. Coincide con la definición aprobada de Campaña y se distingue de «Métrica» (definición). | D6.c | ☐ |
 | D8 | (idem) | **B.** «Registro de desempeño» (traducción literal). | Recomendada [P] solo si D6.c = B | Fiel al nombre técnico; introduce un tercer término. | D6.c | ☐ |
 | D8 | (idem) | **C.** «Resultado». | No recomendada | Corto, pero ambiguo con «resultado de auditoría» [I]. | D6.c | ☐ |
 | D8 | (idem) | **D.** Diferir el nombre. | Recomendada [P] solo si D6.c = D | Mantiene la tensión con la definición de Campaña. | D6.c | ☐ |
 | D8 | (idem) | **Z.** Otra decisión del propietario. | — | Literal. | — | ☐ |
 
 ---
-## 6. Combinaciones compatibles y dependencias cruzadas
+## 6. Combinaciones compatibles y dependencias cruzadas (única fuente de las reglas; las filas de cada decisión son idénticas)
+### 6.1 D4
 | Combinación | ¿Coherente? | Motivo y alternativa compatible |
 |---|---|---|
-| D4.a = A + D4.b = A + D4.c = A + D4.d = A | Sí | Es el conjunto recomendado. |
-| D4.b = A + D4.c = A′ | Sí | La definición omite el vínculo; el vínculo se tratará en P4.B. |
-| D4.b = B (relación obligatoria) + cualquier D4.c | **No** | D4.c no admite relaciones obligatorias. Compatible: D4.b = A. |
-| D4.b = C o D + D4.c = A | **No** | El texto A afirma la posibilidad de relación. Compatible: D4.c = A′. |
-| D4.a = B | **No** | Contradice D-1.b; exige reabrir D-1. Compatible: D4.a = A. |
-| D4.a ≠ A + D4.c = A o A′ | **No** | Ambos textos afirman la distinción de D4.a = A. Compatible: D4.c = B (tu redacción) o C. |
-| D4.d (cualquiera) con D4.a–c | Sí | D4.d es independiente de D4.a–c; solo exige respetar D-5.3. |
+| D4.a = A + D4.b = A + D4.c = A + D4.d = A | Sí | Conjunto recomendado. |
+| D4.b = A + D4.c = A | Sí | El texto A expresa una posibilidad, coherente con D4.b = A. |
+| D4.b = A + D4.c = A′ | Sí | La definición omite el vínculo; se trata en P4.B. |
+| D4.b = B (vínculo obligatorio) + D4.c = A | **No** | «Puede relacionarse» no expresa obligatoriedad. Compatible: D4.c = A′ o B/Z con redacción adecuada. |
+| D4.b = B + D4.c = A′ | No contradictorias por sí mismas | A′ omite el vínculo sin negarlo; prevalece la decisión conceptual de D4.b. |
+| D4.b = C (excluir vínculo) + D4.c = A | **No** | A afirma la posibilidad de relación. Compatible: D4.c = A′. |
+| D4.b = C + D4.c = A′ | Sí | A′ es neutral. |
+| D4.b = D (sin pronunciamiento) + D4.c = A | **No** | A afirma una posibilidad sobre la que no se decidió. Compatible: D4.c = A′. |
+| D4.b = D + D4.c = A′ | Sí | A′ es neutral. |
+| D4.b = cualquiera + D4.c = B o Z | **Sin compatibilidad automática** | Se evalúa con el texto exacto escrito por el propietario; no puede reabrir D-1 ni D-2 de forma implícita. |
+| D4.a ≠ A + D4.c = A o A′ (**solo los textos fijos**) | **No** | Ambos textos afirman la distinción de D4.a = A. Con B/Z la compatibilidad depende de la redacción concreta. |
+| D4.a = B | **No** | Contradice D-1.b y **no puede aprobarse sin una reapertura expresa de D-1, que esta ronda no autoriza**. Compatible: D4.a = A. |
+| D4.d (cualquiera) con D4.a–c | Sí | D4.d es independiente; solo exige respetar D-5.3. |
+### 6.2 D6 y D8
+| Combinación | ¿Coherente? | Motivo y alternativa compatible |
+|---|---|---|
 | D6.a = A + D6.b = A + D6.c = A0 | Sí | Conjunto recomendado. |
-| D6.a = B o C + D6.c = A0/A1/A2/A3/B | **No** | Esas alternativas presuponen definición y valor como conceptos distintos. Compatible: D6.a = A. |
-| D6.c = C con D6.a = A | **No** | C elimina la entidad (definición). Compatible: D6.a = B y revisión expresa de P4.1 vía «Z». |
-| D6.b = A + D6.a = C | **No** | Sin concepto de valor no existe «valor calculado». Compatible: D6.a = A. |
-| D8 = A + D6.c = B | Sí, pero menos coherente | Con B, «Registro de desempeño» encaja mejor (D8 = B). |
+| D6.c = A0 + D6.b = C (diferir) | Sí | A0 no clasifica valores como calculados; esa definición queda pendiente. |
+| D6.c = A1…A5 + D6.b = C | **No** | Eligen cómo tratar el valor calculado sin haberlo definido. Compatible: D6.b = A, o D6.c = A0. |
+| D6.c = A1…A5 + D6.b = A o B | Sí | Hay significado de «valor calculado». |
+| D6.c = A1…A5 o A0 o B + D6.a = B o C | **No** | Presuponen definición y valor distintos. Compatible: D6.a = A. |
+| D6.c = C + D6.a = A | **No** | C elimina la entidad de definición. Compatible: D6.a = B y revisión expresa de P4.1 vía «Z». |
+| D6.b (A, B o C) + D6.a = C | **No** | Sin concepto de valor no existe «valor calculado». Compatible: D6.a = A o B. |
+| L1 + L2 (ninguna alternativa las combina) | **No** | Excluyentes: una no guarda el valor y la otra sí. |
+| L3 con L1 o con L2 (A4, A5) | Sí | L3 es independiente del almacenamiento. |
+| D8 = A + D6.c = A0…A5 | Sí | Conjunto recomendado. |
+| D8 = A + D6.c = B | Sí, menos coherente | Con B encaja mejor D8 = B («Registro de desempeño»). |
 | D8 = A/B/C + D6.c = D | **No** | Con D6.c diferida, el nombre no tiene criterio. Compatible: D8 = D. |
+### 6.3 D7
+| Combinación | ¿Coherente? | Motivo y alternativa compatible |
+|---|---|---|
 | D7.a = A + D7.b = A + D7.c = C | Sí | Conjunto recomendado. |
 | D7.a = B | **No** sin «Z» expreso | Contradice tu decisión de mantener Perfil local como concepto propio. |
 | D7.b = C + D7.c = A/B/D | Sí, con reservas | Supone que la tolerancia varía por canal; sin respaldo; depende de Q-2. |
-**Dependencias cruzadas:** D4.c ← D4.a, D4.b · D6.b ← D6.a · D6.c ← D6.a, D6.b · D8 ← D6.c · D7.b ← D-3.b, Q-1 · D7.c ← D-3.c, Q-2 · D4.d ← D-1, D-2, D-5.3. Los bloques D4, D6 y D7 son independientes entre sí.
+### 6.4 Dependencias cruzadas (idénticas a la columna «Dependencias» de cada fila)
+D4.c-A ← D4.a = A y D4.b = A · D4.c-A′ ← D4.a = A (neutral frente a D4.b) · D4.c-B/Z ← según el texto · D4.d ← D-1, D-2, D-5.3 · D6.a ← P4.1 · D6.b ← D6.a = A o B · D6.c-A0 ← D6.a = A (D6.b cualquiera) · D6.c-A1…A5 ← D6.a = A y D6.b = A o B · D6.c-B ← D6.a = A · D6.c-C ← D6.a = B y revisión expresa de P4.1 · D6.c-D ← ninguna · D8 ← D6.c · D7.b ← D-3.b, Q-1 · D7.c ← D-3.c, Q-2. Los bloques D4, D6 y D7 son independientes entre sí.
 
 ## 7. Qué permanece pendiente tras tu respuesta
 Q-1 (valores de redondeo y tolerancias) y Q-2 (canales reales y sus reglas); P4.B (relaciones y cardinalidades: Adaptación–Pieza, Métrica–Resultado, «Contenido» en Resultados A-4, Pieza–Copy A-5, ubicación de reglas de copy, Variante en Biblioteca); P4.C (atributos); entidad 9 Hallazgo y entidades 10–18; E1–E5; aprobaciones 0.1–0.7, aceptación de Fase 0 y Fase 1. Todo catálogo de indicadores y toda fórmula de desempeño.
@@ -181,7 +207,7 @@ Q-1 (valores de redondeo y tolerancias) y Q-2 (canales reales y sus reglas); P4.
 
 ## 8. Plantilla de respuesta (copiar y completar)
 `D4.a = _ ; D4.b = _ ; D4.c = _ ; D4.d = _ ; D6.a = _ ; D6.b = _ ; D6.c = _ ; D7.a = _ ; D7.b = _ ; D7.c = _ ; D8 = _`
-Conjunto recomendado por Claude (no aprobado): `D4.a = A; D4.b = A; D4.c = A; D4.d = A; D6.a = A; D6.b = A; D6.c = A0; D7.a = A; D7.b = A; D7.c = C; D8 = A`. Cada letra significa aceptar exactamente el contenido reproducido en su fila.
+Conjunto recomendado por Claude (no aprobado): `D4.a = A; D4.b = A; D4.c = A; D4.d = A; D6.a = A; D6.b = A; D6.c = A0; D7.a = A; D7.b = A; D7.c = C; D8 = A`. Cada letra significa aceptar exactamente el contenido reproducido en su fila. Para D6.c las opciones son A0, A1, A2, A3, A4, A5, B, C, D o Z.
 
 ## 9. Fuentes (rama `evidence/cci-fase0-review`)
 Base: https://github.com/appalex47-lab/Copy-Creative-Intelligence/tree/evidence/cci-fase0-review/evidence/cci-fase0

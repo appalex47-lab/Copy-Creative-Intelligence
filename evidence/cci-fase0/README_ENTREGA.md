@@ -1,5 +1,6 @@
 # Expediente de Fase 0 — CCI (LISTO PARA REVISIÓN; no aceptado)
-Entrega como archivos descargables (sin repositorio privado confirmado). Verificar: `sha256sum -c MANIFEST.sha256`.
+Expediente **publicado en el repositorio público de desarrollo** `appalex47-lab/Copy-Creative-Intelligence`, rama `evidence/cci-fase0-review` (carpeta `evidence/cci-fase0/`); **`main` no se ha modificado**. Verificar: `sha256sum -c MANIFEST.sha256` (y tamaños/hashes en `INVENTARIO_PUBLICADO.sha256`).
+**Documento único que el propietario debe responder:** `entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md` (11 decisiones pendientes; propuesta de Claude, sin decisiones registradas). `entregables_formales/PAQUETE_DECISION_D4_D6_D7_D8.md` es solo antecedente de análisis.
 Orden de lectura: `INFORME_REVISION_COMPLEMENTARIA.md` → `00_DICTAMEN_Y_CIERRE_FASE0.md` → `entregables_formales/MATRIZ_DECISIONES_PROPIETARIO.md` → `entregables_formales/APROBACIONES_FASE0.md` → `entregables_formales/CONCILIACION_D1_D9_VERIFICADA.md` → `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` → `entregables_formales/ADR_PROPUESTO_REEMPLAZO_DEC_D2_D3_D4.md` → `entregables_formales/INDICE_ANTECEDENTES_HISTORICOS.md` → `entregables_formales/LISTA_ORIGINAL_18_ENTIDADES.md` → `entregables_formales/FICHA_Q7.md` → resto.
 - `00`–`14`: documentos base de la entrega previa (sin alterar).
 - `entregables_formales/`: los 17 entregables del §14 con sus nombres formales, más la matriz de decisiones y las fichas de aprobación. Correspondencia en `16_INDICE_EVIDENCIAS_FASE0.md`.
