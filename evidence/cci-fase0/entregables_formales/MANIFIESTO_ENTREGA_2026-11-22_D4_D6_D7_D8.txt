@@ -1,3 +1,4 @@
+# NOTA (ronda de lectura 2026-11-22): instantánea histórica de la entrega de las 12:35. Los tamaños y hashes de abajo ya NO coinciden con los archivos actuales (fueron editados después con notas fechadas). La integridad vigente está en MANIFEST.sha256 e INVENTARIO_PUBLICADO.sha256. Líneas originales sin alterar.
 # Manifiesto de entrega 2026-11-22 (D-4/D-6/D-7/D-8): ruta | tamaño(bytes) | SHA-256 (el propio manifiesto y MANIFEST.sha256 se excluyen)
 entregables_formales/PAQUETE_DECISION_D4_D6_D7_D8.md | 16431 | d26f598303bddc7b8285f9908ca8cd88b824313084111637d68952c2d0468304
 entregables_formales/PAQUETE_DECISION_D1_D8.md | 18212 | ed3ce21220ab61e5d52b63976367862f9736a4c906a7cc41ec0529d3d2b53efe

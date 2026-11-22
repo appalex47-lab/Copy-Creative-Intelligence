@@ -1,11 +1,11 @@
 # Informe ejecutivo — preparación para el cierre de Fase 0 (2026-11-22, ronda final)
-**Versión:** 2.0 (ronda final) · **Fecha:** 2026-11-22 · **Estado:** vigente como informe de hechos · **Referencias:** `01`–`09`, `11`, `12`; base HEAD `8dc47b2`.
+**Versión:** 3.0 (ronda de lectura completa; actualiza lectura y contradicciones) · **Fecha:** 2026-11-22 · **Estado:** vigente como informe de hechos · **Referencias:** `01`–`09`, `11`, `12`; base HEAD `13b25ca` (v2.0: `8dc47b2`).
 **Qué es:** resumen de dónde está el expediente. **No es una aceptación ni una solicitud de aceptación.** Detalle en `01`–`09` y `11`.
 
 ## 1. Separación de planos
 | Plano | Estado |
 |---|---|
-| Regularización documental | Realizada y publicada (ver `07_` y `08_`); contradicciones del expediente: ver `06_REGISTRO_CONTRADICCIONES.md` (ninguna requiere decisión del propietario salvo C-2/C-3, que son contradicciones históricas abiertas por la condición 7 de P3; CR-12 es una limitación por falta de evidencia) |
+| Regularización documental | Realizada y publicada (ver `07_` y `08_`); contradicciones del expediente: ver `06_REGISTRO_CONTRADICCIONES.md` (ninguna requiere decisión del propietario salvo C-2/C-3 (CR-19…CR-22, hallados en la ronda de lectura, son documentales; CR-21 es una regresión propia ya restaurada), que son contradicciones históricas abiertas por la condición 7 de P3; CR-12 es una limitación por falta de evidencia) |
 | Decisiones conceptuales del propietario | Resueltas: P1, P2, P3, P4.1 (parcial), P4.2, P4.3, Q-7, D-1…D-8; pendientes: ver `02_` |
 | Aprobaciones formales | 0.1–0.7: **pendientes** |
 | Pruebas técnicas | No ejecutadas en esta auditoría; sin base de «exigibles» definida para Fase 0 |
@@ -27,7 +27,7 @@ Después: aprobaciones 0.1–0.7 una por una, aceptación de Fase 0 y, aparte, a
 | Entidades aprobadas / 18 | **9/18 = 50,0 %** | Registro (1–8 y 13); definición mínima solamente |
 | Documentación clasificada por vigencia / archivos del expediente | **107/107 (100 %)** | «Clasificado» = vigencia explícita en `05_` (todos los archivos de `evidence/cci-fase0/`, incluidos los 12 documentos de esta auditoría). No equivale a lectura íntegra ni a corrección de contenido. `docs/fase0` (59 archivos) se concilia aparte (`11_`, `12_`) |
 | Archivos históricos/antecedentes con aviso de vigencia en el propio archivo / archivos históricos o antecedentes | **55/55 (100.0 %)** | Detección automática de marcas de vigencia (ver `logs/escaneo_contradicciones_2026-11-22_ronda_final.txt`); indicador de presentación, no de corrección de contenido |
-| Archivos leídos (según el registro real) | **Expediente: LEÍDO_COMPLETO 18, LEÍDO_PARCIALMENTE 81, NO_APLICABLE 5, sin lectura 3 de 107 archivos (140675/716741 B leídos, 19.6 %). `docs/fase0`: LEÍDO_COMPLETO 1, LEÍDO_PARCIALMENTE 58 de 59 (31333/10324392 B, 0.30 %)** | Ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`: numerador, denominador y alcance por estado. No es un avance de Fase 0 |
+| Archivos leídos (según el registro real) | **Expediente: LEÍDO_COMPLETO 103, NO_APLICABLE 4 de 107 archivos. `docs/fase0`: LEÍDO_COMPLETO 59 de 59 (por líneas únicas: 2 216 734 B de líneas únicas de 10 324 392 B; el resto es duplicado exacto)** | Ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`: numerador, denominador y alcance por estado. No es un avance de Fase 0 |
 | Pruebas ejecutadas / exigibles | **No calculable** | No existe una lista de pruebas exigibles para el cierre de Fase 0 y no se ejecutó ninguna en esta auditoría (los resultados de `logs/` son previos) |
 | Integridad verificada / archivos inventariados | ver `08_` | Clon limpio; hashes y tamaños recalculados |
 | Estado de publicación | Rama `evidence/cci-fase0-review` publicada; `main` sin cambios; sin PR ni merge | API |

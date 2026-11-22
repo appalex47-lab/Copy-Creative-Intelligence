@@ -1,5 +1,5 @@
 # Informe de auditoría integral del expediente — ronda final (2026-11-22)
-**Versión:** 2.0 (reemplaza la versión de la auditoría integral) · **Fecha:** 2026-11-22 · **Estado:** vigente como informe de hechos; subordinado al registro de decisiones · **Base:** HEAD `8dc47b24bdd5b11df46a70f3c9d96930d0682235` · **Referencias:** `06_REGISTRO_CONTRADICCIONES.md`, `08_INFORME_INTEGRIDAD_ARCHIVOS.md`, `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`.
+**Versión:** 3.0 (actualiza la v2.0 tras la lectura completa; §3, §4 y §5 corregidos) · **Fecha:** 2026-11-22 · **Estado:** vigente como informe de hechos; subordinado al registro de decisiones · **Base:** HEAD `13b25ca447c0ab17f46b3143615b4c2156661b79` (la v2.0 se redactó sobre `8dc47b24…`) · **Referencias:** `06_REGISTRO_CONTRADICCIONES.md`, `08_INFORME_INTEGRIDAD_ARCHIVOS.md`, `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`.
 
 ## 0. Corrección de cifras de la versión anterior (hallazgo 3.5)
 - La versión anterior clasificaba **93** archivos y declaraba «93/93 clasificados». El árbol real de la rama en `8dc47b2` (API) tenía **164** blobs = **104** en `evidence/cci-fase0/` (93 previos + 11 documentos de la auditoría integral) + **59** en `docs/fase0/` + **1** `README.md` de la raíz del repositorio.
@@ -154,17 +154,17 @@ Detalle archivo por archivo (ruta · clase · motivo · aviso de vigencia en el 
 
 ## 3. Método (qué se hizo realmente)
 - **Procesamiento automático** de los archivos de texto de `evidence/cci-fase0/` (salvo `auditoria_integral/` y `logs/`): búsquedas de patrón (8/18, D4.d pendiente, «Adaptación pendiente de D-4», «Prevalece este aviso», «cinco cuestiones», Supabase/PostgreSQL/RLS, multiusuario, «Fase 0 aceptada», Q-7/P4.4, D5.a–d, «Fase 1 autorizada») con indicación de si el archivo tiene marca de vigencia: `logs/scan_contradicciones.py` y su salida. **Es escaneo, no lectura.**
-- **Lectura efectiva** con registro de cobertura en bytes: ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` (qué se leyó completo, qué parcialmente, qué no). En esta ronda se leyeron por completo, entre otros, `REGISTRO_DECISIONES_RESUELTAS.md`, `MATRIZ_CONSOLIDADA_18_ENTIDADES.md`, `DECISIONES_P4_PENDIENTES.md`, `CATALOGO_DEPENDENCIAS_D4_D8.md`, `APROBACIONES_FASE0.md`, `16_INDICE_EVIDENCIAS_FASE0.md`, `04_ARQUITECTURA_BROWSER_ONLY.md`, `FICHA_P4A_09_HALLAZGO.md`, `00_INDICE_VIGENTES_E_HISTORICOS.md`, `README_ENTREGA.md` y `INFORME_CIERRE_G1_G5_G10_v14_historico.md`.
-- **Perfil de los 52 históricos de `docs/fase0/historico/`:** cabecera, descripción declarada y conteos de vocabulario (no lectura íntegra).
+- **Lectura efectiva** con registro de cobertura en bytes: ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` v2.0. Se leyeron **por completo** los 103 archivos de lectura aplicable de `evidence/cci-fase0/` y los 59 de `docs/fase0/` (estos últimos **por líneas únicas**: se mostró cada línea distinta; no se re-mostraron duplicados exactos de líneas ya vistas ni líneas genéricas repetidas). Los dos manifiestos de hashes, el manifiesto del anexo y el propio `12_` son NO_APLICABLE.
+- **52 históricos de `docs/fase0/historico/`:** leídos por líneas únicas (ver `12_` §5, con bytes de líneas nuevas por archivo); los conteos de vocabulario de la ficha son indicadores por escaneo, no lectura.
 - **Correcciones de contenido de esta ronda:** ver `07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` (sección «Ronda final»).
 ## 4. Resultados
 - Archivos del expediente clasificados: **107/107** (100 % del conjunto actual; no equivale a lectura íntegra ni a corrección de contenido).
-- Contradicciones: **18 registradas** en `06_`: 10 RESUELTA_DOCUMENTALMENTE, 4 HISTORICA_CON_ADVERTENCIA, 2 RESUELTA_POR_DECISION_PROPIETARIO (CR-07 y CR-16), 1 PENDIENTE_PROPIETARIO (CR-17: C-2/C-3), 1 NO_RESOLUBLE_POR_FALTA_DE_EVIDENCIA (CR-12).
+- Contradicciones: **22 registradas** en `06_` v3.0: 13 RESUELTA_DOCUMENTALMENTE, 5 HISTORICA_CON_ADVERTENCIA, 2 RESUELTA_POR_DECISION_PROPIETARIO (CR-07 y CR-16), 1 PENDIENTE_PROPIETARIO (CR-17: C-2/C-3), 1 NO_RESOLUBLE_POR_FALTA_DE_EVIDENCIA (CR-12). Nuevas: CR-19…CR-22 (CR-21 es una regresión propia restaurada).
 - Duplicados de nombre en el expediente: ver verificación en `08_`.
 ## 5. Archivos no accesibles y limitaciones
 - **Ningún archivo de la rama resultó inaccesible.** No están en la rama (no se leyeron): adjuntos A (`de49cc27-attachment.txt`) y B (`5a9f5585-attachment.txt`) del propietario; documentos del repositorio de la aplicación citados por nombre (`ARQUITECTURA.md`, `DECISIONES.md`, `ROADMAP.md`, `CI.md`, `INTEGRACION_SUPABASE_ESTADO.md`, `SEMANTICA_DE_SERVICIOS.md`, `ENTORNOS_Y_MODO_DEMO.md`, `INDICE.md`, `CONTROL_DE_SECRETOS.md`) y expedientes `evidence/CCI_FASE1_1_A1_…`.
 - El repositorio `CCI-Evidence` es inaccesible (API 403); no se usó ni se rodeó.
-- **No se logró la lectura íntegra** del expediente ni de `docs/fase0/` (≈10,3 MB); cobertura exacta en `12_`. No se afirma lectura íntegra. Consecuencia: la ronda **no se declara completamente terminada** en ese criterio.
+- **Lectura:** completa para los archivos legibles y aplicables, con la limitación del método de líneas únicas en `docs/fase0/` (≈10,3 MB; 2,2 MB de líneas únicas mostradas, el resto duplicado exacto). Detalle en `12_`. Esto no equivale a aceptar Fase 0.
 - No se ejecutaron pruebas, build, E2E ni CI de la aplicación; los resultados de `logs/` son de ejecuciones previas.
 - La arquitectura browser-only se comprobó por texto (índice, README, `04_ARQUITECTURA_BROWSER_ONLY.md` leído íntegro), no por revisión técnica de código.
 

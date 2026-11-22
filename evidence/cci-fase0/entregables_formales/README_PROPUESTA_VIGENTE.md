@@ -17,3 +17,5 @@ Existe la fundación (React 19, TypeScript estricto, Vite, adaptador DEMO en mem
 | Propuesta no aprobada | todo en este expediente | esta carpeta |
 ## Fases
 0 Auditoría · 1 Fundamentos y Command Center · 2 Copy Studio · 3 Creative Auditor · 4 Promotion Validator y Channel Adaptation · 5 Integración. Cada una requiere autorización independiente. Ver `11_ROADMAP_FASES_0_A_5.md`.
+
+> **Nota de actualización posterior (ronda de lectura 2026-11-22; el texto original no se altera):** la fila «Pendiente | P1–P15, Q-1…Q-6» es del momento de elaboración y contradice el estado vigente. **Resueltas por el propietario:** P1 = (b), P2 = (a), P3 = (b) con condiciones, Q-7 = (a), D-1…D-3, D-5 y D4/D6/D7/D8 (11 selecciones). **Siguen pendientes:** P4.B, P4.C, P4.E (E1–E5), P5–P15 (según su registro), Q-1…Q-6, C-2, C-3 y entidades P4.A 9–12 y 14–18 (P4.A vigente 9/18). Fuente autoritativa: `REGISTRO_DECISIONES_RESUELTAS.md`.

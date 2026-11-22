@@ -1,3 +1,5 @@
+> **AVISO DE VIGENCIA (ronda de lectura 2026-11-22; el contenido original no se altera).** Copia previa del expediente (raíz): **histórica / propuesta anterior**. No constituye estado vigente ni acepta Fase 0 ni autoriza Fase 1. Decisiones posteriores del propietario (P1, P2, P3, Q-7, D-1…D-8, P4.A 9/18) en `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`; jerarquía de fuentes en `auditoria_integral/01_INDICE_MAESTRO_FASE0.md`.
+
 # Registro de decisiones del propietario (P1–P15 del informe browser-only + Q adicionales)
 Ninguna se responde por el propietario. «Recomendación» es una propuesta técnica. «Informada por la instrucción maestra» indica que el texto del propietario ya apunta en una dirección, pero **falta confirmación expresa**.
 Indispensabilidad para cerrar Fase 0: **I** = indispensable · **F1/F2/F5** = debe resolverse antes de iniciar esa fase (no bloquea el cierre de Fase 0) · **A** = puede quedar abierta con consecuencia documentada.

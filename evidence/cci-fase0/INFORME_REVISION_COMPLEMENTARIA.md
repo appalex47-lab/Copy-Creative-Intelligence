@@ -1,3 +1,5 @@
+> **AVISO DE VIGENCIA (ronda de lectura 2026-11-22; el contenido original no se altera).** Copia previa del expediente (raíz): **histórica / propuesta anterior**. No constituye estado vigente ni acepta Fase 0 ni autoriza Fase 1. Decisiones posteriores del propietario (P1, P2, P3, Q-7, D-1…D-8, P4.A 9/18) en `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`; jerarquía de fuentes en `auditoria_integral/01_INDICE_MAESTRO_FASE0.md`.
+
 # Informe de revisión complementaria del expediente de Fase 0
 Fecha: 2026-11-22. Alcance: solo documentación local. Sin cambios en el repositorio de desarrollo, sin ramas fusionadas ni borradas, sin commits/push/PR/publicaciones/despliegues, sin tocar CCI-DEV/CCI-PROD, sin subir nada a `CCI-Evidence` (esa autorización previa no se asume cubierta).
 ## 1. Dictamen

@@ -1,3 +1,5 @@
+> **AVISO DE VIGENCIA (ronda de lectura 2026-11-22; el contenido original no se altera).** Copia previa del expediente (raíz): **histórica / propuesta anterior**. No constituye estado vigente ni acepta Fase 0 ni autoriza Fase 1. Decisiones posteriores del propietario (P1, P2, P3, Q-7, D-1…D-8, P4.A 9/18) en `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`; jerarquía de fuentes en `auditoria_integral/01_INDICE_MAESTRO_FASE0.md`.
+
 # Conciliación documental: arquitectura anterior vs. decisión browser-only
 Regla: ningún documento se elimina ni reescribe en Fase 0. Se registra su **condición**: `VIGENTE`, `HISTÓRICO` (antecedente, no aceptado para la nueva arquitectura), `A REVISAR` (contradice la decisión vigente; la corrección requiere autorización posterior), o `ADAPTABLE`.
 

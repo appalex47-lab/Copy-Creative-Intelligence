@@ -78,4 +78,17 @@ Los 59 archivos de `docs/fase0/` (idénticos a `main`; `git ls-tree` coincide), 
 P4.B, P4.C, P4.E (E1–E5), Q-1…Q-6, C-2, C-3, entidad 9 (suspendida), entidades 10–12 y 14–18, A0-1/A0-2/A0-3, P5…P15, aprobaciones 0.1–0.7, aceptación formal de Fase 0 y autorización de Fase 1. **No se declara aceptada la Fase 0 ni se solicita autorizar la Fase 1.** D5.a–d: fuera del alcance, no reabiertas.
 
 ## R6. Limitaciones
-Ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`: **no se logró la lectura íntegra** del expediente ni de `docs/fase0/`; la ronda no se declara completamente terminada en ese criterio. El SHA del commit de esta ronda no puede escribirse dentro de los archivos que contiene; se informa en la entrega y se verifica por API.
+Ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` v2.0: la brecha de lectura declarada en la ronda final quedó cerrada en la ronda de lectura (ver R7), con la limitación del método de líneas únicas. El SHA del commit de esta ronda no puede escribirse dentro de los archivos que contiene; se informa en la entrega y se verifica por API.
+
+## R7. Ronda de lectura completa (base `13b25ca447c0ab17f46b3143615b4c2156661b79`)
+**Alcance:** leer íntegramente los archivos parciales o sin lectura (expediente y los 59 de `docs/fase0/`, incluidos los 52 históricos) y documentar el resultado. No se modificó código, `main`, `docs/fase0` ni se hizo merge, PR o deploy.
+**Archivos modificados (solo adiciones/restauración; contenido original no alterado):**
+| Archivo | Cambio | Razón |
+|---|---|---|
+| `00_INDICE_VIGENTES_E_HISTORICOS.md`, `README_ENTREGA.md` | Restaurados desde `1bb831a` (habían sido truncados en `1cf96e3`) + nota de restauración + referencias a CR-19…22 | CR-21 (defecto propio) |
+| `03_CONCILIACION_DOCUMENTAL.md`, `10_REGISTRO_DECISIONES.md`, `INFORME_REVISION_COMPLEMENTARIA.md` | Aviso de vigencia antepuesto | CR-20 |
+| `entregables_formales/MANIFIESTO_ENTREGA_2026-11-22_D4_D6_D7_D8.txt` | Línea `# NOTA` de cabecera | CR-20 / CR-14 |
+| `entregables_formales/README_PROPUESTA_VIGENTE.md` | Nota de actualización posterior | CR-19 |
+| `auditoria_integral/01`, `05`, `06` (v3.0), `08`, `10`, `11`, `12` (v2.0) | Cifras, método y limitaciones actualizados; CR-19…CR-22 | Lectura completa |
+| `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados por script | Integridad |
+**Preservados sin cambios:** `docs/fase0/` (59 archivos), `anexos/`, `logs/` previos, fichas P4A y análisis.

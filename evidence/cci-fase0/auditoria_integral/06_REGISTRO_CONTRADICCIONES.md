@@ -1,11 +1,11 @@
-# Registro de contradicciones y su resolución — ronda final (2026-11-22)
-**Versión:** 2.0 (reemplaza la versión de la auditoría integral; conserva la numeración CR-01…CR-16 de la versión anterior y añade CR-17 y CR-18) · **Fecha:** 2026-11-22 · **Estado:** vigente · **Referencias:** `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`, `logs/escaneo_contradicciones_2026-11-22_ronda_final.txt`.
+# Registro de contradicciones y su resolución — ronda de lectura completa (2026-11-22)
+**Versión:** 3.0 (conserva CR-01…CR-18 de la v2.0 y añade CR-19…CR-22 hallados al cerrar la brecha de lectura) · **Fecha:** 2026-11-22 · **Estado:** vigente · **Referencias:** `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`, `logs/escaneo_contradicciones_2026-11-22_ronda_final.txt`.
 
 **Estados finales permitidos:** RESUELTA_DOCUMENTALMENTE · RESUELTA_POR_DECISION_PROPIETARIO · HISTORICA_CON_ADVERTENCIA · PENDIENTE_PROPIETARIO · NO_RESOLUBLE_POR_FALTA_DE_EVIDENCIA. **Criterio:** una contradicción se marca «resuelta» solo si la corrección está reflejada en **todos los documentos vigentes** (no solo en una nota); los textos históricos se conservan con aviso. Sin reemplazos globales.
 
-**Auditoría sistemática (patrones):** conteos de entidades (8/18, 9/18), definición de la entidad 13, entidad 9, Q-7/P4.4, D1–D8, D4.d, D5.a–d, D6.b/D6.c, P4.B/C/E, Q-1/Q-2, C-2/C-3, aprobaciones 0.1–0.7, aceptación de Fase 0, autorización de Fase 1, arquitectura browser-only, Supabase/PostgreSQL/Auth/RLS/backend/multiusuario históricos. Salida: `logs/escaneo_contradicciones_2026-11-22_ronda_final.txt`; **límite:** es un escaneo de patrones sobre los archivos de `evidence/cci-fase0/` (sin `auditoria_integral/` ni `logs/`); la lectura de `docs/fase0/` fue parcial (ver `12_`), por lo que **no se puede garantizar** que no existan otras contradicciones dentro del cuerpo no leído de esos documentos.
+**Auditoría sistemática (patrones):** conteos de entidades (8/18, 9/18), definición de la entidad 13, entidad 9, Q-7/P4.4, D1–D8, D4.d, D5.a–d, D6.b/D6.c, P4.B/C/E, Q-1/Q-2, C-2/C-3, aprobaciones 0.1–0.7, aceptación de Fase 0, autorización de Fase 1, arquitectura browser-only, Supabase/PostgreSQL/Auth/RLS/backend/multiusuario históricos. Salida: `logs/escaneo_contradicciones_2026-11-22_ronda_final.txt`; **límite:** es un escaneo de patrones sobre los archivos de `evidence/cci-fase0/` (sin `auditoria_integral/` ni `logs/`); la lectura completa posterior (ver `12_` v2.0: expediente íntegro; `docs/fase0/` por líneas únicas) no halló más contradicciones que CR-19…CR-22 y las observaciones no-CR de §«Observaciones de la lectura». **Límite:** la lectura de `docs/fase0/` omitió duplicados exactos de línea ya mostrados; no se ejecutó ningún código.
 
-**Resumen:** 18 registradas · HISTORICA_CON_ADVERTENCIA: 4 · NO_RESOLUBLE_POR_FALTA_DE_EVIDENCIA: 1 · PENDIENTE_PROPIETARIO: 1 · RESUELTA_DOCUMENTALMENTE: 10 · RESUELTA_POR_DECISION_PROPIETARIO: 2
+**Resumen:** 22 registradas · HISTORICA_CON_ADVERTENCIA: 5 · NO_RESOLUBLE_POR_FALTA_DE_EVIDENCIA: 1 · PENDIENTE_PROPIETARIO: 1 · RESUELTA_DOCUMENTALMENTE: 13 · RESUELTA_POR_DECISION_PROPIETARIO: 2
 
 ## CR-01 — Conteo de P4.A «8/18» presentado como vigente frente a 9/18
 1. **Ubicación exacta:** `entregables_formales/MATRIZ_CONSOLIDADA_18_ENTIDADES.md` (aviso «Actualización posterior», línea 4 actual; nota final), `DECISIONES_P4_PENDIENTES.md` (sección P4.A y actualización cronológica), `RONDA_UNICA…`, `D3_FAMILIAS_DE_REGLAS.md`, informes de cierre, `PAQUETE_DECISION_D4…`
@@ -205,6 +205,55 @@
 8. **Evidencia de verificación:** Recuento `05_` §1 generado por script y comparado con el árbol de la API
 9. **¿Requiere decisión del propietario?** No
 
+## CR-19 — `README_PROPUESTA_VIGENTE.md`: fila «Pendiente: P1–P15, Q-1…Q-6» frente a decisiones ya emitidas
+1. **Ubicación exacta:** `entregables_formales/README_PROPUESTA_VIGENTE.md` (tabla de estado, fila «Pendiente»)
+2. **Contradicción:** Presenta P1–P15 y Q-1…Q-6 como pendientes, mientras el mismo documento marca P2 «Sustituido» y P3=b, y el registro resuelve P1, P2, P3 y Q-7
+3. **Documentos en conflicto:** `README_PROPUESTA_VIGENTE.md` frente a `REGISTRO_DECISIONES_RESUELTAS.md`
+4. **Decisión o fuente prevalente:** Registro: P1=(b), P2=(a)+Seguridad por diseño, P3=(b), Q-7=(a), D-1…D-3, D-5, D4/D6/D7/D8; P4.A 9/18
+5. **Clasificación del texto:** Estado anterior superado (propuesta previa); el original se conserva
+6. **Corrección aplicada:** «Nota de actualización posterior» añadida al final del archivo, sin alterar el texto original; enumera lo resuelto y lo que sigue pendiente (P4.B/C/E, P5–P15, Q-1…Q-6, C-2, C-3, entidades 9–12 y 14–18)
+7. **Estado final:** **RESUELTA_DOCUMENTALMENTE**
+8. **Evidencia de verificación:** Lectura íntegra del archivo y del registro; `git diff` de la nota; cifras comprobadas contra el registro
+9. **¿Requiere decisión del propietario?** No (lo pendiente sigue siendo del propietario y no se resolvió)
+
+## CR-20 — Copias previas de la raíz sin aviso de vigencia (`03_CONCILIACION_DOCUMENTAL.md`, `10_REGISTRO_DECISIONES.md`, `INFORME_REVISION_COMPLEMENTARIA.md`) y cabecera del manifiesto de entrega
+1. **Ubicación exacta:** `03_CONCILIACION_DOCUMENTAL.md`, `10_REGISTRO_DECISIONES.md`, `INFORME_REVISION_COMPLEMENTARIA.md` (raíz de `evidence/cci-fase0/`); `entregables_formales/MANIFIESTO_ENTREGA_2026-11-22_D4_D6_D7_D8.txt`
+2. **Contradicción:** Propuestas/registros anteriores (anteriores a P1, P2, P3, Q-7, D-1…D-8) se leían como estado vigente por no llevar aviso, a diferencia de 05, 06 y 07; el manifiesto de entrega conserva 7 hashes que ya no coinciden (ver CR-14)
+3. **Documentos en conflicto:** las tres copias frente a `REGISTRO_DECISIONES_RESUELTAS.md` y `01_INDICE_MAESTRO_FASE0.md`
+4. **Decisión o fuente prevalente:** Registro de decisiones resueltas; jerarquía de fuentes del índice maestro; P3=(b) para antecedentes
+5. **Clasificación del texto:** Histórico / propuesta anterior; se conserva
+6. **Corrección aplicada:** «AVISO DE VIGENCIA» (blockquote) antepuesto a las tres copias y línea `# NOTA` de cabecera en el manifiesto; el contenido original no se altera (los 7 hashes siguen sin coincidir, por diseño: ver CR-14)
+7. **Estado final:** **HISTORICA_CON_ADVERTENCIA**
+8. **Evidencia de verificación:** `git diff` (solo líneas añadidas); lectura íntegra de cada copia
+9. **¿Requiere decisión del propietario?** No
+
+## CR-21 — Regresión propia: `00_INDICE_VIGENTES_E_HISTORICOS.md` y `README_ENTREGA.md` truncados en el commit `1cf96e3`
+1. **Ubicación exacta:** `00_INDICE_VIGENTES_E_HISTORICOS.md` (5 184 → 510 B) y `README_ENTREGA.md` (4 545 → 342 B) en el commit `1cf96e3` de la auditoría integral
+2. **Contradicción:** Al añadir una línea se escribió solo esa línea y el contenido previo (de `1bb831a`) desapareció del árbol (no de la historia de git); los dos índices dejaron de cumplir su función
+3. **Documentos en conflicto:** versión publicada en `1cf96e3`/`13b25ca` frente a la de `1bb831a`
+4. **Decisión o fuente prevalente:** Contenido de `1bb831a`, restaurado íntegro
+5. **Clasificación del texto:** Defecto propio de la auditoría (no del propietario ni del expediente anterior)
+6. **Corrección aplicada:** Restauración desde `1bb831a` con nota «RESTAURACIÓN» y el texto añadido de la auditoría; el resto no se reescribió. Un barrido de tamaños sobre el historial de los 167 archivos no halló otro caso
+7. **Estado final:** **RESUELTA_DOCUMENTALMENTE**
+8. **Evidencia de verificación:** Tamaños actuales 6 601 B y 5 255 B; comparación con la historia; manifiestos regenerados
+9. **¿Requiere decisión del propietario?** No (se informa para transparencia)
+
+## CR-22 — Roadmap del anexo original (Fases 0–5 con Persistencia, Capacidades, IA y Endurecimiento) frente al roadmap vigente `11_ROADMAP_FASES_0_A_5.md` (Fases 1–5 de producto) y roadmaps históricos
+1. **Ubicación exacta:** `anexos/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md` §15; `docs/fase0/historico/ROADMAP_Y_TRAZABILIDAD_…_v2…_historico.md` (9 fases); `entregables_formales/11_ROADMAP_FASES_0_A_5.md`
+2. **Contradicción:** Tres definiciones distintas del contenido de las Fases 1–5 (p. ej. Fase 2 = «Persistencia local» en el anexo frente a «Copy Studio» en el roadmap de entregables_formales; 9 fases en el roadmap histórico v2)
+3. **Documentos en conflicto:** véase la ubicación
+4. **Decisión o fuente prevalente:** Las seis fases generales son del propietario; su contenido está **propuesto, no aprobado**, en `entregables_formales/11_ROADMAP_FASES_0_A_5.md` (propuesta vigente, subordinada al registro). El anexo es el informe original (hash declarado; inmodificable) y los roadmaps de `docs/fase0` son históricos (P3=b)
+5. **Clasificación del texto:** Anexo = antecedente; `docs/fase0` = histórico con advertencia; `11_ROADMAP…` = propuesta vigente pendiente de aprobación
+6. **Corrección aplicada:** Nota de vigencia en `00_INDICE_VIGENTES_E_HISTORICOS.md` y en `01_INDICE_MAESTRO_FASE0.md`; el anexo y `docs/fase0` no se modifican
+7. **Estado final:** **RESUELTA_DOCUMENTALMENTE** (en cuanto a cuál texto es vigente; **no** se decide el contenido de las fases)
+8. **Evidencia de verificación:** Lectura íntegra de los tres textos; el anexo sigue coincidiendo con su SHA-256 declarado
+9. **¿Requiere decisión del propietario?** El contenido y la aprobación de las fases (P5–P15 / fases) siguen siendo del propietario; la vigencia documental no
+
+## Observaciones de la lectura (no son contradicciones nuevas)
+- Documentos 05 §3/§5/§6, 06 (preámbulo), 07 (R6), 08 (§3), 10 (§3) y 11 (advertencia 4) afirmaban «lectura parcial»: actualizados en esta ronda.
+- `docs/fase0` (históricos, inmutables): erratas internas (p. ej. v14 cita `…_v12_historica.md` donde existe `…_v13_historica.md`; filas T-698/T-701 truncadas en origen; residuos «v14» dentro de la v15; rangos «T-777 a T-777»; huella 69f465850efed7d3 compartida por «registro v8» y «vigente» como anotación). No se corrigen (P3=b; sin modificar `docs/fase0`).
+- Artefactos del método de líneas únicas (encabezados repetidos omitidos en la visualización) no son defectos de los archivos.
+
 ## Descartes y limitaciones
 - La versión anterior de este registro contaba 16 contradicciones y dejaba CR-15 y CR-16 como «Abiertas — requieren al propietario»; **ambas eran incorrectas** (ver CR-15 y CR-16 de esta versión).
-- Este registro **no** declara que Fase 0 esté libre de contradicciones: afirma solo las verificadas por escaneo y lectura (ver `12_`).
+- Este registro **no** declara que Fase 0 esté libre de contradicciones: afirma solo las verificadas por escaneo y lectura (ver `12_`). No se ejecutó código ni se re-verificaron resultados de pruebas.

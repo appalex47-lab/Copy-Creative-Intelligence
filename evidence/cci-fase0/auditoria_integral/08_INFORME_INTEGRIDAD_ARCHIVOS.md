@@ -1,12 +1,13 @@
-# Informe de integridad de archivos y manifiestos — ronda final (2026-11-22)
-**Versión:** 2.0 · **Fecha:** 2026-11-22 · **Estado:** vigente · **Referencias:** `05_INFORME_AUDITORIA_INTEGRAL.md`, `07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md`, `11_INDICE_CONCILIACION_DOCS_FASE0.md`.
+# Informe de integridad de archivos y manifiestos — ronda de lectura completa (2026-11-22)
+**Versión:** 3.0 (base `13b25ca447c0ab17f46b3143615b4c2156661b79`; los hallazgos de la v2.0 sobre `8dc47b2` se conservan como antecedente; el resultado real de esta versión figura en el informe de entrega)
+**Versión anterior:** 2.0 · **Fecha:** 2026-11-22 · **Estado:** vigente · **Referencias:** `05_INFORME_AUDITORIA_INTEGRAL.md`, `07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md`, `11_INDICE_CONCILIACION_DOCS_FASE0.md`.
 **Quién verificó qué:** todo lo siguiente fue ejecutado por Claude con los comandos reproducibles de §4. No se toma nada de informes de otro proceso. Lo que no pude comprobar se marca «no verificado».
 
 ## 1. Verificaciones previas a la publicación (ejecutadas)
 | Comprobación | Resultado |
 |---|---|
-| HEAD de la rama por API al iniciar la ronda | `8dc47b24bdd5b11df46a70f3c9d96930d0682235` (idéntico a la referencia; 0 commits adelante/atrás); `main` = `6a1af2424ef39e0960b8f7e09d4e19ec52e6f046` |
-| Árbol real de la rama en `8dc47b2` (API) | 164 blobs = 104 (`evidence/cci-fase0/`) + 59 (`docs/fase0/`) + 1 (`README.md` raíz) |
+| HEAD de la rama por API al iniciar la ronda de lectura | `13b25ca447c0ab17f46b3143615b4c2156661b79` (v2.0: `8dc47b24…`); `main` = `6a1af2424ef39e0960b8f7e09d4e19ec52e6f046`; 0 PR |
+| Árbol real de la rama en `8dc47b2` (API; v2.0) | 164 blobs = 104 (`evidence/cci-fase0/`) + 59 (`docs/fase0/`) + 1 (`README.md` raíz); en `13b25ca`: 107 + 59 + 1 = 167 |
 | `docs/fase0/` frente a `main` | `git ls-tree -r` idéntico (huella 5be2c1e469d5bf49 en ambos); 0 archivos modificados bajo `docs/` |
 | Duplicados de nombre en el expediente | 0 |
 | Archivos de texto fuera de `logs/` no mencionados en `00_INDICE`, `README_ENTREGA`, `16_INDICE` ni en la tabla de `05_` | 0 |
@@ -37,3 +38,6 @@ git ls-tree -r origin/main docs/fase0 | sha256sum ; git ls-tree -r HEAD docs/fas
 - Un archivo que no esté en el inventario no queda verificado por él; los manifiestos no se incluyen a sí mismos.
 - Los hashes de `logs/` prueban que el archivo publicado no cambió, no que la ejecución que registra se repita.
 - **Autoverificación:** las comprobaciones las ejecuté yo; no sustituyen una verificación independiente. No verificado: que otro proceso (p. ej. ChatGPT) reproduzca estos resultados.
+
+## 6. Nota de la ronda de lectura
+Se verificó además que los 59 tamaños y SHA-256 de `11_` coinciden con los archivos de `docs/fase0/` (0 discrepancias) y que el SHA-256 del anexo coincide con `anexos/MANIFEST_informe_browser_only.sha256`. Los dos manifiestos principales se regeneran por script al final de la ronda; no se afirma aquí su resultado.

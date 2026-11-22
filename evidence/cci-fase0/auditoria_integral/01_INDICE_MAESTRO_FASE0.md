@@ -39,14 +39,16 @@ Una **nota de ChatGPT**, un **informe de cierre** o una **recomendación de Clau
 | 03 | `03_MATRIZ_MAESTRA_ENTIDADES_P4A.md` | 18 entidades |
 | 04 | `04_MATRIZ_MAESTRA_DEPENDENCIAS.md` | P4.B/P4.C/P4.E/Q/C y dependencias |
 | 05 | `05_INFORME_AUDITORIA_INTEGRAL.md` | Alcance, clasificación de todos los archivos del expediente (vigencia), método, limitaciones |
-| 06 | `06_REGISTRO_CONTRADICCIONES.md` | Contradicciones y su resolución |
+| 06 | `06_REGISTRO_CONTRADICCIONES.md` | Contradicciones y su resolución (v3.0: CR-01…CR-22) |
 | 07 | `07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` | Cambios de esta auditoría |
 | 08 | `08_INFORME_INTEGRIDAD_ARCHIVOS.md` | Hashes, tamaños, clon limpio |
 | 09 | `09_PAQUETE_CONSOLIDADO_DECISIONES_PENDIENTES.md` | Paquetes para el propietario |
 | 10 | `10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md` | Preparación para el cierre |
 | 11 | `11_INDICE_CONCILIACION_DOCS_FASE0.md` | Conciliación de los 59 archivos de `docs/fase0/` |
-| 12 | `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` | Registro de lectura real (LEÍDO_COMPLETO / LEÍDO_PARCIALMENTE / NO_ACCESIBLE / NO_APLICABLE) y ficha de los 52 históricos |
+| 12 | `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` | Registro de lectura real v2.0 (lectura completa; `docs/fase0` por líneas únicas; estados LEÍDO_COMPLETO / LEÍDO_PARCIALMENTE / NO_ACCESIBLE / NO_APLICABLE) y ficha de los 52 históricos |
 
 ## 4. Orden de lectura recomendado
 Registro → este índice → 02, 03, 04 → 09 (lo que el propietario debe decidir) → 10 → 05, 06, 08, 12 (evidencia de la auditoría).
 Guía de entrega y estado de archivos: `README_ENTREGA.md`, `00_INDICE_VIGENTES_E_HISTORICOS.md`, `entregables_formales/16_INDICE_EVIDENCIAS_FASE0.md`.
+
+**Actualización ronda de lectura completa (2026-11-22; base HEAD `13b25ca`):** lectura íntegra de todos los archivos legibles (`12_` v2.0); nuevas CR-19…CR-22 en `06_` v3.0 (CR-21: regresión propia restaurada); docs 05, 07 (R7), 08, 10, 11 actualizados. **Roadmaps:** vigente como propuesta no aprobada es `entregables_formales/11_ROADMAP_FASES_0_A_5.md`; el §15 del anexo original y los roadmaps de `docs/fase0` son antecedentes (CR-22). La jerarquía de fuentes no cambia. No se acepta Fase 0 ni se autoriza Fase 1.
