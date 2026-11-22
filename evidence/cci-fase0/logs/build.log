@@ -1,0 +1,14 @@
+
+> copy-creative-intelligence@0.0.0-fase1.0-fundacion build
+> tsc -b && vite build --mode preview
+
+vite v8.3.8 building client environment for preview...
+transforming...
+✓ 35 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.50 kB │ gzip:  0.34 kB
+dist/assets/index-XwyptuL1.css    1.73 kB │ gzip:  0.73 kB
+dist/assets/index-B9JdGlIw.js   230.16 kB │ gzip: 72.33 kB
+
+✓ built in 320ms

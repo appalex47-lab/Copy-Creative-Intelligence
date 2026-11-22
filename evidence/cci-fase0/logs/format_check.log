@@ -1,0 +1,6 @@
+
+> copy-creative-intelligence@0.0.0-fase1.0-fundacion format:check
+> prettier --check src tests e2e scripts public .github index.html *.json *.js *.ts
+
+Checking formatting...
+All matched files use Prettier code style!

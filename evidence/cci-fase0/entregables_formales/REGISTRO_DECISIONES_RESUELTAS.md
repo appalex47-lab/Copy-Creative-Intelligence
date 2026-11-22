@@ -1,0 +1,234 @@
+# Decisiones resueltas por el propietario (Fase 0, browser-only)
+Registro de decisiones respondidas expresamente. Solo se añaden respuestas literales del propietario; nada se infiere. Las decisiones históricas (DEC-D#, F11-D#) no se modifican.
+
+## P1 — Identidad, organización, membresías y roles — RESUELTA el 2026-11-22
+**Respuesta literal:** «P1 → (b). Decido adoptar un perfil local opcional, sin UserIdentity, Organization, Membership ni roles en el dominio operativo de CCI.»
+**Implicaciones declaradas por el propietario (literal, resumidas en orden):**
+1. Sin cuentas, usuarios autenticados, organizaciones, membresías ni administración multiusuario.
+2. No se conservan admin, ecommerce, design, marketing y reviewer como roles operativos **ni como etiquetas de autorización** (descarta la opción c).
+3. El perfil local incluye únicamente un nombre visible opcional, sin identidad autenticada.
+4. `Membership.active` deja de tener aplicación en la arquitectura browser-only.
+5. Workflow & Approvals es un flujo de un único usuario local, sin simular aprobadores diferentes.
+6. F11-D1–D3 se conservan intactas; esta decisión determina su evolución futura sin reescribir su historia ni invalidar retroactivamente las aceptaciones anteriores.
+7. No se modifica código ni repositorio en esta etapa.
+**Alcance:** solo P1. No aprueba P4 (modelo de entidades), la aprobación 0.2/0.3, la Fase 0 ni la Fase 1. No se interpreta como respuesta a ninguna otra decisión.
+**Consecuencias documentales (aplicadas en este expediente, no en el repositorio):** `13` y `../10` (estado de P1), `FICHA_P1`, `MATRIZ_DECISIONES_PROPIETARIO`, `05` (Identidad/Organización/Membresía/Rol: «no aplica»; nueva fila «Perfil local»), `06` (clave `profile` propuesta), `03` (R-014 propuesto), `12` (AC1-14 propuesto), `11`, `14` (RK-15, RK-16), `APROBACIONES_FASE0`, `CONCILIACION_D1_D9_VERIFICADA`.
+**Consecuencias técnicas futuras (solo con Fase 1 autorizada; nada se hace ahora):**
+- Retirar de código: `UserIdentity`, `Organization`, `Membership`, `MembershipRole`/`MEMBERSHIP_ROLES`, `NonEmptyReadonlyArray` (si solo se usa ahí), los servicios `identity`/`organizations`/`memberships`, fixtures y validación de roles del adaptador DEMO, el párrafo de membresía de `HomePage` y sus pruebas (7 archivos en `src/`; no hay referencias en `tests/` ni `e2e/`, comprobado por búsqueda). Actualizar `ARQUITECTURA.md` y `SEMANTICA_DE_SERVICIOS.md`.
+- Añadir un perfil local opcional (el nombre se trata como texto no confiable: se escapa al mostrarlo).
+- Esto retira trabajo ya aceptado (B1–B3) por **evolución**, no por invalidez: debe registrarse en un ADR sin reescribir los expedientes.
+**Puntos que sigo tratando como propuesta mía (no decididos):** dónde se guarda el nombre (`settings` en IndexedDB, para que entre en el respaldo, frente a Local Storage), su longitud máxima, y los criterios AC1-14/R-014.
+**Limitación aceptada a documentar:** con un solo usuario no hay separación de funciones (quien crea también aprueba); la aprobación sigue siendo una acción humana explícita (RK-16).
+**No se marca ninguna aprobación 0.1–0.7, ni la aceptación de Fase 0, ni la autorización de Fase 1.**
+
+## P2 — Sustitución formal de DEC-D2–D4 y «Fuente de verdad» — RESUELTA el 2026-11-22
+**Respuesta literal:** «P2 → (a). Decido registrar un ADR de reemplazo que declare históricas las partes incompatibles de DEC-D2, DEC-D3, DEC-D4 y el apartado «Fuente de verdad», conservando íntegramente los registros originales y su trazabilidad.»
+**Alcance declarado por el propietario (resumen fiel):**
+1. DEC-D2: se conserva la separación contratos/adaptadores; se retira Supabase como implementación prevista o dependencia; un backend futuro requerirá una nueva decisión.
+2. DEC-D3: PostgreSQL y Supabase ya no son la fuente de verdad; la persistencia principal es IndexedDB en el navegador.
+3. DEC-D4: CCI-DEV y CCI-PROD como proyectos Supabase independientes dejan de ser requisitos; se conserva como antecedente no reutilizar proyectos de RevNavigator.
+4. Fuente de verdad: datos operativos locales; sin cuentas, autenticación, backend, servidor ni sincronización multidispositivo; exportación/importación local como parte del respaldo y recuperación.
+5. Conservación histórica: sin borrar ni reescribir; el ADR identifica qué queda reemplazado y qué permanece; sin modificar retroactivamente aceptaciones.
+**Restricción de ejecución del propietario:** registrar en el expediente; no modificar el repositorio, no crear commits, no tocar ramas, no fusionar ni publicar el ADR en GitHub.
+**Resultado:** ADR redactado como `ADR_PROPUESTO_REEMPLAZO_DEC_D2_D3_D4.md` (no publicado).
+**Interpretación mía a confirmar:** «conservar como antecedente» la instrucción de no reutilizar RevNavigator significa que consta como antecedente y **no** se convierte en un requisito nuevo.
+**Contradicción residual señalada, no decidida:** «Seguridad por diseño» de `ARQUITECTURA.md` (autoridad del backend, RLS) queda fuera del alcance expreso de P2.
+**No aprueba** P3, las aprobaciones 0.1–0.7, la Fase 0 ni la Fase 1.
+
+## P3 — Tratamiento de `docs/fase0/` y expedientes Supabase/SQL/RLS/multiusuario — RESUELTA el 2026-11-22
+**Respuesta literal:** «P3 → (b). Decido conservar "docs/fase0/" y los expedientes relacionados como antecedentes históricos y permitir su consulta como referencia conceptual no vinculante.»
+**Condiciones del propietario (literales, resumidas en orden):**
+1. Los documentos originales se conservan íntegros.
+2. Pueden consultarse conceptos y vocabulario del dominio, como campañas, piezas creativas, versiones de copy, aprobaciones e historial de actividad.
+3. Ninguna entidad, regla, permiso, tabla o mecanismo técnico se incorpora automáticamente al dominio browser-only.
+4. Cada concepto que se quiera recuperar debe evaluarse en P4 y someterse a su aprobación cuando corresponda.
+5. Los 17 permisos, RLS, SQL, disparadores, restricciones de base de datos y arquitectura multiusuario permanecen sin aprobación y fuera de la arquitectura vigente.
+6. El índice debe distinguir entre antecedente histórico y referencia conceptual no vinculante.
+7. Las contradicciones históricas C-2 y C-3 se mantienen abiertas; P3 no las resuelve ni las modifica.
+**Resultado:** índice creado: `INDICE_ANTECEDENTES_HISTORICOS.md`. **No aprueba** P4, las aprobaciones 0.1–0.7, la Fase 0 ni la Fase 1.
+
+## Aclaración sobre RevNavigator — registrada el 2026-11-22
+**Literal:** «Confirmo que la instrucción de no reutilizar proyectos Supabase de RevNavigator se conserva como antecedente histórico, no como requisito operativo de CCI. La arquitectura vigente no utiliza Supabase.»
+Confirma la interpretación que había propuesto. Se refleja en el ADR propuesto.
+
+## Ampliación del alcance de P2 — «Seguridad por diseño» — RESUELTA el 2026-11-22
+**Respuesta literal:** «También decido extender P2 para incluir el apartado «Seguridad por diseño» de "ARQUITECTURA.md".»
+**Alcance declarado:**
+- El ADR propuesto identifica como históricos o reemplazados los planteamientos de autoridad del backend, RLS y aislamiento por organización, conservando íntegramente los textos originales.
+- La formulación vigente corresponde a una aplicación local de un solo usuario por navegador, sin backend, cuentas ni permisos multiusuario; aborda las amenazas y limitaciones reales de la seguridad local sin prometer confidencialidad frente a otras personas con acceso al dispositivo o navegador.
+- **Límite:** no autoriza modificar el repositorio ni publicar el ADR; se limita al expediente documental.
+**Resultado:** `ADR_PROPUESTO_REEMPLAZO_DEC_D2_D3_D4.md` actualizado (fila de «Seguridad por diseño» y §2 bis, formulación vigente). Dos puntos para tu verificación, no decididos: (1) de la frase original conservé como vigentes «sin claves en el cliente», «`.env*` ignorados salvo `.env.example`» y «no hay autenticación ni aislamiento por organización simulados» porque son compatibles; (2) los controles técnicos listados en §2 bis son propuestas sujetas a P13, no decisiones.
+
+## P4 — Modelo de entidades — respuestas parciales del 2026-11-22 (P4 NO está cerrada)
+**P4.1 — Entidades originales: PENDIENTE.** El propietario pidió la lista original completa con trazabilidad antes de aprobar; entregada en `LISTA_ORIGINAL_18_ENTIDADES.md`. **No está aprobada.** Se señaló además que existen dos listas del propietario (18 en la instrucción de Fase 0, 16 en la maestra).
+**P4.2 — RESUELTA → (b).** Literal: «Decido mantener dos entidades independientes: ReglaDeMarca. ReglaComercial. No fusionarlas en una entidad genérica.»
+**P4.3 — Entidades añadidas (literal resumido):**
+- Evento de actividad: **APROBADA COMO ENTIDAD PROPUESTA**, para registrar actividad real del Command Center; su estructura y eventos concretos **deberán especificarse posteriormente**.
+- Etiqueta: **APROBADA** (Copy Studio requiere etiquetar y buscar).
+- Perfil local: **APROBADO**, conforme a P1, sin autenticación ni identidad de usuario.
+- Colección: **PENDIENTE**; no se aprueba como entidad independiente hasta justificar qué necesidad funcional resuelve que no cubran etiquetas y filtros. (Mi análisis: no encontré justificación en tus instrucciones; la excluí del modelo.)
+- «Estas decisiones no autorizan implementación.»
+**P4.4 — APLAZADO hasta resolver Q-7.** Literal: «Conserva íntegramente F11-D5. No equipares Project con Campaña ni recuperes Project por inferencia.»
+**P4.5 — Convenciones transversales: NO se aprueba el paquete completo.** Posición del propietario, **registrada como preliminar**:
+| Convención | Decisión | Limitación / condición |
+|---|---|---|
+| UUID v4 generado en cliente | APROBADO | — |
+| Fechas ISO-8601 UTC | APROBADO **como formato de almacenamiento** | Condición: preservar la semántica de fechas comerciales y zonas horarias |
+| `revision` (control optimista) | **NO APROBADO como requisito obligatorio** | Debe justificarse una necesidad real en la arquitectura local (ver abajo) |
+| `archivedAt` | APROBADO **condicionalmente** | Archivar y eliminar deben ser operaciones distintas y estar documentadas |
+| Importes en unidad menor + moneda | APROBADO | — |
+| Valores desconocidos como `null` | APROBADO | Distinguir desconocido de cero, vacío y no aplicable |
+| Versiones inmutables con hash | APROBADO **como principio de integridad y trazabilidad** | **No** es una garantía de seguridad |
+**Las condiciones se atienden en `CONVENCIONES_P4_5_CONDICIONES.md`** (propuestas mías para tu validación; no se dan por aprobadas). **No aprueba** P5, Q-7, las aprobaciones 0.1–0.7, la Fase 0 ni la Fase 1.
+
+## P4.1 — Lista de referencia del modelo de entidades — RESUELTA PARCIALMENTE el 2026-11-22 (solo nombres)
+**Respuesta literal:** «Confirmo que la lista de referencia para el modelo de entidades es la lista de 18 entidades del §7 de la instrucción de Fase 0, líneas 348–365. La lista de 16 conceptos de la instrucción maestra se conserva como antecedente de alcance general, pero no sustituye la lista específica de 18 entidades.»
+**Alcance exacto:** aprueba **la lista de nombres** como referencia del modelo. **NO aprueba** las definiciones, relaciones, atributos, dependencias ni asignaciones de fase que yo haya derivado o propuesto. La procedencia (solicitado / derivado / propuesta mía) se mantiene identificada en `LISTA_ORIGINAL_18_ENTIDADES.md`.
+
+## Q-7 — `Campaña` frente a F11-D5 — RESUELTA el 2026-11-22 → (a)
+**Respuesta literal:** «Q-7 → (a). Decido incorporar "Campaña" como una entidad nueva del dominio browser-only, definida expresamente en mis instrucciones vigentes.»
+**Condiciones (literales, resumidas en orden):**
+1. «Campaña» no equivale a «Project».
+2. F11-D5 permanece **íntegra y vigente** como registro histórico.
+3. «Project» no se recupera ni se incorpora al contrato de aplicación por inferencia.
+4. La referencia histórica a «campaigns» en los expedientes de Supabase es únicamente conceptual y no vinculante.
+5. Las relaciones de Campaña con Brief, Oferta, Pieza y Resultado deben documentarse como parte del modelo **propuesto**, sin asumir que todos sus atributos o cardinalidades están aprobados.
+**Qué aprueba:** la **existencia** de la entidad Campaña. **Qué no aprueba:** sus atributos ni sus cardinalidades. **Nota mía de procedencia:** de las cuatro relaciones citadas, solo Campaña–Brief y Campaña–Resultado tienen apoyo en tus listas de campos (maestra l.347 y l.639); Campaña–Oferta y Campaña–Pieza son **propuesta mía** sin base explícita (ver `DECISIONES_P4_PENDIENTES.md`).
+
+## Colección — decisión mantenida el 2026-11-22
+**Literal:** «mantengo la decisión de no incorporarla como entidad independiente mientras no exista una necesidad funcional demostrable que no cubran Etiqueta, filtros y búsqueda.» No forma parte del modelo; se reabriría solo con esa demostración.
+
+## P4.5 — Aprobación preliminar conservada el 2026-11-22
+**Literal:** «conserva mi aprobación preliminar y sus condiciones tal como quedaron registradas. No la conviertas todavía en aprobación definitiva de todas las convenciones. Presenta por separado las decisiones que sigan pendientes.» La tabla de P4.5 de arriba permanece **preliminar**.
+
+**No aprueban** P5, las aprobaciones 0.1–0.7, la Fase 0 ni la Fase 1. No autorizan implementación.
+
+## Confirmaciones del propietario — 2026-11-22 11:38
+- P4.D: Q-7 = (a) **cierra P4.4**. No se reabre F11-D5 ni se establece equivalencia Campaña–Project.
+- P4.A: no se aprueban las 18 definiciones en bloque; se resuelven una por una (ficha por entidad: nombre canónico, definición, cita, clasificación, ambigüedades, recomendación). Ninguna definición derivada se aprueba automáticamente. Entidad 1 presentada: `FICHA_P4A_01_CAMPANA.md` (pendiente).
+- P4.B: se conservan como con fundamento solo las relaciones respaldadas expresamente por las instrucciones; sus cardinalidades se presentan y justifican por separado; Campaña–Oferta y Campaña–Pieza = propuestas pendientes, a resolver individualmente después de P4.A.
+- P4.C: atributos diferidos a la especificación de cada módulo; solo se presentarán antes los indispensables para el MVP, con justificación; ninguno aprobado.
+- P4.E: E1–E5 pendientes; E2 (`revision`) espera a P12; las recomendaciones técnicas no son decisiones del propietario.
+- No se fusiona con la vista previa privada; expediente separado. Sin cambios a 0.1–0.7, Fase 0 ni Fase 1.
+
+## P4.A — Entidad 1: Campaña — RESUELTA el 2026-11-22 11:40 → opción (b), definición mínima del propietario
+**Definición aprobada (literal):** «Campaña es una entidad propia de CCI, creada por el usuario e identificada por un nombre. Puede ser referenciada por un Brief y por un Resultado de desempeño, y puede utilizarse como criterio de catalogación en Creative Library.»
+**Aprueba:** la existencia de Campaña como entidad propia; esta definición mínima y las capacidades expresamente respaldadas por las citas presentadas.
+**NO aprueba:** definirla como «agrupador» con implicaciones adicionales; atributos; obligatoriedad de referencias; cardinalidades; estados; vigencia; reglas de ciclo de vida; relaciones Campaña–Oferta y Campaña–Pieza (pendientes); asignación de fase (pendiente de Q-4).
+**Se mantiene:** distinción respecto de `Project`; F11-D5 íntegra. No se extiende a código ni implementación; no se fusiona con la vista previa privada.
+
+## P4.A — Entidad 2: Brief — RESUELTA el 2026-11-22 11:41 → opción (b), definición mínima del propietario
+**Definición aprobada (literal):** «Brief es una entidad propia de CCI que el usuario completa y que reúne información de partida para la creación de contenido (copy). Puede contener información incompleta.»
+**Aprueba:** la existencia de Brief como entidad propia y la definición mínima.
+**Reconoce sin aprobar:** los 13 campos de B l.345–359 como contenido contemplado en las instrucciones originales (no como atributos definitivos, ni sus tipos, obligatoriedad, validaciones o estructura); que pueden existir Briefs incompletos (sin estados, reglas de completitud ni mecanismos de validación).
+**NO aprueba:** cardinalidades ni relaciones formales con Campaña, Producto, Oferta o Copy; que Brief pertenezca obligatoriamente a una Campaña; asignación de fase (pendiente de Q-4).
+**No resuelve:** posible duplicidad entre Vigencia/Condiciones del Brief y datos de Oferta.
+No se extiende a código, implementación ni decisiones pendientes; sin fusión con la vista previa privada.
+
+## P4.A — Entidad 3: Producto — RESUELTA el 2026-11-22 11:44 → opción (b), definición mínima del propietario
+**Definición aprobada (literal):** «Producto es una entidad propia de CCI que representa un producto comercial referenciado en la información de un Brief y considerado por el proceso de validación promocional.»
+**Aprueba:** la existencia de Producto como entidad propia (conforme a la lista confirmada en P4.1) y exclusivamente la definición mínima.
+**NO aprueba:** atributos, identificadores comerciales, SKU, catálogo, origen de datos, mecanismos de captura o importación; relaciones formales ni cardinalidades con Brief, Oferta u otras entidades; reutilización mediante catálogo; relación N–N con Oferta; reglas de validación promocional adicionales a reconocer que Producto es considerado por ese proceso; asignación de fase (pendiente de Q-4).
+No se extiende a código, implementación ni decisiones pendientes; sin fusión con la vista previa privada.
+
+## P4.A — Entidad 4: Oferta — RESUELTA el 2026-11-22 11:47 → opción (b), definición mínima del propietario
+**Definición aprobada (literal):** «Oferta es una entidad propia de CCI que representa una oferta comercial asociada al contenido que se crea o revisa. Su información comercial puede ser relevante para la validación de promociones.»
+**Aprueba:** la existencia de Oferta como entidad propia (conforme a P4.1) y exclusivamente la definición mínima.
+**Aclara:** no se establece que Oferta y Promoción sean conceptos equivalentes o intercambiables.
+**Reconoce sin aprobar:** los elementos de B l.508–517 como aspectos contemplados para la validación promocional, no como atributos de Oferta.
+**NO aprueba:** atributos ni estructura de datos; relaciones ni cardinalidades con Campaña, Producto, Brief, Copy u otras; cálculos, fórmulas, tolerancias, redondeos ni reglas concretas del Promotion Validator; asignación de fase (pendiente de Q-4).
+**No resuelve:** duplicidad entre Vigencia/Condiciones del Brief e información de Oferta.
+No se extiende a código, implementación ni decisiones pendientes; sin fusión con la vista previa privada.
+
+## P4.A — Entidad 5: Copy — RESUELTA el 2026-11-22 11:48 → opción (b), definición mínima del propietario
+**Definición aprobada (literal):** «Copy es una entidad propia de CCI que representa contenido textual creado o escrito por el usuario y que puede utilizarse como objeto de edición, auditoría, validación y adaptación a distintos canales.»
+**Aprueba:** la existencia de Copy como entidad propia y exclusivamente la definición mínima.
+**Reconoce sin aprobar:** titulares, textos principales, descripciones y CTA como componentes mencionados (no atributos obligatorios ni estructura fija); las capacidades de Copy Studio de las fuentes (no se convierten en atributos ni reglas del dominio).
+**NO aprueba:** relaciones ni cardinalidades con Brief, Campaña, Oferta, CopyVariant, ContentVersion u otras; estados, estructura interna, obligatoriedad de componentes ni reglas de versionado; reglas de copy, auditoría ni validación (su existencia como funcionalidad no aprueba sus criterios); asignación de fase (pendiente de Q-4).
+**No resuelve:** cómo se distingue un Copy escrito por el usuario de uno generado mediante IA.
+No se extiende a código, implementación ni decisiones pendientes; sin fusión con la vista previa privada.
+
+## P4.A — Entidad 6: Variante de copy — RESUELTA el 2026-11-22 11:51 → opción (b), definición mínima del propietario
+**Definición aprobada (literal):** «Variante de copy es una entidad propia de CCI que representa una alternativa de contenido textual contemplada en el proceso de creación y generación de copy, que el usuario puede administrar y conservar de forma persistente.»
+**Aprueba:** la existencia de Variante de copy como entidad propia (conforme a P4.1) y exclusivamente la definición mínima.
+**Reconoce sin aprobar:** alternativas de tono, variantes por objetivo y propuestas A/B como modalidades mencionadas (no tipos, categorías ni clasificaciones definitivas).
+**NO aprueba:** relación de pertenencia con Copy ni cardinalidades; atributos, estructura interna, estados ni reglas de comparación; equivalencia ni distinción técnica definitiva respecto de ContentVersion (esa delimitación **debe resolverse antes de especificar el modelo**); relaciones con Canal u otras entidades; reglas de experimentación A/B ni mecanismos de medición; asignación de fase (pendiente de Q-4).
+No se extiende a código, implementación ni decisiones pendientes; sin fusión con la vista previa privada.
+
+## P4.A — Entidad 7: Pieza creativa — RESUELTA el 2026-11-22 11:52 → opción (b), definición mínima del propietario
+**Definición aprobada (literal):** «Pieza creativa es una entidad propia de CCI que representa un recurso visual que puede ser objeto de auditoría visual y conservarse en Creative Library.»
+**Aprueba:** la existencia de Pieza creativa como entidad propia (conforme a P4.1) y exclusivamente la definición mínima.
+**Reconoce sin aprobar:** que las instrucciones contemplan piezas visuales, auditoría visual y conservación en Creative Library; que contemplan evaluar la congruencia copy-pieza (sin relación formal ni reglas).
+**NO aprueba:** tipos de archivo, formatos, dimensiones, metadatos ni estructura interna; mecanismos de incorporación, carga manual, almacenamiento binario, referencias externas ni políticas de almacenamiento; relaciones ni cardinalidades con Copy, Campaña, ContentVersion u otras; versionado, límites de tamaño, cuotas, exportación ni recuperación de archivos; criterios ni reglas de auditoría visual; asignación de fase (pendiente de Q-4).
+No se extiende a código, implementación ni decisiones pendientes; sin fusión con la vista previa privada.
+
+## P4.A — Entidad 8: Auditoría creativa — RESUELTA el 2026-11-22 11:55 → opción (b), definición mínima del propietario
+**Definición aprobada (literal):** «Auditoría creativa es una entidad propia de CCI que representa una evaluación realizada sobre un copy o una pieza creativa, cuyo resultado puede incluir hallazgos y una puntuación explicable, y que puede conservarse para consulta y seguimiento.»
+**Aprueba:** la existencia de Auditoría creativa como entidad propia (conforme a P4.1) y exclusivamente la definición mínima.
+**Reconoce sin aprobar:** auditorías de copy y visuales, auditorías repetidas, conservación en Creative Library y auditorías vinculadas a versiones, como capacidades contempladas en las instrucciones.
+**NO aprueba:** que toda auditoría deba producir necesariamente una puntuación; criterios, ponderaciones, fórmulas, escalas ni reglas de puntuación; estructura del resultado, tipos de hallazgos ni niveles de severidad; si el objeto auditado se referencia directamente (Copy/Pieza) o mediante una versión; relaciones ni cardinalidades con Copy, Pieza creativa, ContentVersion, Hallazgo, ReglaDeMarca u otras; atributos, estados ni reglas de ciclo de vida; asignación de fase (pendiente de Q-4).
+**No resuelve:** si una reauditoría genera un registro nuevo o modifica uno anterior.
+No se extiende a código, implementación ni decisiones pendientes; sin fusión con la vista previa privada.
+
+## Ajuste de método de P4.A — 2026-11-22 11:58
+El propietario ordena una **revisión integral de coherencia de las 18 entidades** antes de continuar con las entidades 9 a 18. Entidades 1–8: decisiones intactas. Entidad 9 (Hallazgo de auditoría): **sigue pendiente de decisión** hasta revisar la coherencia del conjunto. No se presenta ninguna entidad nueva; no se avanza a P4.B, P4.C, Q-4 ni E1–E5; no se asignan fases como decisión. Entregables: `DIAGNOSTICO_INTEGRAL_18_ENTIDADES.md` y `MATRIZ_CONSOLIDADA_18_ENTIDADES.md` (ambos **propuestas/diagnóstico, sin aprobar nada**).
+
+## Instrucciones del propietario — 2026-11-22 12:01 (tras el diagnóstico integral)
+- **Perfil local:** NO se trata como componente de Configuración; su existencia como entidad (P4.3) se mantiene. Cualquier cambio exigiría autorización expresa.
+- **Reglas de copy:** NO se incorporan automáticamente a ReglaDeMarca. Las instrucciones distinguen reglas de copy, de marca, comerciales y por canal; la separación ReglaDeMarca/ReglaComercial (P4.2) no resuelve por sí sola las otras dos familias.
+- **Aprobación y Métrica:** NO se eliminan ni retiran; sus nombres forman parte de las 18 entidades confirmadas en P4.1. Pueden diferirse sus definiciones y especificaciones; cualquier propuesta para cambiar su condición de entidad sería una revisión explícita de P4.1.
+- **Orden controlado:** se resuelve primero D-1 (qué objetos son contenido). D-2 y D-3 no se resuelven aún. No se presenta ninguna entidad nueva; Hallazgo de auditoría (9) sigue sin aprobar. Entregable: `D1_ANALISIS_CONTENIDO.md` (análisis y recomendación; **no aprueba nada**).
+
+## D-1 — Qué objetos son «contenido» — RESUELTA el 2026-11-22 12:04 (exclusivamente D-1)
+**D-1.a → A.** «Contenido» es un **concepto paraguas sin entidad propia**: término conceptual que puede abarcar modalidades textuales y visuales. No añade una entidad 19 ni modifica la lista confirmada en P4.1.
+**D-1.b → (ii).** La **adaptación** es un concepto propio derivado de un copy fuente, con identidad conceptual y trazabilidad propia. **No aprueba** atributos, relaciones, cardinalidades, estructura interna ni reglas de persistencia adicionales. No es una entidad 19: se mantiene dentro de las 18 entidades confirmadas en P4.1 (se entiende como la entidad `ChannelAdaptation`, nº 13).
+**D-1.c → (a).** No se amplía por ahora Auditoría creativa: su definición aprobada sigue limitada a evaluaciones sobre Copy o Pieza creativa. **No se aprueba** auditar adaptaciones; cualquier ampliación requiere decisión expresa.
+**D-1.d → (a) parcial.** Copy, Pieza creativa y Adaptación se reconocen como conceptos que **pueden tener versiones**. **No aprueba** estructuras, atributos, relaciones ni mecanismos de versionado. **No se aprueba** que los tres sean necesariamente aprobables: el alcance de la aprobación queda pendiente de **D-5**. La expresión «contenido aprobado» (B l.633) **no** es decisión suficiente para establecer qué entidades tienen aprobación.
+**D-1.e → (a), lectura de trabajo provisional.** «Adaptación creativa» y «Channel Adaptation» se tratan como el **mismo concepto**; se documenta la diferencia de orden del flujo en las instrucciones originales (B l.19/A l.44 frente a B l.673). No se crean dos conceptos ni se resuelve la inconsistencia del proceso.
+**Preservación:** entidades 1–8 intactas; Hallazgo de auditoría (9) sigue sin aprobar. No se avanza a D-2, D-3, P4.B ni P4.C. Sin cambios a código, documentos históricos ni repositorio.
+
+## D-2 — Variante de copy frente a Versión — PRESENTADA el 2026-11-22 12:07 (pendiente de decisión)
+Instrucción del propietario: desarrollar exclusivamente D-2 con evidencia, alternativas (A separados, B unificados, C variante como clasificación de versión) y recomendación, sin cambiar entidades 1–8, D-1, atributos/relaciones/cardinalidades/mecanismos, D-3, D-5, P4.B ni P4.C. Entregable: `D2_VARIANTE_FRENTE_A_VERSION.md` (**no aprueba nada**). Hallazgo de auditoría (9) sigue sin aprobar.
+
+## D-2 — Variante de copy frente a Versión — RESUELTA el 2026-11-22 12:09 (exclusivamente D-2)
+**D-2.a → A, conceptos separados.** Distinción conceptual adoptada: **Variante de copy** = alternativa de contenido textual que puede coexistir con otras alternativas; **Versión** = evolución o revisión temporal de un contenido. Ambas tienen propósitos conceptuales diferentes; se mantiene vigente la existencia de Variante de copy aprobada en P4.A. **No aprueba** relaciones, cardinalidades, atributos, estructuras, mecanismos de versionado ni reglas de ciclo de vida.
+**D-2.b → (ii), no por ahora, sin excluirlo a futuro.** No se aprueba que Variante de copy tenga su propio historial de versiones; tampoco se prohíbe definitivamente. Queda pendiente de una justificación funcional y de una decisión posterior.
+**D-2.c → (a), no ampliar por ahora.** Se conserva exactamente la definición aprobada de la entidad 8 (evaluación sobre un Copy o una Pieza creativa). **No se aprueba** auditar directamente una Variante de copy; cualquier ampliación requiere decisión expresa.
+**Preservación:** entidades 1–8 intactas; D-1 sin modificaciones; Hallazgo de auditoría (9) sin aprobar.
+**Siguen pendientes:** relaciones y cardinalidades entre Copy, Variante y Versión; presencia de Variante en la Creative Library; definición de ContentVersion (14), de la que solo está confirmado el nombre. No se resuelven D-3 ni D-5; no se avanza a P4.B ni P4.C. Sin cambios a código, documentos históricos ni repositorio.
+
+## D-3 — Familias de reglas — PRESENTADA el 2026-11-22 12:11 (pendiente de decisión)
+Autorizada por el propietario como análisis de las cuatro familias (reglas de copy, de marca, comerciales y por canal) con tres alternativas mínimas (A cuatro familias diferenciadas, B dos entidades, C modelo genérico). Restricciones: no presuponer que todas sean entidades; P4.2 no implica que las reglas de copy pertenezcan a ReglaDeMarca ni que las de canal sean entidades independientes; D-1 y D-2 íntegras; sin atributos, relaciones, cardinalidades, prioridades, severidades, fórmulas ni mecanismos; sin D-4, D-5, P4.B ni P4.C; sin entidad nueva. Entregable: `D3_FAMILIAS_DE_REGLAS.md` (**no aprueba nada**).
+
+## D-3 — Familias de reglas — RESUELTA el 2026-11-22 12:14 (exclusivamente D-3)
+**D-3.a → (a), cuatro familias distintas:** reglas de copy, reglas de marca, reglas comerciales y reglas por canal. La distinción se fundamenta en propósitos, objetos regulados y contextos funcionales. **No significa** que deban existir cuatro entidades independientes.
+**D-3.b → (a).** Se mantienen **únicamente ReglaDeMarca y ReglaComercial** como entidades independientes (P4.1, P4.2). **No se autoriza** agregar entidades para reglas de copy ni para reglas por canal. No se aprueban atributos, estructuras internas, relaciones, cardinalidades ni mecanismos de administración.
+**D-3.c — Reglas por canal → (i).** Se reconocen como **dimensión de aplicación del Canal**, sin entidad independiente y sin convertirlas automáticamente en especialización de ReglaDeMarca. No se aprueba cómo se representarán ni cómo se relacionarán con Canal o Adaptación.
+**D-3.c — Reglas de copy → (i).** Familia conceptual diferenciada; su **ubicación en el modelo queda pendiente de P4.B**. No se incorporan a ReglaDeMarca ni se convierten en entidad independiente sin decisión posterior.
+**D-3.d → aprobado.** Criterios para distinguir las familias: **propósito, objeto regulado y contexto o fase funcional**. Se documenta el **solapamiento** de longitud, formato, tono y CTA entre reglas de copy y reglas por canal; ese solapamiento **no autoriza** duplicar reglas ni establecer prioridades, precedencias o mecanismos de resolución de conflictos.
+**Corrección de antecedentes (conservada):** incorporar reglas de copy dentro de ReglaDeMarca fue derivación mía anterior y **queda sin efecto**.
+**Limitación de la evidencia (documentada):** las instrucciones originales **no contienen una lista específica de reglas de marca** (a diferencia de reglas de copy, comerciales y por canal); no se inventa una. Solo aparecen «Reglas de marca» como criterio de auditoría (B l.435; A l.589), «Consistencia de marca» (B l.444) y el módulo «Brand Intelligence / Settings».
+**Preservación:** P4.1, P4.2, D-1 y D-2 intactas; entidades 1–8 sin cambios; Hallazgo de auditoría (9) sin aprobar. No se avanza a D-4, D-5, P4.B ni P4.C. Sin cambios a código, documentos históricos ni repositorio.
+
+## Recuperación del catálogo D-4 a D-8 — 2026-11-22 12:16 (sin decisiones)
+Instrucción del propietario: recuperar y verificar el alcance original de D-4 a D-8 antes de desarrollar D-4; sin desarrollar D-4, sin avanzar a D-5 ni otras dependencias, sin entidades nuevas. Entregable: `CATALOGO_DEPENDENCIAS_D4_D8.md` (**no aprueba nada**). D-3 cerrada con sus límites; P4.1, P4.2, D-1, D-2 y D-3 intactas.
+
+## D-4 reformulada (pendiente) y D-5 presentada — 2026-11-22 12:21
+**D-4 — reformulada a asuntos residuales; sigue pendiente; no se desarrolla todavía.** El propietario no la considera completamente resuelta por D-1.b ni mantiene su formulación original. D-1.b queda firme: Adaptación es un concepto propio, derivado de un Copy fuente, con identidad y trazabilidad, que corresponde a la entidad 13 (`ChannelAdaptation`); **no se vuelve a plantear ni se presenta como pendiente.** Asuntos residuales exclusivos: (1) delimitación conceptual entre Adaptación, Copy, Variante de copy y Versión; (2) si una adaptación visual puede vincularse con una Pieza creativa y bajo qué distinción; (3) definición mínima de la entidad 13. No se presupone que toda adaptación tenga Pieza, que sea variante o versión, ni que pueda auditarse (D-1.c: Auditoría solo sobre Copy y Pieza).
+**D-5 — autorizada y presentada como propuesta pendiente de decisión.** Análisis exclusivamente de D-5 (representación de la aprobación, objetos aprobables, significado y alcance) con D-1.d y D-2 como antecedentes obligatorios. La asociación del «19» con Evento de actividad es una **inferencia mía no confirmada** y **no se asume**. No se aprueban atributos, relaciones, cardinalidades, estados, flujos, mecanismos ni estructuras. Entregable: `D5_APROBACION.md` (**no aprueba nada**). Sin D-6, D-7, D-8, P4.B ni P4.C; sin entidades nuevas.
+
+## D-5 — Aprobación — RESUELTA el 2026-11-22 12:29 (exclusivamente D-5)
+**D-5.1 → R3.** Se distingue conceptualmente el **estado del contenido** (la situación del contenido dentro del flujo) y la **aprobación** (una decisión humana registrada). Tienen propósitos distintos y no se tratan como equivalentes. **No aprueba:** dos entidades independientes, una fuente de verdad, relaciones, cardinalidades, atributos, mecanismos de transición ni estructuras de almacenamiento. **P4.1 se conserva intacta**; si una implementación futura requiere revisar el inventario de entidades, se presentará como decisión independiente.
+**D-5.2 → conjunto (b).** **Copy:** aprobable. **Pieza creativa:** aprobable. **Adaptación:** su posible aprobación queda pendiente de D-4 y de una decisión posterior expresa. **Variante de copy, Campaña, Brief, Producto y Oferta:** fuera del alcance actual de aprobación; la exclusión **no** es prohibición permanente ni decisión sobre su aprobación futura. La posibilidad de tener versiones **no** implica automáticamente que un objeto sea aprobable.
+**D-5.3 → M-1.** La aprobación es una **decisión humana final por la que se considera que un contenido concreto, en las condiciones en que fue revisado, está conforme para pasar a la Biblioteca.** Límites expresos: no certifica por sí misma el cumplimiento legal, comercial o de marca; no sustituye auditorías ni validaciones; no implica publicación, distribución ni autorización de uso en canales externos; no determina si una auditoría o validación previa es obligatoria; no resuelve qué sucede cuando se modifica el contenido aprobado; no establece cómo se identifica o referencia técnicamente el contenido revisado ni su relación con las versiones.
+**Cuestiones que permanecen abiertas (no se resuelven por derivación):** (1) si la aprobación requiere auditoría o validaciones previas; (2) qué sucede cuando se modifica un contenido aprobado; (3) cómo se relaciona la aprobación con las versiones; (4) la identidad exacta del contenido al que se aplica cada aprobación; (5) la relación entre aprobación y los estados documentados en el flujo.
+**Preservación:** P4.1, D-1, D-2, D-3 y la reformulación de D-4 intactas; entidades 1–8 sin cambios; Hallazgo de auditoría (9) sin aprobar; definición de la entidad 15 (Aprobación) **no** presentada. No se avanza a D-6, D-7, D-8, D-4, P4.B ni P4.C. Sin cambios a código, documentos históricos ni repositorio.
+
+## Nota (no es decisión) — 2026-11-22: paquete único D-1 a D-8
+Se entregó `PAQUETE_DECISION_D1_D8.md` con recomendaciones **[P] no aprobadas**. Discrepancia señalada: D-5 registrada como resuelta (12:29) vs descrita como pendiente (12:30); se mantiene resuelta hasta confirmación (ítem Z-1). Nada nuevo registrado como decisión.
+
+## Nota (no es decisión) — 2026-11-22 12:35
+El propietario confirmó D-5 como resuelta (R3, conjunto (b), M-1); D5.a–d siguen abiertas y fuera del paquete. Se entregó `PAQUETE_DECISION_D4_D6_D7_D8.md` (11 decisiones, recomendaciones no aprobadas) que sustituye a `PAQUETE_DECISION_D1_D8.md`. Nada nuevo registrado como decisión.
+
+## Nota (no es decisión) — 2026-11-22 12:43
+Recibida la **regla permanente de cierre y publicación de evidencia** (aplica a cada tarea; publicación en `appalex47-lab/CCI-Evidence` previa verificación de existencia, `private=true` y permisos de escritura; si hay 403 → detenerse sin alternativas; informe A–E; detenerse tras cada cierre). Complementa y amplía el protocolo de las 12:39. No autoriza avanzar de fase. Verificación 12:43: la API de GitHub respondió 403 para CCI-Evidence → publicación **pendiente**.

@@ -1,0 +1,12 @@
+typecheck exit=0 dur=7.6s
+lint exit=0 dur=3.9s
+format:check exit=0 dur=1.6s
+check:secrets exit=0 dur=0.2s
+test:run exit=0 dur=16.6s
+ Test Files  13 passed (13)
+      Tests  162 passed (162)
+build exit=0 dur=4.5s
+build:production exit=1 (esperado distinto de 0) dur=3.9s
+e2e corrida 1 exit=0 dur=22.1s |   29 passed (20.8s) 
+e2e corrida 2 exit=0 dur=20.5s |   29 passed (19.8s) 
+e2e corrida 3 exit=0 dur=20.5s |   29 passed (19.9s) 
