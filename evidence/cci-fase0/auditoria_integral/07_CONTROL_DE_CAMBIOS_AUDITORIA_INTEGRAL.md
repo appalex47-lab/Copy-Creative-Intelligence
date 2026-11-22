@@ -1,4 +1,5 @@
 # Control de cambios — Auditoría integral y regularización (2026-11-22)
+**Versión:** 2.1 (secciones R1–R7 de rondas anteriores conservadas; R8 añade la ronda de verificación de coherencia posterior)
 **Commit base:** `1bb831a32219898616e7a7ad8d12092aac16f253` (HEAD real verificado por API antes de editar; `main` = `6a1af24`). Rama `evidence/cci-fase0-review`. Solo documentación bajo `evidence/cci-fase0/`.
 **Motivo:** mandato de auditoría integral de todo el expediente de Fase 0, regularización documental y preparación de decisiones pendientes.
 
@@ -14,7 +15,7 @@
 ## 3. Fundamento y verificaciones
 Fundamento: registro autoritativo (P1–P4, Q-7, D-1…D-8, D4–D8). Verificaciones ejecutadas por mí: reconteo de 11 encabezados D4/D6/D7/D8 en el registro (uno cada uno); extracción literal de definiciones 1–8 y 13 desde el registro; búsquedas de patrón de estados incompatibles; comprobación de referencias a archivos; hashes y tamaños (ver `08_…`). No se usaron reemplazos globales.
 ## 4. Estados que permanecen abiertos
-P4.B, P4.C, P4.E (E1–E5), Q-1, Q-2, C-2, C-3, entidad 9 (suspendida), entidades 10–12 y 14–18, A0-1/2/3, CR-15, CR-16, P5…P15 y Q-3…Q-6, aprobaciones 0.1–0.7, aceptación de Fase 0, autorización de Fase 1. **D5.a–d: fuera de alcance, no reabiertas.**
+P4.B, P4.C, P4.E (E1–E5), Q-1, Q-2, C-2, C-3, entidad 9 (suspendida), entidades 10–12 y 14–18, A0-1/2/3, CR-15, CR-16 *[nota ronda de coherencia: CR-15 y CR-16 quedaron resueltas (ver `06_` v3.0 y R5); este §4 es el estado de la ronda original]*, P5…P15 y Q-3…Q-6, aprobaciones 0.1–0.7, aceptación de Fase 0, autorización de Fase 1. **D5.a–d: fuera de alcance, no reabiertas.**
 ## 5. Preservados sin cambios
 Los 59 archivos de `docs/fase0/` (idénticos a `main`), todas las fichas, análisis D1/D2/D3/D5, paquetes, informes y controles anteriores, `MANIFIESTO_ENTREGA…txt`, anexos y logs.
 ## 6. Limitaciones
@@ -92,3 +93,21 @@ Ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` v2.0: la brecha de lectura declarada
 | `auditoria_integral/01`, `05`, `06` (v3.0), `08`, `10`, `11`, `12` (v2.0) | Cifras, método y limitaciones actualizados; CR-19…CR-22 | Lectura completa |
 | `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados por script | Integridad |
 **Preservados sin cambios:** `docs/fase0/` (59 archivos), `anexos/`, `logs/` previos, fichas P4A y análisis.
+
+## R8. Ronda de verificación de coherencia posterior (base `580c51f3d0e2e54695a431352957f34f9418b067`)
+**Alcance:** verificación acotada de coherencia de todo lo modificado desde el inicio de la regularización de Fase 0 (no una re-auditoría de los 166 documentos). Informe: `13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md`. No se modificó código, `main`, `docs/fase0`; no hubo merge, PR ni deploy. No se cambió el estado de ningún CR ni ninguna decisión del propietario.
+**Archivos modificados (correcciones editoriales de anotaciones; el texto original se conserva y las notas lo indican):**
+| Archivo | Cambio | Hallazgo |
+|---|---|---|
+| `entregables_formales/MATRIZ_CONSOLIDADA_18_ENTIDADES.md` | Restituido el paréntesis literal de la fila 13; «delimitación pendiente en P4.B» → D4.a=A fijó el criterio (relaciones/cardinalidades siguen sin aprobar); anotación de Perfil local | F1 |
+| `auditoria_integral/03_MATRIZ_MAESTRA_ENTIDADES_P4A.md` | Referencia «CR-06» → «CR-15»; fila Perfil local (D7.a=A solo fija el criterio de distinción) | F2 |
+| `auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` | Nota en §4 (CR-15 y CR-16 resueltos) y esta sección | F3 |
+| `auditoria_integral/06_REGISTRO_CONTRADICCIONES.md` | Observación de la lectura corregida; «9 fases» → «Fases 0–9» (CR-22); barrido de CR-21 referido al historial git | F4 |
+| `entregables_formales/13_REGISTRO_DECISIONES_PROPIETARIO.md` | Nota en línea de estado (P1–P3 resueltas, P4 parcial, Q-7 resuelta) | F5 |
+| `entregables_formales/CATALOGO_DEPENDENCIAS_D4_D8.md`, `entregables_formales/PAQUETE_DECISION_D1_D8.md` | Marcas «[superado: …]» en líneas que decían «pendiente» | F6, F7 |
+| `entregables_formales/D5_APROBACION.md` | Nota de la ronda de coherencia tras el encabezado de actualización posterior | F8 |
+| `auditoria_integral/01`, `05` (v3.1), `08` (v3.1), `10`, `12` (v2.1) | Cifras (110 archivos; 108/109 líneas de manifiesto; 170 blobs), métrica de avisos de vigencia con su alcance real, aclaración «líneas únicas ≠ bytes revisados individualmente» | Integridad / presentación |
+| `00_INDICE_VIGENTES_E_HISTORICOS.md`, `README_ENTREGA.md` | Nota de la ronda (solo adición al final) | Índices |
+| `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados por script al final, sin ediciones posteriores | Integridad |
+**Archivos nuevos (3):** `auditoria_integral/13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md`, `logs/verificacion_coherencia_posterior.py`, `logs/verificacion_coherencia_posterior_2026-11-22.txt`.
+**Preservados sin cambios:** `docs/fase0/` (59), `anexos/`, logs previos, fichas P4A y análisis, `REGISTRO_DECISIONES_RESUELTAS.md` y todos los demás archivos no listados.

@@ -1,30 +1,31 @@
 # Informe de auditoría integral del expediente — ronda final (2026-11-22)
-**Versión:** 3.0 (actualiza la v2.0 tras la lectura completa; §3, §4 y §5 corregidos) · **Fecha:** 2026-11-22 · **Estado:** vigente como informe de hechos; subordinado al registro de decisiones · **Base:** HEAD `13b25ca447c0ab17f46b3143615b4c2156661b79` (la v2.0 se redactó sobre `8dc47b24…`) · **Referencias:** `06_REGISTRO_CONTRADICCIONES.md`, `08_INFORME_INTEGRIDAD_ARCHIVOS.md`, `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`.
+**Versión:** 3.1 (v3.0 + ronda de verificación de coherencia posterior: 110 archivos, métrica de avisos de vigencia recalculada y descrita con su alcance real; no cambia ningún estado de CR ni decisión) · **Fecha:** 2026-11-22 · **Estado:** vigente como informe de hechos; subordinado al registro de decisiones · **Base:** HEAD `13b25ca447c0ab17f46b3143615b4c2156661b79` (la v2.0 se redactó sobre `8dc47b24…`) · **Referencias:** `06_REGISTRO_CONTRADICCIONES.md`, `08_INFORME_INTEGRIDAD_ARCHIVOS.md`, `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`.
 
 ## 0. Corrección de cifras de la versión anterior (hallazgo 3.5)
 - La versión anterior clasificaba **93** archivos y declaraba «93/93 clasificados». El árbol real de la rama en `8dc47b2` (API) tenía **164** blobs = **104** en `evidence/cci-fase0/` (93 previos + 11 documentos de la auditoría integral) + **59** en `docs/fase0/` + **1** `README.md` de la raíz del repositorio.
 - La tabla anterior mostraba **99 filas únicas**: los 93 previos más 6 documentos de auditoría; **cinco** documentos de auditoría (05, 06, 07, 08, 10) no estaban clasificados. **93/93 no cubría los 104 archivos actuales** y no debe citarse como cobertura del total.
 - Esta versión clasifica **todos** los archivos actuales de `evidence/cci-fase0/` (107, tras añadir en esta ronda `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`, `logs/escaneo_contradicciones_2026-11-22_ronda_final.txt` y `logs/scan_contradicciones.py`). Los 59 archivos de `docs/fase0/` se concilian aparte (`11_`, `12_`).
+- **Ronda de verificación de coherencia posterior (2026-11-22; base `580c51f`):** se añaden 3 archivos (`auditoria_integral/13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md`, `logs/verificacion_coherencia_posterior.py` y `logs/verificacion_coherencia_posterior_2026-11-22.txt`) → **110** archivos en el expediente.
 
 ## 1. Alcance real
 | Concepto | Cantidad |
 |---|---|
-| Archivos en `evidence/cci-fase0/` (tras esta ronda) | 107 |
+| Archivos en `evidence/cci-fase0/` (tras la ronda de verificación de coherencia posterior) | 110 |
 | Archivos en `docs/fase0/` (sin modificar; idénticos a `main`) | 59 |
 | `README.md` de la raíz del repositorio (fuera del expediente; sin modificar) | 1 |
-| Total de blobs esperado en la rama tras publicar | 167 |
+| Total de blobs esperado en la rama tras publicar | 170 |
 
-## 2. Clasificación por vigencia de los 107 archivos del expediente
+## 2. Clasificación por vigencia de los 110 archivos del expediente
 | Clase | Archivos |
 |---|---|
 | Antecedente (análisis resuelto) | 4 |
 | Antecedente (respondido) | 2 |
 | Antecedente / propuesta | 7 |
-| Evidencia técnica | 14 |
+| Evidencia técnica | 16 |
 | Histórico | 2 |
 | Histórico (copia previa) | 16 |
 | Histórico (ficha resuelta/suspendida) | 14 |
-| Informe de auditoría (derivado) | 2 |
+| Informe de auditoría (derivado) | 3 |
 | Informe/control (fechado) | 10 |
 | Integridad | 3 |
 | Integridad (informe) | 1 |
@@ -36,9 +37,9 @@
 | Vigente (derivado) | 7 |
 | Vigente (subordinado) | 4 |
 | Vigente (índice) | 3 |
-| **Total** | **107** |
+| **Total** | **110** |
 
-**Aviso de vigencia en el propio archivo** (solo clases históricas/antecedente/superado/informe): **55 de 55** (100.0 %). Detección automática de marcas de vigencia; los que figuran «No» se detallan abajo.
+**Aviso de vigencia en el propio archivo** (clases histórica, antecedente, superado e informe: 58 archivos en esas clases; **55 de 55 aplicables** con marca; 3 «n/a»: el archivo de hashes `anexos/MANIFEST_informe_browser_only.sha256` y los informes derivados vigentes `05_` y `12_`; el nuevo `13_` también figura «n/a»). **Alcance de la métrica:** detección automática a nivel de **archivo** (basta una marca en cualquier parte del archivo); no verifica que cada afirmación histórica del archivo esté individualmente marcada. Dentro de las 46 filas de clase histórica/antecedente/superado: 45 con marca y 1 «n/a» (el archivo de hashes); `FICHA_P4A_09` se detecta por su encabezado «SUSPENDIDA».
 
 Detalle archivo por archivo (ruta · clase · motivo · aviso de vigencia en el archivo):
 
@@ -78,6 +79,7 @@ Detalle archivo por archivo (ruta · clase · motivo · aviso de vigencia en el 
 | `auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md` | Informe/control (fechado) | Informe ejecutivo de preparación para el cierre (no es aceptación) | Sí |
 | `auditoria_integral/11_INDICE_CONCILIACION_DOCS_FASE0.md` | Vigente (derivado) | Conciliación de docs/fase0 (59 archivos, tamaño y SHA-256) | n/a |
 | `auditoria_integral/12_REGISTRO_LECTURA_Y_LIMITACIONES.md` | Informe de auditoría (derivado) | Registro de lectura real y limitaciones; ficha de los 52 históricos | n/a |
+| `auditoria_integral/13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md` | Informe de auditoría (derivado) | Informe de la verificación final de coherencia posterior a la regularización | n/a |
 | `entregables_formales/01_INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md` | Propuesta (subordinada) | Entregable formal propuesto; aprobaciones 0.x pendientes; con advertencias donde aplica | n/a |
 | `entregables_formales/02_INVENTARIO_FUNCIONAL_CCI.md` | Propuesta (subordinada) | Entregable formal propuesto; aprobaciones 0.x pendientes; con advertencias donde aplica | n/a |
 | `entregables_formales/03_MATRIZ_REQUISITOS_CCI.md` | Propuesta (subordinada) | Entregable formal propuesto; aprobaciones 0.x pendientes; con advertencias donde aplica | n/a |
@@ -150,15 +152,17 @@ Detalle archivo por archivo (ruta · clase · motivo · aviso de vigencia en el 
 | `logs/scan_contradicciones.py` | Evidencia técnica | Script del escaneo automático de contradicciones (solo lectura) | n/a |
 | `logs/test_run.log` | Evidencia técnica | Evidencia de ejecución previa (no reejecutada); registro de hechos | n/a |
 | `logs/typecheck.log` | Evidencia técnica | Evidencia de ejecución previa (no reejecutada); registro de hechos | n/a |
+| `logs/verificacion_coherencia_posterior.py` | Evidencia técnica | Script de la verificación de coherencia posterior (solo lectura; reproducible) | n/a |
+| `logs/verificacion_coherencia_posterior_2026-11-22.txt` | Evidencia técnica | Salida del script de verificación de coherencia posterior (registro de hechos) | n/a |
 | `logs/verificaciones_documentales_2026-11-22_correccion.txt` | Evidencia técnica | Evidencia de ejecución previa (no reejecutada); registro de hechos | n/a |
 
 ## 3. Método (qué se hizo realmente)
 - **Procesamiento automático** de los archivos de texto de `evidence/cci-fase0/` (salvo `auditoria_integral/` y `logs/`): búsquedas de patrón (8/18, D4.d pendiente, «Adaptación pendiente de D-4», «Prevalece este aviso», «cinco cuestiones», Supabase/PostgreSQL/RLS, multiusuario, «Fase 0 aceptada», Q-7/P4.4, D5.a–d, «Fase 1 autorizada») con indicación de si el archivo tiene marca de vigencia: `logs/scan_contradicciones.py` y su salida. **Es escaneo, no lectura.**
-- **Lectura efectiva** con registro de cobertura en bytes: ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` v2.0. Se leyeron **por completo** los 103 archivos de lectura aplicable de `evidence/cci-fase0/` y los 59 de `docs/fase0/` (estos últimos **por líneas únicas**: se mostró cada línea distinta; no se re-mostraron duplicados exactos de líneas ya vistas ni líneas genéricas repetidas). Los dos manifiestos de hashes, el manifiesto del anexo y el propio `12_` son NO_APLICABLE.
+- **Lectura efectiva** con registro de cobertura en bytes: ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` v2.1. Se leyeron **por completo** los 103 archivos de lectura aplicable de `evidence/cci-fase0/` y los 59 de `docs/fase0/` (estos últimos **por líneas únicas**: se mostró cada línea distinta; no se re-mostraron duplicados exactos de líneas ya vistas ni líneas genéricas repetidas). Los dos manifiestos de hashes, el manifiesto del anexo y el propio `12_` son NO_APLICABLE.
 - **52 históricos de `docs/fase0/historico/`:** leídos por líneas únicas (ver `12_` §5, con bytes de líneas nuevas por archivo); los conteos de vocabulario de la ficha son indicadores por escaneo, no lectura.
 - **Correcciones de contenido de esta ronda:** ver `07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` (sección «Ronda final»).
 ## 4. Resultados
-- Archivos del expediente clasificados: **107/107** (100 % del conjunto actual; no equivale a lectura íntegra ni a corrección de contenido).
+- Archivos del expediente clasificados: **110/110** (100 % del conjunto actual; no equivale a lectura íntegra ni a corrección de contenido).
 - Contradicciones: **22 registradas** en `06_` v3.0: 13 RESUELTA_DOCUMENTALMENTE, 5 HISTORICA_CON_ADVERTENCIA, 2 RESUELTA_POR_DECISION_PROPIETARIO (CR-07 y CR-16), 1 PENDIENTE_PROPIETARIO (CR-17: C-2/C-3), 1 NO_RESOLUBLE_POR_FALTA_DE_EVIDENCIA (CR-12). Nuevas: CR-19…CR-22 (CR-21 es una regresión propia restaurada).
 - Duplicados de nombre en el expediente: ver verificación en `08_`.
 ## 5. Archivos no accesibles y limitaciones

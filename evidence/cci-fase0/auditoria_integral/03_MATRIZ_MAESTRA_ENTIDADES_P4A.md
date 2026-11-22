@@ -37,9 +37,9 @@
 ## D. Conceptos aprobados fuera de la lista de 18 (no cuentan en 9/18)
 | Concepto | Decisión | Nota |
 |---|---|---|
-| Evento de actividad | P4.3: aprobada como **entidad propuesta**; estructura posterior | Relación con la numeración «19» no confirmada (ver CR-06) |
+| Evento de actividad | P4.3: aprobada como **entidad propuesta**; estructura posterior | Relación con la numeración «19» no confirmada (ver CR-15) |
 | Etiqueta | P4.3: aprobada | — |
-| Perfil local | P4.3 + P1 + D7.a: aprobado; contenido: solo nombre visible opcional | — |
+| Perfil local | P4.3 + P1: aprobado; contenido: solo nombre visible opcional. D7.a=A fija solo el criterio de distinción frente a Configuración (no amplía el contenido) | — |
 | Colección | No incorporada (decisión mantenida) | Se reabre solo con necesidad funcional demostrable |
 
 ## E. Atributos, relaciones y cardinalidades NO aprobados (resumen)

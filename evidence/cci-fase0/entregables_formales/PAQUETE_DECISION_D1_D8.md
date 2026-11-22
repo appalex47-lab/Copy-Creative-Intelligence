@@ -59,7 +59,7 @@
 - **Recomendación [P]: A.**
 - Límites: no aprueba atributos, relaciones, persistencia, aprobabilidad ni auditabilidad; no cierra el flujo (B l.19 vs B l.673).
 
-**D4.d — ¿Es aprobable la Adaptación?** (pendiente por D-5.2; requiere tu decisión expresa)
+**D4.d — ¿Es aprobable la Adaptación?** (pendiente por D-5.2; requiere tu decisión expresa) *[superado: D4.d=A respondida y registrada]*
 - Alternativas: **A.** aprobable (como Copy y Pieza); **B.** no aprobable por ahora; **C.** diferir a P4.B/Fase 5.
 - Consecuencias: A haría que el contenido final por canal sea lo que llega a la Biblioteca; B dejaría un hueco entre la adaptación y la aprobación del copy fuente; C mantiene el estado actual.
 - Evidencia: B l.673 (Channel Adaptation → Revisión humana → Biblioteca) **[D]**; que ello implique aprobar la adaptación es **[I]**.

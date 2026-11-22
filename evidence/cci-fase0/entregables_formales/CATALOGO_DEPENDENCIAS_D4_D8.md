@@ -92,7 +92,7 @@ Que no exista otra formulación de D-4 a D-8 en el historial anterior a esta ses
 ## Actualización 2026-11-22 12:21
 - **D-4 reformulada** por el propietario a tres asuntos residuales (delimitación Adaptación/Copy/Variante/Versión; vínculo de una adaptación visual con Pieza creativa; definición mínima de la entidad 13). Sigue pendiente; la naturaleza de Adaptación (D-1.b) no se replantea.
 - **D-5 autorizada** y presentada en `D5_APROBACION.md`. El «19» de D-5 **no** se asume como Evento de actividad (inferencia mía no confirmada).
-- D-6, D-7 y D-8 permanecen pendientes y sin desarrollar.
+- D-6, D-7 y D-8 permanecen pendientes y sin desarrollar. *[superado: D-4, D-6, D-7 y D-8 resueltas; ver ESTADO VIGENTE]*
 
 ## Actualización 2026-11-22 12:29
 - **D-5 RESUELTA** (ver `D5_APROBACION.md`). Dependencias D-1 a D-3 y D-5 cerradas; D-4 (reformulada), D-6, D-7 y D-8 pendientes.

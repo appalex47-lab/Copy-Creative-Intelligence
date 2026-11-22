@@ -5,7 +5,7 @@
 1. `docs/fase0/` documenta la **línea anterior de diseño** (G-1, G-5, G-10; modelo con PostgreSQL/Supabase, RLS, permisos y multiusuario). **No es la arquitectura vigente de CCI**, que es browser-only (un usuario por navegador; ver `01_INDICE_MAESTRO_FASE0.md`).
 2. Los archivos raíz declaran «Fase 0 v3.3 COMPLETADA Y ACEPTADA COMO LÍNEA BASE DOCUMENTAL, CON LIMITACIONES» y «Fase 1 no está autorizada»; otros documentos del expediente anterior dicen «NO ACEPTADA». Esa contradicción es **C-2 y permanece abierta**. **Ninguna de esas frases acepta la Fase 0 vigente** ni autoriza la Fase 1 vigente.
 3. Los 17 permisos, RLS, SQL, disparadores y la arquitectura multiusuario **no están aprobados ni son requisitos actuales** (P3, condición 5). Solo el vocabulario conceptual (campañas, piezas, versiones, aprobaciones, historial) puede consultarse, y cada concepto recuperado debe aprobarse en P4 (condiciones 3–4).
-4. Los 59 archivos se leyeron **por completo por líneas únicas** (ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` v2.0 y su limitación: no se re-mostraron duplicados exactos de líneas ya vistas); tamaño y SHA-256 de esta tabla verificados contra los archivos (0 discrepancias).
+4. Los 59 archivos se leyeron **por completo por líneas únicas** (ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` v2.1 y su limitación: no se re-mostraron duplicados exactos de líneas ya vistas); tamaño y SHA-256 de esta tabla verificados contra los archivos (0 discrepancias).
 
 ## A. Archivos raíz (5) — línea anterior; antecedente no vinculante
 | Archivo | Tamaño (bytes) | SHA-256 | Clasificación |

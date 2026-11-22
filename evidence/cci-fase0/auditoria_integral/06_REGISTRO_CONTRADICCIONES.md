@@ -233,14 +233,14 @@
 3. **Documentos en conflicto:** versión publicada en `1cf96e3`/`13b25ca` frente a la de `1bb831a`
 4. **Decisión o fuente prevalente:** Contenido de `1bb831a`, restaurado íntegro
 5. **Clasificación del texto:** Defecto propio de la auditoría (no del propietario ni del expediente anterior)
-6. **Corrección aplicada:** Restauración desde `1bb831a` con nota «RESTAURACIÓN» y el texto añadido de la auditoría; el resto no se reescribió. Un barrido de tamaños sobre el historial de los 167 archivos no halló otro caso
+6. **Corrección aplicada:** Restauración desde `1bb831a` con nota «RESTAURACIÓN» y el texto añadido de la auditoría; el resto no se reescribió. Un barrido de tamaños sobre el historial de git de `evidence/cci-fase0/` (repetido en la ronda de coherencia, todos los commits) no halló otra reducción mayor al 10 %
 7. **Estado final:** **RESUELTA_DOCUMENTALMENTE**
 8. **Evidencia de verificación:** Tamaños actuales 6 601 B y 5 255 B; comparación con la historia; manifiestos regenerados
 9. **¿Requiere decisión del propietario?** No (se informa para transparencia)
 
 ## CR-22 — Roadmap del anexo original (Fases 0–5 con Persistencia, Capacidades, IA y Endurecimiento) frente al roadmap vigente `11_ROADMAP_FASES_0_A_5.md` (Fases 1–5 de producto) y roadmaps históricos
-1. **Ubicación exacta:** `anexos/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md` §15; `docs/fase0/historico/ROADMAP_Y_TRAZABILIDAD_…_v2…_historico.md` (9 fases); `entregables_formales/11_ROADMAP_FASES_0_A_5.md`
-2. **Contradicción:** Tres definiciones distintas del contenido de las Fases 1–5 (p. ej. Fase 2 = «Persistencia local» en el anexo frente a «Copy Studio» en el roadmap de entregables_formales; 9 fases en el roadmap histórico v2)
+1. **Ubicación exacta:** `anexos/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md` §15; `docs/fase0/historico/ROADMAP_Y_TRAZABILIDAD_…_v2_historico.md` (Fases 0–9); `entregables_formales/11_ROADMAP_FASES_0_A_5.md`
+2. **Contradicción:** Tres definiciones distintas del contenido de las fases (p. ej. Fase 2 = «Persistencia local» en el anexo frente a «Copy Studio» en el roadmap de entregables_formales; Fases 0–9 en el roadmap histórico v2)
 3. **Documentos en conflicto:** véase la ubicación
 4. **Decisión o fuente prevalente:** Las seis fases generales son del propietario; su contenido está **propuesto, no aprobado**, en `entregables_formales/11_ROADMAP_FASES_0_A_5.md` (propuesta vigente, subordinada al registro). El anexo es el informe original (hash declarado; inmodificable) y los roadmaps de `docs/fase0` son históricos (P3=b)
 5. **Clasificación del texto:** Anexo = antecedente; `docs/fase0` = histórico con advertencia; `11_ROADMAP…` = propuesta vigente pendiente de aprobación
@@ -250,10 +250,13 @@
 9. **¿Requiere decisión del propietario?** El contenido y la aprobación de las fases (P5–P15 / fases) siguen siendo del propietario; la vigencia documental no
 
 ## Observaciones de la lectura (no son contradicciones nuevas)
-- Documentos 05 §3/§5/§6, 06 (preámbulo), 07 (R6), 08 (§3), 10 (§3) y 11 (advertencia 4) afirmaban «lectura parcial»: actualizados en esta ronda.
+- Los documentos 05 (§3, §4 y §5), 06 (preámbulo), 07 (R6), 10 (fila de lectura) y 11 (advertencia 4) afirmaban «lectura parcial / no íntegra»: actualizados en la ronda de lectura.
 - `docs/fase0` (históricos, inmutables): erratas internas (p. ej. v14 cita `…_v12_historica.md` donde existe `…_v13_historica.md`; filas T-698/T-701 truncadas en origen; residuos «v14» dentro de la v15; rangos «T-777 a T-777»; huella 69f465850efed7d3 compartida por «registro v8» y «vigente» como anotación). No se corrigen (P3=b; sin modificar `docs/fase0`).
 - Artefactos del método de líneas únicas (encabezados repetidos omitidos en la visualización) no son defectos de los archivos.
 
 ## Descartes y limitaciones
 - La versión anterior de este registro contaba 16 contradicciones y dejaba CR-15 y CR-16 como «Abiertas — requieren al propietario»; **ambas eran incorrectas** (ver CR-15 y CR-16 de esta versión).
 - Este registro **no** declara que Fase 0 esté libre de contradicciones: afirma solo las verificadas por escaneo y lectura (ver `12_`). No se ejecutó código ni se re-verificaron resultados de pruebas.
+
+## Verificación de coherencia posterior (2026-11-22; base `580c51f`)
+Esta ronda verificó la coherencia de los archivos modificados desde la regularización (informe: `13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md`). **No cambió el estado de ningún CR** (CR-01…CR-22 conservan el estado indicado arriba); los hallazgos F1–F8 son anotaciones desactualizadas o referencias erróneas corregidas sin alterar decisiones (ver `07_` R8). CR-17 (C-2/C-3) sigue pendiente del propietario y CR-12 sigue no resoluble por falta de evidencia. CR-22 permanece como registro de versiones de roadmap: `11_ROADMAP_FASES_0_A_5.md` sigue siendo propuesta no aprobada.

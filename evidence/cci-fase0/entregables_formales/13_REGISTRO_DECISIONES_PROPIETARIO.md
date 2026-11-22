@@ -2,7 +2,7 @@
 
 > Documento formal del §14. Fuente de contenido: `../10_REGISTRO_DECISIONES.md` (sin cambios de fondo). Estado: propuesta para revisión; nada aprobado ni implementado.
 
-Ninguna se responde por el propietario. «Recomendación» es una propuesta técnica. «Informada por la instrucción maestra» indica que el texto del propietario ya apunta en una dirección, pero **falta confirmación expresa**.
+Ninguna se responde por el propietario. *[Nota de la ronda de coherencia 2026-11-22: texto del momento de elaboración; P1, P2 y P3 fueron resueltas, P4 parcialmente y Q-7 resuelta (ver la tabla y `REGISTRO_DECISIONES_RESUELTAS.md`); el resto sigue pendiente.]* «Recomendación» es una propuesta técnica. «Informada por la instrucción maestra» indica que el texto del propietario ya apunta en una dirección, pero **falta confirmación expresa**.
 Indispensabilidad para cerrar Fase 0: **I** = indispensable · **F1/F2/F5** = debe resolverse antes de iniciar esa fase (no bloquea el cierre de Fase 0) · **A** = puede quedar abierta con consecuencia documentada.
 
 | ID | Tema | Clase |

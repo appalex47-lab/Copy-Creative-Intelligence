@@ -21,7 +21,7 @@ Una **nota de ChatGPT**, un **informe de cierre** o una **recomendación de Clau
 | P4.5 | Aprobación preliminar conservada (no definitiva) | Registro |
 | P4.A | **9/18 aprobadas (50 %) con definición mínima: entidades 1–8 y 13**; 9/18 pendientes (50 %). Entidad 9 suspendida | Registro (P4.A, D4.c) |
 | D-1, D-2, D-3, D-5 | Resueltas (D5.a–d fuera del alcance vigente; no se reabren) | Registro |
-| D-4 (D4.a–d), D-6 (D6.a–c), D-7 (D7.a–c), D-8 | Resueltas: D4.a=A, D4.b=A, D4.c=A, D4.d=A, D6.a=A, D6.b=A, D6.c=A0, D7.a=A, D7.b=A, D7.c=C, D8=A | Registro, sección «D-4, D-6, D-7 y D-8» |
+| D-4 (D4.a–d), D-6 (D6.a–c), D-7 (D7.a–c), D-8 | Resueltas: D4.a=A, D4.b=A, D4.c=A, D4.d=A (limitada por M-1 y D-5.3), D6.a=A, D6.b=A, D6.c=A0 (deja sin decidir origen de valores, L1/L2 y L3), D7.a=A, D7.b=A, D7.c=C, D8=A | Registro, sección «D-4, D-6, D-7 y D-8» |
 | P4.B, P4.C, P4.E (E1–E5) | **Pendientes** | `DECISIONES_P4_PENDIENTES.md` |
 | Q-1, Q-2, C-2, C-3 | **Abiertas** | Registro, `INDICE_ANTECEDENTES_HISTORICOS.md` |
 | Resto de decisiones P5–P15, Q-3–Q-6 | Pendientes (ver matriz maestra) | `13_REGISTRO_DECISIONES_PROPIETARIO.md` |
@@ -45,10 +45,11 @@ Una **nota de ChatGPT**, un **informe de cierre** o una **recomendación de Clau
 | 09 | `09_PAQUETE_CONSOLIDADO_DECISIONES_PENDIENTES.md` | Paquetes para el propietario |
 | 10 | `10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md` | Preparación para el cierre |
 | 11 | `11_INDICE_CONCILIACION_DOCS_FASE0.md` | Conciliación de los 59 archivos de `docs/fase0/` |
-| 12 | `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` | Registro de lectura real v2.0 (lectura completa; `docs/fase0` por líneas únicas; estados LEÍDO_COMPLETO / LEÍDO_PARCIALMENTE / NO_ACCESIBLE / NO_APLICABLE) y ficha de los 52 históricos |
+| 12 | `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` | Registro de lectura real v2.1 (v2.0 + §7 de la ronda de coherencia; lectura completa; `docs/fase0` por líneas únicas; estados LEÍDO_COMPLETO / LEÍDO_PARCIALMENTE / NO_ACCESIBLE / NO_APLICABLE) y ficha de los 52 históricos |
+| 13 | `13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md` | Verificación final de coherencia posterior a la regularización (hallazgos, correcciones, estados, porcentajes con base; no acepta Fase 0 ni autoriza Fase 1) |
 
 ## 4. Orden de lectura recomendado
-Registro → este índice → 02, 03, 04 → 09 (lo que el propietario debe decidir) → 10 → 05, 06, 08, 12 (evidencia de la auditoría).
+Registro → este índice → 02, 03, 04 → 09 (lo que el propietario debe decidir) → 10 → 05, 06, 08, 12, 13 (evidencia de la auditoría).
 Guía de entrega y estado de archivos: `README_ENTREGA.md`, `00_INDICE_VIGENTES_E_HISTORICOS.md`, `entregables_formales/16_INDICE_EVIDENCIAS_FASE0.md`.
 
 **Actualización ronda de lectura completa (2026-11-22; base HEAD `13b25ca`):** lectura íntegra de todos los archivos legibles (`12_` v2.0); nuevas CR-19…CR-22 en `06_` v3.0 (CR-21: regresión propia restaurada); docs 05, 07 (R7), 08, 10, 11 actualizados. **Roadmaps:** vigente como propuesta no aprobada es `entregables_formales/11_ROADMAP_FASES_0_A_5.md`; el §15 del anexo original y los roadmaps de `docs/fase0` son antecedentes (CR-22). La jerarquía de fuentes no cambia. No se acepta Fase 0 ni se autoriza Fase 1.
