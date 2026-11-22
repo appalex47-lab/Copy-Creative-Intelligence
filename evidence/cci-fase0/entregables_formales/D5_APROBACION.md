@@ -1,4 +1,5 @@
 # D-5 — Aprobación: representación, objetos aprobables y alcance — RESUELTA (2026-11-22 12:29)
+> **Actualización posterior (2026-11-22):** la lista «Siguen abiertas» de abajo (12:29) es antecedente. Por decisión posterior del propietario, **D-5 está resuelta y D5.a–d están fuera del alcance vigente**: no se cuentan como abiertas ni condicionan D-4 u otras decisiones. No se aprueban individualmente.
 ## Resultado de D-5 (decisiones del propietario, con sus límites)
 | Sub-decisión | Decisión | Límite exacto |
 |---|---|---|

@@ -1,4 +1,5 @@
 # Diseño de persistencia IndexedDB
+> **ADVERTENCIA DE VIGENCIA (añadida 2026-11-22 tras la revisión de ChatGPT; el contenido original no se altera).** Este documento es **histórico / propuesta anterior** y **no constituye por sí solo el contrato vigente**. Prevalecen, dentro de sus alcances, las decisiones posteriores del propietario D-1, D-2, D-3, D-5, P1, P2, P3 y P4.A registradas en `REGISTRO_DECISIONES_RESUELTAS.md`. Las propuestas de entidades, relaciones, cardinalidades, atributos, reglas, MVP y persistencia **que no hayan sido aprobadas expresamente siguen sin aprobación**. Reglas (D-3): familias de copy, marca, comerciales y canal; **solo ReglaDeMarca y ReglaComercial son entidades independientes**; **no existe una entidad genérica «Regla» vigente**; las reglas de copy no se incluyen automáticamente en ReglaDeMarca. Ver `../00_INDICE_VIGENTES_E_HISTORICOS.md` y `CONTROL_DE_CAMBIOS_CORRECCION_2026-11-22.md`.
 
 > Documento formal del §14. Fuente de contenido: `../07_DISENO_PERSISTENCIA.md` (sin cambios de fondo). Estado: propuesta para revisión; nada aprobado ni implementado.
 

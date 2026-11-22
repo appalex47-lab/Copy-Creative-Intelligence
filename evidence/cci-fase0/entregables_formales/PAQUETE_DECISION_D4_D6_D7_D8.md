@@ -1,8 +1,9 @@
 # Paquete único de decisión D-4, D-6, D-7 y D-8 — 2026-11-22 (12:35)
-**Sustituye** a `PAQUETE_DECISION_D1_D8.md` (12:30), cuyo alcance incluía D5.a–d: ese bloque queda **fuera** por tu instrucción. El anterior se conserva como histórico.
+> **Nota de corrección (2026-11-22, posterior a la revisión de ChatGPT).** La versión publicada en el commit `793d319` presentaba D5.a–d como «abiertas» y hacía depender D4.d de D5.c. Esas referencias se corrigieron conforme a la decisión del propietario: D-5 resuelta; D5.a–d fuera del alcance, sin condicionar D-4. Ninguna de las 11 decisiones queda resuelta por esta corrección. Ver `CONTROL_DE_CAMBIOS_CORRECCION_2026-11-22.md`.
+**Sustituye** a `PAQUETE_DECISION_D1_D8.md` (12:30), cuyo alcance incluía D5.a–d: ese bloque quedó **fuera del alcance** por decisión del propietario. El anterior se conserva como histórico.
 **Naturaleza:** análisis y propuesta. **No registra ni aprueba nada.** Toda «Recomendación» es propuesta mía.
 **Procedencia:** **[S]** dicho por ti · **[D]** evidencia documental (A = instrucción Fase 0 de49cc27; B = instrucción maestra 5a9f5585; l. = línea; P1/P2/P3 = fichas resueltas) · **[P]** propuesta mía · **[I]** inferencia mía sin respaldo literal.
-**Aclaración de estado:** con tu mensaje de 12:35, D-5 queda confirmada como **resuelta** (R3, conjunto (b), M-1). D5.a–d siguen abiertas y **no se usan aquí para reabrirla**.
+**Aclaración de estado:** con tu mensaje de 12:35, D-5 queda confirmada como **resuelta** (R3, conjunto (b), M-1). D5.a–d quedaron **expresamente fuera del alcance del paquete vigente**: no son decisiones pendientes, no se contabilizan como abiertas, no condicionan D-4 ni ninguna otra decisión y no se vuelven a preguntar.
 
 ---
 ## 1. Resumen ejecutivo
@@ -25,7 +26,7 @@ D-1 (Adaptación = concepto propio derivado de copy fuente, nº 13; auditoría s
 - **A.** Concepto distinto de los tres, separado por criterio: Variante = alternativa del mismo contenido; Versión = evolución temporal; Adaptación = derivado de un copy fuente **para un canal destino**. No se decide si una adaptación puede tener variantes o versiones.
 - **B.** Adaptación como tipo de Copy con canal. *Consecuencia:* contradice D-1.b; no es viable sin reabrirlo (por eso no lo recomiendo, pero lo muestro).
 - **C.** Sin criterio hasta P4.B. *Consecuencia:* la definición de la 13 queda sin base.
-- **D** (nueva). Delimitar solo frente a Copy y Variante ahora; frente a Versión después de D5.c. *Consecuencia:* progreso parcial, deja la relación con Versión abierta.
+- **D** (nueva). Delimitar solo frente a Copy y Variante ahora; frente a Versión en una decisión posterior del propietario. *Consecuencia:* progreso parcial, deja la relación con Versión abierta.
 - Respaldo: A y D se apoyan en D-1.b y D-2.a [D]; que el criterio sea «canal destino» es [I] a partir de B l.563 y B l.538.
 - **Recomendación [P]: A.** *Aprobaría:* el criterio distintivo. *No aprueba:* variantes/versiones propias de la Adaptación, cardinalidad, atributos, persistencia.
 
@@ -44,12 +45,13 @@ D-1 (Adaptación = concepto propio derivado de copy fuente, nº 13; auditoría s
 - **Recomendación [P]: A.** *No aprueba:* atributos, relaciones, persistencia, aprobabilidad, auditabilidad ni el orden del flujo (B l.19 vs B l.673).
 
 ### D4.d — ¿Adaptación aprobable? (respetando D-5)
+- **Base de evaluación:** D4.d se evalúa solo con las decisiones vigentes D-1, D-2 y D-5.3 (D-5.2 ya dejó la Adaptación pendiente de D-4). **No exige** ninguna resolución adicional de D-5. Que la Adaptación sea aprobable corresponde **exclusivamente a tu decisión** sobre D4.d; no está aprobada ni se da por resuelta.
 - **A.** Aprobable, bajo los mismos límites de D-5.3 (no certifica cumplimiento, no implica publicación).
 - **B.** No aprobable por ahora (la aprobación recae solo en Copy y Pieza).
 - **C.** Diferir a P4.B/Fase 5.
-- *Consecuencias:* A haría aprobable el contenido por canal (B l.673); B dejaría la adaptación fuera de la aprobación y sin lugar claro hacia la Biblioteca [I]; C conserva el estado actual y deja D5.c sin base.
+- *Consecuencias:* A haría aprobable el contenido por canal (B l.673); B dejaría la adaptación fuera de la aprobación y sin lugar claro hacia la Biblioteca [I]; C conserva el estado actual (D-5.2: la Adaptación sigue sin decisión sobre su aprobabilidad).
 - Respaldo: B l.673 [D]; que de ahí se derive aprobar la adaptación es [I].
-- **Recomendación [P]: A.** *No aprueba:* mecanismo, identidad del contenido aprobado ni relación con versiones (D5.a–d), ni auditabilidad.
+- **Recomendación [P]: A.** *No aprueba:* mecanismo, identidad del contenido aprobado, relación con versiones, ni auditabilidad.
 
 ---
 ## 4. D-6 — Métrica
@@ -127,7 +129,7 @@ D-1 (Adaptación = concepto propio derivado de copy fuente, nº 13; auditoría s
 | Eje | Hallazgo | Procedencia |
 |---|---|---|
 | Adaptación / Copy / Variante / Versión | D4.a = A es coherente con D-1.b y D-2.a; no hay contradicción | [D] |
-| Adaptación y aprobación | D4.d = A respeta D-5.2 y D-5.3; D4.d condiciona D5.c (fuera de este paquete) | [D] |
+| Adaptación y aprobación | D4.d = A respeta D-5.2 y D-5.3; D4.d no depende de ni condiciona ninguna cuestión adicional de D-5; se evalúa con D-1, D-2 y D-5.3 | [D] |
 | Adaptación y auditoría | Ninguna alternativa la hace auditable (D-1.c) | [D] |
 | Métrica / Resultado / nombre 16 | D6.c define la frontera; D8 depende de D6.c; la definición de Campaña ya usa «Resultado de desempeño» | [D] |
 | Perfil local / Configuración | D7.a = A conserva P1 y P4.3 | [D] |
@@ -140,10 +142,10 @@ D-1 (Adaptación = concepto propio derivado de copy fuente, nº 13; auditoría s
 ## 8. Matriz de dependencias cruzadas
 | Ítem | Depende de | Condiciona |
 |---|---|---|
-| D4.a | D-1.b, D-2 | D4.c, D4.d |
+| D4.a | D-1.b, D-2 | D4.c |
 | D4.b | D-1.c, D4.a | D4.c |
 | D4.c | D4.a, D4.b | entidad 13 |
-| D4.d | D4.a, D-5.2/5.3 | D5.c (fuera) |
+| D4.d | D-1, D-2, D-5.3 (resueltas) | — (no condiciona ninguna otra decisión) |
 | D6.a | P4.1 | D6.b, D6.c |
 | D6.b | D6.a | D6.c |
 | D6.c | D6.a, D6.b | D8 |
@@ -151,7 +153,7 @@ D-1 (Adaptación = concepto propio derivado de copy fuente, nº 13; auditoría s
 | D7.a | P1, P4.3 | entidades 12 y 18 |
 | D7.b | D-3.b, Q-1 | entidad 11 |
 | D7.c | D-3.c, Q-2 | entidad 12; D4 (canal destino) |
-**Orden lógico:** D6.a → D6.b → D6.c → D8 · D4.a → D4.b → D4.c → D4.d · D7.a, D7.b, D7.c independientes. Los bloques D-4, D-6 y D-7 son independientes entre sí.
+**Orden lógico:** D6.a → D6.b → D6.c → D8 · D4.a → D4.b → D4.c · D4.d (independiente de D4.a–c) · D7.a, D7.b, D7.c independientes. Los bloques D-4, D-6 y D-7 son independientes entre sí.
 
 ## 9. Propuesta de respuestas agrupadas (nada registrado)
 - **D-4:** D4.a = A · D4.b = A · D4.c = A (o A con ediciones) · D4.d = A
@@ -161,7 +163,7 @@ D-1 (Adaptación = concepto propio derivado de copy fuente, nº 13; auditoría s
 Fórmulas posibles: «Acepto todas las recomendaciones» o «Acepto todas salvo X = Y». Coherencia: D8 = A requiere D6.c = A; D4.c = A requiere D4.a = A y D4.b = A.
 
 ## 10. Asuntos que permanecen fuera
-D5.a–d (abiertas); reapertura de D-1, D-2, D-3 y D-5; P4.B (relaciones, cardinalidades, Adaptación–Pieza, «Contenido» en Resultados A-4, Pieza–Copy A-5, reglas de copy, Variante en Biblioteca); P4.C (atributos, contenido de Perfil/Configuración); catálogo de métricas y fórmulas; valores de tolerancias (Q-1) y contenido de canales (Q-2); definición de las entidades 9 y 10–18 aún no presentadas; E1–E5; aprobaciones 0.1–0.7, aceptación de Fase 0 y Fase 1; rama pública y CCI-Evidence.
+D5.a–d (decisión del propietario: fuera del alcance vigente; no pendientes, no abiertas, no se vuelven a preguntar); reapertura de D-1, D-2, D-3 y D-5; P4.B (relaciones, cardinalidades, Adaptación–Pieza, «Contenido» en Resultados A-4, Pieza–Copy A-5, reglas de copy, Variante en Biblioteca); P4.C (atributos, contenido de Perfil/Configuración); catálogo de métricas y fórmulas; valores de tolerancias (Q-1) y contenido de canales (Q-2); definición de las entidades 9 y 10–18 aún no presentadas; E1–E5; aprobaciones 0.1–0.7, aceptación de Fase 0 y Fase 1; rama pública y CCI-Evidence.
 
 ## 11. No verificado por mí
 52 históricos de `docs/fase0` (solo búsquedas dirigidas); alineación de 05/06/07 con D-1/D-2/D-3/D-5; celdas antiguas de la matriz (prevalecen los avisos); pruebas, build, CI y `npm audit` (no re-ejecutados); otros navegadores distintos de Chrome 153; otras formulaciones de D-4 a D-8 previas a esta sesión; «19» = Evento de actividad (no asumido).

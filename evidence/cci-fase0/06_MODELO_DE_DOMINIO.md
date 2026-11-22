@@ -1,4 +1,5 @@
 # Modelo de dominio (propuesta; sujeta a decisiones P1, P4, P5)
+> **ADVERTENCIA DE VIGENCIA (añadida 2026-11-22 tras la revisión de ChatGPT; el contenido original no se altera).** Este documento es **histórico / propuesta anterior** y **no constituye por sí solo el contrato vigente**. Prevalecen, dentro de sus alcances, las decisiones posteriores del propietario D-1, D-2, D-3, D-5, P1, P2, P3 y P4.A registradas en `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`. Las propuestas de entidades, relaciones, cardinalidades, atributos, reglas, MVP y persistencia **que no hayan sido aprobadas expresamente siguen sin aprobación**. Reglas (D-3): familias de copy, marca, comerciales y canal; **solo ReglaDeMarca y ReglaComercial son entidades independientes**; **no existe una entidad genérica «Regla» vigente**; las reglas de copy no se incluyen automáticamente en ReglaDeMarca. Ver `00_INDICE_VIGENTES_E_HISTORICOS.md` y `entregables_formales/CONTROL_DE_CAMBIOS_CORRECCION_2026-11-22.md`.
 Clasificación: **MVP** = imprescindible para el MVP propuesto (fin de Fase 2: Command Center + Copy Studio persistentes) · **F3/F4/F5** = necesaria en esa fase posterior · **Futura** = no necesaria para el alcance vigente. El MVP es **propuesto**, no aprobado (decisión adicional Q-4).
 Convenciones: `id` UUID v4 generado en cliente; `createdAt`/`updatedAt` ISO-8601 UTC; `revision` entero para control optimista; borrado lógico por `archivedAt`; importes como enteros en unidad menor (centavos) + moneda; ningún dato comercial inventado: un campo desconocido es `null`/ausente, no un valor por defecto.
 
@@ -24,6 +25,8 @@ Convenciones: `id` UUID v4 generado en cliente; `createdAt`/`updatedAt` ISO-8601
 | Métrica | F5 | indicador **calculado** a partir de Resultados con fórmula documentada | deriva de Resultado | no se muestra si faltan datos necesarios |
 | Biblioteca/Etiqueta | F5 | etiquetas y colecciones para búsqueda y reutilización | N–N con entidades | nombres únicos por ámbito |
 | Identidad/Organización/Membresía/Rol | **Futura / no aplica** | entidades de la arquitectura anterior | — | ver P1; no se simulan usuarios |
+
+> **Nota de vigencia (2026-11-22):** la fila «Regla» de esta tabla es una **propuesta histórica**, no una entidad vigente. Por D-3 solo **ReglaDeMarca** y **ReglaComercial** son entidades independientes; las reglas de copy y las reglas por canal son familias conceptuales distintas y no están aprobadas como entidades.
 
 ## Estados propuestos del flujo (a confirmar, Q-3)
 Borrador → En revisión → Requiere corrección → Corregido → Aprobado → Archivado; Rechazado como salida alterna. Una transición se registra como Evento; Aprobado exige Aprobación humana explícita.

@@ -1,4 +1,5 @@
 # Catálogo recuperado de las dependencias D-4 a D-8 — 2026-11-22
+> **Actualización posterior (2026-11-22):** D-5 resuelta; D5.a–d fuera del alcance vigente. D-4 se evalúa con D-1, D-2 y D-5.3 sin depender de nuevas resoluciones de D-5. D-4, D-6, D-7 y D-8 siguen pendientes de decisión del propietario.
 **Naturaleza:** recuperación documental y recomendación de orden. **No desarrolla D-4 ni ninguna otra dependencia y no aprueba nada.** Conserva P4.1, P4.2, D-1, D-2 y D-3 con sus límites.
 
 ## 1. Origen y alcance de la recuperación

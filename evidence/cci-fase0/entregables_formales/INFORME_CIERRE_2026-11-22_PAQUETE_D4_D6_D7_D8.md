@@ -1,16 +1,17 @@
 # Informe de cierre — Paquete D-4, D-6, D-7 y D-8 (2026-11-22, 12:40)
+> **Actualización posterior (2026-11-22, tras la revisión de ChatGPT) — el texto original se conserva como registro de ese momento.** Donde este informe menciona D5.a–d como pendientes, rige la decisión posterior del propietario: **D-5 resuelta; D5.a–d fuera del alcance del paquete vigente; no son pendientes ni abiertas ni se vuelven a preguntar.** Sin otras modificaciones.
 Aplicado conforme al protocolo permanente recibido a las 12:39. Ninguna recomendación se presenta como decisión aprobada; ninguna dependencia se declara aceptada.
 
 ## A. Resultado
 - **Se solicitó:** un paquete único de decisión para D-4, D-6, D-7 y D-8 (12:35).
 - **Completado:** `PAQUETE_DECISION_D4_D6_D7_D8.md` (11 decisiones: D4.a–d, D6.a–c, D7.a–c, D8; alternativas, consecuencias, evidencia, recomendación, límites, revisión cruzada, matriz, respuestas agrupadas, asuntos excluidos). Sustituye a `PAQUETE_DECISION_D1_D8.md` (conservado como histórico).
-- **Pendiente:** tu respuesta a las 11 decisiones; D5.a–d; resto de pendientes de Fase 0.
+- **Pendiente:** tu respuesta a las 11 decisiones; D5.a–d; resto de pendientes de Fase 0. *[superado por decisión posterior: D5.a–d fuera del alcance vigente; ver nota superior]*
 - **No ejecutado:** subida a CCI-Evidence (ver C); código, commits, push, PR, merge, despliegues; fusión con vista previa privada.
 
 ## B. Decisiones
 - **Aprobadas expresamente por el propietario (sin cambios):** D-1, D-2, D-3, D-5 (R3, conjunto (b), M-1); entidades 1–8 de P4.A; P4.1–P4.3, Q-7 = (a).
 - **Recomendaciones mías pendientes (no aprobadas):** D4.a–d = A; D6.a–c = A; D7.a = A, D7.b = A, D7.c = C; D8 = A.
-- **Requieren tu intervención:** esas 11; D5.a–d; entidad 9 Hallazgo; entidades 10–18; P4.B, P4.C, E1–E5; Q-1, Q-2 y demás pendientes; aprobaciones 0.1–0.7; aceptación de Fase 0; autorización de Fase 1.
+- **Requieren tu intervención:** esas 11; D5.a–d; entidad 9 Hallazgo; entidades 10–18; P4.B, P4.C, E1–E5; Q-1, Q-2 y demás pendientes; aprobaciones 0.1–0.7; aceptación de Fase 0; autorización de Fase 1. *[superado por decisión posterior: D5.a–d fuera del alcance vigente; ver nota superior]*
 
 ## C. Evidencias
 - **Creados:** `PAQUETE_DECISION_D4_D6_D7_D8.md`, este informe, `MANIFIESTO_ENTREGA_2026-11-22_D4_D6_D7_D8.txt`.

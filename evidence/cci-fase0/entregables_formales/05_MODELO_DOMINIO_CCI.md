@@ -1,4 +1,5 @@
 # Modelo de dominio de CCI
+> **ADVERTENCIA DE VIGENCIA (añadida 2026-11-22 tras la revisión de ChatGPT; el contenido original no se altera).** Este documento es **histórico / propuesta anterior** y **no constituye por sí solo el contrato vigente**. Prevalecen, dentro de sus alcances, las decisiones posteriores del propietario D-1, D-2, D-3, D-5, P1, P2, P3 y P4.A registradas en `REGISTRO_DECISIONES_RESUELTAS.md`. Las propuestas de entidades, relaciones, cardinalidades, atributos, reglas, MVP y persistencia **que no hayan sido aprobadas expresamente siguen sin aprobación**. Reglas (D-3): familias de copy, marca, comerciales y canal; **solo ReglaDeMarca y ReglaComercial son entidades independientes**; **no existe una entidad genérica «Regla» vigente**; las reglas de copy no se incluyen automáticamente en ReglaDeMarca. Ver `../00_INDICE_VIGENTES_E_HISTORICOS.md` y `CONTROL_DE_CAMBIOS_CORRECCION_2026-11-22.md`.
 
 > Documento formal del §14. Fuente de contenido: `../06_MODELO_DE_DOMINIO.md` (sin cambios de fondo). Estado: propuesta para revisión; nada aprobado ni implementado.
 
@@ -32,6 +33,8 @@ Convenciones (**preliminares; el paquete NO está aprobado**): `id` UUID v4 gene
 | Colección | **PENDIENTE (P4.3); no forma parte del modelo** | sin justificación funcional frente a etiquetas y filtros | — | no se aprueba como entidad independiente hasta justificarla |
 | Identidad/Organización/Membresía/Rol | **No aplica (P1 = b, 2026-11-22)** | entidades de la arquitectura anterior; excluidas del dominio operativo, también como etiquetas de autorización | — | no se simulan usuarios; `Membership.active` sin aplicación |
 | Perfil local (opcional) | MVP — **aprobado (P4.3, conforme a P1)** | `displayName` opcional; **sin autenticación ni identidad de usuario** | — | puede no existir; longitud máxima por definir (propuesta mía) |
+
+> **Nota de vigencia (2026-11-22):** la descripción de ReglaDeMarca como «regla de marca y de copy» es una **propuesta histórica**; la inclusión de reglas de copy en ReglaDeMarca **no fue aprobada** (D-3: familia conceptual propia, ubicación pendiente de P4.B). Las filas de este documento no son decisiones del propietario salvo las registradas en `REGISTRO_DECISIONES_RESUELTAS.md`.
 
 ## Estados propuestos del flujo (a confirmar, Q-3)
 Borrador → En revisión → Requiere corrección → Corregido → Aprobado → Archivado; Rechazado como salida alterna. Una transición se registra como Evento; Aprobado exige Aprobación humana explícita.

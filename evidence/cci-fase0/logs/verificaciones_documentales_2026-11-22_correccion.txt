@@ -1,0 +1,76 @@
+# Verificaciones documentales de la corrección — 2026-11-22 (no son pruebas de producto)
+# Interpretación: coincidencias restantes en PAQUETE_DECISION_D1_D8.md, notas de actualización, CONTROL_DE_CAMBIOS e informe de cierre son antecedentes históricos o descripciones de la corrección; V3: fila «Regla» de 06 histórica, con nota de vigencia; V5/V8 sin hallazgos.
+== V1 referencias a D5.a-d (archivo:línea) y clasificación
+./entregables_formales/DECISIONES_P4_PENDIENTES.md:3:> **ESTADO VIGENTE (corrección 2026-11-22):** D-5 resuelta; **D5.a–d fuera del alcance vigente (no pendientes, no 
+./entregables_formales/DECISIONES_P4_PENDIENTES.md:45:Pendientes agrupados en `PAQUETE_DECISION_D1_D8.md`: G1 (D4.a–d), G2 (D5.a–d), G3 (D6, D8), G4 (D7.a–c) y Z-1 
+./entregables_formales/DECISIONES_P4_PENDIENTES.md:48:Paquete vigente: `PAQUETE_DECISION_D4_D6_D7_D8.md` — D4.a–d, D6.a–c, D7.a–c, D8 (11 ítems, sin responder). 
+./entregables_formales/DECISIONES_P4_PENDIENTES.md:51:D5.a–d: decisión definitiva del propietario = fuera del alcance vigente; D-5 resuelta. No se contabilizan. D-4, D
+./entregables_formales/D5_APROBACION.md:2:> **Actualización posterior (2026-11-22):** la lista «Siguen abiertas» de abajo (12:29) es antecedente. Por decisión posteri
+./entregables_formales/PAQUETE_DECISION_D4_D6_D7_D8.md:3:**Sustituye** a `PAQUETE_DECISION_D1_D8.md` (12:30), cuyo alcance incluía D5.a–d: ese bloque quedó **fuera de
+./entregables_formales/PAQUETE_DECISION_D4_D6_D7_D8.md:6:**Aclaración de estado:** con tu mensaje de 12:35, D-5 queda confirmada como **resuelta** (R3, conjunto (b), M-1
+./entregables_formales/PAQUETE_DECISION_D4_D6_D7_D8.md:166:D5.a–d (decisión del propietario: fuera del alcance vigente; no pendientes, no abiertas, no se vuelven a pre
+./entregables_formales/CATALOGO_DEPENDENCIAS_D4_D8.md:2:> **Actualización posterior (2026-11-22):** D-5 resuelta; D5.a–d fuera del alcance vigente. D-4 se evalúa con 
+./entregables_formales/PAQUETE_DECISION_D1_D8.md:2:> **SUSTITUIDO el 2026-11-22 12:35 por `PAQUETE_DECISION_D4_D6_D7_D8.md`** (alcance reducido por instrucción del propi
+./entregables_formales/PAQUETE_DECISION_D1_D8.md:3:> **Actualización posterior (2026-11-22):** el bloque G2 (D5.a–d) fue declarado por el propietario **fuera del alcan
+./entregables_formales/PAQUETE_DECISION_D1_D8.md:72:**D5.a — ¿La aprobación exige auditoría o validación previa?**
+./entregables_formales/PAQUETE_DECISION_D1_D8.md:78:**D5.b — ¿Qué pasa si se modifica un contenido aprobado?**
+./entregables_formales/PAQUETE_DECISION_D1_D8.md:83:**D5.c — Identidad del contenido aprobado y relación con versiones** (agrupa cuestiones 3 y 4)
+./entregables_formales/PAQUETE_DECISION_D1_D8.md:85:- Consecuencia: A requiere que la Versión de contenido (14) exista de forma coherente con D-1.d; B simplifica pero ch
+./entregables_formales/PAQUETE_DECISION_D1_D8.md:86:- **Recomendación [P]: A**, solo si eliges D5.b = A (son consistentes entre sí).
+./entregables_formales/PAQUETE_DECISION_D1_D8.md:89:**D5.d — Relación entre aprobación y los siete estados (B l.609–617)**
+./entregables_formales/PAQUETE_DECISION_D1_D8.md:142:| Decisión previa necesaria | D4.d depende de D4.a; D5.c depende de D5.b y D4.d; D8 depende de D6 | [P] |
+./entregables_formales/PAQUETE_DECISION_D1_D8.md:143:| Entidades cuya definición mínima depende de otra decisión | 13 (D4), 14 (D5.c, D-2), 15 (D5), 16 y 17 (D6, D8), 
+./entregables_formales/PAQUETE_DECISION_D1_D8.md:152:- **G2:** D5.a = A · D5.b = A · D5.c = A · D5.d = A
+./entregables_formales/PAQUETE_DECISION_D1_D8.md:157:Consistencia: D5.c = A solo es coherente con D5.b = A; D8 = A solo con D6 = A o C.
+./entregables_formales/PAQUETE_DECISION_D1_D8.md:165:| D4.d | D4.a, D-5.2 | D5.c |
+./entregables_formales/PAQUETE_DECISION_D1_D8.md:166:| D5.a, D5.b, D5.d | D-5 (resuelta) | D5.c; entidad 15 |
+./entregables_formales/PAQUETE_DECISION_D1_D8.md:167:| D5.c | D5.b, D4.d, D-2 | entidades 14 y 15 |
+./entregables_formales/PAQUETE_DECISION_D1_D8.md:173:**Orden lógico:** D6 → D8 · D4.a → D4.b → D4.c → D4.d · D5.a/b/d → D5.c · D7.a/b/c (independientes de l
+./entregables_formales/INFORME_CIERRE_2026-11-22_PAQUETE_D4_D6_D7_D8.md:2:> **Actualización posterior (2026-11-22, tras la revisión de ChatGPT) — el texto original se
+./entregables_formales/INFORME_CIERRE_2026-11-22_PAQUETE_D4_D6_D7_D8.md:8:- **Pendiente:** tu respuesta a las 11 decisiones; D5.a–d; resto de pendientes de Fase 0. *[su
+./entregables_formales/INFORME_CIERRE_2026-11-22_PAQUETE_D4_D6_D7_D8.md:14:- **Requieren tu intervención:** esas 11; D5.a–d; entidad 9 Hallazgo; entidades 10–18; P4.
+./entregables_formales/INFORME_CIERRE_2026-11-22_REGLA_PERMANENTE_12_43.md:2:> **Actualización posterior (2026-11-22, tras la revisión de ChatGPT) — el texto original
+./entregables_formales/INFORME_CIERRE_2026-11-22_REGLA_PERMANENTE_12_43.md:7:**D. Pendientes y riesgos:** 11 decisiones de D-4/D-6/D-7/D-8 y D5.a–d; sin pruebas nuevas 
+./entregables_formales/MATRIZ_CONSOLIDADA_18_ENTIDADES.md:2:**Actualización posterior (2026-11-22):** la referencia a «cinco cuestiones abiertas» de D-5 (aviso de 12:2
+./entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md:231:El propietario confirmó D-5 como resuelta (R3, conjunto (b), M-1); D5.a–d siguen abiertas y fuera del paque
+./entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md:237:El propietario confirmó como **definitiva**: D-5 resuelta; D5.a–d quedaron fuera del paquete vigente; no so
+./00_INDICE_VIGENTES_E_HISTORICOS.md:3:**Regla de lectura:** las recomendaciones de Claude **no son decisiones**. Solo valen como decisión las respuestas literales del p
+== V1b: líneas con D5.a-d que dicen 'abiertas'/'pendientes' sin 'fuera' ni 'antecedente' ni 'superad' ni 'histór'
+./entregables_formales/PAQUETE_DECISION_D1_D8.md:173:**Orden lógico:** D6 → D8 · D4.a → D4.b → D4.c → D4.d · D5.a/b/d → D5.c · D7.a/b/c (independientes de l
+== V2 dependencia D4.d -> D5.c
+./entregables_formales/CONTROL_DE_CAMBIOS_CORRECCION_2026-11-22.md:7:| `entregables_formales/PAQUETE_DECISION_D4_D6_D7_D8.md` | D5.a–d «abiertas» (cabecera, §10); D4
+./entregables_formales/CONTROL_DE_CAMBIOS_CORRECCION_2026-11-22.md:16:| `entregables_formales/PAQUETE_DECISION_D1_D8.md` | Presentaba G2 (D5.a–d) como decisiones y D4.d
+./entregables_formales/PAQUETE_DECISION_D4_D6_D7_D8.md:2:> **Nota de corrección (2026-11-22, posterior a la revisión de ChatGPT).** La versión publicada en el commit `
+./entregables_formales/INFORME_CIERRE_2026-11-22_CORRECCION_DOCUMENTAL.md:6:- Corregido: D5.a–d fuera del alcance vigente (no pendientes ni abiertas); dependencia D4.d�
+./entregables_formales/INFORME_CIERRE_2026-11-22_CORRECCION_DOCUMENTAL.md:14:Búsqueda de referencias a D5.a–d; búsqueda de dependencias D4.d→D5.c; búsqueda de «Re
+(solo permitido en PAQUETE_DECISION_D1_D8.md histórico y en la matriz de control de cambios)
+== V3 entidad genérica Regla como vigente
+06_MODELO_DE_DOMINIO.md:16:| Regla | MVP (copy) / F3 (auditoría) | regla determinista (longitud, palabras obligatorias/prohibidas, formato, CTA…), 
+== V4 advertencia en 05/06/07
+05_ARQUITECTURA_BROWSER_ONLY.md:1
+06_MODELO_DE_DOMINIO.md:1
+07_DISENO_PERSISTENCIA.md:1
+entregables_formales/05_MODELO_DOMINIO_CCI.md:1
+entregables_formales/06_MODELO_DATOS_CCI.md:1
+entregables_formales/07_DISENO_PERSISTENCIA_INDEXEDDB.md:1
+== V5 enlaces/rutas internas del índice y de las advertencias
+== V6 estados D1-D8 y conteos
+17:| D-1 | «Contenido», Adaptación, alcance de auditoría, versionabilidad | **Resuelta** (12:04) | Solo re
+18:| D-2 | Variante frente a Versión | **Resuelta** (12:09) | Solo registro |
+19:| D-3 | Familias de reglas | **Resuelta** (12:14) | Solo registro |
+20:| D-4 | Adaptación: asuntos residuales | **Pendiente** (reformulada 12:21) | G1: 4 decisiones |
+21:| D-5 | Aprobación | **Resuelta** (12:29), ver §0; 5 cuestiones abiertas | G2: 4 decisiones |
+22:| D-6 | Métrica: definición / valor calculado / coexistencia | Pendiente | G3 |
+23:| D-7 | Frontera Configuración / Perfil local / tolerancias / Canales | Pendiente | G4: 3 decisiones |
+24:| D-8 | Nombre canónico de la entidad 16 | Pendiente | G3 (acoplada a D-6) |
+entregables_formales/DECISIONES_P4_PENDIENTES.md:5:**Actualización:** P4.D resuelta (Q-7 = (a) cierra P4.4). P4.A en cu
+entregables_formales/DECISIONES_P4_PENDIENTES.md:51:D5.a–d: decisión definitiva del propietario = fuera del alcance v
+== V7 Q-1/Q-2 siguen abiertas / entidad 9
+88:**Evidencia [D]:** P1 [S: el perfil local incluye únicamente un nombre visible opcional, sin identidad autenticada];
+106:- **Recomendación [P]: A** (solo conceptual). *No aprueba:* valores, redondeo, interfaz de edición, almacenamiento
+115:- **Recomendación [P]: C.** *No aprueba:* lista definitiva, reglas de canal, administración ni interfaz. **Q-2 per
+1:# P4.A — Entidad 9 de 18: Hallazgo de auditoría (AuditFinding) — PENDIENTE DE DECISIÓN
+4:**Nombre canónico:** `Hallazgo de auditoría` (lista A: `AuditFinding`, l.356; B l.205 «Hallazgos»).
+== V8 decisiones aprobadas por inferencia (buscar 'aprobada' junto a D4/D6/D7/D8 en vigentes)
+entregables_formales/PAQUETE_DECISION_D4_D6_D7_D8.md:2:> **Nota de corrección (2026-11-22, posterior a la revisión de ChatGPT).** La versión publicada en el 
+entregables_formales/DECISIONES_P4_PENDIENTES.md:48:Paquete vigente: `PAQUETE_DECISION_D4_D6_D7_D8.md` — D4.a–d, D6.a–c, D7.a–c, D8 (11 ítems, sin resp

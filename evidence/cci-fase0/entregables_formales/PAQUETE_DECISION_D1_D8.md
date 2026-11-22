@@ -1,5 +1,6 @@
 # Paquete único de decisión D-1 a D-8 — 2026-11-22
 > **SUSTITUIDO el 2026-11-22 12:35 por `PAQUETE_DECISION_D4_D6_D7_D8.md`** (alcance reducido por instrucción del propietario; D5.a–d fuera). Se conserva como histórico.
+> **Actualización posterior (2026-11-22):** el bloque G2 (D5.a–d) fue declarado por el propietario **fuera del alcance vigente**; no es pendiente ni abierto. Este documento es solo antecedente histórico y no gobierna el estado actual.
 **Naturaleza:** análisis y propuesta para una sola ronda de respuesta del propietario. **No registra ni aprueba nada.** Todo lo marcado «Recomendación» es **propuesta mía [P]** y no tiene valor de decisión hasta tu respuesta expresa.
 **Convención de procedencia:** **[S]** dicho por ti · **[D]** evidencia documental citada (A = instrucción Fase 0, de49cc27; B = instrucción maestra, 5a9f5585; l. = línea) · **[P]** propuesta mía · **[I]** inferencia mía (no respaldada literalmente).
 **Límites:** no se modifican D-1, D-2, D-3; no hay entidades nuevas; no se avanza a P4.B, P4.C ni a otras dependencias; sin cambios a código, históricos ni repositorio; sin fusión con la vista previa privada.

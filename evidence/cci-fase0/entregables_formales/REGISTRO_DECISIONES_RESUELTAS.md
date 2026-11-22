@@ -232,3 +232,6 @@ El propietario confirmó D-5 como resuelta (R3, conjunto (b), M-1); D5.a–d sig
 
 ## Nota (no es decisión) — 2026-11-22 12:43
 Recibida la **regla permanente de cierre y publicación de evidencia** (aplica a cada tarea; publicación en `appalex47-lab/CCI-Evidence` previa verificación de existencia, `private=true` y permisos de escritura; si hay 403 → detenerse sin alternativas; informe A–E; detenerse tras cada cierre). Complementa y amplía el protocolo de las 12:39. No autoriza avanzar de fase. Verificación 12:43: la API de GitHub respondió 403 para CCI-Evidence → publicación **pendiente**.
+
+## Nota (no es decisión nueva) — 2026-11-22 (corrección documental posterior a la revisión de ChatGPT)
+El propietario confirmó como **definitiva**: D-5 resuelta; D5.a–d quedaron fuera del paquete vigente; no son pendientes, no se contabilizan como abiertas, no condicionan D-4 ni otras decisiones y no se vuelven a preguntar. Las «cinco cuestiones abiertas» registradas el 12:29 y la nota de las 12:35 («D5.a–d siguen abiertas») se **conservan como antecedente cronológico**; la clasificación vigente es la de esta nota. No se aprueba ninguna de ellas individualmente. D4.d se evalúa con D-1, D-2 y D-5.3; no está aprobada.
