@@ -44,6 +44,6 @@ Antecede a P5 y a la aprobación 0.3. Sin respuesta, Fase 1 no puede crear el es
 ## Respuesta (por punto)
 `P4.1 → … | P4.2 → (a)/(b) | P4.3 → Evento: … Etiqueta: … Perfil: … | P4.4 → (aplazado a Q-7) | P4.5 → …` — **pendiente**.
 
-> **Nota fechada 2026-11-22 (auditoría cruzada):** «P4.4 aplazado a Q-7»: Q-7 se resolvió (a) y cerró P4.4. Estado vigente y fuente: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`; P4.A vigente 9/18; D-1…D-8 resueltas en su alcance. Este documento se conserva como evidencia histórica.
+> **Nota fechada 2026-11-22 (auditoría cruzada):** «P4.4 aplazado a Q-7»: Q-7 se resolvió (a) y cerró P4.4. Estado vigente y fuente: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`; P4.A 9/18 a la fecha de esta nota (**vigente actual: 18/18**, ratificación B1; ver `REGISTRO_DECISIONES_RESUELTAS.md`); D-1…D-8 resueltas en su alcance. Este documento se conserva como evidencia histórica.
 
 > **Nota fechada 2026-11-22 15:56 (ratificación del propietario «Confirmo todo» sobre la propuesta maestra B1–B10; el texto original no se altera):** P4 quedó **RESUELTA** por la ratificación (P4.A 18/18, P4.B, P4.C, P4.E); el estado «PARCIAL» de esta ficha es antecedente. Fuente y texto literal: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`, sección «Ratificación de la propuesta maestra de cierre de Fase 0 (B1–B10)». Aprobaciones 0.1–0.7, aceptación de Fase 0 y autorización de Fase 1 siguen pendientes.

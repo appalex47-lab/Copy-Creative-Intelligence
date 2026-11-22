@@ -38,4 +38,4 @@ Aplicado conforme al protocolo permanente recibido a las 12:39. Ninguna recomend
 ## F. Punto de detención
 Me detengo. No continúo con otra dependencia, subfase ni fase. Espero tu revisión y autorización expresa. Ya indicaste que no fusionamos con la vista previa privada; lo dejo solo como registro.
 
-> **Nota fechada 2026-11-22 (auditoría cruzada):** Refleja el estado al 12:35 (D-4/D-6/D-7/D-8 pendientes; P4.A 8/18); superado. Estado vigente y fuente: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`; P4.A vigente 9/18; D-1…D-8 resueltas en su alcance. Este documento se conserva como evidencia histórica.
+> **Nota fechada 2026-11-22 (auditoría cruzada):** Refleja el estado al 12:35 (D-4/D-6/D-7/D-8 pendientes; P4.A 8/18); superado. Estado vigente y fuente: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`; P4.A 9/18 a la fecha de esta nota (**vigente actual: 18/18**, ratificación B1; ver `REGISTRO_DECISIONES_RESUELTAS.md`); D-1…D-8 resueltas en su alcance. Este documento se conserva como evidencia histórica.

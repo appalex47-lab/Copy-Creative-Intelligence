@@ -1,9 +1,10 @@
 # Criterios de aceptación por fase
 
+> **Estado (2026-11-22):** criterios **propuestos**, no aprobados individualmente; se someten a la ficha 0.7. Las menciones a campos concretos (p. ej. «13 campos» del Brief en AC2-01, «9 campos» del Hallazgo en AC3-03) proceden de la instrucción original y de la matriz de requisitos como **requisitos propuestos**; **no son atributos aprobados** (P4.C: los atributos se definen en la especificación de cada módulo). Las pre-condiciones de cada fase indican lo que debe estar resuelto *antes* de esa fase; no las resuelven.
 > Fuente: `../11_ROADMAP_Y_CRITERIOS_FASES_1_A_5.md` (AC1-01…AC5-08), trazados en `03_MATRIZ_REQUISITOS_CCI.md`. Todos: definidos, no ejecutados.
 
 ## Fase 1 — Fundamentos y Command Center
-Pre-condición: Fase 0 aceptada y Fase 1 autorizada; decisiones P1, P2 y P3 (resueltas 2026-11-22), P4, P5, P9, P11, P12, P13, Q-4 resueltas.
+Pre-condición: Fase 0 aceptada y Fase 1 autorizada; decisiones P1, P2 y P3 (resueltas 2026-11-22), P4, P5, P9, P11, P12, P13, Q-4 resueltas (ratificación 2026-11-22 15:56: **cumplidas las decisiones**; siguen pendientes la aceptación de Fase 0 y la autorización de Fase 1).
 | ID | Criterio verificable |
 |---|---|
 | AC1-01 | Ningún módulo de `src/` usa `fetch`/XHR/WebSocket ni SDK de servidor; verificado por prueba de arquitectura (AST) |

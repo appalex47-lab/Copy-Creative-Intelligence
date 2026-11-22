@@ -7,7 +7,7 @@ Principio: «Los datos locales deben poder exportarse y recuperarse». La aplica
 ## 1. Formato de exportación (lógico, independiente del contenedor; P6)
 Sobre: `{ format: "cci-backup", formatVersion, appVersion, schemaVersion, exportedAt, instanceId, scope: "full"|"selective", counts: {store: n}, payload: {store: [registros]}, integrity: {algorithm: "SHA-256", payloadHash} }`.
 - `payloadHash`: SHA-256 (Web Crypto) del `payload` en forma canónica. Detecta corrupción accidental; **no** prueba autoría ni evita manipulación deliberada (quien edite el archivo puede recalcular el hash).
-- Binarios (si P5=sí): JSON con base64 (simple, grande) o contenedor ZIP (requiere dependencia, P13). El formato lógico no cambia.
+- Binarios (P5 resuelta: se almacenan como `Blob` en IndexedDB): JSON con base64 (simple, grande) o contenedor ZIP (requiere dependencia justificada, P13). El formato lógico no cambia. *[Alineación 2026-11-22, regularización posterior a la ratificación B1–B10; no es decisión nueva; el texto anterior se conserva]*: **P6 (formato final de exportación) tiene aplazamiento aceptado hasta antes de cerrar Fase 2**; el sobre `cci-backup`, sus campos y la importación descrita son **propuesta de diseño, no decisión** y la aprobación 0.4 no los aprueba.
 - Exportación selectiva: por campaña o por conjunto de entidades, con cierre referencial (incluye lo necesario o marca referencias externas).
 
 ## 2. Importación (todo o nada)

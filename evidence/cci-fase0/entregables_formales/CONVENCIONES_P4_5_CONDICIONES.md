@@ -1,6 +1,6 @@
 # P4.5 — Condiciones y justificaciones (propuestas mías, sin aprobar)
 
-> **ESTADO VIGENTE (ronda final 2026-11-22):** propuestas de Claude **sin aprobar**; P4.5 permanece **preliminar** (registro: «Aprobación preliminar conservada»); P4.E (E1–E5) sigue pendiente. Este documento no contiene decisiones del propietario.
+> **ESTADO VIGENTE (ratificación 2026-11-22 15:56; sustituye al estado de la ronda final):** P4.E (E1–E5) quedó **resuelta** por la ratificación B4 (convenciones definitivas con las delimitaciones registradas en `REGISTRO_DECISIONES_RESUELTAS.md`; P12 = (b)). Las tablas de este documento son las **propuestas de Claude que fundamentaron** esa ratificación: donde difieran del registro, prevalece el registro. Este documento no contiene decisiones del propietario. *[Estado anterior, superado: «propuestas de Claude sin aprobar; P4.5 permanece preliminar; P4.E (E1–E5) sigue pendiente».]*
 Posiciones del propietario en `REGISTRO_DECISIONES_RESUELTAS.md`. Este documento desarrolla lo que él condicionó. Nada es decisión hasta que lo valide.
 ## 1. Fechas: almacenamiento UTC sin perder la semántica comercial
 - **Instantes** (creado, modificado, auditado, aprobado): ISO-8601 UTC con `Z`. Es lo aprobado.

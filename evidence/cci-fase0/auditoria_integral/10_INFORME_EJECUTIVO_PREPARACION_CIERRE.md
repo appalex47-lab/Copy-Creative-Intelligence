@@ -13,13 +13,13 @@
 | Aceptación de Fase 0 | **No aceptada** |
 | Autorización de Fase 1 | **No autorizada**; independiente de la aceptación |
 
-## 2. Qué falta para que el propietario pueda considerar el cierre (sin pedirlo aún)
-1. PAQ-1 y PAQ-2: entidades 9–12 y 14–18 (+ A0-1/2/3).
-2. PAQ-3 y PAQ-4: P4.B, P4.C, P4.E.
-3. PAQ-5: Q-1…Q-6, C-2, C-3 (Q-1, Q-2 y Q-5 necesitan datos que solo el propietario puede aportar).
-4. PAQ-6: P5, P9, P11–P14 (indispensables según el propio expediente); PAQ-7 antes de su fase.
-5. (CR-15 y CR-16 **no** son preguntas para el propietario: CR-15 es una asociación no confirmada que no se usa; CR-16 se resolvió por la independencia ya decidida entre D6.b y D6.c=A0.)
-Después: aprobaciones 0.1–0.7 una por una, aceptación de Fase 0 y, aparte, autorización de Fase 1.
+## 2. Estado vigente del cierre (tras la ratificación B1–B10 y la ronda de preparación de aprobaciones)
+**2.1 Trabajo ya resuelto (decisiones del propietario).** PAQ-1, PAQ-2, PAQ-3, PAQ-4 y PAQ-6 están resueltos por la ratificación del 2026-11-22 15:56: P4.A 18/18 (solo existencia y definición mínima), P4.B (13 relaciones, sin cardinalidades obligatorias), P4.C (atributos diferidos a cada módulo), P4.E (E1–E5), A0-1/A0-2/A0-3, P5, P9, P11, P12, P13, P14 y Q-4 (el MVP termina al concluir Fase 2). Antes: P1, P2, P3, Q-7, D-1…D-8. Total: **20/30** decisiones conceptuales (indicador orientativo, §3).
+**2.2 Trabajo documental de regularización todavía necesario.** Ninguno conocido tras esta ronda: los defectos hallados (aprobaciones con prerrequisitos desactualizados, matriz consolidada, esta sección, MVP con «Q-4 abierta», relaciones y convenciones de los documentos de dominio y persistencia más amplias que lo ratificado, controles del verificador) se corrigieron y se verificaron con el script de coherencia y con clon limpio (ver `CONTROL_DE_CAMBIOS_PREPARACION_APROBACIONES_2026-11-22.md` y el informe final). Limitación: verificación propia, sin reproducción independiente; no se ejecutaron pruebas, build, E2E ni CI de la aplicación.
+**2.3 Aprobaciones formales pendientes.** 0.1–0.7: **0/7 emitidas**. Paquete de decisión con recomendación, límites y texto de respuesta: `entregables_formales/PAQUETE_DECISION_APROBACIONES_0_1_A_0_7.md`; fichas: `APROBACIONES_FASE0.md`. Además, de forma independiente: aceptación final de Fase 0 (no aceptada) y autorización de Fase 1 (no autorizada).
+**2.4 Decisiones aplazadas (aceptadas, no resueltas; 10/30).** P6 (antes de cerrar Fase 2), P7 (antes de Fase 5), P8 (antes de la generación en Fase 2), P10 (antes de la publicación del producto), P15 (antes de la publicación externa), Q-1 y Q-2 (antes de Fase 4), Q-3 (antes de Fase 5), Q-5 (antes de Fase 3), Q-6 (antes de Fase 2). Ficha por aplazamiento: `entregables_formales/CONCILIACION_30_DECISIONES_Y_APLAZAMIENTOS.md`.
+**2.5 Limitaciones históricas abiertas.** C-2 (estado de la Fase 0 v3.3 anterior) y C-3 (D-04 «APROBADA» con cinco roles) permanecen **abiertas como limitaciones expresas** (CR-17 PENDIENTE_PROPIETARIO); CR-12 sigue como NO_RESOLUBLE_POR_FALTA_DE_EVIDENCIA. Subcuestiones residuales de decisiones antiguas, no resueltas por derivación: ubicación de las reglas de copy en el modelo (D-3) y las cuestiones (1), (2), (3) y (5) de D-5 (ver conciliación).
+**2.6 Decisiones que solo puede emitir el propietario.** Las respuestas a 0.1–0.7; la aceptación de Fase 0; la autorización de Fase 1 (con subfases, rama, archivos, pruebas y prohibiciones); la pregunta R-1 del paquete (diferimiento de las subcuestiones residuales de D-3 y D-5); y la resolución de cada aplazamiento en su momento. C-2/C-3 solo se cierran por decisión expresa o evidencia primaria.
 
 ## 3. Porcentajes de avance (cada uno con alcance y base; sin ponderación)
 | Indicador | Valor | Base de cálculo |
@@ -35,7 +35,11 @@ Después: aprobaciones 0.1–0.7 una por una, aceptación de Fase 0 y, aparte, a
 | Estado de publicación | Rama `evidence/cci-fase0-review` publicada; `main` sin cambios; sin PR ni merge | API |
 | **Fase 0 global** | **No calculable** | No hay base objetiva ni ponderación aprobada |
 
-## 4. Riesgos principales
-- Entidades 10–12 con insuficiencia de evidencia (reglas de marca sin lista; Q-1/Q-2 sin datos).
-- Las subcuestiones de A0 (origen de valores, L1/L2, L3) siguen abiertas y deben decidirse antes de P4.B/P4.C; no existe tensión con D6.b (CR-16 resuelta).
+## 4. Riesgos principales (estado vigente)
+- La arquitectura de persistencia no ha sido probada en navegadores reales (P14: sin PoC ejecutable en Fase 0); cuotas, expulsión y coordinación entre pestañas (Web Locks) **no están verificadas** y se validarán en Fase 1 (AC1-06, AC1-12).
+- Los 10 aplazamientos (P6–P8, P10, P15, Q-1–Q-3, Q-5, Q-6) bloquean fases posteriores si no se resuelven a tiempo; Q-1, Q-2 y Q-5 necesitan datos que solo el propietario puede aportar; no hay lista de reglas de marca en la evidencia.
+- La frontera de respaldo del MVP es condicional (B7): sin exportación/importación básica en Fase 1, la protección contra pérdida de datos depende de Fases 2 y 5 (RK-01).
 - C-2/C-3 abiertas: la presencia en `docs/fase0` de una «Fase 0 v3.3 aceptada» puede inducir a error si se lee sin el índice de conciliación.
+- Las tablas de campos, relaciones y cardinalidades de `05` y `06` son propuestas históricas no aprobadas; quien las lea sin sus notas de alineación podría tomarlas por decisiones.
+
+> **Nota fechada 2026-11-22 (regularización; no es decisión nueva):** el informe final con anexos A–J, las métricas separadas y el dictamen está en `auditoria_integral/14_INFORME_FINAL_REGULARIZACION_Y_PREPARACION_APROBACIONES.md`; las fichas, en `entregables_formales/APROBACIONES_FASE0.md`; la síntesis de decisión, en `entregables_formales/PAQUETE_DECISION_APROBACIONES_0_1_A_0_7.md`.

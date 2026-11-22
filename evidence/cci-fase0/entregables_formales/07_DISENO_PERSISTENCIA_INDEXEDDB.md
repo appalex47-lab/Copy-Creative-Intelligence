@@ -29,13 +29,13 @@ BD única `cci`, versión entera (`schemaVersion`). Un único módulo propietari
 | (F4) `commercialRules` | `id` | `scope`, `enabled` |
 | `activity` | `id` | `createdAt`, `entityId` |
 | (F3) `pieces`, `audits`, `findings`; (F4) `channels`, `adaptations`; (F2) `tags`; (F5) `approvals`, `results` | `id` | según entidad |
-| (si P5=sí) `blobs` | `id` | `ownerId` |
+| `blobs` (P5 resuelta: binarios como `Blob` en IndexedDB, separados de sus metadatos; antes «si P5=sí») | `id` | `ownerId` |
 Los stores de F3–F5 se añaden por **migraciones**, no desde el inicio (evita esquema especulativo).
 
 ## 3. Transacciones e integridad
 - Operación de negocio = una transacción `readwrite` sobre todos los stores afectados; commit atómico; nunca `await` externo dentro de la transacción.
 - IndexedDB no impone claves foráneas: los repositorios verifican existencia de referencias dentro de la misma transacción; borrar = archivar (`archivedAt`) salvo purga explícita con confirmación.
-- `revision` para control optimista: **NO aprobado como requisito obligatorio (P4.5)**; solo si P12 = (c); ver `CONVENCIONES_P4_5_CONDICIONES.md`. Propuesta original: escritura con revisión obsoleta → `conflict`.
+- `revision` para control optimista: **NO aprobado como requisito obligatorio (P4.5)**; solo si P12 = (c); ver `CONVENCIONES_P4_5_CONDICIONES.md`. *[Alineación 2026-11-22, regularización posterior a la ratificación B1–B10; no es decisión nueva; el texto anterior se conserva]*: P12 quedó resuelta como (b) (una pestaña de escritura y las demás en solo lectura) y E2 ratificó que `revision` no es obligatorio y solo se añadirá si un caso de uso demuestra necesidad; por tanto no forma parte del diseño base. Propuesta original: escritura con revisión obsoleta → `conflict`.
 - `versions` es append-only; el contenido aprobado no se sobrescribe: se crea una versión nueva y se registra motivo.
 - Utilidad de verificación de consistencia (referencias huérfanas, versiones faltantes, duplicados) ejecutable por el usuario y tras importar/migrar.
 
@@ -49,7 +49,7 @@ Distinguir `QuotaExceededError`, `AbortError`, `VersionError`, `InvalidStateErro
 Cierre inesperado: transacciones incompletas se revierten; lo no persistido en memoria se pierde → autoguardado de borradores como `Copy` en estado Borrador cada N segundos de inactividad (decisión de diseño a confirmar en Fase 2).
 
 ## 6. Concurrencia (P12)
-Pestañas múltiples: `onversionchange` cierra la conexión y recarga; escritura protegida por `revision`; propuesta: bloqueo exclusivo por Web Locks (si está disponible) o aviso «abierta en otra pestaña» y modo solo lectura. Sin garantía de orden entre pestañas sin coordinación.
+Pestañas múltiples: `onversionchange` cierra la conexión y recarga; escritura protegida por `revision`; propuesta: bloqueo exclusivo por Web Locks (si está disponible) o aviso «abierta en otra pestaña» y modo solo lectura. *[Alineación 2026-11-22, regularización posterior a la ratificación B1–B10; no es decisión nueva; el texto anterior se conserva]*: vigente P12 = (b): una pestaña de escritura, las demás en solo lectura con aviso visible y recuperación del permiso; coordinación por un mecanismo del navegador a evaluar (Web Locks y canal entre pestañas, **no verificados**); si no puede demostrarse quién tiene el bloqueo, se falla de forma conservadora; sin concurrencia optimista generalizada ni `revision` en todos los registros. La protección «por `revision`» de esta frase es la propuesta anterior. Sin garantía de orden entre pestañas sin coordinación.
 
 ## 7. Volumen y límites
 Texto y metadatos: muy por debajo de límites prácticos. Binarios (Piezas creativas, F3) son el riesgo: cuota por origen variable según navegador y disco (**no verificada aquí**). Estado real del almacenamiento (Fase 1 lo muestra) mediante `navigator.storage.estimate()`; solicitud `navigator.storage.persist()` (petición, no garantía).

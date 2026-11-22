@@ -8,4 +8,4 @@
 **E. Avance (sin global):** dependencias D-1…D-8 4/8; entidades P4.A 8/18; documentación y pruebas sin base verificable de cálculo; repositorio de desarrollo sin cambios (`ffb47bc`, limpio); evidencia publicada 0 entregas.
 Me detengo y espero indicaciones. Ya indicaste que no fusionamos con la vista previa privada; lo dejo solo como registro.
 
-> **Nota fechada 2026-11-22 (auditoría cruzada):** Refleja el estado al 12:43 (D-1…D-8 4/8; P4.A 8/18); superado. Estado vigente y fuente: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`; P4.A vigente 9/18; D-1…D-8 resueltas en su alcance. Este documento se conserva como evidencia histórica.
+> **Nota fechada 2026-11-22 (auditoría cruzada):** Refleja el estado al 12:43 (D-1…D-8 4/8; P4.A 8/18); superado. Estado vigente y fuente: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`; P4.A 9/18 a la fecha de esta nota (**vigente actual: 18/18**, ratificación B1; ver `REGISTRO_DECISIONES_RESUELTAS.md`); D-1…D-8 resueltas en su alcance. Este documento se conserva como evidencia histórica.

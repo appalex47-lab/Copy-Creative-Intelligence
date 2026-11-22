@@ -8,7 +8,7 @@ for r,_,fs in os.walk(EV):
     for f in fs:
         if f.endswith(('.md','.txt','.py')): files.append(os.path.join(r,f))
 # Se excluyen de los escaneos los propios productos de esta verificación (autorreferencia): su informe 13_, este script y su salida.
-SELF=('auditoria_integral/13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md','logs/verificacion_coherencia_posterior.py','logs/verificacion_coherencia_posterior_2026-11-22.txt','logs/verificacion_coherencia_posterior_2026-11-22_x4_corregido.txt','logs/verificacion_coherencia_posterior_2026-11-22_tras_ratificacion.txt')
+SELF=('auditoria_integral/13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md','logs/verificacion_coherencia_posterior.py','logs/verificacion_coherencia_posterior_2026-11-22.txt','logs/verificacion_coherencia_posterior_2026-11-22_x4_corregido.txt','logs/verificacion_coherencia_posterior_2026-11-22_tras_ratificacion.txt','logs/verificacion_coherencia_posterior_2026-11-22_regularizacion.txt','logs/verificacion_semantica_fase0.py','logs/verificacion_semantica_fase0_2026-11-22.txt','logs/verificacion_semantica_fase0_prueba_mutacion_2026-11-22.txt','logs/verificar_expediente_historico_2026-11-22.txt','logs/modelo_estructural_historico_2026-11-22.txt','logs/escaneo_contradicciones_2026-11-22_regularizacion.txt')
 files=[p for p in files if p[len(EV)+1:] not in SELF]
 files.sort()
 txt={p:open(p,encoding='utf-8',errors='replace').read() for p in files}

@@ -3,9 +3,9 @@ Probabilidad/impacto: A alta · M media · B baja (estimaciones **mías**, no me
 | ID | Riesgo | P | I | Mitigación propuesta | Decisión/Fase |
 |---|---|---|---|---|---|
 | RK-01 | Pérdida de datos por borrado/expulsión del navegador | M | A | `persist()`, aviso de respaldo, exportación periódica; no se promete recuperación automática | P9, F1/F5 |
-| RK-02 | Cuota agotada con binarios | M | M | límites de tamaño, estimación de cuota, política P5 | P5, F3 |
+| RK-02 | Cuota agotada con binarios | M | M | límites de tamaño, estimación de cuota, política P5 *[Alineación 2026-11-22: P5 resuelta: `Blob` en IndexedDB, consulta de cuota cuando el navegador lo permita, advertencia y exportación; límites de producto solo tras pruebas reales de navegador; no hay cifras aprobadas]* | P5 (resuelta), F3 |
 | RK-03 | Origen compartido expone datos a otras apps del mismo origen | M | A | hosting por origen propio; documentarlo | P10, F5 |
-| RK-04 | Edición concurrente en varias pestañas | M | M | `revision` optimista + política P12 | P12, F1 |
+| RK-04 | Edición concurrente en varias pestañas | M | M | `revision` optimista + política P12 *[Alineación 2026-11-22: P12 = (b), una pestaña de escritura y las demás en solo lectura; `revision` no es obligatorio (E2); la mitigación vigente es la política P12; la propuesta de `revision` queda como antecedente]* | P12 (resuelta), F1 |
 | RK-05 | Importación parcial/corrupta | B | A | todo-o-nada, hash, validación, respaldo previo | F5 |
 | RK-06 | Claves de IA expuestas en el cliente | A | A | sin claves en código/almacenamiento; alternativa IA aprobada | P8, F2 |
 | RK-07 | Modelo de dominio mal definido → migraciones costosas | M | A | decidir P4/Q-4 antes de F1; migraciones secuenciales con pruebas | P4, F1 |

@@ -1,5 +1,5 @@
 # Informe de auditoría integral del expediente — ronda final (2026-11-22)
-**Versión:** 3.3 (v3.2 + ratificación de la propuesta maestra de cierre de Fase 0 por el propietario, 15:56: 114 archivos; v3.1 + corrección puntual de X4: 111 archivos; v3.0 + ronda de verificación de coherencia posterior: 110 archivos, métrica de avisos de vigencia recalculada y descrita con su alcance real; no cambia ningún estado de CR ni decisión) · **Fecha:** 2026-11-22 · **Estado:** vigente como informe de hechos; subordinado al registro de decisiones · **Base:** HEAD `13b25ca447c0ab17f46b3143615b4c2156661b79` (la v2.0 se redactó sobre `8dc47b24…`) · **Referencias:** `06_REGISTRO_CONTRADICCIONES.md`, `08_INFORME_INTEGRIDAD_ARCHIVOS.md`, `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`.
+**Versión:** 3.4 (v3.3 + regularización posterior a la ratificación y preparación de aprobaciones: 125 archivos; v3.2 + ratificación de la propuesta maestra de cierre de Fase 0 por el propietario, 15:56: 114 archivos; v3.1 + corrección puntual de X4: 111 archivos; v3.0 + ronda de verificación de coherencia posterior: 110 archivos, métrica de avisos de vigencia recalculada y descrita con su alcance real; no cambia ningún estado de CR ni decisión) · **Fecha:** 2026-11-22 · **Estado:** vigente como informe de hechos; subordinado al registro de decisiones · **Base:** HEAD `13b25ca447c0ab17f46b3143615b4c2156661b79` (la v2.0 se redactó sobre `8dc47b24…`) · **Referencias:** `06_REGISTRO_CONTRADICCIONES.md`, `08_INFORME_INTEGRIDAD_ARCHIVOS.md`, `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`.
 
 ## 0. Corrección de cifras de la versión anterior (hallazgo 3.5)
 - La versión anterior clasificaba **93** archivos y declaraba «93/93 clasificados». El árbol real de la rama en `8dc47b2` (API) tenía **164** blobs = **104** en `evidence/cci-fase0/` (93 previos + 11 documentos de la auditoría integral) + **59** en `docs/fase0/` + **1** `README.md` de la raíz del repositorio.
@@ -12,35 +12,34 @@
 ## 1. Alcance real
 | Concepto | Cantidad |
 |---|---|
-| Archivos en `evidence/cci-fase0/` (tras la ratificación 15:56) | 114 |
+| Archivos en `evidence/cci-fase0/` (tras la regularización de preparación de aprobaciones) | 125 |
 | Archivos en `docs/fase0/` (sin modificar; idénticos a `main`) | 59 |
 | `README.md` de la raíz del repositorio (fuera del expediente; sin modificar) | 1 |
-| Total de blobs esperado en la rama tras publicar | 174 |
+| Total de blobs esperado en la rama tras publicar | 185 |
 
-## 2. Clasificación por vigencia de los 114 archivos del expediente
+## 2. Clasificación por vigencia de los 125 archivos del expediente
 | Clase | Archivos |
 |---|---|
 | Antecedente (análisis resuelto) | 4 |
 | Antecedente (respondido) | 2 |
 | Antecedente / propuesta | 7 |
-| Evidencia técnica | 18 |
+| Evidencia técnica | 25 |
 | Histórico | 2 |
 | Histórico (copia previa) | 16 |
 | Histórico (ficha resuelta/suspendida) | 14 |
-| Informe de auditoría (derivado) | 3 |
-| Informe/control (fechado) | 11 |
+| Informe de auditoría (derivado) | 4 |
+| Informe/control (fechado) | 12 |
 | Integridad | 3 |
 | Integridad (informe) | 1 |
 | Propuesta | 1 |
 | Propuesta (ratificada; copia literal) | 1 |
-| Propuesta (subordinada) | 14 |
+| Propuesta (subordinada) | 15 |
 | Propuesta vigente (no aprobada en bloque) | 1 |
 | Superado | 1 |
 | VIGENTE AUTORITATIVO | 1 |
-| Vigente (derivado) | 7 |
+| Vigente (derivado) | 8 |
 | Vigente (subordinado) | 4 |
 | Vigente (índice) | 3 |
-| **Total** | **114** |
 
 **Aviso de vigencia en el propio archivo** (clases histórica, antecedente, superado e informe: 58 archivos en esas clases; **55 de 55 aplicables** con marca; 3 «n/a»: el archivo de hashes `anexos/MANIFEST_informe_browser_only.sha256` y los informes derivados vigentes `05_` y `12_`; el nuevo `13_` también figura «n/a»). **Alcance de la métrica:** detección automática a nivel de **archivo** (basta una marca en cualquier parte del archivo); no verifica que cada afirmación histórica del archivo esté individualmente marcada. Dentro de las 46 filas de clase histórica/antecedente/superado: 45 con marca y 1 «n/a» (el archivo de hashes); `FICHA_P4A_09` se detecta por su encabezado «SUSPENDIDA».
 
@@ -162,6 +161,17 @@ Detalle archivo por archivo (ruta · clase · motivo · aviso de vigencia en el 
 | `logs/verificacion_coherencia_posterior_2026-11-22_tras_ratificacion.txt` | Evidencia técnica | Salida del script de coherencia tras registrar la ratificación (incluye el control V13 añadido) (registro de hechos) | n/a |
 | `logs/verificacion_coherencia_posterior_2026-11-22_x4_corregido.txt` | Evidencia técnica | Salida del script con X4 corregido, pruebas de regresión y detalle por CR y documento (registro de hechos) | n/a |
 | `logs/verificaciones_documentales_2026-11-22_correccion.txt` | Evidencia técnica | Evidencia de ejecución previa (no reejecutada); registro de hechos | n/a |
+| `entregables_formales/CONCILIACION_30_DECISIONES_Y_APLAZAMIENTOS.md` | Vigente (derivado) | Conciliación de las 30 decisiones, hojas de los 10 aplazamientos y verificación de las 18 entidades; deriva del registro autoritativo | Sí (declara que no decide) |
+| `entregables_formales/PAQUETE_DECISION_APROBACIONES_0_1_A_0_7.md` | Propuesta (subordinada) | Paquete de decisión de las aprobaciones 0.1–0.7 con recomendaciones no vinculantes; no emite aprobaciones | Sí |
+| `entregables_formales/CONTROL_DE_CAMBIOS_PREPARACION_APROBACIONES_2026-11-22.md` | Informe/control (fechado) | Control de cambios de la regularización posterior a la ratificación y preparación de aprobaciones | Sí |
+| `auditoria_integral/14_INFORME_FINAL_REGULARIZACION_Y_PREPARACION_APROBACIONES.md` | Informe de auditoría (derivado) | Informe ejecutivo final con anexos A–J y métricas separadas | Sí |
+| `logs/verificacion_semantica_fase0.py` | Evidencia técnica | Script de control semántico (S1–S9, E1–E5, R1, D1–D3, A1–A2) con 32 pruebas positivas y negativas | n/a |
+| `logs/verificacion_semantica_fase0_2026-11-22.txt` | Evidencia técnica | Salida del control semántico sobre el expediente real (registro de hechos) | n/a |
+| `logs/verificacion_semantica_fase0_prueba_mutacion_2026-11-22.txt` | Evidencia técnica | Salida del control semántico sobre una copia deliberadamente alterada (prueba de que detecta defectos) | n/a |
+| `logs/verificacion_coherencia_posterior_2026-11-22_regularizacion.txt` | Evidencia técnica | Salida del script de coherencia tras la regularización (registro de hechos) | n/a |
+| `logs/escaneo_contradicciones_2026-11-22_regularizacion.txt` | Evidencia técnica | Salida de `scan_contradicciones.py` v2 (clasificación por párrafo) (registro de hechos) | n/a |
+| `logs/verificar_expediente_historico_2026-11-22.txt` | Evidencia técnica | Salida de la herramienta histórica sobre copia de `docs/fase0`; solo aplica a esa línea (registro de hechos) | n/a |
+| `logs/modelo_estructural_historico_2026-11-22.txt` | Evidencia técnica | Salida de la herramienta histórica de modelo estructural; solo aplica a la línea Supabase (registro de hechos) | n/a |
 
 ## 3. Método (qué se hizo realmente)
 - **Procesamiento automático** de los archivos de texto de `evidence/cci-fase0/` (salvo `auditoria_integral/` y `logs/`): búsquedas de patrón (8/18, D4.d pendiente, «Adaptación pendiente de D-4», «Prevalece este aviso», «cinco cuestiones», Supabase/PostgreSQL/RLS, multiusuario, «Fase 0 aceptada», Q-7/P4.4, D5.a–d, «Fase 1 autorizada») con indicación de si el archivo tiene marca de vigencia: `logs/scan_contradicciones.py` y su salida. **Es escaneo, no lectura.**

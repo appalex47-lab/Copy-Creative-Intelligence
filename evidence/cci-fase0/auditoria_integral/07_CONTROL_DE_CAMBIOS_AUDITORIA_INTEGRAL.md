@@ -137,3 +137,16 @@ Ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` v2.0: la brecha de lectura declarada
 | `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados | Integridad |
 **Preservados sin cambios:** `docs/fase0/` (59), `anexos/`, la salida original y la corregida del script, `13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md`, fichas P4A históricas (salvo la nota en la ficha 09), y los estados de CR-01…CR-22.
 
+## R11. Regularización posterior a la ratificación y preparación de aprobaciones (base `f7bb7acdc9480936bf001d1e2c895093d2574844`)
+**Alcance:** completar la regularización documental, conciliar las 30 decisiones y las 18 entidades, rehacer las fichas de aprobación 0.1–0.7, reforzar los verificadores y publicar un paquete de decisión. No se modificó código de la aplicación, `docs/fase0/`, `main` ni estados de CR; no se emitió ninguna aprobación (0/7); no se aceptó Fase 0 ni se autorizó Fase 1. Detalle y justificación por grupo en `entregables_formales/CONTROL_DE_CAMBIOS_PREPARACION_APROBACIONES_2026-11-22.md`.
+| Grupo | Cambio | Motivo |
+|---|---|---|
+| Nuevos documentos (4) | `CONCILIACION_30_DECISIONES_Y_APLAZAMIENTOS.md`, `PAQUETE_DECISION_APROBACIONES_0_1_A_0_7.md`, control de cambios y `14_INFORME_FINAL_…` | Conciliación, decisión y reporte |
+| `APROBACIONES_FASE0.md` | Reescrito: tabla vigente y siete fichas; el texto anterior se conserva como antecedente marcado | Prerrequisitos y fichas desactualizados |
+| `10_INFORME_EJECUTIVO…` | Secciones 2 y 4 reescritas | Cifras y estado anteriores a la ratificación |
+| `04`–`08`, `10_DEFINICION_MVP`, `11`, `12`, `14`, `CONVENCIONES_P4_5_CONDICIONES`, `MATRIZ_CONSOLIDADA` | Notas fechadas de alineación (texto anterior conservado) | Descripciones más amplias que lo ratificado o estados antiguos |
+| 11 documentos históricos o subordinados | «P4.A vigente 9/18» sustituido por «P4.A 9/18 a la fecha de esta nota (vigente actual: 18/18)» | Nota de vigencia desactualizada |
+| `logs/` (verificadores y salidas) | Script semántico nuevo con 32 pruebas; `scan_contradicciones.py` v2; escaneo por párrafo; salidas de herramientas históricas | Controles semánticos |
+| `05`, `07`, `08`, `12` y los índices | Cifras (125 archivos; manifiestos de 123 y 124 líneas; 185 blobs), filas y notas | Coherencia |
+| `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados | Integridad |
+**Preservados sin cambios:** `docs/fase0/` (59), `anexos/`, las salidas anteriores de los scripts, `13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md`, el estado de CR-01…CR-22 y el texto de las decisiones.

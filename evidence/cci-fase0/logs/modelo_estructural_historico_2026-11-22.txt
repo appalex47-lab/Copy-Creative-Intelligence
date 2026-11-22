@@ -1,0 +1,4 @@
+# Salida de herramienta HISTÓRICA ejecutada el 2026-11-22 sobre una COPIA de docs/fase0 (línea Supabase/RLS, superada). Solo aplica a esa línea; NO valida el expediente browser-only vigente.
+# Origen: me.out / me.err de la sesión; sin modificar la herramienta ni docs/fase0.
+## STDOUT
+## STDERR
