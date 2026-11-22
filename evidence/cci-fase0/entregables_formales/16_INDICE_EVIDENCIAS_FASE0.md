@@ -39,15 +39,15 @@ Sin equivalente formal (se quedan en la raíz): `00` dictamen, `03` conciliació
 ## Añadidos tras las respuestas parciales a P4 (2026-11-22)
 `LISTA_ORIGINAL_18_ENTIDADES.md` (listas A y B leídas de los adjuntos, con líneas), `FICHA_Q7.md` (sin respuesta al elaborarse; **vigente: Q-7 resuelta → (a)**), `CONVENCIONES_P4_5_CONDICIONES.md` (propuestas para las condiciones de P4.5); modelo (`05`, `06`, `07`) actualizado: ReglaDeMarca/ReglaComercial separadas, Etiqueta aprobada, Colección fuera del modelo, `revision` no obligatoria.
 - DECISIONES_P4_PENDIENTES.md — decisiones de P4 aún abiertas (2026-11-22; vigente: P4.D/Q-7 resuelta, D4/D6/D7/D8 resueltas)
-- FICHA_P4A_01_CAMPANA.md — P4.A entidad 1 (pendiente)
-- FICHA_P4A_02_BRIEF.md — P4.A entidad 2 (pendiente)
-- FICHA_P4A_03_PRODUCTO.md — P4.A entidad 3 (pendiente)
-- FICHA_P4A_04_OFERTA.md — P4.A entidad 4 (pendiente)
-- FICHA_P4A_05_COPY.md — P4.A entidad 5 (pendiente)
-- FICHA_P4A_06_COPYVARIANT.md — P4.A entidad 6 (pendiente)
-- FICHA_P4A_07_PIEZA_CREATIVA.md — P4.A entidad 7 (pendiente)
-- FICHA_P4A_08_AUDITORIA_CREATIVA.md — P4.A entidad 8 (pendiente)
-- FICHA_P4A_09_HALLAZGO.md — P4.A entidad 9 (pendiente)
+- FICHA_P4A_01_CAMPANA.md — P4.A entidad 1 (**vigente: RESUELTA, definición mínima aprobada**; «pendiente» = estado al elaborarse la ficha)
+- FICHA_P4A_02_BRIEF.md — P4.A entidad 2 (**vigente: RESUELTA, definición mínima aprobada**; «pendiente» = estado al elaborarse la ficha)
+- FICHA_P4A_03_PRODUCTO.md — P4.A entidad 3 (**vigente: RESUELTA, definición mínima aprobada**; «pendiente» = estado al elaborarse la ficha)
+- FICHA_P4A_04_OFERTA.md — P4.A entidad 4 (**vigente: RESUELTA, definición mínima aprobada**; «pendiente» = estado al elaborarse la ficha)
+- FICHA_P4A_05_COPY.md — P4.A entidad 5 (**vigente: RESUELTA, definición mínima aprobada**; «pendiente» = estado al elaborarse la ficha)
+- FICHA_P4A_06_COPYVARIANT.md — P4.A entidad 6 (**vigente: RESUELTA, definición mínima aprobada**; «pendiente» = estado al elaborarse la ficha)
+- FICHA_P4A_07_PIEZA_CREATIVA.md — P4.A entidad 7 (**vigente: RESUELTA, definición mínima aprobada**; «pendiente» = estado al elaborarse la ficha)
+- FICHA_P4A_08_AUDITORIA_CREATIVA.md — P4.A entidad 8 (**vigente: RESUELTA, definición mínima aprobada**; «pendiente» = estado al elaborarse la ficha)
+- FICHA_P4A_09_HALLAZGO.md — P4.A entidad 9 (**vigente: SUSPENDIDA, sin aprobar**)
 - DIAGNOSTICO_INTEGRAL_18_ENTIDADES.md / MATRIZ_CONSOLIDADA_18_ENTIDADES.md — revisión integral previa a P4.A 9–18
 - D1_ANALISIS_CONTENIDO.md — análisis D-1 (**estado histórico al elaborarse:** pendiente de decisión; **estado vigente: D-1 RESUELTA** conforme a las decisiones del propietario; autoritativo: `REGISTRO_DECISIONES_RESUELTAS.md`.)
 - D2_VARIANTE_FRENTE_A_VERSION.md — análisis D-2 (**estado histórico al elaborarse:** pendiente de decisión; **estado vigente: D-2 RESUELTA** conforme a las decisiones del propietario; autoritativo: `REGISTRO_DECISIONES_RESUELTAS.md`.)
@@ -66,3 +66,5 @@ Sin equivalente formal (se quedan en la raíz): `00` dictamen, `03` conciliació
 ## ESTADO VIGENTE (regularización 2026-11-22)
 **P4.A (conteo formal vigente): 9/18 aprobadas (50 %); 9/18 pendientes (50 %).** Aprobadas con definición mínima: entidades 1–8 y entidad 13 (Adaptación de canal), esta última por D4.c=A y **exclusivamente su definición mínima** (sin atributos, relaciones, cardinalidades, estructura interna, persistencia, versionado, mecanismos de generación o adaptación, reglas de auditoría ni fase de implementación). Entidad 9 (Hallazgo): suspendida, sin aprobar. Entidades 10–12 y 14–18: sin presentar o sin aprobar. Cambio 2026-11-22: de 8/18 a 9/18, fundamento D4.c=A.
 Las etiquetas «(pendiente)» de las fichas P4.A de arriba son históricas (fichas 01–08 aprobadas; 09 suspendida). Autoritativo: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`. Matriz de la ronda D4/D6/D7/D8: antecedente respondido. Nuevo: `CONTROL_DE_CAMBIOS_REGULARIZACION_P4A_9_18_2026-11-22.md`.
+
+**Auditoría integral 2026-11-22:** índice maestro y documentos de auditoría en `auditoria_integral/` (`01_INDICE_MAESTRO_FASE0.md` y siguientes). Esta lista conserva la redacción histórica; el estado vigente es el del índice maestro y el registro.
