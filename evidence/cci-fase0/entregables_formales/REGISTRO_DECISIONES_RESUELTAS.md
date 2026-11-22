@@ -235,3 +235,75 @@ Recibida la **regla permanente de cierre y publicación de evidencia** (aplica a
 
 ## Nota (no es decisión nueva) — 2026-11-22 (corrección documental posterior a la revisión de ChatGPT)
 El propietario confirmó como **definitiva**: D-5 resuelta; D5.a–d quedaron fuera del paquete vigente; no son pendientes, no se contabilizan como abiertas, no condicionan D-4 ni otras decisiones y no se vuelven a preguntar. Las «cinco cuestiones abiertas» registradas el 12:29 y la nota de las 12:35 («D5.a–d siguen abiertas») se **conservan como antecedente cronológico**; la clasificación vigente es la de esta nota. No se aprueba ninguna de ellas individualmente. D4.d se evalúa con D-1, D-2 y D-5.3; no está aprobada.
+
+## D-4, D-6, D-7 y D-8 — RESUELTAS por el propietario el 2026-11-22 (11 decisiones; registro AUTORITATIVO)
+**Origen:** el propietario confirmó expresamente la selección de la matriz `RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md` (HEAD `cb653b2`); el encargo de registro se recibió en la conversación del 2026-11-22 a las 13:48. **Estas selecciones son decisiones del propietario, no recomendaciones de Claude.** La hora exacta de la confirmación original no consta en este expediente.
+**Selección registrada:** D4.a = A · D4.b = A · D4.c = A · D4.d = A · D6.a = A · D6.b = A · D6.c = A0 · D7.a = A · D7.b = A · D7.c = C · D8 = A.
+**Cómo leer cada ítem:** se reproduce literalmente el contenido de la alternativa elegida y su columna de consecuencias en la matriz (que fija qué se aprueba y qué no). Las celdas de la matriz no se rellenan; este registro es la fuente autoritativa y los demás documentos remiten a él.
+
+### D4.a → A — Delimitación entre Adaptación, Copy, Variante de copy y Versión
+- **Contenido aceptado:** **A.** Concepto distinto de los tres, separado por criterio: Variante = alternativa del mismo contenido; Versión = evolución temporal; Adaptación = derivado de un copy fuente **para un canal destino**. No se decide si una adaptación puede tener variantes o versiones.
+- **Alcance y límites (columna «Consecuencia» de la matriz):** *Aprueba:* el criterio distintivo. *No aprueba:* variantes/versiones propias de la Adaptación, cardinalidad, atributos, persistencia. Coherente con D-1.b y D-2.a. El criterio «canal destino» procede de B l.538/563 [D/I].
+- **Dependencias declaradas en la matriz:** D-1.b, D-2
+
+### D4.b → A — Vínculo posible entre Adaptación y Pieza creativa
+- **Contenido aceptado:** **A.** Ninguna adaptación presupone una Pieza; el vínculo es **posible**, no presupuesto; su existencia y forma se tratan en P4.B.
+- **Alcance y límites (columna «Consecuencia» de la matriz):** *Aprueba:* que el vínculo puede existir. *No aprueba:* relación, obligatoriedad, dirección, cardinalidad ni auditabilidad (D-1.c). Cabe con canales visuales (Banners, Landing; B l.545–546 [D], que sean visuales: [I]).
+- **Dependencias declaradas en la matriz:** D-1.c
+
+### D4.c → A — Definición mínima de la entidad conceptual 13 (`ChannelAdaptation`)
+- **Contenido aceptado:** **A.** Texto A: «**Adaptación de canal:** contenido derivado de un copy fuente y preparado para un canal destino, con identidad y trazabilidad propias; concepto distinto de Copy, Variante de copy y Versión de contenido. Puede relacionarse con una Pieza creativa cuando el canal sea visual.»
+- Texto exacto aprobado: «**Adaptación de canal:** contenido derivado de un copy fuente y preparado para un canal destino, con identidad y trazabilidad propias; concepto distinto de Copy, Variante de copy y Versión de contenido. Puede relacionarse con una Pieza creativa cuando el canal sea visual.»
+- **Alcance y límites (columna «Consecuencia» de la matriz):** *Aprueba:* ese texto y solo ese. *No aprueba:* nada de lo listado como silencios.
+- **Dependencias declaradas en la matriz:** D4.a = A y D4.b = A (con D4.b = B, C o D es incompatible)
+
+### D4.d → A — ¿Puede la Adaptación ser objeto de aprobación humana?
+- **Contenido aceptado:** **A.** Sí, aprobable bajo los mismos límites de D-5.3.
+- Base de evaluación (según la matriz): D-1, D-2 y D-5.3 (aprobación humana de un contenido concreto, en las condiciones revisadas, para pasar a la Biblioteca; **no** certifica cumplimiento legal, comercial o de marca; **no** autoriza publicación ni distribución). **No depende de D5.c** ni lo reabre. Qué versión exacta se aprueba y cómo se relaciona con las versiones **no está determinado** y no se pregunta aquí.
+- **Alcance y límites (columna «Consecuencia» de la matriz):** *Aprueba:* que puede ser objeto de aprobación humana en esos términos. *No aprueba:* mecanismo, atributos, estados, relación con versiones, auditabilidad (D-1.c sigue: la adaptación no se audita). Consecuencia: puede llegar a la Biblioteca aprobada sin auditoría creativa propia, coherente con M-1 («no sustituye auditorías»).
+- **Dependencias declaradas en la matriz:** D-1, D-2, D-5.3
+
+### D6.a → A — Definición de una métrica frente a valor de una métrica
+- **Contenido aceptado:** **A.** Sí: definición = qué es el indicador y cómo se documenta; valor = lo que toma en un caso.
+- **Alcance y límites (columna «Consecuencia» de la matriz):** *Aprueba:* la distinción conceptual. *No aprueba:* atributos, fórmulas, catálogo. Da lugar a la «fórmula documentada» (B l.651) y al «valor» manual/importado/calculado (B l.649).
+- **Dependencias declaradas en la matriz:** P4.1 (sin dependencia de otras decisiones)
+
+### D6.b → A — Significado conceptual de «valor calculado»
+- **Contenido aceptado:** **A.** Un valor de métrica **cuyo origen es un cálculo** (frente a manual o importado, B l.649); distinción de origen, no un concepto separado.
+- **Alcance y límites (columna «Consecuencia» de la matriz):** *Aprueba:* esa lectura. *No aprueba:* mecanismo de cálculo, persistencia ni indicadores.
+- **Dependencias declaradas en la matriz:** D6.a = A o B (debe existir el concepto de valor); incompatible con D6.a = C
+
+### D6.c → A0 — Ubicación conceptual de `Metric` (entidad 17) y de sus valores
+- **Contenido aceptado:** **A0.** `Metric` = **definición de una métrica**; los **valores** pertenecen al **Resultado** (entidad 16). No se decide todavía: (i) la clasificación del origen de los valores (manual, importado o calculado), que puede quedar pendiente; (ii) si el valor calculado se conserva en el Resultado (L2) o se deriva al mostrarse sin conservarse (L1); y, de manera independiente, (iii) si el Resultado referencia la definición de la métrica que originó el cálculo (L3). A0 no presupone ni aprueba D6.b = A.
+- **Alcance y límites (columna «Consecuencia» de la matriz):** *Aprueba:* solo la asignación conceptual (Metric = definición; los valores pertenecen al Resultado). *Pendiente:* clasificación del origen de los valores (D6.b), L1/L2, L3, relación Métrica–Resultado, cardinalidad, atributos, fórmulas, catálogo, persistencia. *Se gana:* frontera clara sin comprometer almacenamiento; P4.1 intacta. *Se pierde:* nada queda cerrado sobre cómo se guarda el calculado.
+- **Dependencias declaradas en la matriz:** D6.a = A; D6.b: cualquier respuesta, incluida C (diferir); no presupone D6.b = A
+
+### D7.a → A — Perfil local frente a Configuración
+- **Contenido aceptado:** **A.** Por naturaleza: Perfil local = datos de la persona usuaria local (hoy solo el nombre visible opcional, P1); Configuración = preferencias de la aplicación. Conceptos separados.
+- **Alcance y límites (columna «Consecuencia» de la matriz):** *Aprueba:* el criterio de distinción. *No aprueba:* contenido de Configuración, más datos de Perfil, ni Local Storage vs IndexedDB. Conserva tu decisión de mantener Perfil local como concepto propio.
+- **Dependencias declaradas en la matriz:** P1, P4.3
+
+### D7.b → A — Ubicación conceptual de las tolerancias
+- **Contenido aceptado:** **A.** Son **parámetros de la ReglaComercial** (D-3.b).
+- **Alcance y límites (columna «Consecuencia» de la matriz):** *Aprueba:* ubicación conceptual. *No aprueba:* valores, redondeo, interfaz de edición, almacenamiento ni atributos. Mantiene la tolerancia junto a la regla que la usa [I]. **Q-1 sigue abierta:** el valor y el redondeo los decides tú.
+- **Dependencias declaradas en la matriz:** D-3.b, Q-1
+
+### D7.c → C — Alcance de la lista de canales y formatos
+- **Contenido aceptado:** **C.** Lista inicial (Ecommerce, App, WhatsApp, Email, Redes sociales, Banners, Landing pages) más «otros formatos aprobados» por el propietario; sin mecanismo de ampliación definido.
+- Aclaración de la matriz sobre C: los canales B l.538–547 forman una lista inicial; «otros formatos aprobados» (B l.547) queda reconocido como posible ampliación. **El documento no define quién aprueba un formato nuevo, dónde se registra ni si se hace desde la aplicación.** Por eso, bajo C, **no se fija ningún mecanismo**: un canal o formato nuevo entraría solo mediante una **decisión expresa del propietario** (junto con sus reglas, materia de Q-2) y su alta quedaría registrada documentalmente; **no se aprueba ninguna pantalla de edición ni catálogo editable**.
+- **Alcance y límites (columna «Consecuencia» de la matriz):** *Aprueba:* el alcance (inicial + ampliable por aprobación del propietario). *No aprueba:* la lista definitiva, reglas de canal, administración, interfaz ni mecanismo. «Aprobados = por el propietario» es [I]. **Q-2 sigue abierta:** canales y reglas reales.
+- **Dependencias declaradas en la matriz:** D-3.c, Q-2
+
+### D8 → A — Nombre canónico de la entidad 16 (`PerformanceRecord`)
+- **Contenido aceptado:** **A.** «Resultado de desempeño».
+- **Alcance y límites (columna «Consecuencia» de la matriz):** *Aprueba:* el nombre. *No aprueba:* definición, atributos, métricas ni estructura. Coincide con la definición aprobada de Campaña y se distingue de «Métrica» (definición).
+- **Dependencias declaradas en la matriz:** D6.c
+
+### Efectos y límites del registro (sin inferencias adicionales)
+- **Compatibilidad comprobada** (ver `CONTROL_DE_CAMBIOS_REGISTRO_D4_D6_D7_D8_2026-11-22.md`): sin contradicciones con D-1, D-2, D-3, D-5 (R3, conjunto (b), M-1), P1, P2, P3 ni P4.A.
+- **D-5.2:** la Adaptación, que quedó «pendiente de D-4», es aprobable por D4.d = A bajo los límites de D-5.3 (no certifica cumplimiento legal, comercial ni de marca; no implica publicación ni distribución). No se reabre D-5; D5.a–d permanecen fuera del alcance vigente.
+- **D6.c = A0:** `Metric` es la definición de la métrica y los valores pertenecen al Resultado de desempeño. **No se decide todavía** la clasificación del origen de los valores (manual, importado o calculado); ni si el valor calculado se conserva en el Resultado (L2) o se deriva al mostrarse sin conservarse (L1); ni, de forma independiente, si el Resultado referencia la definición de la métrica que originó el cálculo (L3). L3 es independiente de la elección entre L1 y L2. **A0 no presupone ni aprueba D6.b = A**; D6.b = A se registra como decisión separada (significado conceptual de «valor calculado») y no determina por sí misma la clasificación de origen que A0 deja pendiente.
+- **Dependencias D-1 a D-8:** quedan resueltas en su alcance (8 de 8). Las subcuestiones que cada decisión declara expresamente no decididas siguen pendientes (P4.B, P4.C, Q-1, Q-2 y las de A0).
+- **Entidades:** este registro no aprueba entidades, atributos, relaciones, cardinalidades, estados, persistencia, fórmulas, catálogo de métricas ni mecanismos técnicos. D4.c aprueba la definición mínima de la entidad 13 y D8 el nombre de la entidad 16 (sin definirla); el conteo formal de P4.A (8 de 18 presentadas una a una) **no se modifica** por este registro y no se determina aquí si D4.c lo eleva a 9.
+- **Siguen abiertas:** Q-1, Q-2, P4.B, P4.C, E1–E5, entidad 9 Hallazgo, entidades 10 a 18 (la 13 solo con la definición de D4.c y la 16 solo con el nombre de D8), contradicciones C-2 y C-3, aprobaciones 0.1–0.7, aceptación de Fase 0 y autorización de Fase 1. **Nada de esto se da por aceptado.**
+- **No equivale a:** aceptación formal de Fase 0; aprobación de todas las entidades; resolución de P4.B, P4.C, E1–E5, Q-1 o Q-2; autorización de Fase 1 ni de implementar funcionalidades.

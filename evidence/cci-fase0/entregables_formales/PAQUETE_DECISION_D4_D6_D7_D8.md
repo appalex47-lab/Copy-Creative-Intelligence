@@ -167,3 +167,5 @@ D5.a–d (decisión del propietario: fuera del alcance vigente; no pendientes, n
 
 ## 11. No verificado por mí
 52 históricos de `docs/fase0` (solo búsquedas dirigidas); alineación de 05/06/07 con D-1/D-2/D-3/D-5; celdas antiguas de la matriz (prevalecen los avisos); pruebas, build, CI y `npm audit` (no re-ejecutados); otros navegadores distintos de Chrome 153; otras formulaciones de D-4 a D-8 previas a esta sesión; «19» = Evento de actividad (no asumido).
+
+> **NOTA DE ACTUALIZACIÓN 2026-11-22 (registro D4/D6/D7/D8).** El propietario confirmó las 11 decisiones D4.a–d, D6.a–c, D7.a–c y D8; el registro autoritativo es `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` (sección «D-4, D-6, D-7 y D-8 — RESUELTAS»). Su análisis es antecedente de la matriz; las «recomendaciones» que contiene no son decisiones. Este documento se conserva como antecedente; si alguna celda o texto lo contradice, prevalece el registro. Sin inferir aprobaciones de entidades, atributos, relaciones, cardinalidades, fases ni mecanismos técnicos.

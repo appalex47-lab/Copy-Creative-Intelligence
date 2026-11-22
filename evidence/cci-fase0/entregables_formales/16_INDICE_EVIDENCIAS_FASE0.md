@@ -60,3 +60,5 @@ Sin equivalente formal (se quedan en la raíz): `00` dictamen, `03` conciliació
 - entregables_formales/INFORME_CIERRE_2026-11-22_REGLA_PERMANENTE_12_43.md
 - entregables_formales/CONTROL_DE_CAMBIOS_CORRECCION_2026-11-22.md e INFORME_CIERRE_2026-11-22_CORRECCION_DOCUMENTAL.md — corrección documental posterior a la publicación (2026-11-22)
 - entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md — matriz consolidada de la ronda única (2026-11-22)
+
+> **NOTA DE ACTUALIZACIÓN 2026-11-22 (registro D4/D6/D7/D8).** El propietario confirmó las 11 decisiones D4.a–d, D6.a–c, D7.a–c y D8; el registro autoritativo es `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` (sección «D-4, D-6, D-7 y D-8 — RESUELTAS»). Nuevos: `CONTROL_DE_CAMBIOS_REGISTRO_D4_D6_D7_D8_2026-11-22.md` e `INFORME_CIERRE_2026-11-22_REGISTRO_D4_D6_D7_D8.md`. Este documento se conserva como antecedente; si alguna celda o texto lo contradice, prevalece el registro. Sin inferir aprobaciones de entidades, atributos, relaciones, cardinalidades, fases ni mecanismos técnicos.

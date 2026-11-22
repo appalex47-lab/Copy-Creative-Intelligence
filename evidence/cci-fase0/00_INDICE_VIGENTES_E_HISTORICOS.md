@@ -3,7 +3,7 @@
 **Regla de lectura:** las recomendaciones de Claude **no son decisiones**. Solo valen como decisión las respuestas literales del propietario en `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`. D-5 está resuelta (R3, conjunto (b), M-1); **D5.a–d quedaron expresamente fuera del alcance vigente (decisión definitiva del propietario): no son pendientes, no se cuentan como abiertas, no condicionan D-4 ni otras decisiones y no se vuelven a preguntar.** Las menciones anteriores en documentos históricos son antecedente con nota de actualización posterior.
 
 ## Documentos vigentes (empezar aquí)
-1. `entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md` — **único documento vigente que el propietario debe responder** (11 decisiones pendientes; recomendaciones de Claude no aprobadas). D1, D2, D3 y D5 siguen resueltas; D5.a–d permanecen fuera del alcance y no deben reabrirse.
+1. `entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md` — instrumento **ya respondido** (11 decisiones confirmadas; sus casillas quedan sin marcar); la fuente autoritativa es `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`. D1, D2, D3 y D5 siguen resueltas; D5.a–d permanecen fuera del alcance y no deben reabrirse.
 2. `entregables_formales/INFORME_CIERRE_2026-11-22_PAQUETE_D4_D6_D7_D8.md` y `entregables_formales/MANIFIESTO_ENTREGA_2026-11-22_D4_D6_D7_D8.txt` — entrega de las 12:35.
 3. `entregables_formales/INFORME_CIERRE_2026-11-22_REGLA_PERMANENTE_12_43.md` — entrega de las 12:43.
 4. `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` — decisiones literales del propietario (D-1, D-2, D-3, D-5, entidades 1–8).
@@ -22,3 +22,5 @@
 
 ## Estado de verificación
 Revisión de seguridad previa a la publicación (patrones de claves/tokens/credenciales, correos, URL, identificadores de Supabase, datos personales): sin hallazgos. No se publicó el `.tar.gz` (duplicaría los archivos).
+
+> **Actualización 2026-11-22 (registro D4/D6/D7/D8):** vigente y autoritativo: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` (sección D-4, D-6, D-7 y D-8). Control de cambios: `entregables_formales/CONTROL_DE_CAMBIOS_REGISTRO_D4_D6_D7_D8_2026-11-22.md`. Informe: `entregables_formales/INFORME_CIERRE_2026-11-22_REGISTRO_D4_D6_D7_D8.md`.

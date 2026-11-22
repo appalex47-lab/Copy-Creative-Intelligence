@@ -95,3 +95,5 @@ Que no exista otra formulación de D-4 a D-8 en el historial anterior a esta ses
 
 ## Actualización 2026-11-22 12:29
 - **D-5 RESUELTA** (ver `D5_APROBACION.md`). Dependencias D-1 a D-3 y D-5 cerradas; D-4 (reformulada), D-6, D-7 y D-8 pendientes.
+
+> **NOTA DE ACTUALIZACIÓN 2026-11-22 (registro D4/D6/D7/D8).** El propietario confirmó las 11 decisiones D4.a–d, D6.a–c, D7.a–c y D8; el registro autoritativo es `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` (sección «D-4, D-6, D-7 y D-8 — RESUELTAS»). Dependencias D-1…D-8: 8 de 8 resueltas **en su alcance**; las subcuestiones declaradas expresamente no decididas siguen abiertas. Este documento se conserva como antecedente; si alguna celda o texto lo contradice, prevalece el registro. Sin inferir aprobaciones de entidades, atributos, relaciones, cardinalidades, fases ni mecanismos técnicos.

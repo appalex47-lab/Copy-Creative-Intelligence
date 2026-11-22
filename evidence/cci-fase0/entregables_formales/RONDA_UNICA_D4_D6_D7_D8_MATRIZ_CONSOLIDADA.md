@@ -220,3 +220,5 @@ Base: https://github.com/appalex47-lab/Copy-Creative-Intelligence/tree/evidence/
 
 ## 10. No verificado
 Contenido de los 52 históricos de `docs/fase0`; alineación de 05/06/07 con las decisiones cerradas (solo advertidos); pruebas, build, CI; acceso de ChatGPT a la rama; existencia de `CCI-Evidence`; que el «19» sea Evento de actividad (no asumido).
+
+> **NOTA DE ACTUALIZACIÓN 2026-11-22 (registro D4/D6/D7/D8).** El propietario confirmó las 11 decisiones D4.a–d, D6.a–c, D7.a–c y D8; el registro autoritativo es `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` (sección «D-4, D-6, D-7 y D-8 — RESUELTAS»). Esta matriz fue el instrumento de respuesta: **ya fue respondida** (selección: D4.a=A; D4.b=A; D4.c=A; D4.d=A; D6.a=A; D6.b=A; D6.c=A0; D7.a=A; D7.b=A; D7.c=C; D8=A) y sus casillas ☐ se dejan sin marcar a propósito. Este documento se conserva como antecedente; si alguna celda o texto lo contradice, prevalece el registro. Sin inferir aprobaciones de entidades, atributos, relaciones, cardinalidades, fases ni mecanismos técnicos.

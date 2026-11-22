@@ -49,3 +49,5 @@ Paquete vigente: `PAQUETE_DECISION_D4_D6_D7_D8.md` — D4.a–d, D6.a–c, D7.a�
 
 ## Actualización 2026-11-22 (corrección documental)
 D5.a–d: decisión definitiva del propietario = fuera del alcance vigente; D-5 resuelta. No se contabilizan. D-4, D-6, D-7, D-8 siguen pendientes. P4.A 8/18 aprobadas; entidad 9 y entidades 10–18 pendientes; Q-1 y Q-2 abiertas.
+
+> **NOTA DE ACTUALIZACIÓN 2026-11-22 (registro D4/D6/D7/D8).** El propietario confirmó las 11 decisiones D4.a–d, D6.a–c, D7.a–c y D8; el registro autoritativo es `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` (sección «D-4, D-6, D-7 y D-8 — RESUELTAS»). Quedan **resueltas** D-4 (residual: D4.a–d), D-6 (D6.a–c), D-7 (D7.a–c) y D-8; **siguen pendientes** P4.B, P4.C, E1–E5, Q-1, Q-2 y, dentro de D6.c=A0, la clasificación de origen de los valores y L1/L2/L3. Este documento se conserva como antecedente; si alguna celda o texto lo contradice, prevalece el registro. Sin inferir aprobaciones de entidades, atributos, relaciones, cardinalidades, fases ni mecanismos técnicos.
