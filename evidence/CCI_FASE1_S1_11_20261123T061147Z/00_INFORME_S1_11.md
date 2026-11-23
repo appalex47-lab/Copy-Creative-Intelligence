@@ -15,3 +15,6 @@
 - Sin dispositivos móviles reales ni lector de pantalla real; la accesibilidad se midió con axe (cubre solo parte de WCAG) y pruebas de teclado.
 - El workflow de CI se publica con este commit; el resultado de su primera ejecución en GitHub se registra aparte si se consulta. Acciones @v4 sin anclar por SHA.
 - Esto NO es la aceptación de la Fase 1: la aceptación requiere evidencia independiente y queda fuera de mi alcance.
+
+## Addendum — primera ejecución real del CI en GitHub
+Run 45122497491 (push a main, commit cd4a794): ✓ "Calidad estática, pruebas y build" (42 s) y ✓ "Navegador real (Playwright + axe)" (1 m 11 s), en un runner real de GitHub. Aviso: las acciones @v4 apuntan a Node 20 (obsoleto, GitHub las fuerza a Node 24); pendiente decidir anclarlas por SHA/actualizar versión. Observación: existe un workflow dinámico "pages build and deployment" de GitHub Pages que se ejecuta en cada push a main; no lo creé yo.
