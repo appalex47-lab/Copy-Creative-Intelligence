@@ -29,7 +29,9 @@ test.describe('briefs (modo local, Chrome real)', () => {
     expect(await axeViolations(page)).toEqual([]);
     await page.getByRole('button', { name: 'Guardar brief' }).click();
     await expect(page.getByRole('heading', { level: 2, name: 'Briefs' })).toBeFocused();
-    await expect(page.getByRole('status').filter({ hasText: 'guardado como incompleto' })).toBeVisible();
+    await expect(
+      page.getByRole('status').filter({ hasText: 'guardado como incompleto' }),
+    ).toBeVisible();
     const item = page.getByRole('listitem').filter({ hasText: 'Buen Fin' }).first();
     await expect(item).toContainText('Incompleto');
     await expect(item).toContainText('Falta Objetivo (obligatorio).');
