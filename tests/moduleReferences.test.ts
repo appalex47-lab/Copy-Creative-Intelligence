@@ -118,3 +118,28 @@ describe('checkFile (reglas)', () => {
     ).toEqual([]);
   });
 });
+
+describe('reglas de dirección de dependencias (S1.1)', () => {
+  it('el dominio no puede importar otras capas', () => {
+    expect(violations(`import { x } from '@/components/NavMenu';`, 'domain/entities.ts')).toEqual([
+      'el dominio depende de otra capa',
+    ]);
+    expect(violations(`import { y } from './otro';`, 'domain/entities.ts')).toEqual([]);
+  });
+
+  it('los contratos solo pueden importar dominio y contratos', () => {
+    expect(
+      violations(`import type { A } from '@/domain/entities';`, 'services/contracts/services.ts'),
+    ).toEqual([]);
+    expect(
+      violations(`import type { R } from './result';`, 'services/contracts/services.ts'),
+    ).toEqual([]);
+    expect(
+      violations(`import { h } from '@/hooks/useAsyncResource';`, 'services/contracts/services.ts'),
+    ).toEqual(['los contratos dependen de una capa distinta del dominio y los contratos']);
+  });
+
+  it('los paquetes externos no se consideran capas', () => {
+    expect(violations(`import React from 'react';`, 'domain/entities.ts')).toEqual([]);
+  });
+});

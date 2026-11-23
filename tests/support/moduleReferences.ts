@@ -130,12 +130,15 @@ const SUPABASE_ADAPTER = 'services/adapters/supabase/';
  *  - La interfaz (domain, components, layouts, pages, hooks, contratos) no puede importar adaptadores,
  *    la fábrica `services/index` ni usar imports dinámicos no resolubles estáticamente.
  *  - La raíz de composición (src/app) no importa adaptadores directamente.
+ *  - El dominio no importa otras capas; los contratos solo importan dominio y contratos.
  */
 export function checkFile(source: string, { fileRel }: Policy): Violation[] {
   const out: Violation[] = [];
   const inSupabaseAdapter = fileRel.startsWith(SUPABASE_ADAPTER);
   const isUi = UI_LAYERS.some((l) => fileRel.startsWith(l));
   const isApp = fileRel.startsWith('app/');
+  const isDomain = fileRel.startsWith('domain/');
+  const isContracts = fileRel.startsWith('services/contracts/');
   for (const ref of findModuleReferences(source, fileRel)) {
     const spec = ref.specifier;
     if (spec !== null && isSupabase(spec) && !inSupabaseAdapter) {
@@ -163,6 +166,26 @@ export function checkFile(source: string, { fileRel }: Policy): Violation[] {
           reason: 'la interfaz depende de un adaptador, de la fábrica o de la raíz de composición',
           ref,
         });
+      }
+    }
+    // Dirección de dependencias (S1.1): el dominio no depende de nada interno salvo de sí mismo,
+    // y los contratos solo dependen del dominio y de otros contratos.
+    if ((isDomain || isContracts) && spec !== null) {
+      const target = toSrcPath(spec, fileRel);
+      if (target !== null) {
+        const allowed = isDomain
+          ? target.startsWith('domain/') || target === 'domain'
+          : target.startsWith('domain/') ||
+            target === 'domain' ||
+            target.startsWith('services/contracts');
+        if (!allowed) {
+          out.push({
+            reason: isDomain
+              ? 'el dominio depende de otra capa'
+              : 'los contratos dependen de una capa distinta del dominio y los contratos',
+            ref,
+          });
+        }
       }
     }
     if (isApp && spec !== null) {

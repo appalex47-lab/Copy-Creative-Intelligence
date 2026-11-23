@@ -1,0 +1,14 @@
+
+ RUN  v5.1.1 /tmp/s10
+
+
+ Test Files  14 passed (14)
+      Tests  141 passed (141)
+   Start at  21:33:13
+   Duration  9.25s (environment 52%, tests 22%, setup 13%, import 10%, transform 2%)
+
+Environment  jsdom was created 14 times · 4.26s total, 52% of tracked time
+             create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+             learn more: https://vitest.dev/guide/improving-performance#test-environments
+
+rc=0
