@@ -1,5 +1,5 @@
 import type { StorageInfo } from '@/domain/storageInfo';
-import type { ActivityEvent } from '@/domain/activity';
+import type { ActivityEvent, ActivityKind } from '@/domain/activity';
 import type { AppState } from '@/domain/entities';
 import type { LocalProfile } from '@/domain/profile';
 import type { AppSettings } from '@/domain/settings';
@@ -16,6 +16,8 @@ export interface AppStateService {
 export interface ActivityService {
   /** Actividad local reciente, de la más nueva a la más antigua. Vacía si aún no hay actividad. */
   listRecent(): Promise<Result<readonly ActivityEvent[]>>;
+  /** Registra un evento local (solo tipo y hora; nunca contenido). En DEMO no guarda nada. */
+  record(kind: ActivityKind): Promise<Result<void>>;
 }
 
 export interface ProfileService {

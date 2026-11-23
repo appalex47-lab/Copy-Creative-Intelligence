@@ -7,6 +7,10 @@ import { createDemoServices } from './adapters/demo/demoServices';
 export function createServices(env: AppEnv): Services {
   switch (env.dataMode) {
     case 'demo':
+      // En producción el modo DEMO no existe (la política de entorno ya lo rechaza); esta guarda además permite que
+      // el empaquetador elimine el adaptador DEMO del build de producción (AC1-11).
+      if (import.meta.env.MODE === 'production')
+        throw new Error('El modo DEMO no está disponible en producción.');
       return createDemoServices(env.appEnv);
     case 'local':
       return createLocalServices(env.appEnv);

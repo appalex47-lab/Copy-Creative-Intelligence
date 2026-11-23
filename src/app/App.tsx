@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { AppLayout } from '@/layouts/AppLayout';
 import { HomePage } from '@/pages/HomePage';
@@ -34,10 +34,17 @@ export function App({ env, services: injected }: AppProps) {
       if (r.ok) applyTheme(r.value.theme);
     });
   }, [services]);
+  // Anota «app abierta» una sola vez por carga (StrictMode ejecuta los efectos dos veces en desarrollo).
+  const openedFor = useRef<Services | null>(null);
+  useEffect(() => {
+    if (openedFor.current === services) return;
+    openedFor.current = services;
+    void services.activity.record('app_opened');
+  }, [services]);
   return (
     <ServicesProvider services={services}>
       <AppLayout
-        isDemo={env.dataMode === 'demo'}
+        isDemo={import.meta.env.MODE !== 'production' && env.dataMode === 'demo'}
         items={NAV}
         activeId={active}
         onNavigate={setActive}

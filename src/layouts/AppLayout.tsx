@@ -34,7 +34,7 @@ export function AppLayout({ isDemo, items, activeId, onNavigate, children }: Pro
       <a className="skip-link" href="#contenido">
         Saltar al contenido
       </a>
-      {isDemo && <DemoBanner />}
+      {isDemo && import.meta.env.MODE !== 'production' && <DemoBanner />}
       <header className="app-header">
         <h1>Copy Creative Intelligence</h1>
         <p>Fundación técnica en construcción — identidad visual provisional</p>

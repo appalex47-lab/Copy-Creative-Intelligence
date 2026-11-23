@@ -13,7 +13,10 @@ beforeEach(() => vi.spyOn(console, 'error').mockImplementation(() => undefined))
 afterEach(() => vi.restoreAllMocks());
 
 const failing = (code: 'unavailable' | 'not_found'): Partial<Services> => ({
-  activity: { listRecent: () => Promise.resolve(fail(code, INTERNAL_DETAIL)) },
+  activity: {
+    listRecent: () => Promise.resolve(fail(code, INTERNAL_DETAIL)),
+    record: () => Promise.resolve(ok(undefined)),
+  },
 });
 
 describe('HomePage — estados', () => {
@@ -36,6 +39,7 @@ describe('HomePage — estados', () => {
     let calls = 0;
     const services = servicesWith({
       activity: {
+        record: () => Promise.resolve(ok(undefined)),
         listRecent: () => {
           calls += 1;
           return calls === 1
@@ -74,6 +78,7 @@ describe('HomePage — estados', () => {
   it('con actividad real la lista muestra una entrada por evento', async () => {
     const services = servicesWith({
       activity: {
+        record: () => Promise.resolve(ok(undefined)),
         listRecent: () =>
           Promise.resolve(
             ok([

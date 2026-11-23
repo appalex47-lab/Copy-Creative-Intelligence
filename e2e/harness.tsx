@@ -6,7 +6,7 @@ import { createRoot } from 'react-dom/client';
 import { App } from '@/app/App';
 import '@/styles/global.css';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
-import { fail, type Services } from '@/services/contracts';
+import { fail, ok, type Services } from '@/services/contracts';
 import { createDemoServices } from '@/services/adapters/demo/demoServices';
 
 interface Control {
@@ -41,6 +41,7 @@ const gate = () => new Promise<void>((resolve) => waiting.push(resolve));
 const services: Services = {
   ...base,
   activity: {
+    record: () => Promise.resolve(ok(undefined)),
     listRecent: async () => {
       control.calls.activity += 1;
       if (scenario === 'gated') await gate();

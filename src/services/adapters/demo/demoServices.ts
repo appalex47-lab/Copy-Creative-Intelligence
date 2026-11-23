@@ -13,13 +13,19 @@ import type { Services } from '@/services/contracts';
  * la actividad reciente está vacía y el perfil y las preferencias viven solo en memoria
  * (se pierden al recargar). La persistencia real es el modo `local`.
  */
+/** Marca no enumerable del adaptador DEMO: permite comprobar que NO está en el bundle de producción. */
+export const DEMO_ADAPTER_MARKER = 'cci-adaptador-demo-v1';
+
 export function createDemoServices(environment: AppState['environment']): Services {
   const memory = createMemoryRepositories();
-  return {
+  const services: Services = {
     appState: {
       getState: () => Promise.resolve(ok({ dataMode: 'demo', environment, isDemo: true })),
     },
-    activity: { listRecent: () => Promise.resolve(ok([])) },
+    activity: {
+      listRecent: () => Promise.resolve(ok([])),
+      record: () => Promise.resolve(ok(undefined)), // DEMO no guarda actividad
+    },
     profile: memory.profile,
     preferences: createPreferencesStore(createMemoryStorage()),
     // DEMO no usa almacenamiento real: no se inventan cifras.
@@ -28,4 +34,5 @@ export function createDemoServices(environment: AppState['environment']): Servic
       requestPersistence: () => Promise.resolve(ok(UNKNOWN_STORAGE)),
     },
   };
+  return Object.defineProperty(services, '__adapter', { value: DEMO_ADAPTER_MARKER });
 }

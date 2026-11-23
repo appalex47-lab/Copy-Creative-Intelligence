@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, readdirSync, rmSync } from 'node:fs';
+import { mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -11,7 +11,9 @@ const VITE = join(ROOT, 'node_modules', '.bin', 'vite');
 function build(mode: string, extraEnv: Record<string, string> = {}) {
   const out = mkdtempSync(join(tmpdir(), 'cci-build-'));
   const env = Object.fromEntries(
-    Object.entries(process.env).filter(([k]) => !k.startsWith('VITE_') && k !== 'MODE'),
+    Object.entries(process.env).filter(
+      ([k]) => !k.startsWith('VITE_') && k !== 'MODE' && k !== 'NODE_ENV',
+    ),
   );
   const r = spawnSync(VITE, ['build', '--mode', mode, '--outDir', out, '--emptyOutDir'], {
     cwd: ROOT,
@@ -25,8 +27,18 @@ function build(mode: string, extraEnv: Record<string, string> = {}) {
       return [];
     }
   })();
+  const bundle = (() => {
+    try {
+      return readdirSync(join(out, 'assets'))
+        .filter((f) => f.endsWith('.js'))
+        .map((f) => readFileSync(join(out, 'assets', f), 'utf8'))
+        .join('\n');
+    } catch {
+      return '';
+    }
+  })();
   rmSync(out, { recursive: true, force: true });
-  return { status: r.status, output: `${r.stdout}${r.stderr}`, files };
+  return { status: r.status, output: `${r.stdout}${r.stderr}`, files, bundle };
 }
 
 describe('guarda de entorno en el build (integración con Vite)', () => {
@@ -53,6 +65,29 @@ describe('guarda de entorno en el build (integración con Vite)', () => {
     expect(r.status).not.toBe(0);
     expect(r.output).toContain('producción no puede usar datos DEMO');
   });
+
+  it(
+    'AC1-11: build de producción en modo local funciona y NO contiene el adaptador ni el aviso DEMO',
+    { timeout: 120_000 },
+    () => {
+      const r = build('production', { VITE_DATA_MODE: 'local' });
+      expect(r.status).toBe(0);
+      expect(r.bundle.length).toBeGreaterThan(10_000);
+      expect(r.bundle).not.toContain('cci-adaptador-demo-v1');
+      expect(r.bundle).not.toContain('MODO DEMO');
+      expect(r.bundle).not.toContain('datos ficticios');
+    },
+  );
+
+  it(
+    'control: el build de preview SÍ contiene el adaptador y el aviso DEMO',
+    { timeout: 120_000 },
+    () => {
+      const r = build('preview');
+      expect(r.bundle).toContain('cci-adaptador-demo-v1');
+      expect(r.bundle).toContain('MODO DEMO');
+    },
+  );
 
   it('configuración contradictoria FALLA', { timeout: 120_000 }, () => {
     const r = build('production', { VITE_APP_ENV: 'development' });
