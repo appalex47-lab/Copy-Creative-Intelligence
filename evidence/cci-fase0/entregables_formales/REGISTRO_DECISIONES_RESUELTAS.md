@@ -427,3 +427,24 @@ Registro de las cuestiones que D-3 y D-5 declaran expresamente **no decididas**.
 - No acredita pruebas, build, E2E ni CI de la aplicación, la verificación técnica de Web Locks, cuotas de IndexedDB ni compatibilidad de navegadores, ni acceso a `CCI-Evidence` (403): la aceptación es del expediente documental con esas limitaciones.
 
 **Nota cronológica posterior (20:26):** los textos anteriores de este registro y de todo el expediente que dicen «Fase 0 no aceptada» o «aceptación formal pendiente» (en particular B10, «Efectos y límites», y la sección de las aprobaciones de las 20:14) describen el estado en su momento y quedan **superados** en ese punto por esta sección; siguen vigentes en todo lo demás (autorización de la Fase 1 pendiente). No se reescribe ninguna decisión anterior.
+
+## Autorización de la subfase S1.0 — RESUELTA por el propietario el 2026-11-22 20:59
+**Respuesta literal:** «Autorizo la subfase S1.0 (auditoría técnica y definición del alcance ejecutable) de la Fase 1 («Fundamentos y Command Center») y, solo tras mi aprobación expresa de sus resultados, las subfases S1.1 (arquitectura por capas) y S1.2 (sistema visual, navegación y accesibilidad). Repositorio: appalex47-lab/Copy-Creative-Intelligence. Rama: fase1/s1-0-auditoria, creada desde el commit 7bcba74e05577761081d68ca14fdc19f2400248d. En S1.0 se puede leer el repositorio y producir solo documentación y evidencia; ejecutar las pruebas existentes sin modificarlas: permitido. En S1.1 y S1.2 se puede modificar el código fuente, las pruebas y la configuración de herramientas de esa rama, sin ampliar el catálogo AppErrorCode. Quedan fuera de esta autorización la persistencia, el dominio, las migraciones, las preferencias, el perfil local, el respaldo y los datos del Command Center. Nada propuesto en S1.0 queda aprobado hasta que yo lo apruebe expresamente. Pruebas exigidas: AC1-01, AC1-02, AC1-03, AC1-04 y la parte de AC1-13 que corresponda. Commit y push: solo a esa rama. Merge y deploy: no permitidos. Esta autorización no resuelve C-2, C-3 ni los 10 aplazamientos, no autoriza S1.3 en adelante ni la Fase 2, y no implica la aceptación de la Fase 1.»
+
+**Procedencia:** el texto, el nombre de la rama, el commit de la línea base y el permiso de ejecutar las pruebas existentes fueron **propuestos por Claude** como texto sugerido, no vinculante, y el propietario los adoptó literalmente (los campos que su versión anterior dejaba sin completar se rellenaron con esos datos propuestos). El commit `7bcba74e05577761081d68ca14fdc19f2400248d` es el que el expediente cita como base de la auditoría (`14_ESTADO_GIT_Y_OPERACIONES.md`); que sea la línea base descrita por el diagnóstico aprobado **no fue verificado**.
+
+**Efectos:**
+- **Autoriza únicamente la subfase S1.0** de la Fase 1: crear la rama `fase1/s1-0-auditoria` desde el commit indicado en `appalex47-lab/Copy-Creative-Intelligence`, leer el repositorio, ejecutar las pruebas existentes sin modificarlas y producir **solo documentación y evidencia**. Commit y push solo a esa rama.
+- **S1.1 y S1.2 quedan autorizadas condicionalmente:** solo tras la aprobación expresa del propietario de los resultados de S1.0; **no están activas** a la fecha de esta sección. Si se activan: pueden modificar código fuente, pruebas y configuración de herramientas de esa rama, sin ampliar el catálogo `AppErrorCode`, con las pruebas AC1-01, AC1-02, AC1-03, AC1-04 y la parte que corresponda de AC1-13.
+- **Fuera de la autorización:** persistencia, dominio, migraciones, preferencias, perfil local, respaldo y datos del Command Center; S1.3 en adelante; la Fase 2. Merge y deploy no permitidos.
+- Nada de lo que se proponga en S1.0 queda aprobado hasta que el propietario lo apruebe expresamente.
+- La Fase 0 sigue aceptada (20:26) con C-2, C-3 y los 10 aplazamientos abiertos; esta autorización no resuelve ninguno.
+
+**Lo que esta autorización NO hace:**
+- **No autoriza la Fase 1 en su conjunto**: solo S1.0 (y, condicionada y no activa, S1.1 y S1.2). La aceptación de la Fase 1 sigue siendo un acto independiente, posterior y con evidencia.
+- No aprueba la descomposición S1.0–S1.12 como estructura del roadmap: solo usa los nombres S1.0, S1.1 y S1.2; S1.3–S1.12 siguen siendo una propuesta de trabajo no aprobada.
+- No aprueba atributos, esquemas v0/v1/v2, catálogo de eventos, condiciones de pendientes, preferencias, perfil ni formato de respaldo.
+- No resuelve C-2 ni C-3, ni ningún aplazamiento; no reabre D5.a–d; no aprueba integración de IA.
+- No autoriza fusionar con la vista previa privada, modificar `main` ni `docs/fase0`, ni publicar el expediente (`CCI-Evidence` devolvió 403).
+
+**Nota cronológica posterior (20:59):** los textos anteriores del expediente que dicen «Fase 1 no autorizada» o «autorización de la Fase 1 pendiente» describen el estado en su momento y quedan **superados** en ese punto por esta sección, que autoriza solo S1.0; siguen vigentes en todo lo demás.

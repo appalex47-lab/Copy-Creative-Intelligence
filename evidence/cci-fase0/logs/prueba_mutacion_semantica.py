@@ -19,7 +19,7 @@ MUT=[
  ('M7_R1_reabre_D5c',PQ,lambda s: s+'\n\nR-1 incluye decidir D5.c (agrupación de las cuestiones 3 y 4).\n','S14_R1_vinculada_a_D5ad_sin_exclusion'),
  ('M8_doc_06_sin_marca_historica_y_afirmado_como_definitivo','entregables_formales/06_MODELO_DATOS_CCI.md',lambda s: s.replace('PROPUESTA HISTÓRICA','PROPUESTA VIGENTE').replace('no es un esquema de datos aprobado','es el esquema definitivo'),'D4_doc06_sin_marca_historica_o_afirma_esquema_definitivo'),
  ('M9_ficha_0_1_vuelve_a_PENDIENTE_pese_a_la_respuesta_del_propietario','entregables_formales/APROBACIONES_FASE0.md',lambda s: s.replace('| APROBADA (propietario, 2026-11-22 20:14) | «Apruebo 0.1 a 0.7 según las recomendaciones del paquete…» |','| PENDIENTE | — |',1),'A1_aprobaciones'),
- ('M10_Fase_1_marcada_como_autorizada_en_la_tabla','entregables_formales/APROBACIONES_FASE0.md',lambda s: s.replace('| — | — | PENDIENTE | — |\n| ','| — | — | PENDIENTE | — |\n| ',1) if False else re.sub(r'(\| Aparte \|[^\n]*)\| PENDIENTE \| — \|',r'\1| APROBADA | — |',s,count=1,flags=re.M),'A1_aprobaciones'),
+ ('M10_Fase_1_marcada_como_autorizada_en_la_tabla','entregables_formales/APROBACIONES_FASE0.md',lambda s: s.replace('| — | — | PENDIENTE | — |\n| ','| — | — | PENDIENTE | — |\n| ',1) if False else re.sub(r'(\| Aparte \|[^\n]*)\| AUTORIZADA SOLO S1\.0 \([^|]*\| — \|',r'\1| APROBADA | — |',s,count=1,flags=re.M),'A1_aprobaciones'),
  ('M11_aprobacion_0_5_sin_limite_de_principios','entregables_formales/APROBACIONES_FASE0.md',lambda s: s+'\n\nLa ficha 0.5 está aprobada.\n','S4b_aprobacion_05_sin_limite_de_principios'),
  ('M12_documento_con_estado_previo_0_7_sin_la_nota_de_20_14','auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md',lambda s: s.replace('2026-11-22 20:14','2026-11-22'),'S15_estado_previo_de_aprobaciones_sin_nota_20_14'),
  ('M13_registro_sin_la_respuesta_literal_del_propietario','entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md',lambda s: s.replace('R-1 sí.»','R-1 no.»',1),'A3_registro_sin_respuesta_del_propietario'),
@@ -29,6 +29,10 @@ MUT=[
  ('M17_documento_con_Fase_0_no_aceptada_sin_la_nota_de_20_26','auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md',lambda s: s.replace('2026-11-22 20:26','2026-11-22'),'S16_estado_previo_de_la_aceptacion_sin_nota_20_26'),
  ('M18_registro_con_texto_literal_de_la_aceptacion_alterado','entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md',lambda s: s.replace('y los 10 aplazamientos pendientes. No autoriza la Fase 1.»','y los 10 aplazamientos pendientes.»',1),'A4_registro_sin_aceptacion_de_fase_0'),
  ('M19_aceptacion_de_Fase_0_presentada_como_cierre_de_C_2','entregables_formales/CONCILIACION_30_DECISIONES_Y_APLAZAMIENTOS.md',lambda s: s+'\n\nLa aceptación de la Fase 0 deja C-2 resuelta.\n','S5b_aceptacion_de_fase_0_con_alcance_no_decidido'),
+ ('M20_documento_con_nota_20_26_sin_la_nota_20_59','entregables_formales/CONCILIACION_30_DECISIONES_Y_APLAZAMIENTOS.md',lambda s: s.replace('2026-11-22 20:59','2026-11-22 20:5X'),'S17_documento_con_nota_20_26_sin_la_nota_20_59'),
+ ('M21_registro_con_texto_literal_de_la_autorizacion_alterado','entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md',lambda s: s.replace('y, solo tras mi aprobación expresa de sus resultados, las subfases S1.1','y las subfases S1.1',1),'A5_registro_sin_autorizacion_de_S1_0'),
+ ('M22_S1_1_y_S1_2_presentadas_como_activas','README_ENTREGA.md',lambda s: s+'\n\nLas subfases S1.1 y S1.2 están autorizadas y activas.\n','S5c_S1_1_S1_2_o_Fase_1_completa_presentadas_como_autorizadas_o_activas'),
+ ('M23_fila_Aparte_con_autorizacion_sin_limite_a_S1_0','entregables_formales/APROBACIONES_FASE0.md',lambda s: s.replace('AUTORIZADA SOLO S1.0 (propietario','AUTORIZADA (propietario',1),'A1_aprobaciones'),
 ]
 def run(cwd):
     p=subprocess.run([sys.executable,'-I',EV+'logs/verificacion_semantica_fase0.py'],cwd=cwd,capture_output=True,text=True)

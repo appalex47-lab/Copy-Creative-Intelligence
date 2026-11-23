@@ -199,3 +199,17 @@ Ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` v2.0: la brecha de lectura declarada
 | `logs/verificacion_coherencia_posterior.py` | Tupla de autoexclusión con las salidas nuevas | Reproducibilidad en clon limpio |
 | `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados | Integridad |
 **Preservados sin cambios:** `docs/fase0/` (59), `anexos/`, las decisiones registradas y todas las notas fechadas anteriores.
+
+> **Nota fechada 2026-11-22 20:59 (respuesta del propietario; no es decisión nueva de este documento):** el propietario autorizó **únicamente la subfase S1.0** de la Fase 1 (auditoría técnica y definición del alcance ejecutable; rama `fase1/s1-0-auditoria` desde `7bcba74e05577761081d68ca14fdc19f2400248d`; solo lectura, pruebas existentes sin modificar y documentación/evidencia). Las subfases S1.1 y S1.2 quedan autorizadas solo tras su aprobación expresa de los resultados de S1.0 (no activas). Registro autoritativo: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`, sección «Autorización de la subfase S1.0». Las menciones anteriores de este documento a la autorización de la Fase 1 como pendiente o a «Fase 1 no autorizada» describen el estado previo y quedan superadas en ese punto; la Fase 1 en su conjunto NO está autorizada. **C-2, C-3 y los 10 aplazamientos siguen abiertos.**
+
+## R16. Registro de la autorización de la subfase S1.0 (base `b81591979e2eec9cc80e64b671e7b744003dc3ce`; respuesta del propietario 2026-11-22 20:59)
+**Alcance:** registrar como decisión del propietario la autorización de **solo la subfase S1.0** de la Fase 1 (S1.1 y S1.2 condicionadas a su aprobación expresa de los resultados de S1.0, no activas) y actualizar la evidencia derivada. No se modificó código de la aplicación, `docs/fase0`, `main` ni estados de CR; la Fase 1 en su conjunto **no** está autorizada; C-2, C-3 y los 10 aplazamientos siguen abiertos. Detalle: `entregables_formales/CONTROL_DE_CAMBIOS_AUTORIZACION_S1_0_2026-11-22.md`.
+| Grupo | Cambio | Motivo |
+|---|---|---|
+| `REGISTRO_DECISIONES_RESUELTAS.md`, `APROBACIONES_FASE0.md` | Sección autoritativa nueva; fila «Aparte» = AUTORIZADA SOLO S1.0 | Respuesta del propietario |
+| Documentos derivados (29 archivos) | Notas fechadas de las 20:59 (texto anterior conservado) | Los textos «Fase 1 no autorizada» o «autorización pendiente» describen el estado previo |
+| `logs/` (3 scripts) | A1, S5c, S17, A5, X5c/X5d, M10 reapuntada y M20–M23 (83 pruebas; 23 mutaciones) | Controles del nuevo estado |
+| Nuevos (7) | Control de cambios y 6 salidas en `logs/` | Evidencia |
+| `05`, `07`, `08`, `12` | Cifras (163 archivos; manifiestos de 161 y 162 líneas; 223 blobs), filas y notas | Coherencia |
+| `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados | Integridad |
+**Preservados sin cambios:** `docs/fase0/` (59), `anexos/`, las salidas anteriores de los scripts y el texto de las decisiones anteriores.

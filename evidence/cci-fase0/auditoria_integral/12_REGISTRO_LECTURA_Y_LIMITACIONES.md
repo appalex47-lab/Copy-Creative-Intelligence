@@ -15,9 +15,9 @@
 ## 2. Resumen (numerador / denominador / alcance)
 | Alcance | LEÍDO_COMPLETO | LEÍDO_PARCIALMENTE | NO_APLICABLE | NO_LEÍDO_EN_ESTA_RONDA | Total archivos |
 |---|---|---|---|---|---|
-| `evidence/cci-fase0/` (expediente) | 104 | 0 | 52 | 0 | 156 |
+| `evidence/cci-fase0/` (expediente) | 104 | 0 | 59 | 0 | 163 |
 | `docs/fase0/` (59: 5 raíz, 2 herramientas, 52 históricos) | 59 | 0 | 0 | 0 | 59 |
-| Total | 163 | 0 | 52 | 0 | 215 |
+| Total | 163 | 0 | 59 | 0 | 222 |
 
 **Bytes** (excluye listas de hashes y este documento): expediente 742313 B; `docs/fase0/` 10324392 B, de los cuales **2216734 B (21.5 %) son líneas únicas** efectivamente mostradas por primera vez (el resto es duplicado exacto de líneas ya mostradas). **Aclaración obligatoria:** «100 % de líneas únicas mostradas» en `docs/fase0/` **no equivale** al 100 % de los bytes revisados individualmente: se vieron 2 216 734 B de líneas únicas frente a 10 324 392 B totales (21,5 %); los bytes de expediente indicados son los del momento de la lectura (los archivos editados después se listan en §7). Los porcentajes de cobertura por archivo de §3 y §4 se calculan sobre rangos mostrados; en `docs/fase0/` la columna «líneas nuevas» es la medida real.
 
@@ -180,6 +180,13 @@
 | `logs/escaneo_contradicciones_2026-11-22_paquete_autorizacion_fase_1.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_paquete_autorizacion_fase_1.txt` |
 | `logs/relectura_completa_2026-11-22_paquete_autorizacion_fase_1.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_paquete_autorizacion_fase_1.txt` |
 | `logs/integridad_y_clon_limpio_2026-11-22_paquete_autorizacion_fase_1.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_paquete_autorizacion_fase_1.txt` |
+| `entregables_formales/CONTROL_DE_CAMBIOS_AUTORIZACION_S1_0_2026-11-22.md` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_autorizacion_s1_0.txt` |
+| `logs/prueba_mutacion_semantica_2026-11-22_autorizacion_s1_0.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_autorizacion_s1_0.txt` |
+| `logs/verificacion_semantica_fase0_2026-11-22_autorizacion_s1_0.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_autorizacion_s1_0.txt` |
+| `logs/verificacion_coherencia_posterior_2026-11-22_autorizacion_s1_0.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_autorizacion_s1_0.txt` |
+| `logs/escaneo_contradicciones_2026-11-22_autorizacion_s1_0.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_autorizacion_s1_0.txt` |
+| `logs/relectura_completa_2026-11-22_autorizacion_s1_0.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_autorizacion_s1_0.txt` |
+| `logs/integridad_y_clon_limpio_2026-11-22_autorizacion_s1_0.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_autorizacion_s1_0.txt` |
 
 ## 4. `docs/fase0/` — archivos raíz y herramientas (7)
 | Ruta | Estado | Tamaño / líneas nuevas | Observación |
@@ -475,3 +482,44 @@ Los 5 documentos raíz son la v15 de la línea anterior (Supabase/PostgreSQL/RLS
 | `auditoria_integral/08_INFORME_INTEGRIDAD_ARCHIVOS.md` | versión 3.8 y cifras (154 y 155 líneas; 156 archivos) |
 | `auditoria_integral/12_REGISTRO_LECTURA_Y_LIMITACIONES.md` | resumen (156 archivos; 52 NO_APLICABLE), 8 filas y esta sección |
 | `logs/verificacion_coherencia_posterior.py` | tupla de autoexclusión |
+
+> **Nota fechada 2026-11-22 20:59 (respuesta del propietario; no es decisión nueva de este documento):** el propietario autorizó **únicamente la subfase S1.0** de la Fase 1 (auditoría técnica y definición del alcance ejecutable; rama `fase1/s1-0-auditoria` desde `7bcba74e05577761081d68ca14fdc19f2400248d`; solo lectura, pruebas existentes sin modificar y documentación/evidencia). Las subfases S1.1 y S1.2 quedan autorizadas solo tras su aprobación expresa de los resultados de S1.0 (no activas). Registro autoritativo: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`, sección «Autorización de la subfase S1.0». Las menciones anteriores de este documento a la autorización de la Fase 1 como pendiente o a «Fase 1 no autorizada» describen el estado previo y quedan superadas en ese punto; la Fase 1 en su conjunto NO está autorizada. **C-2, C-3 y los 10 aplazamientos siguen abiertos.**
+
+## 14. Registro de la autorización de la subfase S1.0 (2026-11-22 20:59; base `b815919`)
+**Qué se hizo y qué no.** Se añadieron 7 archivos NO_APLICABLE (el control de cambios y 6 salidas en `logs/`; ver §3). Los archivos de la tabla se **modificaron después de su lectura original**: casi todos con una nota fechada añadida al final (texto anterior conservado); además el registro autoritativo, la fila «Aparte» de las aprobaciones, los docs 05, 07, 08 y 12 y los tres scripts. Tras las ediciones se releyeron los cambios (registro en `logs/relectura_completa_2026-11-22_autorizacion_s1_0.txt`); relectura de la misma sesión, no independiente. La Fase 1 en su conjunto **no** está autorizada: solo S1.0.
+| Archivo modificado | Qué cambió |
+|---|---|
+| `00_INDICE_VIGENTES_E_HISTORICOS.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `INFORME_REVISION_COMPLEMENTARIA.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `README_ENTREGA.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `auditoria_integral/01_INDICE_MAESTRO_FASE0.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `auditoria_integral/02_MATRIZ_MAESTRA_DECISIONES.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `auditoria_integral/06_REGISTRO_CONTRADICCIONES.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `auditoria_integral/09_PAQUETE_CONSOLIDADO_DECISIONES_PENDIENTES.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `auditoria_integral/13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `auditoria_integral/14_INFORME_FINAL_REGULARIZACION_Y_PREPARACION_APROBACIONES.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `auditoria_integral/15_INFORME_FINAL_SEGUNDA_REGULARIZACION.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `entregables_formales/10_DEFINICION_MVP_CCI.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `entregables_formales/13_REGISTRO_DECISIONES_PROPIETARIO.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `entregables_formales/16_INDICE_EVIDENCIAS_FASE0.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `entregables_formales/APROBACIONES_FASE0.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `entregables_formales/CONCILIACION_30_DECISIONES_Y_APLAZAMIENTOS.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `entregables_formales/CONTROL_DE_CAMBIOS_PAQUETE_AUTORIZACION_FASE_1_2026-11-22.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `entregables_formales/CONTROL_DE_CAMBIOS_PREPARACION_APROBACIONES_2026-11-22.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `entregables_formales/CONTROL_DE_CAMBIOS_RATIFICACION_PROPUESTA_MAESTRA_2026-11-22.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `entregables_formales/CONTROL_DE_CAMBIOS_REGULARIZACION_P4A_9_18_2026-11-22.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `entregables_formales/CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `entregables_formales/DECISIONES_P4_PENDIENTES.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `entregables_formales/INFORME_CIERRE_2026-11-22_PAQUETE_D4_D6_D7_D8.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `entregables_formales/PAQUETE_DECISION_APROBACIONES_0_1_A_0_7.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `entregables_formales/PAQUETE_DECISION_AUTORIZACION_FASE_1.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `entregables_formales/PROPUESTA_MAESTRA_CIERRE_FASE0_v1.0.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `entregables_formales/README_PROPUESTA_VIGENTE.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` | nota fechada 20:59 añadida (ver `07_` R16) |
+| `logs/prueba_mutacion_semantica.py` | actualización de controles (ver `07_` R16) |
+| `logs/verificacion_coherencia_posterior.py` | actualización de controles (ver `07_` R16) |
+| `logs/verificacion_semantica_fase0.py` | actualización de controles (ver `07_` R16) |
+| `auditoria_integral/12_REGISTRO_LECTURA_Y_LIMITACIONES.md` | resumen (163 archivos; 59 NO_APLICABLE), 7 filas y esta sección (ver `07_` R16) |

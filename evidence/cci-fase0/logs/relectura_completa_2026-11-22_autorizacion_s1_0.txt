@@ -1,0 +1,12 @@
+# Registro de relectura de los cambios — registro de la autorización de la subfase S1.0 (2026-11-22 20:59; base b81591979e2eec9cc80e64b671e7b744003dc3ce)
+# Qué es: evidencia de que los cambios de cada archivo modificado o creado en esta ronda se volvieron a leer tras las ediciones.
+# Qué NO es: no es una relectura íntegra de cada archivo (los archivos con una nota fechada añadida al final se releyeron en la nota con git diff; no cubre las salidas de scripts guardadas en logs/ ni docs/fase0/ ni anexos/).
+# Limitaciones: relectura de la misma sesión, no independiente. Se leyó íntegra la sección nueva del registro autoritativo y el control de cambios; en APROBACIONES_FASE0.md se leyeron la fila «Aparte» y la nota. Defectos hallados al releer y corregidos: (1) la mutación M10 apuntaba a una fila que cambió de texto (reapuntada); (2) el control de cambios decía 27 documentos con nota y eran 29 (corregido). El escaneo pasó de 66/54 a 78/54 (ANTECEDENTE_ADVERTIDO/REVISION_HUMANA); el aumento corresponde a las notas añadidas; las REVISION_HUMANA no se revisaron una por una.
+
+N | archivo | modo de relectura | resultado
+1 | entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md | sección nueva leída íntegra | sin defectos
+2 | entregables_formales/APROBACIONES_FASE0.md | diff (fila Aparte y nota) | sin defectos
+3 | entregables_formales/CONTROL_DE_CAMBIOS_AUTORIZACION_S1_0_2026-11-22.md | lectura íntegra | sin defectos tras la corrección indicada
+4 | 29 documentos con nota fechada de las 20:59 | diff de la nota añadida al final de cada uno | sin defectos
+5 | auditoria_integral/05, 07, 08, 12 | diff (versión, cifras 163/223, filas, R16, §14) | sin defectos
+6 | logs/verificacion_semantica_fase0.py, prueba_mutacion_semantica.py, verificacion_coherencia_posterior.py | diff completo | sin defectos tras la corrección indicada
