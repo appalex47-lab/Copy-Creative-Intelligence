@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { validateActivityEvent } from './activity';
 import { DISPLAY_NAME_MAX, parseLocalProfile, validateDisplayName } from './profile';
-import { DEFAULT_SETTINGS, parseSettings } from './settings';
+import { DEFAULT_SETTINGS, parseSettings, validateSettingsPatch } from './settings';
 
 describe('perfil local', () => {
   it('el nombre es opcional: undefined, null y vacío equivalen a sin nombre', () => {
@@ -81,5 +81,31 @@ describe('evento de actividad', () => {
     expect(validateActivityEvent({ ...ok, id: 'x' }).ok).toBe(false);
     expect(validateActivityEvent({ ...ok, displayName: 'Ana' }).ok).toBe(false);
     expect(validateActivityEvent(null).ok).toBe(false);
+  });
+});
+
+describe('cambio parcial de configuración', () => {
+  it('acepta claves permitidas con valores válidos', () => {
+    expect(validateSettingsPatch({ theme: 'dark' })).toEqual({
+      ok: true,
+      value: { theme: 'dark' },
+    });
+    expect(validateSettingsPatch({ lastBackupAt: null, seenNotices: ['a', 'a'] })).toEqual({
+      ok: true,
+      value: { lastBackupAt: null, seenNotices: ['a'] },
+    });
+  });
+  it('rechaza claves desconocidas, valores inválidos y no objetos', () => {
+    for (const bad of [
+      { token: 'x' },
+      { theme: 'neon' },
+      { lastView: 'otra' },
+      { seenNotices: [1] },
+      { lastBackupAt: 'ayer' },
+      null,
+      [],
+      'x',
+    ])
+      expect(validateSettingsPatch(bad).ok).toBe(false);
   });
 });

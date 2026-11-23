@@ -19,14 +19,15 @@ export function AppLayout({ isDemo, items, activeId, onNavigate, children }: Pro
   // No actúa en el montaje inicial ni en la doble ejecución de StrictMode.
   useEffect(() => {
     const label = items.find((i) => i.id === activeId)?.label;
+    const suffix = isDemo ? ' (DEMO)' : '';
     document.title = label
-      ? `${label} — Copy Creative Intelligence (DEMO)`
+      ? `${label} — Copy Creative Intelligence${suffix}`
       : 'Copy Creative Intelligence';
     if (previous.current !== null && previous.current !== activeId) {
       mainRef.current?.querySelector<HTMLElement>('h2')?.focus();
     }
     previous.current = activeId;
-  }, [activeId, items]);
+  }, [activeId, items, isDemo]);
 
   return (
     <div className="app-layout">

@@ -7,6 +7,8 @@ describe('createServices', () => {
     expect(Object.keys(createServices({ appEnv: 'test', dataMode: 'demo' })).sort()).toEqual([
       'activity',
       'appState',
+      'preferences',
+      'profile',
     ]);
   });
   it('falla de forma explícita ante un modo no soportado (no devuelve undefined)', () => {

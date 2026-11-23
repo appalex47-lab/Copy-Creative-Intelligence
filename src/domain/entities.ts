@@ -4,7 +4,7 @@
 
 /** Estado de aplicación de alto nivel (no es estado de UI transitorio). */
 export interface AppState {
-  readonly dataMode: 'demo' | 'backend';
+  readonly dataMode: 'demo' | 'local';
   readonly environment: 'development' | 'test' | 'preview' | 'production';
   readonly isDemo: boolean;
 }

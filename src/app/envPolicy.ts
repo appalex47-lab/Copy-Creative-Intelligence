@@ -5,7 +5,7 @@
 // navegador puede ser alterado por quien lo recibe. La seguridad real dependerá de Auth, RLS y backend.
 
 export type AppEnvName = 'development' | 'test' | 'preview' | 'production';
-export type DataModeName = 'demo';
+export type DataModeName = 'demo' | 'local';
 
 export type PolicyResult =
   | { readonly ok: true; readonly appEnv: AppEnvName; readonly dataMode: DataModeName }
@@ -27,8 +27,9 @@ export const DEMO_ALLOWED_ENVS: readonly AppEnvName[] = ['development', 'test', 
  * Reglas:
  *  - `MODE` (el modo de Vite: development | test | preview | production) es obligatorio y define el entorno.
  *  - `VITE_APP_ENV` es opcional; si se define debe coincidir con `MODE` (si no, es una configuración contradictoria).
- *  - `VITE_DATA_MODE` (por defecto `demo`): solo existe `demo`; `supabase` aún no está implementado.
- *  - DEMO solo se permite en development, test y preview. Producción rechaza DEMO.
+ *  - `VITE_DATA_MODE` (por defecto `demo`): `demo` (datos ficticios en memoria) o `local` (datos reales del navegador:
+ *    IndexedDB y Local Storage, sin backend). `supabase` no existe: la arquitectura es solo navegador.
+ *  - DEMO solo se permite en development, test y preview. Producción rechaza DEMO; `local` se permite en todos los entornos.
  *  - `vite preview` solo sirve un build ya generado: no es producción ni tiene backend conectado.
  */
 export function evaluateEnvPolicy(raw: RawEnv): PolicyResult {
@@ -75,20 +76,21 @@ export function evaluateEnvPolicy(raw: RawEnv): PolicyResult {
       message: 'El adaptador Supabase no existe todavía; no se puede usar VITE_DATA_MODE=supabase.',
     };
   }
-  if (dataMode !== 'demo') {
+  if (dataMode !== 'demo' && dataMode !== 'local') {
     return {
       ok: false,
       code: 'invalid_configuration',
       message: `VITE_DATA_MODE inválido: "${dataMode}".`,
     };
   }
+  if (dataMode === 'local') return { ok: true, appEnv: mode, dataMode: 'local' };
   if (!DEMO_ALLOWED_ENVS.includes(mode)) {
     return {
       ok: false,
       code: 'invalid_configuration',
       message:
         'Un entorno de producción no puede usar datos DEMO y aún no existe un backend real. ' +
-        'Para un build local de demostración use el modo "preview" (npm run build).',
+        'Use VITE_DATA_MODE=local para datos reales del navegador, o el modo "preview" (npm run build) para una demostración.',
     };
   }
   return { ok: true, appEnv: mode, dataMode: 'demo' };

@@ -10,6 +10,11 @@ describe('adaptador DEMO', () => {
     expect(await createDemoServices('test').activity.listRecent()).toEqual({ ok: true, value: [] });
   });
   it('no expone identidad, organizaciones, membresías ni proyectos (P1)', () => {
-    expect(Object.keys(createDemoServices('test')).sort()).toEqual(['activity', 'appState']);
+    expect(Object.keys(createDemoServices('test')).sort()).toEqual([
+      'activity',
+      'appState',
+      'preferences',
+      'profile',
+    ]);
   });
 });

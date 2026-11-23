@@ -32,5 +32,13 @@ export default defineConfig({
       reuseExistingServer: !process.env['CI'],
       timeout: 60_000,
     },
+    {
+      // Servidor de desarrollo en modo de datos LOCAL (IndexedDB + Local Storage reales del navegador).
+      command: 'npx vite --port 5174 --strictPort',
+      env: { VITE_DATA_MODE: 'local' },
+      url: 'http://localhost:5174',
+      reuseExistingServer: !process.env['CI'],
+      timeout: 60_000,
+    },
   ],
 });

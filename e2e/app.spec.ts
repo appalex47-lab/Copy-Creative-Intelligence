@@ -60,6 +60,8 @@ test.describe('aplicación (build preview) en Chrome real', () => {
     await expect(page.getByRole('button', { name: 'Estado de conexión' })).toBeFocused();
     await page.keyboard.press('Enter');
     await expect(page.getByRole('heading', { level: 2, name: 'Estado de conexión' })).toBeFocused();
+    // Desde el encabezado, hacia atrás: Perfil y preferencias → Estado de conexión → Inicio.
+    await page.keyboard.press('Shift+Tab');
     await page.keyboard.press('Shift+Tab');
     await page.keyboard.press('Shift+Tab');
     await expect(page.getByRole('button', { name: 'Inicio' })).toBeFocused();

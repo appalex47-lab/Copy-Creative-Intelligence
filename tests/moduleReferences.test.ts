@@ -91,6 +91,8 @@ describe('checkFile (reglas)', () => {
       "import { createServices } from '@/services/index';",
       "import { x } from '../services/adapters/demo/fixtures';",
       "import { y } from '@/app/env';",
+      "import { r } from '@/adapters/indexeddb/indexedDbRepositories';",
+      "import { l } from '../adapters/local/localServices';",
       "const m = await import('@/services/adapters/demo/demoServices');",
     ]) {
       expect(violations(code, 'pages/HomePage.tsx'), code).not.toEqual([]);

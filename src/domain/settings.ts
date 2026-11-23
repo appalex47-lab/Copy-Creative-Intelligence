@@ -1,10 +1,12 @@
+import { invalid, valid, type Validation } from './validation';
+
 /**
  * Configuración de la aplicación: lista PERMITIDA de cinco categorías documentadas (AC1-09).
  * SUPUESTOS de Claude (S1-D09, reversibles): valores y defaults de abajo; no vienen de un documento aprobado.
  */
 export const THEMES = ['system', 'light', 'dark'] as const;
 export const LANGUAGES = ['es'] as const;
-export const VIEW_IDS = ['inicio', 'conexion'] as const;
+export const VIEW_IDS = ['inicio', 'conexion', 'ajustes'] as const;
 export const SEEN_NOTICES_MAX = 50;
 
 export interface AppSettings {
@@ -50,4 +52,51 @@ export function parseSettings(raw: unknown): AppSettings {
     seenNotices: [...new Set(notices)],
     lastBackupAt: isIsoUtc(r['lastBackupAt']) ? r['lastBackupAt'] : null,
   };
+}
+
+const NOTICE_ID = /^[a-z0-9_-]{1,40}$/;
+const ALLOWED_KEYS = ['theme', 'language', 'lastView', 'seenNotices', 'lastBackupAt'] as const;
+
+/**
+ * Valida un cambio parcial de configuración: solo claves de la lista permitida y valores válidos.
+ * Rechaza (no ignora) claves desconocidas y valores inválidos, para que un error de programación no pase en silencio.
+ */
+export function validateSettingsPatch(raw: unknown): Validation<Partial<AppSettings>> {
+  if (typeof raw !== 'object' || raw === null || Array.isArray(raw))
+    return invalid('El cambio de configuración debe ser un objeto.');
+  const r = raw as Record<string, unknown>;
+  const unknown = Object.keys(r).filter((k) => !(ALLOWED_KEYS as readonly string[]).includes(k));
+  if (unknown.length > 0) return invalid('La configuración incluye claves no permitidas.');
+  const out: { -readonly [K in keyof AppSettings]?: AppSettings[K] } = {};
+  if ('theme' in r) {
+    const v = oneOf(THEMES, r['theme']);
+    if (v === undefined) return invalid('Tema no válido.');
+    out.theme = v;
+  }
+  if ('language' in r) {
+    const v = oneOf(LANGUAGES, r['language']);
+    if (v === undefined) return invalid('Idioma no válido.');
+    out.language = v;
+  }
+  if ('lastView' in r) {
+    const v = oneOf(VIEW_IDS, r['lastView']);
+    if (v === undefined) return invalid('Vista no válida.');
+    out.lastView = v;
+  }
+  if ('seenNotices' in r) {
+    const v = r['seenNotices'];
+    if (
+      !Array.isArray(v) ||
+      v.length > SEEN_NOTICES_MAX ||
+      !v.every((x) => typeof x === 'string' && NOTICE_ID.test(x))
+    )
+      return invalid('Avisos vistos no válidos.');
+    out.seenNotices = [...new Set(v as string[])];
+  }
+  if ('lastBackupAt' in r) {
+    const v = r['lastBackupAt'];
+    if (v !== null && !isIsoUtc(v)) return invalid('Fecha de respaldo no válida.');
+    out.lastBackupAt = v;
+  }
+  return valid(out);
 }

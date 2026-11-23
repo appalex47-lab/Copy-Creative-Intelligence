@@ -3,6 +3,7 @@ import type { Page } from '@playwright/test';
 
 export const PREVIEW = 'http://localhost:4173';
 export const DEV = 'http://localhost:5173';
+export const LOCAL = 'http://localhost:5174';
 export const EVIDENCE_DIR = process.env['CCI_EVIDENCE_DIR'] ?? 'test-results/capturas';
 
 /** Registra errores de consola y excepciones de página para comprobar que no ocurren. */

@@ -21,7 +21,8 @@ export function ConnectionPage() {
         Estado de conexión
       </h2>
       <p>
-        Modo de datos: <strong>DEMO</strong>
+        Modo de datos:{' '}
+        <strong>{state.status === 'success' ? state.data.dataMode.toUpperCase() : 'DEMO'}</strong>
         {state.status === 'success' && (
           <>
             {' '}

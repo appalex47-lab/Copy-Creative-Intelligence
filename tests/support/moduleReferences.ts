@@ -158,6 +158,8 @@ export function checkFile(source: string, { fileRel }: Policy): Violation[] {
       if (
         target !== null &&
         (target.startsWith('services/adapters') ||
+          target.startsWith('adapters/') ||
+          target === 'adapters' ||
           target === 'services' ||
           target === 'services/index' ||
           target.startsWith('app/'))

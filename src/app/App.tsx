@@ -1,8 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { AppLayout } from '@/layouts/AppLayout';
 import { HomePage } from '@/pages/HomePage';
 import { ConnectionPage } from '@/pages/ConnectionPage';
+import { SettingsPage } from '@/pages/SettingsPage';
+import { applyTheme } from '@/lib/theme';
 import type { NavItem } from '@/components/NavMenu';
 import { createServices } from '@/services';
 import type { Services } from '@/services/contracts';
@@ -12,6 +14,7 @@ import { ServicesProvider } from '@/hooks/ServicesContext';
 const NAV: readonly NavItem[] = [
   { id: 'inicio', label: 'Inicio' },
   { id: 'conexion', label: 'Estado de conexión' },
+  { id: 'ajustes', label: 'Perfil y preferencias' },
 ];
 
 interface AppProps {
@@ -23,6 +26,12 @@ interface AppProps {
 export function App({ env, services: injected }: AppProps) {
   const [active, setActive] = useState('inicio');
   const services = useMemo(() => injected ?? createServices(env), [env, injected]);
+  // Aplica el tema guardado al arrancar. Un fallo al leer no es grave: rige el tema del sistema.
+  useEffect(() => {
+    void services.preferences.get().then((r) => {
+      if (r.ok) applyTheme(r.value.theme);
+    });
+  }, [services]);
   return (
     <ServicesProvider services={services}>
       <AppLayout
@@ -32,7 +41,13 @@ export function App({ env, services: injected }: AppProps) {
         onNavigate={setActive}
       >
         <ErrorBoundary key={active}>
-          {active === 'conexion' ? <ConnectionPage /> : <HomePage />}
+          {active === 'conexion' ? (
+            <ConnectionPage />
+          ) : active === 'ajustes' ? (
+            <SettingsPage />
+          ) : (
+            <HomePage />
+          )}
         </ErrorBoundary>
       </AppLayout>
     </ServicesProvider>

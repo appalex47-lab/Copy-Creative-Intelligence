@@ -25,6 +25,15 @@ describe('política de entorno y modo de datos', () => {
     }
   });
 
+  it('modo local: se acepta en cualquier entorno solo si se pide explícitamente', () => {
+    for (const mode of ['development', 'test', 'preview', 'production']) {
+      expect(parseEnv({ MODE: mode, VITE_APP_ENV: mode, VITE_DATA_MODE: 'local' })).toEqual({
+        ok: true,
+        value: { appEnv: mode, dataMode: 'local' },
+      });
+    }
+  });
+
   it('producción con supabase: aún no implementado (no se acepta)', () => {
     expect(code({ MODE: 'production', VITE_DATA_MODE: 'supabase' })).toBe('not_implemented');
   });
