@@ -64,3 +64,5 @@ D5.a–d: decisión definitiva del propietario = fuera del alcance vigente; D-5 
 
 ## Actualización 2026-11-22 (regularización posterior al registro)
 Las 11 decisiones D4/D6/D7/D8 están resueltas y registradas (no se piden de nuevo). P4.A: 8/18 → **9/18** por D4.c=A (entidad 13, solo definición mínima). Pendientes reales: ver «ESTADO VIGENTE» al inicio.
+
+> **Nota fechada 2026-11-22 20:26 (respuesta del propietario; no es decisión nueva de este documento):** el propietario aceptó formalmente la Fase 0 («Acepto formalmente la Fase 0, con las limitaciones expresas C-2 y C-3 abiertas y los 10 aplazamientos pendientes. No autoriza la Fase 1.»; redacción propuesta por Claude y adoptada literalmente). Registro autoritativo: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`. Las menciones anteriores de este documento a «Fase 0 no aceptada» o a la aceptación formal como pendiente describen el estado previo y quedan superadas en ese punto. **C-2, C-3 y los 10 aplazamientos siguen abiertos y la autorización de la Fase 1 sigue PENDIENTE** (acto independiente). Conteos de decisiones sin cambio: 20/30 resueltas, 10/30 con aplazamiento aceptado, 0 abiertas.

@@ -407,3 +407,23 @@ Registro de las cuestiones que D-3 y D-5 declaran expresamente **no decididas**.
 - No acredita pruebas, build, E2E ni CI de la aplicación, ni acceso a `CCI-Evidence` (403 en este entorno).
 
 **Nota cronológica posterior (20:14):** los textos anteriores de este registro que dicen «0.1–0.7 PENDIENTES (0/7)» (B10, «Efectos y límites» y la nota de R-1) describen el estado en su momento y quedan **superados** por esta sección en lo relativo a las aprobaciones 0.1–0.7 y a R-1; siguen vigentes en todo lo demás (aceptación de Fase 0 y autorización de Fase 1 pendientes). No se reescribe ninguna decisión anterior.
+
+## Aceptación formal de la Fase 0 — RESUELTA por el propietario el 2026-11-22 20:26 (registro AUTORITATIVO)
+**Texto literal del propietario:** «Acepto formalmente la Fase 0, con las limitaciones expresas C-2 y C-3 abiertas y los 10 aplazamientos pendientes. No autoriza la Fase 1.»
+
+**Procedencia (sin inferencias adicionales):** la redacción fue propuesta por Claude como texto sugerido, no vinculante, y el propietario la adoptó literalmente como respuesta. Se registra como decisión del propietario por esa respuesta y con ese alcance.
+
+**Efectos registrados:**
+- **La Fase 0 queda aceptada formalmente** por el propietario (acto «Final» de `APROBACIONES_FASE0.md`), con las aprobaciones 0.1–0.7 ya emitidas (20:14).
+- Se acepta **con** las limitaciones expresas **C-2 y C-3 abiertas** (B9): se mantienen como limitaciones; no se declara aceptada la Fase 0 v3.3 anterior como línea base vigente sin evidencia primaria (C-2); no se infiere que D-04 aprobara claves técnicas de roles (C-3). Esta aceptación se refiere a **esta** Fase 0 (expediente browser-only), no a la anterior.
+- Se acepta **con** los **10 aplazamientos pendientes** (P6, P7, P8, P10, P15, Q-1, Q-2, Q-3, Q-5, Q-6), cada uno por resolver antes de la fase indicada; ninguno queda resuelto por esta aceptación. R-1 sigue como aplazamiento aceptado de seis cuestiones residuales, sin cambio.
+- Decisiones conceptuales sin cambio: 20/30 resueltas; 10/30 con aplazamiento aceptado; 0 abiertas. Estados de CR sin cambio.
+
+**Lo que esta aceptación NO hace:**
+- **No autoriza la Fase 1** (lo dice el propio texto). La autorización de la Fase 1 es un acto independiente, con el contenido indicado en la propuesta (§19), y sigue **PENDIENTE**.
+- No cierra C-2 ni C-3; no resuelve ningún aplazamiento (incluido P8); no aprueba integración de IA, proveedor, clave ni llamada remota.
+- No reabre D5.a–d ni ninguna decisión ratificada; no aprueba atributos, cardinalidades, fórmulas ni catálogos.
+- No autoriza implementar, instalar dependencias, modificar código, modificar `docs/fase0` ni `main`, ni fusionar con la vista previa privada.
+- No acredita pruebas, build, E2E ni CI de la aplicación, la verificación técnica de Web Locks, cuotas de IndexedDB ni compatibilidad de navegadores, ni acceso a `CCI-Evidence` (403): la aceptación es del expediente documental con esas limitaciones.
+
+**Nota cronológica posterior (20:26):** los textos anteriores de este registro y de todo el expediente que dicen «Fase 0 no aceptada» o «aceptación formal pendiente» (en particular B10, «Efectos y límites», y la sección de las aprobaciones de las 20:14) describen el estado en su momento y quedan **superados** en ese punto por esta sección; siguen vigentes en todo lo demás (autorización de la Fase 1 pendiente). No se reescribe ninguna decisión anterior.

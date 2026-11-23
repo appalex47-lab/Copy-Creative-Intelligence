@@ -54,7 +54,15 @@ def c_estado_previo_aprobaciones(l):
     """Línea que describe las aprobaciones 0.1–0.7 como 0/7 o pendientes (válido hasta 2026-11-22 20:14)."""
     return bool(ESTADO_PREVIO.search(l))
 def c_fase_afirmada(s):
-    return bool(re.search(r'Fase 0 (v3\.3 )?(est[aá] )?(ACEPTAD|aceptad)|Fase 1 (est[aá] )?(AUTORIZAD|autorizad)',s)) and not NEG.search(s) and not re.search(r'\b(cuando|hasta|tras|después|requiere|exige|si |solo con|condici|v3\.3|histó|anterior)',s)
+    """(Estado desde 2026-11-22 20:26: la Fase 0 fue aceptada por el propietario; la Fase 1 NO está autorizada.) Detecta la Fase 1 presentada como autorizada."""
+    return bool(re.search(r'Fase 1 (est[aá] |queda |fue )?(AUTORIZAD|autorizad)',s)) and not NEG.search(s) and not re.search(r'\b(cuando|hasta|tras|después|requiere|exige|si |solo con|condici|v3\.3|histó|anterior|una vez)',s)
+def c_aceptacion_fase0_mal(s):
+    """Aceptación de Fase 0 presentada con un alcance que el propietario no le dio: autoriza Fase 1, cierra C-2/C-3 o es sin limitaciones."""
+    return bool(re.search(r'(Fase 0 (est[aá] |queda |fue )?aceptad|acept[oó] (formalmente )?la Fase 0|aceptaci[oó]n de (la )?Fase 0)',s,re.I)) and bool(re.search(r'autoriz\w+ (la )?Fase 1|Fase 1 (est[aá] |queda |fue )?autorizad|C-[23][^.;]{0,30}(cerrad|resuelt|superad)|sin limitaciones|l[ií]nea base vigente',s,re.I)) and not re.search(r'\b(no|ni|nunca|tampoco|ninguna?)\b',s,re.I) and not re.search(r'\b(requier|exig|cuando|hasta|tras|despu[eé]s|v3\.3|histó|anterior|independient|separad|aparte|pendient|f[oó]rmulas?|pre-?condici)',s,re.I)
+ESTADO_PREVIO_ACEP=re.compile(r'Fase 0[^.|\n]{0,25}\bno (est[aá] |queda |fue )?aceptad|\bno aceptada\b|aceptaci[oó]n (formal )?de (la )?Fase 0[^.\n]{0,60}(pendiente|sin respuesta)|Fase 0 sin aceptaci[oó]n|sin aceptaci[oó]n formal',re.I)
+def c_estado_previo_aceptacion(l):
+    """Línea que describe la Fase 0 como no aceptada o su aceptación como pendiente (válido hasta 2026-11-22 20:26). No aplica a líneas sobre la Fase 0 v3.3 anterior."""
+    return bool(ESTADO_PREVIO_ACEP.search(l)) and 'v3.3' not in l
 def c_c2c3_resueltas(s):
     return bool(re.search(r'\bC-[23]\b',s)) and bool(re.search(r'\b(resuelt[ao]s?|cerrad[ao]s?|superad[ao]s?)\b',s)) and not NEG.search(s) and not re.search(r'\b(abiert|pendiente|limitaci)',s,re.I)
 NOAPR=[('Campaña','Oferta'),('Campaña','Pieza'),('Brief','Oferta'),('Brief','Producto'),('Reglas de copy','ReglaDeMarca')]
@@ -96,10 +104,19 @@ PRUEBAS=[
  ('estado previo: «0.1–0.7: pendientes (0/7)» se detecta',lambda:c_estado_previo_aprobaciones('| Aprobaciones formales | 0.1–0.7: **pendientes (0/7)** |'),True),
  ('estado previo: «0/7 hashes coinciden» (otro asunto) no se detecta',lambda:not c_estado_previo_aprobaciones('manifiesto fechado anterior | 0/7 hashes coinciden con los archivos'),True),
  ('estado previo: «7/7 emitidas» no se detecta',lambda:not c_estado_previo_aprobaciones('Aprobaciones 0.1–0.7: 7/7 emitidas'),True),
- ('fase: «Fase 0 aceptada» se detecta',lambda:c_fase_afirmada('La Fase 0 está aceptada por el propietario'),True),
- ('fase: «Fase 0 no aceptada» no se detecta',lambda:not c_fase_afirmada('La Fase 0 no está aceptada'),True),
  ('fase: «Fase 1 autorizada» se detecta',lambda:c_fase_afirmada('Fase 1 autorizada para iniciar'),True),
- ('fase: «una vez aceptada Fase 0» no se detecta',lambda:not c_fase_afirmada('Una vez aceptada Fase 0, deberá emitirse la autorización'),True),
+ ('fase: «Fase 1 queda autorizada» se detecta',lambda:c_fase_afirmada('Con esto la Fase 1 queda autorizada'),True),
+ ('fase: «la Fase 0 está aceptada» (estado vigente desde las 20:26) no se detecta',lambda:not c_fase_afirmada('La Fase 0 está aceptada por el propietario; la Fase 1 no está autorizada'),True),
+ ('fase: «una vez aceptada Fase 0, deberá emitirse la autorización de Fase 1» no se detecta',lambda:not c_fase_afirmada('Una vez aceptada Fase 0, la Fase 1 quedará autorizada solo con decisión expresa'),True),
+ ('aceptación: «Fase 0 aceptada, lo que autoriza la Fase 1» se detecta',lambda:c_aceptacion_fase0_mal('La Fase 0 está aceptada, lo que autoriza la Fase 1'),True),
+ ('aceptación: «Fase 0 aceptada y C-2 resuelta» se detecta',lambda:c_aceptacion_fase0_mal('La Fase 0 queda aceptada y C-2 resuelta'),True),
+ ('aceptación: «aceptó la Fase 0 sin limitaciones» se detecta',lambda:c_aceptacion_fase0_mal('El propietario aceptó la Fase 0 sin limitaciones'),True),
+ ('aceptación: «Fase 0 aceptada con C-2 y C-3 abiertas; no autoriza la Fase 1» no se detecta',lambda:not c_aceptacion_fase0_mal('Fase 0 aceptada con C-2 y C-3 abiertas; no autoriza la Fase 1'),True),
+ ('aceptación: «la autorización de Fase 1 es independiente de la aceptación de Fase 0» no se detecta',lambda:not c_aceptacion_fase0_mal('La autorización de Fase 1 es independiente de la aceptación de Fase 0'),True),
+ ('estado previo: «Fase 0 no aceptada» se detecta',lambda:c_estado_previo_aceptacion('**Fase 0 no aceptada; Fase 1 no autorizada.**'),True),
+ ('estado previo: «aceptación formal de Fase 0: pendiente» se detecta',lambda:c_estado_previo_aceptacion('| Aceptación formal de Fase 0 | pendiente |'),True),
+ ('estado previo: «Fase 0 v3.3 no aceptada» (C-2) no se detecta',lambda:not c_estado_previo_aceptacion('no se declara aceptada la Fase 0 v3.3 anterior; Fase 0 v3.3 no aceptada'),True),
+ ('estado previo: «Fase 0 aceptada» no se detecta',lambda:not c_estado_previo_aceptacion('Fase 0 aceptada formalmente el 2026-11-22 20:26'),True),
  ('C-2/C-3: «C-2 y C-3 resueltas» se detecta',lambda:c_c2c3_resueltas('C-2 y C-3 quedaron resueltas'),True),
  ('C-2/C-3: «C-2 y C-3 abiertas» no se detecta',lambda:not c_c2c3_resueltas('C-2 y C-3 siguen abiertas'),True),
  ('C-2/C-3: «no resueltas» no se detecta',lambda:not c_c2c3_resueltas('C-2 y C-3 no están resueltas'),True),
@@ -225,7 +242,8 @@ for p in VIG:
             if c_aplazada_como_resuelta(s,APLAZADAS): hallazgo('S3_aplazamiento_presentado_como_resuelto',p,i,s)
             if c_aprobaciones_extendidas(s): hallazgo('S4_aprobaciones_extendidas_a_lo_no_decidido',p,i,s)
             if c_05_sin_principios(s): hallazgo('S4b_aprobacion_05_sin_limite_de_principios',p,i,s)
-            if c_fase_afirmada(s): hallazgo('S5_fase_0_aceptada_o_fase_1_autorizada',p,i,s)
+            if c_fase_afirmada(s): hallazgo('S5_fase_1_presentada_como_autorizada',p,i,s)
+            if c_aceptacion_fase0_mal(s): hallazgo('S5b_aceptacion_de_fase_0_con_alcance_no_decidido',p,i,s)
             if c_c2c3_resueltas(s): hallazgo('S6_C2_C3_presentadas_como_resueltas',p,i,s)
             if c_relacion_no_aprobada_como_aprobada(s): hallazgo('S7_relacion_no_aprobada_presentada_como_aprobada',p,i,s)
             if c_mvp_fase(s) or c_q4_abierta(s): hallazgo('S8_roadmap_o_mvp_contradice_Q4',p,i,s)
@@ -241,6 +259,7 @@ for p in VIG2:
             if c_reco_como_aprobacion(s): hallazgo('S12_recomendacion_presentada_como_decision',p,i,s)
             if c_residuales_incompletos(s): hallazgo('S13_residuales_D5_incompletos_(omite_la_cuestion_4)',p,i,s)
             if c_r1_con_d5ad(s): hallazgo('S14_R1_vinculada_a_D5ad_sin_exclusion',p,i,s)
+        if c_estado_previo_aceptacion(l) and '2026-11-22 20:26' not in txt[p]: res['ERROR_REAL'].append(('S16_estado_previo_de_la_aceptacion_sin_nota_20_26',p[len(EV)+1:],i+1,l.strip()[:200],''))
         if c_estado_previo_aprobaciones(l) and '2026-11-22 20:14' not in txt[p]: res['ERROR_REAL'].append(('S15_estado_previo_de_aprobaciones_sin_nota_20_14',p[len(EV)+1:],i+1,l.strip()[:200],''))
 # ---------------------------------------------------------------- controles estructurales
 reg=txt[FM+'/REGISTRO_DECISIONES_RESUELTAS.md']
@@ -288,10 +307,12 @@ ap=txt[FM+'/APROBACIONES_FASE0.md'].split('## 4. Antecedente')[0]   # la parte v
 filas=[l for l in ap.split('\n') if re.match(r'\| 0\.[1-7] ',l)]
 # Estado desde 2026-11-22 20:14 (respuesta del propietario): 0.1–0.7 APROBADAS (0.5 solo en cuanto a principios); «Final» y «Aparte» siguen PENDIENTES
 emit=[l[:60] for l in filas if not re.search(r'\|\s*APROBADA( solo en cuanto a principios)? \(propietario, 2026-11-22 20:14\)\s*\|',l) or (l.startswith('| 0.5 ') and 'solo en cuanto a principios' not in l)]
-fin=[l[:40] for l in ap.split('\n') if re.match(r'\| (Final|Aparte) ',l) and not re.search(r'\| PENDIENTE \|',l)]
+# Estado desde 2026-11-22 20:26: «Final» = ACEPTADA por el propietario; «Aparte» (autorizar la Fase 1) = PENDIENTE
+fin=[l[:40] for l in ap.split('\n') if (re.match(r'\| Final ',l) and not re.search(r'\| ACEPTADA \(propietario, 2026-11-22 20:26\) \|',l)) or (re.match(r'\| Aparte ',l) and not re.search(r'\| PENDIENTE \|',l))]
+if len([l for l in ap.split('\n') if re.match(r'\| (Final|Aparte) ',l)])!=2: fin.append('faltan filas Final/Aparte')
 fich=re.findall(r'^### Ficha (0\.[1-7]) [^\n]*? — ([^\n]*)$',ap,re.M)
 fich_mal=[f for f in fich if not (f[1].startswith('APROBADA') and ((f[0]=='0.5')==('solo en cuanto a principios' in f[1])))]
-print('## A1 fichas 0.1–0.7 en la tabla vigente de APROBACIONES_FASE0: %d filas; sin el estado APROBADA del propietario (0.5 solo principios): %s; filas Final/Aparte no PENDIENTES: %s; encabezados de ficha incoherentes: %s (%d fichas)'%(len(filas),emit or 'ninguna',fin or 'ninguna',fich_mal or 'ninguno',len(fich)))
+print('## A1 fichas 0.1–0.7 en la tabla vigente de APROBACIONES_FASE0: %d filas; sin el estado APROBADA del propietario (0.5 solo principios): %s; filas «Final» sin ACEPTADA (20:26) o «Aparte» sin PENDIENTE: %s; encabezados de ficha incoherentes: %s (%d fichas)'%(len(filas),emit or 'ninguna',fin or 'ninguna',fich_mal or 'ninguno',len(fich)))
 if len(filas)!=7 or emit or fin or fich_mal or len(fich)!=7: res['ERROR_REAL'].append(('A1_aprobaciones','entregables_formales/APROBACIONES_FASE0.md',0,str((emit,fin,fich_mal,len(fich))),''))
 # A3: el registro autoritativo contiene la respuesta literal del propietario y sus límites
 sec=re.search(r'## Aprobaciones formales 0\.1–0\.7 y respuesta a R-1 — RESUELTAS por el propietario el 2026-11-22 20:14[^\n]*\n(.*)',reg,re.S)
@@ -307,6 +328,18 @@ else:
         if not re.search(rx,t): a3.append('falta: '+k)
 print('## A3 el registro autoritativo contiene la respuesta del propietario (20:14) con sus límites: %s'%('sí' if not a3 else a3))
 if a3: res['ERROR_REAL'].append(('A3_registro_sin_respuesta_del_propietario','entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md',0,str(a3),''))
+# A4: el registro autoritativo contiene la aceptación formal de la Fase 0 (20:26) con su texto literal y sus límites
+sec4=re.search(r'## Aceptación formal de la Fase 0 — RESUELTA por el propietario el 2026-11-22 20:26[^\n]*\n(.*)',reg,re.S)
+lit4='Acepto formalmente la Fase 0, con las limitaciones expresas C-2 y C-3 abiertas y los 10 aplazamientos pendientes. No autoriza la Fase 1.'
+a4=[]
+if not sec4: a4.append('sin sección')
+else:
+    t4=sec4.group(1)
+    if lit4 not in t4: a4.append('sin texto literal')
+    for k,rx in (('no autoriza Fase 1',r'No autoriza la Fase 1'),('Fase 1 pendiente',r'sigue \*\*PENDIENTE\*\*'),('C-2 y C-3 abiertas',r'C-2 y C-3 abiertas'),('10 aplazamientos',r'10 aplazamientos pendientes'),('procedencia',r'propuesta por Claude'),('no cierra C-2 ni C-3',r'No cierra C-2 ni C-3')):
+        if not re.search(rx,t4): a4.append('falta: '+k)
+print('## A4 el registro autoritativo contiene la aceptación formal de la Fase 0 (20:26) con sus límites: %s'%('sí' if not a4 else a4))
+if a4: res['ERROR_REAL'].append(('A4_registro_sin_aceptacion_de_fase_0','entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md',0,str(a4),''))
 obsol=[(l[:30],t) for l in filas for t in re.findall(r'P4 \(parcial|P4 sigue parcial|~~P3~~|pendiente[^|]{0,30}(?:P5|P9|P11|P12|P13)|(?:P5|P9|P11|P12|P13)[^|]{0,15}pendiente',l)]
 print('## A2 prerrequisitos desactualizados en las fichas: %s'%(obsol or 'ninguno'))
 if obsol: res['ERROR_REAL'].append(('A2_prerrequisitos_desactualizados','entregables_formales/APROBACIONES_FASE0.md',0,str(obsol),''))

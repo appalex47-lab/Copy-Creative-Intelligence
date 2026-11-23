@@ -1,0 +1,268 @@
+# Salida real de verificacion_coherencia_posterior.py (registro de la aceptación formal de la Fase 0, 2026-11-22 20:26; base 301e20c)
+# Comando: python3 -I evidence/cci-fase0/logs/verificacion_coherencia_posterior.py  -> código de salida 0. Ejecución de la misma sesión que preparó el expediente (no es verificación independiente); verifica documentos, no la aplicación.
+# Commit verificado (HEAD): 301e20c8486ac7073eb5d8e91c71f9cd99ab732b | árbol de trabajo con cambios sin confirmar: sí
+## X4_pruebas_regresion (controles sobre textos sintéticos)
+   [OK] CR-19 no satisface CR-20 (esperado=False, obtenido=False)
+   [OK] CR-19 no satisface CR-21 (esperado=False, obtenido=False)
+   [OK] CR-19 no satisface CR-22 (esperado=False, obtenido=False)
+   [OK] CR-19 sí satisface CR-19 (esperado=True, obtenido=True)
+   [OK] referencia explícita CR-20 satisface CR-20 (esperado=True, obtenido=True)
+   [OK] referencia explícita CR-20 no satisface CR-19 (esperado=False, obtenido=False)
+   [OK] referencia explícita CR-21 satisface CR-21 (esperado=True, obtenido=True)
+   [OK] referencia explícita CR-22 satisface CR-22 (esperado=True, obtenido=True)
+   [OK] rango CR-19…CR-22 cubre CR-19 (esperado=True, obtenido=True)
+   [OK] rango CR-19…CR-22 cubre CR-20 (esperado=True, obtenido=True)
+   [OK] rango CR-19…CR-22 cubre CR-21 (esperado=True, obtenido=True)
+   [OK] rango CR-19…CR-22 cubre CR-22 (esperado=True, obtenido=True)
+   [OK] rango CR-19…22 (extremo sin prefijo) cubre CR-21 (esperado=True, obtenido=True)
+   [OK] rango CR-19…CR-21 no cubre CR-22 (esperado=False, obtenido=False)
+   [OK] rango CR-01…CR-18 no cubre CR-19 (esperado=False, obtenido=False)
+   [OK] rango invertido CR-22…CR-19 no se acepta (esperado=False, obtenido=False)
+   [OK] fragmento ambiguo «19…» no se acepta (esperado=False, obtenido=False)
+   [OK] fragmento ambiguo «19…CR-22» no cubre CR-20 (esperado=False, obtenido=False)
+   [OK] rango incompleto «CR-19…» no cubre CR-20 (esperado=False, obtenido=False)
+   [OK] referencia genérica «CR-19 y siguientes» no cubre CR-21 (esperado=False, obtenido=False)
+   [OK] «CR-2» no se confunde con CR-20 (esperado=False, obtenido=False)
+   [OK] «CR-200» no se confunde con CR-20 (esperado=False, obtenido=False)
+   [OK] «CR-190» no se confunde con CR-19 (esperado=False, obtenido=False)
+   [OK] texto vacío no cubre ninguna referencia (esperado=False, obtenido=False)
+   [OK] el control falla e identifica exactamente documento y CR ausentes (esperado=[('CR-20', 'doc_C'), ('CR-21', 'doc_A'), ('CR-21', 'doc_C'), ('CR-22', 'doc_C')], obtenido=[('CR-20', 'doc_C'), ('CR-21', 'doc_A'), ('CR-21', 'doc_C'), ('CR-22', 'doc_C')])
+   [OK] entre varios rangos válidos se informa el más específico (esperado=rango: CR-19…CR-22, obtenido=rango: CR-19…CR-22)
+   Resultado pruebas de regresión X4: 26/26
+## X4_defecto_original_reproducido (lógica anterior frente a la corregida sobre un texto que solo menciona CR-19)
+   CR-19: lógica anterior=cubierto | lógica corregida=cubierto
+   CR-20: lógica anterior=cubierto | lógica corregida=ausente  <- falso positivo de la lógica anterior
+   CR-21: lógica anterior=cubierto | lógica corregida=ausente  <- falso positivo de la lógica anterior
+   CR-22: lógica anterior=cubierto | lógica corregida=ausente  <- falso positivo de la lógica anterior
+## X4_detalle (cada CR en cada documento real)
+   CR-19 | 00_INDICE_VIGENTES_E_HISTORICOS.md                             | PRESENTE | explícita: CR-19
+   CR-19 | README_ENTREGA.md                                              | PRESENTE | explícita: CR-19
+   CR-19 | auditoria_integral/01_INDICE_MAESTRO_FASE0.md                  | PRESENTE | explícita: CR-19
+   CR-19 | auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md            | PRESENTE | explícita: CR-19
+   CR-19 | auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md | PRESENTE | explícita: CR-19
+   CR-19 | auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md  | PRESENTE | explícita: CR-19
+   CR-20 | 00_INDICE_VIGENTES_E_HISTORICOS.md                             | PRESENTE | explícita: CR-20
+   CR-20 | README_ENTREGA.md                                              | PRESENTE | explícita: CR-20
+   CR-20 | auditoria_integral/01_INDICE_MAESTRO_FASE0.md                  | PRESENTE | rango: CR-19…CR-22
+   CR-20 | auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md            | PRESENTE | rango: CR-19…CR-22
+   CR-20 | auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md | PRESENTE | explícita: CR-20
+   CR-20 | auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md  | PRESENTE | rango: CR-19…CR-22
+   CR-21 | 00_INDICE_VIGENTES_E_HISTORICOS.md                             | PRESENTE | explícita: CR-21
+   CR-21 | README_ENTREGA.md                                              | PRESENTE | explícita: CR-21
+   CR-21 | auditoria_integral/01_INDICE_MAESTRO_FASE0.md                  | PRESENTE | explícita: CR-21
+   CR-21 | auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md            | PRESENTE | explícita: CR-21
+   CR-21 | auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md | PRESENTE | explícita: CR-21
+   CR-21 | auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md  | PRESENTE | explícita: CR-21
+   CR-22 | 00_INDICE_VIGENTES_E_HISTORICOS.md                             | PRESENTE | explícita: CR-22
+   CR-22 | README_ENTREGA.md                                              | PRESENTE | explícita: CR-22
+   CR-22 | auditoria_integral/01_INDICE_MAESTRO_FASE0.md                  | PRESENTE | explícita: CR-22
+   CR-22 | auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md            | PRESENTE | explícita: CR-22
+   CR-22 | auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md | PRESENTE | explícita: CR-22
+   CR-22 | auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md  | PRESENTE | explícita: CR-22
+   Resultado X4 real: 24/24 combinaciones presentes; ausentes: ninguna
+## V10_ok 29
+## V12_con_negacion_o_condicion 79
+## V13_9de18_con_marca 70
+## V13_9de18_sin_marca 1
+    ('entregables_formales/PROPUESTA_MAESTRA_CIERRE_FASE0_v1.0.md', 547, 'Entidades con definición mínima aprobada| 9/18')
+## V1_ok 1945
+## V1_sin_resolver 104
+    ('00_DICTAMEN_Y_CIERRE_FASE0.md', 'ROADMAP.md')
+    ('01_INFORME_AUDITORIA.md', 'ROADMAP.md')
+    ('02_INVENTARIO_FUNCIONALIDADES.md', 'docs/product/README.md')
+    ('03_CONCILIACION_DOCUMENTAL.md', 'docs/architecture/ARQUITECTURA.md')
+    ('03_CONCILIACION_DOCUMENTAL.md', 'docs/architecture/ARQUITECTURA.md')
+    ('03_CONCILIACION_DOCUMENTAL.md', 'docs/decisions/DECISIONES.md')
+    ('03_CONCILIACION_DOCUMENTAL.md', 'docs/architecture/INTEGRACION_SUPABASE_ESTADO.md')
+    ('03_CONCILIACION_DOCUMENTAL.md', 'docs/architecture/ENTORNOS_Y_MODO_DEMO.md')
+    ('03_CONCILIACION_DOCUMENTAL.md', 'docs/architecture/SEMANTICA_DE_SERVICIOS.md')
+    ('03_CONCILIACION_DOCUMENTAL.md', 'docs/architecture/CONTROL_DE_SECRETOS.md')
+    ('03_CONCILIACION_DOCUMENTAL.md', 'CI.md')
+    ('03_CONCILIACION_DOCUMENTAL.md', 'docs/roadmap/ROADMAP.md')
+    ('03_CONCILIACION_DOCUMENTAL.md', 'docs/product/README.md')
+    ('03_CONCILIACION_DOCUMENTAL.md', 'supabase/README.md')
+    ('03_CONCILIACION_DOCUMENTAL.md', 'database/README.md')
+    ('03_CONCILIACION_DOCUMENTAL.md', 'docs/INDICE.md')
+    ('10_REGISTRO_DECISIONES.md', 'DECISIONES.md')
+    ('14_ESTADO_GIT_Y_OPERACIONES.md', 'docs/auditorias/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md')
+    ('INFORME_REVISION_COMPLEMENTARIA.md', 'DECISIONES.md')
+    ('INFORME_REVISION_COMPLEMENTARIA.md', 'ROADMAP.md')
+    ('INFORME_REVISION_COMPLEMENTARIA.md', 'ARQUITECTURA.md')
+    ('INFORME_REVISION_COMPLEMENTARIA.md', 'CI.md')
+    ('anexos/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md', 'docs/product/README.md')
+    ('anexos/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md', 'docs/roadmap/ROADMAP.md')
+    ('anexos/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md', 'docs/decisions/DECISIONES.md')
+    ('anexos/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md', 'docs/product/README.md')
+    ('anexos/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md', 'supabase/README.md')
+    ('anexos/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md', 'database/README.md')
+    ('anexos/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md', 'docs/architecture/INTEGRACION_SUPABASE_ESTADO.md')
+    ('anexos/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md', 'ARQUITECTURA.md')
+    ('anexos/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md', 'DECISIONES.md')
+    ('anexos/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md', 'ENTORNOS_Y_MODO_DEMO.md')
+    ('anexos/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md', 'CI.md')
+    ('anexos/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md', 'ROADMAP.md')
+    ('anexos/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md', 'DECISIONES.md')
+    ('auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md', 'de49cc27-attachment.txt')
+    ('auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md', '5a9f5585-attachment.txt')
+    ('auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md', 'ARQUITECTURA.md')
+    ('auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md', 'DECISIONES.md')
+    ('auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md', 'ROADMAP.md')
+    ('auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md', 'CI.md')
+    ('auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md', 'INTEGRACION_SUPABASE_ESTADO.md')
+    ('auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md', 'SEMANTICA_DE_SERVICIOS.md')
+    ('auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md', 'ENTORNOS_Y_MODO_DEMO.md')
+    ('auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md', 'INDICE.md')
+    ('auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md', 'CONTROL_DE_SECRETOS.md')
+    ('auditoria_integral/12_REGISTRO_LECTURA_Y_LIMITACIONES.md', 'rd.py')
+    ('auditoria_integral/12_REGISTRO_LECTURA_Y_LIMITACIONES.md', 'de49cc27-attachment.txt')
+    ('auditoria_integral/12_REGISTRO_LECTURA_Y_LIMITACIONES.md', '5a9f5585-attachment.txt')
+    ('entregables_formales/01_INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md', 'ROADMAP.md')
+    ('entregables_formales/02_INVENTARIO_FUNCIONAL_CCI.md', 'docs/product/README.md')
+    ('entregables_formales/13_REGISTRO_DECISIONES_PROPIETARIO.md', 'DECISIONES.md')
+    ('entregables_formales/ADR_PROPUESTO_REEMPLAZO_DEC_D2_D3_D4.md', 'docs/decisions/DECISIONES.md')
+    ('entregables_formales/ADR_PROPUESTO_REEMPLAZO_DEC_D2_D3_D4.md', 'docs/architecture/ARQUITECTURA.md')
+    ('entregables_formales/ADR_PROPUESTO_REEMPLAZO_DEC_D2_D3_D4.md', 'ARQUITECTURA.md')
+    ('entregables_formales/ADR_PROPUESTO_REEMPLAZO_DEC_D2_D3_D4.md', 'ARQUITECTURA.md')
+    ('entregables_formales/ADR_PROPUESTO_REEMPLAZO_DEC_D2_D3_D4.md', 'ROADMAP.md')
+    ('entregables_formales/ADR_PROPUESTO_REEMPLAZO_DEC_D2_D3_D4.md', 'INTEGRACION_SUPABASE_ESTADO.md')
+    ('entregables_formales/ADR_PROPUESTO_REEMPLAZO_DEC_D2_D3_D4.md', 'DECISIONES.md')
+    ('entregables_formales/ADR_PROPUESTO_REEMPLAZO_DEC_D2_D3_D4.md', 'ARQUITECTURA.md')
+    ('entregables_formales/ADR_PROPUESTO_REEMPLAZO_DEC_D2_D3_D4.md', 'ROADMAP.md')
+    ('entregables_formales/CONCILIACION_D1_D9_VERIFICADA.md', 'DECISIONES.md')
+    ('entregables_formales/CONCILIACION_D1_D9_VERIFICADA.md', 'docs/decisions/DECISIONES.md')
+    ('entregables_formales/CONCILIACION_D1_D9_VERIFICADA.md', 'evidence/CCI_FASE1_1_20261122T032947Z/06_BRECHAS_Y_DECISIONES.md')
+    ('entregables_formales/CONCILIACION_D1_D9_VERIFICADA.md', 'evidence/CCI_FASE1_1_B4_B5_20261122T061314Z/00_DICTAMEN_B0_B5.md')
+    ('entregables_formales/CONCILIACION_D1_D9_VERIFICADA.md', '05_PROJECT_PENDIENTE_DE_DECISION.md')
+    ('entregables_formales/CONCILIACION_D1_D9_VERIFICADA.md', 'INTEGRACION_SUPABASE_ESTADO.md')
+    ('entregables_formales/CONCILIACION_D1_D9_VERIFICADA.md', 'ROADMAP.md')
+    ('entregables_formales/FICHA_P1.md', 'ARQUITECTURA.md')
+    ('entregables_formales/FICHA_P1.md', 'SEMANTICA_DE_SERVICIOS.md')
+    ('entregables_formales/FICHA_P1.md', 'DECISIONES.md')
+    ('entregables_formales/FICHA_P2.md', 'DECISIONES.md')
+    ('entregables_formales/FICHA_P2.md', 'ARQUITECTURA.md')
+    ('entregables_formales/FICHA_P2.md', 'INTEGRACION_SUPABASE_ESTADO.md')
+    ('entregables_formales/FICHA_P2.md', 'ROADMAP.md')
+    ('entregables_formales/FICHA_P2.md', 'ARQUITECTURA.md')
+    ('entregables_formales/FICHA_P2.md', 'ROADMAP.md')
+    ('entregables_formales/FICHA_P2.md', 'INTEGRACION_SUPABASE_ESTADO.md')
+    ('entregables_formales/FICHA_P2.md', 'DECISIONES.md')
+    ('entregables_formales/FICHA_P2.md', 'DECISIONES.md')
+    ('entregables_formales/FICHA_P2.md', 'ARQUITECTURA.md')
+    ('entregables_formales/FICHA_P2.md', 'ROADMAP.md')
+    ('entregables_formales/FICHA_P2.md', 'INTEGRACION_SUPABASE_ESTADO.md')
+    ('entregables_formales/FICHA_P3.md', 'supabase/README.md')
+    ('entregables_formales/FICHA_P3.md', 'database/README.md')
+    ('entregables_formales/FICHA_P3.md', 'INTEGRACION_SUPABASE_ESTADO.md')
+    ('entregables_formales/FICHA_Q7.md', '05_PROJECT_PENDIENTE_DE_DECISION.md')
+    ('entregables_formales/INDICE_ANTECEDENTES_HISTORICOS.md', 'docs/architecture/INTEGRACION_SUPABASE_ESTADO.md')
+    ('entregables_formales/INDICE_ANTECEDENTES_HISTORICOS.md', 'supabase/README.md')
+    ('entregables_formales/INDICE_ANTECEDENTES_HISTORICOS.md', 'database/README.md')
+    ('entregables_formales/INDICE_ANTECEDENTES_HISTORICOS.md', 'docs/decisions/DECISIONES.md')
+    ('entregables_formales/INDICE_ANTECEDENTES_HISTORICOS.md', 'ARQUITECTURA.md')
+    ('entregables_formales/INDICE_ANTECEDENTES_HISTORICOS.md', 'evidence/CCI_FASE1_1_A1_20261122T033450Z/05_CORRECCIONES_Y_CONTRADICCIONES.md')
+    ('entregables_formales/LISTA_ORIGINAL_18_ENTIDADES.md', 'de49cc27-attachment.txt')
+    ('entregables_formales/LISTA_ORIGINAL_18_ENTIDADES.md', '5a9f5585-attachment.txt')
+    ('entregables_formales/MATRIZ_DECISIONES_PROPIETARIO.md', 'DECISIONES.md')
+    ('entregables_formales/MATRIZ_DECISIONES_PROPIETARIO.md', 'DECISIONES.md')
+    ('entregables_formales/MATRIZ_DECISIONES_PROPIETARIO.md', 'ARQUITECTURA.md')
+    ('entregables_formales/MATRIZ_DECISIONES_PROPIETARIO.md', 'DECISIONES.md')
+    ('entregables_formales/MATRIZ_DECISIONES_PROPIETARIO.md', 'ARQUITECTURA.md')
+    ('entregables_formales/MATRIZ_DECISIONES_PROPIETARIO.md', 'ROADMAP.md')
+    ('entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md', 'ARQUITECTURA.md')
+    ('entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md', 'SEMANTICA_DE_SERVICIOS.md')
+    ('entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md', 'ARQUITECTURA.md')
+## V3_reduccion_>10% 2
+    ('1cf96e3', '00_INDICE_VIGENTES_E_HISTORICOS.md', 5184, 414)
+    ('1cf96e3', 'README_ENTREGA.md', 4545, 292)
+## V4_discrepancia 38
+    ('entregables_formales/PAQUETE_DECISION_D4_D6_D7_D8.md', 125, 'D6.c = A', '- *Consecuencias:* A coincide con lo ya aprobado y se distingue de «Métrica» bajo D6.c = A; B es fiel al nombre técnico pero introduce un tercer término; C es corto pero ambiguo con «resultado de audi')
+    ('entregables_formales/PAQUETE_DECISION_D4_D6_D7_D8.md', 126, 'D6.c = B', '- **Recomendación [P]: A**, **condicionada a D6.c**. Si D6.c = B o C el nombre debe reconsiderarse. *No aprueba:* definición de la 16, atributos, catálogo de métricas ni estructura de datos.')
+    ('entregables_formales/PAQUETE_DECISION_D4_D6_D7_D8.md', 161, 'D6.c = A', '- **D-6:** D6.a = A · D6.b = A · D6.c = A')
+    ('entregables_formales/PAQUETE_DECISION_D4_D6_D7_D8.md', 164, 'D6.c = A', 'Fórmulas posibles: «Acepto todas las recomendaciones» o «Acepto todas salvo X = Y». Coherencia: D8 = A requiere D6.c = A; D4.c = A requiere D4.a = A y D4.b = A.')
+    ('entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md', 258, 'D4.b = B', '- **Dependencias declaradas en la matriz:** D4.a = A y D4.b = A (con D4.b = B, C o D es incompatible)')
+    ('entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md', 274, 'D6.a = C', '- **Dependencias declaradas en la matriz:** D6.a = A o B (debe existir el concepto de valor); incompatible con D6.a = C')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 59, 'D4.b = B', '| D4.c | ¿Qué definición mínima se aprueba para la 13? | **A.** Texto A (arriba, con la oración sobre Pieza). | **Recomendada [P]** | *Aprueba:* ese texto y solo ese. *No aprueba:* nada de lo listado ')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 60, 'D4.b = B', '| D4.c | (idem) | **A′.** Texto A′ (sin la oración sobre Pieza). | Alternativa neutral; compatible con cualquier D4.b | Aprueba una definición más corta; el vínculo con Pieza queda fuera de la definic')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 98, 'D6.a = C', '| D6.b | ¿Qué es un valor calculado? | **A.** Un valor de métrica **cuyo origen es un cálculo** (frente a manual o importado, B l.649); distinción de origen, no un concepto separado. | **Recomendada [')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 104, 'D6.b = C', '**Regla de dependencia única (idéntica a la sección 6):** A0 **no necesita** D6.b y **no presupone ni aprueba D6.b = A**: solo ubica los valores en el Resultado y **puede dejar pendiente** la clasific')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 115, 'D6.a = B', '| D6.c | (idem) | **C.** Solo valores; `Metric` deja de ser entidad. | No recomendada | *Se gana:* minimalismo. *Se pierde:* una entidad confirmada en P4.1 y el lugar de la fórmula documentada; **requ')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 156, 'D6.c = B', '- D6.c = B: «Registro de desempeño» encaja mejor, porque la Métrica absorbería los valores y «resultado» se solaparía con ellos [I].')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 157, 'D6.c = C', '- D6.c = C: «Resultado de desempeño», que contendría los valores incluidos los calculados; pero C exige revisar P4.1.')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 158, 'D6.c = D', '- D6.c = D (diferir): D8 también se difiere.')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 162, 'D6.c = B', '| D8 | (idem) | **B.** «Registro de desempeño» (traducción literal). | Recomendada [P] solo si D6.c = B | Fiel al nombre técnico; introduce un tercer término. | D6.c | ☐ |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 164, 'D6.c = D', '| D8 | (idem) | **D.** Diferir el nombre. | Recomendada [P] solo si D6.c = D | Mantiene la tensión con la definición de Campaña. | D6.c | ☐ |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 175, 'D4.b = B', '| D4.b = B (vínculo obligatorio) + D4.c = A | **No** | «Puede relacionarse» no expresa obligatoriedad. Compatible: D4.c = A′ o B/Z con redacción adecuada. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 176, 'D4.b = B', '| D4.b = B + D4.c = A′ | No contradictorias por sí mismas | A′ omite el vínculo sin negarlo; prevalece la decisión conceptual de D4.b. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 177, 'D4.b = C', '| D4.b = C (excluir vínculo) + D4.c = A | **No** | A afirma la posibilidad de relación. Compatible: D4.c = A′. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 178, 'D4.b = C', '| D4.b = C + D4.c = A′ | Sí | A′ es neutral. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 179, 'D4.b = D', '| D4.b = D (sin pronunciamiento) + D4.c = A | **No** | A afirma una posibilidad sobre la que no se decidió. Compatible: D4.c = A′. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 180, 'D4.b = D', '| D4.b = D + D4.c = A′ | Sí | A′ es neutral. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 181, 'D4.c = B', '| D4.b = cualquiera + D4.c = B o Z | **Sin compatibilidad automática** | Se evalúa con el texto exacto escrito por el propietario; no puede reabrir D-1 ni D-2 de forma implícita. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 183, 'D4.a = B', '| D4.a = B | **No** | Contradice D-1.b y **no puede aprobarse sin una reapertura expresa de D-1, que esta ronda no autoriza**. Compatible: D4.a = A. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 189, 'D6.b = C', '| D6.c = A0 + D6.b = C (diferir) | Sí | A0 no clasifica el origen de los valores ni aprueba D6.b = A; esa clasificación queda pendiente. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 191, 'D6.b = C', '| D6.c = A1…A5 + D6.b = C | **No** | Eligen cómo tratar el valor calculado sin haberlo definido. Compatible: D6.b = A, o D6.c = A0. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 193, 'D6.a = B', '| D6.c = A1…A5 o A0 o B + D6.a = B o C | **No** | Presuponen definición y valor distintos. Compatible: D6.a = A. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 194, 'D6.c = C', '| D6.c = C + D6.a = A | **No** | C elimina la entidad de definición. Compatible: D6.a = B y revisión expresa de P4.1 vía «Z». |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 194, 'D6.a = B', '| D6.c = C + D6.a = A | **No** | C elimina la entidad de definición. Compatible: D6.a = B y revisión expresa de P4.1 vía «Z». |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 195, 'D6.a = C', '| D6.b (A, B o C) + D6.a = C | **No** | Sin concepto de valor no existe «valor calculado». Compatible: D6.a = A o B. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 199, 'D6.c = B', '| D8 = A + D6.c = B | Sí, menos coherente | Con B encaja mejor D8 = B («Registro de desempeño»). |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 199, 'D8 = B', '| D8 = A + D6.c = B | Sí, menos coherente | Con B encaja mejor D8 = B («Registro de desempeño»). |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 200, 'D6.c = D', '| D8 = A/B/C + D6.c = D | **No** | Con D6.c diferida, el nombre no tiene criterio. Compatible: D8 = D. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 200, 'D8 = D', '| D8 = A/B/C + D6.c = D | **No** | Con D6.c diferida, el nombre no tiene criterio. Compatible: D8 = D. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 205, 'D7.a = B', '| D7.a = B | **No** sin «Z» expreso | Contradice tu decisión de mantener Perfil local como concepto propio. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 206, 'D7.b = C', '| D7.b = C + D7.c = A/B/D | Sí, con reservas | Supone que la tolerancia varía por canal; sin respaldo; depende de Q-2. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 206, 'D7.c = A', '| D7.b = C + D7.c = A/B/D | Sí, con reservas | Supone que la tolerancia varía por canal; sin respaldo; depende de Q-2. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 208, 'D6.a = B', 'D4.c-A ← D4.a = A y D4.b = A · D4.c-A′ ← D4.a = A (neutral frente a D4.b) · D4.c-B/Z ← según el texto · D4.d ← D-1, D-2, D-5.3 · D6.a ← P4.1 · D6.b ← D6.a = A o B · D6.c-A0 ← D6.a = A (D6.b: cualquier')
+## V4_ok 349
+## V5_8de18_con_marca 37
+## V6_con_marca 78
+## V6_sin_marca 10
+    ('entregables_formales/D5_APROBACION.md', 16, '**Naturaleza:** análisis y propuesta; **no aprueba nada.** No aprueba atributos, relaciones, cardinalidades, estados, flujos, mecanismos técnicos ni estructuras de datos. No desarrolla D-4 (reformulada y pendiente), D-6, D-7 ni D-8; no avan')
+    ('entregables_formales/D5_APROBACION.md', 32, '- **D-4 reformulada:** la definición de la entidad 13 y su delimitación están pendientes.')
+    ('entregables_formales/D5_APROBACION.md', 78, '- **D-5.2:** **conjunto (b)**: Copy y Pieza como objetos aprobables (derivación moderada); Adaptación se decide tras D-4 porque su definición está pendiente; Variante, Campaña, Brief, Producto y Oferta: no aprobables por ahora, sin excluirl')
+    ('entregables_formales/PROPUESTA_MAESTRA_CIERRE_FASE0_v1.0.md', 306, '7. D6.c=A0 — Subdecisiones pendientes')
+    ('entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md', 278, '- **Alcance y límites (columna «Consecuencia» de la matriz):** *Aprueba:* solo la asignación conceptual (Metric = definición; los valores pertenecen al Resultado). *Pendiente:* clasificación del origen de los valores (D6.b), L1/L2, L3, rela')
+    ('entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md', 332, '- **Entidad 12 — Canal.** Definición aprobada (literal de la propuesta ratificada): «Canal es una entidad propia de CCI que representa un medio o formato de comunicación para el que puede prepararse contenido y respecto del cual pueden cons')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 100, '| D6.b | (idem) | **C.** No definirlo todavía. | No recomendada | Deja sin responder la distinción de B l.649; limita D6.c a A0, B, C o D. | D6.a = A o B | ☐ |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 184, '| D4.d (cualquiera) con D4.a–c | Sí | D4.d es independiente; solo exige respetar D-5.3. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 189, '| D6.c = A0 + D6.b = C (diferir) | Sí | A0 no clasifica el origen de los valores ni aprueba D6.b = A; esa clasificación queda pendiente. |')
+    ('entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md', 208, 'D4.c-A ← D4.a = A y D4.b = A · D4.c-A′ ← D4.a = A (neutral frente a D4.b) · D4.c-B/Z ← según el texto · D4.d ← D-1, D-2, D-5.3 · D6.a ← P4.1 · D6.b ← D6.a = A o B · D6.c-A0 ← D6.a = A (D6.b: cualquier respuesta; no presupone D6.b = A) · D6.')
+## V7_arq_SIN_negacion 13
+    ('auditoria_integral/06_REGISTRO_CONTRADICCIONES.md', 106, '8. **Evidencia de verificación:** Conteos de escaneo (aceptación/Supabase/PostgreSQL/RLS) en `12_` §5; hash y tamaño idénticos a `main` (11_)')
+    ('auditoria_integral/06_REGISTRO_CONTRADICCIONES.md', 109, '## CR-10 — Referencias a Supabase/PostgreSQL/RLS/multiusuario dentro del expediente actual')
+    ('auditoria_integral/06_REGISTRO_CONTRADICCIONES.md', 110, '1. **Ubicación exacta:** `anexos/INFORME_AUDITORIA…` (34 menciones Supabase), `03_CONCILIACION_DOCUMENTAL.md`, `ADR_PROPUESTO…`, `FICHA_P2.md`, `FICHA_P3.md`, `MATRIZ_DECISIONES_PROPIETARIO.md`, `REGISTRO_DECISIONES_RESUELTAS.md`, `13_REGISTRO…`, `10_REGISTRO…')
+    ('entregables_formales/02_INVENTARIO_FUNCIONAL_CCI.md', 26, '| B2 | Modelo de dominio | `UserIdentity`, `Organization`, `Membership`, `AppState` (provisionales, multiusuario) | dominio de producto (`05_MODELO_DOMINIO_CCI.md`) |')
+    ('entregables_formales/08_RESPALDO_IMPORTACION_RECUPERACION.md', 33, '| Cambio de navegador o dispositivo | exportar/importar manualmente | sincronizar |')
+    ('entregables_formales/13_REGISTRO_DECISIONES_PROPIETARIO.md', 43, '- **Contexto:** K2/K4 contradicen la decisión vigente (PostgreSQL/Supabase como fuente de verdad; CCI-DEV/CCI-PROD).')
+    ('entregables_formales/13_REGISTRO_DECISIONES_PROPIETARIO.md', 51, '### P3 — Tratamiento de `docs/fase0/` (59 archivos) y expedientes de Supabase/SQL/RLS/multiusuario')
+    ('entregables_formales/13_REGISTRO_DECISIONES_PROPIETARIO.md', 114, '- **Contexto:** hoy `build:production` falla a propósito y `supabase` está rechazado (K6, K14). Con persistencia local el modo `demo` deja de ser el único.')
+    ('entregables_formales/13_REGISTRO_DECISIONES_PROPIETARIO.md', 153, '- **Pregunta:** ¿Se permiten dependencias de ejecución (envoltorio de IndexedDB, validación, ZIP, diccionario ortográfico) y de desarrollo (`fake-indexeddb`, navegadores de Playwright)? ¿Se amplía `AppErrorCode`? ¿Se conservan las guardas anti-Supabase?')
+    ('entregables_formales/PROPUESTA_MAESTRA_CIERRE_FASE0_v1.0.md', 379, '- Mantener las guardas contra Supabase y servicios de backend.')
+    ('entregables_formales/PROPUESTA_MAESTRA_CIERRE_FASE0_v1.0.md', 437, '- Integraciones de backend.')
+    ('entregables_formales/PROPUESTA_MAESTRA_CIERRE_FASE0_v1.0.md', 438, '- Colaboración multiusuario.')
+    ('entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md', 38, '## P3 — Tratamiento de `docs/fase0/` y expedientes Supabase/SQL/RLS/multiusuario — RESUELTA el 2026-11-22')
+## V7_arq_con_negacion_o_historico 55
+## V8_commit_existe 93
+## V8_no_es_commit_o_no_existe 40
+## X1_CR_encabezados_22 1
+    22
+## X1b_distribucion_estados 1
+    {'RESUELTA_DOCUMENTALMENTE': 13, 'RESUELTA_POR_DECISION_PROPIETARIO': 2, 'HISTORICA_CON_ADVERTENCIA': 5, 'NO_RESOLUBLE_POR_FALTA_DE_EVIDENCIA': 1, 'PENDIENTE_PROPIETARIO': 1}
+## X2_estados_CR01_18_sin_cambio_vs_13b25ca 1
+    18
+## X3_CR_con_linea_evidencia 1
+    22
+## X4_CR19_22_reflejados_individualmente 1
+    (24, 24)
+## X5_aprobaciones_PENDIENTE 1
+    20
+## X5b_aprobaciones_0_1_a_0_7_APROBADAS_por_el_propietario 1
+    7
+## X5c_Final_ACEPTADA_y_Aparte_PENDIENTE 1
+    (True, True)
+## X5d_Fase_1_no_autorizada 1
+    0
+## X8_doc05_filas_vs_arbol 1
+    (148, 148, [], [])
+## X9_doc11_resultado_OK 1
+    (59, 0)

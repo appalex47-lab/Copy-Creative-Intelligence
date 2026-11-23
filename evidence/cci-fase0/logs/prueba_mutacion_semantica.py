@@ -19,17 +19,23 @@ MUT=[
  ('M7_R1_reabre_D5c',PQ,lambda s: s+'\n\nR-1 incluye decidir D5.c (agrupación de las cuestiones 3 y 4).\n','S14_R1_vinculada_a_D5ad_sin_exclusion'),
  ('M8_doc_06_sin_marca_historica_y_afirmado_como_definitivo','entregables_formales/06_MODELO_DATOS_CCI.md',lambda s: s.replace('PROPUESTA HISTÓRICA','PROPUESTA VIGENTE').replace('no es un esquema de datos aprobado','es el esquema definitivo'),'D4_doc06_sin_marca_historica_o_afirma_esquema_definitivo'),
  ('M9_ficha_0_1_vuelve_a_PENDIENTE_pese_a_la_respuesta_del_propietario','entregables_formales/APROBACIONES_FASE0.md',lambda s: s.replace('| APROBADA (propietario, 2026-11-22 20:14) | «Apruebo 0.1 a 0.7 según las recomendaciones del paquete…» |','| PENDIENTE | — |',1),'A1_aprobaciones'),
- ('M10_Fase_1_marcada_como_autorizada_en_la_tabla','entregables_formales/APROBACIONES_FASE0.md',lambda s: s.replace('| Aparte | autorizar el inicio de Fase 1 | — | cierre de Fase 0 | — | — | PENDIENTE | — |','| Aparte | autorizar el inicio de Fase 1 | — | cierre de Fase 0 | — | — | APROBADA | — |',1),'A1_aprobaciones'),
+ ('M10_Fase_1_marcada_como_autorizada_en_la_tabla','entregables_formales/APROBACIONES_FASE0.md',lambda s: s.replace('| — | — | PENDIENTE | — |\n| ','| — | — | PENDIENTE | — |\n| ',1) if False else re.sub(r'(\| Aparte \|[^\n]*)\| PENDIENTE \| — \|',r'\1| APROBADA | — |',s,count=1,flags=re.M),'A1_aprobaciones'),
  ('M11_aprobacion_0_5_sin_limite_de_principios','entregables_formales/APROBACIONES_FASE0.md',lambda s: s+'\n\nLa ficha 0.5 está aprobada.\n','S4b_aprobacion_05_sin_limite_de_principios'),
  ('M12_documento_con_estado_previo_0_7_sin_la_nota_de_20_14','auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md',lambda s: s.replace('2026-11-22 20:14','2026-11-22'),'S15_estado_previo_de_aprobaciones_sin_nota_20_14'),
  ('M13_registro_sin_la_respuesta_literal_del_propietario','entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md',lambda s: s.replace('R-1 sí.»','R-1 no.»',1),'A3_registro_sin_respuesta_del_propietario'),
+ ('M14_fila_Final_vuelve_a_PENDIENTE_pese_a_la_aceptacion_del_propietario','entregables_formales/APROBACIONES_FASE0.md',lambda s: s.replace('| ACEPTADA (propietario, 2026-11-22 20:26) | «Acepto formalmente la Fase 0, con las limitaciones expresas C-2 y C-3 abiertas y los 10 aplazamientos pendientes. No autoriza la Fase 1.» |','| PENDIENTE | — |',1),'A1_aprobaciones'),
+ ('M15_aceptacion_de_Fase_0_presentada_como_autorizacion_de_Fase_1','entregables_formales/APROBACIONES_FASE0.md',lambda s: s+'\n\nLa Fase 0 está aceptada, lo que autoriza la Fase 1.\n','S5b_aceptacion_de_fase_0_con_alcance_no_decidido'),
+ ('M16_Fase_1_presentada_como_autorizada','entregables_formales/APROBACIONES_FASE0.md',lambda s: s+'\n\nCon esto la Fase 1 queda autorizada.\n','S5_fase_1_presentada_como_autorizada'),
+ ('M17_documento_con_Fase_0_no_aceptada_sin_la_nota_de_20_26','auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md',lambda s: s.replace('2026-11-22 20:26','2026-11-22'),'S16_estado_previo_de_la_aceptacion_sin_nota_20_26'),
+ ('M18_registro_con_texto_literal_de_la_aceptacion_alterado','entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md',lambda s: s.replace('y los 10 aplazamientos pendientes. No autoriza la Fase 1.»','y los 10 aplazamientos pendientes.»',1),'A4_registro_sin_aceptacion_de_fase_0'),
+ ('M19_aceptacion_de_Fase_0_presentada_como_cierre_de_C_2','entregables_formales/CONCILIACION_30_DECISIONES_Y_APLAZAMIENTOS.md',lambda s: s+'\n\nLa aceptación de la Fase 0 deja C-2 resuelta.\n','S5b_aceptacion_de_fase_0_con_alcance_no_decidido'),
 ]
 def run(cwd):
     p=subprocess.run([sys.executable,'-I',EV+'logs/verificacion_semantica_fase0.py'],cwd=cwd,capture_output=True,text=True)
     return p.returncode,p.stdout+p.stderr
 def main():
     root=os.getcwd(); assert os.path.isdir(os.path.join(root,'evidence/cci-fase0')),'ejecutar desde la raíz del repositorio'
-    print('## Prueba de mutación del verificador semántico (13 defectos sintéticos; árbol real intacto)')
+    print('## Prueba de mutación del verificador semántico (19 defectos sintéticos; árbol real intacto)')
     with tempfile.TemporaryDirectory() as t:
         base=os.path.join(t,'base'); shutil.copytree(os.path.join(root,'evidence'),os.path.join(base,'evidence'))
         rc0,o0=run(base); print('## Control negativo (sin mutación): rc=%d (esperado 0)'%rc0)

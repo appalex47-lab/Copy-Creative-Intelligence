@@ -175,3 +175,17 @@ Ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` v2.0: la brecha de lectura declarada
 | `05`, `07`, `08`, `12` | Cifras (141 archivos; manifiestos de 139 y 140 líneas; 201 blobs), filas y notas | Coherencia |
 | `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados | Integridad |
 **Preservados sin cambios:** `docs/fase0/` (59), `anexos/`, las salidas anteriores de los scripts y el texto de las decisiones anteriores.
+
+> **Nota fechada 2026-11-22 20:26 (respuesta del propietario; no es decisión nueva de este documento):** el propietario aceptó formalmente la Fase 0 («Acepto formalmente la Fase 0, con las limitaciones expresas C-2 y C-3 abiertas y los 10 aplazamientos pendientes. No autoriza la Fase 1.»; redacción propuesta por Claude y adoptada literalmente). Registro autoritativo: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`. Las menciones anteriores de este documento a «Fase 0 no aceptada» o a la aceptación formal como pendiente describen el estado previo y quedan superadas en ese punto. **C-2, C-3 y los 10 aplazamientos siguen abiertos y la autorización de la Fase 1 sigue PENDIENTE** (acto independiente). Conteos de decisiones sin cambio: 20/30 resueltas, 10/30 con aplazamiento aceptado, 0 abiertas.
+
+## R14. Registro de la aceptación formal de la Fase 0 (base `301e20c8486ac7073eb5d8e91c71f9cd99ab732b`; respuesta del propietario 2026-11-22 20:26)
+**Alcance:** registrar como decisión del propietario la respuesta «Acepto formalmente la Fase 0, con las limitaciones expresas C-2 y C-3 abiertas y los 10 aplazamientos pendientes. No autoriza la Fase 1.» (redacción propuesta por Claude y adoptada literalmente) y actualizar la evidencia derivada. No se modificó código de la aplicación, `docs/fase0/`, `main` ni estados de CR; **no se autorizó la Fase 1**; C-2, C-3 y los 10 aplazamientos siguen abiertos. Detalle: `entregables_formales/CONTROL_DE_CAMBIOS_ACEPTACION_FASE_0_2026-11-22.md`.
+| Grupo | Cambio | Motivo |
+|---|---|---|
+| `REGISTRO_DECISIONES_RESUELTAS.md`, `APROBACIONES_FASE0.md`, `PAQUETE_DECISION…` | Sección autoritativa nueva; fila «Final» = ACEPTADA; «Aparte» PENDIENTE | Respuesta del propietario |
+| Índices y documentos derivados (26 archivos) | Notas fechadas de las 20:26 (texto anterior conservado) o actualización fechada de la línea de estado | Los textos «Fase 0 no aceptada» describían el estado previo |
+| `logs/` (3 scripts) | S5/S5b/S16/A1/A4, X5c/X5d, mutaciones M10 reapuntada y M14–M19 (79 pruebas; 19 mutaciones) | Controles del nuevo estado |
+| Nuevos (7) | Control de cambios y 6 salidas en `logs/` | Evidencia |
+| `05`, `07`, `08`, `12` | Cifras (148 archivos; manifiestos de 146 y 147 líneas; 208 blobs), filas y notas | Coherencia |
+| `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados | Integridad |
+**Preservados sin cambios:** `docs/fase0/` (59), `anexos/`, las salidas anteriores de los scripts y el texto de las decisiones anteriores.
