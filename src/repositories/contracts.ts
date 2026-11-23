@@ -1,4 +1,5 @@
 import type { ActivityEvent } from '@/domain/activity';
+import type { BriefRecord } from '@/domain/briefRecord';
 import type { LocalProfile } from '@/domain/profile';
 import type { Result } from '@/services/contracts';
 
@@ -21,10 +22,24 @@ export interface ProfileRepository {
   clear(): Promise<Result<LocalProfile>>;
 }
 
+export interface BriefRepository {
+  /** Guarda (crea o reemplaza por `id`) un brief validado; un borrador incompleto es válido. */
+  put(record: unknown): Promise<Result<BriefRecord>>;
+  /** El brief o `validation_error` si no existe o el id no es válido. */
+  get(id: string): Promise<Result<BriefRecord>>;
+  /** Más recientemente actualizados primero. */
+  list(): Promise<Result<readonly BriefRecord[]>>;
+  /** Borra un brief; borrar uno inexistente es válido (idempotente). */
+  remove(id: string): Promise<Result<void>>;
+  count(): Promise<Result<number>>;
+}
+
 export interface BackupSnapshot {
   readonly profile: LocalProfile;
   /** Más nuevos primero. */
   readonly activity: readonly ActivityEvent[];
+  /** Briefs guardados (S2.2), más recientes primero. */
+  readonly briefs: readonly BriefRecord[];
 }
 
 export interface BackupRepository {
@@ -40,6 +55,7 @@ export interface BackupRepository {
 export interface Repositories {
   readonly activity: ActivityRepository;
   readonly profile: ProfileRepository;
+  readonly briefs: BriefRepository;
   readonly backup: BackupRepository;
 }
 

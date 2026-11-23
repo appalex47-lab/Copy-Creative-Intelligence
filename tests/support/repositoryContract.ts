@@ -11,6 +11,17 @@ export interface ContractCase {
   readonly run: (repos: Repositories) => Promise<void>;
 }
 
+const br = (
+  id: string,
+  updatedAt: string,
+  fields: Record<string, unknown> = { campaign: 'Buen Fin' },
+) => ({
+  id,
+  createdAt: '2026-11-22T09:00:00.000Z',
+  updatedAt,
+  fields,
+});
+
 const ev = (id: string, at: string, kind = 'app_opened') => ({ id, at, kind });
 
 function assert(cond: unknown, msg: string): asserts cond {
@@ -178,6 +189,96 @@ export const CONTRACT_CASES: readonly ContractCase[] = [
       }
       same(await r.profile.get(), { ok: true, value: { displayName: 'Ana' } }, 'perfil intacto');
       same(await r.activity.listRecent(), { ok: true, value: [previo] }, 'actividad intacta');
+    },
+  },
+  {
+    name: 'briefs vacíos: lista [] (éxito), cuenta 0 y get de uno inexistente es error de validación',
+    run: async (r) => {
+      same(await r.briefs.list(), { ok: true, value: [] }, 'lista');
+      same(await r.briefs.count(), { ok: true, value: 0 }, 'cuenta');
+      const g = await r.briefs.get('brf_noexiste1');
+      assert(!g.ok && g.error.code === 'validation_error', 'get inexistente');
+    },
+  },
+  {
+    name: 'briefs: guardar un borrador incompleto, leerlo, reemplazarlo por id y listar más reciente primero',
+    run: async (r) => {
+      const a = br('brf_aaaaaaaa1', '2026-11-22T10:00:00.000Z');
+      const b = br('brf_bbbbbbbb1', '2026-11-22T12:00:00.000Z', {
+        campaign: 'B',
+        channel: 'Email',
+      });
+      same(await r.briefs.put(a), { ok: true, value: a }, 'put a');
+      same(await r.briefs.put(b), { ok: true, value: b }, 'put b');
+      same(await r.briefs.get('brf_aaaaaaaa1'), { ok: true, value: a }, 'get');
+      const a2 = br('brf_aaaaaaaa1', '2026-11-22T13:00:00.000Z', { campaign: 'A2' });
+      await r.briefs.put(a2);
+      const res = await r.briefs.list();
+      assert(res.ok, 'list ok');
+      same(
+        res.value.map((x) => x.id),
+        ['brf_aaaaaaaa1', 'brf_bbbbbbbb1'],
+        'orden',
+      );
+      same(res.value[0]?.fields, { campaign: 'A2' }, 'reemplazo por id');
+      same(await r.briefs.count(), { ok: true, value: 2 }, 'cuenta');
+    },
+  },
+  {
+    name: 'briefs: datos inválidos se rechazan sin guardar nada; borrar es idempotente',
+    run: async (r) => {
+      const buen = br('brf_aaaaaaaa1', '2026-11-22T10:00:00.000Z');
+      await r.briefs.put(buen);
+      for (const malo of [
+        br('x', '2026-11-22T10:00:00.000Z'),
+        br('brf_cccccccc1', '2026-11-22T10:00:00.000Z', { channel: 'Llamadas' }),
+        br('brf_cccccccc1', '2026-11-22T10:00:00.000Z', { campaign: 'a'.repeat(121) }),
+        { ...buen, extra: 1 },
+        null,
+      ]) {
+        const res = await r.briefs.put(malo);
+        assert(!res.ok && res.error.code === 'validation_error', 'debe rechazar');
+      }
+      same(await r.briefs.count(), { ok: true, value: 1 }, 'solo el bueno');
+      same(await r.briefs.remove('brf_aaaaaaaa1'), { ok: true, value: undefined }, 'remove');
+      same(
+        await r.briefs.remove('brf_aaaaaaaa1'),
+        { ok: true, value: undefined },
+        'remove otra vez',
+      );
+      const bad = await r.briefs.remove('x');
+      assert(!bad.ok && bad.error.code === 'validation_error', 'id inválido');
+      same(await r.briefs.count(), { ok: true, value: 0 }, 'vacío');
+    },
+  },
+  {
+    name: 'respaldo: exportAll incluye briefs y replaceAll los reemplaza (sin briefs = se borran) todo o nada',
+    run: async (r) => {
+      const a = br('brf_aaaaaaaa1', '2026-11-22T10:00:00.000Z');
+      await r.briefs.put(a);
+      const res = await r.backup.exportAll();
+      assert(res.ok, 'export ok');
+      same(res.value.briefs, [a], 'briefs exportados');
+      const b = br('brf_bbbbbbbb1', '2026-11-23T10:00:00.000Z', { campaign: 'B' });
+      same(
+        await r.backup.replaceAll({ profile: {}, activity: [], briefs: [b] }),
+        { ok: true, value: undefined },
+        'replace',
+      );
+      same(await r.briefs.list(), { ok: true, value: [b] }, 'solo el nuevo');
+      const malo = await r.backup.replaceAll({
+        profile: {},
+        activity: [],
+        briefs: [a, { id: 'x' }],
+      });
+      assert(!malo.ok && malo.error.code === 'validation_error', 'rechaza briefs inválidos');
+      same(await r.briefs.list(), { ok: true, value: [b] }, 'intacto');
+      same(
+        await r.backup.replaceAll({ profile: {}, activity: [] }),
+        { ok: true, value: undefined },
+        'sin briefs',
+      );
+      same(await r.briefs.count(), { ok: true, value: 0 }, 'se borraron');
     },
   },
 ];

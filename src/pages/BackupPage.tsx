@@ -109,7 +109,8 @@ export function BackupPage() {
             <p>
               Respaldo del{' '}
               <time dateTime={pending.summary.exportedAt}>{pending.summary.exportedAt}</time>:{' '}
-              {pending.summary.activityCount} eventos de actividad
+              {pending.summary.activityCount} eventos de actividad y {pending.summary.briefCount}{' '}
+              briefs
               {pending.summary.hasName ? ' y un nombre visible' : ''}.
             </p>
             <p>

@@ -36,18 +36,31 @@ describe('servicio de respaldo', () => {
       at: '2026-11-22T10:00:00.000Z',
       kind: 'app_opened',
     });
+    await a.repos.briefs.put({
+      id: 'brf_abcdefgh1',
+      createdAt: '2026-11-22T09:00:00.000Z',
+      updatedAt: '2026-11-22T09:30:00.000Z',
+      fields: { campaign: 'Buen Fin' },
+    });
     await a.preferences.update({ theme: 'dark' });
     const exp = must(await a.service.export());
     expect(exp.fileName).toBe('cci-respaldo-20261122-120000.json');
     expect(exp.summary).toEqual({
       exportedAt: '2026-11-22T12:00:00.000Z',
       activityCount: 1,
+      briefCount: 1,
       hasName: true,
     });
     expect(a.recorded).toEqual(['backup_exported']);
     expect(must(await a.preferences.get()).lastBackupAt).toBe('2026-11-22T12:00:00.000Z');
 
     const b = setup();
+    await b.repos.briefs.put({
+      id: 'brf_zzzzzzzz9',
+      createdAt: '2026-01-01T00:00:00.000Z',
+      updatedAt: '2026-01-01T00:00:00.000Z',
+      fields: {},
+    });
     await b.repos.activity.add({
       id: 'evt_99999999',
       at: '2026-01-01T00:00:00.000Z',
@@ -57,6 +70,7 @@ describe('servicio de respaldo', () => {
     expect(restored.settings.theme).toBe('dark');
     expect(must(await b.repos.profile.get())).toEqual({ displayName: 'Ana' });
     expect(must(await b.repos.activity.listRecent()).map((e) => e.id)).toEqual(['evt_00000001']);
+    expect(must(await b.repos.briefs.list()).map((x) => x.id)).toEqual(['brf_abcdefgh1']);
     expect(must(await b.preferences.get()).theme).toBe('dark');
     expect(b.recorded).toEqual(['backup_imported']);
   });

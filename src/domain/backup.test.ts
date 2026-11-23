@@ -16,6 +16,14 @@ const data: BackupData = {
     { id: 'evt_00000002', at: '2026-11-22T11:00:00.000Z', kind: 'profile_changed' },
     { id: 'evt_00000001', at: '2026-11-22T10:00:00.000Z', kind: 'app_opened' },
   ],
+  briefs: [
+    {
+      id: 'brf_abcdefgh1',
+      createdAt: '2026-11-22T09:00:00.000Z',
+      updatedAt: '2026-11-22T09:30:00.000Z',
+      fields: { campaign: 'Buen Fin', channel: 'Email' },
+    },
+  ],
 };
 const HASH = 'a'.repeat(64);
 const file = (mutate?: (o: Record<string, unknown>) => void) => {
@@ -31,6 +39,50 @@ const reason = (t: string) => {
   return r.ok ? null : r.reason;
 };
 
+describe('respaldo v2 con briefs (S2.2)', () => {
+  it('los briefs viajan en el archivo y se interpretan igual', () => {
+    const r = parseBackupText(file());
+    expect(r.ok && r.value.data.briefs).toEqual(data.briefs);
+    expect(r.ok && r.value.version).toBe(2);
+  });
+  it('un respaldo v1 (sin briefs) sigue siendo válido y su suma se calcula con la forma v1', () => {
+    const v1 = file((o) => {
+      o['version'] = 1;
+      delete (o['data'] as Record<string, unknown>)['briefs'];
+    });
+    const r = parseBackupText(v1);
+    expect(r.ok && r.value.data.briefs).toEqual([]);
+    expect(r.ok && r.value.version).toBe(1);
+    expect(canonicalData(data, 1)).not.toContain('briefs');
+    expect(canonicalData(data, 2)).toContain('briefs');
+  });
+  it('v2 exige la sección briefs; v1 no la admite', () => {
+    expect(reason(file((o) => delete (o['data'] as Record<string, unknown>)['briefs']))).toContain(
+      'datos',
+    );
+    expect(reason(file((o) => (o['version'] = 1)))).toContain('datos');
+  });
+  it('rechaza briefs inválidos, repetidos o en exceso', () => {
+    const withBriefs = (b: unknown) =>
+      file((o) => ((o['data'] as Record<string, unknown>)['briefs'] = b));
+    expect(reason(withBriefs('x'))).toContain('briefs');
+    expect(reason(withBriefs([{ id: 'x' }]))).toContain('briefs');
+    expect(reason(withBriefs([data.briefs[0], data.briefs[0]]))).toContain('briefs');
+    expect(reason(withBriefs([{ ...data.briefs[0], fields: { channel: 'Llamadas' } }]))).toContain(
+      'briefs',
+    );
+  });
+  it('el orden de claves de los campos no cambia la suma canónica', () => {
+    const [b] = data.briefs;
+    if (!b) throw new Error('falta brief de prueba');
+    const swapped = {
+      ...data,
+      briefs: [{ ...b, fields: { channel: 'Email', campaign: 'Buen Fin' } as typeof b.fields }],
+    };
+    expect(canonicalData(swapped)).toBe(canonicalData(data));
+  });
+});
+
 describe('respaldo (dominio)', () => {
   it('un archivo válido se interpreta tal cual', () => {
     const r = parseBackupText(file());
@@ -44,7 +96,7 @@ describe('respaldo (dominio)', () => {
   it('rechaza texto que no es JSON, otros formatos y versiones nuevas o inválidas', () => {
     expect(reason('no json')).toContain('no es JSON');
     expect(reason('{"format":"otro"}')).toContain('no es un respaldo');
-    expect(reason(file((o) => (o['version'] = 2)))).toContain('más reciente');
+    expect(reason(file((o) => (o['version'] = 3)))).toContain('más reciente');
     expect(reason(file((o) => (o['version'] = 0)))).toContain('versión');
     expect(reason(file((o) => (o['version'] = '1')))).toContain('versión');
   });

@@ -28,6 +28,7 @@ export interface BackupDeps {
 const summaryOf = (exportedAt: string, d: BackupData): BackupSummary => ({
   exportedAt,
   activityCount: d.activity.length,
+  briefCount: d.briefs.length,
   hasName: d.profile.displayName !== undefined,
 });
 
@@ -39,7 +40,7 @@ export function createBackupService(deps: BackupDeps): BackupService {
   const check = async (text: string) => {
     const parsed = parseBackupText(text);
     if (!parsed.ok) return fail<never>('validation_error', parsed.reason);
-    const actual = await sha256Hex(canonicalData(parsed.value.data));
+    const actual = await sha256Hex(canonicalData(parsed.value.data, parsed.value.version));
     if (actual !== parsed.value.declaredHash)
       return fail<never>(
         'validation_error',
@@ -61,6 +62,7 @@ export function createBackupService(deps: BackupDeps): BackupService {
         profile: snap.value.profile,
         settings: { ...prefs.value, lastBackupAt: exportedAt },
         activity: snap.value.activity,
+        briefs: snap.value.briefs,
       };
       const text = serializeBackup(data, exportedAt, await sha256Hex(canonicalData(data)));
       await deps.preferences.update({ lastBackupAt: exportedAt }); // secundario: si falla, el archivo igual es válido
@@ -93,6 +95,7 @@ export function createBackupService(deps: BackupDeps): BackupService {
       const replaced = await repos.value.backup.replaceAll({
         profile: data.profile,
         activity: data.activity,
+        briefs: data.briefs,
       });
       if (!replaced.ok) {
         await deps.preferences.update(previous);

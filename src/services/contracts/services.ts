@@ -45,6 +45,7 @@ export interface StorageService {
 export interface BackupSummary {
   readonly exportedAt: string;
   readonly activityCount: number;
+  readonly briefCount: number;
   readonly hasName: boolean;
 }
 

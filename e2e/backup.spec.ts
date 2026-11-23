@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
 import { axeViolations, LOCAL, trackErrors } from './support';
@@ -42,12 +43,14 @@ test.describe('respaldo (modo local, Chrome real)', () => {
         profile: unknown;
         settings: { theme: string; lastBackupAt: string };
         activity: unknown[];
+        briefs: unknown[];
       };
       integrity: { value: string };
     }
     const f = JSON.parse(text) as BackupFile;
     expect(f.format).toBe('cci-backup');
-    expect(f.version).toBe(1);
+    expect(f.version).toBe(2);
+    expect(f.data.briefs).toEqual([]);
     expect(f.data.profile).toEqual({ displayName: 'Ana' });
     expect(f.data.settings.theme).toBe('dark');
     expect(f.data.settings.lastBackupAt).toBe(f.exportedAt);
@@ -56,6 +59,37 @@ test.describe('respaldo (modo local, Chrome real)', () => {
     await expect(page.getByRole('status').filter({ hasText: 'Respaldo exportado' })).toBeVisible();
     expect(await axeViolations(page)).toEqual([]);
     expect(errors).toEqual([]);
+  });
+
+  test('un respaldo v1 (anterior a los briefs) se sigue pudiendo importar', async ({ page }) => {
+    await page.goto(LOCAL);
+    await setProfile(page, 'Actual', 'light');
+    const data = {
+      profile: { displayName: 'Antiguo' },
+      settings: {
+        theme: 'dark',
+        language: 'es',
+        lastView: 'inicio',
+        seenNotices: [],
+        lastBackupAt: '2026-11-22T10:00:00.000Z',
+      },
+      activity: [],
+    };
+    const hash = createHash('sha256').update(JSON.stringify(data)).digest('hex');
+    const v1 = JSON.stringify({
+      format: 'cci-backup',
+      version: 1,
+      exportedAt: '2026-11-22T12:00:00.000Z',
+      data,
+      integrity: { algorithm: 'SHA-256', value: hash },
+    });
+    await goto(page, 'Respaldo');
+    await pick(page, 'v1.json', Buffer.from(v1));
+    const group = page.getByRole('group', { name: 'Confirmar importación' });
+    await expect(group).toContainText('0 briefs');
+    await page.getByRole('button', { name: 'Reemplazar todos los datos locales' }).click();
+    await expect(page.getByRole('status').filter({ hasText: 'Respaldo importado' })).toBeVisible();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   });
 
   test('importar reemplaza TODO tras confirmar; los datos persisten al recargar', async ({
@@ -120,7 +154,7 @@ test.describe('respaldo (modo local, Chrome real)', () => {
     const cases: [Buffer, string][] = [
       [Buffer.from('esto no es json SECRETO'), 'no es JSON'],
       [Buffer.from('{"format":"otro"}'), 'no es un respaldo de Copy Creative Intelligence'],
-      [Buffer.from(text.replace('"version": 1', '"version": 2')), 'versión más reciente'],
+      [Buffer.from(text.replace('"version": 2', '"version": 3')), 'versión más reciente'],
     ];
     for (const [buf, motivo] of cases) {
       await pick(page, 'r.json', buf);
