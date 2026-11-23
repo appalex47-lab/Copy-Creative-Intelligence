@@ -18,6 +18,7 @@ import {
   type CopyField,
   type CopyRecord,
 } from '@/domain/copy';
+import { toRulesConfig } from '@/domain/rulesConfig';
 import {
   CATEGORY_LABELS,
   SEVERITY_LABELS,
@@ -146,8 +147,31 @@ function CopyItem({
   const [mode, setMode] = useState<'none' | 'delete' | 'duplicate'>('none');
   const [label, setLabel] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [review, setReview] = useState<Evaluation | null>(null);
+  const [review, setReview] = useState<{ evaluation: Evaluation; isTemplate: boolean } | null>(
+    null,
+  );
   const cur = currentVersion(copy);
+  const runReview = async () => {
+    const f = brief.fields;
+    if (!f.channel) {
+      setError('El brief no tiene canal: elige uno para revisar las reglas.');
+      return;
+    }
+    const cfg = await services.rules.get();
+    if (!cfg.ok) {
+      setError(describeError(cfg.error));
+      return;
+    }
+    setError(null);
+    setReview({
+      evaluation: evaluateCopy(
+        { channel: f.channel, offer: f.offer },
+        cur.content,
+        toRulesConfig(cfg.value.doc),
+      ),
+      isTemplate: cfg.value.isTemplate,
+    });
+  };
   const remove = async () => {
     const r = await services.copies.remove(copy.id);
     if (!r.ok) {
@@ -179,9 +203,6 @@ function CopyItem({
         </p>
         <ContentView content={cur.content} />
         {error && <p role="alert">{error}</p>}
-        {review && (
-          <ReviewView review={review} onClose={() => setReview(null)} label={copy.label} />
-        )}
         {mode === 'delete' ? (
           <div role="group" aria-label={`Confirmar eliminación de ${copy.label}`}>
             <p>¿Eliminar este copy y todo su historial? No se puede deshacer.</p>
@@ -216,15 +237,7 @@ function CopyItem({
             <Button onClick={onEdit} aria-label={`Editar ${copy.label}`}>
               Editar
             </Button>
-            <Button
-              onClick={() => {
-                const f = brief.fields;
-                if (f.channel)
-                  setReview(evaluateCopy({ channel: f.channel, offer: f.offer }, cur.content));
-                else setError('El brief no tiene canal: elige uno para revisar las reglas.');
-              }}
-              aria-label={`Revisar reglas de ${copy.label}`}
-            >
+            <Button onClick={() => void runReview()} aria-label={`Revisar reglas de ${copy.label}`}>
               Revisar reglas
             </Button>
             <Button onClick={onHistory} aria-label={`Historial de ${copy.label}`}>
@@ -251,6 +264,14 @@ function CopyItem({
             </Button>
           </div>
         )}
+        {review && (
+          <ReviewView
+            review={review.evaluation}
+            isTemplate={review.isTemplate}
+            onClose={() => setReview(null)}
+            label={copy.label}
+          />
+        )}
       </Card>
     </li>
   );
@@ -260,10 +281,12 @@ const VERDICT_LABELS = { apto: 'Apto', revisar: 'Revisar', no_apto: 'No apto' } 
 
 function ReviewView({
   review,
+  isTemplate,
   label,
   onClose,
 }: {
   readonly review: Evaluation;
+  readonly isTemplate: boolean;
   readonly label: string;
   readonly onClose: () => void;
 }) {
@@ -287,9 +310,11 @@ function ReviewView({
         </ul>
       )}
       <p className="field-hint">
-        Reglas orientativas (longitudes por canal sin verificar contra las plataformas). Las
-        leyendas obligatorias aún no se pueden capturar, así que no se revisan; los términos de
-        marca son ejemplos editables. No incluye ortografía.
+        Reglas orientativas: las longitudes por canal no están verificadas contra las plataformas y
+        no se revisa ortografía.{' '}
+        {isTemplate
+          ? 'Usas la plantilla de ejemplo: aún no hay leyendas y los términos de marca son ejemplos sin validar. Captúralos en «Reglas».'
+          : 'Se usaron las leyendas y términos que capturaste en «Reglas».'}
       </p>
       <Button onClick={onClose}>Cerrar revisión</Button>
     </div>

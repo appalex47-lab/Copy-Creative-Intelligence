@@ -1,3 +1,4 @@
+import { validateRulesDoc, canonicalRules, type RulesDoc } from './rulesConfig';
 import { validateCopyRecord, compareCopiesNewestFirst, type CopyRecord } from './copy';
 import { validateBriefRecord, compareBriefsNewestFirst, type BriefRecord } from './briefRecord';
 import { validateActivityEvent, type ActivityEvent } from './activity';
@@ -10,7 +11,7 @@ import { invalid, valid, type Validation } from './validation';
  * locales y una suma SHA-256 de los datos para detectar daños. La importación REEMPLAZA todos los datos locales.
  */
 export const BACKUP_FORMAT = 'cci-backup';
-export const BACKUP_VERSION = 3; // v2 añade `briefs` (S2.2) y v3 `copies` (S2.4); se siguen aceptando v1 y v2
+export const BACKUP_VERSION = 4; // v2 añade `briefs` (S2.2), v3 `copies` (S2.4) y v4 `rules` (S2.5b); se aceptan v1–v3
 export const BACKUP_MAX_BYTES = 5 * 1024 * 1024;
 export const BACKUP_MAX_EVENTS = 10_000;
 export const BACKUP_MAX_BRIEFS = 2_000;
@@ -22,6 +23,8 @@ export interface BackupData {
   readonly activity: readonly ActivityEvent[];
   readonly briefs: readonly BriefRecord[];
   readonly copies: readonly CopyRecord[];
+  /** Leyendas y términos de marca; `null` = nunca configurados. */
+  readonly rules: RulesDoc | null;
 }
 
 export interface ParsedBackup {
@@ -79,6 +82,7 @@ export function canonicalData(data: BackupData, version: number = BACKUP_VERSION
     activity: data.activity.map((e) => ({ id: e.id, at: e.at, kind: e.kind })),
     ...(version >= 2 ? { briefs: data.briefs.map(canonicalBrief) } : {}),
     ...(version >= 3 ? { copies: data.copies.map(canonicalCopy) } : {}),
+    ...(version >= 4 ? { rules: canonicalRules(data.rules) } : {}),
   });
 }
 
@@ -155,16 +159,19 @@ export function parseBackupText(text: string): Validation<ParsedBackup> {
     return invalid('La verificación de integridad del respaldo no es válida.');
   const data = raw['data'];
   const dataKeys =
-    version >= 3
-      ? ['profile', 'settings', 'activity', 'briefs', 'copies']
-      : version >= 2
-        ? ['profile', 'settings', 'activity', 'briefs']
-        : ['profile', 'settings', 'activity'];
+    version >= 4
+      ? ['profile', 'settings', 'activity', 'briefs', 'copies', 'rules']
+      : version >= 3
+        ? ['profile', 'settings', 'activity', 'briefs', 'copies']
+        : version >= 2
+          ? ['profile', 'settings', 'activity', 'briefs']
+          : ['profile', 'settings', 'activity'];
   if (
     !isObject(data) ||
     !onlyKeys(data, dataKeys) ||
     (version >= 2 && !('briefs' in data)) ||
-    (version >= 3 && !('copies' in data))
+    (version >= 3 && !('copies' in data)) ||
+    (version >= 4 && !('rules' in data))
   )
     return invalid('Los datos del respaldo no son válidos.');
 
@@ -199,6 +206,12 @@ export function parseBackupText(text: string): Validation<ParsedBackup> {
   const copies =
     version >= 3 ? parseCopies(data['copies'], briefs.value, 'respaldo') : valid<CopyRecord[]>([]);
   if (!copies.ok) return copies;
+  let rules: RulesDoc | null = null;
+  if (version >= 4 && data['rules'] !== null) {
+    const r = validateRulesDoc(data['rules']);
+    if (!r.ok) return invalid('Las reglas del respaldo no son válidas.');
+    rules = r.value;
+  }
   return valid({
     version,
     exportedAt,
@@ -209,6 +222,7 @@ export function parseBackupText(text: string): Validation<ParsedBackup> {
       activity,
       briefs: briefs.value,
       copies: copies.value,
+      rules,
     },
   });
 }
@@ -256,11 +270,12 @@ export interface Snapshot {
   readonly activity: readonly ActivityEvent[];
   readonly briefs: readonly BriefRecord[];
   readonly copies: readonly CopyRecord[];
+  readonly rules: RulesDoc | null;
 }
 
 /** Valida un conjunto (perfil + actividad) antes de reemplazar los datos locales: todo o nada. */
 export function validateSnapshot(raw: unknown): Validation<Snapshot> {
-  if (!isObject(raw) || !onlyKeys(raw, ['profile', 'activity', 'briefs', 'copies']))
+  if (!isObject(raw) || !onlyKeys(raw, ['profile', 'activity', 'briefs', 'copies', 'rules']))
     return invalid('Los datos a restaurar no son válidos.');
   const p = raw['profile'];
   if (!isObject(p) || !onlyKeys(p, ['displayName']))
@@ -289,10 +304,17 @@ export function validateSnapshot(raw: unknown): Validation<Snapshot> {
       ? valid<CopyRecord[]>([])
       : parseCopies(raw['copies'], briefs.value, 'conjunto a restaurar');
   if (!copies.ok) return copies;
+  let rules: RulesDoc | null = null;
+  if (raw['rules'] !== undefined && raw['rules'] !== null) {
+    const r = validateRulesDoc(raw['rules']);
+    if (!r.ok) return invalid('Las reglas a restaurar no son válidas.');
+    rules = r.value;
+  }
   return valid({
     profile: name.value === undefined ? {} : { displayName: name.value },
     activity,
     briefs: briefs.value,
     copies: copies.value,
+    rules,
   });
 }

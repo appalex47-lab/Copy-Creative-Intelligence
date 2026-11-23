@@ -6,6 +6,7 @@ const WIDTHS = [320, 360, 375, 390, 768, 1024, 1440];
 const VIEWS = [
   { nav: 'Inicio', h2: 'Resumen' },
   { nav: 'Briefs', h2: 'Briefs' },
+  { nav: 'Reglas', h2: 'Reglas' },
   { nav: 'Estado de conexión', h2: 'Estado de conexión' },
   { nav: 'Perfil y preferencias', h2: 'Perfil y preferencias' },
   { nav: 'Almacenamiento', h2: 'Almacenamiento' },
@@ -82,6 +83,8 @@ test('teclado: cada vista se activa con Enter desde su botón y el foco pasa a s
   page,
 }) => {
   await page.goto(LOCAL);
+  // Esperar a que la interfaz esté montada: un Tab previo se pierde (misma causa documentada en app.spec.ts).
+  await expect(page.getByRole('button', { name: 'Inicio', exact: true })).toBeVisible();
   await page.keyboard.press('Tab'); // enlace de salto
   await page.keyboard.press('Tab'); // primer botón de navegación (Inicio, ya activa)
   for (const [i, v] of VIEWS.entries()) {

@@ -42,6 +42,10 @@ const data: BackupData = {
       ],
     },
   ],
+  rules: {
+    legends: [{ text: 'Consulta a tu médico', channels: ['Email'], required: true, active: true }],
+    brandTerms: [{ text: 'cura', kind: 'prohibido', severity: 'mayor' }],
+  },
 };
 const HASH = 'a'.repeat(64);
 const file = (mutate?: (o: Record<string, unknown>) => void) => {
@@ -61,7 +65,7 @@ describe('respaldo v2 con briefs (S2.2)', () => {
   it('los briefs viajan en el archivo y se interpretan igual', () => {
     const r = parseBackupText(file());
     expect(r.ok && r.value.data.briefs).toEqual(data.briefs);
-    expect(r.ok && r.value.version).toBe(3);
+    expect(r.ok && r.value.version).toBe(4);
     expect(r.ok && r.value.data.copies).toEqual(data.copies);
   });
   it('un respaldo v1 (sin briefs) sigue siendo válido y su suma se calcula con la forma v1', () => {
@@ -69,6 +73,7 @@ describe('respaldo v2 con briefs (S2.2)', () => {
       o['version'] = 1;
       delete (o['data'] as Record<string, unknown>)['briefs'];
       delete (o['data'] as Record<string, unknown>)['copies'];
+      delete (o['data'] as Record<string, unknown>)['rules'];
     });
     const r = parseBackupText(v1);
     expect(r.ok && r.value.data.briefs).toEqual([]);
@@ -103,6 +108,36 @@ describe('respaldo v2 con briefs (S2.2)', () => {
   });
 });
 
+describe('respaldo v4 con reglas (S2.5b)', () => {
+  it('las reglas viajan en el archivo y se interpretan igual', () => {
+    const r = parseBackupText(file());
+    expect(r.ok && r.value.data.rules).toEqual(data.rules);
+    expect(canonicalData(data, 3)).not.toContain('rules');
+    expect(canonicalData(data, 4)).toContain('rules');
+  });
+  it('rules: null (nunca configuradas) es válido; v3 no trae reglas y da null', () => {
+    const none = file((o) => ((o['data'] as Record<string, unknown>)['rules'] = null));
+    expect(
+      parseBackupText(none).ok &&
+        (parseBackupText(none) as { value: { data: BackupData } }).value.data.rules,
+    ).toBe(null);
+    const v3 = file((o) => {
+      o['version'] = 3;
+      delete (o['data'] as Record<string, unknown>)['rules'];
+    });
+    const r = parseBackupText(v3);
+    expect(r.ok && r.value.version).toBe(3);
+    expect(r.ok && r.value.data.rules).toBe(null);
+  });
+  it('v4 exige la sección rules y rechaza reglas inválidas', () => {
+    expect(reason(file((o) => delete (o['data'] as Record<string, unknown>)['rules']))).toContain(
+      'datos',
+    );
+    const bad = file((o) => ((o['data'] as Record<string, unknown>)['rules'] = { legends: 'x' }));
+    expect(reason(bad)).toContain('reglas');
+  });
+});
+
 describe('respaldo (dominio)', () => {
   it('un archivo válido se interpreta tal cual', () => {
     const r = parseBackupText(file());
@@ -116,7 +151,7 @@ describe('respaldo (dominio)', () => {
   it('rechaza texto que no es JSON, otros formatos y versiones nuevas o inválidas', () => {
     expect(reason('no json')).toContain('no es JSON');
     expect(reason('{"format":"otro"}')).toContain('no es un respaldo');
-    expect(reason(file((o) => (o['version'] = 4)))).toContain('más reciente');
+    expect(reason(file((o) => (o['version'] = 5)))).toContain('más reciente');
     expect(reason(file((o) => (o['version'] = 0)))).toContain('versión');
     expect(reason(file((o) => (o['version'] = '1')))).toContain('versión');
   });

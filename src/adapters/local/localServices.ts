@@ -5,6 +5,7 @@ import {
 import { createBrowserTabCoordinator } from '@/adapters/tabs/tabCoordinator';
 import { createBackupService } from './backupService';
 import { createBriefService } from './briefService';
+import { createRulesService } from './rulesService';
 import { createCopyService } from './copyService';
 import { createBrowserStorageInfoService } from '@/adapters/storage/browserStorageInfo';
 import { createBrowserPreferencesStore } from '@/adapters/localstorage/preferencesStore';
@@ -90,6 +91,13 @@ export function createLocalServices(environment: AppState['environment']): Servi
     },
     writable,
   });
+  const rules = createRulesService({
+    repo: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.rules) : fail(r.error.code, r.error.message);
+    },
+    writable,
+  });
   const copies = createCopyService({
     copies: async () => {
       const r = await repos();
@@ -123,6 +131,7 @@ export function createLocalServices(environment: AppState['environment']): Servi
     backup,
     briefs,
     copies,
+    rules,
     coordination,
   };
 }

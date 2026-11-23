@@ -13,6 +13,7 @@ describe('createServices', () => {
       'copies',
       'preferences',
       'profile',
+      'rules',
       'storage',
     ]);
   });

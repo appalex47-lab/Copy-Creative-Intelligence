@@ -12,6 +12,7 @@ import {
   validateCopyRecord,
   type CopyRecord,
 } from '@/domain/copy';
+import { validateRulesDoc, type RulesDoc } from '@/domain/rulesConfig';
 import { validateDisplayName, type LocalProfile } from '@/domain/profile';
 import { compareNewestFirst, normalizeLimit, type Repositories } from '@/repositories/contracts';
 import { fail, ok } from '@/services/contracts';
@@ -21,6 +22,7 @@ export function createMemoryRepositories(): Repositories {
   const events = new Map<string, ActivityEvent>();
   const briefs = new Map<string, BriefRecord>();
   const copies = new Map<string, CopyRecord>();
+  let rules: RulesDoc | null = null;
   let name: string | undefined;
   const profile = (): LocalProfile => (name === undefined ? {} : { displayName: name });
   return {
@@ -85,6 +87,19 @@ export function createMemoryRepositories(): Repositories {
       },
       count: () => Promise.resolve(ok(copies.size)),
     },
+    rules: {
+      get: () => Promise.resolve(ok(rules)),
+      save: (raw) => {
+        const v = validateRulesDoc(raw);
+        if (!v.ok) return Promise.resolve(fail('validation_error', v.reason));
+        rules = v.value;
+        return Promise.resolve(ok(v.value));
+      },
+      clear: () => {
+        rules = null;
+        return Promise.resolve(ok(undefined));
+      },
+    },
     profile: {
       get: () => Promise.resolve(ok(profile())),
       save: (displayName) => {
@@ -106,6 +121,7 @@ export function createMemoryRepositories(): Repositories {
             activity: [...events.values()].sort(compareNewestFirst),
             briefs: [...briefs.values()].sort(compareBriefsNewestFirst),
             copies: [...copies.values()].sort(compareCopiesNewestFirst),
+            rules,
           }),
         ),
       replaceAll: (raw) => {
@@ -117,6 +133,7 @@ export function createMemoryRepositories(): Repositories {
         for (const e of v.value.activity) events.set(e.id, e);
         for (const b of v.value.briefs) briefs.set(b.id, b);
         for (const c of v.value.copies) copies.set(c.id, c);
+        rules = v.value.rules;
         name = v.value.profile.displayName;
         return Promise.resolve(ok(undefined));
       },

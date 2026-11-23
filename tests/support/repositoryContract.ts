@@ -385,6 +385,49 @@ export const CONTRACT_CASES: readonly ContractCase[] = [
       same(await r.copies.count(), { ok: true, value: 0 }, 'se borraron');
     },
   },
+  {
+    name: 'reglas: sin guardar es null; guardar, reemplazar, rechazar inválido y limpiar',
+    run: async (r) => {
+      same(await r.rules.get(), { ok: true, value: null }, 'sin configuración');
+      const doc = {
+        legends: [
+          { text: 'Consulta a tu médico', channels: ['Email'], required: true, active: true },
+        ],
+        brandTerms: [{ text: 'cura', kind: 'prohibido', severity: 'mayor' }],
+      };
+      same(await r.rules.save(doc), { ok: true, value: doc }, 'guardar');
+      same(await r.rules.get(), { ok: true, value: doc }, 'leer');
+      const malo = await r.rules.save({ legends: [{ text: '' }], brandTerms: [] });
+      assert(!malo.ok && malo.error.code === 'validation_error', 'inválido');
+      same(await r.rules.get(), { ok: true, value: doc }, 'intacto tras rechazo');
+      same(await r.rules.clear(), { ok: true, value: undefined }, 'limpiar');
+      same(await r.rules.clear(), { ok: true, value: undefined }, 'limpiar es idempotente');
+      same(await r.rules.get(), { ok: true, value: null }, 'otra vez null');
+    },
+  },
+  {
+    name: 'respaldo: las reglas se exportan y replaceAll las reemplaza (sin reglas = null)',
+    run: async (r) => {
+      const doc = {
+        legends: [],
+        brandTerms: [{ text: 'milagro', kind: 'prohibido', severity: 'mayor' }],
+      };
+      same(
+        await r.backup.replaceAll({ profile: {}, activity: [], rules: doc }),
+        { ok: true, value: undefined },
+        'replace',
+      );
+      const ex = await r.backup.exportAll();
+      assert(ex.ok, 'export ok');
+      same(ex.value.rules, doc, 'reglas exportadas');
+      same(
+        await r.backup.replaceAll({ profile: {}, activity: [] }),
+        { ok: true, value: undefined },
+        'sin reglas',
+      );
+      same(await r.rules.get(), { ok: true, value: null }, 'se limpiaron');
+    },
+  },
 ];
 
 /** Ejecuta todos los casos y devuelve los fallos (lista vacía = todo correcto). */

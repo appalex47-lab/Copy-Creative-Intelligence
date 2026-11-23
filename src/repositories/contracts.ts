@@ -2,6 +2,7 @@ import type { ActivityEvent } from '@/domain/activity';
 import type { BriefRecord } from '@/domain/briefRecord';
 import type { CopyRecord } from '@/domain/copy';
 import type { LocalProfile } from '@/domain/profile';
+import type { RulesDoc } from '@/domain/rulesConfig';
 import type { Result } from '@/services/contracts';
 
 // Contratos de repositorios de la Fase 1. La interfaz y los casos de uso solo ven estas interfaces; IndexedDB solo
@@ -46,6 +47,15 @@ export interface CopyRepository {
   count(): Promise<Result<number>>;
 }
 
+export interface RulesRepository {
+  /** La configuración guardada o `null` si nunca se guardó (se usa entonces la plantilla de ejemplo). */
+  get(): Promise<Result<RulesDoc | null>>;
+  /** Reemplaza toda la configuración (validada). */
+  save(doc: unknown): Promise<Result<RulesDoc>>;
+  /** Vuelve al estado «sin configuración guardada». Idempotente. */
+  clear(): Promise<Result<void>>;
+}
+
 export interface BackupSnapshot {
   readonly profile: LocalProfile;
   /** Más nuevos primero. */
@@ -54,6 +64,8 @@ export interface BackupSnapshot {
   readonly briefs: readonly BriefRecord[];
   /** Copys con su historial (S2.4), más recientes primero. */
   readonly copies: readonly CopyRecord[];
+  /** Leyendas y términos de marca (S2.5b); `null` si nunca se configuraron. */
+  readonly rules: RulesDoc | null;
 }
 
 export interface BackupRepository {
@@ -71,6 +83,7 @@ export interface Repositories {
   readonly profile: ProfileRepository;
   readonly briefs: BriefRepository;
   readonly copies: CopyRepository;
+  readonly rules: RulesRepository;
   readonly backup: BackupRepository;
 }
 

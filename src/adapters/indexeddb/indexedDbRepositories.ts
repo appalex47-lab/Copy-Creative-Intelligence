@@ -13,6 +13,7 @@ import {
   validateCopyRecord,
   type CopyRecord,
 } from '@/domain/copy';
+import { validateRulesDoc, type RulesDoc } from '@/domain/rulesConfig';
 import { validateDisplayName, parseLocalProfile, type LocalProfile } from '@/domain/profile';
 import { compareNewestFirst, normalizeLimit, type Repositories } from '@/repositories/contracts';
 import { fail, ok, type Result } from '@/services/contracts';
@@ -23,6 +24,8 @@ const STORE_PROFILE = 'profile';
 const STORE_META = 'meta';
 const STORE_BRIEFS = 'briefs';
 const STORE_COPIES = 'copies';
+const STORE_RULES = 'rules';
+const RULES_KEY = 'config';
 const PROFILE_KEY = 'local';
 
 /** Un paso de migración: se ejecuta dentro de la transacción `versionchange`; si lanza, TODO se revierte. */
@@ -35,6 +38,7 @@ export type MigrationStep = (db: IDBDatabase, tx: IDBTransaction) => void;
  * sin recorrer todo; no agrega atributos de negocio y conserva todos los datos.
  * v2 → v3 (S2.2): crea el almacén `briefs` (clave `id`, índice `updatedAt`); no toca los datos existentes.
  * v3 → v4 (S2.4): crea el almacén `copies` (clave `id`, índices `briefId` y `updatedAt`); no toca datos existentes.
+ * v4 → v5 (S2.5b): crea el almacén `rules` (un solo documento con clave `config`: leyendas y términos de marca).
  */
 export const MIGRATIONS: readonly MigrationStep[] = [
   (db) => {
@@ -52,6 +56,9 @@ export const MIGRATIONS: readonly MigrationStep[] = [
     const store = db.createObjectStore(STORE_COPIES, { keyPath: 'id' });
     store.createIndex('briefId', 'briefId');
     store.createIndex('updatedAt', 'updatedAt');
+  },
+  (db) => {
+    db.createObjectStore(STORE_RULES);
   },
 ];
 
@@ -147,6 +154,13 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
     const tx = db.transaction(STORE_PROFILE, 'readonly');
     const raw: unknown = await promisify(tx.objectStore(STORE_PROFILE).get(PROFILE_KEY));
     return parseLocalProfile(raw);
+  };
+  const rulesFrom = async (): Promise<RulesDoc | null> => {
+    const tx = db.transaction(STORE_RULES, 'readonly');
+    const raw = await promisify<unknown>(tx.objectStore(STORE_RULES).get(RULES_KEY));
+    if (raw === undefined) return null;
+    const v = validateRulesDoc(raw);
+    return v.ok ? v.value : null; // un documento dañado se trata como «sin configuración»; no rompe la pantalla
   };
   return {
     activity: {
@@ -279,6 +293,25 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
           return ok(await promisify(tx.objectStore(STORE_COPIES).count()));
         }),
     },
+    rules: {
+      get: () => guard(async () => ok(await rulesFrom())),
+      save: (raw) =>
+        guard(async () => {
+          const v = validateRulesDoc(raw);
+          if (!v.ok) return fail('validation_error', v.reason);
+          const tx = db.transaction(STORE_RULES, 'readwrite');
+          tx.objectStore(STORE_RULES).put(v.value, RULES_KEY);
+          await txDone(tx);
+          return ok(v.value);
+        }),
+      clear: () =>
+        guard(async () => {
+          const tx = db.transaction(STORE_RULES, 'readwrite');
+          tx.objectStore(STORE_RULES).delete(RULES_KEY);
+          await txDone(tx);
+          return ok(undefined);
+        }),
+    },
     profile: {
       get: () => guard(async () => ok(await profileFrom())),
       save: (displayName) =>
@@ -304,15 +337,18 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
       exportAll: () =>
         guard(async () => {
           const tx = db.transaction(
-            [STORE_ACTIVITY, STORE_PROFILE, STORE_BRIEFS, STORE_COPIES],
+            [STORE_ACTIVITY, STORE_PROFILE, STORE_BRIEFS, STORE_COPIES, STORE_RULES],
             'readonly',
           ); // una sola lectura consistente
-          const [rawEvents, rawProfile, rawBriefs, rawCopies] = await Promise.all([
+          const [rawEvents, rawProfile, rawBriefs, rawCopies, rawRules] = await Promise.all([
             promisify<unknown[]>(tx.objectStore(STORE_ACTIVITY).getAll()),
             promisify<unknown>(tx.objectStore(STORE_PROFILE).get(PROFILE_KEY)),
             promisify<unknown[]>(tx.objectStore(STORE_BRIEFS).getAll()),
             promisify<unknown[]>(tx.objectStore(STORE_COPIES).getAll()),
+            promisify<unknown>(tx.objectStore(STORE_RULES).get(RULES_KEY)),
           ]);
+          const rulesParsed = rawRules === undefined ? undefined : validateRulesDoc(rawRules);
+          const rules = rulesParsed?.ok ? rulesParsed.value : null;
           const copies: CopyRecord[] = [];
           for (const item of rawCopies) {
             const c = validateCopyRecord(item);
@@ -331,14 +367,14 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
             if (v.ok) activity.push(v.value); // un registro corrupto no se exporta
           }
           activity.sort(compareNewestFirst);
-          return ok({ profile: parseLocalProfile(rawProfile), activity, briefs, copies });
+          return ok({ profile: parseLocalProfile(rawProfile), activity, briefs, copies, rules });
         }),
       replaceAll: (raw) =>
         guard(async () => {
           const v = validateSnapshot(raw); // se valida TODO antes de tocar la base
           if (!v.ok) return fail('validation_error', v.reason);
           const tx = db.transaction(
-            [STORE_ACTIVITY, STORE_PROFILE, STORE_BRIEFS, STORE_COPIES],
+            [STORE_ACTIVITY, STORE_PROFILE, STORE_BRIEFS, STORE_COPIES, STORE_RULES],
             'readwrite',
           );
           const done = txDone(tx);
@@ -348,9 +384,11 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
             events.clear();
             tx.objectStore(STORE_BRIEFS).clear();
             tx.objectStore(STORE_COPIES).clear();
+            tx.objectStore(STORE_RULES).clear();
             for (const e of v.value.activity) events.put(e);
             for (const b of v.value.briefs) tx.objectStore(STORE_BRIEFS).put(b);
             for (const c of v.value.copies) tx.objectStore(STORE_COPIES).put(c);
+            if (v.value.rules !== null) tx.objectStore(STORE_RULES).put(v.value.rules, RULES_KEY);
             profile.delete(PROFILE_KEY);
             if (v.value.profile.displayName !== undefined)
               profile.put({ displayName: v.value.profile.displayName }, PROFILE_KEY);

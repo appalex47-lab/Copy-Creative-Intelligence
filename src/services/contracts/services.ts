@@ -2,6 +2,7 @@ import type { StorageInfo } from '@/domain/storageInfo';
 import type { ActivityEvent, ActivityKind } from '@/domain/activity';
 import type { BriefRecord } from '@/domain/briefRecord';
 import type { CopyRecord } from '@/domain/copy';
+import type { RulesDoc } from '@/domain/rulesConfig';
 import type { AppState } from '@/domain/entities';
 import type { LocalProfile } from '@/domain/profile';
 import type { AppSettings } from '@/domain/settings';
@@ -49,6 +50,7 @@ export interface BackupSummary {
   readonly activityCount: number;
   readonly briefCount: number;
   readonly copyCount: number;
+  readonly hasRules: boolean;
   readonly hasName: boolean;
 }
 
@@ -110,6 +112,15 @@ export interface CopyService {
   remove(id: string): Promise<Result<void>>;
 }
 
+/** Leyendas y términos de marca editables (S2.5b). Sin configuración guardada se ofrece la plantilla de ejemplo. */
+export interface RulesService {
+  get(): Promise<Result<{ readonly doc: RulesDoc; readonly isTemplate: boolean }>>;
+  /** Reemplaza toda la configuración. Inválida: error y no guarda. */
+  save(doc: unknown): Promise<Result<RulesDoc>>;
+  /** Descarta lo guardado y vuelve a la plantilla de ejemplo. */
+  resetToTemplate(): Promise<Result<void>>;
+}
+
 export type CoordinationState = 'checking' | 'writer' | 'reader';
 
 /** Coordinación entre pestañas (P12): una pestaña escribe; las demás, solo lectura con aviso visible. */
@@ -129,5 +140,6 @@ export interface Services {
   readonly backup: BackupService;
   readonly briefs: BriefService;
   readonly copies: CopyService;
+  readonly rules: RulesService;
   readonly coordination: CoordinationService;
 }

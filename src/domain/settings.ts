@@ -9,6 +9,7 @@ export const LANGUAGES = ['es'] as const;
 export const VIEW_IDS = [
   'inicio',
   'briefs',
+  'reglas',
   'conexion',
   'ajustes',
   'almacenamiento',

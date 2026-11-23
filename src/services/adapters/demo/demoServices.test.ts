@@ -19,6 +19,7 @@ describe('adaptador DEMO', () => {
       'copies',
       'preferences',
       'profile',
+      'rules',
       'storage',
     ]);
   });
