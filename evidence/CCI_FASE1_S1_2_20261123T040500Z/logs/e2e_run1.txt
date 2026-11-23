@@ -1,0 +1,59 @@
+
+Running 35 tests using 1 worker
+
+  ✓   1 e2e/app.spec.ts:6:3 › aplicación (build preview) en Chrome real › arranca, muestra aviso DEMO, identidad ficticia y estado "sin backend" (212ms)
+  ✓   2 e2e/app.spec.ts:22:3 › aplicación (build preview) en Chrome real › navega a Estado de conexión: foco en el encabezado, título, aria-current y aviso de no conexión (245ms)
+  ✓   3 e2e/app.spec.ts:41:3 › aplicación (build preview) en Chrome real › teclado: enlace de salto, orden de tabulación y activación con Enter/Espacio (282ms)
+  ✓   4 e2e/app.spec.ts:70:3 › aplicación (build preview) en Chrome real › foco visible: contorno de al menos 3px en botones y enlace de salto con teclado (154ms)
+  ✓   5 e2e/app.spec.ts:87:3 › aplicación (build preview) en Chrome real › región JSON desplazable es accesible por teclado (203ms)
+  ✓   6 e2e/app.spec.ts:96:5 › aplicación (build preview) en Chrome real › axe-core (WCAG 2.x A/AA + best-practice) sin violaciones: Inicio (500ms)
+  ✓   7 e2e/app.spec.ts:96:5 › aplicación (build preview) en Chrome real › axe-core (WCAG 2.x A/AA + best-practice) sin violaciones: Estado de conexión (529ms)
+  ✓   8 e2e/components.spec.ts:8:3 › galería de componentes 320px: sin violaciones axe, sin desbordamiento (583ms)
+  ✓   9 e2e/components.spec.ts:8:3 › galería de componentes 768px: sin violaciones axe, sin desbordamiento (586ms)
+  ✓  10 e2e/components.spec.ts:8:3 › galería de componentes 1440px: sin violaciones axe, sin desbordamiento (593ms)
+  ✓  11 e2e/components.spec.ts:25:1 › galería de componentes: foco visible de al menos 3px en cada botón habilitado (252ms)
+  ✓  12 e2e/resilience.spec.ts:9:3 › estados de carga, error y reintento en Chrome real (StrictMode) › carga: región de estado anuncia "Cargando…" y luego "Contenido cargado." (316ms)
+  ✓  13 e2e/resilience.spec.ts:24:3 › estados de carga, error y reintento en Chrome real (StrictMode) › StrictMode: el efecto se ejecuta dos veces en desarrollo pero la UI queda coherente y sin robar foco (274ms)
+  ✓  14 e2e/resilience.spec.ts:36:3 › estados de carga, error y reintento en Chrome real (StrictMode) › Result fallido "unavailable": alerta sin detalle interno, reintento y recuperación (705ms)
+  ✓  15 e2e/resilience.spec.ts:51:3 › estados de carga, error y reintento en Chrome real (StrictMode) › tras reintentar el foco no se pierde (queda en el encabezado) (295ms)
+[WebServer] 9:41:39 PM [vite] (client) [console.error] [cci] operación asíncrona fallida: Error
+  ✓  16 e2e/resilience.spec.ts:60:3 › estados de carga, error y reintento en Chrome real (StrictMode) › excepción del servicio: error genérico, sin detalles, con reintento (328ms)
+  ✓  17 e2e/resilience.spec.ts:72:3 › estados de carga, error y reintento en Chrome real (StrictMode) › not_found: alerta visible y SIN botón de reintento (266ms)
+[WebServer] 9:41:40 PM [vite] (client) [console.error] Error: Objects are not valid as a React child (found: object with keys {oops}). If you meant to render a collection of children, use an array instead.
+[WebServer]     at throwOnInvalidObjectTypeImpl (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=7a4fd1e3:3716:10)
+[WebServer]     at throwOnInvalidObjectType (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=7a4fd1e3:3720:105)
+[WebServer]     at reconcileChildFibersImpl (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=7a4fd1e3:4032:6)
+[WebServer]     at http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=7a4fd1e3:4044:28
+[WebServer]     at reconcileChildren (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=7a4fd1e3:5582:46)
+[WebServer]     at beginWork (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=7a4fd1e3:6448:1569)
+[WebServer]     at runWithFiberInDEV (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=7a4fd1e3:941:66)
+[WebServer]     at performUnitOfWork (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=7a4fd1e3:9145:92)
+[WebServer]     at workLoopSync (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=7a4fd1e3:9041:37)
+[WebServer]     at renderRootSync (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=7a4fd1e3:9025:6)
+[WebServer] 
+[WebServer] The above error occurred in the <strong> component.
+[WebServer] 
+[WebServer] React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[WebServer] 
+[WebServer] 9:41:40 PM [vite] (client) [console.error] [cci] error de renderizado: Error
+  ✓  18 e2e/resilience.spec.ts:78:3 › estados de carga, error y reintento en Chrome real (StrictMode) › Error Boundary: un error real de renderizado se captura, no deja pantalla en blanco y permite reintentar (311ms)
+  ✓  19 e2e/resilience.spec.ts:91:3 › estados de carga, error y reintento en Chrome real (StrictMode) › respuesta tardía tras cambiar de página: se descarta y no contamina la página nueva (373ms)
+  ✓  20 e2e/resilience.spec.ts:111:3 › estados de carga, error y reintento en Chrome real (StrictMode) › error en Estado de conexión: el aviso "sin backend" se mantiene visible (329ms)
+  ✓  21 e2e/responsive.spec.ts:12:5 › responsive 320px — inicio (170ms)
+  ✓  22 e2e/responsive.spec.ts:12:5 › responsive 320px — conexion (253ms)
+  ✓  23 e2e/responsive.spec.ts:12:5 › responsive 360px — inicio (197ms)
+  ✓  24 e2e/responsive.spec.ts:12:5 › responsive 360px — conexion (208ms)
+  ✓  25 e2e/responsive.spec.ts:12:5 › responsive 375px — inicio (222ms)
+  ✓  26 e2e/responsive.spec.ts:12:5 › responsive 375px — conexion (239ms)
+  ✓  27 e2e/responsive.spec.ts:12:5 › responsive 390px — inicio (183ms)
+  ✓  28 e2e/responsive.spec.ts:12:5 › responsive 390px — conexion (245ms)
+  ✓  29 e2e/responsive.spec.ts:12:5 › responsive 768px — inicio (228ms)
+  ✓  30 e2e/responsive.spec.ts:12:5 › responsive 768px — conexion (212ms)
+  ✓  31 e2e/responsive.spec.ts:12:5 › responsive 1024px — inicio (225ms)
+  ✓  32 e2e/responsive.spec.ts:12:5 › responsive 1024px — conexion (247ms)
+  ✓  33 e2e/responsive.spec.ts:12:5 › responsive 1440px — inicio (207ms)
+  ✓  34 e2e/responsive.spec.ts:12:5 › responsive 1440px — conexion (238ms)
+  ✓  35 e2e/responsive.spec.ts:56:1 › responsive 360px — estado de error (arnés) sin desbordes (276ms)
+
+  35 passed (16.1s)
+rc=0

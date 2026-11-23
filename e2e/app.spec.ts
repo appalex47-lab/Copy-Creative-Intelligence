@@ -71,6 +71,9 @@ test.describe('aplicación (build preview) en Chrome real', () => {
     page,
   }) => {
     await page.goto(PREVIEW);
+    // Esperar a que la interfaz esté montada: si Tab se pulsa antes, se pierde y el foco queda en <body> o en el
+    // enlace de salto (causa verificada: 4 de 60 corridas sin espera; 0 de 60 con espera; ver evidencia S1.2).
+    await expect(page.getByRole('status')).toHaveText('Contenido cargado.');
     await page.keyboard.press('Tab');
     await page.keyboard.press('Tab');
     const outline = await page.evaluate(() => {

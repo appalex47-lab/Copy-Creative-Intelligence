@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { EVIDENCE_DIR, PREVIEW } from './support';
 
-const WIDTHS = [360, 375, 390, 768, 1024, 1440];
+const WIDTHS = [320, 360, 375, 390, 768, 1024, 1440];
 const PAGES = [
   { id: 'inicio', nombre: 'Inicio' },
   { id: 'conexion', nombre: 'Estado de conexión' },
