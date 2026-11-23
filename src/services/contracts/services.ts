@@ -1,3 +1,4 @@
+import type { StorageInfo } from '@/domain/storageInfo';
 import type { ActivityEvent } from '@/domain/activity';
 import type { AppState } from '@/domain/entities';
 import type { LocalProfile } from '@/domain/profile';
@@ -33,9 +34,16 @@ export interface PreferencesService {
 }
 
 /** Conjunto de servicios que consume la interfaz. */
+/** Estado del almacenamiento del navegador y solicitud de almacenamiento persistente. */
+export interface StorageService {
+  get(): Promise<Result<StorageInfo>>;
+  requestPersistence(): Promise<Result<StorageInfo>>;
+}
+
 export interface Services {
   readonly appState: AppStateService;
   readonly activity: ActivityService;
   readonly profile: ProfileService;
   readonly preferences: PreferencesService;
+  readonly storage: StorageService;
 }

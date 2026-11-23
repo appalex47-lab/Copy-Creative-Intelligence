@@ -1,3 +1,4 @@
+import { UNKNOWN_STORAGE } from '@/domain/storageInfo';
 import { createMemoryRepositories } from '@/adapters/memory/memoryRepositories';
 import {
   createMemoryStorage,
@@ -21,5 +22,10 @@ export function createDemoServices(environment: AppState['environment']): Servic
     activity: { listRecent: () => Promise.resolve(ok([])) },
     profile: memory.profile,
     preferences: createPreferencesStore(createMemoryStorage()),
+    // DEMO no usa almacenamiento real: no se inventan cifras.
+    storage: {
+      get: () => Promise.resolve(ok(UNKNOWN_STORAGE)),
+      requestPersistence: () => Promise.resolve(ok(UNKNOWN_STORAGE)),
+    },
   };
 }

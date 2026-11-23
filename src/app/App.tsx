@@ -3,6 +3,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { AppLayout } from '@/layouts/AppLayout';
 import { HomePage } from '@/pages/HomePage';
 import { ConnectionPage } from '@/pages/ConnectionPage';
+import { StoragePage } from '@/pages/StoragePage';
 import { SettingsPage } from '@/pages/SettingsPage';
 import { applyTheme } from '@/lib/theme';
 import type { NavItem } from '@/components/NavMenu';
@@ -15,6 +16,7 @@ const NAV: readonly NavItem[] = [
   { id: 'inicio', label: 'Inicio' },
   { id: 'conexion', label: 'Estado de conexión' },
   { id: 'ajustes', label: 'Perfil y preferencias' },
+  { id: 'almacenamiento', label: 'Almacenamiento' },
 ];
 
 interface AppProps {
@@ -45,6 +47,8 @@ export function App({ env, services: injected }: AppProps) {
             <ConnectionPage />
           ) : active === 'ajustes' ? (
             <SettingsPage />
+          ) : active === 'almacenamiento' ? (
+            <StoragePage />
           ) : (
             <HomePage />
           )}

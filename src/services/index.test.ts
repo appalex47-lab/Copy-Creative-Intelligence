@@ -9,6 +9,7 @@ describe('createServices', () => {
       'appState',
       'preferences',
       'profile',
+      'storage',
     ]);
   });
   it('falla de forma explícita ante un modo no soportado (no devuelve undefined)', () => {

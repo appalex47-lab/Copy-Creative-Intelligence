@@ -2,6 +2,7 @@ import {
   createIndexedDbRepositories,
   openDatabase,
 } from '@/adapters/indexeddb/indexedDbRepositories';
+import { createBrowserStorageInfoService } from '@/adapters/storage/browserStorageInfo';
 import { createBrowserPreferencesStore } from '@/adapters/localstorage/preferencesStore';
 import type { AppState } from '@/domain/entities';
 import type { Repositories } from '@/repositories/contracts';
@@ -39,5 +40,6 @@ export function createLocalServices(environment: AppState['environment']): Servi
       clear: via((r) => () => r.profile.clear()),
     },
     preferences: createBrowserPreferencesStore(),
+    storage: createBrowserStorageInfoService(),
   };
 }

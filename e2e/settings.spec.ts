@@ -135,4 +135,64 @@ test.describe('perfil y preferencias (modo local, Chrome real)', () => {
     await expect(page.locator('html')).not.toHaveAttribute('data-theme', /.+/);
     expect(await axeViolations(page)).toEqual([]);
   });
+
+  test('Almacenamiento: muestra cifras del navegador o «No disponible», sin errores', async ({
+    page,
+  }) => {
+    const errors = trackErrors(page);
+    await page.goto(LOCAL);
+    await page.getByRole('button', { name: 'Almacenamiento' }).click();
+    await expect(page.getByRole('heading', { level: 2, name: 'Almacenamiento' })).toBeFocused();
+    const dd = page.locator('dd');
+    await expect(dd).toHaveCount(3);
+    for (const text of await dd.allTextContents()) expect(text).not.toMatch(/NaN|undefined|null/);
+    expect(await axeViolations(page)).toEqual([]);
+    expect(errors).toEqual([]);
+  });
+
+  test('Almacenamiento: navegador que no expone datos → «No disponible» en las tres filas', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator, 'storage', { value: undefined, configurable: true });
+    });
+    await page.goto(LOCAL);
+    await page.getByRole('button', { name: 'Almacenamiento' }).click();
+    await expect(page.locator('dd')).toHaveText([
+      'No disponible',
+      'No disponible',
+      'No disponible',
+    ]);
+    await expect(
+      page.getByRole('button', { name: 'Solicitar almacenamiento persistente' }),
+    ).toBeDisabled();
+  });
+
+  test('Almacenamiento: cifras simuladas y solicitud de persistencia concedida', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      let persisted = false;
+      Object.defineProperty(navigator, 'storage', {
+        configurable: true,
+        value: {
+          estimate: () => Promise.resolve({ usage: 5 * 1024 * 1024, quota: 2 * 1024 ** 3 }),
+          persisted: () => Promise.resolve(persisted),
+          persist: () => {
+            persisted = true;
+            return Promise.resolve(true);
+          },
+        },
+      });
+    });
+    await page.goto(LOCAL);
+    await page.getByRole('button', { name: 'Almacenamiento' }).click();
+    await expect(page.locator('dd')).toHaveText(['5.0 MB', '2.0 GB', /^No/]);
+    await page.getByRole('button', { name: 'Solicitar almacenamiento persistente' }).click();
+    await expect(page.getByText('Almacenamiento persistente concedido.')).toBeVisible();
+    await expect(page.locator('dd').nth(2)).toHaveText('Sí');
+    await expect(
+      page.getByRole('button', { name: 'Solicitar almacenamiento persistente' }),
+    ).toBeDisabled();
+  });
 });
