@@ -1,6 +1,7 @@
 {
   "name": "copy-creative-intelligence",
   "private": true,
+  "license": "UNLICENSED",
   "version": "0.0.0-fase1.0-fundacion",
   "description": "Copy Creative Intelligence — fundación local (Fase 1.0). Sin backend real.",
   "type": "module",
