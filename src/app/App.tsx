@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { ReadOnlyNotice } from '@/components/ReadOnlyNotice';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { AppLayout } from '@/layouts/AppLayout';
 import { HomePage } from '@/pages/HomePage';
@@ -51,6 +52,7 @@ export function App({ env, services: injected }: AppProps) {
         activeId={active}
         onNavigate={setActive}
       >
+        <ReadOnlyNotice />
         <ErrorBoundary key={active}>
           {active === 'conexion' ? (
             <ConnectionPage />

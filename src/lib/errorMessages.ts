@@ -18,6 +18,8 @@ const MESSAGES: Readonly<Record<AppErrorCode, string>> = {
     'No hay espacio suficiente en el navegador para guardar. Libera espacio y vuelve a intentarlo.',
   storage_newer_schema:
     'Los datos guardados pertenecen a una versión más reciente de la aplicación. Actualiza la aplicación; no se modificó nada.',
+  storage_read_only:
+    'Esta pestaña está en solo lectura porque otra pestaña de la aplicación tiene el control de escritura. Cierra la otra pestaña; esta recibirá el control automáticamente.',
   storage_failed:
     'No se pudo completar la operación de almacenamiento. Tus datos anteriores no se modificaron. Intenta de nuevo.',
 };

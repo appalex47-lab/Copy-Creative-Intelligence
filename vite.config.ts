@@ -25,6 +25,8 @@ function envGuard(): Plugin {
 
 // Configuración de Vite + Vitest. Sin secretos; las variables públicas se leen en src/app/env.ts.
 export default defineConfig({
+  // Ruta base RELATIVA: la app funciona en cualquier subruta (p. ej. GitHub Pages de proyecto) sin reconfigurar (P10).
+  base: './',
   plugins: [envGuard(), react()],
   resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
   test: {

@@ -29,6 +29,12 @@ export function createDemoServices(environment: AppState['environment']): Servic
     profile: memory.profile,
     preferences: createPreferencesStore(createMemoryStorage()),
     // DEMO no usa almacenamiento real: no se inventan cifras.
+    // DEMO es solo memoria de una pestaña: siempre puede escribir.
+    coordination: {
+      getState: () => 'writer',
+      subscribe: () => () => undefined,
+      whenWriter: () => Promise.resolve(true),
+    },
     backup: {
       export: () =>
         Promise.resolve(fail('not_implemented', 'DEMO no tiene datos reales que respaldar.')),

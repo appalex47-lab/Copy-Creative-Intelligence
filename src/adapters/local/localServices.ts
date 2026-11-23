@@ -2,13 +2,21 @@ import {
   createIndexedDbRepositories,
   openDatabase,
 } from '@/adapters/indexeddb/indexedDbRepositories';
+import { createBrowserTabCoordinator } from '@/adapters/tabs/tabCoordinator';
 import { createBackupService } from './backupService';
 import { createBrowserStorageInfoService } from '@/adapters/storage/browserStorageInfo';
 import { createBrowserPreferencesStore } from '@/adapters/localstorage/preferencesStore';
 import type { ActivityKind } from '@/domain/activity';
 import type { AppState } from '@/domain/entities';
 import type { Repositories } from '@/repositories/contracts';
-import { fail, ok, type Result, type Services } from '@/services/contracts';
+import {
+  fail,
+  ok,
+  type BackupService,
+  type PreferencesService,
+  type Result,
+  type Services,
+} from '@/services/contracts';
 
 /**
  * Servicios de datos REALES del navegador: IndexedDB (actividad y perfil) y Local Storage (preferencias).
@@ -31,16 +39,29 @@ export function createLocalServices(environment: AppState['environment']): Servi
       const r = await repos();
       return r.ok ? pick(r.value)(...args) : fail(r.error.code, r.error.message);
     };
-  const preferences = createBrowserPreferencesStore();
-  const saveProfile = via((r) => (name: unknown) => r.profile.save(name));
-  const clearProfile = via((r) => () => r.profile.clear());
+  const coordination = createBrowserTabCoordinator();
+  /** Toda escritura espera el permiso de escritura de esta pestaña (P12); si no lo obtiene, falla sin escribir. */
+  const writable = async <T>(run: () => Promise<Result<T>>): Promise<Result<T>> =>
+    (await coordination.whenWriter())
+      ? run()
+      : fail('storage_read_only', 'Esta pestaña está en solo lectura.');
+  const basePreferences = createBrowserPreferencesStore();
+  const preferences: PreferencesService = {
+    get: () => basePreferences.get(),
+    update: (patch) => writable(() => basePreferences.update(patch)),
+    reset: () => writable(() => basePreferences.reset()),
+  };
+  const saveProfile = via((r) => (name: unknown) => writable(() => r.profile.save(name)));
+  const clearProfile = via((r) => () => writable(() => r.profile.clear()));
   const add = via(
     (r) => (kind: ActivityKind) =>
-      r.activity.add({
-        id: `evt_${crypto.randomUUID().replaceAll('-', '')}`,
-        at: new Date().toISOString(),
-        kind,
-      }),
+      writable(() =>
+        r.activity.add({
+          id: `evt_${crypto.randomUUID().replaceAll('-', '')}`,
+          at: new Date().toISOString(),
+          kind,
+        }),
+      ),
   );
   const record = async (kind: ActivityKind): Promise<Result<void>> => {
     const r = await add(kind);
@@ -51,7 +72,11 @@ export function createLocalServices(environment: AppState['environment']): Servi
     if (result.ok) await record(kind);
     return result;
   };
-  const backup = createBackupService({ repos, preferences, record });
+  const backupBase = createBackupService({ repos, preferences, record });
+  const backup: BackupService = {
+    ...backupBase,
+    restore: (text) => writable(() => backupBase.restore(text)),
+  };
   return {
     appState: {
       getState: () => Promise.resolve(ok({ dataMode: 'local', environment, isDemo: false })),
@@ -72,5 +97,6 @@ export function createLocalServices(environment: AppState['environment']): Servi
     },
     storage: createBrowserStorageInfoService(),
     backup,
+    coordination,
   };
 }

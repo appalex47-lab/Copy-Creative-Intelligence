@@ -37,8 +37,15 @@ function build(mode: string, extraEnv: Record<string, string> = {}) {
       return '';
     }
   })();
+  const indexHtml = (() => {
+    try {
+      return readFileSync(join(out, 'index.html'), 'utf8');
+    } catch {
+      return '';
+    }
+  })();
   rmSync(out, { recursive: true, force: true });
-  return { status: r.status, output: `${r.stdout}${r.stderr}`, files, bundle };
+  return { status: r.status, output: `${r.stdout}${r.stderr}`, files, bundle, indexHtml };
 }
 
 describe('guarda de entorno en el build (integración con Vite)', () => {

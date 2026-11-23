@@ -8,7 +8,8 @@ export type StorageErrorCode =
   | 'storage_blocked'
   | 'storage_quota_exceeded'
   | 'storage_newer_schema'
-  | 'storage_failed';
+  | 'storage_failed'
+  | 'storage_read_only';
 
 export type AppErrorCode =
   | 'not_found'

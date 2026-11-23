@@ -63,6 +63,16 @@ export interface BackupService {
   restore(text: string): Promise<Result<{ summary: BackupSummary; settings: AppSettings }>>;
 }
 
+export type CoordinationState = 'checking' | 'writer' | 'reader';
+
+/** Coordinación entre pestañas (P12): una pestaña escribe; las demás, solo lectura con aviso visible. */
+export interface CoordinationService {
+  getState(): CoordinationState;
+  subscribe(listener: () => void): () => void;
+  /** Resuelve true cuando esta pestaña puede escribir; false si no lo logra en `timeoutMs` (por defecto 1500). */
+  whenWriter(timeoutMs?: number): Promise<boolean>;
+}
+
 export interface Services {
   readonly appState: AppStateService;
   readonly activity: ActivityService;
@@ -70,4 +80,5 @@ export interface Services {
   readonly preferences: PreferencesService;
   readonly storage: StorageService;
   readonly backup: BackupService;
+  readonly coordination: CoordinationService;
 }

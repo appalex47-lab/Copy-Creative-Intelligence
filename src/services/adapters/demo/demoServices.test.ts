@@ -14,6 +14,7 @@ describe('adaptador DEMO', () => {
       'activity',
       'appState',
       'backup',
+      'coordination',
       'preferences',
       'profile',
       'storage',
