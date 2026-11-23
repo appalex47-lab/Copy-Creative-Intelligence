@@ -16,3 +16,6 @@ Decididas por el propietario en chat; diseño por Claude. Revocables.
 Prohibidos: "cura" (mayor), "milagro" (mayor), "garantizado" (mayor), "100% efectivo" (mayor), "sin efectos secundarios" (crítica), "adelgaza rápido" (mayor), "el mejor" (menor), nombres de competidores (menor, el propietario los captura).
 Preferidos: "te acompañamos", "consulta a tu médico", "disponible en", "precio especial".
 Sin reglas de sustitución automática: solo se sugiere, nunca se reescribe solo.
+
+## Confirmación (2026-11-23 09:35)
+El propietario revisó con su área el tema: el permiso/aviso de publicidad no se tramitará nunca; por eso la app lo omite definitivamente. Los términos de marca reales los cargará él en la pantalla de configuración.
