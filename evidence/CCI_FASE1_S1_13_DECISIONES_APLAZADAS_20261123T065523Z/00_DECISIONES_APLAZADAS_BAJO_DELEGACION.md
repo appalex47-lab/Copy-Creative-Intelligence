@@ -29,3 +29,6 @@ URL en vivo: "Funciona". Dominio propio: "No" (a futuro, no ahora).
 
 ## 5. Confirmación posterior del propietario
 Q-2: "Llamadas" NO entra en la lista de canales (confirmado por el propietario, 2026-11-23).
+
+## 6. Aprobación del propietario (2026-11-23 01:01, CDMX)
+"Si a todo": el propietario aprueba como suyas P6, P7, P8, P15, Q-6 y los 7 estados de Q-3 (tabla §2), además de Q-1, Q-2 y Q-5 (ver 01_). Siguen abiertas, a entregar por el propietario al iniciar la Fase 3: leyendas regulatorias obligatorias y términos de marca prohibidos. Q-3: transiciones permitidas, para la Fase 5. Salvedades vigentes: titularidad del código (P15) y longitudes de Q-2 no verificadas.
