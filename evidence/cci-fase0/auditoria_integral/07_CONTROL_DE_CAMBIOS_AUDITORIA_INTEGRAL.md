@@ -189,3 +189,13 @@ Ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` v2.0: la brecha de lectura declarada
 | `05`, `07`, `08`, `12` | Cifras (148 archivos; manifiestos de 146 y 147 líneas; 208 blobs), filas y notas | Coherencia |
 | `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados | Integridad |
 **Preservados sin cambios:** `docs/fase0/` (59), `anexos/`, las salidas anteriores de los scripts y el texto de las decisiones anteriores.
+
+## R15. Paquete de decisión para la autorización de la Fase 1 (base `e16777855b98b96a9912ab89532a1698c62d5ce2`; 2026-11-22)
+**Alcance:** incorporar `entregables_formales/PAQUETE_DECISION_AUTORIZACION_FASE_1.md` (apoyo; recomendaciones [Rec. Claude] no vinculantes; texto propuesto con campos vacíos). No se modificó código de la aplicación, `docs/fase0/`, `main` ni estados de decisión; **no se autorizó la Fase 1** (PENDIENTE); C-2, C-3 y los 10 aplazamientos siguen abiertos. Detalle: `entregables_formales/CONTROL_DE_CAMBIOS_PAQUETE_AUTORIZACION_FASE_1_2026-11-22.md`.
+| Grupo | Cambio | Motivo |
+|---|---|---|
+| Nuevos (8) | Paquete, control de cambios y 6 salidas en `logs/` | Preparación de la decisión y evidencia |
+| `05`, `07`, `08`, `12` | Cifras (156 archivos; manifiestos de 154 y 155 líneas; 216 blobs), filas y notas | Coherencia |
+| `logs/verificacion_coherencia_posterior.py` | Tupla de autoexclusión con las salidas nuevas | Reproducibilidad en clon limpio |
+| `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados | Integridad |
+**Preservados sin cambios:** `docs/fase0/` (59), `anexos/`, las decisiones registradas y todas las notas fechadas anteriores.

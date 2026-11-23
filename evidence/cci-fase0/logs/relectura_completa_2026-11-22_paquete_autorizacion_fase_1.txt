@@ -1,0 +1,13 @@
+# Registro de relectura de los cambios — paquete de decisión para la autorización de la Fase 1 (2026-11-22; base e16777855b98b96a9912ab89532a1698c62d5ce2)
+# Qué es: evidencia de que el paquete y los cambios de cada archivo modificado se volvieron a leer tras las ediciones.
+# Qué NO es: no es una relectura íntegra de los archivos modificados (los documentos 05, 07, 08 y 12 se releyeron en las líneas cambiadas y su contexto inmediato mediante git diff); no cubre las salidas de scripts guardadas en logs/; no cubre docs/fase0/ ni anexos/ (no modificados).
+# Limitaciones: relectura de la misma sesión, no independiente. El paquete se releyó íntegro. Revisión del escaneo: la única coincidencia nueva «Fase 1 autorizada» (REVISION_HUMANA) en el paquete es la frase «Fase 1 NO autorizada» (negación; no presenta la Fase 1 como autorizada). Las otras REVISION_HUMANA del escaneo (54 frente a 53) no se revisaron una por una.
+
+N | archivo | modo de relectura | resultado
+1 | entregables_formales/PAQUETE_DECISION_AUTORIZACION_FASE_1.md | lectura íntegra tras la redacción; contraste de cada cifra y plazo con roadmap, criterios AC1-01…AC1-14, B7 y registro | sin defectos; los campos de decisión quedan vacíos para el propietario; ninguna afirmación de autorización
+2 | entregables_formales/CONTROL_DE_CAMBIOS_PAQUETE_AUTORIZACION_FASE_1_2026-11-22.md | lectura íntegra | sin defectos
+3 | auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md | diff completo (versión, cifras 156/216, 8 filas) | sin defectos
+4 | auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md | sección R15 releída | sin defectos
+5 | auditoria_integral/08_INFORME_INTEGRIDAD_ARCHIVOS.md | diff (versión y cifras 154/155/156) | sin defectos
+6 | auditoria_integral/12_REGISTRO_LECTURA_Y_LIMITACIONES.md | diff (resumen 156/52/215, 8 filas, §13) | sin defectos
+7 | logs/verificacion_coherencia_posterior.py | diff (solo la tupla de autoexclusión) | sin defectos

@@ -15,9 +15,9 @@
 ## 2. Resumen (numerador / denominador / alcance)
 | Alcance | LEÍDO_COMPLETO | LEÍDO_PARCIALMENTE | NO_APLICABLE | NO_LEÍDO_EN_ESTA_RONDA | Total archivos |
 |---|---|---|---|---|---|
-| `evidence/cci-fase0/` (expediente) | 104 | 0 | 44 | 0 | 148 |
+| `evidence/cci-fase0/` (expediente) | 104 | 0 | 52 | 0 | 156 |
 | `docs/fase0/` (59: 5 raíz, 2 herramientas, 52 históricos) | 59 | 0 | 0 | 0 | 59 |
-| Total | 163 | 0 | 44 | 0 | 207 |
+| Total | 163 | 0 | 52 | 0 | 215 |
 
 **Bytes** (excluye listas de hashes y este documento): expediente 742313 B; `docs/fase0/` 10324392 B, de los cuales **2216734 B (21.5 %) son líneas únicas** efectivamente mostradas por primera vez (el resto es duplicado exacto de líneas ya mostradas). **Aclaración obligatoria:** «100 % de líneas únicas mostradas» en `docs/fase0/` **no equivale** al 100 % de los bytes revisados individualmente: se vieron 2 216 734 B de líneas únicas frente a 10 324 392 B totales (21,5 %); los bytes de expediente indicados son los del momento de la lectura (los archivos editados después se listan en §7). Los porcentajes de cobertura por archivo de §3 y §4 se calculan sobre rangos mostrados; en `docs/fase0/` la columna «líneas nuevas» es la medida real.
 
@@ -172,6 +172,14 @@
 | `logs/escaneo_contradicciones_2026-11-22_aceptacion_fase_0.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_aceptacion_fase_0.txt` |
 | `logs/relectura_completa_2026-11-22_aceptacion_fase_0.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_aceptacion_fase_0.txt` |
 | `logs/integridad_y_clon_limpio_2026-11-22_aceptacion_fase_0.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_aceptacion_fase_0.txt` |
+| `entregables_formales/PAQUETE_DECISION_AUTORIZACION_FASE_1.md` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_paquete_autorizacion_fase_1.txt` |
+| `entregables_formales/CONTROL_DE_CAMBIOS_PAQUETE_AUTORIZACION_FASE_1_2026-11-22.md` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_paquete_autorizacion_fase_1.txt` |
+| `logs/prueba_mutacion_semantica_2026-11-22_paquete_autorizacion_fase_1.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_paquete_autorizacion_fase_1.txt` |
+| `logs/verificacion_semantica_fase0_2026-11-22_paquete_autorizacion_fase_1.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_paquete_autorizacion_fase_1.txt` |
+| `logs/verificacion_coherencia_posterior_2026-11-22_paquete_autorizacion_fase_1.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_paquete_autorizacion_fase_1.txt` |
+| `logs/escaneo_contradicciones_2026-11-22_paquete_autorizacion_fase_1.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_paquete_autorizacion_fase_1.txt` |
+| `logs/relectura_completa_2026-11-22_paquete_autorizacion_fase_1.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_paquete_autorizacion_fase_1.txt` |
+| `logs/integridad_y_clon_limpio_2026-11-22_paquete_autorizacion_fase_1.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_paquete_autorizacion_fase_1.txt` |
 
 ## 4. `docs/fase0/` — archivos raíz y herramientas (7)
 | Ruta | Estado | Tamaño / líneas nuevas | Observación |
@@ -457,3 +465,13 @@ Los 5 documentos raíz son la v15 de la línea anterior (Supabase/PostgreSQL/RLS
 | `logs/prueba_mutacion_semantica.py` | registro de la aceptación de Fase 0 2026-11-22 20:26 (ver `07_` R14 y `CONTROL_DE_CAMBIOS_ACEPTACION_FASE_0_2026-11-22.md`) |
 | `logs/verificacion_coherencia_posterior.py` | registro de la aceptación de Fase 0 2026-11-22 20:26 (ver `07_` R14 y `CONTROL_DE_CAMBIOS_ACEPTACION_FASE_0_2026-11-22.md`) |
 | `logs/verificacion_semantica_fase0.py` | registro de la aceptación de Fase 0 2026-11-22 20:26 (ver `07_` R14 y `CONTROL_DE_CAMBIOS_ACEPTACION_FASE_0_2026-11-22.md`) |
+
+## 13. Paquete de decisión para la autorización de la Fase 1 (2026-11-22; base `e167778`)
+**Qué se hizo y qué no.** Se añadieron 8 archivos NO_APLICABLE (el paquete, su control de cambios y 6 salidas en `logs/`; ver §3). Se modificaron después de su lectura original solo los docs `05`, `07`, `08` y `12` de `auditoria_integral/` y la tupla de autoexclusión de `logs/verificacion_coherencia_posterior.py`. El paquete **no autoriza la Fase 1**. Los cambios se releyeron tras las ediciones (registro en `logs/relectura_completa_2026-11-22_paquete_autorizacion_fase_1.txt`); la relectura es de la misma sesión, no independiente.
+| Archivo modificado | Qué cambió |
+|---|---|
+| `auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md` | versión 3.8, cifras (156 archivos; 216 blobs) y 8 filas nuevas |
+| `auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` | sección R15 |
+| `auditoria_integral/08_INFORME_INTEGRIDAD_ARCHIVOS.md` | versión 3.8 y cifras (154 y 155 líneas; 156 archivos) |
+| `auditoria_integral/12_REGISTRO_LECTURA_Y_LIMITACIONES.md` | resumen (156 archivos; 52 NO_APLICABLE), 8 filas y esta sección |
+| `logs/verificacion_coherencia_posterior.py` | tupla de autoexclusión |
