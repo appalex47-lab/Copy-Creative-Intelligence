@@ -26,3 +26,6 @@ Existe como definición documental: fórmula de descuento (R-041) y lista inicia
 
 ## 4. Confirmaciones del propietario
 URL en vivo: "Funciona". Dominio propio: "No" (a futuro, no ahora).
+
+## 5. Confirmación posterior del propietario
+Q-2: "Llamadas" NO entra en la lista de canales (confirmado por el propietario, 2026-11-23).
