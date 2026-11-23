@@ -14,3 +14,7 @@
 - Origen compartido `appalex47-lab.github.io` (ver `01_`). Si hay otras apps con datos locales en esa cuenta, usar dominio propio.
 - Repositorio público: el código y el expediente son visibles. Licencia pendiente (P15).
 - La app es solo local: cada persona (y cada navegador) tiene sus propios datos; no hay datos compartidos ni copia de seguridad en la nube.
+
+## Addendum — despliegue ejecutado (orden del propietario, 2026-11-23 ~00:41)
+El propietario activó Pages con fuente «GitHub Actions» y dio la orden. Workflow «Publicar en GitHub Pages», run 45125783926 (workflow_dispatch sobre `main`): ✓ Construir (35 s, incluye `npm run verify`) y ✓ Desplegar (11 s).
+**No verificado por Claude:** el sitio en vivo (`https://appalex47-lab.github.io/Copy-Creative-Intelligence/`); el entorno de Claude no puede abrir github.io. La misma build se verificó en Chrome desde una subruta local equivalente. Pendiente: que el propietario abra la URL y compruebe que carga, guarda el nombre y persiste tras recargar.
