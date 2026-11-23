@@ -34,3 +34,6 @@ Valores **orientativos y NO verificados** contra las plataformas ni contra la re
 | Banners | titular + CTA | titular ≤ 40 | obligatorio |
 | Landing pages | H1, subtítulo, CTA | H1 ≤ 70 | obligatorio |
 - "Otros formatos aprobados" por el propietario se añaden como reglas nuevas.
+
+## Aprobación del propietario
+2026-11-23 01:00 (CDMX): el propietario aprobó estas propuestas ("Si esas son tus propuestas y consideras son las mejores, las aprueba"). Q-1, Q-2 y Q-5 pasan de "supuesto de Claude" a **decisión del propietario** (aprobación delegada en la propuesta del especialista), con los valores arriba. Siguen siendo configurables. Las longitudes de Q-2 continúan sin verificarse contra plataformas ni regulación, y las leyendas obligatorias y términos prohibidos siguen pendientes del propietario.
