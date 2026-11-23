@@ -17,6 +17,7 @@ export type AppErrorCode =
   | 'unavailable'
   | 'invalid_configuration'
   | 'validation_error'
+  | 'conflict'
   | StorageErrorCode;
 
 export interface AppError {

@@ -1,3 +1,4 @@
+import { formatLocalDateTime } from '@/lib/formatDate';
 import { useCallback, useRef } from 'react';
 import { EmptyState } from '@/components/EmptyState';
 import { AsyncStatus, ErrorNotice } from '@/components/StatusNotices';
@@ -48,7 +49,7 @@ export function HomePage() {
             <ul>
               {state.data.map((e) => (
                 <li key={e.id}>
-                  {KIND_LABEL[e.kind]} · <time dateTime={e.at}>{e.at}</time>
+                  {KIND_LABEL[e.kind]} · <time dateTime={e.at}>{formatLocalDateTime(e.at)}</time>
                 </li>
               ))}
             </ul>

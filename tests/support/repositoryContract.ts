@@ -22,6 +22,16 @@ const br = (
   fields,
 });
 
+const cp = (id: string, briefId: string, updatedAt: string, headline = 'Hola') => ({
+  id,
+  briefId,
+  label: 'Principal',
+  tags: [],
+  createdAt: '2026-11-22T09:00:00.000Z',
+  updatedAt,
+  versions: [{ n: 1, createdAt: '2026-11-22T09:00:00.000Z', content: { headline } }],
+});
+
 const ev = (id: string, at: string, kind = 'app_opened') => ({ id, at, kind });
 
 function assert(cond: unknown, msg: string): asserts cond {
@@ -279,6 +289,100 @@ export const CONTRACT_CASES: readonly ContractCase[] = [
         'sin briefs',
       );
       same(await r.briefs.count(), { ok: true, value: 0 }, 'se borraron');
+    },
+  },
+  {
+    name: 'copys: guardar con historial, leer, filtrar por brief, reemplazar por id y borrar (idempotente)',
+    run: async (r) => {
+      const a = cp('cpy_aaaaaaaa1', 'brf_aaaaaaaa1', '2026-11-22T10:00:00.000Z');
+      const b = cp('cpy_bbbbbbbb1', 'brf_bbbbbbbb1', '2026-11-22T12:00:00.000Z', 'B');
+      same(await r.copies.put(a), { ok: true, value: a }, 'put a');
+      await r.copies.put(b);
+      same(await r.copies.get('cpy_aaaaaaaa1'), { ok: true, value: a }, 'get');
+      const todos = await r.copies.list();
+      assert(todos.ok, 'list ok');
+      same(
+        todos.value.map((x) => x.id),
+        ['cpy_bbbbbbbb1', 'cpy_aaaaaaaa1'],
+        'orden',
+      );
+      const delA = await r.copies.list('brf_aaaaaaaa1');
+      assert(delA.ok, 'filtro ok');
+      same(
+        delA.value.map((x) => x.id),
+        ['cpy_aaaaaaaa1'],
+        'filtrado por brief',
+      );
+      const v2 = {
+        ...a,
+        updatedAt: '2026-11-22T13:00:00.000Z',
+        versions: [
+          ...a.versions,
+          { n: 2, createdAt: '2026-11-22T13:00:00.000Z', content: { headline: 'Nuevo' } },
+        ],
+      };
+      await r.copies.put(v2);
+      const g = await r.copies.get('cpy_aaaaaaaa1');
+      assert(g.ok && g.value.versions.length === 2, 'historial completo');
+      same(await r.copies.count(), { ok: true, value: 2 }, 'cuenta');
+      same(await r.copies.remove('cpy_aaaaaaaa1'), { ok: true, value: undefined }, 'remove');
+      same(
+        await r.copies.remove('cpy_aaaaaaaa1'),
+        { ok: true, value: undefined },
+        'remove otra vez',
+      );
+      const bad = await r.copies.remove('x');
+      assert(!bad.ok && bad.error.code === 'validation_error', 'id inválido');
+      const nf = await r.copies.get('cpy_noexiste1');
+      assert(!nf.ok && nf.error.code === 'validation_error', 'inexistente');
+    },
+  },
+  {
+    name: 'copys: datos inválidos se rechazan sin guardar nada',
+    run: async (r) => {
+      const buen = cp('cpy_aaaaaaaa1', 'brf_aaaaaaaa1', '2026-11-22T10:00:00.000Z');
+      await r.copies.put(buen);
+      for (const malo of [
+        cp('x', 'brf_aaaaaaaa1', '2026-11-22T10:00:00.000Z'),
+        cp('cpy_cccccccc1', 'x', '2026-11-22T10:00:00.000Z'),
+        { ...buen, id: 'cpy_cccccccc1', versions: [] },
+        { ...buen, id: 'cpy_cccccccc1', versions: [{ ...buen.versions[0], n: 2 }] },
+        { ...buen, id: 'cpy_cccccccc1', extra: 1 },
+        null,
+      ]) {
+        const res = await r.copies.put(malo);
+        assert(!res.ok && res.error.code === 'validation_error', 'debe rechazar');
+      }
+      same(await r.copies.count(), { ok: true, value: 1 }, 'solo el bueno');
+    },
+  },
+  {
+    name: 'respaldo: incluye copys; replaceAll los reemplaza y exige que su brief exista (todo o nada)',
+    run: async (r) => {
+      const b = br('brf_bbbbbbbb1', '2026-11-23T10:00:00.000Z', { campaign: 'B' });
+      const c = cp('cpy_aaaaaaaa1', 'brf_bbbbbbbb1', '2026-11-23T11:00:00.000Z');
+      same(
+        await r.backup.replaceAll({ profile: {}, activity: [], briefs: [b], copies: [c] }),
+        { ok: true, value: undefined },
+        'replace',
+      );
+      const ex = await r.backup.exportAll();
+      assert(ex.ok, 'export ok');
+      same(ex.value.copies, [c], 'copys exportados');
+      const huerfano = await r.backup.replaceAll({
+        profile: {},
+        activity: [],
+        briefs: [],
+        copies: [c],
+      });
+      assert(!huerfano.ok && huerfano.error.code === 'validation_error', 'copy sin brief');
+      same(await r.copies.list(), { ok: true, value: [c] }, 'intacto');
+      same(
+        await r.backup.replaceAll({ profile: {}, activity: [] }),
+        { ok: true, value: undefined },
+        'sin copys',
+      );
+      same(await r.copies.count(), { ok: true, value: 0 }, 'se borraron');
     },
   },
 ];

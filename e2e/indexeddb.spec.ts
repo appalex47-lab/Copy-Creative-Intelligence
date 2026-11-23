@@ -10,16 +10,16 @@ test('repositorios sobre IndexedDB real cumplen el mismo contrato que los de mem
   expect(await page.evaluate(() => window.__idb.failures)).toEqual([]);
 });
 
-test('el esquema vigente (v3) crea los almacenes, el índice por fecha y registra la versión', async ({
+test('el esquema vigente (v4) crea los almacenes, el índice por fecha y registra la versión', async ({
   page,
 }) => {
   await page.goto(`${DEV}/e2e/idb.html`);
   const info = await page.evaluate(() => window.__schema());
   expect(info).toEqual({
-    version: 3,
-    stores: ['activity', 'briefs', 'meta', 'profile'],
+    version: 4,
+    stores: ['activity', 'briefs', 'copies', 'meta', 'profile'],
     activityIndexes: ['at', 'kind'],
-    schemaVersion: 3,
+    schemaVersion: 4,
   });
 });
 
@@ -29,19 +29,19 @@ const open = async (page: Page) => {
 };
 
 test.describe('migraciones (AC1-07) en IndexedDB real', () => {
-  test('v0 → v3: una instalación nueva crea el esquema completo', async ({ page }) => {
+  test('v0 → v4: una instalación nueva crea el esquema completo', async ({ page }) => {
     await open(page);
     expect(await page.evaluate(() => window.__mig.v0ToLatest())).toMatchObject({
-      version: 3,
-      stores: ['activity', 'briefs', 'meta', 'profile'],
+      version: 4,
+      stores: ['activity', 'briefs', 'copies', 'meta', 'profile'],
       indexes: ['at', 'kind'],
-      schemaVersion: 3,
+      schemaVersion: 4,
       profile: undefined,
       ids: [],
     });
   });
 
-  test('v1 → v3 con semillas: conserva los datos, añade el índice `kind` y el almacén de briefs', async ({
+  test('v1 → v4 con semillas: conserva los datos, añade el índice `kind` y el almacenes de briefs y copys', async ({
     page,
   }) => {
     await open(page);
@@ -50,9 +50,9 @@ test.describe('migraciones (AC1-07) en IndexedDB real', () => {
       unknown
     >;
     expect(r).toMatchObject({
-      version: 3,
+      version: 4,
       indexes: ['at', 'kind'],
-      schemaVersion: 3,
+      schemaVersion: 4,
       profile: { displayName: 'Ana' },
       ids: ['evt_seed0001', 'evt_seed0002'],
       byKind: ['evt_seed0002'],
@@ -69,7 +69,7 @@ test.describe('migraciones (AC1-07) en IndexedDB real', () => {
       string,
       unknown
     >;
-    expect(r).toMatchObject({ opened: false, version: 4, stores: ['sentinel'], val: 'intacto' });
+    expect(r).toMatchObject({ opened: false, version: 5, stores: ['sentinel'], val: 'intacto' });
     expect((r['error'] as { code: string; message: string }).message).toBe(r['expectedMessage']);
     expect((r['error'] as { code: string }).code).toBe('storage_newer_schema');
   });

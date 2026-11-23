@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react'
 import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
 import { EmptyState } from '@/components/EmptyState';
+import { CopiesPanel } from './CopiesPanel';
 import { AsyncStatus, ErrorNotice } from '@/components/StatusNotices';
 import {
   BRIEF_FIELD_LABELS,
@@ -116,6 +117,7 @@ export function BriefsPage() {
   const heading = useRef<HTMLHeadingElement>(null);
   const [version, setVersion] = useState(0);
   const [editing, setEditing] = useState<'new' | BriefRecord | null>(null);
+  const [copying, setCopying] = useState<BriefRecord | null>(null);
   const [notice, setNotice] = useState('');
   const [focusTick, setFocusTick] = useState(0);
   // El foco vuelve al encabezado DESPUÉS de que el formulario desaparece del documento.
@@ -142,7 +144,16 @@ export function BriefsPage() {
       <p role="status" aria-live="polite">
         {notice}
       </p>
-      {editing !== null ? (
+      {copying !== null ? (
+        <CopiesPanel
+          brief={copying}
+          title={titleOf(copying)}
+          onBack={() => {
+            setCopying(null);
+            setFocusTick((n) => n + 1);
+          }}
+        />
+      ) : editing !== null ? (
         <BriefForm
           initial={editing === 'new' ? undefined : editing}
           onSaved={back}
@@ -165,6 +176,10 @@ export function BriefsPage() {
                 setNotice('');
                 setEditing(r);
               }}
+              onCopies={(r) => {
+                setNotice('');
+                setCopying(r);
+              }}
               onDeleted={() => back('Brief eliminado.')}
             />
           )}
@@ -178,11 +193,13 @@ function BriefList({
   briefs,
   onNew,
   onEdit,
+  onCopies,
   onDeleted,
 }: {
   readonly briefs: readonly BriefRecord[];
   readonly onNew: () => void;
   readonly onEdit: (r: BriefRecord) => void;
+  readonly onCopies: (r: BriefRecord) => void;
   readonly onDeleted: () => void;
 }) {
   return (
@@ -200,7 +217,13 @@ function BriefList({
       ) : (
         <ul className="plain-list" aria-label="Briefs guardados">
           {briefs.map((b) => (
-            <BriefItem key={b.id} brief={b} onEdit={() => onEdit(b)} onDeleted={onDeleted} />
+            <BriefItem
+              key={b.id}
+              brief={b}
+              onEdit={() => onEdit(b)}
+              onCopies={() => onCopies(b)}
+              onDeleted={onDeleted}
+            />
           ))}
         </ul>
       )}
@@ -211,10 +234,12 @@ function BriefList({
 function BriefItem({
   brief,
   onEdit,
+  onCopies,
   onDeleted,
 }: {
   readonly brief: BriefRecord;
   readonly onEdit: () => void;
+  readonly onCopies: () => void;
   readonly onDeleted: () => void;
 }) {
   const services = useServices();
@@ -260,6 +285,9 @@ function BriefItem({
           <div className="form-actions">
             <Button onClick={onEdit} aria-label={`Editar ${title}`}>
               Editar
+            </Button>
+            <Button onClick={onCopies} aria-label={`Copys de ${title}`}>
+              Copys
             </Button>
             <Button onClick={() => setConfirming(true)} aria-label={`Eliminar ${title}`}>
               Eliminar

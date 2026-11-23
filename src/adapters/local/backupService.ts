@@ -29,6 +29,7 @@ const summaryOf = (exportedAt: string, d: BackupData): BackupSummary => ({
   exportedAt,
   activityCount: d.activity.length,
   briefCount: d.briefs.length,
+  copyCount: d.copies.length,
   hasName: d.profile.displayName !== undefined,
 });
 
@@ -63,6 +64,7 @@ export function createBackupService(deps: BackupDeps): BackupService {
         settings: { ...prefs.value, lastBackupAt: exportedAt },
         activity: snap.value.activity,
         briefs: snap.value.briefs,
+        copies: snap.value.copies,
       };
       const text = serializeBackup(data, exportedAt, await sha256Hex(canonicalData(data)));
       await deps.preferences.update({ lastBackupAt: exportedAt }); // secundario: si falla, el archivo igual es válido
@@ -96,6 +98,7 @@ export function createBackupService(deps: BackupDeps): BackupService {
         profile: data.profile,
         activity: data.activity,
         briefs: data.briefs,
+        copies: data.copies,
       });
       if (!replaced.ok) {
         await deps.preferences.update(previous);

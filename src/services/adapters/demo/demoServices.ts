@@ -5,6 +5,7 @@ import {
   createPreferencesStore,
 } from '@/adapters/localstorage/preferencesStore';
 import type { AppState } from '@/domain/entities';
+import { createCopyService } from '@/adapters/local/copyService';
 import { createBriefService } from '@/adapters/local/briefService';
 import { fail, ok } from '@/services/contracts';
 import type { Services } from '@/services/contracts';
@@ -30,6 +31,12 @@ export function createDemoServices(environment: AppState['environment']): Servic
     profile: memory.profile,
     briefs: createBriefService({
       repo: () => Promise.resolve(ok(memory.briefs)),
+      copies: () => Promise.resolve(ok(memory.copies)),
+      writable: (run) => run(),
+    }),
+    copies: createCopyService({
+      copies: () => Promise.resolve(ok(memory.copies)),
+      briefs: () => Promise.resolve(ok(memory.briefs)),
       writable: (run) => run(),
     }),
     preferences: createPreferencesStore(createMemoryStorage()),

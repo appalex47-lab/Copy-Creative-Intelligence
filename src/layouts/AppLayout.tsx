@@ -37,7 +37,7 @@ export function AppLayout({ isDemo, items, activeId, onNavigate, children }: Pro
       {isDemo && import.meta.env.MODE !== 'production' && <DemoBanner />}
       <header className="app-header">
         <h1>Copy Creative Intelligence</h1>
-        <p>Fundación técnica en construcción — identidad visual provisional</p>
+        <p>Copy Studio y auditoría de piezas creativas — datos solo en este navegador</p>
       </header>
       <div className="app-body">
         <NavMenu items={items} activeId={activeId} onNavigate={onNavigate} />

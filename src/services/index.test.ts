@@ -10,6 +10,7 @@ describe('createServices', () => {
       'backup',
       'briefs',
       'coordination',
+      'copies',
       'preferences',
       'profile',
       'storage',

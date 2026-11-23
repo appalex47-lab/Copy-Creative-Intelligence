@@ -10,6 +10,8 @@ const MESSAGES: Readonly<Record<AppErrorCode, string>> = {
   unavailable: 'El servicio no está disponible en este momento.',
   invalid_configuration: 'La configuración de la aplicación no es válida.',
   validation_error: 'La solicitud contiene datos no válidos.',
+  conflict:
+    'No se puede hacer porque hay datos que dependen de este. Elimina primero lo que depende de él.',
   storage_unavailable:
     'Este navegador no permite guardar datos locales (por ejemplo, en modo privado o con el almacenamiento bloqueado). Revisa la configuración del navegador.',
   storage_blocked:

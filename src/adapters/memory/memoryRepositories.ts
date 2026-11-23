@@ -6,6 +6,12 @@ import {
   validateBriefRecord,
   type BriefRecord,
 } from '@/domain/briefRecord';
+import {
+  compareCopiesNewestFirst,
+  COPY_ID,
+  validateCopyRecord,
+  type CopyRecord,
+} from '@/domain/copy';
 import { validateDisplayName, type LocalProfile } from '@/domain/profile';
 import { compareNewestFirst, normalizeLimit, type Repositories } from '@/repositories/contracts';
 import { fail, ok } from '@/services/contracts';
@@ -14,6 +20,7 @@ import { fail, ok } from '@/services/contracts';
 export function createMemoryRepositories(): Repositories {
   const events = new Map<string, ActivityEvent>();
   const briefs = new Map<string, BriefRecord>();
+  const copies = new Map<string, CopyRecord>();
   let name: string | undefined;
   const profile = (): LocalProfile => (name === undefined ? {} : { displayName: name });
   return {
@@ -51,6 +58,33 @@ export function createMemoryRepositories(): Repositories {
       },
       count: () => Promise.resolve(ok(briefs.size)),
     },
+    copies: {
+      put: (raw) => {
+        const v = validateCopyRecord(raw);
+        if (!v.ok) return Promise.resolve(fail('validation_error', v.reason));
+        copies.set(v.value.id, v.value);
+        return Promise.resolve(ok(v.value));
+      },
+      get: (id) => {
+        const c = COPY_ID.test(id) ? copies.get(id) : undefined;
+        return Promise.resolve(c ? ok(c) : fail('validation_error', 'El copy no existe.'));
+      },
+      list: (briefId) =>
+        Promise.resolve(
+          ok(
+            [...copies.values()]
+              .filter((c) => briefId === undefined || c.briefId === briefId)
+              .sort(compareCopiesNewestFirst),
+          ),
+        ),
+      remove: (id) => {
+        if (!COPY_ID.test(id))
+          return Promise.resolve(fail('validation_error', 'Identificador de copy no válido.'));
+        copies.delete(id);
+        return Promise.resolve(ok(undefined));
+      },
+      count: () => Promise.resolve(ok(copies.size)),
+    },
     profile: {
       get: () => Promise.resolve(ok(profile())),
       save: (displayName) => {
@@ -71,6 +105,7 @@ export function createMemoryRepositories(): Repositories {
             profile: profile(),
             activity: [...events.values()].sort(compareNewestFirst),
             briefs: [...briefs.values()].sort(compareBriefsNewestFirst),
+            copies: [...copies.values()].sort(compareCopiesNewestFirst),
           }),
         ),
       replaceAll: (raw) => {
@@ -78,8 +113,10 @@ export function createMemoryRepositories(): Repositories {
         if (!v.ok) return Promise.resolve(fail('validation_error', v.reason));
         events.clear();
         briefs.clear();
+        copies.clear();
         for (const e of v.value.activity) events.set(e.id, e);
         for (const b of v.value.briefs) briefs.set(b.id, b);
+        for (const c of v.value.copies) copies.set(c.id, c);
         name = v.value.profile.displayName;
         return Promise.resolve(ok(undefined));
       },

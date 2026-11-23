@@ -1,6 +1,7 @@
 import type { StorageInfo } from '@/domain/storageInfo';
 import type { ActivityEvent, ActivityKind } from '@/domain/activity';
 import type { BriefRecord } from '@/domain/briefRecord';
+import type { CopyRecord } from '@/domain/copy';
 import type { AppState } from '@/domain/entities';
 import type { LocalProfile } from '@/domain/profile';
 import type { AppSettings } from '@/domain/settings';
@@ -47,6 +48,7 @@ export interface BackupSummary {
   readonly exportedAt: string;
   readonly activityCount: number;
   readonly briefCount: number;
+  readonly copyCount: number;
   readonly hasName: boolean;
 }
 
@@ -75,6 +77,39 @@ export interface BriefService {
   remove(id: string): Promise<Result<void>>;
 }
 
+/** Copys con historial de versiones inmutables (S2.4). Guardar siempre AÑADE una versión; nunca edita una anterior. */
+export interface CopyService {
+  /** Más recientemente actualizados primero; con `briefId`, solo los de ese brief. */
+  list(briefId?: string): Promise<Result<readonly CopyRecord[]>>;
+  get(id: string): Promise<Result<CopyRecord>>;
+  /** Crea un copy (o variante) del brief con su versión 1. El brief debe existir. */
+  create(input: {
+    readonly briefId: string;
+    readonly label: unknown;
+    readonly content: unknown;
+    readonly tags?: unknown;
+  }): Promise<Result<CopyRecord>>;
+  /** Añade una versión con el contenido nuevo. Sin cambios o contenido inválido: error y no guarda. */
+  saveVersion(input: {
+    readonly id: string;
+    readonly content: unknown;
+  }): Promise<Result<CopyRecord>>;
+  /** Recupera una versión antigua creando una versión NUEVA con ese contenido. */
+  restoreVersion(input: {
+    readonly id: string;
+    readonly version: number;
+  }): Promise<Result<CopyRecord>>;
+  /** Cambia nombre y etiquetas (no son parte del historial de contenido). */
+  updateMeta(input: {
+    readonly id: string;
+    readonly label: unknown;
+    readonly tags: unknown;
+  }): Promise<Result<CopyRecord>>;
+  /** Copia el contenido vigente en un copy nuevo (otra variante) con su propio historial. */
+  duplicate(input: { readonly id: string; readonly label: unknown }): Promise<Result<CopyRecord>>;
+  remove(id: string): Promise<Result<void>>;
+}
+
 export type CoordinationState = 'checking' | 'writer' | 'reader';
 
 /** Coordinación entre pestañas (P12): una pestaña escribe; las demás, solo lectura con aviso visible. */
@@ -93,5 +128,6 @@ export interface Services {
   readonly storage: StorageService;
   readonly backup: BackupService;
   readonly briefs: BriefService;
+  readonly copies: CopyService;
   readonly coordination: CoordinationService;
 }

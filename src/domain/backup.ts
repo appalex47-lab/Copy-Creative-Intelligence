@@ -1,3 +1,4 @@
+import { validateCopyRecord, compareCopiesNewestFirst, type CopyRecord } from './copy';
 import { validateBriefRecord, compareBriefsNewestFirst, type BriefRecord } from './briefRecord';
 import { validateActivityEvent, type ActivityEvent } from './activity';
 import { parseLocalProfile, validateDisplayName, type LocalProfile } from './profile';
@@ -9,16 +10,18 @@ import { invalid, valid, type Validation } from './validation';
  * locales y una suma SHA-256 de los datos para detectar daños. La importación REEMPLAZA todos los datos locales.
  */
 export const BACKUP_FORMAT = 'cci-backup';
-export const BACKUP_VERSION = 2; // v2 añade `briefs` (S2.2); se siguen aceptando respaldos v1 (sin briefs)
+export const BACKUP_VERSION = 3; // v2 añade `briefs` (S2.2) y v3 `copies` (S2.4); se siguen aceptando v1 y v2
 export const BACKUP_MAX_BYTES = 5 * 1024 * 1024;
 export const BACKUP_MAX_EVENTS = 10_000;
 export const BACKUP_MAX_BRIEFS = 2_000;
+export const BACKUP_MAX_COPIES = 5_000;
 
 export interface BackupData {
   readonly profile: LocalProfile;
   readonly settings: AppSettings;
   readonly activity: readonly ActivityEvent[];
   readonly briefs: readonly BriefRecord[];
+  readonly copies: readonly CopyRecord[];
 }
 
 export interface ParsedBackup {
@@ -41,6 +44,25 @@ function canonicalBrief(b: BriefRecord): unknown {
   };
 }
 
+function canonicalCopy(c: CopyRecord): unknown {
+  const sorted = (o: Record<string, unknown>) =>
+    Object.fromEntries(Object.entries(o).sort(([x], [y]) => (x < y ? -1 : 1)));
+  return {
+    id: c.id,
+    briefId: c.briefId,
+    label: c.label,
+    tags: c.tags,
+    createdAt: c.createdAt,
+    updatedAt: c.updatedAt,
+    versions: c.versions.map((v) => ({
+      n: v.n,
+      createdAt: v.createdAt,
+      content: sorted(v.content),
+      ...(v.restoredFrom !== undefined ? { restoredFrom: v.restoredFrom } : {}),
+    })),
+  };
+}
+
 /** Forma canónica (orden de claves fijo) sobre la que se calcula la suma: no depende del formato del archivo. */
 export function canonicalData(data: BackupData, version: number = BACKUP_VERSION): string {
   const s = data.settings;
@@ -56,6 +78,7 @@ export function canonicalData(data: BackupData, version: number = BACKUP_VERSION
     },
     activity: data.activity.map((e) => ({ id: e.id, at: e.at, kind: e.kind })),
     ...(version >= 2 ? { briefs: data.briefs.map(canonicalBrief) } : {}),
+    ...(version >= 3 ? { copies: data.copies.map(canonicalCopy) } : {}),
   });
 }
 
@@ -132,10 +155,17 @@ export function parseBackupText(text: string): Validation<ParsedBackup> {
     return invalid('La verificación de integridad del respaldo no es válida.');
   const data = raw['data'];
   const dataKeys =
-    version >= 2
-      ? ['profile', 'settings', 'activity', 'briefs']
-      : ['profile', 'settings', 'activity'];
-  if (!isObject(data) || !onlyKeys(data, dataKeys) || (version >= 2 && !('briefs' in data)))
+    version >= 3
+      ? ['profile', 'settings', 'activity', 'briefs', 'copies']
+      : version >= 2
+        ? ['profile', 'settings', 'activity', 'briefs']
+        : ['profile', 'settings', 'activity'];
+  if (
+    !isObject(data) ||
+    !onlyKeys(data, dataKeys) ||
+    (version >= 2 && !('briefs' in data)) ||
+    (version >= 3 && !('copies' in data))
+  )
     return invalid('Los datos del respaldo no son válidos.');
 
   const p = data['profile'];
@@ -166,11 +196,20 @@ export function parseBackupText(text: string): Validation<ParsedBackup> {
   }
   const briefs = version >= 2 ? parseBriefs(data['briefs'], 'respaldo') : valid<BriefRecord[]>([]);
   if (!briefs.ok) return briefs;
+  const copies =
+    version >= 3 ? parseCopies(data['copies'], briefs.value, 'respaldo') : valid<CopyRecord[]>([]);
+  if (!copies.ok) return copies;
   return valid({
     version,
     exportedAt,
     declaredHash: integrity['value'],
-    data: { profile, settings: settings.value as AppSettings, activity, briefs: briefs.value },
+    data: {
+      profile,
+      settings: settings.value as AppSettings,
+      activity,
+      briefs: briefs.value,
+      copies: copies.value,
+    },
   });
 }
 
@@ -189,15 +228,39 @@ function parseBriefs(raw: unknown, where: string): Validation<BriefRecord[]> {
   return valid(out.sort(compareBriefsNewestFirst));
 }
 
+/** Cada copy debe apuntar a un brief que exista en el mismo conjunto (integridad referencial). */
+function parseCopies(
+  raw: unknown,
+  briefs: readonly BriefRecord[],
+  where: string,
+): Validation<CopyRecord[]> {
+  if (!Array.isArray(raw) || raw.length > BACKUP_MAX_COPIES)
+    return invalid(`Los copys del ${where} no son válidos.`);
+  const briefIds = new Set(briefs.map((b) => b.id));
+  const seen = new Set<string>();
+  const out: CopyRecord[] = [];
+  for (const item of raw) {
+    const v = validateCopyRecord(item);
+    if (!v.ok || seen.has(v.value.id))
+      return invalid(`Los copys del ${where} contienen datos no válidos.`);
+    if (!briefIds.has(v.value.briefId))
+      return invalid(`Un copy del ${where} apunta a un brief que no existe.`);
+    seen.add(v.value.id);
+    out.push(v.value);
+  }
+  return valid(out.sort(compareCopiesNewestFirst));
+}
+
 export interface Snapshot {
   readonly profile: LocalProfile;
   readonly activity: readonly ActivityEvent[];
   readonly briefs: readonly BriefRecord[];
+  readonly copies: readonly CopyRecord[];
 }
 
 /** Valida un conjunto (perfil + actividad) antes de reemplazar los datos locales: todo o nada. */
 export function validateSnapshot(raw: unknown): Validation<Snapshot> {
-  if (!isObject(raw) || !onlyKeys(raw, ['profile', 'activity', 'briefs']))
+  if (!isObject(raw) || !onlyKeys(raw, ['profile', 'activity', 'briefs', 'copies']))
     return invalid('Los datos a restaurar no son válidos.');
   const p = raw['profile'];
   if (!isObject(p) || !onlyKeys(p, ['displayName']))
@@ -221,9 +284,15 @@ export function validateSnapshot(raw: unknown): Validation<Snapshot> {
       ? valid<BriefRecord[]>([])
       : parseBriefs(raw['briefs'], 'conjunto a restaurar');
   if (!briefs.ok) return briefs;
+  const copies =
+    raw['copies'] === undefined
+      ? valid<CopyRecord[]>([])
+      : parseCopies(raw['copies'], briefs.value, 'conjunto a restaurar');
+  if (!copies.ok) return copies;
   return valid({
     profile: name.value === undefined ? {} : { displayName: name.value },
     activity,
     briefs: briefs.value,
+    copies: copies.value,
   });
 }

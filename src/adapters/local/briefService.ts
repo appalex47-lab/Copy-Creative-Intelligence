@@ -1,5 +1,5 @@
 import type { BriefRecord } from '@/domain/briefRecord';
-import type { BriefRepository } from '@/repositories/contracts';
+import type { BriefRepository, CopyRepository } from '@/repositories/contracts';
 import { fail, type BriefService, type Result } from '@/services/contracts';
 
 export interface BriefServiceDeps {
@@ -7,6 +7,8 @@ export interface BriefServiceDeps {
   readonly repo: () => Promise<Result<BriefRepository>>;
   /** Envuelve toda escritura (P12: solo la pestaña escritora guarda). */
   readonly writable: <T>(run: () => Promise<Result<T>>) => Promise<Result<T>>;
+  /** Si se indica, borrar un brief con copys se rechaza (sin pérdida de datos). */
+  readonly copies?: () => Promise<Result<CopyRepository>>;
   readonly now?: () => Date;
   readonly newId?: () => string;
 }
@@ -43,7 +45,18 @@ export function createBriefService(deps: BriefServiceDeps): BriefService {
           return r.put(record);
         }),
       ),
-    remove: (id) => deps.writable(() => withRepo((r) => r.remove(id))),
+    remove: (id) =>
+      deps.writable(async () => {
+        if (deps.copies) {
+          const c = await deps.copies();
+          if (!c.ok) return fail(c.error.code, c.error.message);
+          const mine = await c.value.list(id);
+          if (!mine.ok) return fail(mine.error.code, mine.error.message);
+          if (mine.value.length > 0)
+            return fail('conflict', 'El brief tiene copys; elimínalos primero.');
+        }
+        return withRepo((r) => r.remove(id));
+      }),
   };
 }
 

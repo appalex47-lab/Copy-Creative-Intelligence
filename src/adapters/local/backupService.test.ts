@@ -42,6 +42,15 @@ describe('servicio de respaldo', () => {
       updatedAt: '2026-11-22T09:30:00.000Z',
       fields: { campaign: 'Buen Fin' },
     });
+    await a.repos.copies.put({
+      id: 'cpy_abcdefgh1',
+      briefId: 'brf_abcdefgh1',
+      label: 'Principal',
+      tags: [],
+      createdAt: '2026-11-22T09:10:00.000Z',
+      updatedAt: '2026-11-22T09:10:00.000Z',
+      versions: [{ n: 1, createdAt: '2026-11-22T09:10:00.000Z', content: { headline: 'Hola' } }],
+    });
     await a.preferences.update({ theme: 'dark' });
     const exp = must(await a.service.export());
     expect(exp.fileName).toBe('cci-respaldo-20261122-120000.json');
@@ -49,6 +58,7 @@ describe('servicio de respaldo', () => {
       exportedAt: '2026-11-22T12:00:00.000Z',
       activityCount: 1,
       briefCount: 1,
+      copyCount: 1,
       hasName: true,
     });
     expect(a.recorded).toEqual(['backup_exported']);
@@ -71,6 +81,7 @@ describe('servicio de respaldo', () => {
     expect(must(await b.repos.profile.get())).toEqual({ displayName: 'Ana' });
     expect(must(await b.repos.activity.listRecent()).map((e) => e.id)).toEqual(['evt_00000001']);
     expect(must(await b.repos.briefs.list()).map((x) => x.id)).toEqual(['brf_abcdefgh1']);
+    expect(must(await b.repos.copies.list()).map((x) => x.id)).toEqual(['cpy_abcdefgh1']);
     expect(must(await b.preferences.get()).theme).toBe('dark');
     expect(b.recorded).toEqual(['backup_imported']);
   });

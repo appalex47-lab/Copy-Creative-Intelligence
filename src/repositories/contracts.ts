@@ -1,5 +1,6 @@
 import type { ActivityEvent } from '@/domain/activity';
 import type { BriefRecord } from '@/domain/briefRecord';
+import type { CopyRecord } from '@/domain/copy';
 import type { LocalProfile } from '@/domain/profile';
 import type { Result } from '@/services/contracts';
 
@@ -34,12 +35,25 @@ export interface BriefRepository {
   count(): Promise<Result<number>>;
 }
 
+export interface CopyRepository {
+  /** Guarda (crea o reemplaza por `id`) un copy validado con su historial de versiones. */
+  put(record: unknown): Promise<Result<CopyRecord>>;
+  get(id: string): Promise<Result<CopyRecord>>;
+  /** Más recientemente actualizados primero; con `briefId`, solo los de ese brief. */
+  list(briefId?: string): Promise<Result<readonly CopyRecord[]>>;
+  /** Idempotente. */
+  remove(id: string): Promise<Result<void>>;
+  count(): Promise<Result<number>>;
+}
+
 export interface BackupSnapshot {
   readonly profile: LocalProfile;
   /** Más nuevos primero. */
   readonly activity: readonly ActivityEvent[];
   /** Briefs guardados (S2.2), más recientes primero. */
   readonly briefs: readonly BriefRecord[];
+  /** Copys con su historial (S2.4), más recientes primero. */
+  readonly copies: readonly CopyRecord[];
 }
 
 export interface BackupRepository {
@@ -56,6 +70,7 @@ export interface Repositories {
   readonly activity: ActivityRepository;
   readonly profile: ProfileRepository;
   readonly briefs: BriefRepository;
+  readonly copies: CopyRepository;
   readonly backup: BackupRepository;
 }
 

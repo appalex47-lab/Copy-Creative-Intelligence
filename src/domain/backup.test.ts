@@ -24,6 +24,24 @@ const data: BackupData = {
       fields: { campaign: 'Buen Fin', channel: 'Email' },
     },
   ],
+  copies: [
+    {
+      id: 'cpy_abcdefgh1',
+      briefId: 'brf_abcdefgh1',
+      label: 'Principal',
+      tags: ['promo'],
+      createdAt: '2026-11-22T09:10:00.000Z',
+      updatedAt: '2026-11-22T09:40:00.000Z',
+      versions: [
+        { n: 1, createdAt: '2026-11-22T09:10:00.000Z', content: { headline: 'Hola' } },
+        {
+          n: 2,
+          createdAt: '2026-11-22T09:40:00.000Z',
+          content: { headline: 'Hola', cta: 'Compra' },
+        },
+      ],
+    },
+  ],
 };
 const HASH = 'a'.repeat(64);
 const file = (mutate?: (o: Record<string, unknown>) => void) => {
@@ -43,12 +61,14 @@ describe('respaldo v2 con briefs (S2.2)', () => {
   it('los briefs viajan en el archivo y se interpretan igual', () => {
     const r = parseBackupText(file());
     expect(r.ok && r.value.data.briefs).toEqual(data.briefs);
-    expect(r.ok && r.value.version).toBe(2);
+    expect(r.ok && r.value.version).toBe(3);
+    expect(r.ok && r.value.data.copies).toEqual(data.copies);
   });
   it('un respaldo v1 (sin briefs) sigue siendo válido y su suma se calcula con la forma v1', () => {
     const v1 = file((o) => {
       o['version'] = 1;
       delete (o['data'] as Record<string, unknown>)['briefs'];
+      delete (o['data'] as Record<string, unknown>)['copies'];
     });
     const r = parseBackupText(v1);
     expect(r.ok && r.value.data.briefs).toEqual([]);
@@ -96,7 +116,7 @@ describe('respaldo (dominio)', () => {
   it('rechaza texto que no es JSON, otros formatos y versiones nuevas o inválidas', () => {
     expect(reason('no json')).toContain('no es JSON');
     expect(reason('{"format":"otro"}')).toContain('no es un respaldo');
-    expect(reason(file((o) => (o['version'] = 3)))).toContain('más reciente');
+    expect(reason(file((o) => (o['version'] = 4)))).toContain('más reciente');
     expect(reason(file((o) => (o['version'] = 0)))).toContain('versión');
     expect(reason(file((o) => (o['version'] = '1')))).toContain('versión');
   });

@@ -5,6 +5,7 @@ import {
 import { createBrowserTabCoordinator } from '@/adapters/tabs/tabCoordinator';
 import { createBackupService } from './backupService';
 import { createBriefService } from './briefService';
+import { createCopyService } from './copyService';
 import { createBrowserStorageInfoService } from '@/adapters/storage/browserStorageInfo';
 import { createBrowserPreferencesStore } from '@/adapters/localstorage/preferencesStore';
 import type { ActivityKind } from '@/domain/activity';
@@ -83,6 +84,21 @@ export function createLocalServices(environment: AppState['environment']): Servi
       const r = await repos();
       return r.ok ? ok(r.value.briefs) : fail(r.error.code, r.error.message);
     },
+    copies: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.copies) : fail(r.error.code, r.error.message);
+    },
+    writable,
+  });
+  const copies = createCopyService({
+    copies: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.copies) : fail(r.error.code, r.error.message);
+    },
+    briefs: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.briefs) : fail(r.error.code, r.error.message);
+    },
     writable,
   });
   return {
@@ -106,6 +122,7 @@ export function createLocalServices(environment: AppState['environment']): Servi
     storage: createBrowserStorageInfoService(),
     backup,
     briefs,
+    copies,
     coordination,
   };
 }

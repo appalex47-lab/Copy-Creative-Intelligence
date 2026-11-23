@@ -16,6 +16,7 @@ describe('adaptador DEMO', () => {
       'backup',
       'briefs',
       'coordination',
+      'copies',
       'preferences',
       'profile',
       'storage',
