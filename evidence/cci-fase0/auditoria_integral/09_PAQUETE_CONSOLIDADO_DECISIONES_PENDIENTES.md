@@ -73,3 +73,5 @@ Opciones reales (de `DECISIONES_P4_PENDIENTES.md`): aprobar solo las [D]; aproba
 ---
 ## Lo que NO se solicita todavía
 Aprobaciones 0.1–0.7, aceptación formal de Fase 0 y autorización de Fase 1. Cada una será una decisión distinta, con su propia ficha, cuando el propietario considere resueltos los paquetes anteriores. No son una formalidad automática.
+
+> **Nota fechada 2026-11-22 20:14 (respuesta del propietario; no es decisión nueva de este documento):** el propietario emitió las aprobaciones 0.1–0.7 (7/7; la 0.5 solo en cuanto a principios, con P8 sin resolver y sin ninguna integración aprobada) y respondió «sí» a R-1 (aplazamiento aceptado de las seis cuestiones residuales, no resolución). Registro autoritativo: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`. Las menciones anteriores de este documento a aprobaciones «PENDIENTES» o «abiertas» describen el estado previo y quedan superadas en ese punto. **La aceptación formal de Fase 0 y la autorización independiente de Fase 1 siguen PENDIENTES.**

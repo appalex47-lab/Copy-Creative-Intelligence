@@ -44,3 +44,5 @@ Responder en una sola intervención: «0.1 … 0.7 aprobada/rechazada/con cambio
 
 ## No verificado
 Pruebas, build, E2E y CI de la aplicación; Web Locks, cuotas de IndexedDB y compatibilidad de navegadores; anexos A/B y documentos del repositorio de la aplicación; `CCI-Evidence` (inaccesible); reproducción independiente de las verificaciones.
+
+> **Nota fechada 2026-11-22 20:14 (respuesta del propietario; no es decisión nueva de este documento):** el propietario emitió las aprobaciones 0.1–0.7 (7/7; la 0.5 solo en cuanto a principios, con P8 sin resolver y sin ninguna integración aprobada) y respondió «sí» a R-1 (aplazamiento aceptado de las seis cuestiones residuales, no resolución). Registro autoritativo: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`. Las menciones anteriores de este documento a «0/7», «PENDIENTES» o «R-1 pendiente» describen el estado previo y quedan superadas en ese punto; el resto del texto no se altera. **La aceptación formal de Fase 0 y la autorización independiente de Fase 1 siguen PENDIENTES.** Conteos de decisiones sin cambio: 20/30 resueltas, 10/30 con aplazamiento aceptado, 0 abiertas.

@@ -42,9 +42,17 @@ def c_aplazada_como_resuelta(s,ids):
             if re.match(r'[^.;|]{0,40}\b(resuelta|resuelto|decidida|decidido|aprobada|aprobado)\b',w) and not re.search(r'\b(no|ni|sin|antes de|hasta|cuando|aplaz|requiere|exige|debe)\b',s[max(0,m.start()-20):m.end()+70],re.I):
                 out.append(i)
     return out
-def c_aprobaciones_emitidas(s):
-    if re.search(r'0\.1\s*(?:–|-|…|\.\.\.)\s*0\.7|aprobaciones formales|aprobaciones 0\.\d',s,re.I) and re.search(r'\b(emitid[ao]s?|aprobad[ao]s?|concedid[ao]s?)\b',s,re.I) and not NEG.search(s) and not re.search(r'\b(para|cuando|hasta|requier|exig|solicit|prepar|responder|someter)',s,re.I): return True
-    return False
+def c_aprobaciones_extendidas(s):
+    """(Estado desde 2026-11-22 20:14: 0.1–0.7 emitidas por el propietario.) Frase que extiende las aprobaciones 0.1–0.7 a lo NO decidido:
+    aceptación de Fase 0, autorización de Fase 1, integración de IA aprobada o P8 resuelta."""
+    return bool(re.search(r'0\.1\s*(?:–|-|…|\.\.\.)\s*0\.7|aprobaciones (formales )?0\.\d|aprobaciones formales',s,re.I)) and bool(re.search(r'aceptaci[oó]n de (la )?Fase 0|Fase 0 (queda |est[aá] )?acept|autorizaci[oó]n de (la )?Fase 1|autoriza(n)? (la )?Fase 1|Fase 1 (queda |est[aá] )?autoriz|integraci[oó]n[^.]{0,30}aprobad|P8[^.]{0,20}resuelt',s,re.I)) and bool(re.search(r'\b(impl\w+|equival\w+|incluy\w+|conlleva\w*|supone\w*|signific\w+|otorga\w*|conced\w+|da(n)? lugar|quedan?|est[aá]n?)\b',s,re.I)) and not NEG.search(s) and not re.search(r'\b(requier|exig|cuando|hasta|para|tras|despu[eé]s|pendient|distint|independient|separad|aparte)',s,re.I)
+def c_05_sin_principios(s):
+    """Frase que presenta la aprobación 0.5 sin el límite «solo principios»."""
+    return bool(re.search(r'\b0\.5\b[^.;|]{0,50}\baprobad[ao]\b|aprobaci[oó]n 0\.5[^.;|]{0,30}(emitida|concedida)',s,re.I)) and not re.search(r'principios|no |ni |sin |ninguna',s,re.I)
+ESTADO_PREVIO=re.compile(r'[Aa]probaciones[^\n]{0,60}0/7|0/7[^|\n]{0,40}(emitid|PENDIENTE)|0\.1\s*(–|-)\s*0\.7[^.|\n]{0,40}pendientes?\b|todas PENDIENTE')
+def c_estado_previo_aprobaciones(l):
+    """Línea que describe las aprobaciones 0.1–0.7 como 0/7 o pendientes (válido hasta 2026-11-22 20:14)."""
+    return bool(ESTADO_PREVIO.search(l))
 def c_fase_afirmada(s):
     return bool(re.search(r'Fase 0 (v3\.3 )?(est[aá] )?(ACEPTAD|aceptad)|Fase 1 (est[aá] )?(AUTORIZAD|autorizad)',s)) and not NEG.search(s) and not re.search(r'\b(cuando|hasta|tras|después|requiere|exige|si |solo con|condici|v3\.3|histó|anterior)',s)
 def c_c2c3_resueltas(s):
@@ -75,10 +83,19 @@ PRUEBAS=[
  ('aplazada-como-resuelta: «P6 resuelta» se detecta',lambda:c_aplazada_como_resuelta('P6 resuelta el 2026-11-22',APLAZADAS)==['P6'],True),
  ('aplazada-como-resuelta: «P6 no resuelta» no se detecta',lambda:c_aplazada_como_resuelta('P6 no resuelta, aplazamiento aceptado',APLAZADAS)==[],True),
  ('aplazada-como-resuelta: «P8 se resolverá antes de Fase 2» no se detecta',lambda:c_aplazada_como_resuelta('P8 debe estar resuelta antes de Fase 2',APLAZADAS)==[],True),
- ('aprobaciones: «0.1–0.7 aprobadas» se detecta',lambda:c_aprobaciones_emitidas('Las aprobaciones 0.1–0.7 están aprobadas'),True),
- ('aprobaciones: «0/7 emitidas» no se detecta',lambda:not c_aprobaciones_emitidas('Aprobaciones 0.1–0.7: 0/7 emitidas'),True),
- ('aprobaciones: «ninguna aprobación 0.1–0.7 emitida» no se detecta',lambda:not c_aprobaciones_emitidas('Ninguna aprobación 0.1–0.7 está emitida'),True),
- ('aprobaciones: «para emitir las aprobaciones 0.1–0.7» no se detecta',lambda:not c_aprobaciones_emitidas('el propietario debe responder para emitir las aprobaciones 0.1–0.7 aprobadas o no'),True),
+ ('aprobaciones: lista «Aprobaciones 0.1–0.7, aceptación formal de Fase 0 y autorización de Fase 1» (sin afirmar equivalencia) no se detecta',lambda:not c_aprobaciones_extendidas('Aprobaciones 0.1–0.7, aceptación formal de Fase 0 y autorización de Fase 1.'),True),
+ ('aprobaciones: «las aprobaciones 0.1–0.7 implican la aceptación de Fase 0» se detecta',lambda:c_aprobaciones_extendidas('Las aprobaciones 0.1–0.7 implican la aceptación de Fase 0'),True),
+ ('aprobaciones: «0.1–0.7 emitidas; Fase 1 queda autorizada» se detecta',lambda:c_aprobaciones_extendidas('Con 0.1–0.7 emitidas, Fase 1 queda autorizada'),True),
+ ('aprobaciones: «las aprobaciones 0.1–0.7 no equivalen a la aceptación de Fase 0» no se detecta',lambda:not c_aprobaciones_extendidas('Las aprobaciones 0.1–0.7 no equivalen a la aceptación de Fase 0'),True),
+ ('aprobaciones: «la aceptación de Fase 0 requiere 0.1–0.7 emitidas» no se detecta',lambda:not c_aprobaciones_extendidas('La aceptación de Fase 0 requiere las aprobaciones 0.1–0.7 emitidas'),True),
+ ('aprobaciones: «0.1–0.7 emitidas (7/7)» sin extensión no se detecta',lambda:not c_aprobaciones_extendidas('Aprobaciones 0.1–0.7: 7/7 emitidas por el propietario'),True),
+ ('0.5: «0.5 aprobada» sin límite se detecta',lambda:c_05_sin_principios('La ficha 0.5 está aprobada'),True),
+ ('0.5: «aprobada solo en cuanto a principios» no se detecta',lambda:not c_05_sin_principios('0.5 aprobada solo en cuanto a principios'),True),
+ ('0.5: «no aprueba ninguna integración» no se detecta',lambda:not c_05_sin_principios('0.5 aprobada; ninguna integración queda aprobada'),True),
+ ('estado previo: «Aprobaciones emitidas | 0/7» se detecta',lambda:c_estado_previo_aprobaciones('| Aprobaciones emitidas | 0/7 | 0.1–0.7 |'),True),
+ ('estado previo: «0.1–0.7: pendientes (0/7)» se detecta',lambda:c_estado_previo_aprobaciones('| Aprobaciones formales | 0.1–0.7: **pendientes (0/7)** |'),True),
+ ('estado previo: «0/7 hashes coinciden» (otro asunto) no se detecta',lambda:not c_estado_previo_aprobaciones('manifiesto fechado anterior | 0/7 hashes coinciden con los archivos'),True),
+ ('estado previo: «7/7 emitidas» no se detecta',lambda:not c_estado_previo_aprobaciones('Aprobaciones 0.1–0.7: 7/7 emitidas'),True),
  ('fase: «Fase 0 aceptada» se detecta',lambda:c_fase_afirmada('La Fase 0 está aceptada por el propietario'),True),
  ('fase: «Fase 0 no aceptada» no se detecta',lambda:not c_fase_afirmada('La Fase 0 no está aceptada'),True),
  ('fase: «Fase 1 autorizada» se detecta',lambda:c_fase_afirmada('Fase 1 autorizada para iniciar'),True),
@@ -117,6 +134,7 @@ def c_r1_como_resolucion(s):
 def c_reco_como_aprobacion(s):
     """Recomendación de Claude presentada como decisión/aprobación del propietario (sin negación)."""
     if not re.search(r'Rec\. Claude|recomendaci[oó]n',s,re.I) or NEGX.search(s): return False
+    if 'Apruebo 0.1 a 0.7 según las recomendaciones del paquete' in s: return False   # cita literal de la respuesta del propietario (20:14): el propietario sí adoptó las recomendaciones del paquete, con ese alcance
     a=re.search(r'\b(es|como|equivale a|constituye) (la |una )?(decisi[oó]n|aprobaci[oó]n) (del propietario|emitida)',s,re.I)
     b=re.search(r'(propietario|owner)[^.]{0,40}\b(decidi[oó]|aprob[oó]|acept[oó]|adopt[oó]|ratific[oó])\b[^.]{0,60}recomendaci[oó]n|recomendaci[oó]n[^.]{0,60}\b(fue|queda|qued[oó]) (aprobada|aceptada|adoptada|ratificada)\b',s,re.I)
     return bool(a or b)
@@ -155,6 +173,8 @@ PRUEBAS_V2=[
  ('documento con R-1 sin las seis cuestiones se detecta',lambda:c_doc_r1_sin_seis('Responder R-1 si se quiere.'),True),
  ('documento con R-1 y «seis cuestiones» no se detecta',lambda:not c_doc_r1_sin_seis('Responder R-1: seis cuestiones residuales.'),True),
  ('recomendación: «el propietario decidió aprobar la recomendación de Claude» se detecta',lambda:c_reco_como_aprobacion('El propietario decidió aprobar la recomendación de Claude sobre R-1.'),True),
+ ('recomendación: cita literal de la respuesta del propietario (adopción del paquete) no se detecta',lambda:not c_reco_como_aprobacion('Se registra como decisión del propietario la respuesta «Apruebo 0.1 a 0.7 según las recomendaciones del paquete (0.5 solo en cuanto a principios)».'),True),
+ ('recomendación: «la recomendación de Claude es la decisión del propietario» sin cita literal sigue detectándose',lambda:c_reco_como_aprobacion('La recomendación del paquete sobre 0.5 es la decisión del propietario.'),True),
  ('recomendación: «la recomendación queda aprobada» se detecta',lambda:c_reco_como_aprobacion('La recomendación de Claude queda aprobada.'),True),
  ('recomendación: «el propietario no ha decidido sobre la recomendación» no se detecta',lambda:not c_reco_como_aprobacion('El propietario no ha decidido sobre la recomendación de Claude.'),True),
  ('R-1 + D5.c sin exclusión se detecta',lambda:c_r1_con_d5ad('R-1 incluye decidir D5.c (agrupación de las cuestiones 3 y 4).'),True),
@@ -203,7 +223,8 @@ for p in VIG:
             if c_conteo_entidades(s): hallazgo('S1_conteo_entidades_distinto_de_18',p,i,s)
             if c_resuelta_como_pendiente(s,RESUELTAS_PQ): hallazgo('S2_decision_resuelta_presentada_como_pendiente',p,i,s)
             if c_aplazada_como_resuelta(s,APLAZADAS): hallazgo('S3_aplazamiento_presentado_como_resuelto',p,i,s)
-            if c_aprobaciones_emitidas(s): hallazgo('S4_aprobaciones_presentadas_como_emitidas',p,i,s)
+            if c_aprobaciones_extendidas(s): hallazgo('S4_aprobaciones_extendidas_a_lo_no_decidido',p,i,s)
+            if c_05_sin_principios(s): hallazgo('S4b_aprobacion_05_sin_limite_de_principios',p,i,s)
             if c_fase_afirmada(s): hallazgo('S5_fase_0_aceptada_o_fase_1_autorizada',p,i,s)
             if c_c2c3_resueltas(s): hallazgo('S6_C2_C3_presentadas_como_resueltas',p,i,s)
             if c_relacion_no_aprobada_como_aprobada(s): hallazgo('S7_relacion_no_aprobada_presentada_como_aprobada',p,i,s)
@@ -220,6 +241,7 @@ for p in VIG2:
             if c_reco_como_aprobacion(s): hallazgo('S12_recomendacion_presentada_como_decision',p,i,s)
             if c_residuales_incompletos(s): hallazgo('S13_residuales_D5_incompletos_(omite_la_cuestion_4)',p,i,s)
             if c_r1_con_d5ad(s): hallazgo('S14_R1_vinculada_a_D5ad_sin_exclusion',p,i,s)
+        if c_estado_previo_aprobaciones(l) and '2026-11-22 20:14' not in txt[p]: res['ERROR_REAL'].append(('S15_estado_previo_de_aprobaciones_sin_nota_20_14',p[len(EV)+1:],i+1,l.strip()[:200],''))
 # ---------------------------------------------------------------- controles estructurales
 reg=txt[FM+'/REGISTRO_DECISIONES_RESUELTAS.md']
 prop=rd(LITERAL)
@@ -264,9 +286,27 @@ for k in RESUELTAS_PQ[3:]:  # P4,P5,P9,P11-14,Q-4 resueltas por ratificación
     if not ok: print('   FALLO D3: %s sin marca de resuelta en 13_REGISTRO o 02'%k); res['ERROR_REAL'].append(('D3_resuelta_sin_marca','',0,k,''))
 ap=txt[FM+'/APROBACIONES_FASE0.md'].split('## 4. Antecedente')[0]   # la parte vigente; el antecedente está marcado como superado
 filas=[l for l in ap.split('\n') if re.match(r'\| 0\.[1-7] ',l)]
-emit=[l[:60] for l in filas if not re.search(r'PENDIENTE',l) or re.search(r'\|\s*(APROBADA|RECHAZADA)\s*\|',l)]
-print('## A1 fichas 0.1–0.7 en la tabla vigente de APROBACIONES_FASE0: %d filas; con estado distinto de PENDIENTE: %s'%(len(filas),emit or 'ninguna'))
-if len(filas)!=7 or emit: res['ERROR_REAL'].append(('A1_aprobaciones','entregables_formales/APROBACIONES_FASE0.md',0,str(emit),''))
+# Estado desde 2026-11-22 20:14 (respuesta del propietario): 0.1–0.7 APROBADAS (0.5 solo en cuanto a principios); «Final» y «Aparte» siguen PENDIENTES
+emit=[l[:60] for l in filas if not re.search(r'\|\s*APROBADA( solo en cuanto a principios)? \(propietario, 2026-11-22 20:14\)\s*\|',l) or (l.startswith('| 0.5 ') and 'solo en cuanto a principios' not in l)]
+fin=[l[:40] for l in ap.split('\n') if re.match(r'\| (Final|Aparte) ',l) and not re.search(r'\| PENDIENTE \|',l)]
+fich=re.findall(r'^### Ficha (0\.[1-7]) [^\n]*? — ([^\n]*)$',ap,re.M)
+fich_mal=[f for f in fich if not (f[1].startswith('APROBADA') and ((f[0]=='0.5')==('solo en cuanto a principios' in f[1])))]
+print('## A1 fichas 0.1–0.7 en la tabla vigente de APROBACIONES_FASE0: %d filas; sin el estado APROBADA del propietario (0.5 solo principios): %s; filas Final/Aparte no PENDIENTES: %s; encabezados de ficha incoherentes: %s (%d fichas)'%(len(filas),emit or 'ninguna',fin or 'ninguna',fich_mal or 'ninguno',len(fich)))
+if len(filas)!=7 or emit or fin or fich_mal or len(fich)!=7: res['ERROR_REAL'].append(('A1_aprobaciones','entregables_formales/APROBACIONES_FASE0.md',0,str((emit,fin,fich_mal,len(fich))),''))
+# A3: el registro autoritativo contiene la respuesta literal del propietario y sus límites
+sec=re.search(r'## Aprobaciones formales 0\.1–0\.7 y respuesta a R-1 — RESUELTAS por el propietario el 2026-11-22 20:14[^\n]*\n(.*)',reg,re.S)
+lit='Apruebo 0.1 a 0.7 según las recomendaciones del paquete (0.5 solo en cuanto a principios; P8 sigue sin resolver y ninguna integración queda aprobada). R-1 sí.'
+a3=[]
+if not sec: a3.append('sin sección')
+else:
+    t=sec.group(1)
+    if lit not in t: a3.append('sin texto literal')
+    if len(re.findall(r'^\| 0\.[1-7] [^|]*\| APROBADA',t,re.M))!=7: a3.append('no hay 7 filas APROBADA')
+    if not re.search(r'\| 0\.5 IA inicial \| APROBADA \*\*solo en cuanto a principios\*\*',t): a3.append('0.5 sin límite de principios')
+    for k,rx in (('no acepta Fase 0',r'No acepta la Fase 0'),('no autoriza Fase 1',r'No autoriza la Fase 1'),('R-1 aplazamiento aceptado',r'aplazamiento aceptado\*\*, nunca como resolución'),('P8 sin resolver',r'No resuelve P8'),('7/7',r'\*\*7/7\*\*')):
+        if not re.search(rx,t): a3.append('falta: '+k)
+print('## A3 el registro autoritativo contiene la respuesta del propietario (20:14) con sus límites: %s'%('sí' if not a3 else a3))
+if a3: res['ERROR_REAL'].append(('A3_registro_sin_respuesta_del_propietario','entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md',0,str(a3),''))
 obsol=[(l[:30],t) for l in filas for t in re.findall(r'P4 \(parcial|P4 sigue parcial|~~P3~~|pendiente[^|]{0,30}(?:P5|P9|P11|P12|P13)|(?:P5|P9|P11|P12|P13)[^|]{0,15}pendiente',l)]
 print('## A2 prerrequisitos desactualizados en las fichas: %s'%(obsol or 'ninguno'))
 if obsol: res['ERROR_REAL'].append(('A2_prerrequisitos_desactualizados','entregables_formales/APROBACIONES_FASE0.md',0,str(obsol),''))

@@ -1,8 +1,9 @@
 # Paquete de decisión — aprobaciones formales 0.1 a 0.7
-> **2026-11-22. Documento de apoyo: no emite ninguna aprobación.** Estado: 0.1–0.7 = **0/7 emitidas** (todas PENDIENTES); Fase 0 **no aceptada**; Fase 1 **no autorizada**. Las recomendaciones son **[Rec. Claude], no vinculantes**. No se confunden: (1) la ratificación B1–B10 (ya hecha), (2) las aprobaciones 0.1–0.7 (pendientes), (3) la aceptación final de Fase 0 (pendiente) y (4) la autorización de Fase 1 (pendiente, independiente). Ni el silencio ni «Confirmo todo» (que ratificó B1–B10) se interpretan como aprobación. Contenido completo de cada ficha: `APROBACIONES_FASE0.md`. Reconciliación: `CONCILIACION_30_DECISIONES_Y_APLAZAMIENTOS.md`.
+> **2026-11-22. Documento de apoyo: no emite ninguna aprobación.** Estado previo a la respuesta de 20:14: 0.1–0.7 = **0/7 emitidas** (todas PENDIENTES); Fase 0 **no aceptada**; Fase 1 **no autorizada**. Las recomendaciones son **[Rec. Claude], no vinculantes**. No se confunden: (1) la ratificación B1–B10 (ya hecha), (2) las aprobaciones 0.1–0.7 (pendientes), (3) la aceptación final de Fase 0 (pendiente) y (4) la autorización de Fase 1 (pendiente, independiente). Ni el silencio ni «Confirmo todo» (que ratificó B1–B10) se interpretan como aprobación. Contenido completo de cada ficha: `APROBACIONES_FASE0.md`. Reconciliación: `CONCILIACION_30_DECISIONES_Y_APLAZAMIENTOS.md`.
+> **Nota fechada 2026-11-22 20:14 (respuesta del propietario; registrada en `REGISTRO_DECISIONES_RESUELTAS.md`):** «Apruebo 0.1 a 0.7 según las recomendaciones del paquete (0.5 solo en cuanto a principios; P8 sigue sin resolver y ninguna integración queda aprobada). R-1 sí.» Las siete aprobaciones están **emitidas por el propietario (7/7)** y R-1 queda como **aplazamiento aceptado, no resolución**. **La aceptación formal de Fase 0 y la autorización independiente de Fase 1 siguen PENDIENTES.** Las líneas «PENDIENTE», «0/7 emitidas» y «R-1 pendiente de respuesta» de este documento describen el estado **previo** a esa respuesta y quedan superadas; las recomendaciones pasaron a ser decisión solo por esa respuesta, con el alcance de cada ficha.
 
 ## 0.1 Diagnóstico
-- **Aprobación:** 0.1 Diagnóstico — PENDIENTE.
+- **Aprobación:** 0.1 Diagnóstico — APROBADA (2026-11-22 20:14; estado previo: PENDIENTE).
 - **Objeto:** Aceptar que el diagnóstico describe fielmente el estado real: el repositorio de la aplicación contiene la fundación comprobada y el producto CCI no existe; la línea `docs/fase0` (Supabase/RLS) es histórica y está superada.
 - **Recomendación [Rec. Claude]:** Aprobada, con las limitaciones de la columna 4.
 - **Fundamento:** El inventario, las conciliaciones y los controles automáticos del expediente son consistentes entre sí; lo no verificado está declarado.
@@ -12,7 +13,7 @@
 - **Texto de decisión propuesto (el propietario puede copiarlo o cambiarlo):** «Apruebo la ficha 0.1 (Diagnóstico) con las limitaciones expresas C-2 y la lista de lo no verificado.»
 
 ## 0.2 Arquitectura
-- **Aprobación:** 0.2 Arquitectura — PENDIENTE.
+- **Aprobación:** 0.2 Arquitectura — APROBADA (2026-11-22 20:14; estado previo: PENDIENTE).
 - **Objeto:** Aprobar la especificación de arquitectura browser-only: un usuario por navegador; sin cuentas, login, backend, Supabase, PostgreSQL, SQL, servidor, multiusuario ni sincronización; IndexedDB como persistencia principal; Local Storage solo para preferencias ligeras; exportación/importación local como respaldo.
 - **Recomendación [Rec. Claude]:** Aprobada.
 - **Fundamento:** Todas las decisiones de las que depende están resueltas; los aplazamientos (P7, P10) no condicionan la arquitectura de Fase 1.
@@ -22,17 +23,17 @@
 - **Texto de decisión propuesto (el propietario puede copiarlo o cambiarlo):** «Apruebo la ficha 0.2 (Arquitectura browser-only) con las exclusiones y limitaciones indicadas.»
 
 ## 0.3 Dominio
-- **Aprobación:** 0.3 Dominio — PENDIENTE.
+- **Aprobación:** 0.3 Dominio — APROBADA (2026-11-22 20:14; estado previo: PENDIENTE).
 - **Objeto:** Aprobar el modelo de dominio conceptual: 18 entidades con existencia y definición mínima (18/18), 13 relaciones sin cardinalidades obligatorias, atributos diferidos a cada módulo y convenciones transversales E1–E5.
 - **Recomendación [Rec. Claude]:** Aprobada, con las limitaciones de la columna 4 (R-1 se responde por separado).
 - **Fundamento:** Las 18 definiciones del registro coinciden literalmente con las del doc 03 y con la matriz consolidada (verificación automática); las relaciones no aprobadas están excluidas expresamente.
 - **Limitaciones:** No se aprueban atributos, cardinalidades obligatorias, estados, ciclos de vida, persistencia, fórmulas, catálogos de métricas ni asignación de fase. Q-1 y Q-2 siguen aplazadas (antes de Fase 4). Cuestiones residuales sin decisión propia: la ubicación conceptual de la familia de reglas de copy (D-3) y las cinco cuestiones residuales de D-5 ((1) si la aprobación requiere auditoría o validaciones previas; (2) qué sucede cuando se modifica un contenido aprobado; (3) cómo se relaciona la aprobación con las versiones; (4) la identidad exacta del contenido al que se aplica cada aprobación; (5) la relación entre aprobación y los estados del flujo). Se plantean en la pregunta R-1 del paquete (aplazamiento, no resolución). D5.a–d permanecen fuera del alcance vigente y no se reabren.
 - **Riesgos:** Aprobar el dominio no aprueba un esquema de datos: es un marco conceptual.
-- **Dependencias:** P1, Q-7, P4 (B1–B5), D-1…D-8 resueltas; Q-1 y Q-2 aplazadas (no bloquean); R-1 pendiente de respuesta del propietario (no bloquea).
+- **Dependencias:** P1, Q-7, P4 (B1–B5), D-1…D-8 resueltas; Q-1 y Q-2 aplazadas (no bloquean); R-1 (respondida «sí» a las 20:14: aplazamiento aceptado, no resolución).
 - **Texto de decisión propuesto (el propietario puede copiarlo o cambiarlo):** «Apruebo la ficha 0.3 (Dominio) con las exclusiones y limitaciones indicadas.»
 
 ## 0.4 Persistencia
-- **Aprobación:** 0.4 Persistencia — PENDIENTE.
+- **Aprobación:** 0.4 Persistencia — APROBADA (2026-11-22 20:14; estado previo: PENDIENTE).
 - **Objeto:** Aprobar el diseño conceptual de persistencia local: IndexedDB principal, binarios como Blob separados de los metadatos, Local Storage solo para preferencias ligeras, exportación/importación como respaldo y recuperación, política de archivar frente a eliminar y hash SHA-256 de versiones.
 - **Recomendación [Rec. Claude]:** Aprobada, con las limitaciones de la columna 4.
 - **Fundamento:** Las decisiones de las que depende están resueltas; los tres aplazamientos asociados tienen fase límite declarada.
@@ -42,7 +43,7 @@
 - **Texto de decisión propuesto (el propietario puede copiarlo o cambiarlo):** «Apruebo la ficha 0.4 (Persistencia) con las exclusiones y limitaciones indicadas.»
 
 ## 0.5 IA inicial
-- **Aprobación:** 0.5 IA inicial — PENDIENTE.
+- **Aprobación:** 0.5 IA inicial — APROBADA solo en cuanto a principios (2026-11-22 20:14; estado previo: PENDIENTE).
 - **Objeto:** Aprobar solo los principios de IA: la IA ayuda a crear, analizar y sugerir; reglas y cálculos deterministas; la aprobación final es humana; no hay claves privadas en el frontend ni secretos en Local Storage o IndexedDB. No es una aprobación de integración.
 - **Recomendación [Rec. Claude]:** Aprobada con cambios: aprobar únicamente los principios, redactando expresamente que P8 sigue sin resolver y que ninguna integración queda aprobada.
 - **Fundamento:** El doc 09 declara estado de propuesta; aprobarlo íntegro podría leerse como aprobar una alternativa de IA concreta.
@@ -52,7 +53,7 @@
 - **Texto de decisión propuesto (el propietario puede copiarlo o cambiarlo):** «Apruebo la ficha 0.5 (IA inicial) solo en cuanto a los principios de privacidad; P8 sigue sin resolver y no se aprueba ninguna integración.»
 
 ## 0.6 MVP
-- **Aprobación:** 0.6 MVP — PENDIENTE.
+- **Aprobación:** 0.6 MVP — APROBADA (2026-11-22 20:14; estado previo: PENDIENTE).
 - **Objeto:** Aprobar la definición del MVP: termina al concluir Fase 2 (Fase 1 Fundamentos y Command Center; Fase 2 Copy Studio).
 - **Recomendación [Rec. Claude]:** Aprobada.
 - **Fundamento:** Q-4 está resuelta y los documentos 10, 11 y 12 están alineados (control semántico S8).
@@ -62,7 +63,7 @@
 - **Texto de decisión propuesto (el propietario puede copiarlo o cambiarlo):** «Apruebo la ficha 0.6 (MVP hasta el final de Fase 2) con las exclusiones indicadas.»
 
 ## 0.7 Roadmap
-- **Aprobación:** 0.7 Roadmap — PENDIENTE.
+- **Aprobación:** 0.7 Roadmap — APROBADA (2026-11-22 20:14; estado previo: PENDIENTE).
 - **Objeto:** Aprobar el roadmap Fases 1–5 y sus criterios de aceptación como puertas de aceptación de referencia.
 - **Recomendación [Rec. Claude]:** Aprobada.
 - **Fundamento:** Las dependencias del roadmap coinciden con los aplazamientos de B8.
@@ -74,7 +75,7 @@
 ## Detalle de la única recomendación «con cambios» (0.5)
 Cambio exacto: aprobar solo el párrafo de principios (la IA ayuda a crear, analizar y sugerir; reglas y cálculos deterministas; aprobación final humana; sin claves privadas en el frontend ni secretos en Local Storage o IndexedDB) y añadir la frase «P8 sigue sin resolver y no se aprueba ninguna integración de IA». Motivo: el doc 09 contiene alternativas (IA-A, IA-B, IA-C) en estado de propuesta y aprobarlo entero podría leerse como aprobar una de ellas. Si el propietario prefiere aprobar sin cambios, la ficha lo permite y las exclusiones de la ficha siguen vigentes.
 
-## Pregunta R-1 — aplazamiento de las cuestiones residuales de D-3 y D-5 (única; no bloquea 0.1–0.7)
+## Pregunta R-1 — aplazamiento de las cuestiones residuales de D-3 y D-5 (única; no bloquea 0.1–0.7) — respondida «sí» el 2026-11-22 20:14 (aplazamiento aceptado, no resolución)
 **Qué se pregunta.** D-3 y D-5 son decisiones resueltas; cada una declara, además, cuestiones que expresamente **no decidió**. R-1 pide **una sola confirmación**: si esas **seis** cuestiones se aplazan hasta la especificación del módulo correspondiente, **sin alterar D-3 ni D-5**.
 
 **Cuestiones incluidas (lista completa; fuente: `REGISTRO_DECISIONES_RESUELTAS.md`, D-3 y D-5, y la nota fechada de este registro):**

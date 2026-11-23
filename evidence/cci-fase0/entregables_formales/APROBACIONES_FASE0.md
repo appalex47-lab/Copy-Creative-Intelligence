@@ -1,25 +1,26 @@
-# Aprobaciones de Fase 0 — fichas individuales (ninguna aprobada)
-> **Versión regularizada 2026-11-22 (posterior a la ratificación B1–B10; no es decisión nueva).** Reescribe la tabla de prerrequisitos y añade las siete fichas con el contenido exigido. **Ninguna aprobación está emitida: 0.1–0.7 = 0/7 PENDIENTES; Fase 0 no aceptada; Fase 1 no autorizada.** Las «Recomendaciones» son **[Rec. Claude], no vinculantes**; no son decisiones del propietario ni equivalen a una aprobación. La ratificación B1–B10 y estas aprobaciones son actos distintos; ni el silencio ni «Confirmo todo» emiten una aprobación (el registro lo declara en B10). Fuente autoritativa del estado: `REGISTRO_DECISIONES_RESUELTAS.md`. Síntesis de decisión: `PAQUETE_DECISION_APROBACIONES_0_1_A_0_7.md`.
+# Aprobaciones de Fase 0 — fichas individuales (0.1–0.7 aprobadas por el propietario el 2026-11-22 20:14; Fase 0 no aceptada; Fase 1 no autorizada)
+> **Versión regularizada 2026-11-22 (posterior a la ratificación B1–B10; no es decisión nueva).** Reescribe la tabla de prerrequisitos y añade las siete fichas con el contenido exigido. **[Estado previo a la respuesta del propietario del 20:14, superado en lo relativo a 0.1–0.7; ver la nota fechada siguiente] Ninguna aprobación estaba emitida: 0.1–0.7 = 0/7 PENDIENTES; Fase 0 no aceptada; Fase 1 no autorizada.** Las «Recomendaciones» son **[Rec. Claude], no vinculantes**; no son decisiones del propietario ni equivalen a una aprobación. La ratificación B1–B10 y estas aprobaciones son actos distintos; ni el silencio ni «Confirmo todo» emiten una aprobación (el registro lo declara en B10). Fuente autoritativa del estado: `REGISTRO_DECISIONES_RESUELTAS.md`. Síntesis de decisión: `PAQUETE_DECISION_APROBACIONES_0_1_A_0_7.md`.
+> **Nota fechada 2026-11-22 20:14 (respuesta del propietario; registrada en `REGISTRO_DECISIONES_RESUELTAS.md`, sección «Aprobaciones formales 0.1–0.7 y respuesta a R-1»):** «Apruebo 0.1 a 0.7 según las recomendaciones del paquete (0.5 solo en cuanto a principios; P8 sigue sin resolver y ninguna integración queda aprobada). R-1 sí.» **Las siete aprobaciones están emitidas por el propietario (7/7), con las limitaciones y exclusiones de cada ficha.** Siguen **PENDIENTES** y son actos distintos: la **aceptación formal de Fase 0** («Final») y la **autorización independiente de Fase 1** («Aparte»). El párrafo anterior describe el estado previo a esta respuesta y queda superado en lo relativo a 0.1–0.7.
 Respuesta esperada por ficha: «aprobada», «rechazada» o «con cambios: …».
 
 ## 1. Tabla vigente de prerrequisitos
 | ID | Qué se solicita aprobar | Documentos | Decisiones resueltas que la sustentan | Aplazamientos aceptados que NO bloquean (se resuelven antes de la fase indicada) | Fuera de alcance | Estado | Respuesta |
 |---|---|---|---|---|---|---|---|
-| 0.1 Diagnóstico | inventario y estado real del repositorio (fundación comprobada; producto inexistente) | `01`, `02`, `03`, `../03_CONCILIACION_DOCUMENTAL.md`, `../13_VERIFICACION_EJECUTADA.md` | P3, P14 | — | no valida diseño ni el funcionamiento del código | PENDIENTE | — |
-| 0.2 Arquitectura | especificación browser-only y sus límites | `04` | P1, P2, P9, P12, P13 (con P5, P11 en lo que `04` los cita) | P7 (antes de Fase 5), P10 (antes de publicar) | no aprueba dominio ni persistencia detallada | PENDIENTE | — |
-| 0.3 Dominio | entidades, relaciones y responsabilidades | `05`, `06` (propuesta histórica; **no es un esquema de datos aprobado**), `MATRIZ_CONSOLIDADA_18_ENTIDADES.md` | P1, Q-7, P4: P4.A 18/18 (solo existencia y definición mínima), P4.B (13 relaciones sin cardinalidades obligatorias), P4.C (atributos diferidos a cada módulo), P4.E (E1–E5), A0-1/A0-2/A0-3 | Q-1, Q-2 (antes de Fase 4) | no aprueba atributos, cardinalidades, estados, fórmulas, catálogos ni asignación de fase | PENDIENTE | — |
-| 0.4 Persistencia | IndexedDB, Local Storage, archivos y recuperación | `07`, `08` | P5, P9, P11, P12, P13 | P6 (antes de cerrar Fase 2), P7 (antes de Fase 5), P10 (antes de publicar) | no aprueba cifrado, hosting, formato final de exportación ni límites de producto | PENDIENTE | — |
-| 0.5 IA | estrategia de IA inicial y privacidad (sin claves privadas en el frontend) | `09` | principios del propietario; P1 | **P8** (antes de generación en Fase 2). Es un aplazamiento aceptado, **no** una aprobación de integración de IA | no autoriza ninguna integración, proveedor ni clave | PENDIENTE | — |
-| 0.6 MVP | alcance y prioridades; el MVP termina al concluir Fase 2 | `10` | Q-4 (resuelta) | Q-6 (antes de Fase 2) | las columnas marcadas [P] siguen sin validar; no autoriza ninguna fase | PENDIENTE | — |
-| 0.7 Roadmap | Fases 1–5 y criterios AC como puertas de aceptación | `11`, `12`, `15` | Q-4, P4 y las decisiones de arquitectura; las limitaciones expresas C-2 y C-3 | P6, P7, P8, P10, P15, Q-1, Q-2, Q-3, Q-5, Q-6 (cada una antes de su fase) | no inicia ninguna fase | PENDIENTE | — |
-| Final | cerrar formalmente Fase 0 | todo el expediente | 0.1–0.7 emitidas | las limitaciones C-2 y C-3 permanecen abiertas salvo decisión expresa o evidencia primaria | **no** autoriza la Fase 1 | PENDIENTE | — |
+| 0.1 Diagnóstico | inventario y estado real del repositorio (fundación comprobada; producto inexistente) | `01`, `02`, `03`, `../03_CONCILIACION_DOCUMENTAL.md`, `../13_VERIFICACION_EJECUTADA.md` | P3, P14 | — | no valida diseño ni el funcionamiento del código | APROBADA (propietario, 2026-11-22 20:14) | «Apruebo 0.1 a 0.7 según las recomendaciones del paquete…» |
+| 0.2 Arquitectura | especificación browser-only y sus límites | `04` | P1, P2, P9, P12, P13 (con P5, P11 en lo que `04` los cita) | P7 (antes de Fase 5), P10 (antes de publicar) | no aprueba dominio ni persistencia detallada | APROBADA (propietario, 2026-11-22 20:14) | «Apruebo 0.1 a 0.7 según las recomendaciones del paquete…» |
+| 0.3 Dominio | entidades, relaciones y responsabilidades | `05`, `06` (propuesta histórica; **no es un esquema de datos aprobado**), `MATRIZ_CONSOLIDADA_18_ENTIDADES.md` | P1, Q-7, P4: P4.A 18/18 (solo existencia y definición mínima), P4.B (13 relaciones sin cardinalidades obligatorias), P4.C (atributos diferidos a cada módulo), P4.E (E1–E5), A0-1/A0-2/A0-3 | Q-1, Q-2 (antes de Fase 4) | no aprueba atributos, cardinalidades, estados, fórmulas, catálogos ni asignación de fase | APROBADA (propietario, 2026-11-22 20:14) | «Apruebo 0.1 a 0.7 según las recomendaciones del paquete…» |
+| 0.4 Persistencia | IndexedDB, Local Storage, archivos y recuperación | `07`, `08` | P5, P9, P11, P12, P13 | P6 (antes de cerrar Fase 2), P7 (antes de Fase 5), P10 (antes de publicar) | no aprueba cifrado, hosting, formato final de exportación ni límites de producto | APROBADA (propietario, 2026-11-22 20:14) | «Apruebo 0.1 a 0.7 según las recomendaciones del paquete…» |
+| 0.5 IA | estrategia de IA inicial y privacidad (sin claves privadas en el frontend) | `09` | principios del propietario; P1 | **P8** (antes de generación en Fase 2). Es un aplazamiento aceptado, **no** una aprobación de integración de IA | no autoriza ninguna integración, proveedor ni clave | APROBADA solo en cuanto a principios (propietario, 2026-11-22 20:14) | «0.5 solo en cuanto a principios; P8 sigue sin resolver y ninguna integración queda aprobada» |
+| 0.6 MVP | alcance y prioridades; el MVP termina al concluir Fase 2 | `10` | Q-4 (resuelta) | Q-6 (antes de Fase 2) | las columnas marcadas [P] siguen sin validar; no autoriza ninguna fase | APROBADA (propietario, 2026-11-22 20:14) | «Apruebo 0.1 a 0.7 según las recomendaciones del paquete…» |
+| 0.7 Roadmap | Fases 1–5 y criterios AC como puertas de aceptación | `11`, `12`, `15` | Q-4, P4 y las decisiones de arquitectura; las limitaciones expresas C-2 y C-3 | P6, P7, P8, P10, P15, Q-1, Q-2, Q-3, Q-5, Q-6 (cada una antes de su fase) | no inicia ninguna fase | APROBADA (propietario, 2026-11-22 20:14) | «Apruebo 0.1 a 0.7 según las recomendaciones del paquete…» |
+| Final | cerrar formalmente Fase 0 | todo el expediente | 0.1–0.7 emitidas (cumplido el 2026-11-22 20:14; la aceptación sigue requiriendo respuesta expresa) | las limitaciones C-2 y C-3 permanecen abiertas salvo decisión expresa o evidencia primaria | **no** autoriza la Fase 1 | PENDIENTE | — |
 | Aparte | autorizar el inicio de Fase 1 | — | cierre de Fase 0 | — | — | PENDIENTE | — |
 Las condiciones previas antiguas (P3, P4 parcial, P5, P9, P11–P13, Q-4 sin resolver) quedaron **superadas**: ya están resueltas (ver §3). Inseparables técnicamente: ninguna; 0.3 y 0.4 pueden responderse por separado.
 
 ## 2. Fichas 0.1–0.7
-Todas **PENDIENTES**. Cada ficha indica: 1 qué se solicita; 2 evidencia; 3 decisiones resueltas; 4 limitaciones vigentes; 5 exclusiones; 6 consecuencias de aprobar; 7 consecuencias de rechazar o aprobar con cambios. La recomendación, el fundamento, los riesgos y el texto de decisión están en el paquete.
+Todas **APROBADAS por el propietario el 2026-11-22 20:14** (la 0.5 solo en cuanto a principios), con las limitaciones y exclusiones indicadas en cada ficha. Cada ficha indica: 1 qué se solicita; 2 evidencia; 3 decisiones resueltas; 4 limitaciones vigentes; 5 exclusiones; 6 consecuencias de aprobar; 7 consecuencias de rechazar o aprobar con cambios. La recomendación, el fundamento, los riesgos y el texto de decisión están en el paquete.
 
-### Ficha 0.1 Diagnóstico — PENDIENTE
+### Ficha 0.1 Diagnóstico — APROBADA (2026-11-22 20:14)
 1. **Qué se solicita:** Aceptar que el diagnóstico describe fielmente el estado real: el repositorio de la aplicación contiene la fundación comprobada y el producto CCI no existe; la línea `docs/fase0` (Supabase/RLS) es histórica y está superada.
 2. **Documentos de evidencia:** `01_INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md`, `02_INVENTARIO_FUNCIONAL_CCI.md`, `03_MATRIZ_REQUISITOS_CCI.md`, `../03_CONCILIACION_DOCUMENTAL.md`, `../13_VERIFICACION_EJECUTADA.md`, `../auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md`, `../auditoria_integral/08_INFORME_INTEGRIDAD_ARCHIVOS.md`
 3. **Decisiones resueltas:** P3, P14 (sin PoC ejecutable en Fase 0), P1 y P2 en cuanto fijan el marco.
@@ -28,7 +29,7 @@ Todas **PENDIENTES**. Cada ficha indica: 1 qué se solicita; 2 evidencia; 3 deci
 6. **Consecuencias de aprobar:** El diagnóstico pasa a ser la base de lectura del estado real; no cambia nada técnico.
 7. **Consecuencias de rechazar o aprobar con cambios:** Rechazar: habría que indicar qué hecho del inventario es inexacto y se corregiría el diagnóstico antes de las demás fichas. Con cambios: texto exacto de lo que se corrige.
 
-### Ficha 0.2 Arquitectura — PENDIENTE
+### Ficha 0.2 Arquitectura — APROBADA (2026-11-22 20:14)
 1. **Qué se solicita:** Aprobar la especificación de arquitectura browser-only: un usuario por navegador; sin cuentas, login, backend, Supabase, PostgreSQL, SQL, servidor, multiusuario ni sincronización; IndexedDB como persistencia principal; Local Storage solo para preferencias ligeras; exportación/importación local como respaldo.
 2. **Documentos de evidencia:** `04_ARQUITECTURA_BROWSER_ONLY.md`, `REGISTRO_DECISIONES_RESUELTAS.md` (P1, P2, B6), `14_MATRIZ_RIESGOS_CCI.md`
 3. **Decisiones resueltas:** P1, P2; P9 (modo `local`; DEMO solo en pruebas o demostraciones identificadas); P11 (Chrome/Chromium primario; Edge a validar; Firefox secundario; Safari mejor esfuerzo); P12 (una pestaña de escritura y las demás en solo lectura; fallar de forma conservadora); P13 (dependencias mínimas justificadas una por una); P14 (sin PoC ejecutable en Fase 0).
@@ -37,7 +38,7 @@ Todas **PENDIENTES**. Cada ficha indica: 1 qué se solicita; 2 evidencia; 3 deci
 6. **Consecuencias de aprobar:** Queda fijada la arquitectura vigente: no hay backend ni Supabase; incorporarlos exigiría una decisión nueva del propietario.
 7. **Consecuencias de rechazar o aprobar con cambios:** Rechazar o cambiar: indicar el punto de arquitectura (p. ej. alcance de P12 o P11) y se reformula `04` sin tocar decisiones ratificadas, salvo decisión expresa.
 
-### Ficha 0.3 Dominio — PENDIENTE
+### Ficha 0.3 Dominio — APROBADA (2026-11-22 20:14)
 1. **Qué se solicita:** Aprobar el modelo de dominio conceptual: 18 entidades con existencia y definición mínima (18/18), 13 relaciones sin cardinalidades obligatorias, atributos diferidos a cada módulo y convenciones transversales E1–E5.
 2. **Documentos de evidencia:** `05_MODELO_DOMINIO_CCI.md`, `06_MODELO_DATOS_CCI.md` (propuesta histórica; no es un esquema de datos aprobado), `MATRIZ_CONSOLIDADA_18_ENTIDADES.md`, `CONVENCIONES_P4_5_CONDICIONES.md`, `../auditoria_integral/03_MATRIZ_MAESTRA_ENTIDADES_P4A.md`, `CONCILIACION_30_DECISIONES_Y_APLAZAMIENTOS.md`
 3. **Decisiones resueltas:** P1; Q-7; P4: P4.A 18/18 (solo existencia y definición mínima), P4.B (13 relaciones: 2 con fundamento documental y 11 propuestas, una por una), P4.C (atributos diferidos a cada módulo), P4.E (E1–E5); A0-1 (sin clasificación de origen inicial), A0-2 (diferir L1/L2), A0-3 (sí); D-1…D-8 en su alcance.
@@ -46,7 +47,7 @@ Todas **PENDIENTES**. Cada ficha indica: 1 qué se solicita; 2 evidencia; 3 deci
 6. **Consecuencias de aprobar:** El dominio queda como referencia conceptual; los atributos se aprobarán por módulo antes de implementar cada entidad.
 7. **Consecuencias de rechazar o aprobar con cambios:** Con cambios: citar entidad o relación y el texto exacto; si el cambio amplía lo ratificado se trata como decisión nueva.
 
-### Ficha 0.4 Persistencia — PENDIENTE
+### Ficha 0.4 Persistencia — APROBADA (2026-11-22 20:14)
 1. **Qué se solicita:** Aprobar el diseño conceptual de persistencia local: IndexedDB principal, binarios como Blob separados de los metadatos, Local Storage solo para preferencias ligeras, exportación/importación como respaldo y recuperación, política de archivar frente a eliminar y hash SHA-256 de versiones.
 2. **Documentos de evidencia:** `07_DISENO_PERSISTENCIA_INDEXEDDB.md`, `08_RESPALDO_IMPORTACION_RECUPERACION.md`, `CONVENCIONES_P4_5_CONDICIONES.md`
 3. **Decisiones resueltas:** P5 (Blob en IndexedDB; validar tipo, tamaño y contenido; consultar cuota si el navegador lo permite; sin promesa de recuperación automática); P9; P11; P12; P13; P4.E (E1 fechas, E2 `revision` no obligatorio, E3 archivar/eliminar, E4 nulos, E5 hash sin garantía de autoría ni seguridad).
@@ -55,7 +56,7 @@ Todas **PENDIENTES**. Cada ficha indica: 1 qué se solicita; 2 evidencia; 3 deci
 6. **Consecuencias de aprobar:** Queda fijado el diseño conceptual de persistencia y recuperación; no hay promesa de recuperación automática.
 7. **Consecuencias de rechazar o aprobar con cambios:** Con cambios: indicar sección de `07` u `08`; ampliar el alcance del respaldo en Fase 1 es decisión del propietario, no cambio documental.
 
-### Ficha 0.5 IA inicial — PENDIENTE
+### Ficha 0.5 IA inicial — APROBADA solo en cuanto a principios (2026-11-22 20:14)
 1. **Qué se solicita:** Aprobar solo los principios de IA: la IA ayuda a crear, analizar y sugerir; reglas y cálculos deterministas; la aprobación final es humana; no hay claves privadas en el frontend ni secretos en Local Storage o IndexedDB. No es una aprobación de integración.
 2. **Documentos de evidencia:** `09_ESTRATEGIA_IA_CCI.md`
 3. **Decisiones resueltas:** Principios del propietario; P1 (browser-only, sin backend).
@@ -64,7 +65,7 @@ Todas **PENDIENTES**. Cada ficha indica: 1 qué se solicita; 2 evidencia; 3 deci
 6. **Consecuencias de aprobar:** Fija las reglas de privacidad iniciales; cualquier integración exige resolver P8 antes de Fase 2.
 7. **Consecuencias de rechazar o aprobar con cambios:** Rechazar o con cambios: indicar la regla afectada; no impide Fase 1 porque la generación llega en Fase 2.
 
-### Ficha 0.6 MVP — PENDIENTE
+### Ficha 0.6 MVP — APROBADA (2026-11-22 20:14)
 1. **Qué se solicita:** Aprobar la definición del MVP: termina al concluir Fase 2 (Fase 1 Fundamentos y Command Center; Fase 2 Copy Studio).
 2. **Documentos de evidencia:** `10_DEFINICION_MVP_CCI.md`, `REGISTRO_DECISIONES_RESUELTAS.md` (B7)
 3. **Decisiones resueltas:** Q-4 (el MVP termina al concluir Fase 2); P1 y P4 en lo que delimitan el alcance.
@@ -73,7 +74,7 @@ Todas **PENDIENTES**. Cada ficha indica: 1 qué se solicita; 2 evidencia; 3 deci
 6. **Consecuencias de aprobar:** Fija el perímetro del MVP en el fin de Fase 2.
 7. **Consecuencias de rechazar o aprobar con cambios:** Con cambios: citar el elemento; mover el fin del MVP contradiría Q-4 y exigiría decisión nueva.
 
-### Ficha 0.7 Roadmap — PENDIENTE
+### Ficha 0.7 Roadmap — APROBADA (2026-11-22 20:14)
 1. **Qué se solicita:** Aprobar el roadmap Fases 1–5 y sus criterios de aceptación como puertas de aceptación de referencia.
 2. **Documentos de evidencia:** `11_ROADMAP_FASES_0_A_5.md`, `12_CRITERIOS_ACEPTACION_FASES.md`, `15_PLAN_CALIDAD_Y_PRUEBAS.md`, `../auditoria_integral/04_MATRIZ_MAESTRA_DEPENDENCIAS.md`
 3. **Decisiones resueltas:** Q-4; P1, P4, P5, P9, P11–P14; limitaciones expresas C-2 y C-3 mantenidas.
@@ -86,6 +87,7 @@ Todas **PENDIENTES**. Cada ficha indica: 1 qué se solicita; 2 evidencia; 3 deci
 Las condiciones que figuraban en versiones anteriores (P3, P4 parcial, P5, P9, P11, P12, P13, Q-4) están **resueltas** por el registro (decisiones previas y ratificación B1–B10). Los aplazamientos P6, P7, P8, P10, P15, Q-1, Q-2, Q-3, Q-5 y Q-6 **no están resueltos**: no bloquean la revisión documental de estas fichas, pero cada uno debe resolverse antes de la fase indicada.
 
 ## 4. Antecedente histórico (versión anterior a la regularización; se conserva sin cambios de contenido)
+> **Nota fechada 2026-11-22 20:14:** el estado PENDIENTE que consta en este antecedente (y en la tabla antigua que sigue) describe una fecha anterior; las aprobaciones 0.1–0.7 fueron emitidas por el propietario (ver la nota al inicio y el registro). La aceptación de Fase 0 y la autorización de Fase 1 siguen PENDIENTES.
 > **ANTECEDENTE SUPERADO:** lo que sigue es el texto previo, con prerrequisitos y conteos (por ejemplo «P4 parcial», «P5, P11, P12 pendientes», «P4.A 9/18») que **ya no son vigentes**. Se conserva para trazabilidad.
 
 ### Texto anterior conservado (tabla de la versión previa a la regularización)

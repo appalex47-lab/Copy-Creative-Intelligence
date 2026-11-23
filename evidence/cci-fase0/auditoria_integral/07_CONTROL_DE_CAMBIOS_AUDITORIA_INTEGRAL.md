@@ -163,3 +163,15 @@ Ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` v2.0: la brecha de lectura declarada
 | `05`, `07`, `08`, `12` | Cifras (134 archivos; manifiestos de 132 y 133 líneas; 194 blobs), filas y notas | Coherencia |
 | `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados | Integridad |
 **Preservados sin cambios:** `docs/fase0/` (59), `anexos/`, las salidas anteriores de los scripts, `13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md`, el estado de CR-01…CR-22 y el texto de las decisiones.
+
+## R13. Registro de las aprobaciones 0.1–0.7 y de la respuesta a R-1 (base `cad808a2da6659d68b41578625ed409a4f8ee3d8`; respuesta del propietario 2026-11-22 20:14)
+**Alcance:** registrar como decisión del propietario la respuesta «Apruebo 0.1 a 0.7 según las recomendaciones del paquete (0.5 solo en cuanto a principios; P8 sigue sin resolver y ninguna integración queda aprobada). R-1 sí.» y actualizar la evidencia derivada. No se modificó código de la aplicación, `docs/fase0/`, `main` ni estados de CR; **no se aceptó la Fase 0 ni se autorizó la Fase 1**; R-1 se registró como aplazamiento aceptado, no como resolución. Detalle: `entregables_formales/CONTROL_DE_CAMBIOS_APROBACIONES_0_1_A_0_7_2026-11-22.md`.
+| Grupo | Cambio | Motivo |
+|---|---|---|
+| `REGISTRO_DECISIONES_RESUELTAS.md`, `APROBACIONES_FASE0.md`, `PAQUETE_DECISION…` | Sección autoritativa nueva; estado de 0.1–0.7 = APROBADA (0.5 solo principios); «Final» y «Aparte» PENDIENTES | Respuesta del propietario |
+| Índices y informes (20 archivos) | Notas fechadas de las 20:14 (texto anterior conservado) o actualización fechada de la línea de estado | Los textos «0/7» y «PENDIENTES» describían el estado previo |
+| `logs/` (3 scripts) | S4/S4b/S15/A1/A3, X5b–X5d, mutaciones M5 y M9–M13 (70 pruebas; 13 mutaciones) | Controles del nuevo estado |
+| Nuevos (7) | Control de cambios y 6 salidas en `logs/` | Evidencia |
+| `05`, `07`, `08`, `12` | Cifras (141 archivos; manifiestos de 139 y 140 líneas; 201 blobs), filas y notas | Coherencia |
+| `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados | Integridad |
+**Preservados sin cambios:** `docs/fase0/` (59), `anexos/`, las salidas anteriores de los scripts y el texto de las decisiones anteriores.

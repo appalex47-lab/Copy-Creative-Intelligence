@@ -377,4 +377,33 @@ Registro de las cuestiones que D-3 y D-5 declaran expresamente **no decididas**.
 - **D-3 — cuestión residual:** la **ubicación conceptual de la familia de reglas de copy** (D-3.c la dejó «pendiente de P4.B»; la ratificación de P4.B (B2) no aprobó Reglas de copy–ReglaDeMarca ni fijó esa ubicación). No debe confundirse con: la existencia de la familia conceptual de reglas de copy (ya distinguida); ReglaDeMarca y ReglaComercial (separación decidida); las reglas por canal (dimensión del Canal, no entidad independiente aprobada); una ubicación técnica o estructura de datos (no aprobada).
 - **D-5 — cinco cuestiones residuales** (texto de D-5.3, arriba): (1) si la aprobación requiere auditoría o validaciones previas; (2) qué sucede cuando se modifica un contenido aprobado; (3) cómo se relaciona la aprobación con las versiones; (4) la identidad exacta del contenido al que se aplica cada aprobación; (5) la relación entre aprobación y los estados documentados en el flujo.
 - **D5.a–d:** permanecen **fuera del alcance vigente** (decisión definitiva del propietario, nota anterior): no son pendientes, no se cuentan como abiertas, no condicionan D-4 ni las aprobaciones 0.1–0.7 y no se vuelven a preguntar. Las cinco cuestiones residuales de arriba no los reabren.
-- **Pregunta R-1 (pendiente de respuesta del propietario):** ¿se aplazan estas **seis** cuestiones hasta la especificación del módulo correspondiente, sin alterar D-3 ni D-5? Una respuesta afirmativa se registrará como **aplazamiento aceptado**, nunca como resolución conceptual; no reabre D-5.1, D-5.2, D-5.3 ni D5.a–d, no modifica M-1 y no aprueba mecanismos de aprobación, auditoría, versionado ni estados. Texto completo: `PAQUETE_DECISION_APROBACIONES_0_1_A_0_7.md`.
+- **Pregunta R-1 (respondida «sí» el 2026-11-22 20:14; ver la sección «Aprobaciones formales 0.1–0.7 y respuesta a R-1», al final; el texto de esta nota describe el estado previo a la respuesta):** ¿se aplazan estas **seis** cuestiones hasta la especificación del módulo correspondiente, sin alterar D-3 ni D-5? Una respuesta afirmativa se registrará como **aplazamiento aceptado**, nunca como resolución conceptual; no reabre D-5.1, D-5.2, D-5.3 ni D5.a–d, no modifica M-1 y no aprueba mecanismos de aprobación, auditoría, versionado ni estados. Texto completo: `PAQUETE_DECISION_APROBACIONES_0_1_A_0_7.md`.
+
+## Aprobaciones formales 0.1–0.7 y respuesta a R-1 — RESUELTAS por el propietario el 2026-11-22 20:14 (registro AUTORITATIVO)
+**Texto literal del propietario:** «Apruebo 0.1 a 0.7 según las recomendaciones del paquete (0.5 solo en cuanto a principios; P8 sigue sin resolver y ninguna integración queda aprobada). R-1 sí.»
+
+**Lectura registrada (sin inferencias adicionales):** el propietario adopta como propias las recomendaciones del paquete `PAQUETE_DECISION_APROBACIONES_0_1_A_0_7.md` (las recomendaciones eran [Rec. Claude], no vinculantes; pasan a ser decisión solo por esta respuesta, con el alcance y las limitaciones que el paquete indica para cada ficha).
+| Ficha | Estado | Alcance y límites de la aprobación (según el paquete) |
+|---|---|---|
+| 0.1 Diagnóstico | APROBADA | con las limitaciones indicadas en la ficha; no valida el diseño ni certifica que el código funcione |
+| 0.2 Arquitectura | APROBADA | arquitectura browser-only/local/un usuario por navegador, según la ficha |
+| 0.3 Dominio | APROBADA | con las exclusiones indicadas en la ficha: no se aprueban atributos, cardinalidades obligatorias, estados, ciclos de vida, persistencia, fórmulas, catálogos de métricas ni asignación de fase |
+| 0.4 Persistencia | APROBADA | con las limitaciones indicadas en la ficha; no aprueba cifrado, hosting, formato final de exportación ni límites de producto |
+| 0.5 IA inicial | APROBADA **solo en cuanto a principios** | **P8 sigue sin resolver** (aplazamiento aceptado, antes de generación en Fase 2); **ninguna integración, proveedor, clave ni llamada remota queda aprobada** |
+| 0.6 MVP | APROBADA | el MVP termina al concluir la Fase 2; las columnas marcadas [P] siguen sin validar |
+| 0.7 Roadmap | APROBADA | Fases 1–5 y criterios AC como puertas de aceptación; no autoriza ninguna fase |
+
+**R-1 = «sí».** Se registra como **aplazamiento aceptado**, nunca como resolución: las **seis** cuestiones residuales (la ubicación conceptual de la familia de reglas de copy, de D-3, y las cinco de D-5: auditoría o validaciones previas; modificación de un contenido aprobado; relación con las versiones; identidad exacta del contenido aprobado; relación con los estados del flujo) se aplazan hasta la especificación del módulo correspondiente, sin modificar D-3 ni D-5. No reabre D-5.1, D-5.2, D-5.3, M-1 ni D5.a–d (fuera del alcance vigente, sin cambio); no aprueba mecanismos de aprobación, auditoría, versionado ni estados. **R-1 no se suma a las 20/30 resueltas ni a las 10/30 aplazadas:** son cuestiones residuales dentro de D-3 y D-5, que siguen resueltas en los términos ya registrados.
+
+**Conteos tras esta respuesta:** aprobaciones 0.1–0.7 emitidas por el propietario: **7/7**. Decisiones conceptuales: 20/30 resueltas; 10/30 con aplazamiento aceptado (P6, P7, P8, P10, P15, Q-1, Q-2, Q-3, Q-5, Q-6); 0 abiertas. P4.A 18/18 (existencia y definición mínima). Sin cambio en el estado de los CR.
+
+**Lo que esta respuesta NO hace:**
+- **No acepta la Fase 0.** La aceptación formal («cerrar formalmente Fase 0») es un acto distinto y sigue **PENDIENTE**; requiere respuesta expresa del propietario.
+- **No autoriza la Fase 1.** Es una autorización independiente, con el contenido indicado en la propuesta (§19), y sigue **PENDIENTE**.
+- No resuelve P8 ni ningún otro aplazamiento; no aprueba integración de IA, proveedor, clave ni llamada remota.
+- No cierra C-2 ni C-3 (siguen como limitaciones expresas, B9).
+- No reabre D5.a–d ni ninguna decisión ratificada; no aprueba atributos, cardinalidades, fórmulas ni catálogos.
+- No autoriza implementar, instalar dependencias, modificar código, modificar `docs/fase0` ni `main`, ni fusionar con la vista previa privada (el propietario ya indicó que no se fusiona).
+- No acredita pruebas, build, E2E ni CI de la aplicación, ni acceso a `CCI-Evidence` (403 en este entorno).
+
+**Nota cronológica posterior (20:14):** los textos anteriores de este registro que dicen «0.1–0.7 PENDIENTES (0/7)» (B10, «Efectos y límites» y la nota de R-1) describen el estado en su momento y quedan **superados** por esta sección en lo relativo a las aprobaciones 0.1–0.7 y a R-1; siguen vigentes en todo lo demás (aceptación de Fase 0 y autorización de Fase 1 pendientes). No se reescribe ninguna decisión anterior.
