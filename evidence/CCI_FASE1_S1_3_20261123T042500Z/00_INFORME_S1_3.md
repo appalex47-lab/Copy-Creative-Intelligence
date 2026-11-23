@@ -11,5 +11,12 @@ Decisiones de Claude bajo la delegación del propietario (ver `../CCI_FASE1_S1_0
 ## SUPUESTOS míos, marcados y reversibles (no vienen de un documento aprobado)
 Máximo de 60 caracteres; valores `theme` (system/light/dark), `language` (es), vistas válidas, tope de 50 avisos vistos; los seis tipos de evento. Solo el nombre opcional del perfil, las cinco categorías de configuración y la existencia del Evento de actividad están aprobados.
 
+## Retirada del dominio provisional (completada)
+- Se eliminaron `UserIdentity`, `Organization`, `Membership` (con roles) y `Project`, los datos de demostración de esas entidades y los servicios que los exponían. `src/domain/entities.ts` conserva solo `AppState`.
+- El contrato `Services` queda en `appState` y `activity` (lista de actividad reciente). El adaptador DEMO **no inventa actividad**: devuelve lista vacía.
+- «Resumen» muestra la actividad real o un **estado vacío explícito** («Sin actividad reciente»); un fallo de servicio no se disfraza de estado vacío (prueba).
+- Pruebas unitarias y E2E reescritas para el nuevo contrato. Resultado: 143 pruebas unitarias; Playwright 35/35 en 3 corridas consecutivas (Chrome for Testing 153); typecheck, lint, formato, secretos y build sin errores. La cifra de unitarias baja de 160 a 143 porque se retiraron las pruebas de los datos de la era Supabase.
+- El `AppErrorCode` no se amplió.
+
 ## Pendiente
-Retirar `UserIdentity`, `Organization`, `Membership` y `Project` (contradicen P1) junto con servicios, adaptador DEMO y páginas que los usan; esquema de IndexedDB, migraciones v0–v2 y repositorios (S1.4 y S1.5).
+Esquema de IndexedDB, repositorios y migraciones v0–v2 (S1.4 y S1.5); preferencias, perfil, almacenamiento, Command Center con datos reales, respaldo.

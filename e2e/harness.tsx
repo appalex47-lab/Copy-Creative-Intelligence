@@ -10,7 +10,7 @@ import { fail, type Services } from '@/services/contracts';
 import { createDemoServices } from '@/services/adapters/demo/demoServices';
 
 interface Control {
-  calls: { identity: number; appState: number };
+  calls: { activity: number; appState: number };
   /** Libera todas las llamadas retenidas (escenario "gated"). */
   release: () => void;
   /** Deja de fallar (escenarios "unavailable" y "throw"): simula que el servicio se recuperó. */
@@ -28,7 +28,7 @@ const waiting: (() => void)[] = [];
 // StrictMode ejecuta los efectos dos veces en desarrollo: el fallo no depende del número de llamada sino de `failing`.
 let failing = true;
 const control: Control = {
-  calls: { identity: 0, appState: 0 },
+  calls: { activity: 0, appState: 0 },
   release: () => waiting.splice(0).forEach((r) => r()),
   heal: () => {
     failing = false;
@@ -40,22 +40,27 @@ const gate = () => new Promise<void>((resolve) => waiting.push(resolve));
 
 const services: Services = {
   ...base,
-  identity: {
-    getCurrentIdentity: async () => {
-      control.calls.identity += 1;
+  activity: {
+    listRecent: async () => {
+      control.calls.activity += 1;
       if (scenario === 'gated') await gate();
       if (scenario === 'unavailable' && failing) return fail('unavailable', 'DETALLE_INTERNO_SQL');
       if (scenario === 'notfound') return fail('not_found', 'DETALLE_INTERNO_SQL');
       if (scenario === 'throw' && failing) throw new Error('DETALLE_INTERNO_STACK');
-      const identity = await base.identity.getCurrentIdentity();
-      if (scenario === 'render-bomb' && identity.ok) {
+      if (scenario === 'render-bomb') {
         // Valor inválido como hijo de React: provoca un error REAL de renderizado.
         return {
           ok: true,
-          value: { ...identity.value, displayName: { oops: 1 } as unknown as string },
+          value: [
+            {
+              id: 'evt_00000001',
+              at: { oops: 1 } as unknown as string,
+              kind: 'app_opened' as const,
+            },
+          ],
         };
       }
-      return identity;
+      return base.activity.listRecent();
     },
   },
   appState: {

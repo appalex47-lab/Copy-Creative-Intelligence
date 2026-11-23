@@ -5,11 +5,8 @@ import { createServices } from './index';
 describe('createServices', () => {
   it('crea los servicios DEMO para el modo demo', () => {
     expect(Object.keys(createServices({ appEnv: 'test', dataMode: 'demo' })).sort()).toEqual([
+      'activity',
       'appState',
-      'identity',
-      'memberships',
-      'organizations',
-      'projects',
     ]);
   });
   it('falla de forma explícita ante un modo no soportado (no devuelve undefined)', () => {

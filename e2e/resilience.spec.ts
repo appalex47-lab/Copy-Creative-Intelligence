@@ -16,7 +16,7 @@ test.describe('estados de carga, error y reintento en Chrome real (StrictMode)',
     await expect(status).toHaveAttribute('aria-live', 'polite');
     await page.screenshot({ path: `${EVIDENCE_DIR}/estado_carga_desktop.png` });
     await page.evaluate(() => window.__cci.release());
-    await expect(page.getByText('Persona DEMO')).toBeVisible();
+    await expect(page.getByText('Sin actividad reciente')).toBeVisible();
     await expect(status).toHaveText('Contenido cargado.');
     expect(errors).toEqual([]);
   });
@@ -26,10 +26,10 @@ test.describe('estados de carga, error y reintento en Chrome real (StrictMode)',
   }) => {
     const errors = trackErrors(page);
     await open(page, 'ok');
-    await expect(page.getByText('Persona DEMO')).toBeVisible();
-    expect((await calls(page)).identity).toBeGreaterThanOrEqual(2); // doble montaje de StrictMode
+    await expect(page.getByText('Sin actividad reciente')).toBeVisible();
+    expect((await calls(page)).activity).toBeGreaterThanOrEqual(2); // doble montaje de StrictMode
     expect(await page.evaluate(() => document.activeElement === document.body)).toBe(true);
-    await expect(page.getByText('Persona DEMO')).toHaveCount(1);
+    await expect(page.getByText('Sin actividad reciente')).toHaveCount(1);
     expect(errors).toEqual([]);
   });
 
@@ -44,7 +44,7 @@ test.describe('estados de carga, error y reintento en Chrome real (StrictMode)',
     expect(await axeViolations(page)).toEqual([]);
     await page.evaluate(() => window.__cci.heal());
     await page.getByRole('button', { name: 'Reintentar' }).click();
-    await expect(page.getByText('Persona DEMO')).toBeVisible();
+    await expect(page.getByText('Sin actividad reciente')).toBeVisible();
     await expect(page.getByRole('alert')).toHaveCount(0);
   });
 
@@ -53,7 +53,7 @@ test.describe('estados de carga, error y reintento en Chrome real (StrictMode)',
     await expect(page.getByRole('alert')).toBeVisible();
     await page.evaluate(() => window.__cci.heal());
     await page.getByRole('button', { name: 'Reintentar' }).click();
-    await expect(page.getByText('Persona DEMO')).toBeVisible();
+    await expect(page.getByText('Sin actividad reciente')).toBeVisible();
     await expect(page.getByRole('heading', { level: 2, name: 'Resumen' })).toBeFocused();
   });
 
@@ -64,7 +64,7 @@ test.describe('estados de carga, error y reintento en Chrome real (StrictMode)',
     await expect(page.locator('body')).not.toContainText('DETALLE_INTERNO');
     await page.evaluate(() => window.__cci.heal());
     await page.getByRole('button', { name: 'Reintentar' }).click();
-    await expect(page.getByText('Persona DEMO')).toBeVisible();
+    await expect(page.getByText('Sin actividad reciente')).toBeVisible();
     // Solo se registra el tipo de error (nombre), nunca el mensaje.
     expect(errors.join('\n')).not.toContain('DETALLE_INTERNO');
   });
@@ -100,11 +100,11 @@ test.describe('estados de carga, error y reintento en Chrome real (StrictMode)',
     await expect(
       page.getByRole('region', { name: 'Estado de la aplicación (JSON)' }),
     ).toBeVisible();
-    await expect(page.getByText('Persona DEMO')).toHaveCount(0); // la respuesta tardía de Inicio no aparece aquí
+    await expect(page.getByText('Sin actividad reciente')).toHaveCount(0); // la respuesta tardía de Inicio no aparece aquí
     // Volver a Inicio carga de nuevo (nueva solicitud).
     await page.getByRole('button', { name: 'Inicio' }).click();
     await page.evaluate(() => window.__cci.release());
-    await expect(page.getByText('Persona DEMO')).toBeVisible();
+    await expect(page.getByText('Sin actividad reciente')).toBeVisible();
     expect(errors).toEqual([]);
   });
 

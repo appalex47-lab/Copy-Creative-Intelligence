@@ -8,14 +8,12 @@ describe('inicialización de la aplicación', () => {
   beforeEach(() => vi.spyOn(console, 'error').mockImplementation(() => undefined));
   afterEach(() => vi.restoreAllMocks());
 
-  it('arranca en modo DEMO, muestra el aviso y los datos ficticios por contratos', async () => {
+  it('arranca en modo DEMO, muestra el aviso y un estado vacío honesto por contratos', async () => {
     render(<App env={{ appEnv: 'test', dataMode: 'demo' }} />);
     expect(screen.getByRole('region', { name: 'Aviso de modo DEMO' })).toHaveTextContent(
       'MODO DEMO',
     );
-    expect(await screen.findByText('Persona DEMO')).toBeInTheDocument();
-    expect(screen.getByText(/Organización DEMO/)).toBeInTheDocument();
-    expect(screen.getByText(/Proyecto DEMO/)).toBeInTheDocument();
+    expect(await screen.findByText('Sin actividad reciente')).toBeInTheDocument();
   });
 
   it('permite navegar al estado de conexión y declara que no hay backend', async () => {
@@ -38,6 +36,6 @@ describe('inicialización de la aplicación', () => {
   it('ConfigurationError se anuncia como alerta y no muestra datos DEMO', () => {
     render(<ConfigurationError message="entorno rechazado" />);
     expect(screen.getByRole('alert')).toHaveTextContent('entorno rechazado');
-    expect(screen.queryByText(/Persona DEMO/)).not.toBeInTheDocument();
+    expect(screen.queryByText('Sin actividad reciente')).not.toBeInTheDocument();
   });
 });

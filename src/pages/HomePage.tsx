@@ -1,39 +1,24 @@
 import { useCallback, useRef } from 'react';
+import { EmptyState } from '@/components/EmptyState';
 import { AsyncStatus, ErrorNotice } from '@/components/StatusNotices';
-import type { Organization, Project, UserIdentity } from '@/domain/entities';
+import type { ActivityKind } from '@/domain/activity';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
 import { useServices } from '@/hooks/ServicesContext';
-import type { Result } from '@/services/contracts';
 
-interface Snapshot {
-  readonly identity: UserIdentity;
-  readonly organizations: readonly Organization[];
-  readonly projects: readonly Project[];
-}
+const KIND_LABEL: Record<ActivityKind, string> = {
+  app_opened: 'Se abrió la aplicación',
+  profile_changed: 'Cambió el perfil local',
+  setting_changed: 'Cambió una preferencia',
+  backup_exported: 'Se exportó un respaldo',
+  backup_imported: 'Se importó un respaldo',
+  storage_error: 'Error de almacenamiento',
+};
 
-/** Página de fundación: demuestra que la UI consume solo contratos, nunca un proveedor concreto. */
+/** Resumen: la actividad local real, o un estado vacío explícito. Consume solo contratos. */
 export function HomePage() {
   const services = useServices();
   const heading = useRef<HTMLHeadingElement>(null);
-  const load = useCallback(async (): Promise<Result<Snapshot>> => {
-    const [identity, orgs] = await Promise.all([
-      services.identity.getCurrentIdentity(),
-      services.organizations.listForCurrentUser(),
-    ]);
-    if (!identity.ok) return identity;
-    if (!orgs.ok) return orgs;
-    const first = orgs.value[0];
-    const projects = first ? await services.projects.listForOrganization(first.id) : null;
-    if (projects && !projects.ok) return projects;
-    return {
-      ok: true,
-      value: {
-        identity: identity.value,
-        organizations: orgs.value,
-        projects: projects?.value ?? [],
-      },
-    };
-  }, [services]);
+  const load = useCallback(() => services.activity.listRecent(), [services]);
   const { state, retry } = useAsyncResource(load);
 
   // Tras reintentar, el botón desaparece: el foco se devuelve al encabezado para no perderlo.
@@ -51,26 +36,24 @@ export function HomePage() {
       {state.status === 'error' && (
         <ErrorNotice message={state.message} onRetry={state.retryable ? onRetry : undefined} />
       )}
-      {state.status === 'success' && (
-        <>
-          <p>
-            Identidad: <strong>{state.data.identity.displayName}</strong> (
-            {state.data.identity.origin})
-          </p>
-          <p>
-            Organizaciones:{' '}
-            {state.data.organizations.length > 0
-              ? state.data.organizations.map((o) => o.name).join(', ')
-              : 'ninguna'}
-          </p>
-          <p>
-            Proyectos:{' '}
-            {state.data.projects.length > 0
-              ? state.data.projects.map((p) => p.name).join(', ')
-              : 'ninguno'}
-          </p>
-        </>
-      )}
+      {state.status === 'success' &&
+        (state.data.length === 0 ? (
+          <EmptyState
+            title="Sin actividad reciente"
+            description="Aún no hay acciones locales registradas en este navegador."
+          />
+        ) : (
+          <>
+            <h3>Actividad reciente</h3>
+            <ul>
+              {state.data.map((e) => (
+                <li key={e.id}>
+                  {KIND_LABEL[e.kind]} · <time dateTime={e.at}>{e.at}</time>
+                </li>
+              ))}
+            </ul>
+          </>
+        ))}
     </section>
   );
 }

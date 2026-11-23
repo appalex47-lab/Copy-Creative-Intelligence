@@ -14,7 +14,7 @@ test.describe('aplicación (build preview) en Chrome real', () => {
     await expect(page.getByRole('region', { name: 'Aviso de modo DEMO' })).toContainText(
       'MODO DEMO',
     );
-    await expect(page.getByText('Persona DEMO')).toBeVisible();
+    await expect(page.getByText('Sin actividad reciente')).toBeVisible();
     await expect(page.getByRole('status')).toHaveText('Contenido cargado.');
     expect(errors).toEqual([]);
   });

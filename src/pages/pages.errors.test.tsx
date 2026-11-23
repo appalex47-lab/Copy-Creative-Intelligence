@@ -13,14 +13,14 @@ beforeEach(() => vi.spyOn(console, 'error').mockImplementation(() => undefined))
 afterEach(() => vi.restoreAllMocks());
 
 const failing = (code: 'unavailable' | 'not_found'): Partial<Services> => ({
-  identity: { getCurrentIdentity: () => Promise.resolve(fail(code, INTERNAL_DETAIL)) },
+  activity: { listRecent: () => Promise.resolve(fail(code, INTERNAL_DETAIL)) },
 });
 
 describe('HomePage — estados', () => {
   it('muestra carga y luego éxito', async () => {
     renderWithServices(<HomePage />, servicesWith());
     expect(screen.getByText('Cargando…')).toBeInTheDocument();
-    expect(await screen.findByText('Persona DEMO')).toBeInTheDocument();
+    expect(await screen.findByText('Sin actividad reciente')).toBeInTheDocument();
   });
 
   it('muestra un Result fallido de forma visible, sin detalle interno', async () => {
@@ -35,12 +35,12 @@ describe('HomePage — estados', () => {
   it('una excepción del servicio produce error (no carga permanente) con reintento', async () => {
     let calls = 0;
     const services = servicesWith({
-      identity: {
-        getCurrentIdentity: () => {
+      activity: {
+        listRecent: () => {
           calls += 1;
           return calls === 1
             ? Promise.reject(new Error(INTERNAL_DETAIL))
-            : servicesWith().identity.getCurrentIdentity();
+            : servicesWith().activity.listRecent();
         },
       },
     });
@@ -48,7 +48,7 @@ describe('HomePage — estados', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('Ocurrió un error inesperado');
     expect(document.body.textContent).not.toContain(INTERNAL_DETAIL);
     fireEvent.click(screen.getByRole('button', { name: 'Reintentar' }));
-    expect(await screen.findByText('Persona DEMO')).toBeInTheDocument();
+    expect(await screen.findByText('Sin actividad reciente')).toBeInTheDocument();
     expect(calls).toBe(2);
   });
 
@@ -58,22 +58,33 @@ describe('HomePage — estados', () => {
     expect(screen.getByRole('button', { name: 'Reintentar' })).toBeInTheDocument();
   });
 
-  it('el fallo en proyectos no se disfraza de lista vacía', async () => {
-    const services = servicesWith({
-      projects: { listForOrganization: () => Promise.resolve(fail('unavailable', 'x')) },
-    });
-    renderWithServices(<HomePage />, services);
+  it('el fallo de la actividad no se disfraza de estado vacío', async () => {
+    renderWithServices(<HomePage />, servicesWith(failing('unavailable')));
     expect(await screen.findByRole('alert')).toBeInTheDocument();
-    expect(screen.queryByText(/Proyectos:/)).not.toBeInTheDocument();
+    expect(screen.queryByText('Sin actividad reciente')).not.toBeInTheDocument();
   });
 
   it('una lista vacía legítima se declara explícitamente', async () => {
+    renderWithServices(<HomePage />, servicesWith());
+    expect(
+      await screen.findByRole('region', { name: 'Sin actividad reciente' }),
+    ).toBeInTheDocument();
+  });
+
+  it('con actividad real la lista muestra una entrada por evento', async () => {
     const services = servicesWith({
-      organizations: { listForCurrentUser: () => Promise.resolve(ok([])) },
+      activity: {
+        listRecent: () =>
+          Promise.resolve(
+            ok([
+              { id: 'evt_00000001', at: '2026-11-22T10:00:00.000Z', kind: 'app_opened' as const },
+            ]),
+          ),
+      },
     });
     renderWithServices(<HomePage />, services);
-    expect(await screen.findByText(/Organizaciones:/)).toHaveTextContent('ninguna');
-    expect(screen.getByText(/Proyectos:/)).toHaveTextContent('ninguno');
+    expect(await screen.findByText(/Se abrió la aplicación/)).toBeInTheDocument();
+    expect(screen.queryByText('Sin actividad reciente')).not.toBeInTheDocument();
   });
 });
 
