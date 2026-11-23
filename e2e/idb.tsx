@@ -18,6 +18,10 @@ declare global {
   interface Window {
     __idb: { done: boolean; failures: string[] };
     __schema: () => Promise<SchemaInfo>;
+    __backup: {
+      atomicReplaceAborts: () => Promise<unknown>;
+      replaceThenExport: () => Promise<unknown>;
+    };
     __mig: {
       v0ToLatest: () => Promise<unknown>;
       v1ToV2WithSeeds: () => Promise<unknown>;
@@ -127,6 +131,83 @@ const inspect = async (name: string) => {
   };
   db.close();
   return out;
+};
+window.__backup = {
+  // Una escritura que falla a mitad de la sustitución debe abortar TODA la transacción (sin estado parcial).
+  atomicReplaceAborts: async () => {
+    const name = uniq('bk-atomic');
+    const o = await openDatabase(name);
+    if (!o.ok) throw new Error('apertura');
+    const repos = createIndexedDbRepositories(o.value);
+    await repos.profile.save('Ana');
+    await repos.activity.add({
+      id: 'evt_00000001',
+      at: '2026-11-22T10:00:00.000Z',
+      kind: 'app_opened',
+    });
+    await repos.activity.add({
+      id: 'evt_00000002',
+      at: '2026-11-22T11:00:00.000Z',
+      kind: 'app_opened',
+    });
+    const original = IDBObjectStore.prototype.put;
+    let calls = 0;
+    IDBObjectStore.prototype.put = function (
+      this: IDBObjectStore,
+      ...args: Parameters<IDBObjectStore['put']>
+    ) {
+      calls++;
+      if (calls === 3) throw new DOMException('fallo simulado', 'DataError');
+      return original.apply(this, args);
+    };
+    const nuevos = [1, 2, 3, 4, 5].map((i) => ({
+      id: `evt_9000000${i}`,
+      at: '2026-12-01T10:00:00.000Z',
+      kind: 'profile_changed',
+    }));
+    let result: unknown;
+    try {
+      result = await repos.backup.replaceAll({
+        profile: { displayName: 'Nuevo' },
+        activity: nuevos,
+      });
+    } finally {
+      IDBObjectStore.prototype.put = original;
+    }
+    const after = await repos.backup.exportAll();
+    o.value.close();
+    await deleteDatabase(name);
+    return {
+      result,
+      puts: calls,
+      after: after.ok
+        ? { profile: after.value.profile, ids: after.value.activity.map((e) => e.id) }
+        : null,
+    };
+  },
+  replaceThenExport: async () => {
+    const name = uniq('bk-ok');
+    const o = await openDatabase(name);
+    if (!o.ok) throw new Error('apertura');
+    const repos = createIndexedDbRepositories(o.value);
+    await repos.profile.save('Ana');
+    await repos.activity.add({
+      id: 'evt_00000001',
+      at: '2026-11-22T10:00:00.000Z',
+      kind: 'app_opened',
+    });
+    const nuevo = { id: 'evt_00000009', at: '2026-12-01T10:00:00.000Z', kind: 'profile_changed' };
+    const r = await repos.backup.replaceAll({ profile: {}, activity: [nuevo] });
+    const after = await repos.backup.exportAll();
+    o.value.close();
+    await deleteDatabase(name);
+    return {
+      ok: r.ok,
+      after: after.ok
+        ? { profile: after.value.profile, ids: after.value.activity.map((e) => e.id) }
+        : null,
+    };
+  },
 };
 window.__mig = {
   v0ToLatest: async () => {

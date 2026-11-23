@@ -13,6 +13,7 @@ describe('adaptador DEMO', () => {
     expect(Object.keys(createDemoServices('test')).sort()).toEqual([
       'activity',
       'appState',
+      'backup',
       'preferences',
       'profile',
       'storage',

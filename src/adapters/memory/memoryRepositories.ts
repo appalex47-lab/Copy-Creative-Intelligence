@@ -1,3 +1,4 @@
+import { validateSnapshot } from '@/domain/backup';
 import { validateActivityEvent, type ActivityEvent } from '@/domain/activity';
 import { validateDisplayName, type LocalProfile } from '@/domain/profile';
 import { compareNewestFirst, normalizeLimit, type Repositories } from '@/repositories/contracts';
@@ -34,6 +35,20 @@ export function createMemoryRepositories(): Repositories {
       clear: () => {
         name = undefined;
         return Promise.resolve(ok(profile()));
+      },
+    },
+    backup: {
+      exportAll: () =>
+        Promise.resolve(
+          ok({ profile: profile(), activity: [...events.values()].sort(compareNewestFirst) }),
+        ),
+      replaceAll: (raw) => {
+        const v = validateSnapshot(raw);
+        if (!v.ok) return Promise.resolve(fail('validation_error', v.reason));
+        events.clear();
+        for (const e of v.value.activity) events.set(e.id, e);
+        name = v.value.profile.displayName;
+        return Promise.resolve(ok(undefined));
       },
     },
   };

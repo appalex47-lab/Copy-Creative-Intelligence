@@ -5,7 +5,7 @@ import {
   createPreferencesStore,
 } from '@/adapters/localstorage/preferencesStore';
 import type { AppState } from '@/domain/entities';
-import { ok } from '@/services/contracts';
+import { fail, ok } from '@/services/contracts';
 import type { Services } from '@/services/contracts';
 
 /**
@@ -29,6 +29,12 @@ export function createDemoServices(environment: AppState['environment']): Servic
     profile: memory.profile,
     preferences: createPreferencesStore(createMemoryStorage()),
     // DEMO no usa almacenamiento real: no se inventan cifras.
+    backup: {
+      export: () =>
+        Promise.resolve(fail('not_implemented', 'DEMO no tiene datos reales que respaldar.')),
+      inspect: () => Promise.resolve(fail('not_implemented', 'DEMO no admite respaldos.')),
+      restore: () => Promise.resolve(fail('not_implemented', 'DEMO no admite respaldos.')),
+    },
     storage: {
       get: () => Promise.resolve(ok(UNKNOWN_STORAGE)),
       requestPersistence: () => Promise.resolve(ok(UNKNOWN_STORAGE)),

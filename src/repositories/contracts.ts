@@ -21,9 +21,26 @@ export interface ProfileRepository {
   clear(): Promise<Result<LocalProfile>>;
 }
 
+export interface BackupSnapshot {
+  readonly profile: LocalProfile;
+  /** Más nuevos primero. */
+  readonly activity: readonly ActivityEvent[];
+}
+
+export interface BackupRepository {
+  /** Copia consistente de perfil y actividad (una sola lectura). */
+  exportAll(): Promise<Result<BackupSnapshot>>;
+  /**
+   * Reemplaza TODO (perfil y actividad) de forma atómica: o queda todo lo nuevo o todo lo anterior (nunca un estado
+   * parcial). Valida los datos antes de tocar nada.
+   */
+  replaceAll(snapshot: unknown): Promise<Result<void>>;
+}
+
 export interface Repositories {
   readonly activity: ActivityRepository;
   readonly profile: ProfileRepository;
+  readonly backup: BackupRepository;
 }
 
 export const DEFAULT_LIST_LIMIT = 50;

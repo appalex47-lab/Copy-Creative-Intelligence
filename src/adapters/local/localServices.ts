@@ -2,6 +2,7 @@ import {
   createIndexedDbRepositories,
   openDatabase,
 } from '@/adapters/indexeddb/indexedDbRepositories';
+import { createBackupService } from './backupService';
 import { createBrowserStorageInfoService } from '@/adapters/storage/browserStorageInfo';
 import { createBrowserPreferencesStore } from '@/adapters/localstorage/preferencesStore';
 import type { ActivityKind } from '@/domain/activity';
@@ -50,6 +51,7 @@ export function createLocalServices(environment: AppState['environment']): Servi
     if (result.ok) await record(kind);
     return result;
   };
+  const backup = createBackupService({ repos, preferences, record });
   return {
     appState: {
       getState: () => Promise.resolve(ok({ dataMode: 'local', environment, isDemo: false })),
@@ -69,5 +71,6 @@ export function createLocalServices(environment: AppState['environment']): Servi
       reset: async () => noting(await preferences.reset(), 'setting_changed'),
     },
     storage: createBrowserStorageInfoService(),
+    backup,
   };
 }

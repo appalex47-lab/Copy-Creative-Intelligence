@@ -6,7 +6,7 @@ import { invalid, valid, type Validation } from './validation';
  */
 export const THEMES = ['system', 'light', 'dark'] as const;
 export const LANGUAGES = ['es'] as const;
-export const VIEW_IDS = ['inicio', 'conexion', 'ajustes', 'almacenamiento'] as const;
+export const VIEW_IDS = ['inicio', 'conexion', 'ajustes', 'almacenamiento', 'respaldo'] as const;
 export const SEEN_NOTICES_MAX = 50;
 
 export interface AppSettings {

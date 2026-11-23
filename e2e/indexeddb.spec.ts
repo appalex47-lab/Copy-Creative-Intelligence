@@ -98,4 +98,25 @@ test.describe('migraciones (AC1-07) en IndexedDB real', () => {
       code: 'storage_failed',
     });
   });
+
+  test('respaldo (AC1-12): reemplazo correcto; y una escritura que falla a mitad aborta TODO sin estado parcial', async ({
+    page,
+  }) => {
+    await open(page);
+    expect(await page.evaluate(() => window.__backup.replaceThenExport())).toEqual({
+      ok: true,
+      after: { profile: {}, ids: ['evt_00000009'] },
+    });
+    const r = (await page.evaluate(() => window.__backup.atomicReplaceAborts())) as {
+      result: { ok: boolean; error: { code: string } };
+      puts: number;
+      after: unknown;
+    };
+    expect(r.result.ok).toBe(false);
+    expect(r.puts).toBe(3); // falló en la tercera escritura, a mitad de la sustitución
+    expect(r.after).toEqual({
+      profile: { displayName: 'Ana' },
+      ids: ['evt_00000002', 'evt_00000001'],
+    });
+  });
 });

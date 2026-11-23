@@ -8,7 +8,7 @@ describe('repositorios en memoria cumplen el contrato', () => {
       Promise.resolve({ repos: createMemoryRepositories(), dispose: () => Promise.resolve() }),
     );
     expect(failures).toEqual([]);
-    expect(CONTRACT_CASES.length).toBeGreaterThanOrEqual(9);
+    expect(CONTRACT_CASES.length).toBeGreaterThanOrEqual(12);
   });
   it('dos instancias no comparten datos', async () => {
     const a = createMemoryRepositories();

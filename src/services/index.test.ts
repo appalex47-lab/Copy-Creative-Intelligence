@@ -7,6 +7,7 @@ describe('createServices', () => {
     expect(Object.keys(createServices({ appEnv: 'test', dataMode: 'demo' })).sort()).toEqual([
       'activity',
       'appState',
+      'backup',
       'preferences',
       'profile',
       'storage',

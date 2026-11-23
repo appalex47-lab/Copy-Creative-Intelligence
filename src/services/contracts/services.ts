@@ -42,10 +42,32 @@ export interface StorageService {
   requestPersistence(): Promise<Result<StorageInfo>>;
 }
 
+export interface BackupSummary {
+  readonly exportedAt: string;
+  readonly activityCount: number;
+  readonly hasName: boolean;
+}
+
+export interface BackupExport {
+  readonly fileName: string;
+  readonly text: string;
+  readonly summary: BackupSummary;
+}
+
+/** Respaldo local: exportar a un archivo e importar REEMPLAZANDO todos los datos locales (con confirmación en la UI). */
+export interface BackupService {
+  export(): Promise<Result<BackupExport>>;
+  /** Valida el archivo (formato, límites, integridad) sin cambiar nada. */
+  inspect(text: string): Promise<Result<BackupSummary>>;
+  /** Reemplaza todo. Si falla, los datos anteriores quedan intactos. */
+  restore(text: string): Promise<Result<{ summary: BackupSummary; settings: AppSettings }>>;
+}
+
 export interface Services {
   readonly appState: AppStateService;
   readonly activity: ActivityService;
   readonly profile: ProfileService;
   readonly preferences: PreferencesService;
   readonly storage: StorageService;
+  readonly backup: BackupService;
 }

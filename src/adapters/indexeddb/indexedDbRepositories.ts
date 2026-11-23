@@ -1,7 +1,8 @@
+import { validateSnapshot } from '@/domain/backup';
 import { classifyStorageError } from '@/adapters/persistenceErrors';
 import { validateActivityEvent, type ActivityEvent } from '@/domain/activity';
 import { validateDisplayName, parseLocalProfile, type LocalProfile } from '@/domain/profile';
-import { normalizeLimit, type Repositories } from '@/repositories/contracts';
+import { compareNewestFirst, normalizeLimit, type Repositories } from '@/repositories/contracts';
 import { fail, ok, type Result } from '@/services/contracts';
 
 export const DEFAULT_DB_NAME = 'cci';
@@ -178,6 +179,45 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
           tx.objectStore(STORE_PROFILE).delete(PROFILE_KEY);
           await txDone(tx);
           return ok<LocalProfile>({});
+        }),
+    },
+    backup: {
+      exportAll: () =>
+        guard(async () => {
+          const tx = db.transaction([STORE_ACTIVITY, STORE_PROFILE], 'readonly'); // una sola lectura consistente
+          const [rawEvents, rawProfile] = await Promise.all([
+            promisify<unknown[]>(tx.objectStore(STORE_ACTIVITY).getAll()),
+            promisify<unknown>(tx.objectStore(STORE_PROFILE).get(PROFILE_KEY)),
+          ]);
+          const activity: ActivityEvent[] = [];
+          for (const item of rawEvents) {
+            const v = validateActivityEvent(item);
+            if (v.ok) activity.push(v.value); // un registro corrupto no se exporta
+          }
+          activity.sort(compareNewestFirst);
+          return ok({ profile: parseLocalProfile(rawProfile), activity });
+        }),
+      replaceAll: (raw) =>
+        guard(async () => {
+          const v = validateSnapshot(raw); // se valida TODO antes de tocar la base
+          if (!v.ok) return fail('validation_error', v.reason);
+          const tx = db.transaction([STORE_ACTIVITY, STORE_PROFILE], 'readwrite');
+          const done = txDone(tx);
+          try {
+            const events = tx.objectStore(STORE_ACTIVITY);
+            const profile = tx.objectStore(STORE_PROFILE);
+            events.clear();
+            for (const e of v.value.activity) events.put(e);
+            profile.delete(PROFILE_KEY);
+            if (v.value.profile.displayName !== undefined)
+              profile.put({ displayName: v.value.profile.displayName }, PROFILE_KEY);
+          } catch (e) {
+            tx.abort(); // sin estado parcial: la base queda como estaba
+            await done.catch(() => undefined);
+            throw e;
+          }
+          await done;
+          return ok(undefined);
         }),
     },
   };

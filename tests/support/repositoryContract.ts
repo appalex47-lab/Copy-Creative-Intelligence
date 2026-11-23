@@ -127,6 +127,59 @@ export const CONTRACT_CASES: readonly ContractCase[] = [
       same(await r.profile.get(), { ok: true, value: {} }, 'leer');
     },
   },
+  {
+    name: 'respaldo: exportAll devuelve perfil y actividad (más nuevos primero)',
+    run: async (r) => {
+      await r.profile.save('Ana');
+      await r.activity.add(ev('evt_00000001', '2026-11-22T10:00:00.000Z'));
+      await r.activity.add(ev('evt_00000002', '2026-11-22T11:00:00.000Z'));
+      const res = await r.backup.exportAll();
+      assert(res.ok, 'export ok');
+      same(res.value.profile, { displayName: 'Ana' }, 'perfil');
+      same(
+        res.value.activity.map((x) => x.id),
+        ['evt_00000002', 'evt_00000001'],
+        'orden',
+      );
+    },
+  },
+  {
+    name: 'respaldo: replaceAll reemplaza TODO (lo anterior desaparece)',
+    run: async (r) => {
+      await r.profile.save('Ana');
+      await r.activity.add(ev('evt_00000001', '2026-11-22T10:00:00.000Z'));
+      const nuevo = ev('evt_00000009', '2026-11-23T10:00:00.000Z', 'profile_changed');
+      same(
+        await r.backup.replaceAll({ profile: {}, activity: [nuevo] }),
+        { ok: true, value: undefined },
+        'replace',
+      );
+      same(await r.profile.get(), { ok: true, value: {} }, 'perfil borrado');
+      same(await r.activity.listRecent(), { ok: true, value: [nuevo] }, 'solo lo nuevo');
+      same(await r.activity.count(), { ok: true, value: 1 }, 'cuenta');
+    },
+  },
+  {
+    name: 'respaldo: datos inválidos se rechazan y NO alteran nada (todo o nada)',
+    run: async (r) => {
+      await r.profile.save('Ana');
+      const previo = ev('evt_00000001', '2026-11-22T10:00:00.000Z');
+      await r.activity.add(previo);
+      const buenos = ev('evt_00000002', '2026-11-22T11:00:00.000Z');
+      for (const malo of [
+        { profile: {}, activity: [buenos, { id: 'x', at: 'no', kind: 'app_opened' }] },
+        { profile: {}, activity: [buenos, buenos] },
+        { profile: { displayName: 'x'.repeat(61) }, activity: [] },
+        { profile: {}, activity: [], extra: 1 },
+        null,
+      ]) {
+        const res = await r.backup.replaceAll(malo);
+        assert(!res.ok && res.error.code === 'validation_error', 'debe rechazar');
+      }
+      same(await r.profile.get(), { ok: true, value: { displayName: 'Ana' } }, 'perfil intacto');
+      same(await r.activity.listRecent(), { ok: true, value: [previo] }, 'actividad intacta');
+    },
+  },
 ];
 
 /** Ejecuta todos los casos y devuelve los fallos (lista vacía = todo correcto). */
