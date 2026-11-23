@@ -1,0 +1,7 @@
+Fecha UTC de la ejecución: 20261123T030702Z (inicio del registro)
+node v22.23.4 | npm 10.9.9
+Google Chrome for Testing 153.0.8010.12 
+SO: Linux 6.18.44-fc-v726
+Commit base: 7bcba74e05577761081d68ca14fdc19f2400248d
+Rama: fase1/s1-0-auditoria
+Playwright: Version 1.65.1

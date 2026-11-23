@@ -1,0 +1,8 @@
+
+> copy-creative-intelligence@0.0.0-fase1.0-fundacion typecheck
+> tsc -b
+
+
+real	0m2.475s
+user	0m3.476s
+sys	0m0.237s

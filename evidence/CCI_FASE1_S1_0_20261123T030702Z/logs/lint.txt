@@ -1,0 +1,8 @@
+
+> copy-creative-intelligence@0.0.0-fase1.0-fundacion lint
+> eslint . --max-warnings 0
+
+
+real	0m2.010s
+user	0m2.247s
+sys	0m0.441s
