@@ -1,3 +1,5 @@
+> **Nota (S1.13):** la aplicación vigente es browser-only (sin Supabase ni backend). Este documento describe la fundación Fase 1.0 y las menciones a Supabase son históricas. Ver [DECISIONES](../decisions/DECISIONES.md).
+
 # Arquitectura técnica (Fase 1.0 — fundación)
 
 | Carpeta                                   | Responsabilidad                                                                                                 | Puede importar             |

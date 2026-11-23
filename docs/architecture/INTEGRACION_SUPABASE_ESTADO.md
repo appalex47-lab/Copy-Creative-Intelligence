@@ -1,3 +1,5 @@
+> **Nota (S1.13):** la aplicación vigente es browser-only (sin Supabase ni backend). Este documento describe la fundación Fase 1.0 y las menciones a Supabase son históricas. Ver [DECISIONES](../decisions/DECISIONES.md).
+
 # Estado de la integración Supabase
 
 **No integrada.** No hay conexión a CCI-DEV ni CCI-PROD, credenciales, SQL, tablas, roles ni RLS en este repositorio de aplicación; no se usa el Supabase de RevNavigator.

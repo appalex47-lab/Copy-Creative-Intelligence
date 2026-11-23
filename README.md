@@ -1,10 +1,12 @@
 # Copy Creative Intelligence (CCI)
 
-Aplicación web para copy y auditoría de piezas creativas. **Estado: fundación técnica (Fase 1.0) en construcción.** No es producción, no está conectada a ningún backend y no tiene autenticación real.
+Aplicación web para copy y auditoría de piezas creativas. **Arquitectura: solo navegador (browser-only), un usuario por navegador.** Sin cuentas, login, backend, servidor ni sincronización. Los datos viven en IndexedDB del navegador (preferencias ligeras en Local Storage) y se respaldan con exportar/importar local.
+
+**Estado:** Fase 1 aceptada con reservas ([acta](evidence/CCI_FASE1_S1_12_ACEPTACION_Y_CIERRES_20261123T063410Z/00_ACTA_VERIFICACION_Y_ACEPTACION_FASE1.md)); Fase 2 (Copy Studio) en curso. Hospedaje: GitHub Pages ([flujo](.github/workflows/pages.yml), manual).
 
 ## Stack
 
-React 19 · TypeScript (estricto) · Vite · Vitest + React Testing Library · ESLint · Prettier. Backend futuro (NO conectado): Supabase / PostgreSQL / Auth / RLS / Edge Functions / Storage, con entornos independientes CCI-DEV y CCI-PROD.
+React 19 · TypeScript estricto · Vite · Vitest + Testing Library · Playwright (Chrome real) + axe · ESLint · Prettier.
 
 ## Inicio rápido
 
@@ -14,28 +16,20 @@ npm run dev     # servidor local (modo DEMO)
 npm run verify  # typecheck + lint + formato + pruebas + secretos + build
 ```
 
-Scripts: `npm run build` (preview con DEMO), `build:production` (falla a propósito: no hay backend), `preview`, `test:e2e` (Chrome real + axe).
-Entornos y protección DEMO: [ENTORNOS_Y_MODO_DEMO](docs/architecture/ENTORNOS_Y_MODO_DEMO.md). Licencia: **pendiente** ([nota](docs/decisions/LICENCIA_PENDIENTE.md)); sin LICENSE no hay permiso de reutilización.
+Scripts: `build` (vista previa con DEMO), `build:production` (requiere `VITE_DATA_MODE=local`; falla a propósito con DEMO), `preview`, `test:e2e` (Chrome real + axe).
+Entornos y protección DEMO: [ENTORNOS_Y_MODO_DEMO](docs/architecture/ENTORNOS_Y_MODO_DEMO.md). Licencia: **todos los derechos reservados** ([LICENSE](LICENSE), [decisión](docs/decisions/LICENCIA_PENDIENTE.md)).
 Guías: [instalación](docs/architecture/GUIA_INSTALACION_LOCAL.md) · [ejecución](docs/architecture/GUIA_EJECUCION.md) · [pruebas](docs/architecture/GUIA_PRUEBAS.md).
 
 ## Mapa del repositorio
 
-| Ruta                                                                  | Contenido                                                                         |
-| --------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| `src/`                                                                | Aplicación (ver [arquitectura](docs/architecture/ARQUITECTURA.md))                |
-| `tests/`                                                              | Preparación de pruebas y pruebas de arquitectura/secretos                         |
-| `scripts/`                                                            | `check-secrets.mjs` (solo rutas de la app)                                        |
-| `docs/architecture`, `docs/decisions`, `docs/roadmap`, `docs/product` | Documentación de la aplicación (Fase 1.0)                                         |
-| `docs/fase0/`                                                         | **Documentación y expedientes de Fase 0 — se conservan intactos en su ubicación** |
-| `database/`, `supabase/`                                              | Solo README: integración futura, sin SQL ni conexión                              |
-| `evidence/`                                                           | Expedientes originales de la fundación de la aplicación (Fase 1.x) y documentos de publicación |
-| `evidence/public/`                                                    | Copias de consulta pública derivadas (sin rutas del entorno temporal); **no son evidencia original** ([léelo](evidence/public/README.md)) |
-| `.github/workflows/ci.yml`                                            | Workflow de CI versionado y publicado en ramas de revisión; **sin ejecución registrada, habilitación no determinada y no validado en un runner real** ([estado](docs/architecture/CI.md)) |
+| Ruta | Contenido |
+| --- | --- |
+| `src/` | Aplicación ([arquitectura](docs/architecture/ARQUITECTURA.md)) |
+| `tests/`, `e2e/` | Pruebas unitarias, de arquitectura y de navegador real |
+| `docs/decisions/` | Decisiones vigentes ([DECISIONES](docs/decisions/DECISIONES.md)) |
+| `docs/fase0/` | **Histórico** de la etapa con servidor/Supabase; se conserva intacto |
+| `evidence/` | Expedientes por fase (Fase 0 y Fase 1/2) con huellas SHA-256 |
+| `database/`, `supabase/` | **Históricos**: diseño de servidor descartado; no se usan |
+| `.github/workflows/` | `ci.yml` (verificación) y `pages.yml` (despliegue manual) |
 
-`evidence/` (aplicación) y `evidencia/` (Fase 0) coexisten en el árbol de trabajo original. **Esta rama de revisión no incluye `evidencia/`, `AUDITORIA_*` ni `ARTEFACTOS_REVISION_PUBLICACION/`**: solo `docs/fase0/` (heredado de `main`) y `evidence/`. No se renombra ni se mueve nada histórico.
-
-**CI:** el workflow está versionado y publicado en ramas de revisión (no en `main`). No hay ejecución registrada ni validación en un runner real, y no se afirma que Actions esté habilitado o deshabilitado (la consulta de configuración devolvió 403). Un push a una rama `review/*` no coincide con su disparador `push` (solo `development/**`); `pull_request` es un disparador configurado, no una ejecución hecha, y la ejecución manual (`workflow_dispatch`) requiere, según GitHub, que el workflow esté en la rama predeterminada. La primera ejecución real sigue pendiente. Detalle en [CI](docs/architecture/CI.md).
-
-## Estado
-
-Fase 0 (diseño de datos y seguridad) **no está aprobada ni cerrada** por esta fundación; su validación PostgreSQL 17 sigue independiente. Ver [roadmap](docs/roadmap/ROADMAP.md).
+Las menciones a Supabase, PostgreSQL, Auth o multiusuario en documentos antiguos son **históricas** y no describen la aplicación vigente.

@@ -32,3 +32,6 @@ Q-2: "Llamadas" NO entra en la lista de canales (confirmado por el propietario, 
 
 ## 6. Aprobación del propietario (2026-11-23 01:01, CDMX)
 "Si a todo": el propietario aprueba como suyas P6, P7, P8, P15, Q-6 y los 7 estados de Q-3 (tabla §2), además de Q-1, Q-2 y Q-5 (ver 01_). Siguen abiertas, a entregar por el propietario al iniciar la Fase 3: leyendas regulatorias obligatorias y términos de marca prohibidos. Q-3: transiciones permitidas, para la Fase 5. Salvedades vigentes: titularidad del código (P15) y longitudes de Q-2 no verificadas.
+
+## 7. Reserva 6 de la Fase 1 (documentación desactualizada): cerrada
+README y docs/decisions/DECISIONES.md reescritos a la arquitectura browser-only vigente; ARQUITECTURA.md e INTEGRACION_SUPABASE_ESTADO.md llevan nota de que Supabase es histórico. Siguen abiertas las reservas 1–5 (verificación independiente, otros navegadores/móviles/lector de pantalla, revisión humana de textos, Web Locks fuera de Chrome, respaldo sin cifrar).
