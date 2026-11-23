@@ -3,13 +3,37 @@ import { validateDisplayName, parseLocalProfile, type LocalProfile } from '@/dom
 import { normalizeLimit, type Repositories } from '@/repositories/contracts';
 import { fail, ok, type Result } from '@/services/contracts';
 
-/** Versión de esquema vigente. Las migraciones v0→v1→v2 se definen en S1.5; hoy solo existe la creación de v1. */
-export const SCHEMA_VERSION = 1;
 export const DEFAULT_DB_NAME = 'cci';
 const STORE_ACTIVITY = 'activity';
 const STORE_PROFILE = 'profile';
 const STORE_META = 'meta';
 const PROFILE_KEY = 'local';
+
+/** Un paso de migración: se ejecuta dentro de la transacción `versionchange`; si lanza, TODO se revierte. */
+export type MigrationStep = (db: IDBDatabase, tx: IDBTransaction) => void;
+
+/**
+ * Migraciones en orden. El índice + 1 es la versión a la que llega cada paso.
+ * v0 → v1: instalación nueva (v0 = no existe la base): crea los tres almacenes y el índice por fecha.
+ * v1 → v2 (SUPUESTO técnico de Claude, S1-D13, reversible): añade el índice `kind` en `activity` para filtrar por tipo
+ * sin recorrer todo; no agrega atributos de negocio y conserva todos los datos.
+ */
+export const MIGRATIONS: readonly MigrationStep[] = [
+  (db) => {
+    db.createObjectStore(STORE_META);
+    db.createObjectStore(STORE_PROFILE);
+    db.createObjectStore(STORE_ACTIVITY, { keyPath: 'id' }).createIndex('at', 'at');
+  },
+  (_db, tx) => {
+    tx.objectStore(STORE_ACTIVITY).createIndex('kind', 'kind');
+  },
+];
+
+/** Versión de esquema vigente = número de migraciones. */
+export const SCHEMA_VERSION = MIGRATIONS.length;
+
+export const NEWER_SCHEMA_MESSAGE =
+  'La base local fue creada por una versión más reciente de la aplicación; no se modificó.';
 
 const UNAVAILABLE = 'El almacenamiento local no está disponible.';
 
@@ -26,8 +50,15 @@ const txDone = (tx: IDBTransaction): Promise<void> =>
     tx.onabort = () => reject(tx.error ?? new Error('IDBTransactionAbort'));
   });
 
-/** Abre (y crea si hace falta) la base. Devuelve `unavailable` si IndexedDB no existe o falla. */
-export function openDatabase(name = DEFAULT_DB_NAME): Promise<Result<IDBDatabase>> {
+/**
+ * Abre la base y aplica las migraciones pendientes desde la versión guardada hasta la última.
+ * - Si la base tiene una versión MAYOR que la de este código, se rechaza SIN escribir nada (VersionError).
+ * - Si una migración falla, la transacción se aborta y la base queda en su versión anterior con sus datos intactos.
+ */
+export function openDatabase(
+  name = DEFAULT_DB_NAME,
+  migrations: readonly MigrationStep[] = MIGRATIONS,
+): Promise<Result<IDBDatabase>> {
   return new Promise((resolve) => {
     if (typeof indexedDB === 'undefined') {
       resolve(fail('unavailable', UNAVAILABLE));
@@ -35,23 +66,29 @@ export function openDatabase(name = DEFAULT_DB_NAME): Promise<Result<IDBDatabase
     }
     let req: IDBOpenDBRequest;
     try {
-      req = indexedDB.open(name, SCHEMA_VERSION);
+      req = indexedDB.open(name, migrations.length);
     } catch {
       resolve(fail('unavailable', UNAVAILABLE));
       return;
     }
-    req.onupgradeneeded = () => {
-      const db = req.result;
-      if (!db.objectStoreNames.contains(STORE_META)) db.createObjectStore(STORE_META);
-      if (!db.objectStoreNames.contains(STORE_PROFILE)) db.createObjectStore(STORE_PROFILE);
-      if (!db.objectStoreNames.contains(STORE_ACTIVITY)) {
-        const s = db.createObjectStore(STORE_ACTIVITY, { keyPath: 'id' });
-        s.createIndex('at', 'at');
+    req.onupgradeneeded = (event) => {
+      const tx = req.transaction;
+      if (!tx) return;
+      try {
+        for (let v = event.oldVersion; v < migrations.length; v++) migrations[v]?.(req.result, tx);
+        tx.objectStore(STORE_META).put(migrations.length, 'schemaVersion');
+      } catch {
+        tx.abort(); // sin estado parcial: la base conserva su versión y datos anteriores
       }
-      req.transaction?.objectStore(STORE_META).put(SCHEMA_VERSION, 'schemaVersion');
     };
     req.onsuccess = () => resolve(ok(req.result));
-    req.onerror = () => resolve(fail('unavailable', UNAVAILABLE));
+    req.onerror = () =>
+      resolve(
+        fail(
+          'unavailable',
+          req.error?.name === 'VersionError' ? NEWER_SCHEMA_MESSAGE : UNAVAILABLE,
+        ),
+      );
     req.onblocked = () => resolve(fail('unavailable', UNAVAILABLE));
   });
 }
