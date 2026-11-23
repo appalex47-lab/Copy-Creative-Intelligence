@@ -23,6 +23,8 @@ declare global {
       v1ToV2WithSeeds: () => Promise<unknown>;
       newerVersionRejected: () => Promise<unknown>;
       failingMigrationRollsBack: () => Promise<unknown>;
+      blockedByOtherConnection: () => Promise<unknown>;
+      failingMigrationCode: () => Promise<unknown>;
     };
   }
 }
@@ -171,6 +173,29 @@ window.__mig = {
     after.close();
     await deleteDatabase(name);
     return info;
+  },
+  // Otra conexión abierta a la versión anterior (sin cerrarse) bloquea la actualización: debe dar storage_blocked.
+  blockedByOtherConnection: async () => {
+    const name = uniq('mig-blocked');
+    const held = await rawOpen(name, 1, (d) => {
+      d.createObjectStore('meta');
+    });
+    const o = await openDatabase(name);
+    held.close();
+    await deleteDatabase(name);
+    return { opened: o.ok, code: o.ok ? null : o.error.code };
+  },
+  failingMigrationCode: async () => {
+    const name = uniq('mig-code');
+    await seedV1(name);
+    const o = await openDatabase(name, [
+      MIGRATIONS[0] as never,
+      () => {
+        throw new Error('fallo simulado');
+      },
+    ]);
+    await deleteDatabase(name);
+    return { opened: o.ok, code: o.ok ? null : o.error.code };
   },
   failingMigrationRollsBack: async () => {
     const name = uniq('mig-abort');

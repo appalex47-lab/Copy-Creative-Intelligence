@@ -69,6 +69,7 @@ test.describe('migraciones (AC1-07) en IndexedDB real', () => {
     >;
     expect(r).toMatchObject({ opened: false, version: 3, stores: ['sentinel'], val: 'intacto' });
     expect((r['error'] as { code: string; message: string }).message).toBe(r['expectedMessage']);
+    expect((r['error'] as { code: string }).code).toBe('storage_newer_schema');
   });
 
   test('una migración que falla se revierte: versión, índices y datos quedan como antes', async ({
@@ -81,6 +82,20 @@ test.describe('migraciones (AC1-07) en IndexedDB real', () => {
       indexes: ['at'],
       ids: ['evt_seed0001', 'evt_seed0002'],
       schemaVersion: 1,
+    });
+  });
+
+  test('catálogo de errores: otra conexión abierta → storage_blocked; migración fallida → storage_failed', async ({
+    page,
+  }) => {
+    await open(page);
+    expect(await page.evaluate(() => window.__mig.blockedByOtherConnection())).toEqual({
+      opened: false,
+      code: 'storage_blocked',
+    });
+    expect(await page.evaluate(() => window.__mig.failingMigrationCode())).toEqual({
+      opened: false,
+      code: 'storage_failed',
     });
   });
 });

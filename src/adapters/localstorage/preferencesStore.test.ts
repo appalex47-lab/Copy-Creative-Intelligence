@@ -51,21 +51,18 @@ describe('preferencias en Local Storage', () => {
     expect(await s.reset()).toEqual({ ok: true, value: DEFAULT_SETTINGS });
     expect(storage.getItem(PREFS_KEY)).toBeNull();
   });
-  it('un almacenamiento que falla devuelve "unavailable" sin detalle', async () => {
+  it('un almacenamiento que falla devuelve un código del catálogo sin detalle', async () => {
+    const boom = (name: string) => () => {
+      throw new DOMException('detalle interno', name);
+    };
     const broken = {
-      getItem: () => {
-        throw new Error('SecurityError interno');
-      },
-      setItem: () => {
-        throw new Error('QuotaExceeded interno');
-      },
-      removeItem: () => {
-        throw new Error('x');
-      },
+      getItem: boom('SecurityError'),
+      setItem: boom('SecurityError'),
+      removeItem: boom('SecurityError'),
     };
     const s = createPreferencesStore(broken);
     for (const r of [await s.get(), await s.update({ theme: 'dark' }), await s.reset()]) {
-      expect(!r.ok && r.error.code).toBe('unavailable');
+      expect(!r.ok && r.error.code).toBe('storage_unavailable');
       expect(JSON.stringify(r)).not.toContain('interno');
     }
   });
@@ -74,11 +71,11 @@ describe('preferencias en Local Storage', () => {
     const s = createPreferencesStore({
       ...storage,
       setItem: () => {
-        throw new Error('QuotaExceeded');
+        throw new DOMException('x', 'QuotaExceededError');
       },
     });
     const r = await s.update({ theme: 'dark' });
-    expect(!r.ok && r.error.code).toBe('unavailable');
+    expect(!r.ok && r.error.code).toBe('storage_quota_exceeded');
     expect(await s.get()).toEqual({ ok: true, value: DEFAULT_SETTINGS });
   });
 });

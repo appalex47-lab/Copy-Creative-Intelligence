@@ -7,9 +7,25 @@ describe('errorMessages', () => {
     expect(text).toBe('El servicio no está disponible en este momento.');
     expect(text).not.toContain('SQL');
   });
-  it('solo "unavailable" es reintentable', () => {
-    expect(isRetryable('unavailable')).toBe(true);
+  it('cada código de almacenamiento tiene un mensaje propio y distinto, sin texto interno', () => {
+    const codes = [
+      'storage_unavailable',
+      'storage_blocked',
+      'storage_quota_exceeded',
+      'storage_newer_schema',
+      'storage_failed',
+    ] as const;
+    const texts = codes.map((code) => describeError({ code, message: 'SECRETO_INTERNO' }));
+    expect(new Set(texts).size).toBe(codes.length);
+    for (const t of texts) expect(t).not.toContain('SECRETO');
+  });
+  it('solo los fallos transitorios son reintentables', () => {
+    for (const c of ['unavailable', 'storage_blocked', 'storage_failed'] as const)
+      expect(isRetryable(c)).toBe(true);
     for (const c of [
+      'storage_unavailable',
+      'storage_quota_exceeded',
+      'storage_newer_schema',
       'not_found',
       'not_implemented',
       'invalid_configuration',

@@ -85,4 +85,54 @@ test.describe('perfil y preferencias (modo local, Chrome real)', () => {
       expect(overflow, `ancho ${width}`).toBe(false);
     }
   });
+
+  test('AC1-08: base con esquema más nuevo → mensaje propio, sin reintento y sin modificar nada', async ({
+    page,
+  }) => {
+    // Se siembra desde una página del mismo origen que no abre la base 'cci' (si no, su conexión bloquearía la siembra).
+    await page.goto(`${LOCAL}/e2e/idb.html`);
+    await page.evaluate(
+      () =>
+        new Promise<void>((resolve, reject) => {
+          const r = indexedDB.open('cci', 99);
+          r.onupgradeneeded = () => r.result.createObjectStore('centinela');
+          r.onsuccess = () => {
+            r.result.close();
+            resolve();
+          };
+          r.onerror = () => reject(new Error('no se pudo crear'));
+        }),
+    );
+    await page.goto(LOCAL);
+    const alert = page.getByRole('alert');
+    await expect(alert).toContainText('versión más reciente de la aplicación');
+    await expect(alert.getByRole('button', { name: 'Reintentar' })).toHaveCount(0);
+    const version = await page.evaluate(
+      () =>
+        new Promise<number>((resolve) => {
+          const r = indexedDB.open('cci');
+          r.onsuccess = () => {
+            const v = r.result.version;
+            r.result.close();
+            resolve(v);
+          };
+        }),
+    );
+    expect(version).toBe(99);
+  });
+
+  test('AC1-08: Local Storage sin espacio → mensaje de espacio y el tema no cambia', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      Storage.prototype.setItem = () => {
+        throw new DOMException('interno', 'QuotaExceededError');
+      };
+    });
+    await openSettings(page);
+    await page.getByLabel('Tema').selectOption('dark');
+    await expect(page.getByRole('alert')).toContainText('No hay espacio suficiente');
+    await expect(page.locator('html')).not.toHaveAttribute('data-theme', /.+/);
+    expect(await axeViolations(page)).toEqual([]);
+  });
 });

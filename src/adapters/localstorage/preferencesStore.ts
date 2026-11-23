@@ -1,3 +1,4 @@
+import { classifyStorageError } from '@/adapters/persistenceErrors';
 import {
   DEFAULT_SETTINGS,
   parseSettings,
@@ -25,16 +26,16 @@ export function createPreferencesStore(storage: StorageLike): PreferencesService
         return ok(DEFAULT_SETTINGS); // contenido corrupto: se ignora y rigen los valores por defecto
       }
       return ok(parseSettings(parsed));
-    } catch {
-      return fail('unavailable', UNAVAILABLE);
+    } catch (e) {
+      return fail(classifyStorageError(e), UNAVAILABLE);
     }
   };
   const write = (s: AppSettings): Result<AppSettings> => {
     try {
       storage.setItem(PREFS_KEY, JSON.stringify(s));
       return ok(s);
-    } catch {
-      return fail('unavailable', UNAVAILABLE);
+    } catch (e) {
+      return fail(classifyStorageError(e), UNAVAILABLE);
     }
   };
   return {
@@ -50,8 +51,8 @@ export function createPreferencesStore(storage: StorageLike): PreferencesService
       try {
         storage.removeItem(PREFS_KEY);
         return Promise.resolve(ok(DEFAULT_SETTINGS));
-      } catch {
-        return Promise.resolve(fail('unavailable', UNAVAILABLE));
+      } catch (e) {
+        return Promise.resolve(fail(classifyStorageError(e), UNAVAILABLE));
       }
     },
   };
@@ -69,5 +70,14 @@ export function createMemoryStorage(): StorageLike {
 
 /** Almacén de preferencias sobre el Local Storage del navegador (único lugar de `src` que lo toca). */
 export function createBrowserPreferencesStore() {
-  return createPreferencesStore(window.localStorage);
+  let storage: Storage;
+  try {
+    storage = window.localStorage; // puede lanzar SecurityError si el navegador lo bloquea
+  } catch (e) {
+    const code = classifyStorageError(e);
+    const blocked = () =>
+      Promise.resolve(fail(code === 'storage_failed' ? 'storage_unavailable' : code, UNAVAILABLE));
+    return { get: blocked, update: blocked, reset: blocked };
+  }
+  return createPreferencesStore(storage);
 }

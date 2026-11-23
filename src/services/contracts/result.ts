@@ -2,8 +2,21 @@
 export type Result<T> =
   { readonly ok: true; readonly value: T } | { readonly ok: false; readonly error: AppError };
 
+/** Códigos de fallo del almacenamiento local (S1.7): cada uno tiene mensaje y comportamiento propios. */
+export type StorageErrorCode =
+  | 'storage_unavailable'
+  | 'storage_blocked'
+  | 'storage_quota_exceeded'
+  | 'storage_newer_schema'
+  | 'storage_failed';
+
 export type AppErrorCode =
-  'not_found' | 'not_implemented' | 'unavailable' | 'invalid_configuration' | 'validation_error';
+  | 'not_found'
+  | 'not_implemented'
+  | 'unavailable'
+  | 'invalid_configuration'
+  | 'validation_error'
+  | StorageErrorCode;
 
 export interface AppError {
   readonly code: AppErrorCode;

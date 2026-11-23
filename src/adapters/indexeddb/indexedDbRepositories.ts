@@ -1,3 +1,4 @@
+import { classifyStorageError } from '@/adapters/persistenceErrors';
 import { validateActivityEvent, type ActivityEvent } from '@/domain/activity';
 import { validateDisplayName, parseLocalProfile, type LocalProfile } from '@/domain/profile';
 import { normalizeLimit, type Repositories } from '@/repositories/contracts';
@@ -61,14 +62,21 @@ export function openDatabase(
 ): Promise<Result<IDBDatabase>> {
   return new Promise((resolve) => {
     if (typeof indexedDB === 'undefined') {
-      resolve(fail('unavailable', UNAVAILABLE));
+      resolve(fail('storage_unavailable', UNAVAILABLE));
       return;
     }
     let req: IDBOpenDBRequest;
     try {
       req = indexedDB.open(name, migrations.length);
-    } catch {
-      resolve(fail('unavailable', UNAVAILABLE));
+    } catch (e) {
+      resolve(
+        fail(
+          classifyStorageError(e) === 'storage_failed'
+            ? 'storage_unavailable'
+            : classifyStorageError(e),
+          UNAVAILABLE,
+        ),
+      );
       return;
     }
     req.onupgradeneeded = (event) => {
@@ -82,14 +90,11 @@ export function openDatabase(
       }
     };
     req.onsuccess = () => resolve(ok(req.result));
-    req.onerror = () =>
-      resolve(
-        fail(
-          'unavailable',
-          req.error?.name === 'VersionError' ? NEWER_SCHEMA_MESSAGE : UNAVAILABLE,
-        ),
-      );
-    req.onblocked = () => resolve(fail('unavailable', UNAVAILABLE));
+    req.onerror = () => {
+      const code = classifyStorageError(req.error);
+      resolve(fail(code, code === 'storage_newer_schema' ? NEWER_SCHEMA_MESSAGE : UNAVAILABLE));
+    };
+    req.onblocked = () => resolve(fail('storage_blocked', UNAVAILABLE));
   });
 }
 
@@ -106,8 +111,8 @@ export function deleteDatabase(name: string): Promise<void> {
 async function guard<T>(run: () => Promise<Result<T>>): Promise<Result<T>> {
   try {
     return await run();
-  } catch {
-    return fail('unavailable', UNAVAILABLE); // sin detalle interno hacia la interfaz
+  } catch (e) {
+    return fail(classifyStorageError(e), UNAVAILABLE); // sin detalle interno hacia la interfaz
   }
 }
 
