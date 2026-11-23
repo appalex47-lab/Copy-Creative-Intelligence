@@ -4,6 +4,7 @@ import {
 } from '@/adapters/indexeddb/indexedDbRepositories';
 import { createBrowserTabCoordinator } from '@/adapters/tabs/tabCoordinator';
 import { createBackupService } from './backupService';
+import { createBriefService } from './briefService';
 import { createBrowserStorageInfoService } from '@/adapters/storage/browserStorageInfo';
 import { createBrowserPreferencesStore } from '@/adapters/localstorage/preferencesStore';
 import type { ActivityKind } from '@/domain/activity';
@@ -77,6 +78,13 @@ export function createLocalServices(environment: AppState['environment']): Servi
     ...backupBase,
     restore: (text) => writable(() => backupBase.restore(text)),
   };
+  const briefs = createBriefService({
+    repo: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.briefs) : fail(r.error.code, r.error.message);
+    },
+    writable,
+  });
   return {
     appState: {
       getState: () => Promise.resolve(ok({ dataMode: 'local', environment, isDemo: false })),
@@ -97,6 +105,7 @@ export function createLocalServices(environment: AppState['environment']): Servi
     },
     storage: createBrowserStorageInfoService(),
     backup,
+    briefs,
     coordination,
   };
 }

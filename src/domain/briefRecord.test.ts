@@ -35,6 +35,14 @@ describe('briefRecord (S2.2)', () => {
     expect(v.ok && v.value.fields).toEqual({ campaign: 'A' });
   });
 
+  it('acepta los valores vacíos que envía el formulario (texto vacío, vigencia vacía)', () => {
+    const v = validateBriefRecord({
+      ...base,
+      fields: { campaign: 'A', objective: '', channel: '', validity: { from: '', to: '' } },
+    });
+    expect(v.ok && v.value.fields).toEqual({ campaign: 'A' });
+  });
+
   it('ordena por actualización descendente y desempata por id', () => {
     const a = { ...base, id: 'brf_aaaaaaaa1', fields: {} };
     const b = { ...base, id: 'brf_bbbbbbbb1', fields: {}, updatedAt: '2026-11-24T10:00:00.000Z' };

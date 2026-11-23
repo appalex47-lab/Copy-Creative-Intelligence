@@ -1,5 +1,6 @@
 import type { StorageInfo } from '@/domain/storageInfo';
 import type { ActivityEvent, ActivityKind } from '@/domain/activity';
+import type { BriefRecord } from '@/domain/briefRecord';
 import type { AppState } from '@/domain/entities';
 import type { LocalProfile } from '@/domain/profile';
 import type { AppSettings } from '@/domain/settings';
@@ -64,6 +65,16 @@ export interface BackupService {
   restore(text: string): Promise<Result<{ summary: BackupSummary; settings: AppSettings }>>;
 }
 
+/** Briefs de Copy Studio (S2.3). Guardar un borrador incompleto es válido; un campo inválido se rechaza. */
+export interface BriefService {
+  /** Más recientemente actualizados primero. Vacía si aún no hay briefs. */
+  list(): Promise<Result<readonly BriefRecord[]>>;
+  get(id: string): Promise<Result<BriefRecord>>;
+  /** Sin `id` crea uno nuevo; con `id` actualiza conservando la fecha de creación. */
+  save(input: { readonly id?: string; readonly fields: unknown }): Promise<Result<BriefRecord>>;
+  remove(id: string): Promise<Result<void>>;
+}
+
 export type CoordinationState = 'checking' | 'writer' | 'reader';
 
 /** Coordinación entre pestañas (P12): una pestaña escribe; las demás, solo lectura con aviso visible. */
@@ -81,5 +92,6 @@ export interface Services {
   readonly preferences: PreferencesService;
   readonly storage: StorageService;
   readonly backup: BackupService;
+  readonly briefs: BriefService;
   readonly coordination: CoordinationService;
 }

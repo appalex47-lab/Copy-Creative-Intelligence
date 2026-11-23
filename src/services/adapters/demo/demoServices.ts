@@ -5,6 +5,7 @@ import {
   createPreferencesStore,
 } from '@/adapters/localstorage/preferencesStore';
 import type { AppState } from '@/domain/entities';
+import { createBriefService } from '@/adapters/local/briefService';
 import { fail, ok } from '@/services/contracts';
 import type { Services } from '@/services/contracts';
 
@@ -27,6 +28,10 @@ export function createDemoServices(environment: AppState['environment']): Servic
       record: () => Promise.resolve(ok(undefined)), // DEMO no guarda actividad
     },
     profile: memory.profile,
+    briefs: createBriefService({
+      repo: () => Promise.resolve(ok(memory.briefs)),
+      writable: (run) => run(),
+    }),
     preferences: createPreferencesStore(createMemoryStorage()),
     // DEMO no usa almacenamiento real: no se inventan cifras.
     // DEMO es solo memoria de una pestaña: siempre puede escribir.

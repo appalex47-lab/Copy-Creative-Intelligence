@@ -147,7 +147,8 @@ button {
   margin: var(--space-1) 0;
 }
 .field input,
-.field select {
+.field select,
+.field textarea {
   min-height: 2.75rem;
   padding: 0 var(--space-1);
   font: inherit;
@@ -185,4 +186,24 @@ button {
   flex-wrap: wrap;
   gap: var(--space-1);
   margin: var(--space-1) 0;
+}
+
+.field textarea {
+  padding: var(--space-1);
+  font: inherit;
+  max-width: min(36rem, 100%);
+  min-width: 0;
+  resize: vertical;
+}
+.field fieldset,
+fieldset.field {
+  border: 0;
+  padding: 0;
+  margin: var(--space-1) 0;
+  min-width: 0;
+}
+.plain-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }

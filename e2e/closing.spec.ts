@@ -5,6 +5,7 @@ import { axeViolations, EVIDENCE_DIR, LOCAL, trackErrors } from './support';
 const WIDTHS = [320, 360, 375, 390, 768, 1024, 1440];
 const VIEWS = [
   { nav: 'Inicio', h2: 'Resumen' },
+  { nav: 'Briefs', h2: 'Briefs' },
   { nav: 'Estado de conexión', h2: 'Estado de conexión' },
   { nav: 'Perfil y preferencias', h2: 'Perfil y preferencias' },
   { nav: 'Almacenamiento', h2: 'Almacenamiento' },

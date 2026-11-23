@@ -4,6 +4,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { AppLayout } from '@/layouts/AppLayout';
 import { HomePage } from '@/pages/HomePage';
 import { ConnectionPage } from '@/pages/ConnectionPage';
+import { BriefsPage } from '@/pages/BriefsPage';
 import { BackupPage } from '@/pages/BackupPage';
 import { StoragePage } from '@/pages/StoragePage';
 import { SettingsPage } from '@/pages/SettingsPage';
@@ -16,6 +17,7 @@ import { ServicesProvider } from '@/hooks/ServicesContext';
 
 const NAV: readonly NavItem[] = [
   { id: 'inicio', label: 'Inicio' },
+  { id: 'briefs', label: 'Briefs' },
   { id: 'conexion', label: 'Estado de conexión' },
   { id: 'ajustes', label: 'Perfil y preferencias' },
   { id: 'almacenamiento', label: 'Almacenamiento' },
@@ -54,7 +56,9 @@ export function App({ env, services: injected }: AppProps) {
       >
         <ReadOnlyNotice />
         <ErrorBoundary key={active}>
-          {active === 'conexion' ? (
+          {active === 'briefs' ? (
+            <BriefsPage />
+          ) : active === 'conexion' ? (
             <ConnectionPage />
           ) : active === 'ajustes' ? (
             <SettingsPage />

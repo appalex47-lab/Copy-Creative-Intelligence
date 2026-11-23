@@ -1,4 +1,4 @@
-import { evaluateBrief, type BriefEvaluation, type BriefFields } from './brief';
+import { BRIEF_FIELD_LABELS, evaluateBrief, type BriefEvaluation, type BriefFields } from './brief';
 import { invalid, valid, type Validation } from './validation';
 
 /**
@@ -36,14 +36,9 @@ export function validateBriefRecord(raw: unknown): Validation<BriefRecord> {
   const e = evaluateBrief(raw['fields']);
   const first = e.invalid[0];
   if (first !== undefined) return invalid(first.reason);
-  const known = new Set(Object.keys(e.brief));
-  // Un campo con clave desconocida se rechaza en lugar de ignorarse en silencio.
-  for (const k of Object.keys(raw['fields']))
-    if (!known.has(k) && (raw['fields'] as Record<string, unknown>)[k] !== undefined) {
-      const v = (raw['fields'] as Record<string, unknown>)[k];
-      const blank = v === null || (typeof v === 'string' && v.trim() === '');
-      if (!blank) return invalid('El brief contiene campos no permitidos.');
-    }
+  // Una clave que no es uno de los 13 campos se rechaza en lugar de ignorarse en silencio.
+  if (Object.keys(raw['fields']).some((k) => !(k in BRIEF_FIELD_LABELS)))
+    return invalid('El brief contiene campos no permitidos.');
   return valid({ id, createdAt, updatedAt, fields: e.brief as Partial<BriefFields> });
 }
 
