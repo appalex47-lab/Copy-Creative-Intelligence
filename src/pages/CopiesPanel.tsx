@@ -18,6 +18,12 @@ import {
   type CopyField,
   type CopyRecord,
 } from '@/domain/copy';
+import {
+  CATEGORY_LABELS,
+  SEVERITY_LABELS,
+  evaluateCopy,
+  type Evaluation,
+} from '@/domain/copyRules';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
 import { useServices } from '@/hooks/ServicesContext';
 import { describeError } from '@/lib/errorMessages';
@@ -103,6 +109,7 @@ export function CopiesPanel({
                   <CopyItem
                     key={c.id}
                     copy={c}
+                    brief={brief}
                     onEdit={() => {
                       setNotice('');
                       setView({ kind: 'form', copy: c });
@@ -124,11 +131,13 @@ export function CopiesPanel({
 
 function CopyItem({
   copy,
+  brief,
   onEdit,
   onHistory,
   onDone,
 }: {
   readonly copy: CopyRecord;
+  readonly brief: BriefRecord;
   readonly onEdit: () => void;
   readonly onHistory: () => void;
   readonly onDone: (message: string) => void;
@@ -137,6 +146,7 @@ function CopyItem({
   const [mode, setMode] = useState<'none' | 'delete' | 'duplicate'>('none');
   const [label, setLabel] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [review, setReview] = useState<Evaluation | null>(null);
   const cur = currentVersion(copy);
   const remove = async () => {
     const r = await services.copies.remove(copy.id);
@@ -169,6 +179,9 @@ function CopyItem({
         </p>
         <ContentView content={cur.content} />
         {error && <p role="alert">{error}</p>}
+        {review && (
+          <ReviewView review={review} onClose={() => setReview(null)} label={copy.label} />
+        )}
         {mode === 'delete' ? (
           <div role="group" aria-label={`Confirmar eliminación de ${copy.label}`}>
             <p>¿Eliminar este copy y todo su historial? No se puede deshacer.</p>
@@ -203,6 +216,17 @@ function CopyItem({
             <Button onClick={onEdit} aria-label={`Editar ${copy.label}`}>
               Editar
             </Button>
+            <Button
+              onClick={() => {
+                const f = brief.fields;
+                if (f.channel)
+                  setReview(evaluateCopy({ channel: f.channel, offer: f.offer }, cur.content));
+                else setError('El brief no tiene canal: elige uno para revisar las reglas.');
+              }}
+              aria-label={`Revisar reglas de ${copy.label}`}
+            >
+              Revisar reglas
+            </Button>
             <Button onClick={onHistory} aria-label={`Historial de ${copy.label}`}>
               Historial
             </Button>
@@ -229,6 +253,46 @@ function CopyItem({
         )}
       </Card>
     </li>
+  );
+}
+
+const VERDICT_LABELS = { apto: 'Apto', revisar: 'Revisar', no_apto: 'No apto' } as const;
+
+function ReviewView({
+  review,
+  label,
+  onClose,
+}: {
+  readonly review: Evaluation;
+  readonly label: string;
+  readonly onClose: () => void;
+}) {
+  return (
+    <div role="region" aria-label={`Revisión de ${label}`}>
+      <p>
+        <strong>
+          Puntaje {review.score} de 100 · {VERDICT_LABELS[review.verdict]}
+        </strong>
+        {review.blocked ? ' · Hay hallazgos críticos: bloquean la aprobación.' : ''}
+      </p>
+      {review.findings.length === 0 ? (
+        <p>Sin hallazgos con las reglas actuales.</p>
+      ) : (
+        <ul>
+          {review.findings.map((f, i) => (
+            <li key={`${f.ruleId}-${i}`}>
+              {SEVERITY_LABELS[f.severity]} · {CATEGORY_LABELS[f.category]}: {f.message}
+            </li>
+          ))}
+        </ul>
+      )}
+      <p className="field-hint">
+        Reglas orientativas (longitudes por canal sin verificar contra las plataformas). Las
+        leyendas obligatorias aún no se pueden capturar, así que no se revisan; los términos de
+        marca son ejemplos editables. No incluye ortografía.
+      </p>
+      <Button onClick={onClose}>Cerrar revisión</Button>
+    </div>
   );
 }
 

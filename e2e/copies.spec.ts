@@ -5,6 +5,7 @@ async function openCopies(page: Page) {
   await page.getByRole('button', { name: 'Briefs', exact: true }).click();
   await page.getByRole('button', { name: 'Nuevo brief' }).click();
   await page.getByLabel(/^Campaña/).fill('Buen Fin');
+  await page.getByLabel(/^Canal/).selectOption('Email');
   await page.getByRole('button', { name: 'Guardar brief' }).click();
   await page.getByRole('button', { name: 'Copys de Buen Fin' }).click();
   await expect(page.getByRole('heading', { level: 3, name: 'Copys de Buen Fin' })).toBeVisible();
@@ -60,6 +61,17 @@ test.describe('copys con versiones (modo local, Chrome real)', () => {
     await page.getByRole('button', { name: 'Briefs', exact: true }).click();
     await page.getByRole('button', { name: 'Copys de Buen Fin' }).click();
     await expect(page.getByRole('button', { name: 'Editar B' })).toBeVisible();
+
+    // Revisar reglas en la variante B: «cura» (mayor) y sin CTA en Email.
+    await page.getByRole('button', { name: 'Editar B' }).click();
+    await page.getByLabel(/^Descripción/).fill('Una cura para todo');
+    await page.getByRole('button', { name: 'Guardar nueva versión' }).click();
+    await page.getByRole('button', { name: 'Revisar reglas de B' }).click();
+    const review = page.getByRole('region', { name: 'Revisión de B' });
+    await expect(review).toContainText('término prohibido «cura»');
+    await expect(review).toContainText('Puntaje');
+    expect(await axeViolations(page)).toEqual([]);
+    await page.getByRole('button', { name: 'Cerrar revisión' }).click();
 
     // Volver: el brief con copys no se puede eliminar.
     await page.getByRole('button', { name: 'Volver a los briefs' }).click();
