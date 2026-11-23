@@ -1,0 +1,56 @@
+
+> copy-creative-intelligence@0.0.0-fase1.0-fundacion test:e2e
+> playwright test
+
+
+Running 29 tests using 1 worker
+
+  ✓   1 e2e/app.spec.ts:6:3 › aplicación (build preview) en Chrome real › arranca, muestra aviso DEMO, identidad ficticia y estado "sin backend" (413ms)
+  ✓   2 e2e/app.spec.ts:22:3 › aplicación (build preview) en Chrome real › navega a Estado de conexión: foco en el encabezado, título, aria-current y aviso de no conexión (359ms)
+  ✓   3 e2e/app.spec.ts:41:3 › aplicación (build preview) en Chrome real › teclado: enlace de salto, orden de tabulación y activación con Enter/Espacio (408ms)
+  ✓   4 e2e/app.spec.ts:70:3 › aplicación (build preview) en Chrome real › foco visible: contorno de al menos 3px en botones y enlace de salto con teclado (294ms)
+  ✓   5 e2e/app.spec.ts:87:3 › aplicación (build preview) en Chrome real › región JSON desplazable es accesible por teclado (289ms)
+  ✓   6 e2e/app.spec.ts:96:5 › aplicación (build preview) en Chrome real › axe-core (WCAG 2.x A/AA + best-practice) sin violaciones: Inicio (823ms)
+  ✓   7 e2e/app.spec.ts:96:5 › aplicación (build preview) en Chrome real › axe-core (WCAG 2.x A/AA + best-practice) sin violaciones: Estado de conexión (853ms)
+  ✓   8 e2e/resilience.spec.ts:9:3 › estados de carga, error y reintento en Chrome real (StrictMode) › carga: región de estado anuncia "Cargando…" y luego "Contenido cargado." (512ms)
+  ✓   9 e2e/resilience.spec.ts:24:3 › estados de carga, error y reintento en Chrome real (StrictMode) › StrictMode: el efecto se ejecuta dos veces en desarrollo pero la UI queda coherente y sin robar foco (389ms)
+  ✓  10 e2e/resilience.spec.ts:36:3 › estados de carga, error y reintento en Chrome real (StrictMode) › Result fallido "unavailable": alerta sin detalle interno, reintento y recuperación (1.0s)
+  ✓  11 e2e/resilience.spec.ts:51:3 › estados de carga, error y reintento en Chrome real (StrictMode) › tras reintentar el foco no se pierde (queda en el encabezado) (504ms)
+[WebServer] 10:22:15 AM [vite] (client) [console.error] [cci] operación asíncrona fallida: Error
+  ✓  12 e2e/resilience.spec.ts:60:3 › estados de carga, error y reintento en Chrome real (StrictMode) › excepción del servicio: error genérico, sin detalles, con reintento (430ms)
+  ✓  13 e2e/resilience.spec.ts:72:3 › estados de carga, error y reintento en Chrome real (StrictMode) › not_found: alerta visible y SIN botón de reintento (347ms)
+[WebServer] 10:22:16 AM [vite] (client) [console.error] Error: Objects are not valid as a React child (found: object with keys {oops}). If you meant to render a collection of children, use an array instead.
+[WebServer]     at throwOnInvalidObjectTypeImpl (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=a5e284c1:3716:10)
+[WebServer]     at throwOnInvalidObjectType (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=a5e284c1:3720:105)
+[WebServer]     at reconcileChildFibersImpl (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=a5e284c1:4032:6)
+[WebServer]     at http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=a5e284c1:4044:28
+[WebServer]     at reconcileChildren (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=a5e284c1:5582:46)
+[WebServer]     at beginWork (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=a5e284c1:6448:1569)
+[WebServer]     at runWithFiberInDEV (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=a5e284c1:941:66)
+[WebServer]     at performUnitOfWork (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=a5e284c1:9145:92)
+[WebServer]     at workLoopSync (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=a5e284c1:9041:37)
+[WebServer]     at renderRootSync (http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=a5e284c1:9025:6)
+[WebServer] 
+[WebServer] The above error occurred in the <strong> component.
+[WebServer] 
+[WebServer] React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+[WebServer] 
+[WebServer] 10:22:16 AM [vite] (client) [console.error] [cci] error de renderizado: Error
+  ✓  14 e2e/resilience.spec.ts:78:3 › estados de carga, error y reintento en Chrome real (StrictMode) › Error Boundary: un error real de renderizado se captura, no deja pantalla en blanco y permite reintentar (450ms)
+  ✓  15 e2e/resilience.spec.ts:91:3 › estados de carga, error y reintento en Chrome real (StrictMode) › respuesta tardía tras cambiar de página: se descarta y no contamina la página nueva (449ms)
+  ✓  16 e2e/resilience.spec.ts:111:3 › estados de carga, error y reintento en Chrome real (StrictMode) › error en Estado de conexión: el aviso "sin backend" se mantiene visible (392ms)
+  ✓  17 e2e/responsive.spec.ts:12:5 › responsive 360px — inicio (301ms)
+  ✓  18 e2e/responsive.spec.ts:12:5 › responsive 360px — conexion (356ms)
+  ✓  19 e2e/responsive.spec.ts:12:5 › responsive 375px — inicio (323ms)
+  ✓  20 e2e/responsive.spec.ts:12:5 › responsive 375px — conexion (379ms)
+  ✓  21 e2e/responsive.spec.ts:12:5 › responsive 390px — inicio (310ms)
+  ✓  22 e2e/responsive.spec.ts:12:5 › responsive 390px — conexion (315ms)
+  ✓  23 e2e/responsive.spec.ts:12:5 › responsive 768px — inicio (304ms)
+  ✓  24 e2e/responsive.spec.ts:12:5 › responsive 768px — conexion (336ms)
+  ✓  25 e2e/responsive.spec.ts:12:5 › responsive 1024px — inicio (293ms)
+  ✓  26 e2e/responsive.spec.ts:12:5 › responsive 1024px — conexion (311ms)
+  ✓  27 e2e/responsive.spec.ts:12:5 › responsive 1440px — inicio (273ms)
+  ✓  28 e2e/responsive.spec.ts:12:5 › responsive 1440px — conexion (365ms)
+  ✓  29 e2e/responsive.spec.ts:56:1 › responsive 360px — estado de error (arnés) sin desbordes (404ms)
+
+  29 passed (19.8s)

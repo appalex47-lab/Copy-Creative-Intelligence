@@ -1,0 +1,17 @@
+
+> copy-creative-intelligence@0.0.0-fase1.0-fundacion test:run
+> vitest run
+
+
+ RUN  v5.1.1 /tmp/f0_verify
+
+
+ Test Files  13 passed (13)
+      Tests  162 passed (162)
+   Start at  10:21:12
+   Duration  14.89s (environment 53%, tests 23%, setup 11%, import 9%, transform 4%)
+
+Environment  jsdom was created 13 times · 6.99s total, 53% of tracked time
+             create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+             learn more: https://vitest.dev/guide/improving-performance#test-environments
+

@@ -1,0 +1,9 @@
+# NOTA (ronda de lectura 2026-11-22): instantánea histórica de la entrega de las 12:35. Los tamaños y hashes de abajo ya NO coinciden con los archivos actuales (fueron editados después con notas fechadas). La integridad vigente está en MANIFEST.sha256 e INVENTARIO_PUBLICADO.sha256. Líneas originales sin alterar.
+# Manifiesto de entrega 2026-11-22 (D-4/D-6/D-7/D-8): ruta | tamaño(bytes) | SHA-256 (el propio manifiesto y MANIFEST.sha256 se excluyen)
+entregables_formales/PAQUETE_DECISION_D4_D6_D7_D8.md | 16431 | d26f598303bddc7b8285f9908ca8cd88b824313084111637d68952c2d0468304
+entregables_formales/PAQUETE_DECISION_D1_D8.md | 18212 | ed3ce21220ab61e5d52b63976367862f9736a4c906a7cc41ec0529d3d2b53efe
+entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md | 37682 | 2a07689975204e44c9215a3023abd7d01c71a71d167b3b6cb1028cb2784b8ea1
+entregables_formales/DECISIONES_P4_PENDIENTES.md | 4789 | 163f2ba928a099e44c8ba1596a00153d30ed7103883162d4aeffe4cecbc168a4
+entregables_formales/16_INDICE_EVIDENCIAS_FASE0.md | 5585 | fcf769c97386b36ecbb46dbb034ce4c6500f14139fe120e56839670bee876cad
+entregables_formales/INFORME_CIERRE_2026-11-22_PAQUETE_D4_D6_D7_D8.md | 3963 | 16b344b0d0db250c37ebe9c8af005841261fa384229ee6bd1cb150d68bfc037c
+README_ENTREGA.md | 2523 | b98ca6fd1d869abbbfeeeabd50e404c03378e665b61ff5a60886c57f26f60928

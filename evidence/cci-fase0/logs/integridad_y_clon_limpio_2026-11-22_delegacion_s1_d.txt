@@ -1,0 +1,26 @@
+# Integridad y reproducción en clon limpio — registro de la delegación del propietario y de las decisiones S1-D01…D16 (2026-11-22 21:28; base e773b0d727bf12efa4b356ddc154de6d791b1f2d)
+# Alcance: verificación LOCAL (el commit no se publicó: la rama del expediente no se empujó). Un hash no puede constar dentro de los archivos que contiene: el clon limpio se hizo sobre el commit
+# provisional 649772a8a8b26b3e6e46e9cac95943a02019e2c5 (idéntico al final salvo este archivo y los dos manifiestos). El hash del commit final y la verificación de los manifiestos definitivos se informan en la entrega, no aquí.
+# Todo lo siguiente lo ejecutó la misma sesión que preparó el expediente: NO es verificación independiente.
+
+## 1. Alcance del cambio frente a e773b0d
+A=7 M=11
+- Archivos fuera de `evidence/cci-fase0/`: 0 (no se tocó `docs/fase0/`, código de la aplicación, `main` ni anexos).
+
+## 2. Clon limpio del commit provisional (git clone + checkout)
+- Archivos bajo `evidence/cci-fase0/`: 170.
+- `MANIFEST.sha256`: 168 líneas verificadas por hash; fallos 0.
+- `INVENTARIO_PUBLICADO.sha256`: 169 líneas verificadas por hash; fallos 0.
+- Blobs del árbol: 230 = 170 + 59 (`docs/fase0/`) + 1 (`README.md` raíz).
+- `docs/fase0/`: 59 archivos; huella del `git ls-tree` 5be2c1e469d5bf49.
+
+## 3. Reproducción de los verificadores desde el clon limpio (rc = código de salida)
+| Verificador | rc | Resultado |
+|---|---|---|
+| `logs/verificacion_semantica_fase0.py` | 0 | 84 pruebas [OK]; ERROR_REAL 0; A5 y A6 sí; salida idéntica a la guardada (sin las líneas «# ») |
+| `logs/prueba_mutacion_semantica.py` | 0 | 24/24 mutaciones detectadas; control sin mutación rc=0; salida idéntica a la guardada |
+| `logs/verificacion_coherencia_posterior.py` | 0 | sin FALLO; salida idéntica a la guardada |
+| `logs/scan_contradicciones.py` v2 | 0 | RESUMEN: 78 ANTECEDENTE_ADVERTIDO y 54 REVISION_HUMANA (igual que la ronda anterior); salida idéntica a la guardada |
+
+## 4. Qué NO verifica este registro
+No se ejecutaron pruebas, build, E2E ni CI de la aplicación en esta ronda; no se verificaron Web Locks, cuotas de IndexedDB ni compatibilidad de navegadores; los anexos A/B no se leyeron; no hubo acceso a `CCI-Evidence`; no hubo reproducción independiente.

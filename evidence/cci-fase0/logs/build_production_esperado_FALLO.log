@@ -1,0 +1,11 @@
+
+> copy-creative-intelligence@0.0.0-fase1.0-fundacion build:production
+> tsc -b && vite build --mode production
+
+error during build:
+Error: [CCI] Configuración de entorno rechazada (production): Un entorno de producción no puede usar datos DEMO y aún no existe un backend real. Para un build local de demostración use el modo "preview" (npm run build).
+    at BasicMinimalPluginContext.config (file:///tmp/review_repo/node_modules/.vite-temp/vite.config.ts.timestamp-1795364499839-08fae4dca52cb.mjs:89:26)
+    at runConfigHook (file:///tmp/review_repo/node_modules/vite/dist/node/chunks/node.js:38201:42)
+    at async resolveConfig (file:///tmp/review_repo/node_modules/vite/dist/node/chunks/node.js:37607:11)
+    at async createBuilder (file:///tmp/review_repo/node_modules/vite/dist/node/chunks/node.js:35183:17)
+    at async CAC.<anonymous> (file:///tmp/review_repo/node_modules/vite/dist/node/cli.js:778:19)

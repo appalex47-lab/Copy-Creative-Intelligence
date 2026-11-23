@@ -1,0 +1,57 @@
+## PRUEBAS de los controles semánticos (casos positivos y negativos)
+   [OK] conteo: «9/18 aprobadas» se detecta
+   [OK] conteo: «18/18» no se detecta
+   [OK] conteo: «Entidad 9 de 18» (ordinal) no se detecta
+   [OK] conteo: «8/18» se detecta
+   [OK] resuelta-como-pendiente: «P5 pendiente» se detecta
+   [OK] resuelta-como-pendiente: «P5 RESUELTA» no se detecta
+   [OK] resuelta-como-pendiente: «P4 (parcial) pendiente» se detecta
+   [OK] resuelta-como-pendiente: ID dentro de otro («P41») no se detecta
+   [OK] aplazada-como-resuelta: «P6 resuelta» se detecta
+   [OK] aplazada-como-resuelta: «P6 no resuelta» no se detecta
+   [OK] aplazada-como-resuelta: «P8 se resolverá antes de Fase 2» no se detecta
+   [OK] aprobaciones: «0.1–0.7 aprobadas» se detecta
+   [OK] aprobaciones: «0/7 emitidas» no se detecta
+   [OK] aprobaciones: «ninguna aprobación 0.1–0.7 emitida» no se detecta
+   [OK] aprobaciones: «para emitir las aprobaciones 0.1–0.7» no se detecta
+   [OK] fase: «Fase 0 aceptada» se detecta
+   [OK] fase: «Fase 0 no aceptada» no se detecta
+   [OK] fase: «Fase 1 autorizada» se detecta
+   [OK] fase: «una vez aceptada Fase 0» no se detecta
+   [OK] C-2/C-3: «C-2 y C-3 resueltas» se detecta
+   [OK] C-2/C-3: «C-2 y C-3 abiertas» no se detecta
+   [OK] C-2/C-3: «no resueltas» no se detecta
+   [OK] relación: «Campaña–Oferta aprobada» se detecta
+   [OK] relación: «Campaña–Oferta NO aprobada» no se detecta
+   [OK] relación: «Campaña–Brief aprobada» no se detecta
+   [OK] relación: «Brief con Producto aprobado» se detecta
+   [OK] MVP: «MVP termina al concluir Fase 3» se detecta
+   [OK] MVP: «MVP termina al concluir Fase 2» no se detecta
+   [OK] Q-4: «decisión Q-4 abierta» se detecta
+   [OK] Q-4: «Q-4 resuelta» no se detecta
+   [OK] atributos: «atributos aprobados» se detecta
+   [OK] atributos: «los atributos no están aprobados» no se detecta
+   Resultado: 32/32
+## E1 definiciones mínimas en el registro: 18/18 (True)
+## E2 definiciones 9–12 y 14–18 del registro = texto literal de la propuesta: SÍ (9/9)
+## E3 doc 03 (tabla A) reproduce fielmente las 18 definiciones del registro: 18/18; discrepancias: ninguna
+## E4 matriz consolidada: entidades con estado «Aprobada»: 18/18 (faltan: ninguna)
+## E5 definiciones con vocabulario de atributos/cardinalidades/obligatoriedad (revisión humana): ninguna
+## R1 relaciones ratificadas en B2: 2 documentadas + 11 una por una = 13 (esperado 13)
+## D1 universo de decisiones de nivel superior: 30 (esperado 30); resueltas 20 (P1,P2,P3,P4,P5,P9,P11–P14,Q-4,Q-7,D-1…D-8); aplazadas 10; abiertas de nivel superior: 0
+## A1 fichas 0.1–0.7 en la tabla vigente de APROBACIONES_FASE0: 7 filas; con estado distinto de PENDIENTE: ninguna
+## A2 prerrequisitos desactualizados en las fichas: ninguno
+## RESUMEN de hallazgos por clase
+   ERROR_REAL                 0
+   ANTECEDENTE_ADVERTIDO      74
+   FALSO_POSITIVO_REVISADO    1
+   REVISION_HUMANA            0
+   [FALSO_POSITIVO_REVISADO] S1_conteo_entidades_distinto_de_18 | entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md:312 | por tanto el conteo formal de P4.A pasa de 8/18 a **9/18 (50 %)**, con 9/18 pendientes (50 %). | Sección fechada del registro acumulativo (aclaración D4.c); superada cronológicamente por la ratificación B1 (18/18) en el mismo registro; el texto anterior se conserva por regla de historial
+## ANTECEDENTE_ADVERTIDO (detalle por control)
+   S1_conteo_entidades_distinto_de_18                           63
+   S2_decision_resuelta_presentada_como_pendiente               6
+   S3_aplazamiento_presentado_como_resuelto                     2
+   S5_fase_0_aceptada_o_fase_1_autorizada                       1
+   S6_C2_C3_presentadas_como_resueltas                          1
+   S8_roadmap_o_mvp_contradice_Q4                               1
+## Alcance: 98 archivos .md/.txt revisados; 33 clasificados vigentes/propuesta (frase a frase)

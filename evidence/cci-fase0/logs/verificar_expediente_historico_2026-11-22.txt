@@ -1,0 +1,64 @@
+# Salida de herramienta HISTÓRICA ejecutada el 2026-11-22 sobre una COPIA de docs/fase0 (línea Supabase/RLS, superada). Solo aplica a esa línea; NO valida el expediente browser-only vigente.
+# Origen: ve.out / ve.err de la sesión; sin modificar la herramienta ni docs/fase0.
+## STDOUT
+K01 APRUEBA   Los cinco documentos activos existen y no están vacíos
+K02 APRUEBA   IDs de reglas únicos (231 reglas) y con el mismo texto en la definición y en la cobertura
+K03 APRUEBA   IDs de escenarios únicos y consecutivos (780 escenarios)
+K04 APRUEBA   Todo escenario tiene ID, requisito, datos iniciales, acción, resultado esperado, resultado prohibido, criterio, nivel y reglas
+K05 APRUEBA   Todo escenario referencia solo reglas existentes
+K06 APRUEBA   Toda regla tiene al menos un escenario (cobertura 231 de 231)
+K07 APRUEBA   Todo escenario está asociado a al menos una regla
+K08 APRUEBA   La tabla de cobertura regla-escenario de la especificación coincide con las referencias de los escenarios
+K09 APRUEBA   Cifras recalculadas desde los archivos (231 reglas, 780 escenarios, 41 tablas, 14 nuevas) y coincidentes en los cinco documentos
+K10 APRUEBA   La fórmula del conjunto excluido E es idéntica en todos los documentos (10 apariciones)
+K11 APRUEBA   Existe una sola definición de contribuyente (figuras A a F en 4.4.3) y no se redefine en otros documentos
+K12 APRUEBA   Los diez errores de procedencia están en el contrato de version_contributors y cada uno aparece en al menos un escenario
+K13 APRUEBA   Los 26 escenarios mínimos de H-02 existen (26 escenarios H-02, con datos, versiones, actores, acción, esperado, prohibido, regla y nivel)
+K14 APRUEBA   Contrato de integridad (65 relaciones): 10 campos completos por fila, toda FK de las nueve tablas de procedencia figura en él y toda FK incluye organization_id
+K15 APRUEBA   Las nueve tablas de procedencia tienen bloque de definición y fila en el orden de creación; sin tablas repetidas (41 tablas)
+K16 APRUEBA   Orden de creación: ninguna tabla, función o trigger depende de un objeto posterior y ninguna FK apunta a una tabla creada después (100 pasos)
+K17 APRUEBA   La secuencia de subfases de creación es idéntica en especificación, roadmap y auditoría
+K18 APRUEBA   El roadmap conserva las 76 subfases, sin duplicados ni subfase 77, y toda subfase del orden de creación existe en él
+K19 APRUEBA   Las 17 claves físicas permanecen: las claves citadas están entre las 17, las 17 figuran en la especificación y ninguna frase crea permisos ni roles
+K20 APRUEBA   T-02 conserva 13 transiciones: sin transición #14 o posterior, sin estados ni transiciones nuevos
+K21 APRUEBA   Las decisiones y limitaciones pendientes del propietario se conservan visibles (14 elementos) en especificación, informe y registro
+K22 APRUEBA   Estados: v3.3 aceptada como línea base, v15 completada documentalmente y preparada para aceptación formal, Fase 1 no iniciada; ningún documento declara aceptación del pro
+K23 APRUEBA   Ningún documento afirma validación técnica ni pruebas técnicas ejecutadas (toda mención está negada o pendiente)
+K24 APRUEBA   La atribución no usa IA, similitud, embeddings ni inferencias probabilísticas como autoridad (toda mención está negada) y IG5-70 define la regla determinista
+K25 APRUEBA   Los archivos históricos conservan su SHA-256 registrado en el manifiesto (52 archivos) y el registro cita el hash aceptado de v3.3 con b5dccdc7 (registro histórico; la co
+K26 APRUEBA   El diagrama de relaciones (34 aristas) coincide con las relaciones del contrato de integridad
+K27 APRUEBA   Sin contradicciones con las versiones anteriores en los documentos activos (patrones de fuentes, errores y pendientes obsoletos)
+K28 APRUEBA   Registro histórico: entradas ordenadas por revisión hasta la v15 con el commit previo 1d14e51… (v14 sobre d4044c2…, v13 sobre 603b039…, v12 sobre 7916115…, v11 sobre 651c
+K29 APRUEBA   La especificación documenta la herramienta publicada, su comando y sus límites
+K30 APRUEBA   El flujo integrado de 4.4.7 tiene los 19 pasos en el orden obligatorio
+K31 APRUEBA   Los niveles de evidencia están definidos (Diseñado, Verificado documentalmente, Validado técnicamente) y IE-05 a IE-08 existen
+K32 APRUEBA   Las ocho tablas de procedencia no tienen referencias polimórficas, cada columna *_id (incluidas todas las source_*) está cubierta por una FK compuesta exacta (RS-01 a RS-
+K33 APRUEBA   Inmutabilidad: el contrato la define para las trece tablas, IS-13, IG5-85 e IG5-87 existen y 4 escenarios de H-03 intentan modificar, borrar o truncar
+K34 APRUEBA   DT-02: IG5-45 limita la exclusión al proponente de la clasificación vigente, IG5-68 protege a quien confirma o revierte y 12 escenarios lo cubren
+K35 APRUEBA   Sin autovalidación, autoevaluación ni asignación automática a Admin: IG5-55, IG5-67, IG5-57 e IS-14 y 5 escenarios de Admin
+K36 APRUEBA   Fail-closed: IG5-64 e IG5-78 bloquean evaluación, independencia y aprobación o publicación sin excepción de Admin; IG5-89 impide reutilizar evaluaciones; 17 escenarios de
+K37 APRUEBA   Las reglas de contribución directa, herencia de copy y procedencia de copy y arte existen y tienen escenarios (10 reglas)
+K38 APRUEBA   H-02: 12 campos de brief y 9 de promoción catalogados, regla de segmentos (IG5-70), cálculo de atribuciones (IG5-72), historial (IG5-73), dos algoritmos de 10 pasos y reg
+K39 APRUEBA   Reglas de G-7 (C1 a C9) y de G-10 (37 reglas IG10) presentes con cobertura
+K44 APRUEBA   Integridad estructural de 117 relaciones: longitud, orden exacto de columnas, organization_id, PK o UNIQUE de destino con las mismas columnas, tipos compatibles, contrato
+K45 APRUEBA   Integridad semántica sobre un modelo relacional con identidad propia (organizaciones, miembros, piezas, versiones de brief, snapshots, versiones de copy, assets, eventos,
+K46 APRUEBA   Resolución independiente de descarte: afectado, solicitante y actor del cambio no resuelven, evidencia ligada a la misma atribución y versión, autoridad de revisión, iden
+K47 APRUEBA   Conservación estructural: motor en memoria con atribuciones individuales, versiones inmutables, resoluciones y E calculado recorriendo las atribuciones reales; 12 escenar
+K52 APRUEBA   Cobertura estructural v12: controles C01 a C15 con mutación (15/15), invariantes I1 a I28 con mutación (28/28), escenarios A a L aprobados (12/12), comprobaciones U, S, X
+K50 APRUEBA   Registro histórico: cada entrada de revisión sucede a la anterior (vN posterior a vN-1; 12 entradas)
+K51 APRUEBA   Cobertura v8: IG5-95, IG5-96, IG5-97 e IE-12 con escenarios (resolutor 13, correspondencias 15, conservación 19)
+K53 APRUEBA   Cobertura v10: IG5-98, IG5-99 e IE-12 con escenarios (resoluciones inmutables 17, arte 26) y la sección 4.4.12 documenta I13 a I21, las 12 mutaciones de resoluciones, las
+K54 APRUEBA   Cobertura v11: IG5-100 e IE-12 con escenarios (identidad de assets 37) y la sección 4.4.13 documenta I22 a I26, las 21 mutaciones de la v11 (A17 a A32 y A49 a A53), los c
+K55 APRUEBA   Cobertura v13: IG5-102, IG5-103 e IE-12 con escenarios (validación previa del origen 36, integridad referencial source_* 50); sección 4.4.15 con el inventario de columnas
+K56 APRUEBA   Cobertura v14 y ejecución v15 de las baterías del modelo (detalle v15 en K59): validación vínculo por vínculo de la cadena (CHAIN 24/24), motor forzado frente al auditor 
+K57 APRUEBA   Comparación estructural v14: cada regla IG5-104 a IG5-110 se traza a su implementación existente en el modelo, a pruebas existentes del conjunto ejecutado y a su verifica
+K59 APRUEBA   Cobertura v15: reglas IG5-111 a IG5-116 con escenarios, sección 4.4.17 con las suites AV-01 a AV-08, CF-01 a CF-08, AC-01 a AC-06, AP-01 a AP-08, ADV15-01 a ADV15-08, AT1
+K58 APRUEBA   Identidad única y estable de los controles: ningún identificador se repite en la ejecución ni en el código del verificador, K55 y K55-V12 se emiten una sola vez cada uno 
+K55-V12 APRUEBA   Cobertura v12 (control histórico antes identificado también como K55; equivalencia documentada en 4.4.17): IG5-101 e IE-12 con escenarios (identidad de origen 38), secció
+K49 APRUEBA   H-02 v7: reglas IG5-90 a IG5-94 con cobertura y los 16 escenarios obligatorios (19 escenarios de atribución v7)
+K48 PENDIENTE Hash de la línea base v3.3: PENDIENTE_ARCHIVO_ORIGINAL_NO_DISPONIBLE (no se indicó o no existe el archivo original; el hash registrado en los documentos es un registro hi
+K40 APRUEBA   La matriz define 28 controles con ID estable único, regla, sección, evidencia, procedimiento, resultado, estado y nivel; ninguno es OK sin comprobaciones aprobadas
+K41 APRUEBA   Reproducibilidad: dos ejecuciones sobre los mismos archivos producen los mismos resultados individuales
+K42 APRUEBA   Controles negativos omitidos (--sin-mutaciones)
+RESUMEN: 59 comprobaciones, 58 aprueban, 0 fallan, 1 pendientes; 28 controles (28 OK, 0 NO OK, 0 PENDIENTE); 0 mutaciones (0 detectadas)
+## STDERR

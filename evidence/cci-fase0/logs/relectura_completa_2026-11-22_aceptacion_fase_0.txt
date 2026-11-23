@@ -1,0 +1,40 @@
+# Registro de relectura de los cambios — registro de la aceptación formal de la Fase 0 (2026-11-22 20:26; base 301e20c8486ac7073eb5d8e91c71f9cd99ab732b)
+# Qué es: evidencia de que los cambios de cada archivo modificado o creado en esta ronda se volvieron a leer tras las ediciones (nombre, líneas, bytes, modo de relectura, resultado).
+# Qué NO es: no es una relectura íntegra de cada archivo (los archivos modificados con una nota fechada añadida al final se releyeron en la nota y en su contexto inmediato mediante `git diff`); no cubre las salidas de scripts guardadas en logs/ (no son lectura); no cubre docs/fase0/ ni anexos/ (no se leyeron de nuevo; no modificados).
+# Limitaciones: relectura de la misma sesión, no independiente. Se leyeron íntegras las secciones nuevas del registro autoritativo y el control de cambios; en APROBACIONES_FASE0.md y el paquete se leyeron todas las líneas modificadas. Defectos hallados al releer y corregidos durante la ronda: (1) la prueba de mutación M10 apuntaba a una fila que ya había cambiado de texto (reapuntada); (2) la mutación M16 apuntaba a un documento fuera del alcance del control S5 (reapuntada); (3) el conteo de documentos con nota (24) no coincidía con el real (26) en el control de cambios (corregido); (4) cuatro documentos con «Fase 0 no aceptada» no tenían la nota de las 20:26 (añadida; hallazgo del control S16).
+
+N | archivo | líneas | bytes | modo de relectura | resultado
+1 | 00_INDICE_VIGENTES_E_HISTORICOS.md | 62 | 13500 | diff completo con contexto (cifras, filas y notas) | sin defectos tras las correcciones indicadas en la cabecera
+2 | INFORME_REVISION_COMPLEMENTARIA.md | 37 | 6407 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+3 | README_ENTREGA.md | 50 | 10462 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+4 | auditoria_integral/01_INDICE_MAESTRO_FASE0.md | 66 | 11030 | diff completo con contexto (cifras, filas y notas) | sin defectos tras las correcciones indicadas en la cabecera
+5 | auditoria_integral/02_MATRIZ_MAESTRA_DECISIONES.md | 113 | 21065 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+6 | auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md | 223 | 36988 | diff completo con contexto (cifras, filas y notas) | sin defectos tras las correcciones indicadas en la cabecera
+7 | auditoria_integral/06_REGISTRO_CONTRADICCIONES.md | 270 | 32004 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+8 | auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md | 191 | 24541 | diff completo con contexto (cifras, filas y notas) | sin defectos tras las correcciones indicadas en la cabecera
+9 | auditoria_integral/08_INFORME_INTEGRIDAD_ARCHIVOS.md | 43 | 6448 | diff completo con contexto (cifras, filas y notas) | sin defectos tras las correcciones indicadas en la cabecera
+10 | auditoria_integral/09_PAQUETE_CONSOLIDADO_DECISIONES_PENDIENTES.md | 79 | 16205 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+11 | auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md | 51 | 12274 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+12 | auditoria_integral/12_REGISTRO_LECTURA_Y_LIMITACIONES.md | 459 | 97294 | diff completo con contexto (cifras, filas y notas) | sin defectos tras las correcciones indicadas en la cabecera
+13 | auditoria_integral/13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md | 227 | 38936 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+14 | auditoria_integral/14_INFORME_FINAL_REGULARIZACION_Y_PREPARACION_APROBACIONES.md | 66 | 7861 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+15 | auditoria_integral/15_INFORME_FINAL_SEGUNDA_REGULARIZACION.md | 50 | 8842 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+16 | entregables_formales/10_DEFINICION_MVP_CCI.md | 29 | 6409 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+17 | entregables_formales/13_REGISTRO_DECISIONES_PROPIETARIO.md | 197 | 20074 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+18 | entregables_formales/16_INDICE_EVIDENCIAS_FASE0.md | 80 | 12981 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+19 | entregables_formales/APROBACIONES_FASE0.md | 111 | 22784 | todas las líneas modificadas (diff) con su contexto | sin defectos tras las correcciones indicadas en la cabecera
+20 | entregables_formales/CONCILIACION_30_DECISIONES_Y_APLAZAMIENTOS.md | 89 | 14956 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+21 | entregables_formales/CONTROL_DE_CAMBIOS_PREPARACION_APROBACIONES_2026-11-22.md | 93 | 9427 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+22 | entregables_formales/CONTROL_DE_CAMBIOS_RATIFICACION_PROPUESTA_MAESTRA_2026-11-22.md | 83 | 10411 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+23 | entregables_formales/CONTROL_DE_CAMBIOS_REGULARIZACION_P4A_9_18_2026-11-22.md | 33 | 4608 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+24 | entregables_formales/CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md | 46 | 7941 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+25 | entregables_formales/DECISIONES_P4_PENDIENTES.md | 68 | 11250 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+26 | entregables_formales/INFORME_CIERRE_2026-11-22_PAQUETE_D4_D6_D7_D8.md | 45 | 6460 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+27 | entregables_formales/PAQUETE_DECISION_APROBACIONES_0_1_A_0_7.md | 115 | 16494 | todas las líneas modificadas (diff) con su contexto | sin defectos tras las correcciones indicadas en la cabecera
+28 | entregables_formales/PROPUESTA_MAESTRA_CIERRE_FASE0_v1.0.md | 579 | 26692 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+29 | entregables_formales/README_PROPUESTA_VIGENTE.md | 25 | 4052 | nota fechada añadida al final releída con el diff | sin defectos tras las correcciones indicadas en la cabecera
+30 | entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md | 429 | 78734 | sección nueva leída íntegra y diff con contexto | sin defectos tras las correcciones indicadas en la cabecera
+31 | logs/prueba_mutacion_semantica.py | 53 | 6758 | diff completo del script + ejecución de sus pruebas | sin defectos tras las correcciones indicadas en la cabecera
+32 | logs/verificacion_coherencia_posterior.py | 257 | 19139 | diff completo del script + ejecución de sus pruebas | sin defectos tras las correcciones indicadas en la cabecera
+33 | logs/verificacion_semantica_fase0.py | 386 | 41678 | diff completo del script + ejecución de sus pruebas | sin defectos tras las correcciones indicadas en la cabecera
+34 | entregables_formales/CONTROL_DE_CAMBIOS_ACEPTACION_FASE_0_2026-11-22.md | 34 | 4465 | relectura completa del archivo nuevo (Read, sin truncar) | sin defectos tras las correcciones indicadas en la cabecera
