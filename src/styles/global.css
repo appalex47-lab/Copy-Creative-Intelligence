@@ -151,7 +151,17 @@ button {
   min-height: 2.75rem;
   padding: 0 var(--space-1);
   font: inherit;
-  max-width: 24rem;
+  max-width: min(24rem, 100%);
+  min-width: 0;
+}
+.field input[type='file'] {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  padding: var(--space-1);
+}
+.app-main {
+  min-width: 0;
 }
 .field-hint {
   margin: 0;

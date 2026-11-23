@@ -1,16 +1,13 @@
-# CI de Copy Creative Intelligence. Estado a la fecha de esta corrección documental (detalle en docs/architecture/CI.md):
-# - Versionado y publicado en las ramas de revisión (review/*).
-# - No está demostrado que esté habilitado para ejecutarse en GitHub.
-# - No existe evidencia de una ejecución real de este workflow.
-# - No se ha validado en un runner real.
-# - Las acciones @v4 siguen pendientes de validación y eventual anclaje por SHA.
-# - No utiliza credenciales ni secretos del proyecto, no se conecta a Supabase y no despliega ni publica la aplicación.
+# CI de Copy Creative Intelligence (S1.11).
+# - Se ejecuta en pull requests, en push a main y a development/**, y manualmente.
+# - Solo lectura del repositorio; no usa credenciales ni secretos, no se conecta a servicios externos y no despliega.
+# - Las acciones @v4 siguen sin anclar por SHA (decisión pendiente, ver evidence S1.11).
 name: CI
 
 on:
   pull_request:
   push:
-    branches: ['development/**']
+    branches: ['main', 'development/**']
   workflow_dispatch:
 
 permissions:
@@ -45,11 +42,13 @@ jobs:
         run: npm run check:secrets
       - name: Build (modo preview con datos DEMO)
         run: npm run build
-      - name: Guarda de producción (debe FALLAR mientras no exista backend)
+      - name: Guarda de producción (debe FALLAR con DEMO, incluido el valor por defecto)
         run: |
           if npm run build:production; then
             echo "ERROR: un build de producción con DEMO no debe tener éxito" && exit 1
           fi
+      - name: Build de producción en modo local (debe funcionar)
+        run: VITE_DATA_MODE=local npm run build:production
 
   e2e:
     name: Navegador real (Playwright + axe)
