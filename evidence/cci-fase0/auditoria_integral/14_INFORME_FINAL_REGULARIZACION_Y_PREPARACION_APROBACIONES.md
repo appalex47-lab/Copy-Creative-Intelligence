@@ -40,7 +40,7 @@ Q-4: el MVP termina al concluir Fase 2. Los documentos 10, 11 y 12 están alinea
 Rama `evidence/cci-fase0-review`, un commit documental sobre `f7bb7ac`; solo archivos bajo `evidence/cci-fase0/`; sin código de la aplicación, sin `docs/fase0/`, sin `main`, sin otras ramas, sin PR ni fusión. Detalle: `../entregables_formales/CONTROL_DE_CAMBIOS_PREPARACION_APROBACIONES_2026-11-22.md`.
 
 ## I. Pendientes reales del propietario
-1. Responder 0.1–0.7 (aprobada / rechazada / con cambios). 2. Responder R-1 (aplazar o no las subcuestiones residuales de D-3 y D-5). 3. Decidir después la aceptación final de Fase 0 y, aparte, la autorización de Fase 1 (con subfases, alcance del respaldo, pruebas y prohibiciones). 4. C-2 y C-3: solo por decisión expresa o evidencia primaria. 5. Resolver cada aplazamiento antes de su fase.
+1. Responder 0.1–0.7 (aprobada / rechazada / con cambios). 2. Responder R-1 (aplazar o no las seis cuestiones residuales: la ubicación conceptual de las reglas de copy, de D-3, y las cinco de D-5). 3. Decidir después la aceptación final de Fase 0 y, aparte, la autorización de Fase 1 (con subfases, alcance del respaldo, pruebas y prohibiciones). 4. C-2 y C-3: solo por decisión expresa o evidencia primaria. 5. Resolver cada aplazamiento antes de su fase.
 
 ## J. Cierre
 **(2) Preparado con limitaciones.** Fase 0 no está aceptada; Fase 1 no está autorizada.
@@ -57,3 +57,6 @@ Rama `evidence/cci-fase0-review`, un commit documental sobre `f7bb7ac`; solo arc
 | Pruebas de controles semánticos | 32/32 | casos positivos y negativos |
 | Errores reales del control semántico | 0 | 31 documentos vigentes o de propuesta, frase a frase |
 | Integridad de manifiestos y reproducción en clon limpio | se informa en la entrega | tras publicar |
+
+> **Nota fechada 2026-11-22 (segunda regularización; no es decisión nueva):** la versión de R-1 de este informe omitía la cuestión (4) de D-5 en su descripción de la conciliación («puntos 1, 2, 3 y 5»). **Corregido:** R-1 incluye las seis cuestiones residuales (D-3 y D-5 (1) a (5)); véase `../entregables_formales/PAQUETE_DECISION_APROBACIONES_0_1_A_0_7.md`. El informe de esta segunda ronda está en `15_INFORME_FINAL_SEGUNDA_REGULARIZACION.md`.
+> **Nota fechada 2026-11-22 (segunda regularización):** las cifras de verificación de las secciones G y «Métricas» (32/32 pruebas, 125 archivos, 31 documentos, 21 no aplicables) son las de esa ronda y **no son las vigentes**; las vigentes (59 pruebas, 134 archivos, 33 clasificados vigentes o de propuesta y 52 no históricos) constan en `15_INFORME_FINAL_SEGUNDA_REGULARIZACION.md`.

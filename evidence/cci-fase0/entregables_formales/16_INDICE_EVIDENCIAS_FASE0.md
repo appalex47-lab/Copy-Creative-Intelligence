@@ -8,7 +8,7 @@ Verificar: `sha256sum -c MANIFEST.sha256` en la raíz del expediente (`expedient
 | `04_MATRIZ_REQUISITOS.md` | `03_MATRIZ_REQUISITOS_CCI.md` |
 | `05_ARQUITECTURA_BROWSER_ONLY.md` | `04_ARQUITECTURA_BROWSER_ONLY.md` |
 | `06_MODELO_DE_DOMINIO.md` | `05_MODELO_DOMINIO_CCI.md` |
-| (nuevo) | `06_MODELO_DATOS_CCI.md` |
+| (nuevo) | `06_MODELO_DATOS_CCI.md` (**propuesta histórica; no es un esquema de datos aprobado**; ver su clasificación) |
 | `07_DISENO_PERSISTENCIA.md` | `07_DISENO_PERSISTENCIA_INDEXEDDB.md` |
 | `08_RESPALDO_Y_RECUPERACION.md` | `08_RESPALDO_IMPORTACION_RECUPERACION.md` |
 | `09_ANALISIS_IA.md` | `09_ESTRATEGIA_IA_CCI.md` |
@@ -72,3 +72,5 @@ Las entradas de las fichas P4.A de arriba indican ahora el estado vigente (ficha
 > **Nota fechada 2026-11-22 15:56 (ratificación del propietario «Confirmo todo» sobre la propuesta maestra B1–B10; el texto original no se altera):** el «P4.A 9/18» de este índice es antecedente; vigente: 18/18. Fuente y texto literal: `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md`, sección «Ratificación de la propuesta maestra de cierre de Fase 0 (B1–B10)». Aprobaciones 0.1–0.7, aceptación de Fase 0 y autorización de Fase 1 siguen pendientes.
 
 > **Nota fechada 2026-11-22 (regularización posterior a la ratificación y preparación de aprobaciones; no es decisión nueva):** el expediente incorpora `entregables_formales/CONCILIACION_30_DECISIONES_Y_APLAZAMIENTOS.md`, `entregables_formales/PAQUETE_DECISION_APROBACIONES_0_1_A_0_7.md`, `entregables_formales/CONTROL_DE_CAMBIOS_PREPARACION_APROBACIONES_2026-11-22.md` y `auditoria_integral/14_INFORME_FINAL_REGULARIZACION_Y_PREPARACION_APROBACIONES.md`. Estado vigente: aprobaciones 0.1–0.7 = 0/7 emitidas (pendientes); Fase 0 no aceptada; Fase 1 no autorizada; 20/30 decisiones resueltas y 10/30 aplazadas; P4.A 18/18 (solo existencia y definición mínima).
+
+> **Nota fechada 2026-11-22 (segunda regularización; no es decisión nueva):** R-1 corregida: incluye **seis** cuestiones residuales (la ubicación conceptual de la familia de reglas de copy, de D-3, y las cinco de D-5: auditoría o validaciones previas; modificación de un contenido aprobado; relación con las versiones; identidad exacta del contenido aprobado; relación con los estados del flujo); una respuesta afirmativa se registra como aplazamiento, nunca como resolución. D5.a–d siguen fuera del alcance vigente y no se reabren. `06_MODELO_DATOS_CCI.md` es una propuesta histórica, no un esquema de datos aprobado. Estado: aprobaciones 0.1–0.7 = 0/7 emitidas; Fase 0 no aceptada; Fase 1 no autorizada.

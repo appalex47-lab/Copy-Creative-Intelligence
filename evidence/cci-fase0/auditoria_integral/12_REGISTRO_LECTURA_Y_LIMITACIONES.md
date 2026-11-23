@@ -15,9 +15,9 @@
 ## 2. Resumen (numerador / denominador / alcance)
 | Alcance | LEÍDO_COMPLETO | LEÍDO_PARCIALMENTE | NO_APLICABLE | NO_LEÍDO_EN_ESTA_RONDA | Total archivos |
 |---|---|---|---|---|---|
-| `evidence/cci-fase0/` (expediente) | 104 | 0 | 21 | 0 | 125 |
+| `evidence/cci-fase0/` (expediente) | 104 | 0 | 30 | 0 | 134 |
 | `docs/fase0/` (59: 5 raíz, 2 herramientas, 52 históricos) | 59 | 0 | 0 | 0 | 59 |
-| Total | 163 | 0 | 21 | 0 | 184 |
+| Total | 163 | 0 | 30 | 0 | 193 |
 
 **Bytes** (excluye listas de hashes y este documento): expediente 742313 B; `docs/fase0/` 10324392 B, de los cuales **2216734 B (21.5 %) son líneas únicas** efectivamente mostradas por primera vez (el resto es duplicado exacto de líneas ya mostradas). **Aclaración obligatoria:** «100 % de líneas únicas mostradas» en `docs/fase0/` **no equivale** al 100 % de los bytes revisados individualmente: se vieron 2 216 734 B de líneas únicas frente a 10 324 392 B totales (21,5 %); los bytes de expediente indicados son los del momento de la lectura (los archivos editados después se listan en §7). Los porcentajes de cobertura por archivo de §3 y §4 se calculan sobre rangos mostrados; en `docs/fase0/` la columna «líneas nuevas» es la medida real.
 
@@ -25,7 +25,7 @@
 | Ruta | Estado | Cobertura | Causa / limitación |
 |---|---|---|---|
 | `00_DICTAMEN_Y_CIERRE_FASE0.md` | LEÍDO_COMPLETO | 4737/4737 B (100 %) | lectura íntegra mostrada |
-| `00_INDICE_VIGENTES_E_HISTORICOS.md` | LEÍDO_COMPLETO | 6601/6601 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 9647 B) |
+| `00_INDICE_VIGENTES_E_HISTORICOS.md` | LEÍDO_COMPLETO | 6601/6601 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 11659 B) |
 | `01_INFORME_AUDITORIA.md` | LEÍDO_COMPLETO | 3719/3719 B (100 %) | lectura íntegra mostrada |
 | `02_INVENTARIO_FUNCIONALIDADES.md` | LEÍDO_COMPLETO | 5199/5199 B (100 %) | lectura íntegra mostrada |
 | `03_CONCILIACION_DOCUMENTAL.md` | LEÍDO_COMPLETO | 6533/6533 B (100 %) | lectura íntegra mostrada |
@@ -43,19 +43,19 @@
 | `INFORME_REVISION_COMPLEMENTARIA.md` | LEÍDO_COMPLETO | 4903/4903 B (100 %) | lectura íntegra mostrada |
 | `INVENTARIO_PUBLICADO.sha256` | NO_APLICABLE | — | lista de hashes/inventario; contenido leído en su versión de 13b25ca; se regenera por script y se verifica por recálculo, no por lectura |
 | `MANIFEST.sha256` | NO_APLICABLE | — | lista de hashes/inventario; contenido leído en su versión de 13b25ca; se regenera por script y se verifica por recálculo, no por lectura |
-| `README_ENTREGA.md` | LEÍDO_COMPLETO | 5255/5255 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 7917 B) |
+| `README_ENTREGA.md` | LEÍDO_COMPLETO | 5255/5255 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 8637 B) |
 | `anexos/INFORME_AUDITORIA_FASE0_BROWSER_ONLY.md` | LEÍDO_COMPLETO | 31876/31876 B (100 %) | lectura íntegra mostrada |
 | `anexos/MANIFEST_informe_browser_only.sha256` | NO_APLICABLE | — | lista de hashes/inventario; contenido leído en su versión de 13b25ca; se regenera por script y se verifica por recálculo, no por lectura |
-| `auditoria_integral/01_INDICE_MAESTRO_FASE0.md` | LEÍDO_COMPLETO | 5241/5241 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 8152 B) |
-| `auditoria_integral/02_MATRIZ_MAESTRA_DECISIONES.md` | LEÍDO_COMPLETO | 14149/14149 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 19094 B) |
+| `auditoria_integral/01_INDICE_MAESTRO_FASE0.md` | LEÍDO_COMPLETO | 5241/5241 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 8872 B) |
+| `auditoria_integral/02_MATRIZ_MAESTRA_DECISIONES.md` | LEÍDO_COMPLETO | 14149/14149 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 19431 B) |
 | `auditoria_integral/03_MATRIZ_MAESTRA_ENTIDADES_P4A.md` | LEÍDO_COMPLETO | 6017/6017 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 9505 B) |
-| `auditoria_integral/04_MATRIZ_MAESTRA_DEPENDENCIAS.md` | LEÍDO_COMPLETO | 2658/2658 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 3256 B) |
-| `auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md` | LEÍDO_COMPLETO | 22470/22470 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 28415 B) |
+| `auditoria_integral/04_MATRIZ_MAESTRA_DEPENDENCIAS.md` | LEÍDO_COMPLETO | 2658/2658 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 3930 B) |
+| `auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md` | LEÍDO_COMPLETO | 22470/22470 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 30900 B) |
 | `auditoria_integral/06_REGISTRO_CONTRADICCIONES.md` | LEÍDO_COMPLETO | 21947/21947 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 30500 B) |
-| `auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` | LEÍDO_COMPLETO | 7671/7671 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 17984 B) |
-| `auditoria_integral/08_INFORME_INTEGRIDAD_ARCHIVOS.md` | LEÍDO_COMPLETO | 3922/3922 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 5508 B) |
-| `auditoria_integral/09_PAQUETE_CONSOLIDADO_DECISIONES_PENDIENTES.md` | LEÍDO_COMPLETO | 13460/13460 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 14027 B) |
-| `auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md` | LEÍDO_COMPLETO | 4569/4569 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 9908 B) |
+| `auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` | LEÍDO_COMPLETO | 7671/7671 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 20190 B) |
+| `auditoria_integral/08_INFORME_INTEGRIDAD_ARCHIVOS.md` | LEÍDO_COMPLETO | 3922/3922 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 5713 B) |
+| `auditoria_integral/09_PAQUETE_CONSOLIDADO_DECISIONES_PENDIENTES.md` | LEÍDO_COMPLETO | 13460/13460 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 14701 B) |
+| `auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md` | LEÍDO_COMPLETO | 4569/4569 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 9940 B) |
 | `auditoria_integral/11_INDICE_CONCILIACION_DOCS_FASE0.md` | LEÍDO_COMPLETO | 13917/13917 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 14087 B) |
 | `auditoria_integral/12_REGISTRO_LECTURA_Y_LIMITACIONES.md` | NO_APLICABLE | — | documento generado por esta ronda; autorreferencia (no se cuenta a sí mismo) |
 | `auditoria_integral/13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md` | NO_APLICABLE | — | documento generado por la ronda de verificación de coherencia; autorreferencia (no se cuenta a sí mismo) |
@@ -63,20 +63,20 @@
 | `entregables_formales/02_INVENTARIO_FUNCIONAL_CCI.md` | LEÍDO_COMPLETO | 4922/4922 B (100 %) | lectura íntegra mostrada |
 | `entregables_formales/03_MATRIZ_REQUISITOS_CCI.md` | LEÍDO_COMPLETO | 6694/6694 B (100 %) | lectura íntegra mostrada |
 | `entregables_formales/04_ARQUITECTURA_BROWSER_ONLY.md` | LEÍDO_COMPLETO | 3980/3980 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 4892 B) |
-| `entregables_formales/05_MODELO_DOMINIO_CCI.md` | LEÍDO_COMPLETO | 8025/8025 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 10179 B) |
-| `entregables_formales/06_MODELO_DATOS_CCI.md` | LEÍDO_COMPLETO | 4015/4015 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 5447 B) |
+| `entregables_formales/05_MODELO_DOMINIO_CCI.md` | LEÍDO_COMPLETO | 8025/8025 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 10516 B) |
+| `entregables_formales/06_MODELO_DATOS_CCI.md` | LEÍDO_COMPLETO | 4015/4015 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 7550 B) |
 | `entregables_formales/07_DISENO_PERSISTENCIA_INDEXEDDB.md` | LEÍDO_COMPLETO | 6189/6189 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 7250 B) |
 | `entregables_formales/08_RESPALDO_IMPORTACION_RECUPERACION.md` | LEÍDO_COMPLETO | 3823/3823 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 4251 B) |
 | `entregables_formales/09_ESTRATEGIA_IA_CCI.md` | LEÍDO_COMPLETO | 3335/3335 B (100 %) | lectura íntegra mostrada |
 | `entregables_formales/10_DEFINICION_MVP_CCI.md` | LEÍDO_COMPLETO | 3434/3434 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 5589 B) |
-| `entregables_formales/11_ROADMAP_FASES_0_A_5.md` | LEÍDO_COMPLETO | 5190/5190 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 6587 B) |
+| `entregables_formales/11_ROADMAP_FASES_0_A_5.md` | LEÍDO_COMPLETO | 5190/5190 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 6709 B) |
 | `entregables_formales/12_CRITERIOS_ACEPTACION_FASES.md` | LEÍDO_COMPLETO | 6078/6078 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 6745 B) |
 | `entregables_formales/13_REGISTRO_DECISIONES_PROPIETARIO.md` | LEÍDO_COMPLETO | 17633/17633 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 19254 B) |
 | `entregables_formales/14_MATRIZ_RIESGOS_CCI.md` | LEÍDO_COMPLETO | 2619/2619 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 3089 B) |
 | `entregables_formales/15_PLAN_CALIDAD_Y_PRUEBAS.md` | LEÍDO_COMPLETO | 1500/1500 B (100 %) | lectura íntegra mostrada |
-| `entregables_formales/16_INDICE_EVIDENCIAS_FASE0.md` | LEÍDO_COMPLETO | 9396/9396 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 10541 B) |
+| `entregables_formales/16_INDICE_EVIDENCIAS_FASE0.md` | LEÍDO_COMPLETO | 9396/9396 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 11347 B) |
 | `entregables_formales/ADR_PROPUESTO_REEMPLAZO_DEC_D2_D3_D4.md` | LEÍDO_COMPLETO | 7375/7375 B (100 %) | lectura íntegra mostrada |
-| `entregables_formales/APROBACIONES_FASE0.md` | LEÍDO_COMPLETO | 2595/2595 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 18739 B) |
+| `entregables_formales/APROBACIONES_FASE0.md` | LEÍDO_COMPLETO | 2595/2595 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 19297 B) |
 | `entregables_formales/CATALOGO_DEPENDENCIAS_D4_D8.md` | LEÍDO_COMPLETO | 12295/12295 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 12359 B) |
 | `entregables_formales/CONCILIACION_D1_D9_VERIFICADA.md` | LEÍDO_COMPLETO | 7059/7059 B (100 %) | lectura íntegra mostrada |
 | `entregables_formales/CONTROL_DE_CAMBIOS_CORRECCION_2026-11-22.md` | LEÍDO_COMPLETO | 4932/4932 B (100 %) | lectura íntegra mostrada |
@@ -87,14 +87,14 @@
 | `entregables_formales/CONVENCIONES_P4_5_CONDICIONES.md` | LEÍDO_COMPLETO | 4174/4174 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 4520 B) |
 | `entregables_formales/D1_ANALISIS_CONTENIDO.md` | LEÍDO_COMPLETO | 11724/11724 B (100 %) | lectura íntegra mostrada |
 | `entregables_formales/D2_VARIANTE_FRENTE_A_VERSION.md` | LEÍDO_COMPLETO | 10352/10352 B (100 %) | lectura íntegra mostrada |
-| `entregables_formales/D3_FAMILIAS_DE_REGLAS.md` | LEÍDO_COMPLETO | 13658/13658 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 14401 B) |
+| `entregables_formales/D3_FAMILIAS_DE_REGLAS.md` | LEÍDO_COMPLETO | 13658/13658 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 14738 B) |
 | `entregables_formales/D5_APROBACION.md` | LEÍDO_COMPLETO | 11736/11736 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 12231 B) |
-| `entregables_formales/DECISIONES_P4_PENDIENTES.md` | LEÍDO_COMPLETO | 9459/9459 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 10093 B) |
+| `entregables_formales/DECISIONES_P4_PENDIENTES.md` | LEÍDO_COMPLETO | 9459/9459 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 10430 B) |
 | `entregables_formales/DIAGNOSTICO_INTEGRAL_18_ENTIDADES.md` | LEÍDO_COMPLETO | 7152/7152 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 7771 B) |
 | `entregables_formales/FICHA_P1.md` | LEÍDO_COMPLETO | 4342/4342 B (100 %) | lectura íntegra mostrada |
 | `entregables_formales/FICHA_P2.md` | LEÍDO_COMPLETO | 3819/3819 B (100 %) | lectura íntegra mostrada |
 | `entregables_formales/FICHA_P3.md` | LEÍDO_COMPLETO | 3900/3900 B (100 %) | lectura íntegra mostrada |
-| `entregables_formales/FICHA_P4.md` | LEÍDO_COMPLETO | 6005/6005 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 6646 B) |
+| `entregables_formales/FICHA_P4.md` | LEÍDO_COMPLETO | 6005/6005 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 6941 B) |
 | `entregables_formales/FICHA_P4A_01_CAMPANA.md` | LEÍDO_COMPLETO | 2494/2494 B (100 %) | lectura íntegra mostrada |
 | `entregables_formales/FICHA_P4A_02_BRIEF.md` | LEÍDO_COMPLETO | 2857/2857 B (100 %) | lectura íntegra mostrada |
 | `entregables_formales/FICHA_P4A_03_PRODUCTO.md` | LEÍDO_COMPLETO | 2744/2744 B (100 %) | lectura íntegra mostrada |
@@ -113,12 +113,12 @@
 | `entregables_formales/LISTA_ORIGINAL_18_ENTIDADES.md` | LEÍDO_COMPLETO | 8988/8988 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 9502 B) |
 | `entregables_formales/MANIFIESTO_ENTREGA_2026-11-22_D4_D6_D7_D8.txt` | LEÍDO_COMPLETO | 1322/1322 B (100 %) | lectura íntegra mostrada; luego se añadió una línea `# NOTA` de cabecera |
 | `entregables_formales/MATRIZ_CONSOLIDADA_18_ENTIDADES.md` | LEÍDO_COMPLETO | 16738/16738 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 19333 B) |
-| `entregables_formales/MATRIZ_DECISIONES_PROPIETARIO.md` | LEÍDO_COMPLETO | 11810/11810 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 12641 B) |
+| `entregables_formales/MATRIZ_DECISIONES_PROPIETARIO.md` | LEÍDO_COMPLETO | 11810/11810 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 12936 B) |
 | `entregables_formales/PAQUETE_DECISION_D1_D8.md` | LEÍDO_COMPLETO | 18451/18451 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 18496 B) |
 | `entregables_formales/PAQUETE_DECISION_D4_D6_D7_D8.md` | LEÍDO_COMPLETO | 18754/18754 B (100 %) | lectura íntegra mostrada |
 | `entregables_formales/PROPUESTA_MAESTRA_CIERRE_FASE0_v1.0.md` | LEÍDO_COMPLETO | 25057/25057 B (100 %) | copia literal del texto que el propietario ratificó; leída por completo (extracción programática de los nueve bloques PE y lectura de §§ B2–B10 y 18–19) |
 | `entregables_formales/README_PROPUESTA_VIGENTE.md` | LEÍDO_COMPLETO | 2577/2577 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 3232 B) |
-| `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` | LEÍDO_COMPLETO | 53097/53097 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 69438 B) |
+| `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` | LEÍDO_COMPLETO | 53097/53097 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 71402 B) |
 | `entregables_formales/RONDA_UNICA_D4_D6_D7_D8_MATRIZ_CONSOLIDADA.md` | LEÍDO_COMPLETO | 36025/36025 B (100 %) | lectura íntegra mostrada |
 | `logs/build.log` | LEÍDO_COMPLETO | 444/444 B (100 %) | lectura íntegra mostrada |
 | `logs/build_production_esperado_FALLO.log` | LEÍDO_COMPLETO | 916/916 B (100 %) | lectura íntegra mostrada |
@@ -130,7 +130,7 @@
 | `logs/format_check.log` | LEÍDO_COMPLETO | 218/218 B (100 %) | lectura íntegra mostrada |
 | `logs/lint.log` | LEÍDO_COMPLETO | 88/88 B (100 %) | lectura íntegra mostrada |
 | `logs/resumen_1.txt` | LEÍDO_COMPLETO | 432/432 B (100 %) | lectura íntegra mostrada |
-| `logs/scan_contradicciones.py` | LEÍDO_COMPLETO | 1365/1365 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 2779 B) |
+| `logs/scan_contradicciones.py` | LEÍDO_COMPLETO | 1365/1365 B (100 %) | lectura íntegra mostrada (leído antes de las ediciones posteriores; tamaño actual 2792 B) |
 | `logs/test_run.log` | LEÍDO_COMPLETO | 573/573 B (100 %) | lectura íntegra mostrada |
 | `logs/typecheck.log` | LEÍDO_COMPLETO | 74/74 B (100 %) | lectura íntegra mostrada |
 | `logs/verificacion_coherencia_posterior.py` | NO_APLICABLE | — | script generado por la ronda de verificación de coherencia; su salida se revisó por categorías (no es lectura de contenido ajeno) |
@@ -149,6 +149,15 @@
 | `logs/escaneo_contradicciones_2026-11-22_regularizacion.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo y por los controles automáticos |
 | `logs/verificar_expediente_historico_2026-11-22.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo y por los controles automáticos |
 | `logs/modelo_estructural_historico_2026-11-22.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo y por los controles automáticos |
+| `entregables_formales/CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura completa registrada en `logs/relectura_completa_2026-11-22_segunda_regularizacion.txt` |
+| `auditoria_integral/15_INFORME_FINAL_SEGUNDA_REGULARIZACION.md` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura completa registrada en `logs/relectura_completa_2026-11-22_segunda_regularizacion.txt` |
+| `logs/prueba_mutacion_semantica.py` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura completa registrada en `logs/relectura_completa_2026-11-22_segunda_regularizacion.txt` |
+| `logs/prueba_mutacion_semantica_2026-11-22_segunda_regularizacion.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura completa registrada en `logs/relectura_completa_2026-11-22_segunda_regularizacion.txt` |
+| `logs/verificacion_semantica_fase0_2026-11-22_segunda_regularizacion.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura completa registrada en `logs/relectura_completa_2026-11-22_segunda_regularizacion.txt` |
+| `logs/verificacion_coherencia_posterior_2026-11-22_segunda_regularizacion.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura completa registrada en `logs/relectura_completa_2026-11-22_segunda_regularizacion.txt` |
+| `logs/escaneo_contradicciones_2026-11-22_segunda_regularizacion.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura completa registrada en `logs/relectura_completa_2026-11-22_segunda_regularizacion.txt` |
+| `logs/relectura_completa_2026-11-22_segunda_regularizacion.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura completa registrada en `logs/relectura_completa_2026-11-22_segunda_regularizacion.txt` |
+| `logs/integridad_y_clon_limpio_2026-11-22_segunda_regularizacion.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura completa registrada en `logs/relectura_completa_2026-11-22_segunda_regularizacion.txt` |
 
 ## 4. `docs/fase0/` — archivos raíz y herramientas (7)
 | Ruta | Estado | Tamaño / líneas nuevas | Observación |
@@ -238,15 +247,15 @@ Los 5 documentos raíz son la v15 de la línea anterior (Supabase/PostgreSQL/RLS
 **Archivos editados después de su lectura original (15):** el registro de §3 indica el tamaño leído y el actual.
 | Archivo | Bytes leídos | Bytes actuales | Qué cambió tras la lectura | Verificación de esta ronda |
 |---|---|---|---|---|
-| `00_INDICE_VIGENTES_E_HISTORICOS.md` | 6601 | 9647 | Restauración desde `1bb831a` (CR-21) en `580c51f` y nota de esta ronda al final | diff re-leído con su contexto |
-| `README_ENTREGA.md` | 5255 | 7917 | Restauración desde `1bb831a` (CR-21) en `580c51f` y nota de esta ronda al final | diff re-leído con su contexto |
-| `auditoria_integral/01_INDICE_MAESTRO_FASE0.md` | 5241 | 8152 | Fila D4/D6 con límites (D4.d: M-1 y D-5.3; D6.c=A0), fila 13, nota de la ronda | diff re-leído con su contexto |
+| `00_INDICE_VIGENTES_E_HISTORICOS.md` | 6601 | 11659 | Restauración desde `1bb831a` (CR-21) en `580c51f` y nota de esta ronda al final | diff re-leído con su contexto |
+| `README_ENTREGA.md` | 5255 | 8637 | Restauración desde `1bb831a` (CR-21) en `580c51f` y nota de esta ronda al final | diff re-leído con su contexto |
+| `auditoria_integral/01_INDICE_MAESTRO_FASE0.md` | 5241 | 8872 | Fila D4/D6 con límites (D4.d: M-1 y D-5.3; D6.c=A0), fila 13, nota de la ronda | diff re-leído con su contexto |
 | `auditoria_integral/03_MATRIZ_MAESTRA_ENTIDADES_P4A.md` | 6017 | 9505 | Referencia CR-06→CR-15; fila Perfil local (F2) | diff re-leído con su contexto |
-| `auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md` | 22470 | 28415 | v3.1: 110 archivos, métrica de avisos con su alcance | diff re-leído con su contexto |
+| `auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md` | 22470 | 30900 | v3.1: 110 archivos, métrica de avisos con su alcance | diff re-leído con su contexto |
 | `auditoria_integral/06_REGISTRO_CONTRADICCIONES.md` | 21947 | 30500 | v3.0 (580c51f) y correcciones de esta ronda (F4); sección final de verificación | diff re-leído con su contexto |
-| `auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` | 7671 | 17984 | Nota §4 (F3) y sección R8 | diff re-leído con su contexto |
-| `auditoria_integral/08_INFORME_INTEGRIDAD_ARCHIVOS.md` | 3922 | 5508 | v3.1: 108/109 líneas; 110 archivos; 170 blobs | diff re-leído con su contexto |
-| `auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md` | 4569 | 9908 | Cifras 110, métrica 55/55 con alcance, fila de la ronda | diff re-leído con su contexto |
+| `auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` | 7671 | 20190 | Nota §4 (F3) y sección R8 | diff re-leído con su contexto |
+| `auditoria_integral/08_INFORME_INTEGRIDAD_ARCHIVOS.md` | 3922 | 5713 | v3.1: 108/109 líneas; 110 archivos; 170 blobs | diff re-leído con su contexto |
+| `auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md` | 4569 | 9940 | Cifras 110, métrica 55/55 con alcance, fila de la ronda | diff re-leído con su contexto |
 | `auditoria_integral/11_INDICE_CONCILIACION_DOCS_FASE0.md` | 13917 | 14087 | Punto 4 (lectura completa por líneas únicas) en `580c51f` | diff re-leído con su contexto |
 | `entregables_formales/13_REGISTRO_DECISIONES_PROPIETARIO.md` | 17633 | 19254 | Nota en línea de estado (F5) | diff re-leído con su contexto |
 | `entregables_formales/CATALOGO_DEPENDENCIAS_D4_D8.md` | 12295 | 12359 | Marca «[superado]» (F6) | diff re-leído con su contexto |
@@ -328,3 +337,35 @@ Los 5 documentos raíz son la v15 de la línea anterior (Supabase/PostgreSQL/RLS
 | `entregables_formales/README_PROPUESTA_VIGENTE.md` | regularización 2026-11-22 (ver `07_` R11 y `CONTROL_DE_CAMBIOS_PREPARACION_APROBACIONES_2026-11-22.md`) |
 | `logs/scan_contradicciones.py` | regularización 2026-11-22 (ver `07_` R11 y `CONTROL_DE_CAMBIOS_PREPARACION_APROBACIONES_2026-11-22.md`) |
 | `logs/verificacion_coherencia_posterior.py` | regularización 2026-11-22 (ver `07_` R11 y `CONTROL_DE_CAMBIOS_PREPARACION_APROBACIONES_2026-11-22.md`) |
+
+## 10. Última regularización documental antes de las aprobaciones 0.1–0.7 (2026-11-22; base `bf437e4`)
+**Qué se hizo y qué no.** Los 27 archivos de la tabla se **modificaron después de su lectura original** (R-1 corregida, notas fechadas de alineación con el texto anterior conservado, clasificación de `06_MODELO_DATOS_CCI.md`, controles nuevos). No se leyó de nuevo ningún archivo de `docs/fase0/` ni los anexos. Tras las ediciones, **cada uno de los 27 archivos modificados y los 2 documentos nuevos se releyó completo** y el resultado consta (archivo, líneas, bytes, resultado) en `logs/relectura_completa_2026-11-22_segunda_regularizacion.txt`; los archivos de `logs/` generados por scripts no son lectura de entrada. La relectura es de la misma sesión (no independiente).
+| Archivo modificado | Qué cambió |
+|---|---|
+| `entregables_formales/PAQUETE_DECISION_APROBACIONES_0_1_A_0_7.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `entregables_formales/APROBACIONES_FASE0.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `entregables_formales/CONCILIACION_30_DECISIONES_Y_APLAZAMIENTOS.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `auditoria_integral/02_MATRIZ_MAESTRA_DECISIONES.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `auditoria_integral/04_MATRIZ_MAESTRA_DEPENDENCIAS.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `auditoria_integral/05_INFORME_AUDITORIA_INTEGRAL.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `auditoria_integral/07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `auditoria_integral/08_INFORME_INTEGRIDAD_ARCHIVOS.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `auditoria_integral/09_PAQUETE_CONSOLIDADO_DECISIONES_PENDIENTES.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `auditoria_integral/10_INFORME_EJECUTIVO_PREPARACION_CIERRE.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `auditoria_integral/12_REGISTRO_LECTURA_Y_LIMITACIONES.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `auditoria_integral/14_INFORME_FINAL_REGULARIZACION_Y_PREPARACION_APROBACIONES.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `entregables_formales/05_MODELO_DOMINIO_CCI.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `entregables_formales/06_MODELO_DATOS_CCI.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `entregables_formales/11_ROADMAP_FASES_0_A_5.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `entregables_formales/D3_FAMILIAS_DE_REGLAS.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `entregables_formales/DECISIONES_P4_PENDIENTES.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `entregables_formales/FICHA_P4.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `entregables_formales/MATRIZ_DECISIONES_PROPIETARIO.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `entregables_formales/CONTROL_DE_CAMBIOS_PREPARACION_APROBACIONES_2026-11-22.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `00_INDICE_VIGENTES_E_HISTORICOS.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `README_ENTREGA.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `auditoria_integral/01_INDICE_MAESTRO_FASE0.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `entregables_formales/16_INDICE_EVIDENCIAS_FASE0.md` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `logs/verificacion_semantica_fase0.py` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |
+| `logs/verificacion_coherencia_posterior.py` | segunda regularización 2026-11-22 (ver `07_` R12 y `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`) |

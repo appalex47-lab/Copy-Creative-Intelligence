@@ -26,7 +26,7 @@
 - **Objeto:** Aprobar el modelo de dominio conceptual: 18 entidades con existencia y definición mínima (18/18), 13 relaciones sin cardinalidades obligatorias, atributos diferidos a cada módulo y convenciones transversales E1–E5.
 - **Recomendación [Rec. Claude]:** Aprobada, con las limitaciones de la columna 4 (R-1 se responde por separado).
 - **Fundamento:** Las 18 definiciones del registro coinciden literalmente con las del doc 03 y con la matriz consolidada (verificación automática); las relaciones no aprobadas están excluidas expresamente.
-- **Limitaciones:** No se aprueban atributos, cardinalidades obligatorias, estados, ciclos de vida, persistencia, fórmulas, catálogos de métricas ni asignación de fase. Q-1 y Q-2 siguen aplazadas (antes de Fase 4). Subcuestiones residuales de D-3 (ubicación de las reglas de copy) y D-5 (puntos 1, 2, 3 y 5) no tienen decisión propia: se plantean en la pregunta R-1 del paquete.
+- **Limitaciones:** No se aprueban atributos, cardinalidades obligatorias, estados, ciclos de vida, persistencia, fórmulas, catálogos de métricas ni asignación de fase. Q-1 y Q-2 siguen aplazadas (antes de Fase 4). Cuestiones residuales sin decisión propia: la ubicación conceptual de la familia de reglas de copy (D-3) y las cinco cuestiones residuales de D-5 ((1) si la aprobación requiere auditoría o validaciones previas; (2) qué sucede cuando se modifica un contenido aprobado; (3) cómo se relaciona la aprobación con las versiones; (4) la identidad exacta del contenido al que se aplica cada aprobación; (5) la relación entre aprobación y los estados del flujo). Se plantean en la pregunta R-1 del paquete (aplazamiento, no resolución). D5.a–d permanecen fuera del alcance vigente y no se reabren.
 - **Riesgos:** Aprobar el dominio no aprueba un esquema de datos: es un marco conceptual.
 - **Dependencias:** P1, Q-7, P4 (B1–B5), D-1…D-8 resueltas; Q-1 y Q-2 aplazadas (no bloquean); R-1 pendiente de respuesta del propietario (no bloquea).
 - **Texto de decisión propuesto (el propietario puede copiarlo o cambiarlo):** «Apruebo la ficha 0.3 (Dominio) con las exclusiones y limitaciones indicadas.»
@@ -74,8 +74,27 @@
 ## Detalle de la única recomendación «con cambios» (0.5)
 Cambio exacto: aprobar solo el párrafo de principios (la IA ayuda a crear, analizar y sugerir; reglas y cálculos deterministas; aprobación final humana; sin claves privadas en el frontend ni secretos en Local Storage o IndexedDB) y añadir la frase «P8 sigue sin resolver y no se aprueba ninguna integración de IA». Motivo: el doc 09 contiene alternativas (IA-A, IA-B, IA-C) en estado de propuesta y aprobarlo entero podría leerse como aprobar una de ellas. Si el propietario prefiere aprobar sin cambios, la ficha lo permite y las exclusiones de la ficha siguen vigentes.
 
-## Pregunta residual R-1 (única, no bloquea el cierre documental)
-Hay subcuestiones que las decisiones D-3 y D-5 declaran no decididas (ubicación de las reglas de copy; D-5 puntos 1, 2, 3 y 5). **R-1:** «¿Aplazo esas subcuestiones hasta la especificación del módulo correspondiente, sin cambiar D-3 ni D-5?» Recomendación [Rec. Claude]: sí (aplazar). Si la respuesta es sí, se registra como aplazamiento aceptado, no como resolución.
+## Pregunta R-1 — aplazamiento de las cuestiones residuales de D-3 y D-5 (única; no bloquea 0.1–0.7)
+**Qué se pregunta.** D-3 y D-5 son decisiones resueltas; cada una declara, además, cuestiones que expresamente **no decidió**. R-1 pide **una sola confirmación**: si esas **seis** cuestiones se aplazan hasta la especificación del módulo correspondiente, **sin alterar D-3 ni D-5**.
+
+**Cuestiones incluidas (lista completa; fuente: `REGISTRO_DECISIONES_RESUELTAS.md`, D-3 y D-5, y la nota fechada de este registro):**
+| N.º | Origen | Cuestión residual |
+|---|---|---|
+| 1 | D-3 | La **ubicación conceptual de la familia de reglas de copy** (D-3 la dejó «pendiente de P4.B»; la ratificación de P4.B no la fijó) |
+| 2 | D-5, cuestión (1) | Si la aprobación requiere auditoría o validaciones previas |
+| 3 | D-5, cuestión (2) | Qué sucede cuando se modifica un contenido aprobado |
+| 4 | D-5, cuestión (3) | Cómo se relaciona la aprobación con las versiones |
+| 5 | D-5, cuestión (4) | La identidad exacta del contenido al que se aplica cada aprobación |
+| 6 | D-5, cuestión (5) | La relación entre aprobación y los estados del flujo |
+La cuestión 1 **no es** la existencia de la familia de reglas de copy (ya distinguida por D-3), ni la separación entre ReglaDeMarca y ReglaComercial (decidida), ni las reglas por canal (dimensión del Canal, no entidad independiente aprobada), ni una ubicación técnica o estructura de datos (no aprobada).
+
+**Redacción final (el propietario puede copiarla):** «R-1. Confirmo que se aplazan hasta la especificación del módulo correspondiente, sin modificar D-3 ni D-5, las seis cuestiones residuales listadas: la ubicación conceptual de la familia de reglas de copy (D-3) y las cinco cuestiones residuales de D-5 (auditoría o validaciones previas; modificación de un contenido aprobado; relación con las versiones; identidad exacta del contenido aprobado; relación con los estados del flujo).» Respuestas posibles: «R-1 sí» o «R-1 no: quiero decidir antes: …».
+
+**Recomendación [Rec. Claude], no vinculante:** sí (aplazar), porque las seis cuestiones dependen de la especificación del módulo y decidirlas ahora ampliaría D-3 y D-5.
+
+**Cómo se registraría la respuesta.** «Sí» = **aplazamiento aceptado** de subcuestiones (siguen **no decididas**; no es resolución conceptual; no se suman a las 20 decisiones resueltas ni a los 10 aplazamientos de nivel superior). «No» = se presentarán como decisiones nuevas y separadas, una por una.
+
+**Lo que R-1 no hace.** No reabre D-5.1 (R3), D-5.2 (conjunto (b)) ni D-5.3 (M-1). No reabre D5.a–d: siguen fuera del alcance vigente, no son pendientes y no aparecen en R-1. No modifica la aprobación humana M-1. No aprueba mecanismos de aprobación, auditoría, versionado ni estados. No convierte ninguna cuestión aplazada en decisión tomada.
 
 ## Tabla compacta de las siete decisiones
 | Ficha | Recomendación [Rec. Claude] | Texto que el propietario puede responder |

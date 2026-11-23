@@ -1,5 +1,5 @@
 # Conciliación de las 30 decisiones de nivel superior, de los 10 aplazamientos y de las 18 entidades
-> Documento de verificación documental, **2026-11-22**. **No es una decisión del propietario ni aprueba nada.** Fuente autoritativa: `REGISTRO_DECISIONES_RESUELTAS.md`. Etiquetas: [S] estado; [Rec. Claude] no vinculante. Verificado con `../logs/verificacion_semantica_fase0.py` (salida en `../logs/verificacion_semantica_fase0_2026-11-22.txt`). Esta conciliación **no cambia** el alcance de ninguna decisión.
+> Documento de verificación documental, **2026-11-22**. **No es una decisión del propietario ni aprueba nada.** Fuente autoritativa: `REGISTRO_DECISIONES_RESUELTAS.md`. Etiquetas: [S] estado; [Rec. Claude] no vinculante. Verificado con `../logs/verificacion_semantica_fase0.py` (salida vigente en `../logs/verificacion_semantica_fase0_2026-11-22_segunda_regularizacion.txt`; la salida de la ronda anterior se conserva como antecedente). Esta conciliación **no cambia** el alcance de ninguna decisión.
 
 ## 1. Universo y reglas de conteo
 - **30 decisiones de nivel superior:** P1–P15 (15), Q-1–Q-7 (7) y D-1–D-8 (8). Las subdecisiones (D1.a–e, D2.a–c, D3.a–d, D4.a–d, D5.1–3, D6.a–c, D7.a–c, A0-1/2/3, E1–E5, B1–B10) **no se suman** al total.
@@ -34,14 +34,25 @@
 | Q-7 | Campaña frente a F11-D5 | RESUELTA | sección Q-7 | (a); solo existencia | cierra P4.4/P4.D | sin atributos ni cardinalidades |
 | D-1 | Qué objetos son «contenido» | RESUELTA | sección D-1 (2026-11-22 12:04) | D1.a–e según registro | Copy, Pieza y Adaptación pueden tener versiones (D1.d) | sin entidad 19; no se audita Adaptación |
 | D-2 | Variante de copy frente a Versión | RESUELTA | sección D-2 (12:09) | D2.a–c | variantes sin versiones propias por ahora (D2.b) | — |
-| D-3 | Familias de reglas | RESUELTA | sección D-3 (12:14) | 4 familias; solo ReglaDeMarca y ReglaComercial son entidades | reglas por canal = dimensión del Canal | ubicación de las reglas de copy: subcuestión residual (pregunta R-1) |
+| D-3 | Familias de reglas | RESUELTA | sección D-3 (12:14) | 4 familias; solo ReglaDeMarca y ReglaComercial son entidades | reglas por canal = dimensión del Canal | ubicación conceptual de la familia de reglas de copy: cuestión residual no decidida (pregunta R-1: aplazamiento) |
 | D-4 | Adaptación de canal | RESUELTA | bloque D4.a–d (2026-11-22) | D4.a=A, D4.b=A, D4.c=A, D4.d=A | entidad 13 | sin auditoría directa, publicación ni certificación |
-| D-5 | Aprobación | RESUELTA | sección D-5 (12:29) | R3; conjunto (b); M-1 | entidad 15 | D5.a–d fuera del alcance vigente; subcuestiones 1, 2, 3 y 5 sin decisión propia (R-1) |
+| D-5 | Aprobación | RESUELTA | sección D-5 (12:29) | R3; conjunto (b); M-1 | entidad 15 | D5.a–d fuera del alcance vigente; cinco cuestiones residuales de D-5 (auditoría o validaciones previas; modificación de un contenido aprobado; relación con las versiones; identidad exacta del contenido aprobado; relación con los estados) sin decisión propia (R-1: aplazamiento) |
 | D-6 | Métricas y valores | RESUELTA | bloque D6.a–c; B5 | D6.a=A, D6.b=A, D6.c=A0; A0-1/2/3 por B5 | entidades 16 y 17 | sin fórmulas ni catálogo |
 | D-7 | Perfil, tolerancias y canales | RESUELTA | bloque D7.a–c | D7.a=A, D7.b=A, D7.c=C | entidades 11, 12 y 18 | Q-1 y Q-2 aplazadas |
 | D-8 | Nombre canónico de la entidad 16 | RESUELTA | bloque D8 | «Resultado de desempeño» (solo el nombre; su definición mínima llega en B1) | entidad 16 | — |
 
-**Control:** 20 «RESUELTA» + 10 «APLAZADA» = 30. Coincide con la matriz maestra (`../auditoria_integral/02_MATRIZ_MAESTRA_DECISIONES.md`), con `13_REGISTRO_DECISIONES_PROPIETARIO.md` y con el control D1 del script semántico. **Contradicciones que exijan una decisión nueva: ninguna.** Hay una consulta residual (R-1) que no bloquea el cierre documental (véase el paquete).
+**Control:** 20 «RESUELTA» + 10 «APLAZADA» = 30. Coincide con la matriz maestra (`../auditoria_integral/02_MATRIZ_MAESTRA_DECISIONES.md`), con `13_REGISTRO_DECISIONES_PROPIETARIO.md` y con el control D1 del script semántico. **Contradicciones que exijan una decisión nueva: ninguna.** Hay una consulta residual (R-1: aplazamiento de seis cuestiones residuales, una de D-3 y cinco de D-5) que no bloquea el cierre documental (véase el paquete).
+
+## 2b. Cuestiones residuales de D-3 y D-5 (no son decisiones ni aplazamientos de nivel superior)
+| N.º | Origen | Cuestión residual | Estado | Pregunta |
+|---|---|---|---|---|
+| 1 | D-3 | Ubicación conceptual de la familia de reglas de copy | no decidida | R-1 |
+| 2 | D-5 (1) | Si la aprobación requiere auditoría o validaciones previas | no decidida | R-1 |
+| 3 | D-5 (2) | Qué sucede cuando se modifica un contenido aprobado | no decidida | R-1 |
+| 4 | D-5 (3) | Cómo se relaciona la aprobación con las versiones | no decidida | R-1 |
+| 5 | D-5 (4) | Identidad exacta del contenido al que se aplica cada aprobación | no decidida | R-1 |
+| 6 | D-5 (5) | Relación entre aprobación y los estados del flujo | no decidida | R-1 |
+Seis cuestiones; no se suman a 20/30 ni a 10/30. **D5.a–d** (las cuatro decisiones propuestas en el bloque G2 del paquete histórico `PAQUETE_DECISION_D1_D8.md`) permanecen **fuera del alcance vigente** por decisión definitiva del propietario: no son pendientes, no se cuentan como abiertas, no condicionan D-4 ni las aprobaciones 0.1–0.7, no figuran en R-1 y no se reabren. Una respuesta afirmativa a R-1 se registraría como aplazamiento, nunca como resolución.
 
 ## 3. Hoja de cada aplazamiento (cinco campos)
 Ninguno de los diez está resuelto. Ninguna cifra, cuota, límite, tolerancia o ponderación se inventa aquí. «Riesgo» describe el efecto de dejarla abierta; no es una decisión.
@@ -62,13 +73,13 @@ Ninguno de los diez está resuelto. Ninguna cifra, cuota, límite, tolerancia o 
 - **E1:** el registro contiene la definición literal de las 18 entidades (18/18). **E2:** las definiciones de las entidades 9–12 y 14–18 son idénticas al texto de la propuesta ratificada (9/9). **E3:** la tabla A del doc 03 reproduce las 18 definiciones del registro sin discrepancia (18/18). **E4:** la matriz consolidada muestra 18/18 con estado «Aprobada». **E5:** ninguna definición contiene vocabulario de atributos, cardinalidades u obligatoriedad (0 casos para revisión humana).
 - Alcance exacto: **solo existencia y definición mínima**; no son modelos de datos completos ni autorizan implementar. Condicionadas o con límites: entidad 13 (solo la definición de D4.c y límites de D4.d), 16 (nombre por D8; definición por B1; A0), 17 (A0-3), 11 (Q-1), 12 (Q-2), 15 (identificación de la versión aprobada se define en el módulo).
 - **Fuera del conteo de 18** y aprobadas antes: Evento de actividad (propuesta), Etiqueta, Perfil local; Colección no incorporada.
-- Prueba negativa: al alterar una definición en una copia, el control E3 la detecta (`../logs/verificacion_semantica_fase0_prueba_mutacion_2026-11-22.txt`).
+- Prueba negativa: al alterar una definición en una copia, el control E3 la detecta (`../logs/prueba_mutacion_semantica_2026-11-22_segunda_regularizacion.txt`; la prueba de la ronda anterior se conserva en `../logs/verificacion_semantica_fase0_prueba_mutacion_2026-11-22.txt`).
 
 ## 5. P4.B, P4.C, P4.E: revisión de alcance
 - **P4.B:** 13 relaciones (2 documentadas + 11 una por una), verificado contra B2 (control R1). No aprobadas: Campaña–Oferta, Campaña–Pieza, Brief–Oferta, Brief–Producto, Reglas de copy–ReglaDeMarca, reglas por canal como entidades independientes, Evento de actividad con entidad específica. Sin cardinalidades obligatorias. Variante ≠ Versión (D2.b). Copy, Pieza y Adaptación son entidades separadas; la auditoría se limita a Copy y Pieza (no hay auditoría directa de Adaptación).
 - **P4.C:** atributos diferidos a cada módulo; no hay esquema completo de 18 entidades aprobado.
 - **P4.E:** E1–E5 conforme a B4; `revision` no es obligatorio (solo con un caso de uso que lo justifique); el hash SHA-256 no garantiza autoría ni seguridad.
-- **Descripciones más amplias que lo ratificado:** corregidas en la regularización con nota fechada de alineación y el texto anterior conservado (docs 05, 06, 07, 14 y `CONVENCIONES_P4_5_CONDICIONES.md`). Barrido de los 31 documentos vigentes o de propuesta con 9 controles semánticos: 0 errores reales tras las correcciones.
+- **Descripciones más amplias que lo ratificado:** corregidas en la regularización con nota fechada de alineación y el texto anterior conservado (docs 05, 06, 07, 14 y `CONVENCIONES_P4_5_CONDICIONES.md`). Barrido de los 33 documentos clasificados vigentes o de propuesta (controles S1–S9, frase a frase) y de los 52 no históricos (S10–S14): 0 errores reales tras las correcciones.
 
 ## 6. Qué no verifica esta conciliación
 Pruebas, build, E2E o CI de la aplicación; contenido técnico (Web Locks, cuotas de IndexedDB, navegadores); anexos A/B; `CCI-Evidence` (403). La verificación la realiza la misma sesión que redactó (sin reproducción independiente).

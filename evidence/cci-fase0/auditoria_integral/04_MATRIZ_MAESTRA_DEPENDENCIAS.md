@@ -7,7 +7,7 @@
 |---|---|---|---|
 | PAQ-1 (entidades 9–12) | — | D-1, D-3, P4.2, D7.b, D7.c | P4.B, Q-5 (PE-09), Q-1/Q-2 (afinan 11/12) |
 | PAQ-2 (entidades 14–18 + A0) | — | D-1, D-2, D-5, D6.a–c, D7.a, D8 | P4.B, P4.C |
-| P4.B relaciones/cardinalidades | PAQ-1, PAQ-2 | Q-7 (solo existencia de Campaña); D4.b (vínculo posible Adaptación–Pieza, sin cardinalidad); D-3.c (ubicación de reglas de copy pendiente de P4.B) | P4.C |
+| P4.B relaciones/cardinalidades | PAQ-1, PAQ-2 | Q-7 (solo existencia de Campaña); D4.b (vínculo posible Adaptación–Pieza, sin cardinalidad); D-3.c (ubicación de reglas de copy pendiente de P4.B) | P4.C *[Alineación 2026-11-22, no es decisión nueva; el texto anterior se conserva: P4.B fue ratificada (B2) sin fijar la ubicación de las reglas de copy; sigue **no decidida** como una de las seis cuestiones residuales de D-3 y D-5 (pregunta R-1: aplazamiento hasta la especificación del módulo). No se ha decidido ninguna ubicación.]* |
 | P4.C atributos | P4.B, Q-4 | Posición del propietario: diferir a especificación de módulo, salvo indispensables del MVP | Aprobación 0.3 |
 | P4.E E1–E5 | E2 depende de P12 | P4.5 preliminar | 0.4 |
 | Q-1 | D7.b (resuelta) | — | Entidad 11, Fase 4 |
@@ -27,7 +27,7 @@
 | D4.b=A | relación, obligatoriedad, dirección y cardinalidad Adaptación–Pieza | P4.B |
 | D7.b=A | valores, redondeo | Q-1 |
 | D7.c=C | lista definitiva, reglas de canal, mecanismo de ampliación | Q-2 |
-| D-3 (reglas de copy) | ubicación en el modelo | P4.B |
+| D-3 (reglas de copy) | ubicación en el modelo | P4.B *[Alineación 2026-11-22, no es decisión nueva; el texto anterior se conserva: P4.B fue ratificada (B2) sin fijar la ubicación de las reglas de copy; sigue **no decidida** como una de las seis cuestiones residuales de D-3 y D-5 (pregunta R-1: aplazamiento hasta la especificación del módulo). No se ha decidido ninguna ubicación.]* |
 | D-2.b | historial de versiones propio de Variante: «no por ahora, sin excluirlo a futuro» | No requiere decisión ahora |
 | D-1.c / D-2.c | ampliar la Auditoría creativa a Adaptación o Variante: requiere decisión expresa futura | No requiere decisión ahora |
 | Entidad 8 | reauditoría nueva/modificada sin resolver | P4.B/P4.C (registrado en ficha 8) |

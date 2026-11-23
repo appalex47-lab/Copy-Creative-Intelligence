@@ -84,3 +84,6 @@ Las únicas decisiones documentadas son las ya registradas (B1–B10 y anteriore
 
 ## 8. Comparación con `main`
 `main` permanece en `6a1af2424ef39e0960b8f7e09d4e19ec52e6f046`; `docs/fase0/` es idéntico a `main`; la rama solo añade o modifica archivos bajo `evidence/cci-fase0/`.
+
+> **Nota fechada 2026-11-22 (segunda regularización):** la mención de R-1 como «subcuestiones … D-5 puntos 1, 2, 3 y 5» era incompleta; está **superada** por `CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md` (R-1 con seis cuestiones).
+> **Nota fechada 2026-11-22 (segunda regularización):** la limitación de la §7 («los archivos modificados no se releyeron completos tras la edición») se subsanó en la segunda regularización: ver `logs/relectura_completa_2026-11-22_segunda_regularizacion.txt`. Las cifras de esta ronda (32 pruebas, 125 archivos) no son las vigentes.

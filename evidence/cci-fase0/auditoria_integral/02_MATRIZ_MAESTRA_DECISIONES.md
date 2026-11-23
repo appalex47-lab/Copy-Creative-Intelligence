@@ -16,7 +16,7 @@
 | P4.A e13 (D4.c) | Definición mínima Adaptación de canal | A (texto literal en registro) | D4.c | Solo existencia y definición mínima |
 | D-1 (a–e) | Qué es «contenido» | a=A, b=(ii), c=(a), d=(a) parcial, e=(a) provisional | Sección D-1 | Sin entidad 19; no se audita Adaptación |
 | D-2 (a–c) | Variante frente a Versión | a=A separados, b=(ii), c=(a) | Sección D-2 | Variante sin historial de versiones por ahora |
-| D-3 (a–d) | Familias de reglas | 4 familias; solo ReglaDeMarca y ReglaComercial son entidades; reglas por canal = dimensión del Canal; reglas de copy → ubicación pendiente de P4.B | Sección D-3 | No aprueba atributos ni relaciones |
+| D-3 (a–d) | Familias de reglas | 4 familias; solo ReglaDeMarca y ReglaComercial son entidades; reglas por canal = dimensión del Canal; reglas de copy → ubicación pendiente de P4.B | Sección D-3 | No aprueba atributos ni relaciones *[Alineación 2026-11-22, no es decisión nueva; el texto anterior se conserva: P4.B fue ratificada (B2) sin fijar la ubicación de las reglas de copy; sigue **no decidida** como una de las seis cuestiones residuales de D-3 y D-5 (pregunta R-1: aplazamiento hasta la especificación del módulo). No se ha decidido ninguna ubicación.]* |
 | D-5 (1–3) | Aprobación | R3; conjunto (b); M-1 | Sección D-5 | D5.a–d fuera del alcance vigente |
 | D4.a | Delimitación Adaptación/Copy/Variante/Versión | A | Bloque D-4/D-6/D-7/D-8 | — |
 | D4.b | Vínculo Adaptación–Pieza | A | idem | No define relación ni cardinalidad |

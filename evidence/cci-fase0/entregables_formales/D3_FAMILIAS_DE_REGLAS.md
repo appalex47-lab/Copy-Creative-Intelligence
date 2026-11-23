@@ -10,7 +10,7 @@
 
 **Corrección de antecedentes (conservada):** la inclusión de reglas de copy en ReglaDeMarca fue derivación mía y queda sin efecto.
 **Limitación de la evidencia:** las instrucciones originales no contienen una lista específica de reglas de marca; no se inventa una. Solo constan «Reglas de marca» como criterio de auditoría (B l.435; A l.589), «Consistencia de marca» (B l.444) y el módulo «Brand Intelligence / Settings» (B l.31; A l.56, l.536).
-**Sigue abierto:** ubicación de las reglas de copy (P4.B); representación de las reglas por canal; contenido de las reglas de marca; D-4 a D-8. P4.1, P4.2, D-1 y D-2 intactas; entidades 1–8 sin cambios; Hallazgo (9) sin aprobar.
+**Sigue abierto:** ubicación de las reglas de copy (P4.B); representación de las reglas por canal; contenido de las reglas de marca; D-4 a D-8. P4.1, P4.2, D-1 y D-2 intactas; entidades 1–8 sin cambios; Hallazgo (9) sin aprobar. *[Alineación 2026-11-22, no es decisión nueva; el texto anterior se conserva: P4.B fue ratificada (B2) sin fijar la ubicación de las reglas de copy; sigue **no decidida** como una de las seis cuestiones residuales de D-3 y D-5 (pregunta R-1: aplazamiento hasta la especificación del módulo). No se ha decidido ninguna ubicación.]*
 
 ---
 *Lo que sigue es el análisis original previo a la decisión, conservado como antecedente (su §8 refleja el estado a las 12:11).*

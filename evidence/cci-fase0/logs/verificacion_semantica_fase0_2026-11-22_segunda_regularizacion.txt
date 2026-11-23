@@ -1,0 +1,97 @@
+# Salida real de logs/verificacion_semantica_fase0.py sobre el árbol de trabajo de la última regularización documental (2026-11-22; base bf437e4617b253929e1fb7c77bb5f70907471495).
+# Comando (desde la raíz del repositorio): python3 -I evidence/cci-fase0/logs/verificacion_semantica_fase0.py   -> código de salida 0.
+# Las líneas que comienzan con «# » son este encabezado; el resto es la salida sin editar. Ejecución de la misma sesión que preparó el expediente (no independiente).
+# Las 59 pruebas son pruebas sintéticas de DOCUMENTOS (casos positivos y negativos de cada control); no son pruebas de la aplicación.
+## PRUEBAS de los controles semánticos (casos positivos y negativos)
+   [OK] conteo: «9/18 aprobadas» se detecta
+   [OK] conteo: «18/18» no se detecta
+   [OK] conteo: «Entidad 9 de 18» (ordinal) no se detecta
+   [OK] conteo: «8/18» se detecta
+   [OK] resuelta-como-pendiente: «P5 pendiente» se detecta
+   [OK] resuelta-como-pendiente: «P5 RESUELTA» no se detecta
+   [OK] resuelta-como-pendiente: «P4 (parcial) pendiente» se detecta
+   [OK] resuelta-como-pendiente: ID dentro de otro («P41») no se detecta
+   [OK] aplazada-como-resuelta: «P6 resuelta» se detecta
+   [OK] aplazada-como-resuelta: «P6 no resuelta» no se detecta
+   [OK] aplazada-como-resuelta: «P8 se resolverá antes de Fase 2» no se detecta
+   [OK] aprobaciones: «0.1–0.7 aprobadas» se detecta
+   [OK] aprobaciones: «0/7 emitidas» no se detecta
+   [OK] aprobaciones: «ninguna aprobación 0.1–0.7 emitida» no se detecta
+   [OK] aprobaciones: «para emitir las aprobaciones 0.1–0.7» no se detecta
+   [OK] fase: «Fase 0 aceptada» se detecta
+   [OK] fase: «Fase 0 no aceptada» no se detecta
+   [OK] fase: «Fase 1 autorizada» se detecta
+   [OK] fase: «una vez aceptada Fase 0» no se detecta
+   [OK] C-2/C-3: «C-2 y C-3 resueltas» se detecta
+   [OK] C-2/C-3: «C-2 y C-3 abiertas» no se detecta
+   [OK] C-2/C-3: «no resueltas» no se detecta
+   [OK] relación: «Campaña–Oferta aprobada» se detecta
+   [OK] relación: «Campaña–Oferta NO aprobada» no se detecta
+   [OK] relación: «Campaña–Brief aprobada» no se detecta
+   [OK] relación: «Brief con Producto aprobado» se detecta
+   [OK] MVP: «MVP termina al concluir Fase 3» se detecta
+   [OK] MVP: «MVP termina al concluir Fase 2» no se detecta
+   [OK] Q-4: «decisión Q-4 abierta» se detecta
+   [OK] Q-4: «Q-4 resuelta» no se detecta
+   [OK] atributos: «atributos aprobados» se detecta
+   [OK] atributos: «los atributos no están aprobados» no se detecta
+   [OK] R-1: texto completo (6/6) aprueba
+   [OK] R-1: sin la identidad exacta del contenido (cuestión 4 de D-5) se detecta
+   [OK] R-1: sin la ubicación de las reglas de copy (D-3) se detecta
+   [OK] R-1: sin estados del flujo se detecta
+   [OK] R-1: D5.a–d con exclusión expresa no se detecta
+   [OK] R-1: D5.c presentada como cuestión a decidir se detecta
+   [OK] D5.a–d: «siguen abiertas» sin marca se detecta
+   [OK] D5.a–d: «no son pendientes» no se detecta
+   [OK] D5.a–d: antecedente superado no se detecta
+   [OK] R-1: «R-1 queda resuelta» se detecta
+   [OK] R-1: «no es una resolución» no se detecta
+   [OK] recomendación presentada como decisión del propietario se detecta
+   [OK] recomendación [Rec. Claude] no vinculante no se detecta
+   [OK] residuales de D-5: «puntos 1, 2, 3 y 5» (omite el 4) se detecta
+   [OK] residuales de D-5: lista (1) a (5) no se detecta
+   [OK] documento con R-1 sin las seis cuestiones se detecta
+   [OK] documento con R-1 y «seis cuestiones» no se detecta
+   [OK] recomendación: «el propietario decidió aprobar la recomendación de Claude» se detecta
+   [OK] recomendación: «la recomendación queda aprobada» se detecta
+   [OK] recomendación: «el propietario no ha decidido sobre la recomendación» no se detecta
+   [OK] R-1 + D5.c sin exclusión se detecta
+   [OK] R-1 + D5.a–d con «no reabre» no se detecta
+   [OK] R-1 por fila: fila (5) sin «identidad exacta» se detecta
+   [OK] R-1 por fila: fila (5) con «identidad exacta» aprueba
+   [OK] doc 06: sin marca histórica se detecta
+   [OK] doc 06: con marca histórica y «no es un esquema de datos aprobado» aprueba
+   [OK] doc 06: marca histórica pero «es el esquema definitivo» se detecta
+   Resultado: 59/59
+## E1 definiciones mínimas en el registro: 18/18 (True)
+## E2 definiciones 9–12 y 14–18 del registro = texto literal de la propuesta: SÍ (9/9)
+## E3 doc 03 (tabla A) reproduce fielmente las 18 definiciones del registro: 18/18; discrepancias: ninguna
+## E4 matriz consolidada: entidades con estado «Aprobada»: 18/18 (faltan: ninguna)
+## E5 definiciones con vocabulario de atributos/cardinalidades/obligatoriedad (revisión humana): ninguna
+## R1 relaciones ratificadas en B2: 2 documentadas + 11 una por una = 13 (esperado 13)
+## D1 universo de decisiones de nivel superior: 30 (esperado 30); resueltas 20 (P1,P2,P3,P4,P5,P9,P11–P14,Q-4,Q-7,D-1…D-8); aplazadas 10; abiertas de nivel superior: 0
+## A1 fichas 0.1–0.7 en la tabla vigente de APROBACIONES_FASE0: 7 filas; con estado distinto de PENDIENTE: ninguna
+## A2 prerrequisitos desactualizados en las fichas: ninguno
+## R2 R-1 en el paquete: sección encontrada=True; cuestiones ausentes=ninguna; filas de la tabla=6 (esperado 6); filas cuyo texto no contiene su cuestión=ninguna; redacción final completa=True; frases que reabren D5.a–d=ninguna
+## R3 documentos vigentes que mencionan R-1 sin declarar las seis cuestiones: ninguno
+## R4 el registro autoritativo contiene la nota con las seis cuestiones y la protección de D5.a–d: True
+## D4 06_MODELO_DATOS_CCI.md marcado como propuesta histórica no aprobada: True; índices 00 y 16 lo clasifican igual: True
+## RESUMEN de hallazgos por clase
+   ERROR_REAL                 0
+   ANTECEDENTE_ADVERTIDO      96
+   FALSO_POSITIVO_REVISADO    1
+   REVISION_HUMANA            0
+   [FALSO_POSITIVO_REVISADO] S1_conteo_entidades_distinto_de_18 | entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md:312 | por tanto el conteo formal de P4.A pasa de 8/18 a **9/18 (50 %)**, con 9/18 pendientes (50 %). | Sección fechada del registro acumulativo (aclaración D4.c); superada cronológicamente por la ratificación B1 (18/18) en el mismo registro; el texto anterior se conserva por regla de historial
+## ANTECEDENTE_ADVERTIDO (detalle por control)
+   S10_D5ad_presentadas_como_pendientes_o_abiertas              14
+   S11_R1_presentada_como_resolucion                            1
+   S12_recomendacion_presentada_como_decision                   1
+   S13_residuales_D5_incompletos_(omite_la_cuestion_4)          3
+   S14_R1_vinculada_a_D5ad_sin_exclusion                        3
+   S1_conteo_entidades_distinto_de_18                           63
+   S2_decision_resuelta_presentada_como_pendiente               6
+   S3_aplazamiento_presentado_como_resuelto                     2
+   S5_fase_0_aceptada_o_fase_1_autorizada                       1
+   S6_C2_C3_presentadas_como_resueltas                          1
+   S8_roadmap_o_mvp_contradice_Q4                               1
+## Alcance: 103 archivos .md/.txt revisados; 33 clasificados vigentes/propuesta (S1–S9, frase a frase); 57 no históricos (S10–S14)

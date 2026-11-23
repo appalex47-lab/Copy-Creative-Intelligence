@@ -1,5 +1,5 @@
 # Control de cambios — Auditoría integral y regularización (2026-11-22)
-**Versión:** 2.2 (secciones R1–R8 de rondas anteriores conservadas; R9 añade la corrección puntual de X4)
+**Versión:** 2.6 (secciones R1–R11 de rondas anteriores conservadas; R12 añade la última regularización documental antes de las aprobaciones 0.1–0.7)
 **Commit base:** `1bb831a32219898616e7a7ad8d12092aac16f253` (HEAD real verificado por API antes de editar; `main` = `6a1af24`). Rama `evidence/cci-fase0-review`. Solo documentación bajo `evidence/cci-fase0/`.
 **Motivo:** mandato de auditoría integral de todo el expediente de Fase 0, regularización documental y preparación de decisiones pendientes.
 
@@ -148,5 +148,18 @@ Ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` v2.0: la brecha de lectura declarada
 | 11 documentos históricos o subordinados | «P4.A vigente 9/18» sustituido por «P4.A 9/18 a la fecha de esta nota (vigente actual: 18/18)» | Nota de vigencia desactualizada |
 | `logs/` (verificadores y salidas) | Script semántico nuevo con 32 pruebas; `scan_contradicciones.py` v2; escaneo por párrafo; salidas de herramientas históricas | Controles semánticos |
 | `05`, `07`, `08`, `12` y los índices | Cifras (125 archivos; manifiestos de 123 y 124 líneas; 185 blobs), filas y notas | Coherencia |
+| `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados | Integridad |
+**Preservados sin cambios:** `docs/fase0/` (59), `anexos/`, las salidas anteriores de los scripts, `13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md`, el estado de CR-01…CR-22 y el texto de las decisiones.
+
+## R12. Última regularización documental antes de las aprobaciones 0.1–0.7 (base `bf437e4617b253929e1fb7c77bb5f70907471495`)
+**Alcance:** corregir la pregunta R-1 (seis cuestiones residuales: la ubicación conceptual de la familia de reglas de copy de D-3 y las cinco de D-5), proteger D5.a–d como fuera del alcance vigente, reclasificar `06_MODELO_DATOS_CCI.md` como propuesta histórica no aprobada y reforzar los verificadores con pruebas positivas y negativas. No se modificó código de la aplicación, `docs/fase0/`, `main` ni estados de CR; no se emitió ninguna aprobación (0/7); no se aceptó Fase 0 ni se autorizó Fase 1. Detalle en `entregables_formales/CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`.
+| Grupo | Cambio | Motivo |
+|---|---|---|
+| Nuevos (9) | Control de cambios, `15_INFORME_FINAL_SEGUNDA_REGULARIZACION.md` y 7 archivos de `logs/` | Evidencia y reporte |
+| `PAQUETE_DECISION…`, `APROBACIONES_FASE0.md`, `CONCILIACION…`, `REGISTRO_DECISIONES_RESUELTAS.md` | R-1 con seis cuestiones; conciliación §2b; nota fechada en el registro | R-1 omitía la cuestión (4) de D-5 |
+| `02`, `04`, `09`, `10`, `14`, `05_MODELO_DOMINIO`, `11`, `D3`, `DECISIONES_P4_PENDIENTES`, `FICHA_P4`, `MATRIZ_DECISIONES_PROPIETARIO` | Notas fechadas de alineación (texto anterior conservado) | Ubicación de las reglas de copy descrita como «pendiente de P4.B» tras la ratificación |
+| `06_MODELO_DATOS_CCI.md` y los índices 00, 01, 16 y README | Clasificación como propuesta histórica no aprobada | Riesgo de leerse como esquema vigente |
+| `logs/verificacion_semantica_fase0.py`, `logs/verificacion_coherencia_posterior.py` | Controles S10–S14, R2–R4, D4 (59 pruebas); exclusión de las nuevas salidas | Controles semánticos sobre R-1, D5.a–d y doc 06 |
+| `05`, `07`, `08`, `12` | Cifras (134 archivos; manifiestos de 132 y 133 líneas; 194 blobs), filas y notas | Coherencia |
 | `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados | Integridad |
 **Preservados sin cambios:** `docs/fase0/` (59), `anexos/`, las salidas anteriores de los scripts, `13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md`, el estado de CR-01…CR-22 y el texto de las decisiones.

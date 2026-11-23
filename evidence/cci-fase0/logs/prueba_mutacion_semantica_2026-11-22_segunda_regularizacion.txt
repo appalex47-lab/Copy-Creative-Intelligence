@@ -1,0 +1,17 @@
+# Salida real de logs/prueba_mutacion_semantica.py (2026-11-22; base bf437e4617b253929e1fb7c77bb5f70907471495).
+# Comando (desde la raíz del repositorio): python3 -I evidence/cci-fase0/logs/prueba_mutacion_semantica.py   -> código de salida 0 (8/8 detectadas; control sin mutación rc=0).
+# Historial honesto: la PRIMERA ejecución de esta prueba detectó solo 5 de 8 defectos sembrados (no detectó: R-1 con cuestión omitida solo en una fila de la tabla,
+# recomendación presentada como decisión con otra redacción, y una frase que unía R-1 con una subdecisión excluida fuera de la sección de R-1). Se reforzaron los controles
+# (S12 ampliado, S14 nuevo en todo el árbol no histórico, R2 fila por fila, D4 para el documento 06) y se repitió hasta 8/8. Lo que sigue es la ejecución final, sin editar.
+# Ejecución de la misma sesión (no independiente). Los defectos son sintéticos y se siembran solo en una copia temporal; el árbol real no se toca.
+## Prueba de mutación del verificador semántico (8 defectos sintéticos; árbol real intacto)
+## Control negativo (sin mutación): rc=0 (esperado 0)
+   [DETECTADA] M1_R1_omite_cuestion_4_D5 (identidad exacta del contenido) -> rc=1; control esperado R2_R1_incompleta_o_reabre_D5 (presente)
+   [DETECTADA] M2_R1_omite_D3_ubicacion_reglas_copy -> rc=1; control esperado R2_R1_incompleta_o_reabre_D5 (presente)
+   [DETECTADA] M3_D5ad_presentadas_como_pendientes_en_documento_vigente -> rc=1; control esperado S10_D5ad_presentadas_como_pendientes_o_abiertas (presente)
+   [DETECTADA] M4_R1_presentada_como_resuelta_en_informe -> rc=1; control esperado S11_R1_presentada_como_resolucion (presente)
+   [DETECTADA] M5_aprobaciones_0_1_0_7_presentadas_como_emitidas -> rc=1; control esperado S4_aprobaciones_presentadas_como_emitidas (presente)
+   [DETECTADA] M6_recomendacion_de_Claude_presentada_como_decision_del_propietario -> rc=1; control esperado S12_recomendacion_presentada_como_decision (presente)
+   [DETECTADA] M7_R1_reabre_D5c -> rc=1; control esperado S14_R1_vinculada_a_D5ad_sin_exclusion (presente)
+   [DETECTADA] M8_doc_06_sin_marca_historica_y_afirmado_como_definitivo -> rc=1; control esperado D4_doc06_sin_marca_historica_o_afirma_esquema_definitivo (presente)
+## Resultado: 8/8 mutaciones detectadas; control sin mutación rc=0

@@ -1,0 +1,29 @@
+# Integridad y reproducción en clon limpio — última regularización documental (2026-11-22; base bf437e4617b253929e1fb7c77bb5f70907471495)
+# Alcance: verificación LOCAL (el commit no se publicó en ningún repositorio remoto). Un hash no puede constar dentro de los archivos que contiene: el clon limpio se hizo sobre el commit
+# provisional 12053e20fd6a81bec2c62cc06ad517ddacb3f3ae (idéntico al final salvo este archivo, la salida guardada de la semántica regenerada y los dos manifiestos). El hash del commit final y la verificación de los
+# manifiestos definitivos se informan en la entrega, no aquí. Todo lo siguiente lo ejecutó la misma sesión que preparó el expediente: NO es verificación independiente.
+
+## 1. Alcance del cambio frente a bf437e4 (git diff --name-only bf437e4 HEAD)
+Archivos cambiados: 38 = 9 añadidos + 27 modificados + 2 manifiestos regenerados; eliminados: 0; fuera de evidence/cci-fase0/: 0.
+docs/fase0/ (59 archivos): 0 cambios; huella `git ls-tree -r` de docs/fase0 = 5be2c1e469d5bf49 tanto en main como en la rama.
+anexos/ y 13_INFORME_VERIFICACION_COHERENCIA_POSTERIOR.md: 0 cambios. main = 6a1af2424ef39e0960b8f7e09d4e19ec52e6f046 (sin cambios); sin PR; sin push.
+Búsqueda de patrones de secretos (tokens, claves privadas, JWT) y de correos en lo añadido: 0 coincidencias.
+
+## 2. Denominadores explícitos (clon limpio del commit provisional)
+Archivos encontrados bajo evidence/cci-fase0/: 134
+MANIFEST.sha256: 132 líneas (todos los archivos salvo ambos manifiestos); `sha256sum -c`: 132 verificados, 0 fallos
+INVENTARIO_PUBLICADO.sha256: 133 líneas (todos salvo él mismo; incluye MANIFEST.sha256); verificados por hash y tamaño: 133; fallos: 0; excluidos: 1 (INVENTARIO_PUBLICADO.sha256, no se lista a sí mismo)
+Archivos no inventariados distintos de los dos manifiestos: 0. Archivos ajenos al expediente: 0.
+Blobs esperados en la rama: 134 + 59 + 1 (README.md de la raíz) = 194.
+
+## 3. Reproducción de verificadores desde el clon limpio (python3 -I; salidas comparadas con las guardadas en logs/ sin las líneas «# » de encabezado)
+- verificacion_semantica_fase0.py: rc=0; 59/59 pruebas; 0 errores reales; salida IDÉNTICA a la guardada (la guardada se regeneró tras detectar que había sido producida antes de añadirse dos salidas al árbol: diferencia solo en el recuento de archivos del «Alcance»).
+- prueba_mutacion_semantica.py: rc=0; 8/8 mutaciones detectadas; control sin mutación rc=0; salida IDÉNTICA.
+- scan_contradicciones.py v2: rc=0; salida IDÉNTICA.
+- verificacion_coherencia_posterior.py: rc=0; X4 26/26 y 24/24; X8 doc 05 = árbol (134); salida IDÉNTICA salvo la primera línea (hash del commit y «árbol con cambios sin confirmar: no», esperado en un clon limpio).
+
+## 4. Enlaces y referencias
+Referencias a archivos con comillas inversas (V1): las no resueltas (104 entradas, informativas) son referencias a documentos del repositorio de la aplicación, a los adjuntos A/B del propietario o a una herramienta fuera del repositorio; ninguna apunta a un archivo del expediente que no exista. Enlaces markdown (V2) rotos: 0. Referencias a CR-19…CR-22 en seis documentos: 24/24.
+
+## 5. Lo que este registro no demuestra
+Que otro proceso reproduzca estos resultados; pruebas, build, E2E o CI de la aplicación; el repositorio privado CCI-Evidence (inaccesible: API 403 y `add_repo` denegado; no se verificó visibilidad ni permiso de escritura; no se publicó allí); la verificación de los manifiestos del commit final (se informa en la entrega).

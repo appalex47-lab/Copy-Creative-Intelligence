@@ -37,7 +37,7 @@ Formato de respuesta sugerido: `P# → opción (a/b/c) | con cambios: … | rech
 
 ## P4 — Modelo de entidades del dominio (sin el alcance del MVP)
 **PARCIAL (2026-11-22; actualizado):** P4.1 aprobó solo la lista de nombres; Q-7 = (a); lo pendiente: `DECISIONES_P4_PENDIENTES.md`. Antes: P4.1 pendiente; P4.2 → (b); P4.3 respondida; P4.4 aplazado a Q-7; P4.5 preliminar. Ver `REGISTRO_DECISIONES_RESUELTAS.md`.
-- **Pregunta:** ¿Apruebas las entidades, relaciones y responsabilidades de `05_MODELO_DOMINIO_CCI.md` y `06_MODELO_DATOS_CCI.md`, incluida la entidad adicional «Evento de actividad» (no está en tu lista)?
+- **Pregunta:** ¿Apruebas las entidades, relaciones y responsabilidades de `05_MODELO_DOMINIO_CCI.md` y `06_MODELO_DATOS_CCI.md`, incluida la entidad adicional «Evento de actividad» (no está en tu lista)? *[Alineación 2026-11-22, no es decisión nueva; el texto anterior se conserva: pregunta histórica, superada por P4.A 18/18 (definiciones mínimas), B2 (13 relaciones sin cardinalidades obligatorias) y B3 (atributos por módulo); `06_MODELO_DATOS_CCI.md` no se aprueba como esquema de datos.]*
 - **Contexto y problema:** tu lista de entidades no fija atributos ni clasificación; F11-D5 retiró `Project` sin `Campaign` y tu instrucción incluye `Campaña`: tensión que se decide en **Q-7**, no aquí.
 - **Opciones y consecuencias:** (a) aprobar tal cual: Fase 1 puede definir stores; (b) aprobar con cambios por entidad: más precisión, más tiempo; (c) rechazar: Fase 1 bloqueada.
 - **Recomendación:** (a) pidiendo cambios entidad por entidad si los hay. «Evento de actividad» es necesaria para la «actividad real» del Command Center; puedes rechazarla solo a ella.
