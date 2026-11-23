@@ -15,9 +15,9 @@
 ## 2. Resumen (numerador / denominador / alcance)
 | Alcance | LEÍDO_COMPLETO | LEÍDO_PARCIALMENTE | NO_APLICABLE | NO_LEÍDO_EN_ESTA_RONDA | Total archivos |
 |---|---|---|---|---|---|
-| `evidence/cci-fase0/` (expediente) | 104 | 0 | 59 | 0 | 163 |
+| `evidence/cci-fase0/` (expediente) | 104 | 0 | 66 | 0 | 170 |
 | `docs/fase0/` (59: 5 raíz, 2 herramientas, 52 históricos) | 59 | 0 | 0 | 0 | 59 |
-| Total | 163 | 0 | 59 | 0 | 222 |
+| Total | 163 | 0 | 66 | 0 | 229 |
 
 **Bytes** (excluye listas de hashes y este documento): expediente 742313 B; `docs/fase0/` 10324392 B, de los cuales **2216734 B (21.5 %) son líneas únicas** efectivamente mostradas por primera vez (el resto es duplicado exacto de líneas ya mostradas). **Aclaración obligatoria:** «100 % de líneas únicas mostradas» en `docs/fase0/` **no equivale** al 100 % de los bytes revisados individualmente: se vieron 2 216 734 B de líneas únicas frente a 10 324 392 B totales (21,5 %); los bytes de expediente indicados son los del momento de la lectura (los archivos editados después se listan en §7). Los porcentajes de cobertura por archivo de §3 y §4 se calculan sobre rangos mostrados; en `docs/fase0/` la columna «líneas nuevas» es la medida real.
 
@@ -147,6 +147,13 @@
 | `logs/verificacion_semantica_fase0_prueba_mutacion_2026-11-22.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo y por los controles automáticos |
 | `logs/verificacion_coherencia_posterior_2026-11-22_regularizacion.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo y por los controles automáticos |
 | `logs/escaneo_contradicciones_2026-11-22_regularizacion.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo y por los controles automáticos |
+| `entregables_formales/CONTROL_DE_CAMBIOS_DELEGACION_Y_DECISIONES_S1_D_2026-11-22.md` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_delegacion_s1_d.txt` |
+| `logs/prueba_mutacion_semantica_2026-11-22_delegacion_s1_d.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_delegacion_s1_d.txt` |
+| `logs/verificacion_semantica_fase0_2026-11-22_delegacion_s1_d.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_delegacion_s1_d.txt` |
+| `logs/verificacion_coherencia_posterior_2026-11-22_delegacion_s1_d.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_delegacion_s1_d.txt` |
+| `logs/escaneo_contradicciones_2026-11-22_delegacion_s1_d.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_delegacion_s1_d.txt` |
+| `logs/relectura_completa_2026-11-22_delegacion_s1_d.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_delegacion_s1_d.txt` |
+| `logs/integridad_y_clon_limpio_2026-11-22_delegacion_s1_d.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura registrada en `logs/relectura_completa_2026-11-22_delegacion_s1_d.txt` |
 | `logs/verificar_expediente_historico_2026-11-22.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo y por los controles automáticos |
 | `logs/modelo_estructural_historico_2026-11-22.txt` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo y por los controles automáticos |
 | `entregables_formales/CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md` | NO_APLICABLE | — | creado o generado por Claude en esta ronda (no es lectura de entrada); contenido revisado al redactarlo, por los controles automáticos y, para los documentos, por la relectura completa registrada en `logs/relectura_completa_2026-11-22_segunda_regularizacion.txt` |
@@ -523,3 +530,15 @@ Los 5 documentos raíz son la v15 de la línea anterior (Supabase/PostgreSQL/RLS
 | `logs/verificacion_coherencia_posterior.py` | actualización de controles (ver `07_` R16) |
 | `logs/verificacion_semantica_fase0.py` | actualización de controles (ver `07_` R16) |
 | `auditoria_integral/12_REGISTRO_LECTURA_Y_LIMITACIONES.md` | resumen (163 archivos; 59 NO_APLICABLE), 7 filas y esta sección (ver `07_` R16) |
+
+## 15. Registro de la delegación del propietario y de las decisiones S1-D01…D16 (2026-11-22 21:28; base `e773b0d`)
+**Qué se hizo y qué no.** Se añadieron 7 archivos NO_APLICABLE (el control de cambios y 6 salidas en `logs/`; ver §3). Se **modificaron después de su lectura original** solo: `REGISTRO_DECISIONES_RESUELTAS.md` (sección nueva), `APROBACIONES_FASE0.md` (fila «Aparte» y nota), los docs 05, 07, 08 y 12 y los tres scripts. A diferencia de la ronda de las 20:59, **no se añadió una nota a los 29 documentos derivados** (ver el control de cambios). Tras las ediciones se releyeron los cambios (registro en `logs/relectura_completa_2026-11-22_delegacion_s1_d.txt`); relectura de la misma sesión, no independiente. Las decisiones S1-D las tomó Claude bajo delegación; la Fase 1 en su conjunto **no** está autorizada.
+| Archivo modificado | Qué cambió |
+|---|---|
+| `entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md` | sección nueva (ver `07_` R17) |
+| `entregables_formales/APROBACIONES_FASE0.md` | fila «Aparte» y nota fechada 21:28 (ver `07_` R17) |
+| `logs/prueba_mutacion_semantica.py` | actualización de controles (ver `07_` R17) |
+| `logs/verificacion_coherencia_posterior.py` | actualización de controles (ver `07_` R17) |
+| `logs/verificacion_semantica_fase0.py` | actualización de controles (ver `07_` R17) |
+| `auditoria_integral/12_REGISTRO_LECTURA_Y_LIMITACIONES.md` | resumen (170 archivos; 66 NO_APLICABLE), 7 filas y esta sección (ver `07_` R17) |
+

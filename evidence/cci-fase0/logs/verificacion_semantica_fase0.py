@@ -57,9 +57,9 @@ def c_fase_afirmada(s):
     """(Estado desde 2026-11-22 20:26: la Fase 0 fue aceptada por el propietario; la Fase 1 NO está autorizada.) Detecta la Fase 1 presentada como autorizada."""
     return bool(re.search(r'Fase 1 (est[aá] |queda |fue )?(AUTORIZAD|autorizad)',s)) and not NEG.search(s) and not re.search(r'\b(cuando|hasta|tras|después|requiere|exige|si |solo con|condici|v3\.3|histó|anterior|una vez)',s)
 def c_s11_s12_activas(s):
-    """(Estado desde 2026-11-22 20:59: solo S1.0 está autorizada; S1.1 y S1.2 lo están únicamente tras la aprobación expresa de los resultados de S1.0 y NO están activas.) Detecta S1.1/S1.2 (o S1.3 en adelante, o la Fase 1 completa) presentadas como autorizadas o activas sin esa condición."""
+    """(Estado desde 2026-11-22 21:28: S1.0 autorizada; S1.1 y S1.2 activas por aprobación delegada dentro del perímetro del 20:59; S1.3 en adelante y la Fase 1 completa NO están autorizadas.) Detecta S1.3 en adelante o la Fase 1 completa presentadas como autorizadas o activas sin esa condición."""
     if NEG.search(s) or re.search(r'\b(solo tras|tras (mi |su )?aprobaci|condicionad|condici[oó]n|no (est[aá]n? |quedan? )?activ|no activ|cuando|hasta que|si se activ|una vez|requiere|exige|hist[oó]ric|anterior)',s,re.I): return False
-    return bool(re.search(r'S1\.(1|2|3|4|5|6|7|8|9|10|11|12)\b[^.\n]{0,60}(autorizad|activ)',s,re.I)) or bool(re.search(r'Fase 1 (completa )?(est[aá] |queda |fue )?(autorizada) (en su conjunto|completa)',s,re.I))
+    return bool(re.search(r'S1\.(3|4|5|6|7|8|9|10|11|12)\b[^.\n]{0,60}(autorizad|activ)',s,re.I)) or bool(re.search(r'Fase 1 (completa )?(est[aá] |queda |fue )?(autorizada) (en su conjunto|completa)',s,re.I))
 def c_aceptacion_fase0_mal(s):
     """Aceptación de Fase 0 presentada con un alcance que el propietario no le dio: autoriza Fase 1, cierra C-2/C-3 o es sin limitaciones."""
     return bool(re.search(r'(Fase 0 (est[aá] |queda |fue )?aceptad|acept[oó] (formalmente )?la Fase 0|aceptaci[oó]n de (la )?Fase 0)',s,re.I)) and bool(re.search(r'autoriz\w+ (la )?Fase 1|Fase 1 (est[aá] |queda |fue )?autorizad|C-[23][^.;]{0,30}(cerrad|resuelt|superad)|sin limitaciones|l[ií]nea base vigente',s,re.I)) and not re.search(r'\b(no|ni|nunca|tampoco|ninguna?)\b',s,re.I) and not re.search(r'\b(requier|exig|cuando|hasta|tras|despu[eé]s|v3\.3|histó|anterior|independient|separad|aparte|pendient|f[oó]rmulas?|pre-?condici)',s,re.I)
@@ -117,7 +117,8 @@ PRUEBAS=[
  ('aceptación: «aceptó la Fase 0 sin limitaciones» se detecta',lambda:c_aceptacion_fase0_mal('El propietario aceptó la Fase 0 sin limitaciones'),True),
  ('aceptación: «Fase 0 aceptada con C-2 y C-3 abiertas; no autoriza la Fase 1» no se detecta',lambda:not c_aceptacion_fase0_mal('Fase 0 aceptada con C-2 y C-3 abiertas; no autoriza la Fase 1'),True),
  ('aceptación: «la autorización de Fase 1 es independiente de la aceptación de Fase 0» no se detecta',lambda:not c_aceptacion_fase0_mal('La autorización de Fase 1 es independiente de la aceptación de Fase 0'),True),
- ('S1.1/S1.2: «están autorizadas y activas» se detecta',lambda:c_s11_s12_activas('Las subfases S1.1 y S1.2 están autorizadas y activas.'),True),
+ ('S1.3+: «están autorizadas y activas» se detecta',lambda:c_s11_s12_activas('Las subfases S1.3 y S1.4 están autorizadas y activas.'),True),
+ ('S1.1/S1.2: «activas por aprobación delegada» no se detecta (estado desde las 21:28)',lambda:not c_s11_s12_activas('Las subfases S1.1 y S1.2 quedan activas dentro del perímetro del 20:59.'),True),
  ('S1.1/S1.2: «solo tras mi aprobación expresa» no se detecta',lambda:not c_s11_s12_activas('S1.1 y S1.2 quedan autorizadas solo tras mi aprobación expresa de los resultados de S1.0.'),True),
  ('S1.1/S1.2: «no están activas» no se detecta',lambda:not c_s11_s12_activas('S1.1 y S1.2 no están activas.'),True),
  ('Fase 1: «autorizada en su conjunto» se detecta',lambda:c_s11_s12_activas('La Fase 1 está autorizada en su conjunto.'),True),
@@ -366,6 +367,19 @@ else:
         if not re.search(rx,t5): a5.append('falta: '+k)
 print('## A5 el registro autoritativo contiene la autorización de la subfase S1.0 (20:59) con sus límites: %s'%('sí' if not a5 else a5))
 if a5: res['ERROR_REAL'].append(('A5_registro_sin_autorizacion_de_S1_0','entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md',0,str(a5),''))
+
+# A6: el registro autoritativo contiene la delegación del propietario (21:28) y deja claro que las decisiones S1-D son de Claude, con sus límites
+sec6=re.search(r'## Delegación del propietario y decisiones S1-D01…S1-D16 — 2026-11-22 21:28[^\n]*\n(.*)',reg,re.S)
+lit6='Yo te doy toda la autoridad para que tú puedas aprobar lo que salga mejor para el desarrollo de esta aplicación, siempre y cuando tú actúes como el especialista y experto en las aristas necesarias para esta aplicación.'
+a6=[]
+if not sec6: a6.append('sin sección')
+else:
+    t6=sec6.group(1)
+    if lit6 not in t6: a6.append('falta: texto literal')
+    for k,rx in (('decisiones de Claude, no del propietario',r'no son decisiones personales del propietario'),('revocables',r'revocables por él'),('conflicto de interés',r'Conflicto de interés declarado'),('S1.1 y S1.2 activas',r'S1\.1 y S1\.2 quedan activas'),('C-2 y C-3 sin resolver',r'No se resolvieron C-2, C-3'),('S1.3 en adelante no autorizada',r'No se autorizó S1\.3 en adelante'),('Fase 1 no autorizada en su conjunto',r'la Fase 1 en su conjunto no está autorizada')):
+        if not re.search(rx,t6): a6.append('falta: '+k)
+print('## A6 el registro autoritativo contiene la delegación (21:28) con decisiones de Claude y sus límites: %s'%('sí' if not a6 else a6))
+if a6: res['ERROR_REAL'].append(('A6_registro_sin_delegacion','entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md',0,str(a6),''))
 obsol=[(l[:30],t) for l in filas for t in re.findall(r'P4 \(parcial|P4 sigue parcial|~~P3~~|pendiente[^|]{0,30}(?:P5|P9|P11|P12|P13)|(?:P5|P9|P11|P12|P13)[^|]{0,15}pendiente',l)]
 print('## A2 prerrequisitos desactualizados en las fichas: %s'%(obsol or 'ninguno'))
 if obsol: res['ERROR_REAL'].append(('A2_prerrequisitos_desactualizados','entregables_formales/APROBACIONES_FASE0.md',0,str(obsol),''))

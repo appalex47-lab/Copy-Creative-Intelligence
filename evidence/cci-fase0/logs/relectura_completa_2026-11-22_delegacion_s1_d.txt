@@ -1,0 +1,11 @@
+# Registro de relectura de los cambios — registro de la delegación del propietario y de las decisiones S1-D01…D16 (2026-11-22 21:28; base e773b0d727bf12efa4b356ddc154de6d791b1f2d)
+# Qué es: evidencia de que los cambios de cada archivo modificado o creado en esta ronda se volvieron a leer tras las ediciones.
+# Qué NO es: no es una relectura íntegra de cada archivo; no cubre las salidas de scripts guardadas en logs/ ni docs/fase0/ ni anexos/.
+# Limitaciones: relectura de la misma sesión, no independiente. Defecto hallado al releer y corregido: el control de cambios, el doc 05 y el doc 07 decían «85 pruebas» del control semántico; el recuento real de pruebas [OK] es 84 (83 + 1 neta: S5c reorientado, un caso nuevo).
+
+N | archivo | modo de relectura | resultado
+1 | entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md | sección nueva leída íntegra | sin defectos
+2 | entregables_formales/APROBACIONES_FASE0.md | diff (fila Aparte y nota) | sin defectos
+3 | entregables_formales/CONTROL_DE_CAMBIOS_DELEGACION_Y_DECISIONES_S1_D_2026-11-22.md | lectura íntegra | sin defectos tras la corrección indicada
+4 | auditoria_integral/05, 07, 08, 12 | diff (versión 4.0, cifras 170/230, filas, R17, §15) | sin defectos tras la corrección indicada
+5 | logs/verificacion_semantica_fase0.py, prueba_mutacion_semantica.py, verificacion_coherencia_posterior.py | diff completo | sin defectos

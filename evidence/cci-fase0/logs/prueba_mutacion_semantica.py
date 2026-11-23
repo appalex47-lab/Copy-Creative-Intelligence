@@ -31,8 +31,9 @@ MUT=[
  ('M19_aceptacion_de_Fase_0_presentada_como_cierre_de_C_2','entregables_formales/CONCILIACION_30_DECISIONES_Y_APLAZAMIENTOS.md',lambda s: s+'\n\nLa aceptación de la Fase 0 deja C-2 resuelta.\n','S5b_aceptacion_de_fase_0_con_alcance_no_decidido'),
  ('M20_documento_con_nota_20_26_sin_la_nota_20_59','entregables_formales/CONCILIACION_30_DECISIONES_Y_APLAZAMIENTOS.md',lambda s: s.replace('2026-11-22 20:59','2026-11-22 20:5X'),'S17_documento_con_nota_20_26_sin_la_nota_20_59'),
  ('M21_registro_con_texto_literal_de_la_autorizacion_alterado','entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md',lambda s: s.replace('y, solo tras mi aprobación expresa de sus resultados, las subfases S1.1','y las subfases S1.1',1),'A5_registro_sin_autorizacion_de_S1_0'),
- ('M22_S1_1_y_S1_2_presentadas_como_activas','README_ENTREGA.md',lambda s: s+'\n\nLas subfases S1.1 y S1.2 están autorizadas y activas.\n','S5c_S1_1_S1_2_o_Fase_1_completa_presentadas_como_autorizadas_o_activas'),
+ ('M22_S1_3_y_S1_4_presentadas_como_activas','README_ENTREGA.md',lambda s: s+'\n\nLas subfases S1.3 y S1.4 están autorizadas y activas.\n','S5c_S1_1_S1_2_o_Fase_1_completa_presentadas_como_autorizadas_o_activas'),
  ('M23_fila_Aparte_con_autorizacion_sin_limite_a_S1_0','entregables_formales/APROBACIONES_FASE0.md',lambda s: s.replace('AUTORIZADA SOLO S1.0 (propietario','AUTORIZADA (propietario',1),'A1_aprobaciones'),
+ ('M24_delegacion_sin_aclarar_que_las_decisiones_son_de_Claude','entregables_formales/REGISTRO_DECISIONES_RESUELTAS.md',lambda s: s.replace('no son decisiones personales del propietario','son decisiones del propietario',1),'A6_registro_sin_delegacion'),
 ]
 def run(cwd):
     p=subprocess.run([sys.executable,'-I',EV+'logs/verificacion_semantica_fase0.py'],cwd=cwd,capture_output=True,text=True)

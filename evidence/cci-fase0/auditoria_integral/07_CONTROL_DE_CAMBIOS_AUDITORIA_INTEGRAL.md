@@ -213,3 +213,15 @@ Ver `12_REGISTRO_LECTURA_Y_LIMITACIONES.md` v2.0: la brecha de lectura declarada
 | `05`, `07`, `08`, `12` | Cifras (163 archivos; manifiestos de 161 y 162 líneas; 223 blobs), filas y notas | Coherencia |
 | `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados | Integridad |
 **Preservados sin cambios:** `docs/fase0/` (59), `anexos/`, las salidas anteriores de los scripts y el texto de las decisiones anteriores.
+
+## R17. Registro de la delegación del propietario y de las decisiones S1-D01…D16 (base `e773b0d727bf12efa4b356ddc154de6d791b1f2d`; mensaje del propietario 2026-11-22 21:28)
+**Alcance:** registrar que el propietario delegó en Claude la aprobación de los puntos pendientes de la Fase 1, que las decisiones S1-D las tomó Claude (no son decisiones personales del propietario) y que S1.1 y S1.2 quedan activas sin ampliar su perímetro. No se modificó código de la aplicación, `docs/fase0`, `main` ni estados de CR; la Fase 1 en su conjunto **no** está autorizada; C-2, C-3 y los 10 aplazamientos siguen abiertos.
+| Grupo | Cambio | Motivo |
+|---|---|---|
+| `REGISTRO_DECISIONES_RESUELTAS.md`, `APROBACIONES_FASE0.md` | Sección autoritativa nueva; fila «Aparte» actualizada y nota fechada | Mensaje del propietario |
+| `logs/` (3 scripts) | S5c reorientado, A6 nuevo, M22 reapuntada y M24 (84 pruebas; 24 mutaciones) | Controles del nuevo estado |
+| Nuevos (7) | Control de cambios y 6 salidas en `logs/` | Evidencia |
+| `05`, `07`, `08`, `12` | Cifras (170 archivos; manifiestos de 168 y 169 líneas; 230 blobs), filas y notas | Coherencia |
+| `MANIFEST.sha256`, `INVENTARIO_PUBLICADO.sha256` | Regenerados | Integridad |
+**Preservados sin cambios:** `docs/fase0/` (59), `anexos/`, las notas fechadas anteriores (incluidas las de las 20:59, que no se repitieron en los 29 documentos derivados).
+

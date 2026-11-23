@@ -448,3 +448,23 @@ Registro de las cuestiones que D-3 y D-5 declaran expresamente **no decididas**.
 - No autoriza fusionar con la vista previa privada, modificar `main` ni `docs/fase0`, ni publicar el expediente (`CCI-Evidence` devolvió 403).
 
 **Nota cronológica posterior (20:59):** los textos anteriores del expediente que dicen «Fase 1 no autorizada» o «autorización de la Fase 1 pendiente» describen el estado en su momento y quedan **superados** en ese punto por esta sección, que autoriza solo S1.0; siguen vigentes en todo lo demás.
+
+## Delegación del propietario y decisiones S1-D01…S1-D16 — 2026-11-22 21:28 (decisiones de Claude bajo delegación)
+
+**Texto literal del propietario (21:28):** «¿Qué sigue? Tú puedes aprobar con la documentación que te compartí de la fase 1 las cosas que necesitan aprobación. Yo te doy toda la autoridad para que tú puedas aprobar lo que salga mejor para el desarrollo de esta aplicación, siempre y cuando tú actúes como el especialista y experto en las aristas necesarias para esta aplicación.»
+
+**Naturaleza:** el propietario **delegó** en Claude la aprobación de los puntos pendientes de la Fase 1 (los S1-D01…S1-D16 de `06_REGISTRO_DECISIONES_PENDIENTES.md` de S1.0). Las decisiones que siguen **las tomó Claude**, no el propietario; **no son decisiones personales del propietario sobre el fondo** y son revocables por él en cualquier momento. Conflicto de interés declarado: Claude redactó S1.0 y aprobó sus propios resultados; no hubo revisión independiente. Detalle completo: `evidence/CCI_FASE1_S1_0_DECISIONES_DELEGADAS_20261123T033116Z/00_DECISIONES_BAJO_DELEGACION.md` en la rama `fase1/s1-0-auditoria` del repositorio de la aplicación (commit `5bd5c2a`).
+
+**Efectos:**
+- **S1-D15:** resultados de S1.0 aprobados con cambios (aprobación delegada). Con ello **S1.1 y S1.2 quedan activas** dentro del perímetro de la autorización del 20:59 (código fuente, pruebas y configuración de herramientas de esa rama, sin ampliar `AppErrorCode`; pruebas AC1-01, AC1-02, AC1-03, AC1-04 y la parte aplicable de AC1-13), sin ampliarlo.
+- **Aprobadas (delegadas):** S1-D01 (dominio y contratos provisionales intactos), S1-D04 (sin limpieza de Supabase salvo lo que un cambio autorizado exija), S1-D05 (prueba AC1-01 por AST), S1-D06 (diagnosticar la prueba E2E intermitente sin enmascararla), S1-D14 (anchos 320, 360, 375, 390, 768, 1024 y 1440 px; Chrome obligatorio, Edge cuando el entorno lo permita, Firefox/Safari en mejor esfuerzo).
+- **Dirección o criterio aprobado, sin implementación:** S1-D02, S1-D03, S1-D07, S1-D11 (respaldo básico dentro de la Fase 1, condicionado a su subfase), S1-D12.
+- **No aprobadas / abiertas:** S1-D08 (Evento de actividad), S1-D09, S1-D10 y S1-D13 (esquema mínimo y v0–v2; la documentación no los sustenta, regla P4.C); S1-D16 aplazada.
+
+**Lo que esta delegación NO se usó para hacer:**
+- No se resolvieron C-2, C-3 ni los 10 aplazamientos; no se reabrió D5.a–d.
+- No se autorizó S1.3 en adelante ni la Fase 2; no se aceptó la Fase 1; **la Fase 1 en su conjunto no está autorizada**; merge y deploy no permitidos.
+- No se aprobó ningún atributo, relación, estado, flujo ni formato de respaldo.
+
+**Nota cronológica posterior (21:28):** el texto «S1.1 y S1.2 … no están activas» de las notas de las 20:59 describe el estado en su momento y queda **superado** en ese punto por esta sección; siguen vigentes todos los demás límites.
+

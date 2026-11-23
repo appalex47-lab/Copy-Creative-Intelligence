@@ -1,5 +1,5 @@
 # Informe de auditoría integral del expediente — ronda final (2026-11-22)
-**Versión:** 3.9 (v3.8 + registro de la autorización de la subfase S1.0 por el propietario el 2026-11-22 20:59: 163 archivos; v3.7 + paquete de decisión para la autorización de la Fase 1, sin autorizarla: 156 archivos; v3.6 + registro de la aceptación formal de la Fase 0 por el propietario el 2026-11-22 20:26: 148 archivos; v3.5 + registro de las aprobaciones 0.1–0.7 y de R-1 por el propietario el 2026-11-22 20:14: 141 archivos; v3.4 + última regularización documental antes de las aprobaciones 0.1–0.7: 134 archivos; v3.3 + regularización posterior a la ratificación y preparación de aprobaciones: 125 archivos; v3.2 + ratificación de la propuesta maestra de cierre de Fase 0 por el propietario, 15:56: 114 archivos; v3.1 + corrección puntual de X4: 111 archivos; v3.0 + ronda de verificación de coherencia posterior: 110 archivos, métrica de avisos de vigencia recalculada y descrita con su alcance real; no cambia ningún estado de CR ni decisión) · **Fecha:** 2026-11-22 · **Estado:** vigente como informe de hechos; subordinado al registro de decisiones · **Base:** HEAD `13b25ca447c0ab17f46b3143615b4c2156661b79` (la v2.0 se redactó sobre `8dc47b24…`) · **Referencias:** `06_REGISTRO_CONTRADICCIONES.md`, `08_INFORME_INTEGRIDAD_ARCHIVOS.md`, `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`.
+**Versión:** 4.0 (v3.9 + registro de la delegación del propietario y de las decisiones S1-D01…D16 el 2026-11-22 21:28: 170 archivos; v3.8 + registro de la autorización de la subfase S1.0 por el propietario el 2026-11-22 20:59: 163 archivos; v3.7 + paquete de decisión para la autorización de la Fase 1, sin autorizarla: 156 archivos; v3.6 + registro de la aceptación formal de la Fase 0 por el propietario el 2026-11-22 20:26: 148 archivos; v3.5 + registro de las aprobaciones 0.1–0.7 y de R-1 por el propietario el 2026-11-22 20:14: 141 archivos; v3.4 + última regularización documental antes de las aprobaciones 0.1–0.7: 134 archivos; v3.3 + regularización posterior a la ratificación y preparación de aprobaciones: 125 archivos; v3.2 + ratificación de la propuesta maestra de cierre de Fase 0 por el propietario, 15:56: 114 archivos; v3.1 + corrección puntual de X4: 111 archivos; v3.0 + ronda de verificación de coherencia posterior: 110 archivos, métrica de avisos de vigencia recalculada y descrita con su alcance real; no cambia ningún estado de CR ni decisión) · **Fecha:** 2026-11-22 · **Estado:** vigente como informe de hechos; subordinado al registro de decisiones · **Base:** HEAD `13b25ca447c0ab17f46b3143615b4c2156661b79` (la v2.0 se redactó sobre `8dc47b24…`) · **Referencias:** `06_REGISTRO_CONTRADICCIONES.md`, `08_INFORME_INTEGRIDAD_ARCHIVOS.md`, `12_REGISTRO_LECTURA_Y_LIMITACIONES.md`.
 
 ## 0. Corrección de cifras de la versión anterior (hallazgo 3.5)
 - La versión anterior clasificaba **93** archivos y declaraba «93/93 clasificados». El árbol real de la rama en `8dc47b2` (API) tenía **164** blobs = **104** en `evidence/cci-fase0/` (93 previos + 11 documentos de la auditoría integral) + **59** en `docs/fase0/` + **1** `README.md` de la raíz del repositorio.
@@ -10,6 +10,7 @@
 - **Ratificación de la propuesta maestra (2026-11-22 15:56; base `bb2030a`):** se añaden 3 archivos (`entregables_formales/PROPUESTA_MAESTRA_CIERRE_FASE0_v1.0.md`, `entregables_formales/CONTROL_DE_CAMBIOS_RATIFICACION_PROPUESTA_MAESTRA_2026-11-22.md` y `logs/verificacion_coherencia_posterior_2026-11-22_tras_ratificacion.txt`) → **114** archivos. Alcance: registrar la ratificación del propietario y actualizar la evidencia derivada; no cambia ningún estado de CR ni emite aprobaciones.
 - **Registro de la aceptación formal de la Fase 0 (2026-11-22 20:26; base `301e20c8486ac7073eb5d8e91c71f9cd99ab732b`):** se añaden 7 archivos (`entregables_formales/CONTROL_DE_CAMBIOS_ACEPTACION_FASE_0_2026-11-22.md` y 6 en `logs/`) → **148** archivos en el expediente. Alcance: registrar la aceptación formal de la Fase 0 por el propietario (con C-2, C-3 y los 10 aplazamientos abiertos; no autoriza la Fase 1) y actualizar verificadores y evidencia; la autorización de la Fase 1 sigue pendiente.
 - **Paquete de decisión para la autorización de la Fase 1 (2026-11-22; base `e16777855b98b96a9912ab89532a1698c62d5ce2`):** se añaden 8 archivos (`entregables_formales/PAQUETE_DECISION_AUTORIZACION_FASE_1.md`, `entregables_formales/CONTROL_DE_CAMBIOS_PAQUETE_AUTORIZACION_FASE_1_2026-11-22.md` y 6 en `logs/`) → **156** archivos en el expediente. Alcance: preparar la ficha de decisión; **no autoriza la Fase 1** (autorización PENDIENTE).
+- **Registro de la delegación y de las decisiones S1-D01…D16 (2026-11-22 21:28; base `e773b0d727bf12efa4b356ddc154de6d791b1f2d`):** se añaden 7 archivos (`entregables_formales/CONTROL_DE_CAMBIOS_DELEGACION_Y_DECISIONES_S1_D_2026-11-22.md` y 6 en `logs/`) → **170** archivos en el expediente. Alcance: registrar que el propietario delegó la aprobación de los puntos pendientes de la Fase 1 y que Claude tomó las decisiones (no son del propietario); S1.1 y S1.2 quedan activas sin ampliar su perímetro; la Fase 1 en su conjunto no está autorizada.
 - **Registro de la autorización de la subfase S1.0 (2026-11-22 20:59; base `b81591979e2eec9cc80e64b671e7b744003dc3ce`):** se añaden 7 archivos (`entregables_formales/CONTROL_DE_CAMBIOS_AUTORIZACION_S1_0_2026-11-22.md` y 6 en `logs/`) → **163** archivos en el expediente. Alcance: registrar la autorización de **solo S1.0** (S1.1 y S1.2 condicionadas y no activas; la Fase 1 en su conjunto no está autorizada) y actualizar verificadores y evidencia.
 - **Registro de las aprobaciones 0.1–0.7 y de R-1 (2026-11-22 20:14; base `cad808a2da6659d68b41578625ed409a4f8ee3d8`):** se añaden 7 archivos (`entregables_formales/CONTROL_DE_CAMBIOS_APROBACIONES_0_1_A_0_7_2026-11-22.md` y 6 en `logs/`) → **141** archivos en el expediente. Alcance: registrar la respuesta del propietario (aprobaciones 0.1–0.7 emitidas, 7/7; 0.5 solo en cuanto a principios; R-1 = aplazamiento aceptado, no resolución) y actualizar verificadores y evidencia; la aceptación de Fase 0 y la autorización de Fase 1 siguen pendientes.
 - **Última regularización documental (2026-11-22; base `bf437e4617b253929e1fb7c77bb5f70907471495`):** se añaden 9 archivos (`entregables_formales/CONTROL_DE_CAMBIOS_SEGUNDA_REGULARIZACION_2026-11-22.md`, `auditoria_integral/15_INFORME_FINAL_SEGUNDA_REGULARIZACION.md` y 7 en `logs/`) → **134** archivos en el expediente. Alcance: corregir R-1 (seis cuestiones), mantener D5.a–d fuera del alcance vigente (no incluidas en R-1), reclasificar `06_MODELO_DATOS_CCI.md` y reforzar los verificadores; no cambia ninguna decisión ni estado de CR.
@@ -17,23 +18,23 @@
 ## 1. Alcance real
 | Concepto | Cantidad |
 |---|---|
-| Archivos en `evidence/cci-fase0/` (tras el registro de la autorización de la subfase S1.0) | 163 |
+| Archivos en `evidence/cci-fase0/` (tras el registro de la delegación y de las decisiones S1-D) | 170 |
 | Archivos en `docs/fase0/` (sin modificar; idénticos a `main`) | 59 |
 | `README.md` de la raíz del repositorio (fuera del expediente; sin modificar) | 1 |
-| Total de blobs esperado en la rama tras publicar | 223 |
+| Total de blobs esperado en la rama tras publicar | 230 |
 
-## 2. Clasificación por vigencia de los 163 archivos del expediente
+## 2. Clasificación por vigencia de los 170 archivos del expediente
 | Clase | Archivos |
 |---|---|
 | Antecedente (análisis resuelto) | 4 |
 | Antecedente (respondido) | 2 |
 | Antecedente / propuesta | 7 |
-| Evidencia técnica | 44 |
+| Evidencia técnica | 50 |
 | Histórico | 2 |
 | Histórico (copia previa) | 16 |
 | Histórico (ficha resuelta/suspendida) | 14 |
 | Informe de auditoría (derivado) | 5 |
-| Informe/control (fechado) | 15 |
+| Informe/control (fechado) | 16 |
 | Integridad | 3 |
 | Integridad (informe) | 1 |
 | Propuesta | 1 |
@@ -213,6 +214,13 @@ Detalle archivo por archivo (ruta · clase · motivo · aviso de vigencia en el 
 | `logs/escaneo_contradicciones_2026-11-22_autorizacion_s1_0.txt` | Evidencia técnica | Salida de `scan_contradicciones.py` v2 tras el registro de la autorización de S1.0 (registro de hechos) | n/a |
 | `logs/relectura_completa_2026-11-22_autorizacion_s1_0.txt` | Evidencia técnica | Registro de relectura de los cambios de cada archivo modificado o creado (registro de hechos) | n/a |
 | `logs/integridad_y_clon_limpio_2026-11-22_autorizacion_s1_0.txt` | Evidencia técnica | Integridad (hashes, tamaños, enlaces) y reproducción de verificadores desde un clon limpio local (registro de hechos) | n/a |
+| `entregables_formales/CONTROL_DE_CAMBIOS_DELEGACION_Y_DECISIONES_S1_D_2026-11-22.md` | Informe/control (fechado) | Control de cambios del registro de la delegación del propietario y de las decisiones S1-D01…D16 | Sí |
+| `logs/prueba_mutacion_semantica_2026-11-22_delegacion_s1_d.txt` | Evidencia técnica | Salida de la prueba de mutación (24/24 detectadas; control sin mutación) (registro de hechos) | n/a |
+| `logs/verificacion_semantica_fase0_2026-11-22_delegacion_s1_d.txt` | Evidencia técnica | Salida del control semántico (84 pruebas) sobre el expediente real (registro de hechos) | n/a |
+| `logs/verificacion_coherencia_posterior_2026-11-22_delegacion_s1_d.txt` | Evidencia técnica | Salida del script de coherencia tras el registro de la delegación (registro de hechos) | n/a |
+| `logs/escaneo_contradicciones_2026-11-22_delegacion_s1_d.txt` | Evidencia técnica | Salida de `scan_contradicciones.py` v2 tras el registro de la delegación (registro de hechos) | n/a |
+| `logs/relectura_completa_2026-11-22_delegacion_s1_d.txt` | Evidencia técnica | Registro de relectura de los cambios de cada archivo modificado o creado (registro de hechos) | n/a |
+| `logs/integridad_y_clon_limpio_2026-11-22_delegacion_s1_d.txt` | Evidencia técnica | Integridad (hashes, tamaños, enlaces) y reproducción de verificadores desde un clon limpio local (registro de hechos) | n/a |
 | `logs/verificar_expediente_historico_2026-11-22.txt` | Evidencia técnica | Salida de la herramienta histórica sobre copia de `docs/fase0`; solo aplica a esa línea (registro de hechos) | n/a |
 | `logs/modelo_estructural_historico_2026-11-22.txt` | Evidencia técnica | Salida de la herramienta histórica de modelo estructural; solo aplica a la línea Supabase (registro de hechos) | n/a |
 
@@ -222,7 +230,7 @@ Detalle archivo por archivo (ruta · clase · motivo · aviso de vigencia en el 
 - **52 históricos de `docs/fase0/historico/`:** leídos por líneas únicas (ver `12_` §5, con bytes de líneas nuevas por archivo); los conteos de vocabulario de la ficha son indicadores por escaneo, no lectura.
 - **Correcciones de contenido de esta ronda:** ver `07_CONTROL_DE_CAMBIOS_AUDITORIA_INTEGRAL.md` (sección «Ronda final»).
 ## 4. Resultados
-- Archivos del expediente clasificados: **163/163** (100 % del conjunto actual; antes 156/156, 148/148, 141/141, 134/134 y 114/114; no equivale a lectura íntegra ni a corrección de contenido).
+- Archivos del expediente clasificados: **170/170** (100 % del conjunto actual; antes 163/163, 156/156, 148/148, 141/141, 134/134 y 114/114; no equivale a lectura íntegra ni a corrección de contenido).
 - Contradicciones: **22 registradas** en `06_` v3.0: 13 RESUELTA_DOCUMENTALMENTE, 5 HISTORICA_CON_ADVERTENCIA, 2 RESUELTA_POR_DECISION_PROPIETARIO (CR-07 y CR-16), 1 PENDIENTE_PROPIETARIO (CR-17: C-2/C-3), 1 NO_RESOLUBLE_POR_FALTA_DE_EVIDENCIA (CR-12). Nuevas: CR-19…CR-22 (CR-21 es una regresión propia restaurada).
 - Duplicados de nombre en el expediente: ver verificación en `08_`.
 ## 5. Archivos no accesibles y limitaciones
