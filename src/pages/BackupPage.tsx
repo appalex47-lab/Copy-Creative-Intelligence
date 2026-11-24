@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
+import { CompleteBackupCard } from './CompleteBackupCard';
 import { BACKUP_MAX_BYTES } from '@/domain/backup';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
 import { useServices } from '@/hooks/ServicesContext';
@@ -101,7 +102,7 @@ export function BackupPage() {
             <strong>Este respaldo NO incluye</strong> {counts.data.resources} imágenes ni{' '}
             {counts.data.pieces} piezas creativas ni {counts.data.reviews} revisiones de calidad ni{' '}
             {counts.data.measures} mediciones ni {counts.data.promos} promociones guardadas.
-            Descárgalas aparte desde Recursos («Descargar respaldo de imágenes»).
+            Descárgalas aparte desde Recursos o usa el «Respaldo completo» de abajo.
           </p>
         )}
       <Card title="Exportar" headingLevel={3}>
@@ -144,6 +145,7 @@ export function BackupPage() {
           </div>
         )}
       </Card>
+      <CompleteBackupCard />
       {error && (
         <p className="field-error" role="alert">
           {error}

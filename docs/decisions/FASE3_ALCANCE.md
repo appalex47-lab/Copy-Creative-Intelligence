@@ -46,5 +46,5 @@ CSV de las auditorías de copy mostradas (Auditorías) y de las auditorías de p
 - Se añadieron las vistas Biblioteca, Medición, Promociones y Plantillas, el flujo por etapas con aprobación final y el recordatorio semanal al abrir la app.
 - Conversión = conversiones / clics. Experimentos A/B: prueba z de dos proporciones, muestra mínima 100, sin ganador si p ≥ 0.05.
 - Promociones: tolerancia de porcentaje 0.5 pp (Q-1); filas del CSV con el mismo nombre se unen.
-- «Llamadas» sigue fuera del catálogo de canales (Q-2) aunque el documento la incluye: pendiente de ratificar por el propietario.
+- «Llamadas» sigue fuera del catálogo de canales (Q-2); el propietario lo ratificó el 2026-11-24. El respaldo completo en un solo archivo (S4.3) fue aprobado por el propietario.
 - Sin IA generativa, sin análisis visual automático y sin envío de datos fuera del navegador.
