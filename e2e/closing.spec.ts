@@ -7,6 +7,7 @@ const VIEWS = [
   { nav: 'Inicio', h2: 'Resumen' },
   { nav: 'Briefs', h2: 'Briefs' },
   { nav: 'Catálogo', h2: 'Catálogo' },
+  { nav: 'Auditorías', h2: 'Auditorías' },
   { nav: 'Reglas', h2: 'Reglas' },
   { nav: 'Estado de conexión', h2: 'Estado de conexión' },
   { nav: 'Perfil y preferencias', h2: 'Perfil y preferencias' },

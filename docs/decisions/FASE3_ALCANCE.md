@@ -12,7 +12,7 @@ Fuente: «Fase 3 — Inteligencia y auditoría creativa» (propuesta funcional r
 | 6 | Detección y registro de hallazgos | Parcial (S3.1) | Los hallazgos se guardan dentro de cada auditoría con origen «regla determinista». Falta tipo de origen explícito (IA/humano), estados y resolución. |
 | 7 | Puntuación | Parcial | Se usa la escala 0–100, pesos y rangos aprobados por el propietario el 2026-11-23 (Q-5). El documento recibido los llama «no aprobados»: contradicción a ratificar. No hay «dimensión no evaluable» ni cobertura mínima. |
 | 8 | Comparación | Parcial (S3.1) | Cada auditoría se compara con la anterior del mismo copy (puntaje, hallazgos nuevos y resueltos). Falta comparar versiones de texto desde aquí, piezas y recursos visuales. |
-| 9 | Consulta y seguimiento | Parcial (S3.1) | Historial por copy. Faltan filtros globales (fecha/resultado) y vista general de auditorías. |
+| 9 | Consulta y seguimiento | Construida (S3.1–S3.2, sin exportación) | Historial por copy y vista global «Auditorías» con filtros por resultado, canal, fechas y texto. Faltan exportación y relación con la Biblioteca Creativa (pendientes del documento). |
 
 ## Decisiones de Claude en S3.1 (revocables)
 1. Una auditoría guardada es inmutable: nunca se edita; se puede eliminar con confirmación (el documento exige que una nueva no borre la anterior, y así es).
@@ -23,3 +23,6 @@ Fuente: «Fase 3 — Inteligencia y auditoría creativa» (propuesta funcional r
 
 ## Pendiente de decisión del propietario (del documento)
 Formatos y tamaño de archivos, OCR y umbrales, modelo de visión, rúbrica y dimensiones definitivas, cobertura mínima, catálogo y severidad de hallazgos, comparación visual, conservación y relación de auditorías con versiones.
+
+## S3.2
+Vista global «Auditorías» (solo lectura, filtros). No se construyeron recursos creativos, OCR, IA visual ni Creative Piece: dependen de decisiones abiertas (formatos/tamaño, motor OCR, modelo de visión) y los archivos no cabrían en el respaldo JSON de 5 MB sin una decisión de almacenamiento.

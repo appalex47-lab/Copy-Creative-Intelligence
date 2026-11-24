@@ -88,3 +88,39 @@ test.describe('auditorías guardadas de copy (modo local, Chrome real)', () => {
     expect(errors).toEqual([]);
   });
 });
+
+test('vista Auditorías: consulta global con filtros', async ({ page }) => {
+  const errors = trackErrors(page);
+  await page.goto(LOCAL);
+  await nav(page, 'Auditorías');
+  await expect(page.getByText('Aún no hay auditorías guardadas')).toBeVisible();
+  expect(await axeViolations(page)).toEqual([]);
+
+  await nav(page, 'Briefs');
+  await page.getByRole('button', { name: 'Nuevo brief' }).click();
+  await page.getByLabel(/^Campaña/).fill('Buen Fin');
+  await page.getByLabel(/^Canal/).selectOption('Email');
+  await page.getByRole('button', { name: 'Guardar brief' }).click();
+  await page.getByRole('button', { name: 'Copys de Buen Fin' }).click();
+  await page.getByRole('button', { name: 'Nuevo copy' }).click();
+  await page.getByLabel(/^Titular/).fill('Una cura para todo');
+  await page.getByRole('button', { name: 'Crear copy' }).click();
+  await page.getByRole('button', { name: 'Guardar auditoría de Principal' }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Auditoría guardada' })).toBeVisible();
+
+  await nav(page, 'Auditorías');
+  await expect(page.getByText('1 de 1 auditorías.')).toBeVisible();
+  const list = page.getByRole('list', { name: 'Auditorías guardadas' });
+  await expect(list).toContainText('Principal');
+  await expect(list).toContainText('«cura»');
+  expect(await axeViolations(page)).toEqual([]);
+  await page.getByLabel('Canal', { exact: true }).selectOption('WhatsApp');
+  await expect(page.getByText('0 de 1 auditorías.')).toBeVisible();
+  await page.getByLabel('Canal', { exact: true }).selectOption('Email');
+  await page.getByLabel('Resultado').selectOption('apto');
+  await expect(page.getByText('0 de 1 auditorías.')).toBeVisible();
+  await page.getByLabel('Resultado').selectOption('');
+  await page.getByLabel('Buscar (copy u hallazgo)').fill('CURA');
+  await expect(page.getByText('1 de 1 auditorías.')).toBeVisible();
+  expect(errors).toEqual([]);
+});
