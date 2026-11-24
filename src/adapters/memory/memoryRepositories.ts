@@ -25,6 +25,18 @@ import {
   type ReviewRecord,
 } from '@/domain/review';
 import {
+  MEASURE_ID,
+  compareMeasuresNewestFirst,
+  validateMeasureRecord,
+  type MeasureRecord,
+} from '@/domain/measure';
+import {
+  PROMO_ID,
+  comparePromosByName,
+  validatePromoRecord,
+  type PromoRecord,
+} from '@/domain/promo';
+import {
   PIECE_ID,
   comparePiecesNewestFirst,
   validatePieceRecord,
@@ -64,6 +76,8 @@ export function createMemoryRepositories(): Repositories {
   const resources = new Map<string, ResourceRecord>();
   const pieces = new Map<string, PieceRecord>();
   const reviews = new Map<string, ReviewRecord>();
+  const measures = new Map<string, MeasureRecord>();
+  const promos = new Map<string, PromoRecord>();
   let rules: RulesDoc | null = null;
   let name: string | undefined;
   const profile = (): LocalProfile => (name === undefined ? {} : { displayName: name });
@@ -228,6 +242,46 @@ export function createMemoryRepositories(): Repositories {
         return Promise.resolve(ok(undefined));
       },
       count: () => Promise.resolve(ok(reviews.size)),
+    },
+    measures: {
+      put: (raw) => {
+        const v = validateMeasureRecord(raw);
+        if (!v.ok) return Promise.resolve(fail('validation_error', v.reason));
+        measures.set(v.value.id, v.value);
+        return Promise.resolve(ok(v.value));
+      },
+      get: (id) => {
+        const r = MEASURE_ID.test(id) ? measures.get(id) : undefined;
+        return Promise.resolve(r ? ok(r) : fail('not_found', 'La medición no existe.'));
+      },
+      list: () => Promise.resolve(ok([...measures.values()].sort(compareMeasuresNewestFirst))),
+      remove: (id) => {
+        if (!MEASURE_ID.test(id))
+          return Promise.resolve(fail('validation_error', 'Identificador no válido.'));
+        measures.delete(id);
+        return Promise.resolve(ok(undefined));
+      },
+      count: () => Promise.resolve(ok(measures.size)),
+    },
+    promos: {
+      put: (raw) => {
+        const v = validatePromoRecord(raw);
+        if (!v.ok) return Promise.resolve(fail('validation_error', v.reason));
+        promos.set(v.value.id, v.value);
+        return Promise.resolve(ok(v.value));
+      },
+      get: (id) => {
+        const r = PROMO_ID.test(id) ? promos.get(id) : undefined;
+        return Promise.resolve(r ? ok(r) : fail('not_found', 'La promoción no existe.'));
+      },
+      list: () => Promise.resolve(ok([...promos.values()].sort(comparePromosByName))),
+      remove: (id) => {
+        if (!PROMO_ID.test(id))
+          return Promise.resolve(fail('validation_error', 'Identificador no válido.'));
+        promos.delete(id);
+        return Promise.resolve(ok(undefined));
+      },
+      count: () => Promise.resolve(ok(promos.size)),
     },
     pieces: {
       put: (raw) => {

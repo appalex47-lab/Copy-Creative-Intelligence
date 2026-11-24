@@ -38,6 +38,18 @@ import {
   type ReviewRecord,
 } from '@/domain/review';
 import {
+  MEASURE_ID,
+  compareMeasuresNewestFirst,
+  validateMeasureRecord,
+  type MeasureRecord,
+} from '@/domain/measure';
+import {
+  PROMO_ID,
+  comparePromosByName,
+  validatePromoRecord,
+  type PromoRecord,
+} from '@/domain/promo';
+import {
   PIECE_ID,
   comparePiecesNewestFirst,
   validatePieceRecord,
@@ -67,6 +79,8 @@ const STORE_AUDITS = 'audits';
 const STORE_RESOURCES = 'resources';
 const STORE_PIECES = 'pieces';
 const STORE_REVIEWS = 'reviews';
+const STORE_MEASURES = 'measures';
+const STORE_PROMOS = 'promos';
 const RULES_KEY = 'config';
 const PROFILE_KEY = 'local';
 
@@ -83,6 +97,7 @@ export type MigrationStep = (db: IDBDatabase, tx: IDBTransaction) => void;
  * v4 → v5 (S2.5b): crea el almacén `rules` (un solo documento con clave `config`: leyendas y términos de marca).
  * v5 → v6 (S2.8): crea `entities` (campañas, productos y ofertas; índice `kind`) y `adaptations` (índice `copyId`).
  * v6 → v7 (S3.1): crea `audits` (auditorías guardadas; índice `copyId`).
+ * v10 → v11 (S4.2): crea `measures` (resultados y experimentos) y `promos` (promociones). Tampoco van en el respaldo JSON.
  * v9 → v10 (S4.1): crea `reviews` (revisiones de calidad; índice `updatedAt`). Tampoco van en el respaldo JSON de datos.
  * v8 → v9 (S3.4): crea `pieces` (piezas creativas con sus auditorías; índice `updatedAt`). Tampoco van en el respaldo JSON.
  * v7 → v8 (S3.3): crea `resources` (imágenes con su OCR; índice `createdAt`). No van en el respaldo JSON.
@@ -124,6 +139,10 @@ export const MIGRATIONS: readonly MigrationStep[] = [
   },
   (db) => {
     db.createObjectStore(STORE_REVIEWS, { keyPath: 'id' }).createIndex('updatedAt', 'updatedAt');
+  },
+  (db) => {
+    db.createObjectStore(STORE_MEASURES, { keyPath: 'id' });
+    db.createObjectStore(STORE_PROMOS, { keyPath: 'id' });
   },
 ];
 
@@ -489,6 +508,94 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
         guard(async () => {
           const tx = db.transaction(STORE_REVIEWS, 'readonly');
           return ok(await promisify(tx.objectStore(STORE_REVIEWS).count()));
+        }),
+    },
+    measures: {
+      put: (raw) =>
+        guard(async () => {
+          const v = validateMeasureRecord(raw);
+          if (!v.ok) return fail('validation_error', v.reason);
+          const tx = db.transaction(STORE_MEASURES, 'readwrite');
+          tx.objectStore(STORE_MEASURES).put(v.value);
+          await txDone(tx);
+          return ok(v.value);
+        }),
+      get: (id) =>
+        guard(async () => {
+          if (!MEASURE_ID.test(id)) return fail('validation_error', 'Identificador no válido.');
+          const tx = db.transaction(STORE_MEASURES, 'readonly');
+          const v = validateMeasureRecord(
+            await promisify<unknown>(tx.objectStore(STORE_MEASURES).get(id)),
+          );
+          return v.ok ? ok(v.value) : fail('not_found', 'La medición no existe.');
+        }),
+      list: () =>
+        guard(async () => {
+          const tx = db.transaction(STORE_MEASURES, 'readonly');
+          const raw = await promisify<unknown[]>(tx.objectStore(STORE_MEASURES).getAll());
+          const out: MeasureRecord[] = [];
+          for (const item of raw) {
+            const v = validateMeasureRecord(item);
+            if (v.ok) out.push(v.value);
+          }
+          return ok(out.sort(compareMeasuresNewestFirst));
+        }),
+      remove: (id) =>
+        guard(async () => {
+          if (!MEASURE_ID.test(id)) return fail('validation_error', 'Identificador no válido.');
+          const tx = db.transaction(STORE_MEASURES, 'readwrite');
+          tx.objectStore(STORE_MEASURES).delete(id);
+          await txDone(tx);
+          return ok(undefined);
+        }),
+      count: () =>
+        guard(async () => {
+          const tx = db.transaction(STORE_MEASURES, 'readonly');
+          return ok(await promisify(tx.objectStore(STORE_MEASURES).count()));
+        }),
+    },
+    promos: {
+      put: (raw) =>
+        guard(async () => {
+          const v = validatePromoRecord(raw);
+          if (!v.ok) return fail('validation_error', v.reason);
+          const tx = db.transaction(STORE_PROMOS, 'readwrite');
+          tx.objectStore(STORE_PROMOS).put(v.value);
+          await txDone(tx);
+          return ok(v.value);
+        }),
+      get: (id) =>
+        guard(async () => {
+          if (!PROMO_ID.test(id)) return fail('validation_error', 'Identificador no válido.');
+          const tx = db.transaction(STORE_PROMOS, 'readonly');
+          const v = validatePromoRecord(
+            await promisify<unknown>(tx.objectStore(STORE_PROMOS).get(id)),
+          );
+          return v.ok ? ok(v.value) : fail('not_found', 'La promoción no existe.');
+        }),
+      list: () =>
+        guard(async () => {
+          const tx = db.transaction(STORE_PROMOS, 'readonly');
+          const raw = await promisify<unknown[]>(tx.objectStore(STORE_PROMOS).getAll());
+          const out: PromoRecord[] = [];
+          for (const item of raw) {
+            const v = validatePromoRecord(item);
+            if (v.ok) out.push(v.value);
+          }
+          return ok(out.sort(comparePromosByName));
+        }),
+      remove: (id) =>
+        guard(async () => {
+          if (!PROMO_ID.test(id)) return fail('validation_error', 'Identificador no válido.');
+          const tx = db.transaction(STORE_PROMOS, 'readwrite');
+          tx.objectStore(STORE_PROMOS).delete(id);
+          await txDone(tx);
+          return ok(undefined);
+        }),
+      count: () =>
+        guard(async () => {
+          const tx = db.transaction(STORE_PROMOS, 'readonly');
+          return ok(await promisify(tx.objectStore(STORE_PROMOS).count()));
         }),
     },
     pieces: {

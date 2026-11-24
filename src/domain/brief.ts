@@ -32,8 +32,12 @@ export interface BriefFields {
   readonly objective: string;
   readonly product: string;
   readonly audience: string;
+  /** Necesidad: qué problema o deseo tiene la audiencia (metodología CCI, opcional). */
+  readonly need?: string;
   readonly offer?: string;
   readonly benefit?: string;
+  /** Diferenciador: por qué elegir esta promoción (metodología CCI, opcional). */
+  readonly differentiator?: string;
   readonly validity?: BriefValidity;
   readonly conditions?: string;
   readonly tone?: string;
@@ -50,8 +54,10 @@ export const BRIEF_FIELD_LABELS: Readonly<Record<BriefField, string>> = {
   objective: 'Objetivo',
   product: 'Producto',
   audience: 'Audiencia',
+  need: 'Necesidad',
   offer: 'Oferta',
   benefit: 'Beneficio',
+  differentiator: 'Diferenciador',
   validity: 'Vigencia',
   conditions: 'Condiciones',
   tone: 'Tono',
@@ -74,6 +80,8 @@ export const REQUIRED_FIELDS: readonly BriefField[] = [
 const LONG_FIELDS: ReadonlySet<BriefField> = new Set([
   'objective',
   'audience',
+  'need',
+  'differentiator',
   'offer',
   'benefit',
   'conditions',
@@ -164,8 +172,10 @@ export function evaluateBrief(input: unknown): BriefEvaluation {
     'objective',
     'product',
     'audience',
+    'need',
     'offer',
     'benefit',
+    'differentiator',
     'conditions',
     'tone',
     'message',

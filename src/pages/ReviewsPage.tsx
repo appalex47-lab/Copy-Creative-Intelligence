@@ -3,6 +3,8 @@ import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
 import { EmptyState } from '@/components/EmptyState';
 import { AsyncStatus, ErrorNotice } from '@/components/StatusNotices';
+import type { AuditRecord } from '@/domain/audit';
+import type { PieceRecord } from '@/domain/piece';
 import { MASTER_PROMPT } from '@/domain/masterPrompt';
 import {
   CHECKLIST,
@@ -10,9 +12,15 @@ import {
   DIMENSIONS,
   FILTER_LABELS,
   FILTER_STATES,
+  FINAL_LABELS,
+  FINAL_STATES,
+  STAGES,
+  STAGE_LABELS,
   VERDICT_LABELS,
   summarizeReview,
   type FilterState,
+  type FinalApproval,
+  type ReviewStage,
   type ReviewFinding,
   type ReviewRecord,
   type ReviewTargetType,
@@ -34,6 +42,9 @@ interface Draft {
   creativeFilter: FilterState;
   commercialFilter: FilterState;
   reviewer: string;
+  stage: ReviewStage;
+  finalApproval: FinalApproval;
+  approver: string;
 }
 
 const blankDraft = (r?: ReviewRecord): Draft => ({
@@ -44,6 +55,9 @@ const blankDraft = (r?: ReviewRecord): Draft => ({
   creativeFilter: r?.creativeFilter ?? 'pendiente',
   commercialFilter: r?.commercialFilter ?? 'pendiente',
   reviewer: r?.reviewer ?? '',
+  stage: r?.stage ?? 'validacion',
+  finalApproval: r?.finalApproval ?? 'pendiente',
+  approver: r?.approver ?? '',
 });
 
 /**
@@ -54,15 +68,20 @@ const blankDraft = (r?: ReviewRecord): Draft => ({
 export function ReviewsPage() {
   const services = useServices();
   const load = useCallback(async () => {
-    const [c, p, r] = await Promise.all([
+    const [c, p, r, a] = await Promise.all([
       services.copies.list(),
       services.pieces.list(),
       services.reviews.list(),
+      services.audits.list(),
     ]);
     if (!c.ok) return c;
     if (!p.ok) return p;
     if (!r.ok) return r;
-    return { ok: true as const, value: { copies: c.value, pieces: p.value, reviews: r.value } };
+    if (!a.ok) return a;
+    return {
+      ok: true as const,
+      value: { copies: c.value, pieces: p.value, reviews: r.value, audits: a.value },
+    };
   }, [services]);
   const { state, retry } = useAsyncResource(load);
   const [target, setTarget] = useState('');
@@ -101,6 +120,9 @@ export function ReviewsPage() {
         creativeFilter: draft.creativeFilter,
         commercialFilter: draft.commercialFilter,
         reviewer: draft.reviewer,
+        stage: draft.stage,
+        finalApproval: draft.finalApproval,
+        approver: draft.approver,
       },
     });
     if (!r.ok) return setError(r.error);
@@ -172,6 +194,7 @@ export function ReviewsPage() {
               error={error}
               msg={msg}
               saved={state.data.reviews.find((r) => `${r.targetType}:${r.targetId}` === target)}
+              auto={autoAlert(target, state.data.audits, state.data.pieces)}
             />
           )}
           {state.data.reviews.length > 0 && (
@@ -183,7 +206,8 @@ export function ReviewsPage() {
                     <li key={r.id}>
                       {r.targetLabel} ({r.targetType}) · {s.score ?? 'sin puntaje'} ·{' '}
                       {VERDICT_LABELS[s.verdict]} · {s.publishable ? 'publicable' : 'no publicable'}{' '}
-                      · {formatLocalDateTime(r.updatedAt)}
+                      · {STAGE_LABELS[r.stage]} · {FINAL_LABELS[r.finalApproval]} ·{' '}
+                      {formatLocalDateTime(r.updatedAt)}
                     </li>
                   );
                 })}
@@ -217,6 +241,7 @@ function ReviewEditor({
   error,
   msg,
   saved,
+  auto,
 }: {
   readonly draft: Draft;
   readonly setDraft: (d: Draft) => void;
@@ -224,13 +249,10 @@ function ReviewEditor({
   readonly error: AppError | null;
   readonly msg: string | null;
   readonly saved: ReviewRecord | undefined;
+  readonly auto: string | null;
 }) {
   // Resumen en vivo con lo que hay escrito (sin guardar); un valor inválido simplemente cuenta como sin calificar.
   const live = summarizeReview({
-    id: 'rev_preview00',
-    targetType: 'copy',
-    targetId: 'preview',
-    targetLabel: 'preview',
     scores: Object.fromEntries(
       DIMENSIONS.map((d) => {
         const n = Number((draft.scores[d.id] ?? '').replace(',', '.'));
@@ -239,12 +261,9 @@ function ReviewEditor({
       }),
     ) as ReviewRecord['scores'],
     checklist: draft.checklist,
-    commercial: draft.commercial,
     findings: draft.findings,
     creativeFilter: draft.creativeFilter,
     commercialFilter: draft.commercialFilter,
-    createdAt: '2000-01-01T00:00:00.000Z',
-    updatedAt: '2000-01-01T00:00:00.000Z',
   });
   const set = (patch: Partial<Draft>) => setDraft({ ...draft, ...patch });
   const setFinding = (i: number, patch: Partial<ReviewFinding>) =>
@@ -258,6 +277,12 @@ function ReviewEditor({
         onSave();
       }}
     >
+      {auto && (
+        <p role="note">
+          <strong>Alerta por reglas (automática):</strong> {auto} Es solo una alerta de apoyo; la
+          calificación oficial es esta matriz.
+        </p>
+      )}
       <fieldset>
         <legend>Matriz de evaluación (0 a 100 puntos)</legend>
         {DIMENSIONS.map((d) => (
@@ -409,6 +434,50 @@ function ReviewEditor({
         </div>
       </fieldset>
 
+      <fieldset>
+        <legend>Flujo: Creación → Validación → Aprobación</legend>
+        <div className="field">
+          <label htmlFor="rev-stage">Etapa</label>
+          <select
+            id="rev-stage"
+            value={draft.stage}
+            onChange={(e) => set({ stage: e.target.value as ReviewStage })}
+          >
+            {STAGES.map((s) => (
+              <option key={s} value={s}>
+                {STAGE_LABELS[s]}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="field">
+          <label htmlFor="rev-final">Aprobación final</label>
+          <select
+            id="rev-final"
+            value={draft.finalApproval}
+            onChange={(e) => set({ finalApproval: e.target.value as FinalApproval })}
+          >
+            {FINAL_STATES.map((s) => (
+              <option key={s} value={s}>
+                {FINAL_LABELS[s]}
+              </option>
+            ))}
+          </select>
+          <p className="field-hint">
+            Solo se puede liberar si la revisión es publicable y escribes quién aprueba.
+          </p>
+        </div>
+        <div className="field">
+          <label htmlFor="rev-approver">Quién aprueba</label>
+          <input
+            id="rev-approver"
+            maxLength={60}
+            value={draft.approver}
+            onChange={(e) => set({ approver: e.target.value })}
+          />
+        </div>
+      </fieldset>
+
       <div role="status" aria-live="polite" aria-label="Resumen de la revisión">
         <p>
           <strong>
@@ -447,4 +516,29 @@ function ReviewEditor({
       )}
     </form>
   );
+}
+
+const VERDICT_TEXT: Readonly<Record<string, string>> = {
+  apto: 'apto',
+  revisar: 'revisar',
+  no_apto: 'no apto',
+};
+
+/** Última auditoría automática del copy o pieza elegido (solo lectura). */
+function autoAlert(
+  target: string,
+  audits: readonly AuditRecord[],
+  pieces: readonly PieceRecord[],
+): string | null {
+  const [type, id] = target.split(':');
+  if (type === 'copy') {
+    const a = audits.find((x) => x.copyId === id);
+    return a
+      ? `última auditoría de reglas ${String(a.score)}/100 (${VERDICT_TEXT[a.verdict] ?? a.verdict}).`
+      : null;
+  }
+  const a = pieces.find((p) => p.id === id)?.audits[0];
+  return a
+    ? `última auditoría de reglas ${String(a.score)}/100 (${VERDICT_TEXT[a.verdict] ?? a.verdict}).`
+    : null;
 }

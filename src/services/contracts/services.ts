@@ -1,5 +1,7 @@
 import type { StorageInfo } from '@/domain/storageInfo';
 import type { ActivityEvent, ActivityKind } from '@/domain/activity';
+import type { MeasureRecord } from '@/domain/measure';
+import type { PromoRecord } from '@/domain/promo';
 import type { ReviewInput, ReviewRecord, ReviewTargetType } from '@/domain/review';
 import type { FindingStatus, PieceRecord } from '@/domain/piece';
 import type { OcrWord, ResourceRecord } from '@/domain/resource';
@@ -222,11 +224,19 @@ export interface ResourceService {
       readonly skipped: number;
       readonly piecesAdded: number;
       readonly reviewsAdded: number;
+      readonly measuresAdded: number;
+      readonly promosAdded: number;
     }>
   >;
   /** Cuántos recursos y piezas hay; no entran en el respaldo de datos (aviso en «Respaldo»). */
   counts(): Promise<
-    Result<{ readonly resources: number; readonly pieces: number; readonly reviews: number }>
+    Result<{
+      readonly resources: number;
+      readonly pieces: number;
+      readonly reviews: number;
+      readonly measures: number;
+      readonly promos: number;
+    }>
   >;
   remove(id: string): Promise<Result<void>>;
 }
@@ -265,6 +275,55 @@ export interface ReviewService {
   remove(id: string): Promise<Result<void>>;
 }
 
+/** Medición y experimentos A/B (S4.2). Captura manual o CSV; nunca se conecta a plataformas externas. */
+export interface MeasureService {
+  /** Más recientes primero. */
+  list(): Promise<Result<readonly MeasureRecord[]>>;
+  saveResult(input: {
+    readonly label: string;
+    readonly impressions: number;
+    readonly clicks: number;
+    readonly conversions: number;
+    readonly targetType?: 'copy' | 'pieza';
+    readonly targetId?: string;
+    readonly sales?: number;
+    readonly from?: string;
+    readonly to?: string;
+    readonly note?: string;
+  }): Promise<Result<MeasureRecord>>;
+  /** Todo o nada; devuelve cuántas filas se importaron. */
+  importResults(csv: string): Promise<Result<number>>;
+  /** Con `id` actualiza el experimento; sin `id` lo crea. */
+  saveExperiment(input: {
+    readonly id?: string;
+    readonly name: string;
+    readonly hypothesis: string;
+    readonly variable: string;
+    readonly primary: string;
+    readonly secondary?: string;
+    readonly variants: readonly unknown[];
+    readonly conclusion?: string;
+  }): Promise<Result<MeasureRecord>>;
+  remove(id: string): Promise<Result<void>>;
+}
+
+/** Promociones para el validador (S4.2). */
+export interface PromoService {
+  list(): Promise<Result<readonly PromoRecord[]>>;
+  save(input: {
+    readonly id?: string;
+    readonly name: string;
+    readonly discountPct?: number;
+    readonly skus: readonly string[];
+    readonly from?: string;
+    readonly to?: string;
+    readonly restrictions?: string;
+  }): Promise<Result<PromoRecord>>;
+  /** Todo o nada; devuelve cuántas promociones se importaron. */
+  importCsv(csv: string): Promise<Result<number>>;
+  remove(id: string): Promise<Result<void>>;
+}
+
 export type CoordinationState = 'checking' | 'writer' | 'reader';
 
 /** Coordinación entre pestañas (P12): una pestaña escribe; las demás, solo lectura con aviso visible. */
@@ -291,5 +350,7 @@ export interface Services {
   readonly resources: ResourceService;
   readonly pieces: PieceService;
   readonly reviews: ReviewService;
+  readonly measures: MeasureService;
+  readonly promos: PromoService;
   readonly coordination: CoordinationService;
 }

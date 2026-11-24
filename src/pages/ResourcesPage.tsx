@@ -122,7 +122,7 @@ function BackupBox({ onRestored }: { readonly onRestored: () => void }) {
     setBusy(false);
     if (!r.ok) return setError(r.error);
     setMsg(
-      `Restauradas ${String(r.value.added)} imágenes; ${String(r.value.skipped)} ya existían y se omitieron. Piezas restauradas: ${String(r.value.piecesAdded)}. Revisiones restauradas: ${String(r.value.reviewsAdded)}.`,
+      `Restauradas ${String(r.value.added)} imágenes; ${String(r.value.skipped)} ya existían y se omitieron. Piezas restauradas: ${String(r.value.piecesAdded)}. Revisiones restauradas: ${String(r.value.reviewsAdded)}. Mediciones restauradas: ${String(r.value.measuresAdded)}. Promociones restauradas: ${String(r.value.promosAdded)}.`,
     );
     onRestored();
   };

@@ -211,3 +211,8 @@ fieldset.field {
 .card > .card-title {
   margin-top: 0;
 }
+
+/* Los fieldset no deben ensanchar la página en pantallas angostas (S4.2). */
+fieldset {
+  min-width: 0;
+}

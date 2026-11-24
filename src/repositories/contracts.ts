@@ -1,4 +1,6 @@
 import type { ActivityEvent } from '@/domain/activity';
+import type { MeasureRecord } from '@/domain/measure';
+import type { PromoRecord } from '@/domain/promo';
 import type { ReviewRecord } from '@/domain/review';
 import type { PieceRecord } from '@/domain/piece';
 import type { ResourceRecord } from '@/domain/resource';
@@ -121,6 +123,26 @@ export interface ReviewRepository {
   count(): Promise<Result<number>>;
 }
 
+/** Mediciones y experimentos (S4.2). No forman parte del respaldo JSON de datos (van en el archivo de recursos). */
+export interface MeasureRepository {
+  put(m: unknown): Promise<Result<MeasureRecord>>;
+  get(id: string): Promise<Result<MeasureRecord>>;
+  /** Más recientes primero. */
+  list(): Promise<Result<readonly MeasureRecord[]>>;
+  remove(id: string): Promise<Result<void>>;
+  count(): Promise<Result<number>>;
+}
+
+/** Promociones capturadas o importadas por CSV (S4.2). Tampoco van en el respaldo JSON de datos. */
+export interface PromoRepository {
+  put(p: unknown): Promise<Result<PromoRecord>>;
+  get(id: string): Promise<Result<PromoRecord>>;
+  /** Por nombre. */
+  list(): Promise<Result<readonly PromoRecord[]>>;
+  remove(id: string): Promise<Result<void>>;
+  count(): Promise<Result<number>>;
+}
+
 export interface BackupSnapshot {
   readonly profile: LocalProfile;
   /** Más nuevos primero. */
@@ -161,6 +183,8 @@ export interface Repositories {
   readonly resources: ResourceRepository;
   readonly pieces: PieceRepository;
   readonly reviews: ReviewRepository;
+  readonly measures: MeasureRepository;
+  readonly promos: PromoRepository;
   readonly backup: BackupRepository;
 }
 

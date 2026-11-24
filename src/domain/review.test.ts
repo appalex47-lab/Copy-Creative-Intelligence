@@ -109,3 +109,37 @@ describe('validateReviewBody', () => {
     expect(validateReviewRecord({ id: 'x' }).ok).toBe(false);
   });
 });
+
+describe('flujo Creación → Validación → Aprobación (S4.2)', () => {
+  const ready = {
+    scores: full(100),
+    commercial: [true, true, true, true, true, true],
+    creativeFilter: 'aprobado',
+    commercialFilter: 'aprobado',
+  };
+  it('registros anteriores sin etapa quedan en validación y pendiente', () => {
+    const r = rec();
+    expect(r.stage).toBe('validacion');
+    expect(r.finalApproval).toBe('pendiente');
+    expect(r.approver).toBeUndefined();
+  });
+  it('liberar exige revisión publicable y nombre de quien aprueba', () => {
+    expect(
+      validateReviewBody({ ...emptyReviewBody(), finalApproval: 'aprobado', approver: 'Ana' }).ok,
+    ).toBe(false);
+    expect(
+      validateReviewBody({ ...emptyReviewBody(), ...ready, finalApproval: 'aprobado' }).ok,
+    ).toBe(false);
+    const ok = validateReviewBody({
+      ...emptyReviewBody(),
+      ...ready,
+      finalApproval: 'aprobado',
+      approver: ' Ana ',
+    });
+    expect(ok.ok && ok.value.approver).toBe('Ana');
+  });
+  it('valores inválidos se rechazan', () => {
+    expect(validateReviewBody({ ...emptyReviewBody(), stage: 'otra' }).ok).toBe(false);
+    expect(validateReviewBody({ ...emptyReviewBody(), finalApproval: 'quizá' }).ok).toBe(false);
+  });
+});

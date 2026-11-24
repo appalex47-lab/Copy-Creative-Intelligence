@@ -1,5 +1,6 @@
 import { formatLocalDateTime } from '@/lib/formatDate';
 import { useCallback, useRef } from 'react';
+import { isReviewDue } from '@/domain/reminder';
 import { EmptyState } from '@/components/EmptyState';
 import { AsyncStatus, ErrorNotice } from '@/components/StatusNotices';
 import type { ActivityKind } from '@/domain/activity';
@@ -21,6 +22,19 @@ export function HomePage() {
   const heading = useRef<HTMLHeadingElement>(null);
   const load = useCallback(() => services.activity.listRecent(), [services]);
   const { state, retry } = useAsyncResource(load);
+  // Recordatorio semanal (S4.2): sin cuentas ni notificaciones, solo un aviso al abrir la app.
+  const loadDue = useCallback(async () => {
+    const [r, a] = await Promise.all([services.reviews.list(), services.audits.list()]);
+    if (!r.ok || !a.ok) return { ok: true as const, value: false };
+    return {
+      ok: true as const,
+      value: isReviewDue(
+        [...r.value.map((x) => x.updatedAt), ...a.value.map((x) => x.createdAt)],
+        new Date(),
+      ),
+    };
+  }, [services]);
+  const { state: due } = useAsyncResource(loadDue);
 
   // Tras reintentar, el botón desaparece: el foco se devuelve al encabezado para no perderlo.
   const onRetry = () => {
@@ -33,6 +47,12 @@ export function HomePage() {
       <h2 id="titulo-inicio" tabIndex={-1} ref={heading}>
         Resumen
       </h2>
+      {due.status === 'success' && due.data && (
+        <p role="note">
+          <strong>Recordatorio semanal:</strong> no hay revisiones ni auditorías de los últimos 7
+          días. Revisa las piezas que vayan a publicarse.
+        </p>
+      )}
       <AsyncStatus status={state.status} />
       {state.status === 'error' && (
         <ErrorNotice message={state.message} onRetry={state.retryable ? onRetry : undefined} />

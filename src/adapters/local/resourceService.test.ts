@@ -32,6 +32,8 @@ function setup(
     repo: () => Promise.resolve(ok(repos.resources)),
     pieces: () => Promise.resolve(ok(repos.pieces)),
     reviews: () => Promise.resolve(ok(repos.reviews)),
+    measures: () => Promise.resolve(ok(repos.measures)),
+    promos: () => Promise.resolve(ok(repos.promos)),
     engine: () => eng,
     readSize: () => Promise.resolve(size),
     engineName: 'test',

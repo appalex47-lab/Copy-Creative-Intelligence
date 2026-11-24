@@ -114,6 +114,21 @@ export interface ReviewFinding {
   readonly bloqueante: boolean;
 }
 
+export const STAGES = ['creacion', 'validacion', 'aprobacion'] as const;
+export type ReviewStage = (typeof STAGES)[number];
+export const STAGE_LABELS: Readonly<Record<ReviewStage, string>> = {
+  creacion: 'Creación',
+  validacion: 'Validación',
+  aprobacion: 'Aprobación',
+};
+export const FINAL_STATES = ['pendiente', 'aprobado', 'rechazado'] as const;
+export type FinalApproval = (typeof FINAL_STATES)[number];
+export const FINAL_LABELS: Readonly<Record<FinalApproval, string>> = {
+  pendiente: 'Pendiente',
+  aprobado: 'Liberada para publicar',
+  rechazado: 'Rechazada',
+};
+
 export interface ReviewRecord {
   readonly id: string; // rev_…
   readonly targetType: ReviewTargetType;
@@ -127,6 +142,11 @@ export interface ReviewRecord {
   readonly creativeFilter: FilterState;
   readonly commercialFilter: FilterState;
   readonly reviewer?: string;
+  /** Etapa del flujo Creación → Validación → Aprobación (S4.2). Antes de S4.2 todo era «validacion». */
+  readonly stage: ReviewStage;
+  /** Aprobación final de una persona (sin cuentas: se registra el nombre). Distinta de «publicable» (calculado). */
+  readonly finalApproval: FinalApproval;
+  readonly approver?: string;
   readonly createdAt: string;
   readonly updatedAt: string;
 }
@@ -160,7 +180,12 @@ export function bandOf(score: number): string {
         : 'Requiere replanteamiento';
 }
 
-export function summarizeReview(r: ReviewRecord): ReviewSummary {
+export function summarizeReview(
+  r: Pick<
+    ReviewRecord,
+    'scores' | 'checklist' | 'findings' | 'creativeFilter' | 'commercialFilter'
+  >,
+): ReviewSummary {
   const missing = DIMENSIONS.filter((d) => r.scores[d.id] === null);
   const score =
     missing.length === 0 ? DIMENSIONS.reduce((a, d) => a + (r.scores[d.id] ?? 0), 0) : null;
@@ -208,6 +233,9 @@ export interface ReviewInput {
   readonly creativeFilter: unknown;
   readonly commercialFilter: unknown;
   readonly reviewer?: unknown;
+  readonly stage?: unknown;
+  readonly finalApproval?: unknown;
+  readonly approver?: unknown;
 }
 
 const isObject = (v: unknown): v is Record<string, unknown> =>
@@ -227,6 +255,9 @@ type Body = Pick<
   | 'creativeFilter'
   | 'commercialFilter'
   | 'reviewer'
+  | 'stage'
+  | 'finalApproval'
+  | 'approver'
 >;
 
 /** Valida y normaliza el contenido editable. Aplica las reglas de los filtros. */
@@ -283,6 +314,14 @@ export function validateReviewBody(input: ReviewInput): Validation<Body> {
   const reviewer = typeof input.reviewer === 'string' ? input.reviewer.trim() : '';
   if ([...reviewer].length > MAX_REVIEWER)
     return invalid(`El nombre de quien revisa admite hasta ${String(MAX_REVIEWER)} caracteres.`);
+  const stage = input.stage ?? 'validacion';
+  const finalApproval = input.finalApproval ?? 'pendiente';
+  if (!STAGES.includes(stage as ReviewStage)) return invalid('La etapa no es válida.');
+  if (!FINAL_STATES.includes(finalApproval as FinalApproval))
+    return invalid('La aprobación final no es válida.');
+  const approver = typeof input.approver === 'string' ? input.approver.trim() : '';
+  if ([...approver].length > MAX_REVIEWER)
+    return invalid(`El nombre de quien aprueba admite hasta ${String(MAX_REVIEWER)} caracteres.`);
   if (creativeFilter === 'aprobado') {
     if (DIMENSIONS.some((d) => scores[d.id] === null))
       return invalid('Para aprobar el filtro creativo califica las 8 dimensiones.');
@@ -291,6 +330,22 @@ export function validateReviewBody(input: ReviewInput): Validation<Body> {
   }
   if (commercialFilter === 'aprobado' && input.commercial.some((x) => x !== true))
     return invalid('Para aprobar el filtro comercial confirma los 6 puntos comerciales.');
+  if (finalApproval === 'aprobado') {
+    if (
+      !summarizeReview({
+        scores,
+        checklist: input.checklist as boolean[],
+        findings,
+        creativeFilter,
+        commercialFilter,
+      }).publishable
+    )
+      return invalid(
+        'Para liberar la pieza, la revisión debe ser publicable (aprobada, con ambos filtros aprobados).',
+      );
+    if (approver === '')
+      return invalid('Para liberar la pieza escribe el nombre de quien aprueba.');
+  }
   return valid({
     scores,
     checklist: input.checklist as boolean[],
@@ -299,6 +354,9 @@ export function validateReviewBody(input: ReviewInput): Validation<Body> {
     creativeFilter,
     commercialFilter,
     ...(reviewer.length > 0 ? { reviewer } : {}),
+    stage: stage as ReviewStage,
+    finalApproval: finalApproval as FinalApproval,
+    ...(approver.length > 0 ? { approver } : {}),
   });
 }
 
@@ -335,6 +393,9 @@ export function validateReviewRecord(raw: unknown): Validation<ReviewRecord> {
     creativeFilter: raw['creativeFilter'],
     commercialFilter: raw['commercialFilter'],
     reviewer: raw['reviewer'],
+    stage: raw['stage'],
+    finalApproval: raw['finalApproval'],
+    approver: raw['approver'],
   });
   if (!body.ok) return bad;
   return valid({

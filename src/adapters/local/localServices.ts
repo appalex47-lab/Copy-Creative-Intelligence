@@ -9,6 +9,8 @@ import { createRulesService } from './rulesService';
 import { createCopyService } from './copyService';
 import { createEntityService } from './entityService';
 import { createAuditService } from './auditService';
+import { createMeasureService } from './measureService';
+import { createPromoService } from './promoService';
 import { createReviewService } from './reviewService';
 import { createPieceService } from './pieceService';
 import { createResourceService } from './resourceService';
@@ -183,6 +185,14 @@ export function createLocalServices(environment: AppState['environment']): Servi
       const r = await repos();
       return r.ok ? ok(r.value.reviews) : fail(r.error.code, r.error.message);
     },
+    measures: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.measures) : fail(r.error.code, r.error.message);
+    },
+    promos: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.promos) : fail(r.error.code, r.error.message);
+    },
     engine: () => createTesseractEngine(),
     readSize: readImageSize,
     engineName: OCR_ENGINE,
@@ -200,6 +210,20 @@ export function createLocalServices(environment: AppState['environment']): Servi
     pieces: async () => {
       const r = await repos();
       return r.ok ? ok(r.value.pieces) : fail(r.error.code, r.error.message);
+    },
+    writable,
+  });
+  const measures = createMeasureService({
+    repo: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.measures) : fail(r.error.code, r.error.message);
+    },
+    writable,
+  });
+  const promos = createPromoService({
+    repo: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.promos) : fail(r.error.code, r.error.message);
     },
     writable,
   });
@@ -247,6 +271,8 @@ export function createLocalServices(environment: AppState['environment']): Servi
     resources,
     pieces,
     reviews,
+    measures,
+    promos,
     coordination,
   };
 }

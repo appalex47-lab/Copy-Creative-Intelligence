@@ -92,11 +92,16 @@ export function BackupPage() {
         archivo no se envía a ningún servidor.
       </p>
       {counts.status === 'success' &&
-        (counts.data.resources > 0 || counts.data.pieces > 0 || counts.data.reviews > 0) && (
+        (counts.data.resources > 0 ||
+          counts.data.pieces > 0 ||
+          counts.data.reviews > 0 ||
+          counts.data.measures > 0 ||
+          counts.data.promos > 0) && (
           <p role="note">
             <strong>Este respaldo NO incluye</strong> {counts.data.resources} imágenes ni{' '}
-            {counts.data.pieces} piezas creativas ni {counts.data.reviews} revisiones de calidad
-            guardadas. Descárgalas aparte desde Recursos («Descargar respaldo de imágenes»).
+            {counts.data.pieces} piezas creativas ni {counts.data.reviews} revisiones de calidad ni{' '}
+            {counts.data.measures} mediciones ni {counts.data.promos} promociones guardadas.
+            Descárgalas aparte desde Recursos («Descargar respaldo de imágenes»).
           </p>
         )}
       <Card title="Exportar" headingLevel={3}>

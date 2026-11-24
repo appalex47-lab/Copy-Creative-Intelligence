@@ -6,6 +6,10 @@ import { HomePage } from '@/pages/HomePage';
 import { ConnectionPage } from '@/pages/ConnectionPage';
 import { BriefsPage } from '@/pages/BriefsPage';
 import { CatalogPage } from '@/pages/CatalogPage';
+import { LibraryPage } from '@/pages/LibraryPage';
+import { MeasurePage } from '@/pages/MeasurePage';
+import { PromosPage } from '@/pages/PromosPage';
+import { TemplatesPage } from '@/pages/TemplatesPage';
 import { ReviewsPage } from '@/pages/ReviewsPage';
 import { PiecesPage } from '@/pages/PiecesPage';
 import { ResourcesPage } from '@/pages/ResourcesPage';
@@ -29,6 +33,10 @@ const NAV: readonly NavItem[] = [
   { id: 'recursos', label: 'Recursos' },
   { id: 'piezas', label: 'Piezas' },
   { id: 'revision', label: 'Revisión' },
+  { id: 'biblioteca', label: 'Biblioteca' },
+  { id: 'medicion', label: 'Medición' },
+  { id: 'promociones', label: 'Promociones' },
+  { id: 'plantillas', label: 'Plantillas' },
   { id: 'reglas', label: 'Reglas' },
   { id: 'conexion', label: 'Estado de conexión' },
   { id: 'ajustes', label: 'Perfil y preferencias' },
@@ -80,6 +88,14 @@ export function App({ env, services: injected }: AppProps) {
             <PiecesPage />
           ) : active === 'revision' ? (
             <ReviewsPage />
+          ) : active === 'biblioteca' ? (
+            <LibraryPage />
+          ) : active === 'medicion' ? (
+            <MeasurePage />
+          ) : active === 'promociones' ? (
+            <PromosPage />
+          ) : active === 'plantillas' ? (
+            <TemplatesPage />
           ) : active === 'reglas' ? (
             <RulesPage />
           ) : active === 'conexion' ? (

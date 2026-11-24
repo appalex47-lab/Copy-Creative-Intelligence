@@ -1,6 +1,8 @@
 import { RESOURCE_LIMITS, validateResourceRecord } from './resource';
 import { validateReviewRecord, type ReviewRecord } from './review';
 import { validatePieceRecord, type PieceRecord } from './piece';
+import { validateMeasureRecord, type MeasureRecord } from './measure';
+import { validatePromoRecord, type PromoRecord } from './promo';
 import { invalid, valid, type Validation } from './validation';
 
 /**
@@ -9,7 +11,7 @@ import { invalid, valid, type Validation } from './validation';
  * los recursos que no existen (mismo id): nunca se reemplaza ni se borra nada. SUPUESTO: tope de 150 MB por archivo.
  */
 export const RESOURCES_BACKUP_FORMAT = 'cci-recursos';
-export const RESOURCES_BACKUP_VERSION = 3;
+export const RESOURCES_BACKUP_VERSION = 4;
 export const RESOURCES_BACKUP_MAX_BYTES = 150 * 1024 * 1024;
 
 const isObject = (v: unknown): v is Record<string, unknown> =>
@@ -23,9 +25,11 @@ export interface ParsedResourcesBackup {
   readonly resources: readonly { raw: Record<string, unknown>; sha256: string; data: string }[];
   readonly pieces: readonly PieceRecord[];
   readonly reviews: readonly ReviewRecord[];
+  readonly measures: readonly MeasureRecord[];
+  readonly promos: readonly PromoRecord[];
 }
 
-/** Valida la estructura (sin decodificar imágenes). Las versiones 1 y 2 (sin piezas o sin revisiones) también se aceptan. */
+/** Valida la estructura (sin decodificar imágenes). Las versiones 1 a 3 (sin piezas, revisiones, mediciones o promociones) también se aceptan. */
 export function parseResourcesBackup(text: string): Validation<ParsedResourcesBackup> {
   const bad = invalid<never>('El archivo no es un respaldo de imágenes válido.');
   if (text.length > RESOURCES_BACKUP_MAX_BYTES)
@@ -39,7 +43,10 @@ export function parseResourcesBackup(text: string): Validation<ParsedResourcesBa
   if (
     !isObject(doc) ||
     doc['format'] !== RESOURCES_BACKUP_FORMAT ||
-    (doc['version'] !== 1 && doc['version'] !== 2 && doc['version'] !== 3) ||
+    (doc['version'] !== 1 &&
+      doc['version'] !== 2 &&
+      doc['version'] !== 3 &&
+      doc['version'] !== 4) ||
     !Array.isArray(doc['resources']) ||
     doc['resources'].length > RESOURCE_LIMITS.maxResources
   )
@@ -70,5 +77,21 @@ export function parseResourcesBackup(text: string): Validation<ParsedResourcesBa
     if (!v.ok) return bad;
     reviews.push(v.value);
   }
-  return valid({ resources, pieces, reviews });
+  const rawMeasures = doc['measures'] ?? [];
+  if (!Array.isArray(rawMeasures) || rawMeasures.length > 3000) return bad;
+  const measures: MeasureRecord[] = [];
+  for (const m of rawMeasures as unknown[]) {
+    const v = validateMeasureRecord(m);
+    if (!v.ok) return bad;
+    measures.push(v.value);
+  }
+  const rawPromos = doc['promos'] ?? [];
+  if (!Array.isArray(rawPromos) || rawPromos.length > 1000) return bad;
+  const promos: PromoRecord[] = [];
+  for (const m of rawPromos as unknown[]) {
+    const v = validatePromoRecord(m);
+    if (!v.ok) return bad;
+    promos.push(v.value);
+  }
+  return valid({ resources, pieces, reviews, measures, promos });
 }

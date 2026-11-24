@@ -14,7 +14,9 @@ import {
   RESOURCES_BACKUP_VERSION,
 } from '@/domain/resourceBackup';
 import type {
+  MeasureRepository,
   PieceRepository,
+  PromoRepository,
   ResourceRepository,
   ReviewRepository,
 } from '@/repositories/contracts';
@@ -25,6 +27,8 @@ export interface ResourceServiceDeps {
   /** Piezas que usan los recursos (para no borrar una imagen en uso y para el respaldo). */
   readonly pieces: () => Promise<Result<PieceRepository>>;
   readonly reviews: () => Promise<Result<ReviewRepository>>;
+  readonly measures: () => Promise<Result<MeasureRepository>>;
+  readonly promos: () => Promise<Result<PromoRepository>>;
   readonly engine: () => OcrEngine;
   readonly readSize: (
     blob: Blob,
@@ -166,6 +170,14 @@ export function createResourceService(deps: ResourceServiceDeps): ResourceServic
         if (!rr.ok) return fail<Out>(rr.error.code, rr.error.message);
         const reviews = await rr.value.list();
         if (!reviews.ok) return fail<Out>(reviews.error.code, reviews.error.message);
+        const mr = await deps.measures();
+        if (!mr.ok) return fail<Out>(mr.error.code, mr.error.message);
+        const measures = await mr.value.list();
+        if (!measures.ok) return fail<Out>(measures.error.code, measures.error.message);
+        const prr = await deps.promos();
+        if (!prr.ok) return fail<Out>(prr.error.code, prr.error.message);
+        const promos = await prr.value.list();
+        if (!promos.ok) return fail<Out>(promos.error.code, promos.error.message);
         try {
           const parts: string[] = [
             `{"format":"${RESOURCES_BACKUP_FORMAT}","version":${String(RESOURCES_BACKUP_VERSION)},"exportedAt":"${now().toISOString()}","resources":[`,
@@ -184,7 +196,7 @@ export function createResourceService(deps: ResourceServiceDeps): ResourceServic
             first = false;
           }
           parts.push(
-            `],"pieces":${JSON.stringify(pieces.value)},"reviews":${JSON.stringify(reviews.value)}}`,
+            `],"pieces":${JSON.stringify(pieces.value)},"reviews":${JSON.stringify(reviews.value)},"measures":${JSON.stringify(measures.value)},"promos":${JSON.stringify(promos.value)}}`,
           );
           return ok({
             fileName: backupFileName(now()),
@@ -197,7 +209,14 @@ export function createResourceService(deps: ResourceServiceDeps): ResourceServic
     importBackup: (file) =>
       deps.writable(() =>
         withRepo(async (repo) => {
-          type Out = { added: number; skipped: number; piecesAdded: number; reviewsAdded: number };
+          type Out = {
+            added: number;
+            skipped: number;
+            piecesAdded: number;
+            reviewsAdded: number;
+            measuresAdded: number;
+            promosAdded: number;
+          };
           const bad = (m: string) => fail<Out>('validation_error', m);
           if (file.size > RESOURCES_BACKUP_MAX_BYTES)
             return bad('El archivo supera el máximo permitido.');
@@ -217,6 +236,20 @@ export function createResourceService(deps: ResourceServiceDeps): ResourceServic
             return fail<Out>(existingReviews.error.code, existingReviews.error.message);
           const haveReviews = new Set(existingReviews.value.map((r) => r.id));
           const newReviews = parsed.value.reviews.filter((r) => !haveReviews.has(r.id));
+          const mr = await deps.measures();
+          if (!mr.ok) return fail<Out>(mr.error.code, mr.error.message);
+          const existingMeasures = await mr.value.list();
+          if (!existingMeasures.ok)
+            return fail<Out>(existingMeasures.error.code, existingMeasures.error.message);
+          const haveMeasures = new Set(existingMeasures.value.map((r) => r.id));
+          const newMeasures = parsed.value.measures.filter((r) => !haveMeasures.has(r.id));
+          const prr = await deps.promos();
+          if (!prr.ok) return fail<Out>(prr.error.code, prr.error.message);
+          const existingPromos = await prr.value.list();
+          if (!existingPromos.ok)
+            return fail<Out>(existingPromos.error.code, existingPromos.error.message);
+          const havePromos = new Set(existingPromos.value.map((r) => r.id));
+          const newPromos = parsed.value.promos.filter((r) => !havePromos.has(r.id));
           const have = new Set(existing.value.map((r) => r.id));
           const records: ResourceRecord[] = [];
           for (const e of parsed.value.resources) {
@@ -256,7 +289,17 @@ export function createResourceService(deps: ResourceServiceDeps): ResourceServic
             const w = await rr.value.put(r);
             if (!w.ok) return fail<Out>(w.error.code, w.error.message);
           }
+          for (const r of newMeasures) {
+            const w = await mr.value.put(r);
+            if (!w.ok) return fail<Out>(w.error.code, w.error.message);
+          }
+          for (const r of newPromos) {
+            const w = await prr.value.put(r);
+            if (!w.ok) return fail<Out>(w.error.code, w.error.message);
+          }
           return ok({
+            measuresAdded: newMeasures.length,
+            promosAdded: newPromos.length,
             reviewsAdded: newReviews.length,
             added: records.length,
             skipped: parsed.value.resources.length - records.length,
@@ -275,7 +318,21 @@ export function createResourceService(deps: ResourceServiceDeps): ResourceServic
       if (!rr.ok) return fail(rr.error.code, rr.error.message);
       const rv = await rr.value.count();
       if (!rv.ok) return fail(rv.error.code, rv.error.message);
-      return ok({ resources: r.value, pieces: p.value, reviews: rv.value });
+      const mr = await deps.measures();
+      if (!mr.ok) return fail(mr.error.code, mr.error.message);
+      const m = await mr.value.count();
+      if (!m.ok) return fail(m.error.code, m.error.message);
+      const prr = await deps.promos();
+      if (!prr.ok) return fail(prr.error.code, prr.error.message);
+      const pm = await prr.value.count();
+      if (!pm.ok) return fail(pm.error.code, pm.error.message);
+      return ok({
+        resources: r.value,
+        pieces: p.value,
+        reviews: rv.value,
+        measures: m.value,
+        promos: pm.value,
+      });
     },
     remove: (id) =>
       deps.writable(async () => {
