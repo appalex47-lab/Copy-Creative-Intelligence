@@ -31,6 +31,7 @@ function setup(
   const service = createResourceService({
     repo: () => Promise.resolve(ok(repos.resources)),
     pieces: () => Promise.resolve(ok(repos.pieces)),
+    reviews: () => Promise.resolve(ok(repos.reviews)),
     engine: () => eng,
     readSize: () => Promise.resolve(size),
     engineName: 'test',

@@ -91,13 +91,14 @@ export function BackupPage() {
         Tus datos viven solo en este navegador. Exporta un archivo para guardarlos o moverlos; el
         archivo no se envía a ningún servidor.
       </p>
-      {counts.status === 'success' && (counts.data.resources > 0 || counts.data.pieces > 0) && (
-        <p role="note">
-          <strong>Este respaldo NO incluye</strong> {counts.data.resources} imágenes ni{' '}
-          {counts.data.pieces} piezas creativas guardadas. Descárgalas aparte desde Recursos
-          («Descargar respaldo de imágenes»).
-        </p>
-      )}
+      {counts.status === 'success' &&
+        (counts.data.resources > 0 || counts.data.pieces > 0 || counts.data.reviews > 0) && (
+          <p role="note">
+            <strong>Este respaldo NO incluye</strong> {counts.data.resources} imágenes ni{' '}
+            {counts.data.pieces} piezas creativas ni {counts.data.reviews} revisiones de calidad
+            guardadas. Descárgalas aparte desde Recursos («Descargar respaldo de imágenes»).
+          </p>
+        )}
       <Card title="Exportar" headingLevel={3}>
         <Button variant="primary" onClick={() => void onExport()} disabled={busy}>
           Exportar respaldo

@@ -1,4 +1,5 @@
 import { RESOURCE_LIMITS, validateResourceRecord } from './resource';
+import { validateReviewRecord, type ReviewRecord } from './review';
 import { validatePieceRecord, type PieceRecord } from './piece';
 import { invalid, valid, type Validation } from './validation';
 
@@ -8,7 +9,7 @@ import { invalid, valid, type Validation } from './validation';
  * los recursos que no existen (mismo id): nunca se reemplaza ni se borra nada. SUPUESTO: tope de 150 MB por archivo.
  */
 export const RESOURCES_BACKUP_FORMAT = 'cci-recursos';
-export const RESOURCES_BACKUP_VERSION = 2;
+export const RESOURCES_BACKUP_VERSION = 3;
 export const RESOURCES_BACKUP_MAX_BYTES = 150 * 1024 * 1024;
 
 const isObject = (v: unknown): v is Record<string, unknown> =>
@@ -21,9 +22,10 @@ export function backupFileName(now: Date): string {
 export interface ParsedResourcesBackup {
   readonly resources: readonly { raw: Record<string, unknown>; sha256: string; data: string }[];
   readonly pieces: readonly PieceRecord[];
+  readonly reviews: readonly ReviewRecord[];
 }
 
-/** Valida la estructura (sin decodificar imágenes). La versión 1 (solo imágenes) también se acepta. */
+/** Valida la estructura (sin decodificar imágenes). Las versiones 1 y 2 (sin piezas o sin revisiones) también se aceptan. */
 export function parseResourcesBackup(text: string): Validation<ParsedResourcesBackup> {
   const bad = invalid<never>('El archivo no es un respaldo de imágenes válido.');
   if (text.length > RESOURCES_BACKUP_MAX_BYTES)
@@ -37,7 +39,7 @@ export function parseResourcesBackup(text: string): Validation<ParsedResourcesBa
   if (
     !isObject(doc) ||
     doc['format'] !== RESOURCES_BACKUP_FORMAT ||
-    (doc['version'] !== 1 && doc['version'] !== 2) ||
+    (doc['version'] !== 1 && doc['version'] !== 2 && doc['version'] !== 3) ||
     !Array.isArray(doc['resources']) ||
     doc['resources'].length > RESOURCE_LIMITS.maxResources
   )
@@ -60,5 +62,13 @@ export function parseResourcesBackup(text: string): Validation<ParsedResourcesBa
     if (!v.ok) return bad;
     pieces.push(v.value);
   }
-  return valid({ resources, pieces });
+  const rawReviews = doc['reviews'] ?? [];
+  if (!Array.isArray(rawReviews) || rawReviews.length > 2000) return bad;
+  const reviews: ReviewRecord[] = [];
+  for (const r of rawReviews as unknown[]) {
+    const v = validateReviewRecord(r);
+    if (!v.ok) return bad;
+    reviews.push(v.value);
+  }
+  return valid({ resources, pieces, reviews });
 }

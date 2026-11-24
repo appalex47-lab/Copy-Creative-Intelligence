@@ -9,6 +9,7 @@ import { createRulesService } from './rulesService';
 import { createCopyService } from './copyService';
 import { createEntityService } from './entityService';
 import { createAuditService } from './auditService';
+import { createReviewService } from './reviewService';
 import { createPieceService } from './pieceService';
 import { createResourceService } from './resourceService';
 import { createTesseractEngine, OCR_ENGINE } from '@/adapters/ocr/tesseractEngine';
@@ -178,9 +179,28 @@ export function createLocalServices(environment: AppState['environment']): Servi
       const r = await repos();
       return r.ok ? ok(r.value.pieces) : fail(r.error.code, r.error.message);
     },
+    reviews: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.reviews) : fail(r.error.code, r.error.message);
+    },
     engine: () => createTesseractEngine(),
     readSize: readImageSize,
     engineName: OCR_ENGINE,
+    writable,
+  });
+  const reviews = createReviewService({
+    repo: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.reviews) : fail(r.error.code, r.error.message);
+    },
+    copies: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.copies) : fail(r.error.code, r.error.message);
+    },
+    pieces: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.pieces) : fail(r.error.code, r.error.message);
+    },
     writable,
   });
   const pieces = createPieceService({
@@ -226,6 +246,7 @@ export function createLocalServices(environment: AppState['environment']): Servi
     audits,
     resources,
     pieces,
+    reviews,
     coordination,
   };
 }

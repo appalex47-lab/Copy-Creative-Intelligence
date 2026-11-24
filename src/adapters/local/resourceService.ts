@@ -13,13 +13,18 @@ import {
   RESOURCES_BACKUP_MAX_BYTES,
   RESOURCES_BACKUP_VERSION,
 } from '@/domain/resourceBackup';
-import type { PieceRepository, ResourceRepository } from '@/repositories/contracts';
+import type {
+  PieceRepository,
+  ResourceRepository,
+  ReviewRepository,
+} from '@/repositories/contracts';
 import { fail, ok, type OcrEngine, type ResourceService, type Result } from '@/services/contracts';
 
 export interface ResourceServiceDeps {
   readonly repo: () => Promise<Result<ResourceRepository>>;
   /** Piezas que usan los recursos (para no borrar una imagen en uso y para el respaldo). */
   readonly pieces: () => Promise<Result<PieceRepository>>;
+  readonly reviews: () => Promise<Result<ReviewRepository>>;
   readonly engine: () => OcrEngine;
   readonly readSize: (
     blob: Blob,
@@ -157,6 +162,10 @@ export function createResourceService(deps: ResourceServiceDeps): ResourceServic
         if (!pr.ok) return fail<Out>(pr.error.code, pr.error.message);
         const pieces = await pr.value.list();
         if (!pieces.ok) return fail<Out>(pieces.error.code, pieces.error.message);
+        const rr = await deps.reviews();
+        if (!rr.ok) return fail<Out>(rr.error.code, rr.error.message);
+        const reviews = await rr.value.list();
+        if (!reviews.ok) return fail<Out>(reviews.error.code, reviews.error.message);
         try {
           const parts: string[] = [
             `{"format":"${RESOURCES_BACKUP_FORMAT}","version":${String(RESOURCES_BACKUP_VERSION)},"exportedAt":"${now().toISOString()}","resources":[`,
@@ -174,7 +183,9 @@ export function createResourceService(deps: ResourceServiceDeps): ResourceServic
             );
             first = false;
           }
-          parts.push(`],"pieces":${JSON.stringify(pieces.value)}}`);
+          parts.push(
+            `],"pieces":${JSON.stringify(pieces.value)},"reviews":${JSON.stringify(reviews.value)}}`,
+          );
           return ok({
             fileName: backupFileName(now()),
             blob: new Blob(parts, { type: 'application/json' }),
@@ -186,7 +197,7 @@ export function createResourceService(deps: ResourceServiceDeps): ResourceServic
     importBackup: (file) =>
       deps.writable(() =>
         withRepo(async (repo) => {
-          type Out = { added: number; skipped: number; piecesAdded: number };
+          type Out = { added: number; skipped: number; piecesAdded: number; reviewsAdded: number };
           const bad = (m: string) => fail<Out>('validation_error', m);
           if (file.size > RESOURCES_BACKUP_MAX_BYTES)
             return bad('El archivo supera el máximo permitido.');
@@ -199,6 +210,13 @@ export function createResourceService(deps: ResourceServiceDeps): ResourceServic
           const existingPieces = await pr.value.list();
           if (!existingPieces.ok)
             return fail<Out>(existingPieces.error.code, existingPieces.error.message);
+          const rr = await deps.reviews();
+          if (!rr.ok) return fail<Out>(rr.error.code, rr.error.message);
+          const existingReviews = await rr.value.list();
+          if (!existingReviews.ok)
+            return fail<Out>(existingReviews.error.code, existingReviews.error.message);
+          const haveReviews = new Set(existingReviews.value.map((r) => r.id));
+          const newReviews = parsed.value.reviews.filter((r) => !haveReviews.has(r.id));
           const have = new Set(existing.value.map((r) => r.id));
           const records: ResourceRecord[] = [];
           for (const e of parsed.value.resources) {
@@ -234,7 +252,12 @@ export function createResourceService(deps: ResourceServiceDeps): ResourceServic
             const w = await pr.value.put(p);
             if (!w.ok) return fail<Out>(w.error.code, w.error.message);
           }
+          for (const r of newReviews) {
+            const w = await rr.value.put(r);
+            if (!w.ok) return fail<Out>(w.error.code, w.error.message);
+          }
           return ok({
+            reviewsAdded: newReviews.length,
             added: records.length,
             skipped: parsed.value.resources.length - records.length,
             piecesAdded: newPieces.length,
@@ -248,7 +271,11 @@ export function createResourceService(deps: ResourceServiceDeps): ResourceServic
       if (!pr.ok) return fail(pr.error.code, pr.error.message);
       const p = await pr.value.count();
       if (!p.ok) return fail(p.error.code, p.error.message);
-      return ok({ resources: r.value, pieces: p.value });
+      const rr = await deps.reviews();
+      if (!rr.ok) return fail(rr.error.code, rr.error.message);
+      const rv = await rr.value.count();
+      if (!rv.ok) return fail(rv.error.code, rv.error.message);
+      return ok({ resources: r.value, pieces: p.value, reviews: rv.value });
     },
     remove: (id) =>
       deps.writable(async () => {

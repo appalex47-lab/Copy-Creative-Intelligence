@@ -24,6 +24,7 @@ describe('adaptador DEMO', () => {
       'preferences',
       'profile',
       'resources',
+      'reviews',
       'rules',
       'storage',
     ]);

@@ -18,6 +18,7 @@ describe('createServices', () => {
       'preferences',
       'profile',
       'resources',
+      'reviews',
       'rules',
       'storage',
     ]);

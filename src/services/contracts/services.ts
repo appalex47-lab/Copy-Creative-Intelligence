@@ -1,5 +1,6 @@
 import type { StorageInfo } from '@/domain/storageInfo';
 import type { ActivityEvent, ActivityKind } from '@/domain/activity';
+import type { ReviewInput, ReviewRecord, ReviewTargetType } from '@/domain/review';
 import type { FindingStatus, PieceRecord } from '@/domain/piece';
 import type { OcrWord, ResourceRecord } from '@/domain/resource';
 import type { AuditRecord } from '@/domain/audit';
@@ -220,10 +221,13 @@ export interface ResourceService {
       readonly added: number;
       readonly skipped: number;
       readonly piecesAdded: number;
+      readonly reviewsAdded: number;
     }>
   >;
   /** Cuántos recursos y piezas hay; no entran en el respaldo de datos (aviso en «Respaldo»). */
-  counts(): Promise<Result<{ readonly resources: number; readonly pieces: number }>>;
+  counts(): Promise<
+    Result<{ readonly resources: number; readonly pieces: number; readonly reviews: number }>
+  >;
   remove(id: string): Promise<Result<void>>;
 }
 
@@ -245,6 +249,19 @@ export interface PieceService {
     readonly status: FindingStatus;
     readonly note: string;
   }): Promise<Result<PieceRecord>>;
+  remove(id: string): Promise<Result<void>>;
+}
+
+/** Revisión de calidad con la metodología CCI (S4.1). La califica una persona; no publica ni aprueba por sí sola. */
+export interface ReviewService {
+  /** Más recientes primero. */
+  list(): Promise<Result<readonly ReviewRecord[]>>;
+  /** Crea o actualiza la revisión del copy o pieza (una por objetivo). El objetivo debe existir. */
+  save(input: {
+    readonly targetType: ReviewTargetType;
+    readonly targetId: string;
+    readonly body: ReviewInput;
+  }): Promise<Result<ReviewRecord>>;
   remove(id: string): Promise<Result<void>>;
 }
 
@@ -273,5 +290,6 @@ export interface Services {
   readonly audits: AuditService;
   readonly resources: ResourceService;
   readonly pieces: PieceService;
+  readonly reviews: ReviewService;
   readonly coordination: CoordinationService;
 }

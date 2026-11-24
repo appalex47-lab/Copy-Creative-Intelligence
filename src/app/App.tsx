@@ -6,6 +6,7 @@ import { HomePage } from '@/pages/HomePage';
 import { ConnectionPage } from '@/pages/ConnectionPage';
 import { BriefsPage } from '@/pages/BriefsPage';
 import { CatalogPage } from '@/pages/CatalogPage';
+import { ReviewsPage } from '@/pages/ReviewsPage';
 import { PiecesPage } from '@/pages/PiecesPage';
 import { ResourcesPage } from '@/pages/ResourcesPage';
 import { AuditsPage } from '@/pages/AuditsPage';
@@ -27,6 +28,7 @@ const NAV: readonly NavItem[] = [
   { id: 'auditorias', label: 'Auditorías' },
   { id: 'recursos', label: 'Recursos' },
   { id: 'piezas', label: 'Piezas' },
+  { id: 'revision', label: 'Revisión' },
   { id: 'reglas', label: 'Reglas' },
   { id: 'conexion', label: 'Estado de conexión' },
   { id: 'ajustes', label: 'Perfil y preferencias' },
@@ -76,6 +78,8 @@ export function App({ env, services: injected }: AppProps) {
             <ResourcesPage />
           ) : active === 'piezas' ? (
             <PiecesPage />
+          ) : active === 'revision' ? (
+            <ReviewsPage />
           ) : active === 'reglas' ? (
             <RulesPage />
           ) : active === 'conexion' ? (

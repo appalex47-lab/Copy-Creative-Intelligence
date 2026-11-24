@@ -1,4 +1,5 @@
 import type { ActivityEvent } from '@/domain/activity';
+import type { ReviewRecord } from '@/domain/review';
 import type { PieceRecord } from '@/domain/piece';
 import type { ResourceRecord } from '@/domain/resource';
 import type { AuditRecord } from '@/domain/audit';
@@ -110,6 +111,16 @@ export interface PieceRepository {
   count(): Promise<Result<number>>;
 }
 
+/** Revisiones de calidad (S4.1). Como piezas y recursos, NO forman parte del respaldo JSON de datos. */
+export interface ReviewRepository {
+  put(review: unknown): Promise<Result<ReviewRecord>>;
+  get(id: string): Promise<Result<ReviewRecord>>;
+  /** Más recientes primero. */
+  list(): Promise<Result<readonly ReviewRecord[]>>;
+  remove(id: string): Promise<Result<void>>;
+  count(): Promise<Result<number>>;
+}
+
 export interface BackupSnapshot {
   readonly profile: LocalProfile;
   /** Más nuevos primero. */
@@ -149,6 +160,7 @@ export interface Repositories {
   readonly audits: AuditRepository;
   readonly resources: ResourceRepository;
   readonly pieces: PieceRepository;
+  readonly reviews: ReviewRepository;
   readonly backup: BackupRepository;
 }
 

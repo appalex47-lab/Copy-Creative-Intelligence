@@ -122,7 +122,7 @@ function BackupBox({ onRestored }: { readonly onRestored: () => void }) {
     setBusy(false);
     if (!r.ok) return setError(r.error);
     setMsg(
-      `Restauradas ${String(r.value.added)} imágenes; ${String(r.value.skipped)} ya existían y se omitieron. Piezas restauradas: ${String(r.value.piecesAdded)}.`,
+      `Restauradas ${String(r.value.added)} imágenes; ${String(r.value.skipped)} ya existían y se omitieron. Piezas restauradas: ${String(r.value.piecesAdded)}. Revisiones restauradas: ${String(r.value.reviewsAdded)}.`,
     );
     onRestored();
   };
@@ -130,8 +130,9 @@ function BackupBox({ onRestored }: { readonly onRestored: () => void }) {
     <fieldset>
       <legend>Respaldo de imágenes</legend>
       <p className="field-hint">
-        Archivo aparte del respaldo de datos; incluye también las piezas creativas. Al restaurar
-        solo se agregan las imágenes que faltan; no se reemplaza ni se borra nada.
+        Archivo aparte del respaldo de datos; incluye también las piezas creativas y las revisiones
+        de calidad. Al restaurar solo se agregan las imágenes que faltan; no se reemplaza ni se
+        borra nada.
       </p>
       <div className="form-actions">
         <Button onClick={() => void download()} disabled={busy}>

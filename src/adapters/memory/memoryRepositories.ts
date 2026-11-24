@@ -19,6 +19,12 @@ import {
   type AuditRecord,
 } from '@/domain/audit';
 import {
+  REVIEW_ID,
+  compareReviewsNewestFirst,
+  validateReviewRecord,
+  type ReviewRecord,
+} from '@/domain/review';
+import {
   PIECE_ID,
   comparePiecesNewestFirst,
   validatePieceRecord,
@@ -57,6 +63,7 @@ export function createMemoryRepositories(): Repositories {
   const audits = new Map<string, AuditRecord>();
   const resources = new Map<string, ResourceRecord>();
   const pieces = new Map<string, PieceRecord>();
+  const reviews = new Map<string, ReviewRecord>();
   let rules: RulesDoc | null = null;
   let name: string | undefined;
   const profile = (): LocalProfile => (name === undefined ? {} : { displayName: name });
@@ -201,6 +208,26 @@ export function createMemoryRepositories(): Repositories {
         return Promise.resolve(ok(undefined));
       },
       count: () => Promise.resolve(ok(audits.size)),
+    },
+    reviews: {
+      put: (raw) => {
+        const v = validateReviewRecord(raw);
+        if (!v.ok) return Promise.resolve(fail('validation_error', v.reason));
+        reviews.set(v.value.id, v.value);
+        return Promise.resolve(ok(v.value));
+      },
+      get: (id) => {
+        const r = REVIEW_ID.test(id) ? reviews.get(id) : undefined;
+        return Promise.resolve(r ? ok(r) : fail('not_found', 'La revisión no existe.'));
+      },
+      list: () => Promise.resolve(ok([...reviews.values()].sort(compareReviewsNewestFirst))),
+      remove: (id) => {
+        if (!REVIEW_ID.test(id))
+          return Promise.resolve(fail('validation_error', 'Identificador no válido.'));
+        reviews.delete(id);
+        return Promise.resolve(ok(undefined));
+      },
+      count: () => Promise.resolve(ok(reviews.size)),
     },
     pieces: {
       put: (raw) => {
