@@ -10,6 +10,7 @@ import {
 } from '@/domain/copy';
 import type {
   AdaptationRepository,
+  AuditRepository,
   BriefRepository,
   CopyRepository,
 } from '@/repositories/contracts';
@@ -23,6 +24,8 @@ export interface CopyServiceDeps {
   readonly writable: <T>(run: () => Promise<Result<T>>) => Promise<Result<T>>;
   /** Si se indica, borrar un copy con adaptaciones se rechaza. */
   readonly adaptations?: () => Promise<Result<AdaptationRepository>>;
+  /** Si se indica, borrar un copy con auditorías guardadas se rechaza. */
+  readonly audits?: () => Promise<Result<AuditRepository>>;
   readonly now?: () => Date;
   readonly newId?: () => string;
   readonly newVariantId?: () => string;
@@ -119,6 +122,17 @@ export function createCopyService(deps: CopyServiceDeps): CopyService {
           if (!mine.ok) return fail<never>(mine.error.code, mine.error.message);
           if (mine.value.length > 0)
             return fail<never>('conflict', 'El copy tiene adaptaciones; elimínalas primero.');
+        }
+        if (deps.audits) {
+          const a = await deps.audits();
+          if (!a.ok) return fail<never>(a.error.code, a.error.message);
+          const mine = await a.value.list(id);
+          if (!mine.ok) return fail<never>(mine.error.code, mine.error.message);
+          if (mine.value.length > 0)
+            return fail<never>(
+              'conflict',
+              'El copy tiene auditorías guardadas; elimínalas primero.',
+            );
         }
         return repo((r) => r.remove(id));
       }),

@@ -8,6 +8,7 @@ describe('createServices', () => {
       'activity',
       'adaptations',
       'appState',
+      'audits',
       'backup',
       'briefs',
       'coordination',

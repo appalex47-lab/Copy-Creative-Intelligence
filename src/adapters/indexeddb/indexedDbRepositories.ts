@@ -14,6 +14,12 @@ import {
   type CopyRecord,
 } from '@/domain/copy';
 import {
+  AUDIT_ID,
+  compareAuditsNewestFirst,
+  validateAuditRecord,
+  type AuditRecord,
+} from '@/domain/audit';
+import {
   ADAPTATION_ID,
   compareAdaptationsNewestFirst,
   validateAdaptationRecord,
@@ -39,6 +45,7 @@ const STORE_COPIES = 'copies';
 const STORE_RULES = 'rules';
 const STORE_ENTITIES = 'entities';
 const STORE_ADAPTATIONS = 'adaptations';
+const STORE_AUDITS = 'audits';
 const RULES_KEY = 'config';
 const PROFILE_KEY = 'local';
 
@@ -54,6 +61,7 @@ export type MigrationStep = (db: IDBDatabase, tx: IDBTransaction) => void;
  * v3 → v4 (S2.4): crea el almacén `copies` (clave `id`, índices `briefId` y `updatedAt`); no toca datos existentes.
  * v4 → v5 (S2.5b): crea el almacén `rules` (un solo documento con clave `config`: leyendas y términos de marca).
  * v5 → v6 (S2.8): crea `entities` (campañas, productos y ofertas; índice `kind`) y `adaptations` (índice `copyId`).
+ * v6 → v7 (S3.1): crea `audits` (auditorías guardadas; índice `copyId`).
  */
 export const MIGRATIONS: readonly MigrationStep[] = [
   (db) => {
@@ -80,6 +88,9 @@ export const MIGRATIONS: readonly MigrationStep[] = [
     const ad = db.createObjectStore(STORE_ADAPTATIONS, { keyPath: 'id' });
     ad.createIndex('copyId', 'copyId');
     ad.createIndex('updatedAt', 'updatedAt');
+  },
+  (db) => {
+    db.createObjectStore(STORE_AUDITS, { keyPath: 'id' }).createIndex('copyId', 'copyId');
   },
 ];
 
@@ -403,6 +414,53 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
           return ok(await promisify(tx.objectStore(STORE_ADAPTATIONS).count()));
         }),
     },
+    audits: {
+      put: (raw) =>
+        guard(async () => {
+          const v = validateAuditRecord(raw);
+          if (!v.ok) return fail('validation_error', v.reason);
+          const tx = db.transaction(STORE_AUDITS, 'readwrite');
+          tx.objectStore(STORE_AUDITS).put(v.value);
+          await txDone(tx);
+          return ok(v.value);
+        }),
+      get: (id) =>
+        guard(async () => {
+          if (!AUDIT_ID.test(id)) return fail('validation_error', 'Identificador no válido.');
+          const tx = db.transaction(STORE_AUDITS, 'readonly');
+          const v = validateAuditRecord(
+            await promisify<unknown>(tx.objectStore(STORE_AUDITS).get(id)),
+          );
+          return v.ok ? ok(v.value) : fail('validation_error', 'La auditoría no existe.');
+        }),
+      list: (copyId) =>
+        guard(async () => {
+          const tx = db.transaction(STORE_AUDITS, 'readonly');
+          const store = tx.objectStore(STORE_AUDITS);
+          const raw = await promisify<unknown[]>(
+            copyId === undefined ? store.getAll() : store.index('copyId').getAll(copyId),
+          );
+          const out: AuditRecord[] = [];
+          for (const item of raw) {
+            const v = validateAuditRecord(item);
+            if (v.ok) out.push(v.value);
+          }
+          return ok(out.sort(compareAuditsNewestFirst));
+        }),
+      remove: (id) =>
+        guard(async () => {
+          if (!AUDIT_ID.test(id)) return fail('validation_error', 'Identificador no válido.');
+          const tx = db.transaction(STORE_AUDITS, 'readwrite');
+          tx.objectStore(STORE_AUDITS).delete(id);
+          await txDone(tx);
+          return ok(undefined);
+        }),
+      count: () =>
+        guard(async () => {
+          const tx = db.transaction(STORE_AUDITS, 'readonly');
+          return ok(await promisify(tx.objectStore(STORE_AUDITS).count()));
+        }),
+    },
     rules: {
       get: () => guard(async () => ok(await rulesFrom())),
       save: (raw) =>
@@ -455,6 +513,7 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
               STORE_RULES,
               STORE_ENTITIES,
               STORE_ADAPTATIONS,
+              STORE_AUDITS,
             ],
             'readonly',
           ); // una sola lectura consistente
@@ -466,6 +525,7 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
             rawRules,
             rawEntities,
             rawAdaptations,
+            rawAudits,
           ] = await Promise.all([
             promisify<unknown[]>(tx.objectStore(STORE_ACTIVITY).getAll()),
             promisify<unknown>(tx.objectStore(STORE_PROFILE).get(PROFILE_KEY)),
@@ -474,6 +534,7 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
             promisify<unknown>(tx.objectStore(STORE_RULES).get(RULES_KEY)),
             promisify<unknown[]>(tx.objectStore(STORE_ENTITIES).getAll()),
             promisify<unknown[]>(tx.objectStore(STORE_ADAPTATIONS).getAll()),
+            promisify<unknown[]>(tx.objectStore(STORE_AUDITS).getAll()),
           ]);
           const rulesParsed = rawRules === undefined ? undefined : validateRulesDoc(rawRules);
           const rules = rulesParsed?.ok ? rulesParsed.value : null;
@@ -489,6 +550,12 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
             if (a.ok) adaptations.push(a.value);
           }
           adaptations.sort(compareAdaptationsNewestFirst);
+          const audits: AuditRecord[] = [];
+          for (const item of rawAudits) {
+            const a = validateAuditRecord(item);
+            if (a.ok) audits.push(a.value);
+          }
+          audits.sort(compareAuditsNewestFirst);
           const copies: CopyRecord[] = [];
           for (const item of rawCopies) {
             const c = validateCopyRecord(item);
@@ -515,6 +582,7 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
             rules,
             entities,
             adaptations,
+            audits,
           });
         }),
       replaceAll: (raw) =>
@@ -530,6 +598,7 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
               STORE_RULES,
               STORE_ENTITIES,
               STORE_ADAPTATIONS,
+              STORE_AUDITS,
             ],
             'readwrite',
           );
@@ -543,11 +612,13 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
             tx.objectStore(STORE_RULES).clear();
             tx.objectStore(STORE_ENTITIES).clear();
             tx.objectStore(STORE_ADAPTATIONS).clear();
+            tx.objectStore(STORE_AUDITS).clear();
             for (const e of v.value.activity) events.put(e);
             for (const b of v.value.briefs) tx.objectStore(STORE_BRIEFS).put(b);
             for (const c of v.value.copies) tx.objectStore(STORE_COPIES).put(c);
             for (const e of v.value.entities) tx.objectStore(STORE_ENTITIES).put(e);
             for (const a of v.value.adaptations) tx.objectStore(STORE_ADAPTATIONS).put(a);
+            for (const a of v.value.audits) tx.objectStore(STORE_AUDITS).put(a);
             if (v.value.rules !== null) tx.objectStore(STORE_RULES).put(v.value.rules, RULES_KEY);
             profile.delete(PROFILE_KEY);
             if (v.value.profile.displayName !== undefined)

@@ -495,6 +495,41 @@ export const CONTRACT_CASES: readonly ContractCase[] = [
       assert(l.ok && l.value.length === 0, 'catálogo limpio');
     },
   },
+  {
+    name: 'auditorías: put/get/list/remove, rechazo de inválidas y respaldo',
+    run: async (r) => {
+      const t = '2026-11-23T09:00:00.000Z';
+      const au = {
+        id: 'aud_aaaaaaaa1',
+        copyId: 'cpy_aaaaaaaa1',
+        sourceVersion: 1,
+        targetLabel: 'Principal',
+        channel: 'Email',
+        score: 80,
+        verdict: 'revisar',
+        blocked: false,
+        findings: [{ ruleId: 'marca.x', category: 'marca', severity: 'mayor', message: 'm' }],
+        rules: { isTemplate: true, legends: 0, brandTerms: 7 },
+        createdAt: t,
+      };
+      assert((await r.audits.put(au)).ok, 'put');
+      const malo = await r.audits.put({ ...au, id: 'aud_aaaaaaaa2', score: 500 });
+      assert(!malo.ok && malo.error.code === 'validation_error', 'inválida');
+      const g = await r.audits.get('aud_aaaaaaaa1');
+      assert(g.ok && g.value.score === 80, 'get');
+      assert(!(await r.audits.get('aud_noexiste1')).ok, 'get inexistente falla');
+      const a = await r.audits.list('cpy_aaaaaaaa1');
+      assert(a.ok && a.value.length === 1, 'por copy');
+      const b = await r.audits.list('cpy_bbbbbbbb1');
+      assert(b.ok && b.value.length === 0, 'otro copy vacío');
+      same(await r.audits.count(), { ok: true, value: 1 }, 'count');
+      const ex = await r.backup.exportAll();
+      assert(ex.ok && ex.value.audits.length === 1, 'export');
+      same(await r.audits.remove('aud_aaaaaaaa1'), { ok: true, value: undefined }, 'remove');
+      same(await r.audits.remove('aud_aaaaaaaa1'), { ok: true, value: undefined }, 'idempotente');
+      same(await r.audits.count(), { ok: true, value: 0 }, 'vacío');
+    },
+  },
 ];
 
 /** Ejecuta todos los casos y devuelve los fallos (lista vacía = todo correcto). */

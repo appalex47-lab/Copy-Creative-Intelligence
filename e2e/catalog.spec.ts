@@ -160,7 +160,7 @@ test.describe('catálogo, campaña en brief, adaptaciones y búsqueda (modo loca
     ]);
     const text = readFileSync(await dl.path(), 'utf8');
     const f = JSON.parse(text) as { version: number; data: { adaptations: { channel: string }[] } };
-    expect(f.version).toBe(6);
+    expect(f.version).toBe(7);
     expect(f.data.adaptations.map((a) => a.channel)).toEqual(['WhatsApp']);
 
     // Eliminar la adaptación y luego el copy.

@@ -23,7 +23,7 @@ function setup(repos: Repositories = createMemoryRepositories()) {
   return { repos, preferences, recorded, service };
 }
 const must = <T>(r: Result<T>): T => {
-  if (!r.ok) throw new Error(`falló: ${r.error.code}`);
+  if (!r.ok) throw new Error(`falló: ${r.error.code} ${r.error.message}`);
   return r.value;
 };
 
@@ -62,6 +62,7 @@ describe('servicio de respaldo', () => {
       hasRules: false,
       entityCount: 0,
       adaptationCount: 0,
+      auditCount: 0,
       hasName: true,
     });
     expect(a.recorded).toEqual(['backup_exported']);

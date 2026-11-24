@@ -1,3 +1,4 @@
+import { validateAuditRecord, compareAuditsNewestFirst, type AuditRecord } from './audit';
 import {
   validateAdaptationRecord,
   compareAdaptationsNewestFirst,
@@ -23,12 +24,13 @@ import { invalid, valid, type Validation } from './validation';
  * locales y una suma SHA-256 de los datos para detectar daños. La importación REEMPLAZA todos los datos locales.
  */
 export const BACKUP_FORMAT = 'cci-backup';
-export const BACKUP_VERSION = 6; // v2 añade `briefs` (S2.2), v3 `copies` (S2.4), v4 `rules` (S2.5b) v5 variantes dentro de cada copy (S2.7) y v6 `entities`, `adaptations` y `campaignId` en briefs (S2.8); se aceptan v1–v5
+export const BACKUP_VERSION = 7; // v2 añade `briefs` (S2.2), v3 `copies` (S2.4), v4 `rules` (S2.5b) v5 variantes dentro de cada copy (S2.7) y v6 `entities`, `adaptations` y `campaignId` en briefs (S2.8); v7 `audits` (S3.1); se aceptan v1–v6
 export const BACKUP_MAX_BYTES = 5 * 1024 * 1024;
 export const BACKUP_MAX_EVENTS = 10_000;
 export const BACKUP_MAX_BRIEFS = 2_000;
 export const BACKUP_MAX_COPIES = 5_000;
 export const BACKUP_MAX_ADAPTATIONS = 5_000;
+export const BACKUP_MAX_AUDITS = 5_000;
 
 export interface BackupData {
   readonly profile: LocalProfile;
@@ -40,6 +42,7 @@ export interface BackupData {
   readonly rules: RulesDoc | null;
   readonly entities: readonly EntityRecord[];
   readonly adaptations: readonly AdaptationRecord[];
+  readonly audits: readonly AuditRecord[];
 }
 
 export interface ParsedBackup {
@@ -116,6 +119,33 @@ function canonicalAdaptation(a: AdaptationRecord): unknown {
   };
 }
 
+function canonicalAudit(a: AuditRecord): unknown {
+  return {
+    id: a.id,
+    copyId: a.copyId,
+    sourceVersion: a.sourceVersion,
+    targetLabel: a.targetLabel,
+    channel: a.channel,
+    score: a.score,
+    verdict: a.verdict,
+    blocked: a.blocked,
+    findings: a.findings.map((f) => ({
+      ruleId: f.ruleId,
+      category: f.category,
+      severity: f.severity,
+      message: f.message,
+      ...(f.evidence !== undefined ? { evidence: f.evidence } : {}),
+      ...(f.field !== undefined ? { field: f.field } : {}),
+    })),
+    rules: {
+      isTemplate: a.rules.isTemplate,
+      legends: a.rules.legends,
+      brandTerms: a.rules.brandTerms,
+    },
+    createdAt: a.createdAt,
+  };
+}
+
 /** Forma canónica (orden de claves fijo) sobre la que se calcula la suma: no depende del formato del archivo. */
 export function canonicalData(data: BackupData, version: number = BACKUP_VERSION): string {
   const s = data.settings;
@@ -139,6 +169,7 @@ export function canonicalData(data: BackupData, version: number = BACKUP_VERSION
           adaptations: data.adaptations.map(canonicalAdaptation),
         }
       : {}),
+    ...(version >= 7 ? { audits: data.audits.map(canonicalAudit) } : {}),
   });
 }
 
@@ -215,22 +246,44 @@ export function parseBackupText(text: string): Validation<ParsedBackup> {
     return invalid('La verificación de integridad del respaldo no es válida.');
   const data = raw['data'];
   const dataKeys =
-    version >= 6
-      ? ['profile', 'settings', 'activity', 'briefs', 'copies', 'rules', 'entities', 'adaptations']
-      : version >= 4
-        ? ['profile', 'settings', 'activity', 'briefs', 'copies', 'rules']
-        : version >= 3
-          ? ['profile', 'settings', 'activity', 'briefs', 'copies']
-          : version >= 2
-            ? ['profile', 'settings', 'activity', 'briefs']
-            : ['profile', 'settings', 'activity'];
+    version >= 7
+      ? [
+          'profile',
+          'settings',
+          'activity',
+          'briefs',
+          'copies',
+          'rules',
+          'entities',
+          'adaptations',
+          'audits',
+        ]
+      : version >= 6
+        ? [
+            'profile',
+            'settings',
+            'activity',
+            'briefs',
+            'copies',
+            'rules',
+            'entities',
+            'adaptations',
+          ]
+        : version >= 4
+          ? ['profile', 'settings', 'activity', 'briefs', 'copies', 'rules']
+          : version >= 3
+            ? ['profile', 'settings', 'activity', 'briefs', 'copies']
+            : version >= 2
+              ? ['profile', 'settings', 'activity', 'briefs']
+              : ['profile', 'settings', 'activity'];
   if (
     !isObject(data) ||
     !onlyKeys(data, dataKeys) ||
     (version >= 2 && !('briefs' in data)) ||
     (version >= 3 && !('copies' in data)) ||
     (version >= 4 && !('rules' in data)) ||
-    (version >= 6 && (!('entities' in data) || !('adaptations' in data)))
+    (version >= 6 && (!('entities' in data) || !('adaptations' in data))) ||
+    (version >= 7 && !('audits' in data))
   )
     return invalid('Los datos del respaldo no son válidos.');
 
@@ -276,6 +329,9 @@ export function parseBackupText(text: string): Validation<ParsedBackup> {
       ? parseAdaptations(data['adaptations'], copies.value, 'respaldo')
       : valid<AdaptationRecord[]>([]);
   if (!adaptations.ok) return adaptations;
+  const audits =
+    version >= 7 ? parseAudits(data['audits'], copies.value, 'respaldo') : valid<AuditRecord[]>([]);
+  if (!audits.ok) return audits;
   if (version < 6 && briefs.value.some((b) => b.campaignId !== undefined))
     return invalid('Los briefs del respaldo no son válidos para su versión.');
   if (version < 5 && copies.value.some((c) => c.variants !== undefined))
@@ -299,6 +355,7 @@ export function parseBackupText(text: string): Validation<ParsedBackup> {
       rules,
       entities: entities.value,
       adaptations: adaptations.value,
+      audits: audits.value,
     },
   });
 }
@@ -389,6 +446,30 @@ function parseAdaptations(
   return valid(out.sort(compareAdaptationsNewestFirst));
 }
 
+/** Cada auditoría debe apuntar a un copy existente y a una versión que exista de él. */
+function parseAudits(
+  raw: unknown,
+  copies: readonly CopyRecord[],
+  where: string,
+): Validation<AuditRecord[]> {
+  if (!Array.isArray(raw) || raw.length > BACKUP_MAX_AUDITS)
+    return invalid(`Las auditorías del ${where} no son válidas.`);
+  const byId = new Map(copies.map((c) => [c.id, c]));
+  const seen = new Set<string>();
+  const out: AuditRecord[] = [];
+  for (const item of raw) {
+    const v = validateAuditRecord(item);
+    if (!v.ok || seen.has(v.value.id))
+      return invalid(`Las auditorías del ${where} contienen datos no válidos.`);
+    const copy = byId.get(v.value.copyId);
+    if (!copy || !copy.versions.some((x) => x.n === v.value.sourceVersion))
+      return invalid(`Una auditoría del ${where} apunta a un copy o versión que no existe.`);
+    seen.add(v.value.id);
+    out.push(v.value);
+  }
+  return valid(out.sort(compareAuditsNewestFirst));
+}
+
 export interface Snapshot {
   readonly profile: LocalProfile;
   readonly activity: readonly ActivityEvent[];
@@ -397,13 +478,23 @@ export interface Snapshot {
   readonly rules: RulesDoc | null;
   readonly entities: readonly EntityRecord[];
   readonly adaptations: readonly AdaptationRecord[];
+  readonly audits: readonly AuditRecord[];
 }
 
 /** Valida un conjunto (perfil + actividad) antes de reemplazar los datos locales: todo o nada. */
 export function validateSnapshot(raw: unknown): Validation<Snapshot> {
   if (
     !isObject(raw) ||
-    !onlyKeys(raw, ['profile', 'activity', 'briefs', 'copies', 'rules', 'entities', 'adaptations'])
+    !onlyKeys(raw, [
+      'profile',
+      'activity',
+      'briefs',
+      'copies',
+      'rules',
+      'entities',
+      'adaptations',
+      'audits',
+    ])
   )
     return invalid('Los datos a restaurar no son válidos.');
   const p = raw['profile'];
@@ -443,6 +534,11 @@ export function validateSnapshot(raw: unknown): Validation<Snapshot> {
       ? valid<AdaptationRecord[]>([])
       : parseAdaptations(raw['adaptations'], copies.value, 'conjunto a restaurar');
   if (!adaptations.ok) return adaptations;
+  const audits =
+    raw['audits'] === undefined
+      ? valid<AuditRecord[]>([])
+      : parseAudits(raw['audits'], copies.value, 'conjunto a restaurar');
+  if (!audits.ok) return audits;
   let rules: RulesDoc | null = null;
   if (raw['rules'] !== undefined && raw['rules'] !== null) {
     const r = validateRulesDoc(raw['rules']);
@@ -457,5 +553,6 @@ export function validateSnapshot(raw: unknown): Validation<Snapshot> {
     rules,
     entities: entities.value,
     adaptations: adaptations.value,
+    audits: audits.value,
   });
 }

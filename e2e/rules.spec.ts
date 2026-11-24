@@ -107,7 +107,7 @@ test.describe('reglas configurables (modo local, Chrome real)', () => {
       version: number;
       data: { rules: { legends: { text: string; active: boolean }[] } };
     };
-    expect(file.version).toBe(6);
+    expect(file.version).toBe(7);
     expect(file.data.rules.legends).toEqual([
       expect.objectContaining({ text: 'Consulta a tu médico', active: false }),
     ]);

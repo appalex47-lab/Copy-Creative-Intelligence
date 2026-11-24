@@ -14,6 +14,7 @@ describe('adaptador DEMO', () => {
       'activity',
       'adaptations',
       'appState',
+      'audits',
       'backup',
       'briefs',
       'coordination',

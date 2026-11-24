@@ -26,6 +26,7 @@ const data: BackupData = {
   ],
   entities: [],
   adaptations: [],
+  audits: [],
   copies: [
     {
       id: 'cpy_abcdefgh1',
@@ -67,7 +68,7 @@ describe('respaldo v2 con briefs (S2.2)', () => {
   it('los briefs viajan en el archivo y se interpretan igual', () => {
     const r = parseBackupText(file());
     expect(r.ok && r.value.data.briefs).toEqual(data.briefs);
-    expect(r.ok && r.value.version).toBe(6);
+    expect(r.ok && r.value.version).toBe(7);
     expect(r.ok && r.value.data.copies).toEqual(data.copies);
   });
   it('un respaldo v1 (sin briefs) sigue siendo válido y su suma se calcula con la forma v1', () => {
@@ -78,6 +79,7 @@ describe('respaldo v2 con briefs (S2.2)', () => {
       delete (o['data'] as Record<string, unknown>)['rules'];
       delete (o['data'] as Record<string, unknown>)['entities'];
       delete (o['data'] as Record<string, unknown>)['adaptations'];
+      delete (o['data'] as Record<string, unknown>)['audits'];
     });
     const r = parseBackupText(v1);
     expect(r.ok && r.value.data.briefs).toEqual([]);
@@ -130,6 +132,7 @@ describe('respaldo v4 con reglas (S2.5b)', () => {
       delete (o['data'] as Record<string, unknown>)['rules'];
       delete (o['data'] as Record<string, unknown>)['entities'];
       delete (o['data'] as Record<string, unknown>)['adaptations'];
+      delete (o['data'] as Record<string, unknown>)['audits'];
     });
     const r = parseBackupText(v3);
     expect(r.ok && r.value.version).toBe(3);
@@ -171,6 +174,7 @@ describe('respaldo v5 con variantes (S2.7)', () => {
     o['version'] = 4;
     delete (o['data'] as Record<string, unknown>)['entities'];
     delete (o['data'] as Record<string, unknown>)['adaptations'];
+    delete (o['data'] as Record<string, unknown>)['audits'];
     const r = parseBackupText(JSON.stringify(o));
     expect(r.ok).toBe(false);
   });
@@ -189,7 +193,7 @@ describe('respaldo (dominio)', () => {
   it('rechaza texto que no es JSON, otros formatos y versiones nuevas o inválidas', () => {
     expect(reason('no json')).toContain('no es JSON');
     expect(reason('{"format":"otro"}')).toContain('no es un respaldo');
-    expect(reason(file((o) => (o['version'] = 7)))).toContain('más reciente');
+    expect(reason(file((o) => (o['version'] = 8)))).toContain('más reciente');
     expect(reason(file((o) => (o['version'] = 0)))).toContain('versión');
     expect(reason(file((o) => (o['version'] = '1')))).toContain('versión');
   });
@@ -349,5 +353,58 @@ describe('respaldo v6: catálogo, adaptaciones y campaña en briefs (S2.8)', () 
     delete d['entities'];
     delete d['adaptations'];
     expect(parseBackupText(JSON.stringify(o)).ok).toBe(false);
+  });
+});
+
+describe('respaldo v7: auditorías guardadas (S3.1)', () => {
+  const t = '2026-11-22T09:00:00.000Z';
+  const aud = {
+    id: 'aud_abcdefgh1',
+    copyId: 'cpy_abcdefgh1',
+    sourceVersion: 2,
+    targetLabel: 'Principal',
+    channel: 'Email' as const,
+    score: 80,
+    verdict: 'revisar' as const,
+    blocked: false,
+    findings: [],
+    rules: { isTemplate: true, legends: 0, brandTerms: 7 },
+    createdAt: t,
+  };
+  const full: BackupData = { ...data, audits: [aud] };
+  const make = (d: BackupData, mut?: (o: Record<string, unknown>) => void) => {
+    const o = JSON.parse(serializeBackup(d, '2026-11-22T12:00:00.000Z', HASH)) as Record<
+      string,
+      unknown
+    >;
+    mut?.(o);
+    return JSON.stringify(o);
+  };
+  it('viajan en el archivo y entran en la suma desde v7 y no antes', () => {
+    const r = parseBackupText(make(full));
+    expect(r.ok && r.value.data.audits).toEqual([aud]);
+    expect(r.ok && r.value.version).toBe(7);
+    expect(canonicalData(full, 7)).toContain('"audits"');
+    expect(canonicalData(full, 6)).not.toContain('audits');
+  });
+  it('rechaza una auditoría cuyo copy o versión no existe, e ids repetidos', () => {
+    expect(
+      parseBackupText(make({ ...full, audits: [{ ...aud, copyId: 'cpy_zzzzzzzz9' }] })).ok,
+    ).toBe(false);
+    expect(parseBackupText(make({ ...full, audits: [{ ...aud, sourceVersion: 9 }] })).ok).toBe(
+      false,
+    );
+    expect(parseBackupText(make({ ...full, audits: [aud, aud] })).ok).toBe(false);
+  });
+  it('v7 exige la sección audits; un archivo v6 sin ella sigue siendo válido', () => {
+    expect(
+      parseBackupText(make(full, (o) => delete (o['data'] as Record<string, unknown>)['audits']))
+        .ok,
+    ).toBe(false);
+    const v6 = JSON.parse(make(data)) as Record<string, unknown>;
+    v6['version'] = 6;
+    delete (v6['data'] as Record<string, unknown>)['audits'];
+    const r = parseBackupText(JSON.stringify(v6));
+    expect(r.ok && r.value.data.audits).toEqual([]);
   });
 });

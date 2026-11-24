@@ -13,6 +13,12 @@ import {
   type CopyRecord,
 } from '@/domain/copy';
 import {
+  AUDIT_ID,
+  compareAuditsNewestFirst,
+  validateAuditRecord,
+  type AuditRecord,
+} from '@/domain/audit';
+import {
   ADAPTATION_ID,
   compareAdaptationsNewestFirst,
   validateAdaptationRecord,
@@ -36,6 +42,7 @@ export function createMemoryRepositories(): Repositories {
   const copies = new Map<string, CopyRecord>();
   const entities = new Map<string, EntityRecord>();
   const adaptations = new Map<string, AdaptationRecord>();
+  const audits = new Map<string, AuditRecord>();
   let rules: RulesDoc | null = null;
   let name: string | undefined;
   const profile = (): LocalProfile => (name === undefined ? {} : { displayName: name });
@@ -154,6 +161,33 @@ export function createMemoryRepositories(): Repositories {
       },
       count: () => Promise.resolve(ok(adaptations.size)),
     },
+    audits: {
+      put: (raw) => {
+        const v = validateAuditRecord(raw);
+        if (!v.ok) return Promise.resolve(fail('validation_error', v.reason));
+        audits.set(v.value.id, v.value);
+        return Promise.resolve(ok(v.value));
+      },
+      get: (id) => {
+        const a = AUDIT_ID.test(id) ? audits.get(id) : undefined;
+        return Promise.resolve(a ? ok(a) : fail('validation_error', 'La auditoría no existe.'));
+      },
+      list: (copyId) =>
+        Promise.resolve(
+          ok(
+            [...audits.values()]
+              .filter((a) => copyId === undefined || a.copyId === copyId)
+              .sort(compareAuditsNewestFirst),
+          ),
+        ),
+      remove: (id) => {
+        if (!AUDIT_ID.test(id))
+          return Promise.resolve(fail('validation_error', 'Identificador no válido.'));
+        audits.delete(id);
+        return Promise.resolve(ok(undefined));
+      },
+      count: () => Promise.resolve(ok(audits.size)),
+    },
     rules: {
       get: () => Promise.resolve(ok(rules)),
       save: (raw) => {
@@ -191,6 +225,7 @@ export function createMemoryRepositories(): Repositories {
             rules,
             entities: [...entities.values()].sort(compareEntities),
             adaptations: [...adaptations.values()].sort(compareAdaptationsNewestFirst),
+            audits: [...audits.values()].sort(compareAuditsNewestFirst),
           }),
         ),
       replaceAll: (raw) => {
@@ -201,11 +236,13 @@ export function createMemoryRepositories(): Repositories {
         copies.clear();
         entities.clear();
         adaptations.clear();
+        audits.clear();
         for (const e of v.value.activity) events.set(e.id, e);
         for (const b of v.value.briefs) briefs.set(b.id, b);
         for (const c of v.value.copies) copies.set(c.id, c);
         for (const e of v.value.entities) entities.set(e.id, e);
         for (const a of v.value.adaptations) adaptations.set(a.id, a);
+        for (const a of v.value.audits) audits.set(a.id, a);
         rules = v.value.rules;
         name = v.value.profile.displayName;
         return Promise.resolve(ok(undefined));

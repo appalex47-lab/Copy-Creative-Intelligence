@@ -1,5 +1,6 @@
 import type { StorageInfo } from '@/domain/storageInfo';
 import type { ActivityEvent, ActivityKind } from '@/domain/activity';
+import type { AuditRecord } from '@/domain/audit';
 import type { AdaptationRecord } from '@/domain/adaptation';
 import type { EntityKind, EntityRecord } from '@/domain/entity';
 import type { BriefRecord } from '@/domain/briefRecord';
@@ -55,6 +56,7 @@ export interface BackupSummary {
   readonly hasRules: boolean;
   readonly entityCount: number;
   readonly adaptationCount: number;
+  readonly auditCount: number;
   readonly hasName: boolean;
 }
 
@@ -181,6 +183,15 @@ export interface AdaptationService {
   remove(id: string): Promise<Result<void>>;
 }
 
+/** Auditorías creativas guardadas (S3.1): fotos inmutables de la revisión por reglas. No aprueban nada. */
+export interface AuditService {
+  /** Más recientes primero; con `copyId`, solo las de ese copy. */
+  list(copyId?: string): Promise<Result<readonly AuditRecord[]>>;
+  /** Evalúa la versión vigente del copy con las reglas actuales y guarda el resultado. No audita variantes. */
+  create(input: { readonly copyId: string }): Promise<Result<AuditRecord>>;
+  remove(id: string): Promise<Result<void>>;
+}
+
 export type CoordinationState = 'checking' | 'writer' | 'reader';
 
 /** Coordinación entre pestañas (P12): una pestaña escribe; las demás, solo lectura con aviso visible. */
@@ -203,5 +214,6 @@ export interface Services {
   readonly rules: RulesService;
   readonly entities: EntityService;
   readonly adaptations: AdaptationService;
+  readonly audits: AuditService;
   readonly coordination: CoordinationService;
 }

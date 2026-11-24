@@ -1,4 +1,5 @@
 import type { ActivityEvent } from '@/domain/activity';
+import type { AuditRecord } from '@/domain/audit';
 import type { AdaptationRecord } from '@/domain/adaptation';
 import type { EntityKind, EntityRecord } from '@/domain/entity';
 import type { BriefRecord } from '@/domain/briefRecord';
@@ -77,6 +78,16 @@ export interface AdaptationRepository {
   count(): Promise<Result<number>>;
 }
 
+export interface AuditRepository {
+  /** Guarda una auditoría validada (inmutable por convención: el servicio nunca reescribe una existente). */
+  put(record: unknown): Promise<Result<AuditRecord>>;
+  get(id: string): Promise<Result<AuditRecord>>;
+  /** Más recientes primero; con `copyId`, solo las de ese copy. */
+  list(copyId?: string): Promise<Result<readonly AuditRecord[]>>;
+  remove(id: string): Promise<Result<void>>;
+  count(): Promise<Result<number>>;
+}
+
 export interface BackupSnapshot {
   readonly profile: LocalProfile;
   /** Más nuevos primero. */
@@ -91,6 +102,8 @@ export interface BackupSnapshot {
   readonly entities: readonly EntityRecord[];
   /** Adaptaciones por canal (S2.8), más recientes primero. */
   readonly adaptations: readonly AdaptationRecord[];
+  /** Auditorías guardadas (S3.1), más recientes primero. */
+  readonly audits: readonly AuditRecord[];
 }
 
 export interface BackupRepository {
@@ -111,6 +124,7 @@ export interface Repositories {
   readonly rules: RulesRepository;
   readonly entities: EntityRepository;
   readonly adaptations: AdaptationRepository;
+  readonly audits: AuditRepository;
   readonly backup: BackupRepository;
 }
 

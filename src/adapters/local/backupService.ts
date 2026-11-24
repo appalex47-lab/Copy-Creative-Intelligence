@@ -33,6 +33,7 @@ const summaryOf = (exportedAt: string, d: BackupData): BackupSummary => ({
   hasRules: d.rules !== null,
   entityCount: d.entities.length,
   adaptationCount: d.adaptations.length,
+  auditCount: d.audits.length,
   hasName: d.profile.displayName !== undefined,
 });
 
@@ -71,6 +72,7 @@ export function createBackupService(deps: BackupDeps): BackupService {
         rules: snap.value.rules,
         entities: snap.value.entities,
         adaptations: snap.value.adaptations,
+        audits: snap.value.audits,
       };
       const text = serializeBackup(data, exportedAt, await sha256Hex(canonicalData(data)));
       await deps.preferences.update({ lastBackupAt: exportedAt }); // secundario: si falla, el archivo igual es válido
@@ -108,6 +110,7 @@ export function createBackupService(deps: BackupDeps): BackupService {
         rules: data.rules,
         entities: data.entities,
         adaptations: data.adaptations,
+        audits: data.audits,
       });
       if (!replaced.ok) {
         await deps.preferences.update(previous);

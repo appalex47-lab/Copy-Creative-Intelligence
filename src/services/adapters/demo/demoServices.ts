@@ -7,6 +7,7 @@ import {
 import type { AppState } from '@/domain/entities';
 import { createCopyService } from '@/adapters/local/copyService';
 import { createEntityService } from '@/adapters/local/entityService';
+import { createAuditService } from '@/adapters/local/auditService';
 import { createAdaptationService } from '@/adapters/local/adaptationService';
 import { createRulesService } from '@/adapters/local/rulesService';
 import { createBriefService } from '@/adapters/local/briefService';
@@ -42,6 +43,14 @@ export function createDemoServices(environment: AppState['environment']): Servic
       copies: () => Promise.resolve(ok(memory.copies)),
       briefs: () => Promise.resolve(ok(memory.briefs)),
       adaptations: () => Promise.resolve(ok(memory.adaptations)),
+      audits: () => Promise.resolve(ok(memory.audits)),
+      writable: (run) => run(),
+    }),
+    audits: createAuditService({
+      repo: () => Promise.resolve(ok(memory.audits)),
+      copies: () => Promise.resolve(ok(memory.copies)),
+      briefs: () => Promise.resolve(ok(memory.briefs)),
+      rules: () => Promise.resolve(ok(memory.rules)),
       writable: (run) => run(),
     }),
     entities: createEntityService({

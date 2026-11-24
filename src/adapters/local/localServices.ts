@@ -8,6 +8,7 @@ import { createBriefService } from './briefService';
 import { createRulesService } from './rulesService';
 import { createCopyService } from './copyService';
 import { createEntityService } from './entityService';
+import { createAuditService } from './auditService';
 import { createAdaptationService } from './adaptationService';
 import { createBrowserStorageInfoService } from '@/adapters/storage/browserStorageInfo';
 import { createBrowserPreferencesStore } from '@/adapters/localstorage/preferencesStore';
@@ -117,6 +118,10 @@ export function createLocalServices(environment: AppState['environment']): Servi
       const r = await repos();
       return r.ok ? ok(r.value.adaptations) : fail(r.error.code, r.error.message);
     },
+    audits: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.audits) : fail(r.error.code, r.error.message);
+    },
     writable,
   });
   const entities = createEntityService({
@@ -138,6 +143,25 @@ export function createLocalServices(environment: AppState['environment']): Servi
     copies: async () => {
       const r = await repos();
       return r.ok ? ok(r.value.copies) : fail(r.error.code, r.error.message);
+    },
+    writable,
+  });
+  const audits = createAuditService({
+    repo: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.audits) : fail(r.error.code, r.error.message);
+    },
+    copies: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.copies) : fail(r.error.code, r.error.message);
+    },
+    briefs: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.briefs) : fail(r.error.code, r.error.message);
+    },
+    rules: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.rules) : fail(r.error.code, r.error.message);
     },
     writable,
   });
@@ -166,6 +190,7 @@ export function createLocalServices(environment: AppState['environment']): Servi
     rules,
     entities,
     adaptations,
+    audits,
     coordination,
   };
 }

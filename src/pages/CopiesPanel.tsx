@@ -29,6 +29,7 @@ import {
   evaluateCopy,
   type Evaluation,
 } from '@/domain/copyRules';
+import { AuditsSection } from '@/pages/AuditsSection';
 import { AdaptationsSection } from '@/pages/AdaptationsSection';
 import { matchesCopy } from '@/domain/copySearch';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
@@ -352,6 +353,7 @@ function CopyItem({
           </section>
         )}
         <AdaptationsSection copy={copy} briefChannel={brief.fields.channel} onChanged={onDone} />
+        <AuditsSection copy={copy} onChanged={onDone} />
         {review && (
           <ReviewView
             review={review.evaluation}
