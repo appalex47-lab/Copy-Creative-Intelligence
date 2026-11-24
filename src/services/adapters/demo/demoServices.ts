@@ -7,6 +7,8 @@ import {
 import type { AppState } from '@/domain/entities';
 import { createCopyService } from '@/adapters/local/copyService';
 import { createEntityService } from '@/adapters/local/entityService';
+import { createResourceService } from '@/adapters/local/resourceService';
+import { readImageSize } from '@/adapters/ocr/imageSize';
 import { createAuditService } from '@/adapters/local/auditService';
 import { createAdaptationService } from '@/adapters/local/adaptationService';
 import { createRulesService } from '@/adapters/local/rulesService';
@@ -51,6 +53,16 @@ export function createDemoServices(environment: AppState['environment']): Servic
       copies: () => Promise.resolve(ok(memory.copies)),
       briefs: () => Promise.resolve(ok(memory.briefs)),
       rules: () => Promise.resolve(ok(memory.rules)),
+      writable: (run) => run(),
+    }),
+    resources: createResourceService({
+      repo: () => Promise.resolve(ok(memory.resources)),
+      engine: () => ({
+        recognize: () =>
+          Promise.resolve(fail('unavailable', 'El OCR solo funciona en el modo local.')),
+      }),
+      readSize: readImageSize,
+      engineName: 'demo',
       writable: (run) => run(),
     }),
     entities: createEntityService({

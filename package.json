@@ -9,6 +9,7 @@
     "node": ">=22.22.2"
   },
   "scripts": {
+    "postinstall": "node scripts/copy-ocr-assets.mjs",
     "dev": "vite",
     "build": "tsc -b && vite build --mode preview",
     "preview": "vite preview --mode preview",
@@ -25,8 +26,11 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@tesseract.js-data/eng": "1.0.0",
+    "@tesseract.js-data/spa": "1.0.0",
     "react": "19.3.1",
-    "react-dom": "19.3.1"
+    "react-dom": "19.3.1",
+    "tesseract.js": "5.1.1"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.14.0",

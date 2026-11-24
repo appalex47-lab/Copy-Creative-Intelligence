@@ -1,4 +1,5 @@
 import type { ActivityEvent } from '@/domain/activity';
+import type { ResourceRecord } from '@/domain/resource';
 import type { AuditRecord } from '@/domain/audit';
 import type { AdaptationRecord } from '@/domain/adaptation';
 import type { EntityKind, EntityRecord } from '@/domain/entity';
@@ -88,6 +89,16 @@ export interface AuditRepository {
   count(): Promise<Result<number>>;
 }
 
+/** Recursos visuales (S3.3). Solo en este navegador; NO forman parte del respaldo (BackupSnapshot). */
+export interface ResourceRepository {
+  put(resource: unknown): Promise<Result<ResourceRecord>>;
+  get(id: string): Promise<Result<ResourceRecord>>;
+  /** Más recientes primero. */
+  list(): Promise<Result<readonly ResourceRecord[]>>;
+  remove(id: string): Promise<Result<void>>;
+  count(): Promise<Result<number>>;
+}
+
 export interface BackupSnapshot {
   readonly profile: LocalProfile;
   /** Más nuevos primero. */
@@ -125,6 +136,7 @@ export interface Repositories {
   readonly entities: EntityRepository;
   readonly adaptations: AdaptationRepository;
   readonly audits: AuditRepository;
+  readonly resources: ResourceRepository;
   readonly backup: BackupRepository;
 }
 

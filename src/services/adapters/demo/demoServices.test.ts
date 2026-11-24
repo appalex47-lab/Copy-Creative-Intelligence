@@ -22,6 +22,7 @@ describe('adaptador DEMO', () => {
       'entities',
       'preferences',
       'profile',
+      'resources',
       'rules',
       'storage',
     ]);

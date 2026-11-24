@@ -1,5 +1,6 @@
 import type { StorageInfo } from '@/domain/storageInfo';
 import type { ActivityEvent, ActivityKind } from '@/domain/activity';
+import type { OcrWord, ResourceRecord } from '@/domain/resource';
 import type { AuditRecord } from '@/domain/audit';
 import type { AdaptationRecord } from '@/domain/adaptation';
 import type { EntityKind, EntityRecord } from '@/domain/entity';
@@ -192,6 +193,27 @@ export interface AuditService {
   remove(id: string): Promise<Result<void>>;
 }
 
+/** Puerto del motor OCR (S3.3). El texto devuelto es DETECTADO, no validado por una persona. */
+export interface OcrEngine {
+  recognize(
+    image: Blob,
+    onProgress?: (fraction: number) => void,
+  ): Promise<Result<{ readonly text: string; readonly words: readonly OcrWord[] }>>;
+}
+
+/** Recursos visuales con OCR (S3.3). El original nunca se modifica; no se crean piezas creativas ni aprobaciones. */
+export interface ResourceService {
+  /** Más recientes primero. */
+  list(): Promise<Result<readonly ResourceRecord[]>>;
+  /** Valida formato y tamaño (límites de `RESOURCE_LIMITS`) y guarda la imagen tal cual. */
+  add(file: File): Promise<Result<ResourceRecord>>;
+  /** Ejecuta el OCR y guarda lo detectado. Reemplaza un OCR anterior; conserva el texto validado por persona. */
+  runOcr(id: string, onProgress?: (fraction: number) => void): Promise<Result<ResourceRecord>>;
+  /** Guarda el texto que una persona confirmó o corrigió (vacío = quitar la validación). */
+  saveReview(id: string, text: unknown): Promise<Result<ResourceRecord>>;
+  remove(id: string): Promise<Result<void>>;
+}
+
 export type CoordinationState = 'checking' | 'writer' | 'reader';
 
 /** Coordinación entre pestañas (P12): una pestaña escribe; las demás, solo lectura con aviso visible. */
@@ -215,5 +237,6 @@ export interface Services {
   readonly entities: EntityService;
   readonly adaptations: AdaptationService;
   readonly audits: AuditService;
+  readonly resources: ResourceService;
   readonly coordination: CoordinationService;
 }

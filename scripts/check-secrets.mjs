@@ -10,7 +10,7 @@ const SCRIPT_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
 // Directorios de la app que se recorren recursivamente (además de los archivos de la raíz).
 export const APP_DIRS = ['src', 'tests', 'scripts', 'public', 'database', 'supabase', '.github'];
-const SKIP_DIRS = new Set(['node_modules', 'dist', 'coverage', '.git']);
+const SKIP_DIRS = new Set(['node_modules', 'dist', 'coverage', '.git', 'ocr']);
 const SKIP_FILES = new Set(['package-lock.json']);
 const BINARY_EXT =
   /\.(png|jpe?g|gif|webp|ico|woff2?|ttf|otf|eot|zip|gz|tgz|tar|7z|rar|pdf|mp4|mp3)$/i;

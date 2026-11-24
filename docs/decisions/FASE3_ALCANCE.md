@@ -4,8 +4,8 @@ Fuente: «Fase 3 — Inteligencia y auditoría creativa» (propuesta funcional r
 
 | # | Función | Estado | Observación |
 |---|---|---|---|
-| 1 | Carga y gestión de recursos creativos | No construida | Formatos, tamaño, almacenamiento y conservación pendientes (subfase 3.1 del documento). |
-| 2 | OCR | No construida | Motor y umbrales pendientes. |
+| 1 | Carga y gestión de recursos creativos | Construida (S3.3, límites provisionales) | Vista «Recursos»: subir, previsualizar y eliminar imágenes PNG/JPEG/WebP (máx. 5 MB, 200 recursos: SUPUESTOS; el propietario fijará formatos y tamaños a mano en `RESOURCE_LIMITS`). Guardadas sin modificar en IndexedDB v8; NO van en el respaldo JSON. Un recurso no es una Pieza creativa. Retención y relación con la Biblioteca pendientes. |
+| 2 | OCR | Construida (S3.3) | tesseract.js 5.1.1 (spa+eng) en el navegador, con núcleo, worker y datos de idioma servidos desde la propia app (`public/ocr`, copiados en `postinstall`); sin CDN ni red. Lo detectado se muestra aparte de lo «validado por persona»; palabras con confianza < 60 (SUPUESTO) se marcan como dudosas y nunca se corrigen solas. Falta probar con banners reales y afinar umbral. |
 | 3 | Análisis visual con IA | No construida | Modelo de visión pendiente; IA-B aprobada pero sin construir. |
 | 4 | Auditoría de Copy | Construida (S3.1, solo reglas deterministas) | Foto guardada de la revisión por reglas de la versión vigente del copy. No incluye variantes ni adaptaciones (límite del documento). No evalúa persuasión ni coherencia con IA. |
 | 5 | Auditoría de Creative Piece | No construida | Requiere recursos visuales y la entidad Pieza. |

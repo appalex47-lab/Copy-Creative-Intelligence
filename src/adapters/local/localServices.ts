@@ -9,6 +9,9 @@ import { createRulesService } from './rulesService';
 import { createCopyService } from './copyService';
 import { createEntityService } from './entityService';
 import { createAuditService } from './auditService';
+import { createResourceService } from './resourceService';
+import { createTesseractEngine, OCR_ENGINE } from '@/adapters/ocr/tesseractEngine';
+import { readImageSize } from '@/adapters/ocr/imageSize';
 import { createAdaptationService } from './adaptationService';
 import { createBrowserStorageInfoService } from '@/adapters/storage/browserStorageInfo';
 import { createBrowserPreferencesStore } from '@/adapters/localstorage/preferencesStore';
@@ -165,6 +168,16 @@ export function createLocalServices(environment: AppState['environment']): Servi
     },
     writable,
   });
+  const resources = createResourceService({
+    repo: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.resources) : fail(r.error.code, r.error.message);
+    },
+    engine: () => createTesseractEngine(),
+    readSize: readImageSize,
+    engineName: OCR_ENGINE,
+    writable,
+  });
   return {
     appState: {
       getState: () => Promise.resolve(ok({ dataMode: 'local', environment, isDemo: false })),
@@ -191,6 +204,7 @@ export function createLocalServices(environment: AppState['environment']): Servi
     entities,
     adaptations,
     audits,
+    resources,
     coordination,
   };
 }

@@ -16,7 +16,7 @@ test('el esquema vigente (v7) crea los almacenes, el índice por fecha y registr
   await page.goto(`${DEV}/e2e/idb.html`);
   const info = await page.evaluate(() => window.__schema());
   expect(info).toEqual({
-    version: 7,
+    version: 8,
     stores: [
       'activity',
       'adaptations',
@@ -26,10 +26,11 @@ test('el esquema vigente (v7) crea los almacenes, el índice por fecha y registr
       'entities',
       'meta',
       'profile',
+      'resources',
       'rules',
     ],
     activityIndexes: ['at', 'kind'],
-    schemaVersion: 7,
+    schemaVersion: 8,
   });
 });
 
@@ -39,10 +40,10 @@ const open = async (page: Page) => {
 };
 
 test.describe('migraciones (AC1-07) en IndexedDB real', () => {
-  test('v0 → v7: una instalación nueva crea el esquema completo', async ({ page }) => {
+  test('v0 → v8: una instalación nueva crea el esquema completo', async ({ page }) => {
     await open(page);
     expect(await page.evaluate(() => window.__mig.v0ToLatest())).toMatchObject({
-      version: 7,
+      version: 8,
       stores: [
         'activity',
         'adaptations',
@@ -52,10 +53,11 @@ test.describe('migraciones (AC1-07) en IndexedDB real', () => {
         'entities',
         'meta',
         'profile',
+        'resources',
         'rules',
       ],
       indexes: ['at', 'kind'],
-      schemaVersion: 7,
+      schemaVersion: 8,
       profile: undefined,
       ids: [],
     });
@@ -70,9 +72,9 @@ test.describe('migraciones (AC1-07) en IndexedDB real', () => {
       unknown
     >;
     expect(r).toMatchObject({
-      version: 7,
+      version: 8,
       indexes: ['at', 'kind'],
-      schemaVersion: 7,
+      schemaVersion: 8,
       profile: { displayName: 'Ana' },
       ids: ['evt_seed0001', 'evt_seed0002'],
       byKind: ['evt_seed0002'],
@@ -89,7 +91,7 @@ test.describe('migraciones (AC1-07) en IndexedDB real', () => {
       string,
       unknown
     >;
-    expect(r).toMatchObject({ opened: false, version: 8, stores: ['sentinel'], val: 'intacto' });
+    expect(r).toMatchObject({ opened: false, version: 9, stores: ['sentinel'], val: 'intacto' });
     expect((r['error'] as { code: string; message: string }).message).toBe(r['expectedMessage']);
     expect((r['error'] as { code: string }).code).toBe('storage_newer_schema');
   });

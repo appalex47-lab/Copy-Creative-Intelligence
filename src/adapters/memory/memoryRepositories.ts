@@ -19,6 +19,12 @@ import {
   type AuditRecord,
 } from '@/domain/audit';
 import {
+  RESOURCE_ID,
+  compareResourcesNewestFirst,
+  validateResourceRecord,
+  type ResourceRecord,
+} from '@/domain/resource';
+import {
   ADAPTATION_ID,
   compareAdaptationsNewestFirst,
   validateAdaptationRecord,
@@ -43,6 +49,7 @@ export function createMemoryRepositories(): Repositories {
   const entities = new Map<string, EntityRecord>();
   const adaptations = new Map<string, AdaptationRecord>();
   const audits = new Map<string, AuditRecord>();
+  const resources = new Map<string, ResourceRecord>();
   let rules: RulesDoc | null = null;
   let name: string | undefined;
   const profile = (): LocalProfile => (name === undefined ? {} : { displayName: name });
@@ -187,6 +194,26 @@ export function createMemoryRepositories(): Repositories {
         return Promise.resolve(ok(undefined));
       },
       count: () => Promise.resolve(ok(audits.size)),
+    },
+    resources: {
+      put: (raw) => {
+        const v = validateResourceRecord(raw);
+        if (!v.ok) return Promise.resolve(fail('validation_error', v.reason));
+        resources.set(v.value.id, v.value);
+        return Promise.resolve(ok(v.value));
+      },
+      get: (id) => {
+        const r = RESOURCE_ID.test(id) ? resources.get(id) : undefined;
+        return Promise.resolve(r ? ok(r) : fail('not_found', 'El recurso no existe.'));
+      },
+      list: () => Promise.resolve(ok([...resources.values()].sort(compareResourcesNewestFirst))),
+      remove: (id) => {
+        if (!RESOURCE_ID.test(id))
+          return Promise.resolve(fail('validation_error', 'Identificador no válido.'));
+        resources.delete(id);
+        return Promise.resolve(ok(undefined));
+      },
+      count: () => Promise.resolve(ok(resources.size)),
     },
     rules: {
       get: () => Promise.resolve(ok(rules)),

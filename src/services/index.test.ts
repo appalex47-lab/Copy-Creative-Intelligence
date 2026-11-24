@@ -16,6 +16,7 @@ describe('createServices', () => {
       'entities',
       'preferences',
       'profile',
+      'resources',
       'rules',
       'storage',
     ]);
