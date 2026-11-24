@@ -32,6 +32,12 @@ import {
   type EntityRecord,
 } from '@/domain/entity';
 import {
+  PIECE_ID,
+  comparePiecesNewestFirst,
+  validatePieceRecord,
+  type PieceRecord,
+} from '@/domain/piece';
+import {
   RESOURCE_ID,
   compareResourcesNewestFirst,
   validateResourceRecord,
@@ -53,6 +59,7 @@ const STORE_ENTITIES = 'entities';
 const STORE_ADAPTATIONS = 'adaptations';
 const STORE_AUDITS = 'audits';
 const STORE_RESOURCES = 'resources';
+const STORE_PIECES = 'pieces';
 const RULES_KEY = 'config';
 const PROFILE_KEY = 'local';
 
@@ -69,6 +76,7 @@ export type MigrationStep = (db: IDBDatabase, tx: IDBTransaction) => void;
  * v4 → v5 (S2.5b): crea el almacén `rules` (un solo documento con clave `config`: leyendas y términos de marca).
  * v5 → v6 (S2.8): crea `entities` (campañas, productos y ofertas; índice `kind`) y `adaptations` (índice `copyId`).
  * v6 → v7 (S3.1): crea `audits` (auditorías guardadas; índice `copyId`).
+ * v8 → v9 (S3.4): crea `pieces` (piezas creativas con sus auditorías; índice `updatedAt`). Tampoco van en el respaldo JSON.
  * v7 → v8 (S3.3): crea `resources` (imágenes con su OCR; índice `createdAt`). No van en el respaldo JSON.
  */
 export const MIGRATIONS: readonly MigrationStep[] = [
@@ -102,6 +110,9 @@ export const MIGRATIONS: readonly MigrationStep[] = [
   },
   (db) => {
     db.createObjectStore(STORE_RESOURCES, { keyPath: 'id' }).createIndex('createdAt', 'createdAt');
+  },
+  (db) => {
+    db.createObjectStore(STORE_PIECES, { keyPath: 'id' }).createIndex('updatedAt', 'updatedAt');
   },
 ];
 
@@ -423,6 +434,50 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
         guard(async () => {
           const tx = db.transaction(STORE_ADAPTATIONS, 'readonly');
           return ok(await promisify(tx.objectStore(STORE_ADAPTATIONS).count()));
+        }),
+    },
+    pieces: {
+      put: (raw) =>
+        guard(async () => {
+          const v = validatePieceRecord(raw);
+          if (!v.ok) return fail('validation_error', v.reason);
+          const tx = db.transaction(STORE_PIECES, 'readwrite');
+          tx.objectStore(STORE_PIECES).put(v.value);
+          await txDone(tx);
+          return ok(v.value);
+        }),
+      get: (id) =>
+        guard(async () => {
+          if (!PIECE_ID.test(id)) return fail('validation_error', 'Identificador no válido.');
+          const tx = db.transaction(STORE_PIECES, 'readonly');
+          const v = validatePieceRecord(
+            await promisify<unknown>(tx.objectStore(STORE_PIECES).get(id)),
+          );
+          return v.ok ? ok(v.value) : fail('not_found', 'La pieza no existe.');
+        }),
+      list: () =>
+        guard(async () => {
+          const tx = db.transaction(STORE_PIECES, 'readonly');
+          const raw = await promisify<unknown[]>(tx.objectStore(STORE_PIECES).getAll());
+          const out: PieceRecord[] = [];
+          for (const item of raw) {
+            const v = validatePieceRecord(item);
+            if (v.ok) out.push(v.value);
+          }
+          return ok(out.sort(comparePiecesNewestFirst));
+        }),
+      remove: (id) =>
+        guard(async () => {
+          if (!PIECE_ID.test(id)) return fail('validation_error', 'Identificador no válido.');
+          const tx = db.transaction(STORE_PIECES, 'readwrite');
+          tx.objectStore(STORE_PIECES).delete(id);
+          await txDone(tx);
+          return ok(undefined);
+        }),
+      count: () =>
+        guard(async () => {
+          const tx = db.transaction(STORE_PIECES, 'readonly');
+          return ok(await promisify(tx.objectStore(STORE_PIECES).count()));
         }),
     },
     resources: {

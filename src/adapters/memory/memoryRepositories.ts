@@ -19,6 +19,12 @@ import {
   type AuditRecord,
 } from '@/domain/audit';
 import {
+  PIECE_ID,
+  comparePiecesNewestFirst,
+  validatePieceRecord,
+  type PieceRecord,
+} from '@/domain/piece';
+import {
   RESOURCE_ID,
   compareResourcesNewestFirst,
   validateResourceRecord,
@@ -50,6 +56,7 @@ export function createMemoryRepositories(): Repositories {
   const adaptations = new Map<string, AdaptationRecord>();
   const audits = new Map<string, AuditRecord>();
   const resources = new Map<string, ResourceRecord>();
+  const pieces = new Map<string, PieceRecord>();
   let rules: RulesDoc | null = null;
   let name: string | undefined;
   const profile = (): LocalProfile => (name === undefined ? {} : { displayName: name });
@@ -194,6 +201,26 @@ export function createMemoryRepositories(): Repositories {
         return Promise.resolve(ok(undefined));
       },
       count: () => Promise.resolve(ok(audits.size)),
+    },
+    pieces: {
+      put: (raw) => {
+        const v = validatePieceRecord(raw);
+        if (!v.ok) return Promise.resolve(fail('validation_error', v.reason));
+        pieces.set(v.value.id, v.value);
+        return Promise.resolve(ok(v.value));
+      },
+      get: (id) => {
+        const r = PIECE_ID.test(id) ? pieces.get(id) : undefined;
+        return Promise.resolve(r ? ok(r) : fail('not_found', 'La pieza no existe.'));
+      },
+      list: () => Promise.resolve(ok([...pieces.values()].sort(comparePiecesNewestFirst))),
+      remove: (id) => {
+        if (!PIECE_ID.test(id))
+          return Promise.resolve(fail('validation_error', 'Identificador no válido.'));
+        pieces.delete(id);
+        return Promise.resolve(ok(undefined));
+      },
+      count: () => Promise.resolve(ok(pieces.size)),
     },
     resources: {
       put: (raw) => {

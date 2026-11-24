@@ -30,6 +30,7 @@ function setup(
   };
   const service = createResourceService({
     repo: () => Promise.resolve(ok(repos.resources)),
+    pieces: () => Promise.resolve(ok(repos.pieces)),
     engine: () => eng,
     readSize: () => Promise.resolve(size),
     engineName: 'test',

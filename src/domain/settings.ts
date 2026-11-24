@@ -12,6 +12,7 @@ export const VIEW_IDS = [
   'catalogo',
   'auditorias',
   'recursos',
+  'piezas',
   'reglas',
   'conexion',
   'ajustes',

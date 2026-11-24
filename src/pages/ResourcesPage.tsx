@@ -11,7 +11,7 @@ import { formatLocalDateTime } from '@/lib/formatDate';
 import type { AppError } from '@/services/contracts';
 
 const messageOf = (e: AppError): string =>
-  e.code === 'validation_error' ? e.message : describeError(e);
+  e.code === 'validation_error' || e.code === 'conflict' ? e.message : describeError(e);
 const MB = (n: number) => `${String(Math.round((n / 1024 / 1024) * 10) / 10)} MB`;
 const FORMATS = RESOURCE_LIMITS.mimes.map((m) => m.replace('image/', '').toUpperCase()).join(', ');
 
@@ -122,7 +122,7 @@ function BackupBox({ onRestored }: { readonly onRestored: () => void }) {
     setBusy(false);
     if (!r.ok) return setError(r.error);
     setMsg(
-      `Restauradas ${String(r.value.added)} imágenes; ${String(r.value.skipped)} ya existían y se omitieron.`,
+      `Restauradas ${String(r.value.added)} imágenes; ${String(r.value.skipped)} ya existían y se omitieron. Piezas restauradas: ${String(r.value.piecesAdded)}.`,
     );
     onRestored();
   };
@@ -130,8 +130,8 @@ function BackupBox({ onRestored }: { readonly onRestored: () => void }) {
     <fieldset>
       <legend>Respaldo de imágenes</legend>
       <p className="field-hint">
-        Archivo aparte del respaldo de datos. Al restaurar solo se agregan las imágenes que faltan;
-        no se reemplaza ni se borra nada.
+        Archivo aparte del respaldo de datos; incluye también las piezas creativas. Al restaurar
+        solo se agregan las imágenes que faltan; no se reemplaza ni se borra nada.
       </p>
       <div className="form-actions">
         <Button onClick={() => void download()} disabled={busy}>

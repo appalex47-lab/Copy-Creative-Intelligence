@@ -1,4 +1,5 @@
 import type { ActivityEvent } from '@/domain/activity';
+import type { PieceRecord } from '@/domain/piece';
 import type { ResourceRecord } from '@/domain/resource';
 import type { AuditRecord } from '@/domain/audit';
 import type { AdaptationRecord } from '@/domain/adaptation';
@@ -99,6 +100,16 @@ export interface ResourceRepository {
   count(): Promise<Result<number>>;
 }
 
+/** Piezas creativas con sus auditorías (S3.4). Como los recursos, NO forman parte del respaldo JSON de datos. */
+export interface PieceRepository {
+  put(piece: unknown): Promise<Result<PieceRecord>>;
+  get(id: string): Promise<Result<PieceRecord>>;
+  /** Más recientes primero. */
+  list(): Promise<Result<readonly PieceRecord[]>>;
+  remove(id: string): Promise<Result<void>>;
+  count(): Promise<Result<number>>;
+}
+
 export interface BackupSnapshot {
   readonly profile: LocalProfile;
   /** Más nuevos primero. */
@@ -137,6 +148,7 @@ export interface Repositories {
   readonly adaptations: AdaptationRepository;
   readonly audits: AuditRepository;
   readonly resources: ResourceRepository;
+  readonly pieces: PieceRepository;
   readonly backup: BackupRepository;
 }
 

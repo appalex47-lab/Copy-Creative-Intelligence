@@ -14,6 +14,7 @@ describe('createServices', () => {
       'coordination',
       'copies',
       'entities',
+      'pieces',
       'preferences',
       'profile',
       'resources',

@@ -65,13 +65,15 @@ test.describe('aplicación (build preview) en Chrome real', () => {
     await page.keyboard.press('Tab');
     await expect(page.getByRole('button', { name: 'Recursos' })).toBeFocused();
     await page.keyboard.press('Tab');
+    await expect(page.getByRole('button', { name: 'Piezas' })).toBeFocused();
+    await page.keyboard.press('Tab');
     await expect(page.getByRole('button', { name: 'Reglas' })).toBeFocused();
     await page.keyboard.press('Tab');
     await expect(page.getByRole('button', { name: 'Estado de conexión' })).toBeFocused();
     await page.keyboard.press('Enter');
     await expect(page.getByRole('heading', { level: 2, name: 'Estado de conexión' })).toBeFocused();
-    // Desde el encabezado, hacia atrás: Respaldo → Almacenamiento → Perfil y preferencias → Estado de conexión → Reglas → Recursos → Auditorías → Catálogo → Briefs → Inicio.
-    for (let i = 0; i < 10; i++) await page.keyboard.press('Shift+Tab');
+    // Desde el encabezado, hacia atrás: Respaldo → Almacenamiento → Perfil y preferencias → Estado de conexión → Reglas → Piezas → Recursos → Auditorías → Catálogo → Briefs → Inicio.
+    for (let i = 0; i < 11; i++) await page.keyboard.press('Shift+Tab');
     await expect(page.getByRole('button', { name: 'Inicio' })).toBeFocused();
     await page.keyboard.press('Space');
     await expect(page.getByRole('heading', { level: 2, name: 'Resumen' })).toBeFocused();

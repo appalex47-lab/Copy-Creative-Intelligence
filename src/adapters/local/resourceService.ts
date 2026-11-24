@@ -13,11 +13,13 @@ import {
   RESOURCES_BACKUP_MAX_BYTES,
   RESOURCES_BACKUP_VERSION,
 } from '@/domain/resourceBackup';
-import type { ResourceRepository } from '@/repositories/contracts';
+import type { PieceRepository, ResourceRepository } from '@/repositories/contracts';
 import { fail, ok, type OcrEngine, type ResourceService, type Result } from '@/services/contracts';
 
 export interface ResourceServiceDeps {
   readonly repo: () => Promise<Result<ResourceRepository>>;
+  /** Piezas que usan los recursos (para no borrar una imagen en uso y para el respaldo). */
+  readonly pieces: () => Promise<Result<PieceRepository>>;
   readonly engine: () => OcrEngine;
   readonly readSize: (
     blob: Blob,
@@ -148,9 +150,13 @@ export function createResourceService(deps: ResourceServiceDeps): ResourceServic
       }),
     exportBackup: () =>
       withRepo(async (repo) => {
+        type Out = { fileName: string; blob: Blob };
         const all = await repo.list();
-        if (!all.ok)
-          return fail<{ fileName: string; blob: Blob }>(all.error.code, all.error.message);
+        if (!all.ok) return fail<Out>(all.error.code, all.error.message);
+        const pr = await deps.pieces();
+        if (!pr.ok) return fail<Out>(pr.error.code, pr.error.message);
+        const pieces = await pr.value.list();
+        if (!pieces.ok) return fail<Out>(pieces.error.code, pieces.error.message);
         try {
           const parts: string[] = [
             `{"format":"${RESOURCES_BACKUP_FORMAT}","version":${String(RESOURCES_BACKUP_VERSION)},"exportedAt":"${now().toISOString()}","resources":[`,
@@ -168,36 +174,34 @@ export function createResourceService(deps: ResourceServiceDeps): ResourceServic
             );
             first = false;
           }
-          parts.push(']}');
+          parts.push(`],"pieces":${JSON.stringify(pieces.value)}}`);
           return ok({
             fileName: backupFileName(now()),
             blob: new Blob(parts, { type: 'application/json' }),
           });
         } catch {
-          return fail<{ fileName: string; blob: Blob }>(
-            'storage_failed',
-            'No se pudo preparar el respaldo de imágenes.',
-          );
+          return fail<Out>('storage_failed', 'No se pudo preparar el respaldo de imágenes.');
         }
       }),
     importBackup: (file) =>
       deps.writable(() =>
         withRepo(async (repo) => {
-          const bad = (m: string) =>
-            fail<{ added: number; skipped: number }>('validation_error', m);
+          type Out = { added: number; skipped: number; piecesAdded: number };
+          const bad = (m: string) => fail<Out>('validation_error', m);
           if (file.size > RESOURCES_BACKUP_MAX_BYTES)
             return bad('El archivo supera el máximo permitido.');
           const parsed = parseResourcesBackup(await file.text());
           if (!parsed.ok) return bad(parsed.reason);
           const existing = await repo.list();
-          if (!existing.ok)
-            return fail<{ added: number; skipped: number }>(
-              existing.error.code,
-              existing.error.message,
-            );
+          if (!existing.ok) return fail<Out>(existing.error.code, existing.error.message);
+          const pr = await deps.pieces();
+          if (!pr.ok) return fail<Out>(pr.error.code, pr.error.message);
+          const existingPieces = await pr.value.list();
+          if (!existingPieces.ok)
+            return fail<Out>(existingPieces.error.code, existingPieces.error.message);
           const have = new Set(existing.value.map((r) => r.id));
           const records: ResourceRecord[] = [];
-          for (const e of parsed.value) {
+          for (const e of parsed.value.resources) {
             if (have.has(String(e.raw['id']))) continue;
             let blob: Blob;
             try {
@@ -216,15 +220,48 @@ export function createResourceService(deps: ResourceServiceDeps): ResourceServic
             return bad(
               `Se superaría el máximo de ${String(RESOURCE_LIMITS.maxResources)} recursos.`,
             );
+          const known = new Set([...have, ...records.map((r) => r.id)]);
+          const havePieces = new Set(existingPieces.value.map((p) => p.id));
+          const newPieces = parsed.value.pieces.filter(
+            (p) => !havePieces.has(p.id) && known.has(p.resourceId),
+          );
           // Todo se validó antes de escribir: o se agrega lo que falta o no se toca nada.
           for (const r of records) {
             const p = await repo.put(r);
-            if (!p.ok)
-              return fail<{ added: number; skipped: number }>(p.error.code, p.error.message);
+            if (!p.ok) return fail<Out>(p.error.code, p.error.message);
           }
-          return ok({ added: records.length, skipped: parsed.value.length - records.length });
+          for (const p of newPieces) {
+            const w = await pr.value.put(p);
+            if (!w.ok) return fail<Out>(w.error.code, w.error.message);
+          }
+          return ok({
+            added: records.length,
+            skipped: parsed.value.resources.length - records.length,
+            piecesAdded: newPieces.length,
+          });
         }),
       ),
-    remove: (id) => deps.writable(() => withRepo((r) => r.remove(id))),
+    counts: async () => {
+      const r = await withRepo((repo) => repo.count());
+      if (!r.ok) return fail(r.error.code, r.error.message);
+      const pr = await deps.pieces();
+      if (!pr.ok) return fail(pr.error.code, pr.error.message);
+      const p = await pr.value.count();
+      if (!p.ok) return fail(p.error.code, p.error.message);
+      return ok({ resources: r.value, pieces: p.value });
+    },
+    remove: (id) =>
+      deps.writable(async () => {
+        const pr = await deps.pieces();
+        if (!pr.ok) return fail<never>(pr.error.code, pr.error.message);
+        const used = await pr.value.list();
+        if (!used.ok) return fail<never>(used.error.code, used.error.message);
+        if (used.value.some((p) => p.resourceId === id))
+          return fail<never>(
+            'conflict',
+            'Esta imagen la usa una pieza creativa. Elimina primero la pieza.',
+          );
+        return withRepo((r) => r.remove(id));
+      }),
   };
 }

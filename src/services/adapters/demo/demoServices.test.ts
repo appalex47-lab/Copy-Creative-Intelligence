@@ -20,6 +20,7 @@ describe('adaptador DEMO', () => {
       'coordination',
       'copies',
       'entities',
+      'pieces',
       'preferences',
       'profile',
       'resources',

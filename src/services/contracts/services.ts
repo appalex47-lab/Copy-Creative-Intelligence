@@ -1,5 +1,6 @@
 import type { StorageInfo } from '@/domain/storageInfo';
 import type { ActivityEvent, ActivityKind } from '@/domain/activity';
+import type { FindingStatus, PieceRecord } from '@/domain/piece';
 import type { OcrWord, ResourceRecord } from '@/domain/resource';
 import type { AuditRecord } from '@/domain/audit';
 import type { AdaptationRecord } from '@/domain/adaptation';
@@ -214,7 +215,36 @@ export interface ResourceService {
   /** Respaldo aparte de TODAS las imágenes con su texto (archivo JSON con huellas SHA-256). */
   exportBackup(): Promise<Result<{ readonly fileName: string; readonly blob: Blob }>>;
   /** Restaura un respaldo de imágenes: solo agrega las que faltan (mismo id = se omite); nunca reemplaza. */
-  importBackup(file: File): Promise<Result<{ readonly added: number; readonly skipped: number }>>;
+  importBackup(file: File): Promise<
+    Result<{
+      readonly added: number;
+      readonly skipped: number;
+      readonly piecesAdded: number;
+    }>
+  >;
+  /** Cuántos recursos y piezas hay; no entran en el respaldo de datos (aviso en «Respaldo»). */
+  counts(): Promise<Result<{ readonly resources: number; readonly pieces: number }>>;
+  remove(id: string): Promise<Result<void>>;
+}
+
+/** Piezas creativas (S3.4): un recurso + canal que se audita con las reglas sobre el texto de la imagen. No aprueba nada. */
+export interface PieceService {
+  list(): Promise<Result<readonly PieceRecord[]>>;
+  create(input: {
+    readonly name: unknown;
+    readonly channel: unknown;
+    readonly resourceId: string;
+  }): Promise<Result<PieceRecord>>;
+  /** Audita con las reglas vigentes y guarda una foto nueva (la más reciente va primero). */
+  audit(id: string): Promise<Result<PieceRecord>>;
+  /** Decisión humana sobre un hallazgo: abierto, resuelto o descartado, con nota opcional. */
+  setFindingStatus(input: {
+    readonly pieceId: string;
+    readonly auditId: string;
+    readonly index: number;
+    readonly status: FindingStatus;
+    readonly note: string;
+  }): Promise<Result<PieceRecord>>;
   remove(id: string): Promise<Result<void>>;
 }
 
@@ -242,5 +272,6 @@ export interface Services {
   readonly adaptations: AdaptationService;
   readonly audits: AuditService;
   readonly resources: ResourceService;
+  readonly pieces: PieceService;
   readonly coordination: CoordinationService;
 }

@@ -1,7 +1,8 @@
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
 import { BACKUP_MAX_BYTES } from '@/domain/backup';
+import { useAsyncResource } from '@/hooks/useAsyncResource';
 import { useServices } from '@/hooks/ServicesContext';
 import { describeError } from '@/lib/errorMessages';
 import { downloadTextFile } from '@/lib/download';
@@ -25,6 +26,8 @@ export function BackupPage() {
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState<Pending | null>(null);
   const [busy, setBusy] = useState(false);
+  const loadCounts = useCallback(() => services.resources.counts(), [services]);
+  const { state: counts } = useAsyncResource(loadCounts);
 
   const reset = () => {
     setNotice('');
@@ -88,6 +91,13 @@ export function BackupPage() {
         Tus datos viven solo en este navegador. Exporta un archivo para guardarlos o moverlos; el
         archivo no se envía a ningún servidor.
       </p>
+      {counts.status === 'success' && (counts.data.resources > 0 || counts.data.pieces > 0) && (
+        <p role="note">
+          <strong>Este respaldo NO incluye</strong> {counts.data.resources} imágenes ni{' '}
+          {counts.data.pieces} piezas creativas guardadas. Descárgalas aparte desde Recursos
+          («Descargar respaldo de imágenes»).
+        </p>
+      )}
       <Card title="Exportar" headingLevel={3}>
         <Button variant="primary" onClick={() => void onExport()} disabled={busy}>
           Exportar respaldo
