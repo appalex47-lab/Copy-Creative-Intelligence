@@ -3,6 +3,9 @@ import { EmptyState } from '@/components/EmptyState';
 import { AsyncStatus, ErrorNotice } from '@/components/StatusNotices';
 import { Card } from '@/components/Card';
 import { CHANNELS, type Channel } from '@/domain/brief';
+import { Button } from '@/components/Button';
+import { copyAuditsCsv } from '@/domain/auditExport';
+import { downloadTextFile } from '@/lib/download';
 import { filterAudits } from '@/domain/auditFilter';
 import { CATEGORY_LABELS, SEVERITY_LABELS, type Verdict } from '@/domain/copyRules';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
@@ -120,6 +123,20 @@ export function AuditsPage() {
             <p role="status" aria-live="polite">
               {shown.length} de {state.data.length} auditorías.
             </p>
+            <div className="form-actions">
+              <Button
+                onClick={() =>
+                  downloadTextFile(
+                    `cci-auditorias-${new Date().toISOString().slice(0, 10)}.csv`,
+                    copyAuditsCsv(shown),
+                    'text/csv',
+                  )
+                }
+                disabled={shown.length === 0}
+              >
+                Descargar CSV de las auditorías mostradas
+              </Button>
+            </div>
             <ul className="plain-list" aria-label="Auditorías guardadas">
               {shown.map((a) => (
                 <li key={a.id}>

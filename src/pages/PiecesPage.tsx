@@ -3,6 +3,8 @@ import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
 import { EmptyState } from '@/components/EmptyState';
 import { AsyncStatus, ErrorNotice } from '@/components/StatusNotices';
+import { pieceAuditsCsv } from '@/domain/auditExport';
+import { downloadTextFile } from '@/lib/download';
 import { CHANNELS, type Channel } from '@/domain/brief';
 import { CATEGORY_LABELS, SEVERITY_LABELS } from '@/domain/copyRules';
 import {
@@ -138,6 +140,19 @@ export function PiecesPage() {
           ) : (
             <>
               <ComparisonTable pieces={state.data.pieces} />
+              <div className="form-actions">
+                <Button
+                  onClick={() =>
+                    downloadTextFile(
+                      `cci-piezas-${new Date().toISOString().slice(0, 10)}.csv`,
+                      pieceAuditsCsv(state.data.pieces),
+                      'text/csv',
+                    )
+                  }
+                >
+                  Descargar CSV de auditorías de piezas
+                </Button>
+              </div>
               <ul className="plain-list" aria-label="Piezas creativas">
                 {state.data.pieces.map((p) => (
                   <li key={p.id}>

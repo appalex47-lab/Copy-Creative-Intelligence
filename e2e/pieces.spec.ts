@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { expect, test, type Page } from '@playwright/test';
 import { axeViolations, LOCAL, trackErrors } from './support';
 
@@ -67,6 +68,16 @@ test.describe('piezas creativas (modo local, Chrome real)', () => {
     await page.getByRole('button', { name: 'Auditar pieza Promo email' }).click();
     await expect(card).toContainText('Frente a la auditoría anterior');
     await expect(card).toContainText('2 auditorías guardadas');
+
+    // Exportación CSV: una fila por hallazgo, con origen y estado.
+    const csvDl = page.waitForEvent('download');
+    await page.getByRole('button', { name: 'Descargar CSV de auditorías de piezas' }).click();
+    const csvFile = await csvDl;
+    expect(csvFile.suggestedFilename()).toMatch(/^cci-piezas-\d{4}-\d{2}-\d{2}\.csv$/);
+    const csv = readFileSync((await csvFile.path()) ?? '', 'utf8');
+    expect(csv).toContain('Promo email');
+    expect(csv).toContain('regla determinista');
+    expect(csv).toContain('Resuelto');
 
     // La imagen en uso no se puede eliminar.
     await nav(page, 'Recursos');

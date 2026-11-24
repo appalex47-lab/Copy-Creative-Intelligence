@@ -38,3 +38,6 @@ Vista global «Auditorías» (solo lectura, filtros). No se construyeron recurso
 - No se puede eliminar una imagen usada por una pieza.
 - Puntuación (función 7): misma escala y pesos aprobados (Q-5) aplicados a los hallazgos de la pieza. Siguen sin existir «dimensión no evaluable» ni cobertura mínima: pendiente.
 - Pendiente del propietario: rúbrica visual, modelo de visión (si se quiere), catálogo de hallazgos, exportación y relación con la Biblioteca Creativa.
+
+## S3.5 — Exportación (decisión de Claude bajo delegación, revocable)
+CSV de las auditorías de copy mostradas (Auditorías) y de las auditorías de piezas (Piezas): una fila por hallazgo, con origen, estado y nota en piezas. Sigue pendiente la relación con la Biblioteca Creativa.
