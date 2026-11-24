@@ -26,3 +26,9 @@ Formatos y tamaño de archivos, OCR y umbrales, modelo de visión, rúbrica y di
 
 ## S3.2
 Vista global «Auditorías» (solo lectura, filtros). No se construyeron recursos creativos, OCR, IA visual ni Creative Piece: dependen de decisiones abiertas (formatos/tamaño, motor OCR, modelo de visión) y los archivos no cabrían en el respaldo JSON de 5 MB sin una decisión de almacenamiento.
+
+## Decisiones de Claude bajo delegación (2026-11-23, revocables) — S3.3
+- Formatos PNG/JPEG/WebP, máx. 5 MB y 25 Mpx por imagen, 200 recursos y umbral de palabra dudosa 60 quedan como valores vigentes (ajustables en `RESOURCE_LIMITS`).
+- Retención: las imágenes se conservan en IndexedDB hasta que la persona las elimine; no hay caducidad automática.
+- El propietario pidió que las imágenes se guarden en IndexedDB (ya es así). Siguen fuera del respaldo JSON (límite de 5 MB); pendiente decidir un respaldo aparte de imágenes.
+- Despliegue de S3.3 autorizado por el propietario.
