@@ -83,7 +83,7 @@ describe('servicio de copys (S2.4)', () => {
     expect(current.ok).toBe(false); // recuperar la versión vigente no cambia nada: se rechaza
   });
 
-  it('metadatos y duplicado como variante con historial propio', async () => {
+  it('metadatos y variantes dentro del copy, sin versiones propias', async () => {
     const { copies, briefId } = await setup();
     const c = must(
       await copies.create({ briefId, label: 'P', content: { headline: 'Uno', cta: 'Ya' } }),
@@ -93,13 +93,30 @@ describe('servicio de copys (S2.4)', () => {
     );
     expect(m).toMatchObject({ label: 'Principal', tags: ['Promo'] });
     expect(m.versions).toHaveLength(1);
-    const d = must(await copies.duplicate({ id: c.id, label: 'B' }));
-    expect(d.id).not.toBe(c.id);
-    expect(d).toMatchObject({ briefId, label: 'B', tags: ['Promo'] });
-    expect(d.versions).toHaveLength(1);
-    expect(d.versions[0]?.content).toEqual({ headline: 'Uno', cta: 'Ya' });
-    must(await copies.saveVersion({ id: d.id, content: { headline: 'Solo B' } }));
-    expect(must(await copies.get(c.id)).versions).toHaveLength(1); // el original no cambió
+    const a = must(
+      await copies.addVariant({ id: c.id, label: 'B', content: { headline: 'Otro' } }),
+    );
+    expect(a.versions).toHaveLength(1); // agregar variante no crea versión
+    expect(a.variants).toHaveLength(1);
+    const variantId = a.variants?.[0]?.id ?? '';
+    const u = must(
+      await copies.updateVariant({ id: c.id, variantId, label: 'B', content: { headline: 'Más' } }),
+    );
+    expect(u.variants?.[0]?.content).toEqual({ headline: 'Más' });
+    expect(u.versions).toHaveLength(1); // editar una variante tampoco
+    const same = await copies.updateVariant({
+      id: c.id,
+      variantId,
+      label: 'B',
+      content: { headline: 'Más' },
+    });
+    expect(same.ok).toBe(false);
+    const dup = await copies.addVariant({ id: c.id, label: 'b', content: { cta: 'x' } });
+    expect(dup.ok).toBe(false);
+    must(await copies.saveVersion({ id: c.id, content: { headline: 'Solo versión' } }));
+    expect(must(await copies.get(c.id)).variants).toHaveLength(1); // las variantes sobreviven a las versiones
+    const r = must(await copies.removeVariant({ id: c.id, variantId }));
+    expect(r.variants).toBeUndefined();
   });
 
   it('borrar un brief con copys se rechaza (conflict); sin copys se borra', async () => {

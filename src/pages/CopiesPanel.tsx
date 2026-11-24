@@ -3,6 +3,7 @@ import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
 import { EmptyState } from '@/components/EmptyState';
 import { AsyncStatus, ErrorNotice } from '@/components/StatusNotices';
+import type { AppError } from '@/services/contracts';
 import type { BriefRecord } from '@/domain/briefRecord';
 import {
   COPY_FIELDS,
@@ -11,6 +12,8 @@ import {
   COPY_MAX_TAGS,
   COPY_TAG_MAX,
   currentVersion,
+  type CopyContent,
+  type CopyVariant,
   diffContent,
   validateCopyContent,
   validateLabel,
@@ -33,6 +36,9 @@ import { formatLocalDateTime } from '@/lib/formatDate';
 
 type View =
   { kind: 'list' } | { kind: 'form'; copy?: CopyRecord } | { kind: 'history'; copy: CopyRecord };
+
+const messageOf = (e: AppError): string =>
+  e.code === 'validation_error' ? e.message : describeError(e);
 
 const LONG_FIELDS: ReadonlySet<CopyField> = new Set(['body', 'description']);
 const splitTags = (text: string): string[] => text.split(',');
@@ -151,14 +157,17 @@ function CopyItem({
   readonly onDone: (message: string) => void;
 }) {
   const services = useServices();
-  const [mode, setMode] = useState<'none' | 'delete' | 'duplicate'>('none');
-  const [label, setLabel] = useState('');
+  const [mode, setMode] = useState<'none' | 'delete' | 'variant'>('none');
+  const [variantEdit, setVariantEdit] = useState<CopyVariant | 'new' | null>(null);
+  const [delVariant, setDelVariant] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [review, setReview] = useState<{ evaluation: Evaluation; isTemplate: boolean } | null>(
-    null,
-  );
+  const [review, setReview] = useState<{
+    evaluation: Evaluation;
+    isTemplate: boolean;
+    name: string;
+  } | null>(null);
   const cur = currentVersion(copy);
-  const runReview = async () => {
+  const runReview = async (content: CopyContent, name: string) => {
     const f = brief.fields;
     if (!f.channel) {
       setError('El brief no tiene canal: elige uno para revisar las reglas.');
@@ -173,10 +182,11 @@ function CopyItem({
     setReview({
       evaluation: evaluateCopy(
         { channel: f.channel, offer: f.offer },
-        cur.content,
+        content,
         toRulesConfig(cfg.value.doc),
       ),
       isTemplate: cfg.value.isTemplate,
+      name,
     });
   };
   const remove = async () => {
@@ -188,18 +198,14 @@ function CopyItem({
     }
     onDone('Copy eliminado.');
   };
-  const duplicate = async () => {
-    const v = validateLabel(label);
-    if (!v.ok) {
-      setError(v.reason);
-      return;
-    }
-    const r = await services.copies.duplicate({ id: copy.id, label });
+  const removeVariantNow = async (variantId: string) => {
+    const r = await services.copies.removeVariant({ id: copy.id, variantId });
     if (!r.ok) {
-      setError(describeError(r.error));
+      setError(messageOf(r.error));
+      setDelVariant(null);
       return;
     }
-    onDone(`Variante «${r.value.label}» creada.`);
+    onDone('Variante eliminada.');
   };
   return (
     <li>
@@ -220,31 +226,26 @@ function CopyItem({
               <Button onClick={() => setMode('none')}>Cancelar</Button>
             </div>
           </div>
-        ) : mode === 'duplicate' ? (
-          <div role="group" aria-label={`Duplicar ${copy.label}`}>
-            <div className="field">
-              <label htmlFor={`dup-${copy.id}`}>Nombre de la variante nueva</label>
-              <input
-                id={`dup-${copy.id}`}
-                type="text"
-                value={label}
-                autoComplete="off"
-                onChange={(e) => setLabel(e.target.value)}
-              />
-            </div>
-            <div className="form-actions">
-              <Button variant="primary" onClick={() => void duplicate()}>
-                Crear variante
-              </Button>
-              <Button onClick={() => setMode('none')}>Cancelar</Button>
-            </div>
-          </div>
+        ) : mode === 'variant' && variantEdit !== null ? (
+          <VariantForm
+            copyId={copy.id}
+            initial={variantEdit === 'new' ? undefined : variantEdit}
+            onDone={onDone}
+            onCancel={() => {
+              setMode('none');
+              setVariantEdit(null);
+              setError(null);
+            }}
+          />
         ) : (
           <div className="form-actions">
             <Button onClick={onEdit} aria-label={`Editar ${copy.label}`}>
               Editar
             </Button>
-            <Button onClick={() => void runReview()} aria-label={`Revisar reglas de ${copy.label}`}>
+            <Button
+              onClick={() => void runReview(cur.content, copy.label)}
+              aria-label={`Revisar reglas de ${copy.label}`}
+            >
               Revisar reglas
             </Button>
             <Button onClick={onHistory} aria-label={`Historial de ${copy.label}`}>
@@ -253,12 +254,12 @@ function CopyItem({
             <Button
               onClick={() => {
                 setError(null);
-                setLabel('');
-                setMode('duplicate');
+                setVariantEdit('new');
+                setMode('variant');
               }}
-              aria-label={`Duplicar como variante: ${copy.label}`}
+              aria-label={`Agregar variante a ${copy.label}`}
             >
-              Duplicar como variante
+              Agregar variante
             </Button>
             <Button
               onClick={() => {
@@ -271,12 +272,69 @@ function CopyItem({
             </Button>
           </div>
         )}
+        {(copy.variants ?? []).length > 0 && (
+          <section aria-label={`Variantes de ${copy.label}`}>
+            <h5>Variantes ({(copy.variants ?? []).length})</h5>
+            <p className="field-hint">
+              Alternativas de texto que conviven con el copy. No tienen versiones propias.
+            </p>
+            <ul className="plain-list">
+              {(copy.variants ?? []).map((v) => (
+                <li key={v.id}>
+                  <p>
+                    <strong>{v.label}</strong>
+                  </p>
+                  <ContentView content={v.content} />
+                  {delVariant === v.id ? (
+                    <div
+                      role="group"
+                      aria-label={`Confirmar eliminación de la variante ${v.label}`}
+                    >
+                      <p>¿Eliminar esta variante? No se puede deshacer.</p>
+                      <div className="form-actions">
+                        <Button variant="primary" onClick={() => void removeVariantNow(v.id)}>
+                          Sí, eliminar variante
+                        </Button>
+                        <Button onClick={() => setDelVariant(null)}>Cancelar</Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="form-actions">
+                      <Button
+                        onClick={() => {
+                          setError(null);
+                          setVariantEdit(v);
+                          setMode('variant');
+                        }}
+                        aria-label={`Editar variante ${v.label}`}
+                      >
+                        Editar
+                      </Button>
+                      <Button
+                        onClick={() => void runReview(v.content, `${copy.label} · ${v.label}`)}
+                        aria-label={`Revisar reglas de la variante ${v.label}`}
+                      >
+                        Revisar reglas
+                      </Button>
+                      <Button
+                        onClick={() => setDelVariant(v.id)}
+                        aria-label={`Eliminar variante ${v.label}`}
+                      >
+                        Eliminar
+                      </Button>
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
         {review && (
           <ReviewView
             review={review.evaluation}
             isTemplate={review.isTemplate}
             onClose={() => setReview(null)}
-            label={copy.label}
+            label={review.name}
           />
         )}
       </Card>
@@ -325,6 +383,87 @@ function ReviewView({
       </p>
       <Button onClick={onClose}>Cerrar revisión</Button>
     </div>
+  );
+}
+
+function VariantForm({
+  copyId,
+  initial,
+  onDone,
+  onCancel,
+}: {
+  readonly copyId: string;
+  readonly initial: CopyVariant | undefined;
+  readonly onDone: (message: string) => void;
+  readonly onCancel: () => void;
+}) {
+  const services = useServices();
+  const [label, setLabel] = useState(initial?.label ?? '');
+  const [values, setValues] = useState<Record<CopyField, string>>({
+    headline: initial?.content.headline ?? '',
+    body: initial?.content.body ?? '',
+    description: initial?.content.description ?? '',
+    cta: initial?.content.cta ?? '',
+  });
+  const [error, setError] = useState<string | null>(null);
+  const submit = async (ev: FormEvent) => {
+    ev.preventDefault();
+    setError(null);
+    const content = Object.fromEntries(COPY_FIELDS.map((f) => [f, values[f]]));
+    const r = initial
+      ? await services.copies.updateVariant({ id: copyId, variantId: initial.id, label, content })
+      : await services.copies.addVariant({ id: copyId, label, content });
+    if (!r.ok) {
+      setError(messageOf(r.error));
+      return;
+    }
+    onDone(initial ? 'Variante actualizada.' : `Variante «${label.trim()}» agregada.`);
+  };
+  return (
+    <form onSubmit={(e) => void submit(e)} noValidate aria-label="Formulario de variante">
+      <div className="field">
+        <label htmlFor="variante-nombre">Nombre de la variante (obligatorio)</label>
+        <input
+          id="variante-nombre"
+          type="text"
+          autoComplete="off"
+          value={label}
+          onChange={(e) => setLabel(e.target.value)}
+        />
+      </div>
+      {COPY_FIELDS.map((f) => (
+        <div className="field" key={f}>
+          <label htmlFor={`variante-${f}`}>{COPY_FIELD_LABELS[f]} (opcional)</label>
+          {LONG_FIELDS.has(f) ? (
+            <textarea
+              id={`variante-${f}`}
+              rows={3}
+              value={values[f]}
+              onChange={(e) => setValues((v) => ({ ...v, [f]: e.target.value }))}
+            />
+          ) : (
+            <input
+              id={`variante-${f}`}
+              type="text"
+              autoComplete="off"
+              value={values[f]}
+              onChange={(e) => setValues((v) => ({ ...v, [f]: e.target.value }))}
+            />
+          )}
+        </div>
+      ))}
+      {error && (
+        <p className="field-error" role="alert">
+          {error}
+        </p>
+      )}
+      <div className="form-actions">
+        <Button type="submit" variant="primary">
+          {initial ? 'Guardar variante' : 'Agregar variante'}
+        </Button>
+        <Button onClick={onCancel}>Cancelar</Button>
+      </div>
+    </form>
   );
 }
 

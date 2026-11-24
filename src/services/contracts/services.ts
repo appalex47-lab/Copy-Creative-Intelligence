@@ -107,8 +107,23 @@ export interface CopyService {
     readonly label: unknown;
     readonly tags: unknown;
   }): Promise<Result<CopyRecord>>;
-  /** Copia el contenido vigente en un copy nuevo (otra variante) con su propio historial. */
-  duplicate(input: { readonly id: string; readonly label: unknown }): Promise<Result<CopyRecord>>;
+  /** Agrega una variante (alternativa de texto sin versiones propias). No toca el historial del copy. */
+  addVariant(input: {
+    readonly id: string;
+    readonly label: unknown;
+    readonly content: unknown;
+  }): Promise<Result<CopyRecord>>;
+  /** Edita una variante en su lugar. Sin cambios o inválida: error y no guarda. */
+  updateVariant(input: {
+    readonly id: string;
+    readonly variantId: string;
+    readonly label: unknown;
+    readonly content: unknown;
+  }): Promise<Result<CopyRecord>>;
+  removeVariant(input: {
+    readonly id: string;
+    readonly variantId: string;
+  }): Promise<Result<CopyRecord>>;
   remove(id: string): Promise<Result<void>>;
 }
 

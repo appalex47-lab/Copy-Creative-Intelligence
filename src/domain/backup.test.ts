@@ -65,7 +65,7 @@ describe('respaldo v2 con briefs (S2.2)', () => {
   it('los briefs viajan en el archivo y se interpretan igual', () => {
     const r = parseBackupText(file());
     expect(r.ok && r.value.data.briefs).toEqual(data.briefs);
-    expect(r.ok && r.value.version).toBe(4);
+    expect(r.ok && r.value.version).toBe(5);
     expect(r.ok && r.value.data.copies).toEqual(data.copies);
   });
   it('un respaldo v1 (sin briefs) sigue siendo válido y su suma se calcula con la forma v1', () => {
@@ -138,6 +138,36 @@ describe('respaldo v4 con reglas (S2.5b)', () => {
   });
 });
 
+describe('respaldo v5 con variantes (S2.7)', () => {
+  const variant = {
+    id: 'var_abcdefgh1',
+    label: 'B',
+    content: { headline: 'Otro' },
+    createdAt: '2026-11-22T09:10:00.000Z',
+    updatedAt: '2026-11-22T09:10:00.000Z',
+  };
+  const withVariant: BackupData = {
+    ...data,
+    copies: data.copies.map((c) => ({ ...c, variants: [variant] })),
+  };
+  it('las variantes viajan en el copy y entran en la suma canónica solo desde v5', () => {
+    expect(canonicalData(withVariant, 5)).toContain('"variants"');
+    expect(canonicalData(withVariant, 4)).not.toContain('variants');
+    const text = serializeBackup(withVariant, '2026-11-22T12:00:00.000Z', HASH);
+    const r = parseBackupText(text);
+    expect(r.ok && r.value.data.copies[0]?.variants).toEqual([variant]);
+  });
+  it('un archivo de versión anterior a la 5 no puede traer variantes', () => {
+    const o = JSON.parse(serializeBackup(withVariant, '2026-11-22T12:00:00.000Z', HASH)) as Record<
+      string,
+      unknown
+    >;
+    o['version'] = 4;
+    const r = parseBackupText(JSON.stringify(o));
+    expect(r.ok).toBe(false);
+  });
+});
+
 describe('respaldo (dominio)', () => {
   it('un archivo válido se interpreta tal cual', () => {
     const r = parseBackupText(file());
@@ -151,7 +181,7 @@ describe('respaldo (dominio)', () => {
   it('rechaza texto que no es JSON, otros formatos y versiones nuevas o inválidas', () => {
     expect(reason('no json')).toContain('no es JSON');
     expect(reason('{"format":"otro"}')).toContain('no es un respaldo');
-    expect(reason(file((o) => (o['version'] = 5)))).toContain('más reciente');
+    expect(reason(file((o) => (o['version'] = 6)))).toContain('más reciente');
     expect(reason(file((o) => (o['version'] = 0)))).toContain('versión');
     expect(reason(file((o) => (o['version'] = '1')))).toContain('versión');
   });

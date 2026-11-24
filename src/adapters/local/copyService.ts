@@ -1,6 +1,8 @@
 import {
+  addVariant,
   appendVersion,
-  currentVersion,
+  removeVariant,
+  updateVariant,
   validateCopyRecord,
   validateLabel,
   validateTags,
@@ -17,14 +19,17 @@ export interface CopyServiceDeps {
   readonly writable: <T>(run: () => Promise<Result<T>>) => Promise<Result<T>>;
   readonly now?: () => Date;
   readonly newId?: () => string;
+  readonly newVariantId?: () => string;
 }
 
 const defaultId = (): string => `cpy_${crypto.randomUUID().replaceAll('-', '')}`;
+const defaultVariantId = (): string => `var_${crypto.randomUUID().replaceAll('-', '')}`;
 
 /** Casos de uso de copys. Sin red. Ids y fechas los pone el servicio. Las versiones solo se añaden. */
 export function createCopyService(deps: CopyServiceDeps): CopyService {
   const now = deps.now ?? (() => new Date());
   const newId = deps.newId ?? defaultId;
+  const newVariantId = deps.newVariantId ?? defaultVariantId;
   const repo = async <T>(run: (r: CopyRepository) => Promise<Result<T>>): Promise<Result<T>> => {
     const r = await deps.copies();
     return r.ok ? run(r.value) : fail(r.error.code, r.error.message);
@@ -90,17 +95,15 @@ export function createCopyService(deps: CopyServiceDeps): CopyService {
         const updatedAt = at < c.updatedAt ? c.updatedAt : at;
         return valid({ ...c, label: label.value, tags: tags.value, updatedAt });
       }),
-    duplicate: (i) =>
-      deps.writable(async () => {
-        const src = await repo((r) => r.get(i.id));
-        if (!src.ok) return src;
-        return create(
-          src.value.briefId,
-          i.label,
-          currentVersion(src.value).content,
-          src.value.tags,
-        );
-      }),
+    addVariant: (i) =>
+      change(i.id, (c) =>
+        addVariant(c, { id: newVariantId(), label: i.label, content: i.content }, stamp()),
+      ),
+    updateVariant: (i) =>
+      change(i.id, (c) =>
+        updateVariant(c, { variantId: i.variantId, label: i.label, content: i.content }, stamp()),
+      ),
+    removeVariant: (i) => change(i.id, (c) => removeVariant(c, i.variantId, stamp())),
     remove: (id) => deps.writable(() => repo((r) => r.remove(id))),
   };
 }

@@ -12,7 +12,7 @@ async function openCopies(page: Page) {
 }
 
 test.describe('copys con versiones (modo local, Chrome real)', () => {
-  test('crear → nueva versión → historial → recuperar → duplicar → borrar; brief con copys no se borra', async ({
+  test('crear → nueva versión → historial → recuperar → variantes → borrar; brief con copys no se borra', async ({
     page,
   }) => {
     const errors = trackErrors(page);
@@ -50,28 +50,55 @@ test.describe('copys con versiones (modo local, Chrome real)', () => {
       'Ahorra en tu Buen Fin',
     );
 
-    // Duplicar como variante.
-    await page.getByRole('button', { name: 'Duplicar como variante: Principal' }).click();
-    await page.getByLabel('Nombre de la variante nueva').fill('B');
-    await page.getByRole('button', { name: 'Crear variante' }).click();
-    await expect(page.getByRole('status').filter({ hasText: 'Variante «B» creada' })).toBeVisible();
+    // Variante dentro del copy: sin versiones propias; el copy conserva su versión 3.
+    await page.getByRole('button', { name: 'Agregar variante a Principal' }).click();
+    await page.getByLabel('Nombre de la variante (obligatorio)').fill('B');
+    await page.getByLabel(/^Titular/).fill('Ahorra con tu Buen Fin');
+    await page.getByLabel(/^Descripción/).fill('Una cura para todo');
+    expect(await axeViolations(page)).toEqual([]);
+    await page.getByRole('button', { name: 'Agregar variante', exact: true }).click();
+    await expect(
+      page.getByRole('status').filter({ hasText: 'Variante «B» agregada' }),
+    ).toBeVisible();
+    await expect(page.getByRole('listitem').filter({ hasText: 'Versión 3 de 3' })).toBeVisible();
+    const variants = page.getByRole('region', { name: 'Variantes de Principal' });
+    await expect(variants).toContainText('Variantes (1)');
+    await expect(variants).toContainText('No tienen versiones propias');
+
+    // Nombre repetido: se rechaza con motivo.
+    await page.getByRole('button', { name: 'Agregar variante a Principal' }).click();
+    await page.getByLabel('Nombre de la variante (obligatorio)').fill('b');
+    await page.getByLabel(/^Titular/).fill('Otro');
+    await page.getByRole('button', { name: 'Agregar variante', exact: true }).click();
+    await expect(page.getByRole('alert')).toContainText('Ya hay una variante con ese nombre');
+    await page.getByRole('button', { name: 'Cancelar' }).click();
 
     // Persiste tras recargar.
     await page.reload();
     await page.getByRole('button', { name: 'Briefs', exact: true }).click();
     await page.getByRole('button', { name: 'Copys de Buen Fin' }).click();
-    await expect(page.getByRole('button', { name: 'Editar B' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Editar variante B' })).toBeVisible();
 
-    // Revisar reglas en la variante B: «cura» (mayor) y sin CTA en Email.
-    await page.getByRole('button', { name: 'Editar B' }).click();
-    await page.getByLabel(/^Descripción/).fill('Una cura para todo');
-    await page.getByRole('button', { name: 'Guardar nueva versión' }).click();
-    await page.getByRole('button', { name: 'Revisar reglas de B' }).click();
-    const review = page.getByRole('region', { name: 'Revisión de B' });
+    // Editar la variante en su lugar y revisar reglas: «cura» (mayor).
+    await page.getByRole('button', { name: 'Editar variante B' }).click();
+    await page.getByLabel(/^Titular/).fill('Ahorra mucho con tu Buen Fin');
+    await page.getByRole('button', { name: 'Guardar variante' }).click();
+    await expect(
+      page.getByRole('status').filter({ hasText: 'Variante actualizada' }),
+    ).toBeVisible();
+    await expect(page.getByRole('listitem').filter({ hasText: 'Versión 3 de 3' })).toBeVisible();
+    await page.getByRole('button', { name: 'Revisar reglas de la variante B' }).click();
+    const review = page.getByRole('region', { name: 'Revisión de Principal · B' });
     await expect(review).toContainText('término prohibido «cura»');
     await expect(review).toContainText('Puntaje');
     expect(await axeViolations(page)).toEqual([]);
     await page.getByRole('button', { name: 'Cerrar revisión' }).click();
+
+    // Eliminar la variante (con confirmación).
+    await page.getByRole('button', { name: 'Eliminar variante B' }).click();
+    await page.getByRole('button', { name: 'Sí, eliminar variante' }).click();
+    await expect(page.getByRole('status').filter({ hasText: 'Variante eliminada' })).toBeVisible();
+    await expect(page.getByRole('region', { name: 'Variantes de Principal' })).toHaveCount(0);
 
     // Volver: el brief con copys no se puede eliminar.
     await page.getByRole('button', { name: 'Volver a los briefs' }).click();
@@ -81,11 +108,9 @@ test.describe('copys con versiones (modo local, Chrome real)', () => {
 
     // Borrar los copys y luego el brief.
     await page.getByRole('button', { name: 'Copys de Buen Fin' }).click();
-    for (const name of ['B', 'Principal']) {
-      await page.getByRole('button', { name: `Eliminar ${name}`, exact: true }).click();
-      await page.getByRole('button', { name: 'Sí, eliminar copy' }).click();
-      await expect(page.getByRole('status').filter({ hasText: 'Copy eliminado' })).toBeVisible();
-    }
+    await page.getByRole('button', { name: 'Eliminar Principal', exact: true }).click();
+    await page.getByRole('button', { name: 'Sí, eliminar copy' }).click();
+    await expect(page.getByRole('status').filter({ hasText: 'Copy eliminado' })).toBeVisible();
     await page.getByRole('button', { name: 'Volver a los briefs' }).click();
     await page.getByRole('button', { name: 'Eliminar Buen Fin' }).click();
     await page.getByRole('button', { name: 'Sí, eliminar' }).click();

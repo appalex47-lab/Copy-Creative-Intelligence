@@ -2,10 +2,14 @@ import { describe, expect, it } from 'vitest';
 import {
   COPY_LIMITS,
   COPY_MAX_VERSIONS,
+  addVariant,
   appendVersion,
   compareCopiesNewestFirst,
   currentVersion,
   diffContent,
+  removeVariant,
+  updateVariant,
+  variantsOf,
   validateCopyContent,
   validateCopyRecord,
   validateLabel,
@@ -131,5 +135,91 @@ describe('copy (S2.4)', () => {
       'cpy_bbbbbbbb1',
       'cpy_aaaaaaaa1',
     ]);
+  });
+});
+
+describe('variantes dentro del copy (S2.7): sin versiones propias', () => {
+  const at = '2026-11-23T10:00:00.000Z';
+  const later = '2026-11-23T11:00:00.000Z';
+  const base: CopyRecord = {
+    id: 'cpy_abcdefgh1',
+    briefId: 'brf_abcdefgh1',
+    label: 'Principal',
+    tags: [],
+    createdAt: '2026-11-23T09:00:00.000Z',
+    updatedAt: '2026-11-23T09:00:00.000Z',
+    versions: [{ n: 1, createdAt: '2026-11-23T09:00:00.000Z', content: { headline: 'Hola' } }],
+  };
+  const added = (): CopyRecord => {
+    const r = addVariant(
+      base,
+      { id: 'var_abcdefgh1', label: 'B', content: { headline: 'Otro' } },
+      at,
+    );
+    if (!r.ok) throw new Error(r.reason);
+    return r.value;
+  };
+
+  it('agregar no toca el historial de versiones del copy', () => {
+    const c = added();
+    expect(c.versions).toEqual(base.versions);
+    expect(variantsOf(c)).toHaveLength(1);
+    expect(c.updatedAt).toBe(at);
+    expect(validateCopyRecord(c).ok).toBe(true);
+  });
+  it('un copy sin variantes no lleva la clave `variants` (compatibilidad)', () => {
+    const v = validateCopyRecord(base);
+    expect(v.ok && 'variants' in v.value).toBe(false);
+  });
+  it('editar una variante cambia su contenido en su lugar, sin crear versiones', () => {
+    const r = updateVariant(
+      added(),
+      { variantId: 'var_abcdefgh1', label: 'B', content: { headline: 'Nuevo' } },
+      later,
+    );
+    expect(r.ok && variantsOf(r.value)[0]?.content).toEqual({ headline: 'Nuevo' });
+    expect(r.ok && r.value.versions).toHaveLength(1);
+    expect(r.ok && variantsOf(r.value)[0]?.createdAt).toBe(at);
+  });
+  it('rechaza sin cambios, nombre repetido, variante inexistente y exceso', () => {
+    const c = added();
+    expect(
+      updateVariant(
+        c,
+        { variantId: 'var_abcdefgh1', label: 'B', content: { headline: 'Otro' } },
+        later,
+      ).ok,
+    ).toBe(false);
+    expect(
+      addVariant(c, { id: 'var_abcdefgh2', label: ' b ', content: { cta: 'x' } }, later).ok,
+    ).toBe(false);
+    expect(
+      updateVariant(c, { variantId: 'var_zzzzzzzz1', label: 'C', content: { cta: 'x' } }, later).ok,
+    ).toBe(false);
+    let cur: CopyRecord = base;
+    for (let i = 0; i < 10; i++) {
+      const r = addVariant(
+        cur,
+        { id: `var_abcdefg${i}x`, label: `V${i}`, content: { cta: 'x' } },
+        at,
+      );
+      if (!r.ok) throw new Error(r.reason);
+      cur = r.value;
+    }
+    expect(
+      addVariant(cur, { id: 'var_abcdefgz11', label: 'V11', content: { cta: 'x' } }, at).ok,
+    ).toBe(false);
+  });
+  it('eliminar quita la variante y, si era la última, la clave', () => {
+    const r = removeVariant(added(), 'var_abcdefgh1', later);
+    expect(r.ok && 'variants' in r.value).toBe(false);
+    expect(removeVariant(base, 'var_abcdefgh1', later).ok).toBe(false);
+  });
+  it('un registro guardado con variantes repetidas o inválidas se rechaza', () => {
+    const c = added();
+    const v = variantsOf(c)[0];
+    expect(validateCopyRecord({ ...c, variants: [v, v] }).ok).toBe(false);
+    expect(validateCopyRecord({ ...c, variants: [{ ...v, id: 'x' }] }).ok).toBe(false);
+    expect(validateCopyRecord({ ...c, variants: 'x' }).ok).toBe(false);
   });
 });

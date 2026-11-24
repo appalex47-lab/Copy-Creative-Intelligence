@@ -9,7 +9,7 @@ Fuente: «Funciones, definiciones y reglas funcionales candidatas para Fase 2» 
 | 3 | Ofertas | No construida | Hoy «oferta» es texto del brief; no hay precios ni vigencia estructurados. |
 | 4 | Briefs | Construida (S2.1–S2.3) | Los 13 campos y cuáles son obligatorios son supuestos aprobados bajo delegación; el documento dice que no están aprobados como obligatorios. |
 | 5 | Copies | Construida (S2.4) | Versiones inmutables. Sin estados de aprobación (correcto: Fase 5). |
-| 6 | Variantes | Construida con DESVÍO | Una variante hoy es otro Copy con sus propias versiones. El documento dice que las variantes no tienen versiones propias. Hay que rediseñar. |
+| 6 | Variantes | Construida (S2.7, corregida) | Alternativa de texto dentro del copy, sin versiones propias. Máximo 10 por copy (supuesto). Falta selección y comparación entre variantes. |
 | 7 | Adaptación por canal | Parcial | Hay reglas por canal y plantillas, pero no la entidad ChannelAdaptation derivada de un Copy. |
 | 8 | Reglas de marca y comerciales | Parcial | Leyendas y términos de marca configurables (marca). No hay ReglaComercial como entidad; la comparación de porcentajes vive dentro del motor. |
 | 9 | Auditoría creativa | Adelantada, parcial | «Revisar reglas» calcula al vuelo; no hay entidad Creative Audit guardada. |
@@ -24,3 +24,6 @@ Fuente: «Funciones, definiciones y reglas funcionales candidatas para Fase 2» 
 2. Entidades Campaña, Producto y Oferta: crearlas como entidades simples (solo nombre y campos mínimos ya usados), con referencia opcional desde el Brief, sin relaciones obligatorias.
 3. La puntuación de S2.5a se declara «vista previa de la Fase 3»: no es una auditoría guardada ni una aprobación.
 4. La asignación de cada función a una fase sigue sin confirmar por el propietario.
+
+## Actualización S2.7
+El propietario aprobó (2026-11-23) las decisiones 1–4 propuestas arriba. La 1 (variantes) quedó hecha en S2.7. Pendiente: entidades Campaña, Producto y Oferta (decisión 2).

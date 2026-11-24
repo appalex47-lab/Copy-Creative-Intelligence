@@ -39,6 +39,21 @@ export interface CopyVersion {
   readonly restoredFrom?: number;
 }
 
+/**
+ * Variante (S2.7, decisión del propietario D-Fase2): alternativa de texto que COEXISTE con otras dentro de un copy.
+ * NO tiene versiones propias (se edita en su lugar); el historial de versiones es solo del copy. No es una versión.
+ * SUPUESTO de Claude (reversible): máximo 10 variantes por copy.
+ */
+export interface CopyVariant {
+  readonly id: string; // var_…
+  readonly label: string;
+  readonly content: CopyContent;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+}
+export const VARIANT_ID = /^var_[A-Za-z0-9_-]{8,64}$/;
+export const COPY_MAX_VARIANTS = 10;
+
 export interface CopyRecord {
   readonly id: string; // cpy_…
   readonly briefId: string;
@@ -48,6 +63,8 @@ export interface CopyRecord {
   readonly createdAt: string;
   readonly updatedAt: string;
   readonly versions: readonly CopyVersion[]; // de la más antigua a la más reciente, inmutables
+  /** Alternativas del copy sin versiones propias. Ausente = ninguna (así los copys anteriores siguen siendo válidos). */
+  readonly variants?: readonly CopyVariant[];
 }
 
 export const COPY_ID = /^cpy_[A-Za-z0-9_-]{8,64}$/;
@@ -135,10 +152,59 @@ function validateVersion(raw: unknown, expectedN: number): Validation<CopyVersio
   });
 }
 
+export function validateVariant(raw: unknown): Validation<CopyVariant> {
+  if (!isObject(raw) || !onlyKeys(raw, ['id', 'label', 'content', 'createdAt', 'updatedAt']))
+    return invalid('Una variante no es válida.');
+  if (typeof raw['id'] !== 'string' || !VARIANT_ID.test(raw['id']))
+    return invalid('El identificador de una variante no es válido.');
+  const label = validateLabel(raw['label']);
+  if (!label.ok) return label;
+  const content = validateCopyContent(raw['content']);
+  if (!content.ok) return content;
+  if (!isIso(raw['createdAt']) || !isIso(raw['updatedAt']) || raw['updatedAt'] < raw['createdAt'])
+    return invalid('Las fechas de una variante no son válidas.');
+  return valid({
+    id: raw['id'],
+    label: label.value,
+    content: content.value,
+    createdAt: raw['createdAt'],
+    updatedAt: raw['updatedAt'],
+  });
+}
+
+function validateVariants(raw: unknown): Validation<CopyVariant[]> {
+  if (raw === undefined) return valid([]);
+  if (!Array.isArray(raw) || raw.length > COPY_MAX_VARIANTS)
+    return invalid(`Las variantes no son válidas (máximo ${COPY_MAX_VARIANTS}).`);
+  const out: CopyVariant[] = [];
+  const ids = new Set<string>();
+  const names = new Set<string>();
+  for (const item of raw) {
+    const v = validateVariant(item);
+    if (!v.ok) return v;
+    const key = v.value.label.toLocaleLowerCase('es');
+    if (ids.has(v.value.id) || names.has(key))
+      return invalid('Hay variantes repetidas (mismo identificador o mismo nombre).');
+    ids.add(v.value.id);
+    names.add(key);
+    out.push(v.value);
+  }
+  return valid(out);
+}
+
 export function validateCopyRecord(raw: unknown): Validation<CopyRecord> {
   if (
     !isObject(raw) ||
-    !onlyKeys(raw, ['id', 'briefId', 'label', 'tags', 'createdAt', 'updatedAt', 'versions'])
+    !onlyKeys(raw, [
+      'id',
+      'briefId',
+      'label',
+      'tags',
+      'createdAt',
+      'updatedAt',
+      'versions',
+      'variants',
+    ])
   )
     return invalid('El copy guardado no es válido.');
   const { id, briefId, createdAt, updatedAt } = raw;
@@ -164,6 +230,8 @@ export function validateCopyRecord(raw: unknown): Validation<CopyRecord> {
   }
   if (updatedAt < createdAt)
     return invalid('La fecha de actualización es anterior a la de creación.');
+  const variants = validateVariants(raw['variants']);
+  if (!variants.ok) return variants;
   return valid({
     id,
     briefId,
@@ -172,6 +240,7 @@ export function validateCopyRecord(raw: unknown): Validation<CopyRecord> {
     createdAt,
     updatedAt,
     versions,
+    ...(variants.value.length > 0 ? { variants: variants.value } : {}),
   });
 }
 
@@ -220,4 +289,94 @@ export function appendVersion(
     ...(restoredFrom !== undefined ? { restoredFrom } : {}),
   };
   return valid({ ...copy, updatedAt: when, versions: [...copy.versions, version] });
+}
+
+export const variantsOf = (c: CopyRecord): readonly CopyVariant[] => c.variants ?? [];
+
+const withVariants = (
+  copy: CopyRecord,
+  variants: readonly CopyVariant[],
+  at: string,
+): CopyRecord => {
+  const { variants: _old, ...rest } = copy;
+  void _old;
+  return {
+    ...rest,
+    updatedAt: at < copy.updatedAt ? copy.updatedAt : at,
+    ...(variants.length > 0 ? { variants } : {}),
+  };
+};
+
+/** Agrega una variante. No toca el historial de versiones del copy. */
+export function addVariant(
+  copy: CopyRecord,
+  input: { readonly id: string; readonly label: unknown; readonly content: unknown },
+  at: string,
+): Validation<CopyRecord> {
+  const v = validateVariant({
+    id: input.id,
+    label: input.label,
+    content: input.content,
+    createdAt: at,
+    updatedAt: at,
+  });
+  if (!v.ok) return v;
+  const cur = variantsOf(copy);
+  if (cur.length >= COPY_MAX_VARIANTS)
+    return invalid(`Este copy llegó al máximo de ${COPY_MAX_VARIANTS} variantes.`);
+  if (cur.some((x) => x.label.toLocaleLowerCase('es') === v.value.label.toLocaleLowerCase('es')))
+    return invalid('Ya hay una variante con ese nombre.');
+  return valid(withVariants(copy, [...cur, v.value], at));
+}
+
+/** Edita una variante EN SU LUGAR (sin versiones). */
+export function updateVariant(
+  copy: CopyRecord,
+  input: { readonly variantId: string; readonly label: unknown; readonly content: unknown },
+  at: string,
+): Validation<CopyRecord> {
+  const cur = variantsOf(copy);
+  const old = cur.find((x) => x.id === input.variantId);
+  if (!old) return invalid('La variante no existe.');
+  const v = validateVariant({
+    id: old.id,
+    label: input.label,
+    content: input.content,
+    createdAt: old.createdAt,
+    updatedAt: at < old.createdAt ? old.createdAt : at,
+  });
+  if (!v.ok) return v;
+  if (
+    cur.some(
+      (x) =>
+        x.id !== old.id &&
+        x.label.toLocaleLowerCase('es') === v.value.label.toLocaleLowerCase('es'),
+    )
+  )
+    return invalid('Ya hay una variante con ese nombre.');
+  if (v.value.label === old.label && diffContent(old.content, v.value.content).length === 0)
+    return invalid('No hay cambios respecto de la variante actual.');
+  return valid(
+    withVariants(
+      copy,
+      cur.map((x) => (x.id === old.id ? v.value : x)),
+      at,
+    ),
+  );
+}
+
+export function removeVariant(
+  copy: CopyRecord,
+  variantId: string,
+  at: string,
+): Validation<CopyRecord> {
+  const cur = variantsOf(copy);
+  if (!cur.some((x) => x.id === variantId)) return invalid('La variante no existe.');
+  return valid(
+    withVariants(
+      copy,
+      cur.filter((x) => x.id !== variantId),
+      at,
+    ),
+  );
 }

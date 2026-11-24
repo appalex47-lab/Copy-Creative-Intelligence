@@ -11,7 +11,7 @@ import { invalid, valid, type Validation } from './validation';
  * locales y una suma SHA-256 de los datos para detectar daños. La importación REEMPLAZA todos los datos locales.
  */
 export const BACKUP_FORMAT = 'cci-backup';
-export const BACKUP_VERSION = 4; // v2 añade `briefs` (S2.2), v3 `copies` (S2.4) y v4 `rules` (S2.5b); se aceptan v1–v3
+export const BACKUP_VERSION = 5; // v2 añade `briefs` (S2.2), v3 `copies` (S2.4), v4 `rules` (S2.5b) y v5 variantes dentro de cada copy (S2.7); se aceptan v1–v4
 export const BACKUP_MAX_BYTES = 5 * 1024 * 1024;
 export const BACKUP_MAX_EVENTS = 10_000;
 export const BACKUP_MAX_BRIEFS = 2_000;
@@ -47,7 +47,7 @@ function canonicalBrief(b: BriefRecord): unknown {
   };
 }
 
-function canonicalCopy(c: CopyRecord): unknown {
+function canonicalCopy(c: CopyRecord, version: number): unknown {
   const sorted = (o: Record<string, unknown>) =>
     Object.fromEntries(Object.entries(o).sort(([x], [y]) => (x < y ? -1 : 1)));
   return {
@@ -63,6 +63,17 @@ function canonicalCopy(c: CopyRecord): unknown {
       content: sorted(v.content),
       ...(v.restoredFrom !== undefined ? { restoredFrom: v.restoredFrom } : {}),
     })),
+    ...(version >= 5
+      ? {
+          variants: (c.variants ?? []).map((x) => ({
+            id: x.id,
+            label: x.label,
+            content: sorted(x.content),
+            createdAt: x.createdAt,
+            updatedAt: x.updatedAt,
+          })),
+        }
+      : {}),
   };
 }
 
@@ -81,7 +92,7 @@ export function canonicalData(data: BackupData, version: number = BACKUP_VERSION
     },
     activity: data.activity.map((e) => ({ id: e.id, at: e.at, kind: e.kind })),
     ...(version >= 2 ? { briefs: data.briefs.map(canonicalBrief) } : {}),
-    ...(version >= 3 ? { copies: data.copies.map(canonicalCopy) } : {}),
+    ...(version >= 3 ? { copies: data.copies.map((c) => canonicalCopy(c, version)) } : {}),
     ...(version >= 4 ? { rules: canonicalRules(data.rules) } : {}),
   });
 }
@@ -206,6 +217,8 @@ export function parseBackupText(text: string): Validation<ParsedBackup> {
   const copies =
     version >= 3 ? parseCopies(data['copies'], briefs.value, 'respaldo') : valid<CopyRecord[]>([]);
   if (!copies.ok) return copies;
+  if (version < 5 && copies.value.some((c) => c.variants !== undefined))
+    return invalid('Los copys del respaldo no son válidos para su versión.');
   let rules: RulesDoc | null = null;
   if (version >= 4 && data['rules'] !== null) {
     const r = validateRulesDoc(data['rules']);
