@@ -100,3 +100,29 @@ describe('recordatorio', () => {
     expect(isReviewDue(['2026-11-20T00:00:00Z', '2026-11-01T00:00:00Z'], now)).toBe(false);
   });
 });
+
+import { buildDashboard } from './dashboard';
+import { reviewsCsv } from './reviewExport';
+describe('tablero y exportación (S5.1)', () => {
+  it('cuenta pendientes y promociones por vencer o vencidas', () => {
+    const d = buildDashboard({
+      copies: [],
+      pieces: [],
+      reviews: [],
+      promos: [
+        promo({ name: 'Vencida', to: '2026-11-01' }),
+        promo({ name: 'Pronto', to: '2026-11-28' }),
+        promo({ name: 'Lejos', to: '2027-01-01' }),
+        promo({ name: 'Sin fin', to: undefined } as never),
+      ],
+      measures: [],
+      today: '2026-11-24',
+    });
+    expect(d.promosExpired).toEqual(['Vencida']);
+    expect(d.promosSoon).toEqual(['Pronto']);
+    expect(d.unreviewed).toEqual([]);
+  });
+  it('CSV de revisiones con encabezado y BOM', () => {
+    expect(reviewsCsv([]).startsWith('﻿Actualizada,Objetivo')).toBe(true);
+  });
+});

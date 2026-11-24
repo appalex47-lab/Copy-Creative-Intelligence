@@ -1,4 +1,5 @@
 import type { AuditRecord } from './audit';
+import { currentVersion, type CopyRecord } from './copy';
 import { conversionRate, ctr, MIN_SAMPLE, type MeasureRecord } from './measure';
 import type { PieceRecord } from './piece';
 import { summarizeReview, type ReviewRecord } from './review';
@@ -29,6 +30,13 @@ export interface Library {
   readonly rejected: readonly LibraryEntry[];
   readonly recurring: readonly Recurring[];
   readonly best: readonly BestResult[];
+  /** Titular y CTA de los copys con mejor CTR (resultados vinculados a un copy). */
+  readonly bestTexts: readonly {
+    readonly label: string;
+    readonly headline: string;
+    readonly cta: string;
+    readonly ctr: number;
+  }[];
   readonly experiments: readonly { readonly name: string; readonly conclusion: string }[];
 }
 
@@ -39,6 +47,7 @@ export function buildLibrary(input: {
   readonly copyAudits: readonly AuditRecord[];
   readonly pieces: readonly PieceRecord[];
   readonly measures: readonly MeasureRecord[];
+  readonly copies?: readonly CopyRecord[];
 }): Library {
   const approved: LibraryEntry[] = [];
   const rejected: LibraryEntry[] = [];
@@ -81,8 +90,22 @@ export function buildLibrary(input: {
     }))
     .sort((a, b) => (b.ctr ?? -1) - (a.ctr ?? -1))
     .slice(0, 5);
+  const bestTexts = input.measures
+    .flatMap((m) => {
+      if (m.kind !== 'resultado' || m.targetType !== 'copy' || m.impressions < MIN_SAMPLE)
+        return [];
+      const c = (input.copies ?? []).find((x) => x.id === m.targetId);
+      const rate = ctr(m);
+      if (!c || rate === null) return [];
+      const content = currentVersion(c).content;
+      return [
+        { label: c.label, headline: content.headline ?? '', cta: content.cta ?? '', ctr: rate },
+      ];
+    })
+    .sort((a, b) => b.ctr - a.ctr)
+    .slice(0, 5);
   const experiments = input.measures.flatMap((m) =>
     m.kind === 'experimento' && m.conclusion ? [{ name: m.name, conclusion: m.conclusion }] : [],
   );
-  return { approved, rejected, recurring, best, experiments };
+  return { approved, rejected, recurring, best, bestTexts, experiments };
 }

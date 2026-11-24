@@ -11,16 +11,18 @@ import { useServices } from '@/hooks/ServicesContext';
 export function LibraryPage() {
   const services = useServices();
   const load = useCallback(async () => {
-    const [r, a, p, m] = await Promise.all([
+    const [r, a, p, m, c] = await Promise.all([
       services.reviews.list(),
       services.audits.list(),
       services.pieces.list(),
       services.measures.list(),
+      services.copies.list(),
     ]);
     if (!r.ok) return r;
     if (!a.ok) return a;
     if (!p.ok) return p;
     if (!m.ok) return m;
+    if (!c.ok) return c;
     return {
       ok: true as const,
       value: buildLibrary({
@@ -28,6 +30,7 @@ export function LibraryPage() {
         copyAudits: a.value,
         pieces: p.value,
         measures: m.value,
+        copies: c.value,
       }),
     };
   }, [services]);
@@ -67,6 +70,7 @@ export function LibraryPage() {
           state.data.rejected.length +
           state.data.recurring.length +
           state.data.best.length +
+          state.data.bestTexts.length +
           state.data.experiments.length ===
         0 ? (
           <EmptyState
@@ -104,6 +108,17 @@ export function LibraryPage() {
                 </ol>
               )}
             </Card>
+            {state.data.bestTexts.length > 0 && (
+              <Card title="Titulares y CTA con mejor CTR" headingLevel={3}>
+                <ol aria-label="Titulares y CTA con mejor CTR">
+                  {state.data.bestTexts.map((t) => (
+                    <li key={t.label}>
+                      {t.label}: «{t.headline}» con CTA «{t.cta}» · CTR {pct(t.ctr)}
+                    </li>
+                  ))}
+                </ol>
+              </Card>
+            )}
             {state.data.experiments.length > 0 && (
               <Card title="Conclusiones de experimentos" headingLevel={3}>
                 <ul aria-label="Conclusiones de experimentos">

@@ -18,7 +18,7 @@ describe('accesibilidad semántica de la interfaz', () => {
       '#contenido',
     );
     const levels = screen.getAllByRole('heading').map((h) => h.tagName);
-    expect(levels).toEqual(['H1', 'H2', 'H3']);
+    expect(levels).toEqual(['H1', 'H2', 'H3', 'H3']);
   });
 
   it('la navegación indica la página activa con aria-current y cambia con la selección', async () => {

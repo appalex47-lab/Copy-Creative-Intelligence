@@ -5,6 +5,8 @@ import { EmptyState } from '@/components/EmptyState';
 import { AsyncStatus, ErrorNotice } from '@/components/StatusNotices';
 import type { AuditRecord } from '@/domain/audit';
 import type { PieceRecord } from '@/domain/piece';
+import { reviewsCsv } from '@/domain/reviewExport';
+import { downloadTextFile } from '@/lib/download';
 import { MASTER_PROMPT } from '@/domain/masterPrompt';
 import {
   CHECKLIST,
@@ -212,6 +214,19 @@ export function ReviewsPage() {
                   );
                 })}
               </ul>
+              <div className="form-actions">
+                <Button
+                  onClick={() =>
+                    downloadTextFile(
+                      `cci-revisiones-${new Date().toISOString().slice(0, 10)}.csv`,
+                      reviewsCsv(state.data.reviews),
+                      'text/csv',
+                    )
+                  }
+                >
+                  Descargar CSV de las revisiones
+                </Button>
+              </div>
             </Card>
           )}
         </>

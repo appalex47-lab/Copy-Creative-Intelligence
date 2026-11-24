@@ -1,5 +1,6 @@
 import { formatLocalDateTime } from '@/lib/formatDate';
 import { useCallback, useRef } from 'react';
+import { buildDashboard } from '@/domain/dashboard';
 import { isReviewDue } from '@/domain/reminder';
 import { EmptyState } from '@/components/EmptyState';
 import { AsyncStatus, ErrorNotice } from '@/components/StatusNotices';
@@ -35,6 +36,32 @@ export function HomePage() {
     };
   }, [services]);
   const { state: due } = useAsyncResource(loadDue);
+  const loadBoard = useCallback(async () => {
+    const [c, p, r, pr, m] = await Promise.all([
+      services.copies.list(),
+      services.pieces.list(),
+      services.reviews.list(),
+      services.promos.list(),
+      services.measures.list(),
+    ]);
+    if (!c.ok) return c;
+    if (!p.ok) return p;
+    if (!r.ok) return r;
+    if (!pr.ok) return pr;
+    if (!m.ok) return m;
+    return {
+      ok: true as const,
+      value: buildDashboard({
+        copies: c.value,
+        pieces: p.value,
+        reviews: r.value,
+        promos: pr.value,
+        measures: m.value,
+        today: new Date().toISOString().slice(0, 10),
+      }),
+    };
+  }, [services]);
+  const { state: board } = useAsyncResource(loadBoard);
 
   // Tras reintentar, el botón desaparece: el foco se devuelve al encabezado para no perderlo.
   const onRetry = () => {
@@ -52,6 +79,40 @@ export function HomePage() {
           <strong>Recordatorio semanal:</strong> no hay revisiones ni auditorías de los últimos 7
           días. Revisa las piezas que vayan a publicarse.
         </p>
+      )}
+      {board.status === 'success' && (
+        <section aria-label="Tablero de control">
+          <h3>Tablero de control</h3>
+          <dl aria-label="Pendientes">
+            <dt>Sin revisar</dt>
+            <dd>{board.data.unreviewed.length}</dd>
+            <dt>Revisiones por liberar</dt>
+            <dd>{board.data.toRelease}</dd>
+            <dt>Liberadas para publicar</dt>
+            <dd>{board.data.released}</dd>
+            <dt>Rechazadas</dt>
+            <dd>{board.data.rejected}</dd>
+            <dt>Mediciones registradas</dt>
+            <dd>{board.data.measures}</dd>
+          </dl>
+          {board.data.unreviewed.length > 0 && (
+            <p className="field-hint">
+              Sin revisar: {board.data.unreviewed.slice(0, 5).join(', ')}
+              {board.data.unreviewed.length > 5 ? '…' : ''}
+            </p>
+          )}
+          {board.data.promosExpired.length > 0 && (
+            <p role="note">
+              <strong>Promociones vencidas:</strong> {board.data.promosExpired.join(', ')}. Verifica
+              que ningún copy o pieza las siga usando.
+            </p>
+          )}
+          {board.data.promosSoon.length > 0 && (
+            <p role="note">
+              <strong>Promociones por vencer (7 días):</strong> {board.data.promosSoon.join(', ')}.
+            </p>
+          )}
+        </section>
       )}
       <AsyncStatus status={state.status} />
       {state.status === 'error' && (

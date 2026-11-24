@@ -32,3 +32,8 @@ Todas las decisiones marcadas son de Claude bajo delegación y revocables.
 - Revisiones: nuevos campos `stage`, `finalApproval`, `approver`; los registros anteriores se leen como «Validación» y «Pendiente».
 - Puntaje automático y matriz humana: «Revisión» muestra la última auditoría por reglas como «Alerta por reglas (automática)», solo lectura; la matriz humana es la calificación oficial (decisión de Claude bajo delegación, revocable).
 - Quedan sin construir: Copy Generator (IA generativa) y análisis visual automático (sin red por arquitectura).
+
+## S5.1 (2026-11-24, decisiones de Claude bajo delegación, revocables)
+- Tablero en Inicio; «por vencer» = fecha final dentro de 7 días; la app no sabe qué copy usa qué promoción (no hay vínculo), por eso solo avisa.
+- Biblioteca de titulares/CTA: solo con resultados vinculados a un copy y ≥100 impresiones; usa la versión vigente del copy.
+- Exportación: CSV de revisiones (con aprobador y etapa).

@@ -29,7 +29,17 @@ const num = (s: string): number => (s.trim() === '' ? Number.NaN : Number(s.repl
  */
 export function MeasurePage() {
   const services = useServices();
-  const load = useCallback(() => services.measures.list(), [services]);
+  const load = useCallback(async () => {
+    const [m, c, p] = await Promise.all([
+      services.measures.list(),
+      services.copies.list(),
+      services.pieces.list(),
+    ]);
+    if (!m.ok) return m;
+    if (!c.ok) return c;
+    if (!p.ok) return p;
+    return { ok: true as const, value: { measures: m.value, copies: c.value, pieces: p.value } };
+  }, [services]);
   const { state, retry } = useAsyncResource(load);
   const [error, setError] = useState<AppError | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
@@ -49,6 +59,7 @@ export function MeasurePage() {
     sales: '',
     from: '',
     to: '',
+    target: '',
   });
   const saveResult = async () => {
     setMsg(null);
@@ -58,11 +69,26 @@ export function MeasurePage() {
       clicks: num(r.clicks),
       conversions: num(r.conversions),
       ...(r.sales.trim() !== '' ? { sales: num(r.sales) } : {}),
+      ...(r.target
+        ? {
+            targetType: r.target.split(':')[0] as 'copy' | 'pieza',
+            targetId: r.target.split(':')[1] ?? '',
+          }
+        : {}),
       ...(r.from ? { from: r.from } : {}),
       ...(r.to ? { to: r.to } : {}),
     });
     if (!res.ok) return setError(res.error);
-    setR({ label: '', impressions: '', clicks: '', conversions: '', sales: '', from: '', to: '' });
+    setR({
+      label: '',
+      impressions: '',
+      clicks: '',
+      conversions: '',
+      sales: '',
+      from: '',
+      to: '',
+      target: '',
+    });
     done('Resultado guardado.');
   };
 
@@ -190,6 +216,32 @@ export function MeasurePage() {
           {field('res-label', 'Nombre (pieza, copy o campaña)', r.label, (v) =>
             setR({ ...r, label: v }),
           )}
+          <div className="field">
+            <label htmlFor="res-target">Vinculado a (opcional)</label>
+            <select
+              id="res-target"
+              value={r.target}
+              onChange={(ev) => setR({ ...r, target: ev.target.value })}
+            >
+              <option value="">Sin vincular</option>
+              <optgroup label="Copys">
+                {state.status === 'success' &&
+                  state.data.copies.map((c) => (
+                    <option key={c.id} value={`copy:${c.id}`}>
+                      {c.label}
+                    </option>
+                  ))}
+              </optgroup>
+              <optgroup label="Piezas">
+                {state.status === 'success' &&
+                  state.data.pieces.map((p) => (
+                    <option key={p.id} value={`pieza:${p.id}`}>
+                      {p.name}
+                    </option>
+                  ))}
+              </optgroup>
+            </select>
+          </div>
           {field('res-imp', 'Impresiones', r.impressions, (v) => setR({ ...r, impressions: v }), {
             type: 'number',
           })}
@@ -311,7 +363,7 @@ export function MeasurePage() {
         <ErrorNotice message={state.message} onRetry={state.retryable ? retry : undefined} />
       )}
       {state.status === 'success' &&
-        (state.data.length === 0 ? (
+        (state.data.measures.length === 0 ? (
           <EmptyState
             title="Aún no hay mediciones"
             description="Captura un resultado o importa un CSV."
@@ -319,7 +371,7 @@ export function MeasurePage() {
         ) : (
           <Card title="Registros" headingLevel={3}>
             <ul aria-label="Registros de medición">
-              {state.data.map((m) => (
+              {state.data.measures.map((m) => (
                 <li key={m.id}>
                   <MeasureLine m={m} /> <Button onClick={() => void remove(m.id)}>Eliminar</Button>
                 </li>

@@ -176,3 +176,51 @@ test.describe('medición, promociones, biblioteca y plantillas (modo local, Chro
     expect(errors).toEqual([]);
   });
 });
+
+test('tablero: cuenta lo pendiente y avisa de promociones vencidas; resultado vinculado alimenta la biblioteca', async ({
+  page,
+}) => {
+  const errors = trackErrors(page);
+  await page.goto(LOCAL);
+  await nav(page, 'Briefs');
+  await page.getByRole('button', { name: 'Nuevo brief' }).click();
+  await page.getByLabel(/^Campaña/).fill('Tablero');
+  await page.getByLabel(/^Canal/).selectOption('Email');
+  await page.getByRole('button', { name: 'Guardar brief' }).click();
+  await page.getByRole('button', { name: 'Copys de Tablero' }).click();
+  await page.getByRole('button', { name: 'Nuevo copy' }).click();
+  await page.getByLabel(/^Titular/).fill('Ahorra hoy en tu salud');
+  await page.getByLabel(/^CTA/).fill('Compra ahora');
+  await page.getByRole('button', { name: 'Crear copy' }).click();
+
+  await nav(page, 'Promociones');
+  await page.getByLabel('Archivo CSV de promociones').setInputFiles({
+    name: 'p.csv',
+    mimeType: 'text/csv',
+    buffer: Buffer.from('nombre,porcentaje,desde,hasta\nVieja,10,2020-01-01,2020-02-01\n'),
+  });
+  await expect(page.getByText('Se importaron 1 promociones.')).toBeVisible();
+
+  await nav(page, 'Medición');
+  const form = page.getByRole('form', { name: 'Resultado manual' });
+  await form.getByLabel(/^Nombre/).fill('Email Tablero');
+  await form.getByLabel('Vinculado a (opcional)').selectOption({ label: 'Principal' });
+  await form.getByLabel(/^Impresiones/).fill('1000');
+  await form.getByLabel(/^Clics/).fill('80');
+  await form.getByLabel(/^Conversiones/).fill('8');
+  await form.getByRole('button', { name: 'Guardar resultado' }).click();
+  await expect(page.getByText('Resultado guardado.')).toBeVisible();
+
+  await nav(page, 'Biblioteca');
+  await expect(page.getByRole('list', { name: 'Titulares y CTA con mejor CTR' })).toContainText(
+    'Ahorra hoy en tu salud',
+  );
+
+  await page.getByRole('button', { name: 'Inicio', exact: true }).click();
+  const board = page.getByRole('region', { name: 'Tablero de control' });
+  await expect(board).toContainText('Sin revisar1');
+  await expect(board).toContainText('Mediciones registradas1');
+  await expect(board).toContainText('Promociones vencidas: Vieja');
+  expect(await axeViolations(page)).toEqual([]);
+  expect(errors).toEqual([]);
+});
