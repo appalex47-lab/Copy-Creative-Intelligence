@@ -18,6 +18,7 @@ import {
   type CopyField,
   type CopyRecord,
 } from '@/domain/copy';
+import { TEMPLATES, applyTemplate, type TemplateId } from '@/domain/copyTemplates';
 import { toRulesConfig } from '@/domain/rulesConfig';
 import {
   CATEGORY_LABELS,
@@ -76,7 +77,13 @@ export function CopiesPanel({
         {notice}
       </p>
       {view.kind === 'form' ? (
-        <CopyForm briefId={brief.id} copy={view.copy} onDone={done} onCancel={() => done('')} />
+        <CopyForm
+          briefId={brief.id}
+          briefFields={brief.fields}
+          copy={view.copy}
+          onDone={done}
+          onCancel={() => done('')}
+        />
       ) : view.kind === 'history' ? (
         <History copy={view.copy} onDone={done} onClose={() => done('')} />
       ) : (
@@ -403,11 +410,13 @@ function History({
 
 function CopyForm({
   briefId,
+  briefFields,
   copy,
   onDone,
   onCancel,
 }: {
   readonly briefId: string;
+  readonly briefFields: BriefRecord['fields'];
   readonly copy: CopyRecord | undefined;
   readonly onDone: (message: string) => void;
   readonly onCancel: () => void;
@@ -499,6 +508,39 @@ function CopyForm({
   return (
     <Card title={copy ? `Editar ${copy.label}` : 'Nuevo copy'} headingLevel={4}>
       <form ref={form} onSubmit={(e) => void onSubmit(e)} noValidate>
+        {!copy && (
+          <div className="field">
+            <label htmlFor="copy-plantilla">Empezar desde una plantilla (opcional)</label>
+            <select
+              id="copy-plantilla"
+              defaultValue=""
+              aria-describedby="copy-plantilla-ayuda"
+              onChange={(e) => {
+                const id = e.target.value as TemplateId | '';
+                if (id === '') return;
+                const c = applyTemplate(id, briefFields);
+                setValues({
+                  headline: c.headline ?? '',
+                  body: c.body ?? '',
+                  description: c.description ?? '',
+                  cta: c.cta ?? '',
+                });
+                setErrors({});
+              }}
+            >
+              <option value="">Sin plantilla</option>
+              {TEMPLATES.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.name}
+                </option>
+              ))}
+            </select>
+            <p id="copy-plantilla-ayuda" className="field-hint">
+              Solo ordena datos de tu brief para el canal; no inventa nada. Reemplaza lo que ya
+              escribiste y puedes editarlo todo.
+            </p>
+          </div>
+        )}
         <div className="field">
           <label htmlFor="copy-label">Nombre de la variante (obligatorio)</label>
           <input

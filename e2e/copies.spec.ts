@@ -92,4 +92,35 @@ test.describe('copys con versiones (modo local, Chrome real)', () => {
     await expect(page.getByText('Aún no hay briefs')).toBeVisible();
     expect(errors).toEqual([]);
   });
+
+  test('plantilla: precarga solo datos del brief para el canal y se puede editar antes de guardar', async ({
+    page,
+  }) => {
+    const errors = trackErrors(page);
+    await page.goto(LOCAL);
+    await page.getByRole('button', { name: 'Briefs', exact: true }).click();
+    await page.getByRole('button', { name: 'Nuevo brief' }).click();
+    await page.getByLabel(/^Campaña/).fill('Buen Fin');
+    await page.getByLabel(/^Canal/).selectOption('Email');
+    await page.getByLabel(/^Producto/).fill('Vitamina C');
+    await page.getByLabel(/^Mensaje central/).fill('Cuida tu salud');
+    await page.getByLabel(/^CTA/).fill('Compra ahora');
+    await page.getByLabel(/^Oferta/).fill('20% de descuento');
+    await page.getByRole('button', { name: 'Guardar brief' }).click();
+    await page.getByRole('button', { name: 'Copys de Buen Fin' }).click();
+    await page.getByRole('button', { name: 'Nuevo copy' }).click();
+    expect(await axeViolations(page)).toEqual([]);
+    await page.getByLabel(/^Empezar desde una plantilla/).selectOption('oferta');
+    await expect(page.getByLabel(/^Titular/)).toHaveValue('20% de descuento en Vitamina C');
+    await expect(page.getByLabel(/^Texto/)).toHaveValue('Cuida tu salud');
+    await expect(page.getByLabel(/^CTA/)).toHaveValue('Compra ahora');
+    await page.getByLabel(/^Titular/).fill('Tu Vitamina C con 20% de descuento');
+    await page.getByRole('button', { name: 'Crear copy' }).click();
+    await expect(page.getByRole('status').filter({ hasText: 'versión 1' })).toBeVisible();
+    await page.getByRole('button', { name: 'Revisar reglas de Principal' }).click();
+    await expect(page.getByRole('region', { name: 'Revisión de Principal' })).toContainText(
+      'Puntaje',
+    );
+    expect(errors).toEqual([]);
+  });
 });
