@@ -6,6 +6,8 @@ import {
 } from '@/adapters/localstorage/preferencesStore';
 import type { AppState } from '@/domain/entities';
 import { createCopyService } from '@/adapters/local/copyService';
+import { createEntityService } from '@/adapters/local/entityService';
+import { createAdaptationService } from '@/adapters/local/adaptationService';
 import { createRulesService } from '@/adapters/local/rulesService';
 import { createBriefService } from '@/adapters/local/briefService';
 import { fail, ok } from '@/services/contracts';
@@ -33,11 +35,23 @@ export function createDemoServices(environment: AppState['environment']): Servic
     briefs: createBriefService({
       repo: () => Promise.resolve(ok(memory.briefs)),
       copies: () => Promise.resolve(ok(memory.copies)),
+      entities: () => Promise.resolve(ok(memory.entities)),
       writable: (run) => run(),
     }),
     copies: createCopyService({
       copies: () => Promise.resolve(ok(memory.copies)),
       briefs: () => Promise.resolve(ok(memory.briefs)),
+      adaptations: () => Promise.resolve(ok(memory.adaptations)),
+      writable: (run) => run(),
+    }),
+    entities: createEntityService({
+      repo: () => Promise.resolve(ok(memory.entities)),
+      briefs: () => Promise.resolve(ok(memory.briefs)),
+      writable: (run) => run(),
+    }),
+    adaptations: createAdaptationService({
+      repo: () => Promise.resolve(ok(memory.adaptations)),
+      copies: () => Promise.resolve(ok(memory.copies)),
       writable: (run) => run(),
     }),
     rules: createRulesService({

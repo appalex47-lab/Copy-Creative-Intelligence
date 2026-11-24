@@ -6,11 +6,13 @@ describe('createServices', () => {
   it('crea los servicios DEMO para el modo demo', () => {
     expect(Object.keys(createServices({ appEnv: 'test', dataMode: 'demo' })).sort()).toEqual([
       'activity',
+      'adaptations',
       'appState',
       'backup',
       'briefs',
       'coordination',
       'copies',
+      'entities',
       'preferences',
       'profile',
       'rules',

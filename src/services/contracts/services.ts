@@ -1,5 +1,7 @@
 import type { StorageInfo } from '@/domain/storageInfo';
 import type { ActivityEvent, ActivityKind } from '@/domain/activity';
+import type { AdaptationRecord } from '@/domain/adaptation';
+import type { EntityKind, EntityRecord } from '@/domain/entity';
 import type { BriefRecord } from '@/domain/briefRecord';
 import type { CopyRecord } from '@/domain/copy';
 import type { RulesDoc } from '@/domain/rulesConfig';
@@ -51,6 +53,8 @@ export interface BackupSummary {
   readonly briefCount: number;
   readonly copyCount: number;
   readonly hasRules: boolean;
+  readonly entityCount: number;
+  readonly adaptationCount: number;
   readonly hasName: boolean;
 }
 
@@ -75,7 +79,12 @@ export interface BriefService {
   list(): Promise<Result<readonly BriefRecord[]>>;
   get(id: string): Promise<Result<BriefRecord>>;
   /** Sin `id` crea uno nuevo; con `id` actualiza conservando la fecha de creación. */
-  save(input: { readonly id?: string; readonly fields: unknown }): Promise<Result<BriefRecord>>;
+  save(input: {
+    readonly id?: string;
+    readonly fields: unknown;
+    /** Campaña registrada opcional (S2.8); `null`/ausente = sin referencia. Debe existir. */
+    readonly campaignId?: string | null;
+  }): Promise<Result<BriefRecord>>;
   remove(id: string): Promise<Result<void>>;
 }
 
@@ -124,6 +133,7 @@ export interface CopyService {
     readonly id: string;
     readonly variantId: string;
   }): Promise<Result<CopyRecord>>;
+  /** Un copy con adaptaciones no se borra (`conflict`). */
   remove(id: string): Promise<Result<void>>;
 }
 
@@ -134,6 +144,41 @@ export interface RulesService {
   save(doc: unknown): Promise<Result<RulesDoc>>;
   /** Descarta lo guardado y vuelve a la plantilla de ejemplo. */
   resetToTemplate(): Promise<Result<void>>;
+}
+
+/** Catálogo simple de campañas, productos y ofertas (S2.8). Sin atributos de negocio asumidos. */
+export interface EntityService {
+  list(kind?: EntityKind): Promise<Result<readonly EntityRecord[]>>;
+  create(input: {
+    readonly kind: EntityKind;
+    readonly name: unknown;
+    readonly note?: unknown;
+  }): Promise<Result<EntityRecord>>;
+  update(input: {
+    readonly id: string;
+    readonly name: unknown;
+    readonly note?: unknown;
+  }): Promise<Result<EntityRecord>>;
+  /** Una campaña referenciada por briefs no se borra (`conflict`). */
+  remove(id: string): Promise<Result<void>>;
+}
+
+/** Adaptaciones por canal derivadas de un copy (S2.8). No se auditan ni aprueban. */
+export interface AdaptationService {
+  list(copyId?: string): Promise<Result<readonly AdaptationRecord[]>>;
+  /** Crea la adaptación desde un copy; `sourceVersion` por defecto = versión actual del copy. */
+  create(input: {
+    readonly copyId: string;
+    readonly channel: unknown;
+    readonly content: unknown;
+    readonly sourceVersion?: number;
+  }): Promise<Result<AdaptationRecord>>;
+  /** Edita contenido en su lugar (el origen y el canal no cambian). */
+  update(input: {
+    readonly id: string;
+    readonly content: unknown;
+  }): Promise<Result<AdaptationRecord>>;
+  remove(id: string): Promise<Result<void>>;
 }
 
 export type CoordinationState = 'checking' | 'writer' | 'reader';
@@ -156,5 +201,7 @@ export interface Services {
   readonly briefs: BriefService;
   readonly copies: CopyService;
   readonly rules: RulesService;
+  readonly entities: EntityService;
+  readonly adaptations: AdaptationService;
   readonly coordination: CoordinationService;
 }

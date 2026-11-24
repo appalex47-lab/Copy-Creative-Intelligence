@@ -7,6 +7,8 @@ import { createBackupService } from './backupService';
 import { createBriefService } from './briefService';
 import { createRulesService } from './rulesService';
 import { createCopyService } from './copyService';
+import { createEntityService } from './entityService';
+import { createAdaptationService } from './adaptationService';
 import { createBrowserStorageInfoService } from '@/adapters/storage/browserStorageInfo';
 import { createBrowserPreferencesStore } from '@/adapters/localstorage/preferencesStore';
 import type { ActivityKind } from '@/domain/activity';
@@ -89,6 +91,10 @@ export function createLocalServices(environment: AppState['environment']): Servi
       const r = await repos();
       return r.ok ? ok(r.value.copies) : fail(r.error.code, r.error.message);
     },
+    entities: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.entities) : fail(r.error.code, r.error.message);
+    },
     writable,
   });
   const rules = createRulesService({
@@ -106,6 +112,32 @@ export function createLocalServices(environment: AppState['environment']): Servi
     briefs: async () => {
       const r = await repos();
       return r.ok ? ok(r.value.briefs) : fail(r.error.code, r.error.message);
+    },
+    adaptations: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.adaptations) : fail(r.error.code, r.error.message);
+    },
+    writable,
+  });
+  const entities = createEntityService({
+    repo: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.entities) : fail(r.error.code, r.error.message);
+    },
+    briefs: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.briefs) : fail(r.error.code, r.error.message);
+    },
+    writable,
+  });
+  const adaptations = createAdaptationService({
+    repo: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.adaptations) : fail(r.error.code, r.error.message);
+    },
+    copies: async () => {
+      const r = await repos();
+      return r.ok ? ok(r.value.copies) : fail(r.error.code, r.error.message);
     },
     writable,
   });
@@ -132,6 +164,8 @@ export function createLocalServices(environment: AppState['environment']): Servi
     briefs,
     copies,
     rules,
+    entities,
+    adaptations,
     coordination,
   };
 }

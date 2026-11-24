@@ -60,6 +60,8 @@ describe('servicio de respaldo', () => {
       briefCount: 1,
       copyCount: 1,
       hasRules: false,
+      entityCount: 0,
+      adaptationCount: 0,
       hasName: true,
     });
     expect(a.recorded).toEqual(['backup_exported']);

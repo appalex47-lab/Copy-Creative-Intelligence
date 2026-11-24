@@ -12,6 +12,18 @@ import {
   validateCopyRecord,
   type CopyRecord,
 } from '@/domain/copy';
+import {
+  ADAPTATION_ID,
+  compareAdaptationsNewestFirst,
+  validateAdaptationRecord,
+  type AdaptationRecord,
+} from '@/domain/adaptation';
+import {
+  compareEntities,
+  ENTITY_ID,
+  validateEntityRecord,
+  type EntityRecord,
+} from '@/domain/entity';
 import { validateRulesDoc, type RulesDoc } from '@/domain/rulesConfig';
 import { validateDisplayName, type LocalProfile } from '@/domain/profile';
 import { compareNewestFirst, normalizeLimit, type Repositories } from '@/repositories/contracts';
@@ -22,6 +34,8 @@ export function createMemoryRepositories(): Repositories {
   const events = new Map<string, ActivityEvent>();
   const briefs = new Map<string, BriefRecord>();
   const copies = new Map<string, CopyRecord>();
+  const entities = new Map<string, EntityRecord>();
+  const adaptations = new Map<string, AdaptationRecord>();
   let rules: RulesDoc | null = null;
   let name: string | undefined;
   const profile = (): LocalProfile => (name === undefined ? {} : { displayName: name });
@@ -87,6 +101,59 @@ export function createMemoryRepositories(): Repositories {
       },
       count: () => Promise.resolve(ok(copies.size)),
     },
+    entities: {
+      put: (raw) => {
+        const v = validateEntityRecord(raw);
+        if (!v.ok) return Promise.resolve(fail('validation_error', v.reason));
+        entities.set(v.value.id, v.value);
+        return Promise.resolve(ok(v.value));
+      },
+      get: (id) => {
+        const e = ENTITY_ID.test(id) ? entities.get(id) : undefined;
+        return Promise.resolve(e ? ok(e) : fail('validation_error', 'El registro no existe.'));
+      },
+      list: (kind) =>
+        Promise.resolve(
+          ok(
+            [...entities.values()]
+              .filter((e) => kind === undefined || e.kind === kind)
+              .sort(compareEntities),
+          ),
+        ),
+      remove: (id) => {
+        if (!ENTITY_ID.test(id))
+          return Promise.resolve(fail('validation_error', 'Identificador no válido.'));
+        entities.delete(id);
+        return Promise.resolve(ok(undefined));
+      },
+    },
+    adaptations: {
+      put: (raw) => {
+        const v = validateAdaptationRecord(raw);
+        if (!v.ok) return Promise.resolve(fail('validation_error', v.reason));
+        adaptations.set(v.value.id, v.value);
+        return Promise.resolve(ok(v.value));
+      },
+      get: (id) => {
+        const a = ADAPTATION_ID.test(id) ? adaptations.get(id) : undefined;
+        return Promise.resolve(a ? ok(a) : fail('validation_error', 'La adaptación no existe.'));
+      },
+      list: (copyId) =>
+        Promise.resolve(
+          ok(
+            [...adaptations.values()]
+              .filter((a) => copyId === undefined || a.copyId === copyId)
+              .sort(compareAdaptationsNewestFirst),
+          ),
+        ),
+      remove: (id) => {
+        if (!ADAPTATION_ID.test(id))
+          return Promise.resolve(fail('validation_error', 'Identificador no válido.'));
+        adaptations.delete(id);
+        return Promise.resolve(ok(undefined));
+      },
+      count: () => Promise.resolve(ok(adaptations.size)),
+    },
     rules: {
       get: () => Promise.resolve(ok(rules)),
       save: (raw) => {
@@ -122,6 +189,8 @@ export function createMemoryRepositories(): Repositories {
             briefs: [...briefs.values()].sort(compareBriefsNewestFirst),
             copies: [...copies.values()].sort(compareCopiesNewestFirst),
             rules,
+            entities: [...entities.values()].sort(compareEntities),
+            adaptations: [...adaptations.values()].sort(compareAdaptationsNewestFirst),
           }),
         ),
       replaceAll: (raw) => {
@@ -130,9 +199,13 @@ export function createMemoryRepositories(): Repositories {
         events.clear();
         briefs.clear();
         copies.clear();
+        entities.clear();
+        adaptations.clear();
         for (const e of v.value.activity) events.set(e.id, e);
         for (const b of v.value.briefs) briefs.set(b.id, b);
         for (const c of v.value.copies) copies.set(c.id, c);
+        for (const e of v.value.entities) entities.set(e.id, e);
+        for (const a of v.value.adaptations) adaptations.set(a.id, a);
         rules = v.value.rules;
         name = v.value.profile.displayName;
         return Promise.resolve(ok(undefined));

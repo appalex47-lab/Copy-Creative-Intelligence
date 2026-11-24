@@ -24,6 +24,8 @@ const data: BackupData = {
       fields: { campaign: 'Buen Fin', channel: 'Email' },
     },
   ],
+  entities: [],
+  adaptations: [],
   copies: [
     {
       id: 'cpy_abcdefgh1',
@@ -65,7 +67,7 @@ describe('respaldo v2 con briefs (S2.2)', () => {
   it('los briefs viajan en el archivo y se interpretan igual', () => {
     const r = parseBackupText(file());
     expect(r.ok && r.value.data.briefs).toEqual(data.briefs);
-    expect(r.ok && r.value.version).toBe(5);
+    expect(r.ok && r.value.version).toBe(6);
     expect(r.ok && r.value.data.copies).toEqual(data.copies);
   });
   it('un respaldo v1 (sin briefs) sigue siendo válido y su suma se calcula con la forma v1', () => {
@@ -74,6 +76,8 @@ describe('respaldo v2 con briefs (S2.2)', () => {
       delete (o['data'] as Record<string, unknown>)['briefs'];
       delete (o['data'] as Record<string, unknown>)['copies'];
       delete (o['data'] as Record<string, unknown>)['rules'];
+      delete (o['data'] as Record<string, unknown>)['entities'];
+      delete (o['data'] as Record<string, unknown>)['adaptations'];
     });
     const r = parseBackupText(v1);
     expect(r.ok && r.value.data.briefs).toEqual([]);
@@ -124,6 +128,8 @@ describe('respaldo v4 con reglas (S2.5b)', () => {
     const v3 = file((o) => {
       o['version'] = 3;
       delete (o['data'] as Record<string, unknown>)['rules'];
+      delete (o['data'] as Record<string, unknown>)['entities'];
+      delete (o['data'] as Record<string, unknown>)['adaptations'];
     });
     const r = parseBackupText(v3);
     expect(r.ok && r.value.version).toBe(3);
@@ -163,6 +169,8 @@ describe('respaldo v5 con variantes (S2.7)', () => {
       unknown
     >;
     o['version'] = 4;
+    delete (o['data'] as Record<string, unknown>)['entities'];
+    delete (o['data'] as Record<string, unknown>)['adaptations'];
     const r = parseBackupText(JSON.stringify(o));
     expect(r.ok).toBe(false);
   });
@@ -181,7 +189,7 @@ describe('respaldo (dominio)', () => {
   it('rechaza texto que no es JSON, otros formatos y versiones nuevas o inválidas', () => {
     expect(reason('no json')).toContain('no es JSON');
     expect(reason('{"format":"otro"}')).toContain('no es un respaldo');
-    expect(reason(file((o) => (o['version'] = 6)))).toContain('más reciente');
+    expect(reason(file((o) => (o['version'] = 7)))).toContain('más reciente');
     expect(reason(file((o) => (o['version'] = 0)))).toContain('versión');
     expect(reason(file((o) => (o['version'] = '1')))).toContain('versión');
   });
@@ -261,5 +269,85 @@ describe('respaldo (dominio)', () => {
   });
   it('nombre de archivo estable y seguro', () => {
     expect(backupFileName('2026-11-22T12:34:56.789Z')).toBe('cci-respaldo-20261122-123456.json');
+  });
+});
+
+describe('respaldo v6: catálogo, adaptaciones y campaña en briefs (S2.8)', () => {
+  const t = '2026-11-22T09:00:00.000Z';
+  const camp = {
+    id: 'cmp_abcdefgh1',
+    kind: 'campaign' as const,
+    name: 'Buen Fin',
+    createdAt: t,
+    updatedAt: t,
+  };
+  const ada = {
+    id: 'ada_abcdefgh1',
+    copyId: 'cpy_abcdefgh1',
+    sourceVersion: 2,
+    channel: 'WhatsApp' as const,
+    content: { headline: 'Hola' },
+    createdAt: t,
+    updatedAt: t,
+  };
+  const full: BackupData = {
+    ...data,
+    entities: [camp],
+    adaptations: [ada],
+    briefs: data.briefs.map((b) => ({ ...b, campaignId: camp.id })),
+  };
+  const make = (d: BackupData, mut?: (o: Record<string, unknown>) => void) => {
+    const o = JSON.parse(serializeBackup(d, '2026-11-22T12:00:00.000Z', HASH)) as Record<
+      string,
+      unknown
+    >;
+    mut?.(o);
+    return JSON.stringify(o);
+  };
+  it('viajan en el archivo, entran en la suma desde v6 y no antes', () => {
+    const r = parseBackupText(make(full));
+    expect(r.ok && r.value.data.entities).toEqual([camp]);
+    expect(r.ok && r.value.data.adaptations).toEqual([ada]);
+    expect(r.ok && r.value.data.briefs[0]?.campaignId).toBe(camp.id);
+    expect(canonicalData(full, 6)).toContain('"entities"');
+    expect(canonicalData(full, 5)).not.toContain('entities');
+    expect(canonicalData(full, 5)).not.toContain('campaignId');
+    expect(canonicalData(full, 6)).toContain('campaignId');
+  });
+  it('rechaza un brief que apunta a una campaña inexistente', () => {
+    const r = parseBackupText(make({ ...full, entities: [] }));
+    expect(r.ok).toBe(false);
+  });
+  it('rechaza una adaptación cuyo copy o versión no existe', () => {
+    expect(
+      parseBackupText(make({ ...full, adaptations: [{ ...ada, copyId: 'cpy_zzzzzzzz9' }] })).ok,
+    ).toBe(false);
+    expect(parseBackupText(make({ ...full, adaptations: [{ ...ada, sourceVersion: 9 }] })).ok).toBe(
+      false,
+    );
+  });
+  it('rechaza nombres repetidos por tipo e ids repetidos', () => {
+    const dup = { ...camp, id: 'cmp_abcdefgh2', name: 'BUEN FIN' };
+    expect(parseBackupText(make({ ...full, entities: [camp, dup] })).ok).toBe(false);
+    expect(parseBackupText(make({ ...full, entities: [camp, camp] })).ok).toBe(false);
+  });
+  it('v6 exige las secciones entities y adaptations', () => {
+    expect(
+      parseBackupText(make(full, (o) => delete (o['data'] as Record<string, unknown>)['entities']))
+        .ok,
+    ).toBe(false);
+    expect(
+      parseBackupText(
+        make(full, (o) => delete (o['data'] as Record<string, unknown>)['adaptations']),
+      ).ok,
+    ).toBe(false);
+  });
+  it('un archivo anterior a v6 no puede traer campaña en un brief', () => {
+    const o = JSON.parse(make(full)) as Record<string, unknown>;
+    o['version'] = 5;
+    const d = o['data'] as Record<string, unknown>;
+    delete d['entities'];
+    delete d['adaptations'];
+    expect(parseBackupText(JSON.stringify(o)).ok).toBe(false);
   });
 });

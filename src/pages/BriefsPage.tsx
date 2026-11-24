@@ -313,6 +313,15 @@ function BriefForm({
   const [errors, setErrors] = useState<Partial<Record<BriefField, string>>>({});
   const [saveError, setSaveError] = useState<string | null>(null);
   const form = useRef<HTMLFormElement>(null);
+  const [campaignId, setCampaignId] = useState<string>(initial?.campaignId ?? '');
+  const loadCampaigns = useCallback(() => services.entities.list('campaign'), [services]);
+  const campaigns = useAsyncResource(loadCampaigns).state;
+  const campaignList = campaigns.status === 'success' ? campaigns.data : [];
+  const pickCampaign = (id: string) => {
+    setCampaignId(id);
+    const c = campaignList.find((x) => x.id === id);
+    if (c) set('campaign', { campaign: c.name });
+  };
 
   // Un error aparece al guardar (no al salir del campo: eso movería el botón justo antes de pulsarlo) y se
   // revalida mientras se escribe, para que desaparezca en cuanto el valor es correcto.
@@ -345,6 +354,7 @@ function BriefForm({
     const r = await services.briefs.save({
       ...(initial ? { id: initial.id } : {}),
       fields: fieldsOf(values),
+      campaignId: campaignId === '' ? null : campaignId,
     });
     if (!r.ok) {
       setSaveError(describeError(r.error));
@@ -377,6 +387,26 @@ function BriefForm({
   return (
     <Card title={initial ? 'Editar brief' : 'Nuevo brief'} headingLevel={3}>
       <form ref={form} onSubmit={(e) => void onSubmit(e)} noValidate>
+        {campaignList.length > 0 && (
+          <div className="field">
+            <label htmlFor="brief-campaign-ref">Elegir de campañas registradas (opcional)</label>
+            <select
+              id="brief-campaign-ref"
+              value={campaignId}
+              onChange={(e) => pickCampaign(e.target.value)}
+            >
+              <option value="">Sin referencia</option>
+              {campaignList.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+            <p className="field-hint">
+              Al elegir una, se copia su nombre al campo Campaña y el brief queda referenciado.
+            </p>
+          </div>
+        )}
         {ORDER.map((f) =>
           f === 'channel' ? (
             <div className="field" key={f}>

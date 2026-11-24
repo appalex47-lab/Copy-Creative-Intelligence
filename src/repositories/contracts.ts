@@ -1,4 +1,6 @@
 import type { ActivityEvent } from '@/domain/activity';
+import type { AdaptationRecord } from '@/domain/adaptation';
+import type { EntityKind, EntityRecord } from '@/domain/entity';
 import type { BriefRecord } from '@/domain/briefRecord';
 import type { CopyRecord } from '@/domain/copy';
 import type { LocalProfile } from '@/domain/profile';
@@ -56,6 +58,25 @@ export interface RulesRepository {
   clear(): Promise<Result<void>>;
 }
 
+export interface EntityRepository {
+  /** Guarda (crea o reemplaza por `id`) un registro validado. */
+  put(record: unknown): Promise<Result<EntityRecord>>;
+  get(id: string): Promise<Result<EntityRecord>>;
+  /** Por nombre; con `kind`, solo ese tipo. */
+  list(kind?: EntityKind): Promise<Result<readonly EntityRecord[]>>;
+  /** Idempotente. */
+  remove(id: string): Promise<Result<void>>;
+}
+
+export interface AdaptationRepository {
+  put(record: unknown): Promise<Result<AdaptationRecord>>;
+  get(id: string): Promise<Result<AdaptationRecord>>;
+  /** Más recientes primero; con `copyId`, solo las de ese copy. */
+  list(copyId?: string): Promise<Result<readonly AdaptationRecord[]>>;
+  remove(id: string): Promise<Result<void>>;
+  count(): Promise<Result<number>>;
+}
+
 export interface BackupSnapshot {
   readonly profile: LocalProfile;
   /** Más nuevos primero. */
@@ -66,6 +87,10 @@ export interface BackupSnapshot {
   readonly copies: readonly CopyRecord[];
   /** Leyendas y términos de marca (S2.5b); `null` si nunca se configuraron. */
   readonly rules: RulesDoc | null;
+  /** Campañas, productos y ofertas (S2.8). */
+  readonly entities: readonly EntityRecord[];
+  /** Adaptaciones por canal (S2.8), más recientes primero. */
+  readonly adaptations: readonly AdaptationRecord[];
 }
 
 export interface BackupRepository {
@@ -84,6 +109,8 @@ export interface Repositories {
   readonly briefs: BriefRepository;
   readonly copies: CopyRepository;
   readonly rules: RulesRepository;
+  readonly entities: EntityRepository;
+  readonly adaptations: AdaptationRepository;
   readonly backup: BackupRepository;
 }
 

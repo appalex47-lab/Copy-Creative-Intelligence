@@ -12,11 +12,13 @@ describe('adaptador DEMO', () => {
   it('no expone identidad, organizaciones, membresías ni proyectos (P1)', () => {
     expect(Object.keys(createDemoServices('test')).sort()).toEqual([
       'activity',
+      'adaptations',
       'appState',
       'backup',
       'briefs',
       'coordination',
       'copies',
+      'entities',
       'preferences',
       'profile',
       'rules',

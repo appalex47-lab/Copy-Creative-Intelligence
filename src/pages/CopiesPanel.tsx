@@ -29,6 +29,8 @@ import {
   evaluateCopy,
   type Evaluation,
 } from '@/domain/copyRules';
+import { AdaptationsSection } from '@/pages/AdaptationsSection';
+import { matchesCopy } from '@/domain/copySearch';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
 import { useServices } from '@/hooks/ServicesContext';
 import { describeError } from '@/lib/errorMessages';
@@ -38,7 +40,7 @@ type View =
   { kind: 'list' } | { kind: 'form'; copy?: CopyRecord } | { kind: 'history'; copy: CopyRecord };
 
 const messageOf = (e: AppError): string =>
-  e.code === 'validation_error' ? e.message : describeError(e);
+  e.code === 'validation_error' || e.code === 'conflict' ? e.message : describeError(e);
 
 const LONG_FIELDS: ReadonlySet<CopyField> = new Set(['body', 'description']);
 const splitTags = (text: string): string[] => text.split(',');
@@ -58,6 +60,7 @@ export function CopiesPanel({
   const [view, setView] = useState<View>({ kind: 'list' });
   const [version, setVersion] = useState(0);
   const [notice, setNotice] = useState('');
+  const [query, setQuery] = useState('');
   const [focusTick, setFocusTick] = useState(0);
   useEffect(() => {
     if (focusTick > 0) heading.current?.focus();
@@ -110,6 +113,23 @@ export function CopiesPanel({
           {state.status === 'error' && (
             <ErrorNotice message={state.message} onRetry={state.retryable ? retry : undefined} />
           )}
+          {state.status === 'success' && state.data.length > 1 && (
+            <div className="field">
+              <label htmlFor="copys-buscar">Buscar copys (nombre, etiqueta o texto)</label>
+              <input
+                id="copys-buscar"
+                type="search"
+                autoComplete="off"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <p role="status" aria-live="polite" className="field-hint">
+                {query.trim() === ''
+                  ? ''
+                  : `${state.data.filter((c) => matchesCopy(c, query)).length} de ${state.data.length} copys coinciden.`}
+              </p>
+            </div>
+          )}
           {state.status === 'success' &&
             (state.data.length === 0 ? (
               <EmptyState
@@ -119,22 +139,24 @@ export function CopiesPanel({
               />
             ) : (
               <ul className="plain-list" aria-label="Copys del brief">
-                {state.data.map((c) => (
-                  <CopyItem
-                    key={c.id}
-                    copy={c}
-                    brief={brief}
-                    onEdit={() => {
-                      setNotice('');
-                      setView({ kind: 'form', copy: c });
-                    }}
-                    onHistory={() => {
-                      setNotice('');
-                      setView({ kind: 'history', copy: c });
-                    }}
-                    onDone={done}
-                  />
-                ))}
+                {state.data
+                  .filter((c) => matchesCopy(c, query))
+                  .map((c) => (
+                    <CopyItem
+                      key={c.id}
+                      copy={c}
+                      brief={brief}
+                      onEdit={() => {
+                        setNotice('');
+                        setView({ kind: 'form', copy: c });
+                      }}
+                      onHistory={() => {
+                        setNotice('');
+                        setView({ kind: 'history', copy: c });
+                      }}
+                      onDone={done}
+                    />
+                  ))}
               </ul>
             ))}
         </>
@@ -192,7 +214,7 @@ function CopyItem({
   const remove = async () => {
     const r = await services.copies.remove(copy.id);
     if (!r.ok) {
-      setError(describeError(r.error));
+      setError(messageOf(r.error));
       setMode('none');
       return;
     }
@@ -329,6 +351,7 @@ function CopyItem({
             </ul>
           </section>
         )}
+        <AdaptationsSection copy={copy} briefChannel={brief.fields.channel} onChanged={onDone} />
         {review && (
           <ReviewView
             review={review.evaluation}

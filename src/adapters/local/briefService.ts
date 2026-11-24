@@ -1,5 +1,5 @@
 import type { BriefRecord } from '@/domain/briefRecord';
-import type { BriefRepository, CopyRepository } from '@/repositories/contracts';
+import type { BriefRepository, CopyRepository, EntityRepository } from '@/repositories/contracts';
 import { fail, type BriefService, type Result } from '@/services/contracts';
 
 export interface BriefServiceDeps {
@@ -9,6 +9,8 @@ export interface BriefServiceDeps {
   readonly writable: <T>(run: () => Promise<Result<T>>) => Promise<Result<T>>;
   /** Si se indica, borrar un brief con copys se rechaza (sin pérdida de datos). */
   readonly copies?: () => Promise<Result<CopyRepository>>;
+  /** Si se indica, la campaña referenciada debe existir. */
+  readonly entities?: () => Promise<Result<EntityRepository>>;
   readonly now?: () => Date;
   readonly newId?: () => string;
 }
@@ -41,7 +43,23 @@ export function createBriefService(deps: BriefServiceDeps): BriefService {
             createdAt = existing.value.createdAt;
           }
           const updatedAt = stamp < createdAt ? createdAt : stamp; // un reloj atrasado no rompe el orden de fechas
-          const record: unknown = { id, createdAt, updatedAt, fields: input.fields };
+          const cid = input.campaignId ?? undefined;
+          if (cid !== undefined) {
+            if (!deps.entities)
+              return fail<BriefRecord>('validation_error', 'Las campañas no están disponibles.');
+            const e = await deps.entities();
+            if (!e.ok) return fail<BriefRecord>(e.error.code, e.error.message);
+            const camp = await e.value.get(cid);
+            if (!camp.ok || camp.value.kind !== 'campaign')
+              return fail<BriefRecord>('validation_error', 'La campaña elegida no existe.');
+          }
+          const record: unknown = {
+            id,
+            createdAt,
+            updatedAt,
+            fields: input.fields,
+            ...(cid !== undefined ? { campaignId: cid } : {}),
+          };
           return r.put(record);
         }),
       ),

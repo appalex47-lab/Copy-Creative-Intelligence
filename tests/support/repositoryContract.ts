@@ -428,6 +428,73 @@ export const CONTRACT_CASES: readonly ContractCase[] = [
       same(await r.rules.get(), { ok: true, value: null }, 'se limpiaron');
     },
   },
+  {
+    name: 'catálogo y adaptaciones: put/get/list/remove, rechazo de inválidos y respaldo con referencias',
+    run: async (r) => {
+      const t = '2026-11-23T09:00:00.000Z';
+      const camp = {
+        id: 'cmp_aaaaaaaa1',
+        kind: 'campaign',
+        name: 'Buen Fin',
+        createdAt: t,
+        updatedAt: t,
+      };
+      const prod = {
+        id: 'prd_aaaaaaaa1',
+        kind: 'product',
+        name: 'Paracetamol',
+        note: 'x',
+        createdAt: t,
+        updatedAt: t,
+      };
+      assert((await r.entities.put(camp)).ok, 'put campaña');
+      assert((await r.entities.put(prod)).ok, 'put producto');
+      const malo = await r.entities.put({ ...camp, id: 'prd_aaaaaaaa1' });
+      assert(!malo.ok && malo.error.code === 'validation_error', 'id/tipo incoherentes');
+      const all = await r.entities.list();
+      assert(all.ok && all.value.length === 2, 'lista total');
+      const onlyP = await r.entities.list('product');
+      assert(
+        onlyP.ok && onlyP.value.length === 1 && onlyP.value[0]?.name === 'Paracetamol',
+        'por tipo',
+      );
+      assert(!(await r.entities.get('cmp_noexiste1')).ok, 'get inexistente falla');
+      same(await r.entities.remove('prd_aaaaaaaa1'), { ok: true, value: undefined }, 'remove');
+      same(await r.entities.remove('prd_aaaaaaaa1'), { ok: true, value: undefined }, 'idempotente');
+
+      const ad = {
+        id: 'ada_aaaaaaaa1',
+        copyId: 'cpy_aaaaaaaa1',
+        sourceVersion: 1,
+        channel: 'Email',
+        content: { headline: 'Hola' },
+        createdAt: t,
+        updatedAt: t,
+      };
+      assert((await r.adaptations.put(ad)).ok, 'put adaptación');
+      const none = await r.adaptations.put({ ...ad, id: 'ada_aaaaaaaa2', channel: 'Llamadas' });
+      assert(!none.ok, 'canal no válido');
+      const byCopy = await r.adaptations.list('cpy_aaaaaaaa1');
+      assert(byCopy.ok && byCopy.value.length === 1, 'por copy');
+      const other = await r.adaptations.list('cpy_bbbbbbbb1');
+      assert(other.ok && other.value.length === 0, 'otro copy vacío');
+      same(await r.adaptations.count(), { ok: true, value: 1 }, 'count');
+
+      const ex = await r.backup.exportAll();
+      assert(
+        ex.ok && ex.value.entities.length === 1 && ex.value.adaptations.length === 1,
+        'export',
+      );
+      same(
+        await r.backup.replaceAll({ profile: {}, activity: [] }),
+        { ok: true, value: undefined },
+        'replace vacío',
+      );
+      same(await r.adaptations.count(), { ok: true, value: 0 }, 'adaptaciones limpias');
+      const l = await r.entities.list();
+      assert(l.ok && l.value.length === 0, 'catálogo limpio');
+    },
+  },
 ];
 
 /** Ejecuta todos los casos y devuelve los fallos (lista vacía = todo correcto). */

@@ -8,7 +8,11 @@ import {
   validateTags,
   type CopyRecord,
 } from '@/domain/copy';
-import type { BriefRepository, CopyRepository } from '@/repositories/contracts';
+import type {
+  AdaptationRepository,
+  BriefRepository,
+  CopyRepository,
+} from '@/repositories/contracts';
 import { valid } from '@/domain/validation';
 import { fail, type CopyService, type Result } from '@/services/contracts';
 
@@ -17,6 +21,8 @@ export interface CopyServiceDeps {
   readonly briefs: () => Promise<Result<BriefRepository>>;
   /** Toda escritura espera el permiso de escritura de esta pestaña (P12). */
   readonly writable: <T>(run: () => Promise<Result<T>>) => Promise<Result<T>>;
+  /** Si se indica, borrar un copy con adaptaciones se rechaza. */
+  readonly adaptations?: () => Promise<Result<AdaptationRepository>>;
   readonly now?: () => Date;
   readonly newId?: () => string;
   readonly newVariantId?: () => string;
@@ -104,6 +110,17 @@ export function createCopyService(deps: CopyServiceDeps): CopyService {
         updateVariant(c, { variantId: i.variantId, label: i.label, content: i.content }, stamp()),
       ),
     removeVariant: (i) => change(i.id, (c) => removeVariant(c, i.variantId, stamp())),
-    remove: (id) => deps.writable(() => repo((r) => r.remove(id))),
+    remove: (id) =>
+      deps.writable(async () => {
+        if (deps.adaptations) {
+          const a = await deps.adaptations();
+          if (!a.ok) return fail<never>(a.error.code, a.error.message);
+          const mine = await a.value.list(id);
+          if (!mine.ok) return fail<never>(mine.error.code, mine.error.message);
+          if (mine.value.length > 0)
+            return fail<never>('conflict', 'El copy tiene adaptaciones; elimínalas primero.');
+        }
+        return repo((r) => r.remove(id));
+      }),
   };
 }

@@ -46,12 +46,16 @@ test.describe('respaldo (modo local, Chrome real)', () => {
         briefs: unknown[];
         copies: unknown[];
         rules: unknown;
+        entities: unknown[];
+        adaptations: unknown[];
       };
       integrity: { value: string };
     }
     const f = JSON.parse(text) as BackupFile;
     expect(f.format).toBe('cci-backup');
-    expect(f.version).toBe(5);
+    expect(f.version).toBe(6);
+    expect(f.data.entities).toEqual([]);
+    expect(f.data.adaptations).toEqual([]);
     expect(f.data.rules).toBeNull();
     expect(f.data.briefs).toEqual([]);
     expect(f.data.copies).toEqual([]);
@@ -158,7 +162,7 @@ test.describe('respaldo (modo local, Chrome real)', () => {
     const cases: [Buffer, string][] = [
       [Buffer.from('esto no es json SECRETO'), 'no es JSON'],
       [Buffer.from('{"format":"otro"}'), 'no es un respaldo de Copy Creative Intelligence'],
-      [Buffer.from(text.replace('"version": 5', '"version": 6')), 'versión más reciente'],
+      [Buffer.from(text.replace('"version": 6', '"version": 7')), 'versión más reciente'],
     ];
     for (const [buf, motivo] of cases) {
       await pick(page, 'r.json', buf);

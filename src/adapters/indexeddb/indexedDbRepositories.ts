@@ -13,6 +13,18 @@ import {
   validateCopyRecord,
   type CopyRecord,
 } from '@/domain/copy';
+import {
+  ADAPTATION_ID,
+  compareAdaptationsNewestFirst,
+  validateAdaptationRecord,
+  type AdaptationRecord,
+} from '@/domain/adaptation';
+import {
+  compareEntities,
+  ENTITY_ID,
+  validateEntityRecord,
+  type EntityRecord,
+} from '@/domain/entity';
 import { validateRulesDoc, type RulesDoc } from '@/domain/rulesConfig';
 import { validateDisplayName, parseLocalProfile, type LocalProfile } from '@/domain/profile';
 import { compareNewestFirst, normalizeLimit, type Repositories } from '@/repositories/contracts';
@@ -25,6 +37,8 @@ const STORE_META = 'meta';
 const STORE_BRIEFS = 'briefs';
 const STORE_COPIES = 'copies';
 const STORE_RULES = 'rules';
+const STORE_ENTITIES = 'entities';
+const STORE_ADAPTATIONS = 'adaptations';
 const RULES_KEY = 'config';
 const PROFILE_KEY = 'local';
 
@@ -39,6 +53,7 @@ export type MigrationStep = (db: IDBDatabase, tx: IDBTransaction) => void;
  * v2 → v3 (S2.2): crea el almacén `briefs` (clave `id`, índice `updatedAt`); no toca los datos existentes.
  * v3 → v4 (S2.4): crea el almacén `copies` (clave `id`, índices `briefId` y `updatedAt`); no toca datos existentes.
  * v4 → v5 (S2.5b): crea el almacén `rules` (un solo documento con clave `config`: leyendas y términos de marca).
+ * v5 → v6 (S2.8): crea `entities` (campañas, productos y ofertas; índice `kind`) y `adaptations` (índice `copyId`).
  */
 export const MIGRATIONS: readonly MigrationStep[] = [
   (db) => {
@@ -59,6 +74,12 @@ export const MIGRATIONS: readonly MigrationStep[] = [
   },
   (db) => {
     db.createObjectStore(STORE_RULES);
+  },
+  (db) => {
+    db.createObjectStore(STORE_ENTITIES, { keyPath: 'id' }).createIndex('kind', 'kind');
+    const ad = db.createObjectStore(STORE_ADAPTATIONS, { keyPath: 'id' });
+    ad.createIndex('copyId', 'copyId');
+    ad.createIndex('updatedAt', 'updatedAt');
   },
 ];
 
@@ -293,6 +314,95 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
           return ok(await promisify(tx.objectStore(STORE_COPIES).count()));
         }),
     },
+    entities: {
+      put: (raw) =>
+        guard(async () => {
+          const v = validateEntityRecord(raw);
+          if (!v.ok) return fail('validation_error', v.reason);
+          const tx = db.transaction(STORE_ENTITIES, 'readwrite');
+          tx.objectStore(STORE_ENTITIES).put(v.value);
+          await txDone(tx);
+          return ok(v.value);
+        }),
+      get: (id) =>
+        guard(async () => {
+          if (!ENTITY_ID.test(id)) return fail('validation_error', 'Identificador no válido.');
+          const tx = db.transaction(STORE_ENTITIES, 'readonly');
+          const v = validateEntityRecord(
+            await promisify<unknown>(tx.objectStore(STORE_ENTITIES).get(id)),
+          );
+          return v.ok ? ok(v.value) : fail('validation_error', 'El registro no existe.');
+        }),
+      list: (kind) =>
+        guard(async () => {
+          const tx = db.transaction(STORE_ENTITIES, 'readonly');
+          const store = tx.objectStore(STORE_ENTITIES);
+          const raw = await promisify<unknown[]>(
+            kind === undefined ? store.getAll() : store.index('kind').getAll(kind),
+          );
+          const out: EntityRecord[] = [];
+          for (const item of raw) {
+            const v = validateEntityRecord(item);
+            if (v.ok) out.push(v.value);
+          }
+          return ok(out.sort(compareEntities));
+        }),
+      remove: (id) =>
+        guard(async () => {
+          if (!ENTITY_ID.test(id)) return fail('validation_error', 'Identificador no válido.');
+          const tx = db.transaction(STORE_ENTITIES, 'readwrite');
+          tx.objectStore(STORE_ENTITIES).delete(id);
+          await txDone(tx);
+          return ok(undefined);
+        }),
+    },
+    adaptations: {
+      put: (raw) =>
+        guard(async () => {
+          const v = validateAdaptationRecord(raw);
+          if (!v.ok) return fail('validation_error', v.reason);
+          const tx = db.transaction(STORE_ADAPTATIONS, 'readwrite');
+          tx.objectStore(STORE_ADAPTATIONS).put(v.value);
+          await txDone(tx);
+          return ok(v.value);
+        }),
+      get: (id) =>
+        guard(async () => {
+          if (!ADAPTATION_ID.test(id)) return fail('validation_error', 'Identificador no válido.');
+          const tx = db.transaction(STORE_ADAPTATIONS, 'readonly');
+          const v = validateAdaptationRecord(
+            await promisify<unknown>(tx.objectStore(STORE_ADAPTATIONS).get(id)),
+          );
+          return v.ok ? ok(v.value) : fail('validation_error', 'La adaptación no existe.');
+        }),
+      list: (copyId) =>
+        guard(async () => {
+          const tx = db.transaction(STORE_ADAPTATIONS, 'readonly');
+          const store = tx.objectStore(STORE_ADAPTATIONS);
+          const raw = await promisify<unknown[]>(
+            copyId === undefined ? store.getAll() : store.index('copyId').getAll(copyId),
+          );
+          const out: AdaptationRecord[] = [];
+          for (const item of raw) {
+            const v = validateAdaptationRecord(item);
+            if (v.ok) out.push(v.value);
+          }
+          return ok(out.sort(compareAdaptationsNewestFirst));
+        }),
+      remove: (id) =>
+        guard(async () => {
+          if (!ADAPTATION_ID.test(id)) return fail('validation_error', 'Identificador no válido.');
+          const tx = db.transaction(STORE_ADAPTATIONS, 'readwrite');
+          tx.objectStore(STORE_ADAPTATIONS).delete(id);
+          await txDone(tx);
+          return ok(undefined);
+        }),
+      count: () =>
+        guard(async () => {
+          const tx = db.transaction(STORE_ADAPTATIONS, 'readonly');
+          return ok(await promisify(tx.objectStore(STORE_ADAPTATIONS).count()));
+        }),
+    },
     rules: {
       get: () => guard(async () => ok(await rulesFrom())),
       save: (raw) =>
@@ -337,18 +447,48 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
       exportAll: () =>
         guard(async () => {
           const tx = db.transaction(
-            [STORE_ACTIVITY, STORE_PROFILE, STORE_BRIEFS, STORE_COPIES, STORE_RULES],
+            [
+              STORE_ACTIVITY,
+              STORE_PROFILE,
+              STORE_BRIEFS,
+              STORE_COPIES,
+              STORE_RULES,
+              STORE_ENTITIES,
+              STORE_ADAPTATIONS,
+            ],
             'readonly',
           ); // una sola lectura consistente
-          const [rawEvents, rawProfile, rawBriefs, rawCopies, rawRules] = await Promise.all([
+          const [
+            rawEvents,
+            rawProfile,
+            rawBriefs,
+            rawCopies,
+            rawRules,
+            rawEntities,
+            rawAdaptations,
+          ] = await Promise.all([
             promisify<unknown[]>(tx.objectStore(STORE_ACTIVITY).getAll()),
             promisify<unknown>(tx.objectStore(STORE_PROFILE).get(PROFILE_KEY)),
             promisify<unknown[]>(tx.objectStore(STORE_BRIEFS).getAll()),
             promisify<unknown[]>(tx.objectStore(STORE_COPIES).getAll()),
             promisify<unknown>(tx.objectStore(STORE_RULES).get(RULES_KEY)),
+            promisify<unknown[]>(tx.objectStore(STORE_ENTITIES).getAll()),
+            promisify<unknown[]>(tx.objectStore(STORE_ADAPTATIONS).getAll()),
           ]);
           const rulesParsed = rawRules === undefined ? undefined : validateRulesDoc(rawRules);
           const rules = rulesParsed?.ok ? rulesParsed.value : null;
+          const entities: EntityRecord[] = [];
+          for (const item of rawEntities) {
+            const e = validateEntityRecord(item);
+            if (e.ok) entities.push(e.value);
+          }
+          entities.sort(compareEntities);
+          const adaptations: AdaptationRecord[] = [];
+          for (const item of rawAdaptations) {
+            const a = validateAdaptationRecord(item);
+            if (a.ok) adaptations.push(a.value);
+          }
+          adaptations.sort(compareAdaptationsNewestFirst);
           const copies: CopyRecord[] = [];
           for (const item of rawCopies) {
             const c = validateCopyRecord(item);
@@ -367,14 +507,30 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
             if (v.ok) activity.push(v.value); // un registro corrupto no se exporta
           }
           activity.sort(compareNewestFirst);
-          return ok({ profile: parseLocalProfile(rawProfile), activity, briefs, copies, rules });
+          return ok({
+            profile: parseLocalProfile(rawProfile),
+            activity,
+            briefs,
+            copies,
+            rules,
+            entities,
+            adaptations,
+          });
         }),
       replaceAll: (raw) =>
         guard(async () => {
           const v = validateSnapshot(raw); // se valida TODO antes de tocar la base
           if (!v.ok) return fail('validation_error', v.reason);
           const tx = db.transaction(
-            [STORE_ACTIVITY, STORE_PROFILE, STORE_BRIEFS, STORE_COPIES, STORE_RULES],
+            [
+              STORE_ACTIVITY,
+              STORE_PROFILE,
+              STORE_BRIEFS,
+              STORE_COPIES,
+              STORE_RULES,
+              STORE_ENTITIES,
+              STORE_ADAPTATIONS,
+            ],
             'readwrite',
           );
           const done = txDone(tx);
@@ -385,9 +541,13 @@ export function createIndexedDbRepositories(db: IDBDatabase): Repositories {
             tx.objectStore(STORE_BRIEFS).clear();
             tx.objectStore(STORE_COPIES).clear();
             tx.objectStore(STORE_RULES).clear();
+            tx.objectStore(STORE_ENTITIES).clear();
+            tx.objectStore(STORE_ADAPTATIONS).clear();
             for (const e of v.value.activity) events.put(e);
             for (const b of v.value.briefs) tx.objectStore(STORE_BRIEFS).put(b);
             for (const c of v.value.copies) tx.objectStore(STORE_COPIES).put(c);
+            for (const e of v.value.entities) tx.objectStore(STORE_ENTITIES).put(e);
+            for (const a of v.value.adaptations) tx.objectStore(STORE_ADAPTATIONS).put(a);
             if (v.value.rules !== null) tx.objectStore(STORE_RULES).put(v.value.rules, RULES_KEY);
             profile.delete(PROFILE_KEY);
             if (v.value.profile.displayName !== undefined)

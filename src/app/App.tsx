@@ -5,6 +5,7 @@ import { AppLayout } from '@/layouts/AppLayout';
 import { HomePage } from '@/pages/HomePage';
 import { ConnectionPage } from '@/pages/ConnectionPage';
 import { BriefsPage } from '@/pages/BriefsPage';
+import { CatalogPage } from '@/pages/CatalogPage';
 import { RulesPage } from '@/pages/RulesPage';
 import { BackupPage } from '@/pages/BackupPage';
 import { StoragePage } from '@/pages/StoragePage';
@@ -19,6 +20,7 @@ import { ServicesProvider } from '@/hooks/ServicesContext';
 const NAV: readonly NavItem[] = [
   { id: 'inicio', label: 'Inicio' },
   { id: 'briefs', label: 'Briefs' },
+  { id: 'catalogo', label: 'Catálogo' },
   { id: 'reglas', label: 'Reglas' },
   { id: 'conexion', label: 'Estado de conexión' },
   { id: 'ajustes', label: 'Perfil y preferencias' },
@@ -60,6 +62,8 @@ export function App({ env, services: injected }: AppProps) {
         <ErrorBoundary key={active}>
           {active === 'briefs' ? (
             <BriefsPage />
+          ) : active === 'catalogo' ? (
+            <CatalogPage />
           ) : active === 'reglas' ? (
             <RulesPage />
           ) : active === 'conexion' ? (

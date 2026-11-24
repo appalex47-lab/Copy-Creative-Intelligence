@@ -1,4 +1,5 @@
 import { BRIEF_FIELD_LABELS, evaluateBrief, type BriefEvaluation, type BriefFields } from './brief';
+import { CAMPAIGN_ID } from './entity';
 import { invalid, valid, type Validation } from './validation';
 
 /**
@@ -11,11 +12,13 @@ export interface BriefRecord {
   readonly createdAt: string;
   readonly updatedAt: string;
   readonly fields: Partial<BriefFields>;
+  /** Referencia OPCIONAL a una campaña registrada (S2.8). Ausente = sin referencia. */
+  readonly campaignId?: string;
 }
 
 export const BRIEF_ID = /^brf_[A-Za-z0-9_-]{8,64}$/;
 const ISO = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z$/;
-const KEYS = ['id', 'createdAt', 'updatedAt', 'fields'] as const;
+const KEYS = ['id', 'createdAt', 'updatedAt', 'fields', 'campaignId'] as const;
 
 const isObject = (v: unknown): v is Record<string, unknown> =>
   typeof v === 'object' && v !== null && !Array.isArray(v);
@@ -39,7 +42,16 @@ export function validateBriefRecord(raw: unknown): Validation<BriefRecord> {
   // Una clave que no es uno de los 13 campos se rechaza en lugar de ignorarse en silencio.
   if (Object.keys(raw['fields']).some((k) => !(k in BRIEF_FIELD_LABELS)))
     return invalid('El brief contiene campos no permitidos.');
-  return valid({ id, createdAt, updatedAt, fields: e.brief as Partial<BriefFields> });
+  const cid = raw['campaignId'];
+  if (cid !== undefined && (typeof cid !== 'string' || !CAMPAIGN_ID.test(cid)))
+    return invalid('La campaña referenciada no es válida.');
+  return valid({
+    id,
+    createdAt,
+    updatedAt,
+    fields: e.brief as Partial<BriefFields>,
+    ...(cid !== undefined ? { campaignId: cid } : {}),
+  });
 }
 
 /** Evalúa un brief guardado con las reglas VIGENTES (si cambian las reglas, cambia el estado). */
