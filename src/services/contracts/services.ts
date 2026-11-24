@@ -211,6 +211,10 @@ export interface ResourceService {
   runOcr(id: string, onProgress?: (fraction: number) => void): Promise<Result<ResourceRecord>>;
   /** Guarda el texto que una persona confirmó o corrigió (vacío = quitar la validación). */
   saveReview(id: string, text: unknown): Promise<Result<ResourceRecord>>;
+  /** Respaldo aparte de TODAS las imágenes con su texto (archivo JSON con huellas SHA-256). */
+  exportBackup(): Promise<Result<{ readonly fileName: string; readonly blob: Blob }>>;
+  /** Restaura un respaldo de imágenes: solo agrega las que faltan (mismo id = se omite); nunca reemplaza. */
+  importBackup(file: File): Promise<Result<{ readonly added: number; readonly skipped: number }>>;
   remove(id: string): Promise<Result<void>>;
 }
 

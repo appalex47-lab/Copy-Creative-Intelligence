@@ -48,8 +48,8 @@ export function ResourcesPage() {
       </p>
       <p className="field-hint">
         Formatos: {FORMATS}. Máximo {MB(RESOURCE_LIMITS.maxBytes)} por imagen y{' '}
-        {RESOURCE_LIMITS.maxResources} recursos (valores provisionales, por definir). Las imágenes
-        NO se incluyen en el respaldo: viven solo en este navegador.
+        {RESOURCE_LIMITS.maxResources} recursos (valores vigentes, ajustables). Las imágenes NO van
+        en el respaldo de datos (Respaldo): tienen su propio respaldo, abajo.
       </p>
       <div className="field">
         <label htmlFor="res-file">Agregar imagen</label>
@@ -72,6 +72,7 @@ export function ResourcesPage() {
           {messageOf(error)}
         </p>
       )}
+      <BackupBox onRestored={retry} />
       <AsyncStatus status={state.status} />
       {state.status === 'error' && (
         <ErrorNotice message={state.message} onRetry={state.retryable ? retry : undefined} />
@@ -89,6 +90,80 @@ export function ResourcesPage() {
           </ul>
         ))}
     </section>
+  );
+}
+
+function BackupBox({ onRestored }: { readonly onRestored: () => void }) {
+  const services = useServices();
+  const [msg, setMsg] = useState<string | null>(null);
+  const [error, setError] = useState<AppError | null>(null);
+  const [busy, setBusy] = useState(false);
+  const download = async () => {
+    setError(null);
+    setMsg(null);
+    setBusy(true);
+    const r = await services.resources.exportBackup();
+    setBusy(false);
+    if (!r.ok) return setError(r.error);
+    const url = URL.createObjectURL(r.value.blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = r.value.fileName;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    setMsg('Respaldo de imágenes descargado.');
+  };
+  const restore = async (file: File | undefined) => {
+    if (!file) return;
+    setError(null);
+    setMsg(null);
+    setBusy(true);
+    const r = await services.resources.importBackup(file);
+    setBusy(false);
+    if (!r.ok) return setError(r.error);
+    setMsg(
+      `Restauradas ${String(r.value.added)} imágenes; ${String(r.value.skipped)} ya existían y se omitieron.`,
+    );
+    onRestored();
+  };
+  return (
+    <fieldset>
+      <legend>Respaldo de imágenes</legend>
+      <p className="field-hint">
+        Archivo aparte del respaldo de datos. Al restaurar solo se agregan las imágenes que faltan;
+        no se reemplaza ni se borra nada.
+      </p>
+      <div className="form-actions">
+        <Button onClick={() => void download()} disabled={busy}>
+          Descargar respaldo de imágenes
+        </Button>
+      </div>
+      <div className="field">
+        <label htmlFor="res-restore">Restaurar respaldo de imágenes</label>
+        <input
+          id="res-restore"
+          type="file"
+          accept="application/json,.json"
+          disabled={busy}
+          onChange={(e) => {
+            const input = e.currentTarget;
+            void restore(input.files?.[0]).then(() => {
+              input.value = '';
+            });
+          }}
+        />
+      </div>
+      {msg && (
+        <p role="status" aria-live="polite">
+          {msg}
+        </p>
+      )}
+      {error && (
+        <p role="alert" className="field-error">
+          {messageOf(error)}
+        </p>
+      )}
+    </fieldset>
   );
 }
 

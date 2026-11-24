@@ -14,3 +14,6 @@ Todos están en `RESOURCE_LIMITS` (`src/domain/resource.ts`).
 
 ## No verificado
 Precisión del OCR con banners reales; rendimiento en celulares; despliegue (no se desplegó).
+
+## S3.3b — Respaldo de imágenes
+Archivo aparte `cci-recursos-*.json` (base64 + SHA-256; tope 150 MB, SUPUESTO). Restaurar solo agrega lo que falta. Verify 0; Playwright 91/91 x3. No verificado: respaldos de cientos de MB en celular.

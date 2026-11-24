@@ -40,7 +40,7 @@ test.describe('recursos y OCR (modo local, Chrome real)', () => {
     await page.goto(LOCAL);
     await nav(page, 'Recursos');
     await expect(page.getByText('Aún no hay recursos')).toBeVisible();
-    await expect(page.getByText(/NO se incluyen en el respaldo/)).toBeVisible();
+    await expect(page.getByText(/NO van en el\s+respaldo de datos/)).toBeVisible();
     expect(await axeViolations(page)).toEqual([]);
 
     await page.getByLabel('Agregar imagen').setInputFiles({
@@ -81,6 +81,51 @@ test.describe('recursos y OCR (modo local, Chrome real)', () => {
     await page.getByRole('button', { name: 'Sí, eliminar recurso' }).click();
     await expect(page.getByText('Aún no hay recursos')).toBeVisible();
     expect(errors).toEqual([]);
+  });
+
+  test('respaldo de imágenes: descargar, eliminar, restaurar y no duplicar', async ({ page }) => {
+    test.setTimeout(60_000);
+    await page.goto(LOCAL);
+    await nav(page, 'Recursos');
+    await page.getByLabel('Agregar imagen').setInputFiles({
+      name: 'banner.png',
+      mimeType: 'image/png',
+      buffer: await bannerPng(page),
+    });
+    await expect(page.getByRole('list', { name: 'Recursos guardados' })).toContainText(
+      'banner.png',
+    );
+    await page.getByLabel('Texto confirmado de la imagen').fill('Texto validado');
+    await page.getByRole('button', { name: 'Guardar texto validado' }).click();
+    await expect(
+      page.getByRole('status').filter({ hasText: 'Texto validado guardado' }),
+    ).toBeVisible();
+
+    const dl = page.waitForEvent('download');
+    await page.getByRole('button', { name: 'Descargar respaldo de imágenes' }).click();
+    const download = await dl;
+    expect(download.suggestedFilename()).toMatch(/^cci-recursos-\d{4}-\d{2}-\d{2}\.json$/);
+    const path = await download.path();
+
+    await page.getByRole('button', { name: 'Eliminar recurso banner.png' }).click();
+    await page.getByRole('button', { name: 'Sí, eliminar recurso' }).click();
+    await expect(page.getByText('Aún no hay recursos')).toBeVisible();
+
+    await page.getByLabel('Restaurar respaldo de imágenes').setInputFiles(path);
+    await expect(page.getByText('Restauradas 1 imágenes; 0 ya existían')).toBeVisible();
+    await expect(page.getByLabel('Texto confirmado de la imagen')).toHaveValue('Texto validado');
+    await expect(page.getByAltText(/Vista previa de banner.png/)).toBeVisible();
+
+    await page.getByLabel('Restaurar respaldo de imágenes').setInputFiles(path);
+    await expect(page.getByText('Restauradas 0 imágenes; 1 ya existían')).toBeVisible();
+
+    await page.getByLabel('Restaurar respaldo de imágenes').setInputFiles({
+      name: 'malo.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from('{"format":"otro"}'),
+    });
+    await expect(page.getByRole('alert')).toContainText('no es un respaldo de imágenes válido');
+    expect(await axeViolations(page)).toEqual([]);
   });
 
   test('rechaza formatos y tamaños no admitidos con un mensaje claro', async ({ page }) => {

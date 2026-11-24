@@ -30,5 +30,5 @@ Vista global «Auditorías» (solo lectura, filtros). No se construyeron recurso
 ## Decisiones de Claude bajo delegación (2026-11-23, revocables) — S3.3
 - Formatos PNG/JPEG/WebP, máx. 5 MB y 25 Mpx por imagen, 200 recursos y umbral de palabra dudosa 60 quedan como valores vigentes (ajustables en `RESOURCE_LIMITS`).
 - Retención: las imágenes se conservan en IndexedDB hasta que la persona las elimine; no hay caducidad automática.
-- El propietario pidió que las imágenes se guarden en IndexedDB (ya es así). Siguen fuera del respaldo JSON (límite de 5 MB); pendiente decidir un respaldo aparte de imágenes.
+- El propietario pidió que las imágenes se guarden en IndexedDB (ya es así). Siguen fuera del respaldo JSON (límite de 5 MB). El propietario pidió además un respaldo de imágenes: S3.3b lo agrega como archivo aparte `cci-recursos-AAAA-MM-DD.json` (base64 + SHA-256, tope 150 MB por archivo: SUPUESTO); al restaurar solo agrega lo que falta.
 - Despliegue de S3.3 autorizado por el propietario.
